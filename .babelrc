@@ -1,0 +1,27 @@
+{
+  "presets": [
+    ["env", {
+      "modules": false,
+      "targets": {
+        "browsers": [
+          "last 2 versions",
+          ">= 5%",
+          "not IE < 11"
+        ]
+      }
+    }],
+    "react"
+  ],
+  "plugins": [
+    "transform-runtime"
+  ],
+  "env": {
+    "commonjs": {
+      "presets": [
+        ["env", {
+          "modules": "commonjs"
+        }]
+      ]
+    }
+  }
+}

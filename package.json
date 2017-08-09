@@ -1,0 +1,55 @@
+{
+  "name": "cesium-react",
+  "version": "0.0.0",
+  "description": "React components for Cesium",
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "repository": "https://github.com/rot1024/cesium-react.git",
+  "author": "rot1024 <aayhrot@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "clean": "del dist lib es",
+    "lint": "eslint .",
+    "build": "run-p build:es build:cjs build:umd build:umd:min",
+    "build:es": "babel src --out-dir es",
+    "build:cjs": "cross-env NODE_ENV=commonjs babel src --out-dir lib",
+    "build:umd": "rollup -co dist/cesium-react.js",
+    "build:umd:min": "cross-env NODE_ENV=production rollup -co dist/cesium-react.min.js"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "peerDependencies": {
+    "cesium": "^1.36.0",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-plugin-react": "^1.0.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-react": "^6.24.1",
+    "cesium": "^1.36.0",
+    "cross-env": "^5.0.5",
+    "del-cli": "^1.1.0",
+    "eslint": "^4.4.1",
+    "eslint-plugin-babel": "^4.1.2",
+    "eslint-plugin-import": "^2.7.0",
+    "eslint-plugin-node": "^5.1.1",
+    "eslint-plugin-react": "^7.1.0",
+    "npm-run-all": "^4.0.2",
+    "prop-types": "^15.5.10",
+    "react": "^15.6.1",
+    "react-dom": "^15.6.1",
+    "rollup": "^0.45.2",
+    "rollup-plugin-babel": "^3.0.1",
+    "rollup-plugin-commonjs": "^8.1.0",
+    "rollup-plugin-node-resolve": "^3.0.0",
+    "rollup-plugin-replace": "^1.1.1",
+    "rollup-plugin-uglify": "^2.0.1",
+    "uglify-es": "^3.0.27"
+  }
+}
