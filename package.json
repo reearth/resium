@@ -12,7 +12,7 @@
     "lint": "eslint *.js src",
     "build": "run-p build:es build:cjs build:umd build:umd:min",
     "build:es": "babel src --out-dir es",
-    "build:cjs": "cross-env NODE_ENV=commonjs babel src --out-dir lib",
+    "build:cjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib",
     "build:umd": "rollup -co dist/cesium-react.js",
     "build:umd:min": "cross-env NODE_ENV=production rollup -co dist/cesium-react.min.js",
     "examples:lint": "eslint examples",
