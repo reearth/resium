@@ -9,13 +9,13 @@ const CopyPlugin = require("copy-webpack-plugin");
 const port = 3000;
 
 module.exports = opts => ({
+  context: __dirname,
   devServer: {
     contentBase: path.join(__dirname, "build"),
     historyApiFallback: true,
     hot: true,
     port
   },
-  context: __dirname,
   devtool: (!opts || !opts.prod) && "inline-source-map",
   entry: {
     bundle: (!opts || !opts.prod ? [
