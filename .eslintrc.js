@@ -319,6 +319,9 @@ module.exports = {
         commonjs: true,
         node: false
       },
+      globals: {
+        process: true
+      },
       parser: "babel-eslint",
       parserOptions: {
         sourceType: "module",
