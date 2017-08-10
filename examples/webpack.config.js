@@ -106,6 +106,7 @@ module.exports = opts => ({
     }),
     new webpack.optimize.AggressiveMergingPlugin()
   ] : [
+      new webpack.NamedModulesPlugin(),
       new webpack.NoEmitOnErrorsPlugin(),
       new webpack.HotModuleReplacementPlugin()
     ]),
