@@ -21,9 +21,15 @@ export default {
       exclude: "node_modules/**"
     }),
     replace({
-      "process.env.NODE_ENV": JSON.stringify(env)
+      "process.env.NODE_ENV": JSON.stringify(env === "production" ? "production" : "development")
     })
   ].concat(env === "production" ? [
     uglify({}, minify)
-  ] : [])
+  ] : []),
+  globals: {
+    react: "React",
+    "prop-types": "PropTypes",
+    cesium: "Cesium"
+  },
+  external: ["react", "prop-types", "cesium"]
 };
