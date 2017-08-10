@@ -30,12 +30,11 @@ export default class Viewer extends React.PureComponent {
   }
 
   componentDidMount() {
-    if (this.element) {
-      this.viewer = new CesiumViewer(this.element);
-    }
+    this.viewer = new CesiumViewer(this.element);
   }
 
   componentWillUnmount() {
+    this.viewer.destroy();
     this.viewer = null;
     this.element = null;
   }

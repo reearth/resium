@@ -1,10 +1,29 @@
 import React from "react";
-import { Viewer } from "cesium-react";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-import "./style.css";
+import Sidebar from "./sidebar";
+import routes from "./routes";
+
+import styles from "./style.css";
 
 const App = () => (
-  <Viewer full />
+  <BrowserRouter>
+    <div className="full">
+      <Sidebar
+        className={styles.sidebar}
+        routes={routes} />
+      <div className={styles.viewer}>
+        <Switch>
+          {routes.map(r => (
+            <Route
+              key={r.slug}
+              path={`/${r.slug}`}
+              component={r.component} />
+          ))}
+        </Switch>
+      </div>
+    </div>
+  </BrowserRouter>
 );
 
 export default App;
