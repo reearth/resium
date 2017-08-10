@@ -6,6 +6,8 @@ const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 const port = 3000;
 
@@ -36,6 +38,34 @@ module.exports = opts => ({
         test: /\.js$/,
         exclude: /node_modules/,
         use: "babel-loader"
+      },
+      {
+        test: /\.css$/,
+        use: opts && opts.prod ? ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: {
+            loader: "css-loader",
+            options: {
+              camelCase: true,
+              localIdentName: "[local]_[hash:base64:5]",
+              minimize: false,
+              modules: true,
+              sourceMaps: !opts || !opts.prod
+            }
+          }
+        }) : [
+          "style-loader",
+          {
+            loader: "css-loader",
+            options: {
+              camelCase: true,
+              localIdentName: "[local]_[hash:base64:5]",
+              minimize: false,
+              modules: true,
+              sourceMaps: !opts || !opts.prod
+            }
+          }
+        ]
       }
     ]
   },
@@ -68,6 +98,8 @@ module.exports = opts => ({
       ]
     })
   ].concat(opts && opts.prod ? [
+    new ExtractTextPlugin("style.css"),
+    new OptimizeCssAssetsPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       ecma: 5,
       parallel: true
