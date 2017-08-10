@@ -40,6 +40,27 @@
         "external-helpers"
       ]
     },
+    "examples": {
+      "presets": [
+        ["env", {
+          "modules": false,
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              ">= 5%",
+              "not IE < 11"
+            ]
+          }
+        }],
+        "react"
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-object-rest-spread",
+        "transform-runtime"
+      ]
+    },
     "test": {
       "presets": [
         ["env", {
