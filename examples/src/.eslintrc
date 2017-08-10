@@ -1,0 +1,7 @@
+{
+  "rules": {
+    "node/no-missing-import": [2, {
+      allowModules: ["cesium-react"]
+    }]
+  }
+}
