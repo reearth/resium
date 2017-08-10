@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 import Sidebar from "./sidebar";
-import routes from "./routes";
+import pages from "./pages";
 
 import styles from "./style.css";
 
@@ -11,14 +11,14 @@ const App = () => (
     <div className="full">
       <Sidebar
         className={styles.sidebar}
-        routes={routes} />
+        pages={pages} />
       <div className={styles.viewer}>
         <Switch>
-          {routes.map(r => (
+          {pages.map(p => (
             <Route
-              key={r.slug}
-              path={`/${r.slug}`}
-              component={r.component} />
+              key={p.slug}
+              path={`/${p.slug}`}
+              component={p.component} />
           ))}
         </Switch>
       </div>

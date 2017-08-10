@@ -4,7 +4,7 @@ import { NavLink, Link } from "react-router-dom";
 
 import styles from "./style.css";
 
-const Sidebar = ({ className, routes }) => (
+const Sidebar = ({ className, pages }) => (
   <div className={className}>
     <ul className={styles.sidebarList}>
       <li className={styles.sidebarItem}>
@@ -14,13 +14,13 @@ const Sidebar = ({ className, routes }) => (
           cesium-react examples
         </Link>
       </li>
-      {routes.map(r => (
+      {pages.map(r => (
         <li key={r.slug} className={styles.sidebarItem}>
           <NavLink
             to={`/${r.slug}`}
             className={styles.sidebarLink}
             activeClassName={styles.sidebarActiveLink}>
-            {r.name}
+            {r.name || r.slug}
           </NavLink>
         </li>
       ))}
@@ -30,11 +30,15 @@ const Sidebar = ({ className, routes }) => (
 
 Sidebar.propTypes = {
   className: PropTypes.string,
-  routes: PropTypes.array
+  pages: PropTypes.arrayOf(PropTypes.shape({
+    component: PropTypes.func.isRequired,
+    name: PropTypes.string,
+    slug: PropTypes.string.isRequired
+  }))
 };
 
 Sidebar.defaultProps = {
-  routes: []
+  pages: []
 };
 
 export default Sidebar;

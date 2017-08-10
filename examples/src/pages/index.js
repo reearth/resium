@@ -1,4 +1,4 @@
-import Basic from "./pages/basic";
+import Basic from "./basic";
 
 export default [
   {
