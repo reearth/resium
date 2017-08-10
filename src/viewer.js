@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { Viewer as CesiumViewer } from "cesium";
 
 import viewerType from "./propTypes/viewer";
-import viewerContainerType from "./propTypes/viewerContainer";
 
 export default class Viewer extends React.PureComponent {
 
@@ -18,14 +17,12 @@ export default class Viewer extends React.PureComponent {
   }
 
   static childContextTypes = {
-    viewer: viewerType,
-    viewerContainer: viewerContainerType
+    viewer: viewerType
   }
 
   getChildContext() {
     return {
-      viewer: this.viewer,
-      viewerContainer: this.element
+      viewer: this.viewer
     };
   }
 
