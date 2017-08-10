@@ -52,6 +52,7 @@
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-node": "^5.1.1",
     "eslint-plugin-react": "^7.1.0",
+    "html-webpack-include-assets-plugin": "^0.0.7",
     "html-webpack-plugin": "^2.30.1",
     "jasmine-core": "^2.7.0",
     "karma": "^1.7.0",

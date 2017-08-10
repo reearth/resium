@@ -5,6 +5,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const HtmlIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
 const port = 3000;
 
@@ -58,7 +59,14 @@ module.exports = opts => ({
         from: `../node_modules/cesium/Build/Cesium${opts && opts.prod ? "" : "Unminified"}`,
         to: "cesium"
       }
-    ])
+    ]),
+    new HtmlIncludeAssetsPlugin({
+      append: false,
+      assets: [
+        "cesium/Widgets/widgets.css",
+        "cesium/Cesium.js"
+      ]
+    })
   ].concat(opts && opts.prod ? [
     new webpack.optimize.UglifyJsPlugin({
       ecma: 5,
