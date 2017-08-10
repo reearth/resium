@@ -2,7 +2,7 @@ import React from "react";
 import { Viewer } from "cesium-react";
 
 const App = () => (
-  <Viewer />
+  <Viewer full />
 );
 
 export default App;

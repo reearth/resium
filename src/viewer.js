@@ -14,7 +14,6 @@ export default class Viewer extends React.PureComponent {
   }
 
   static defaultProps = {
-    full: true,
     style: {}
   }
 
