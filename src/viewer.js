@@ -7,6 +7,7 @@ import viewerType from "./propTypes/viewer";
 export default class Viewer extends React.PureComponent {
 
   static propTypes = {
+    children: PropTypes.any,
     className: PropTypes.string,
     full: PropTypes.bool,
     style: PropTypes.object
@@ -28,6 +29,7 @@ export default class Viewer extends React.PureComponent {
 
   componentDidMount() {
     this.viewer = new CesiumViewer(this.element);
+    this.forceUpdate();
   }
 
   componentWillUnmount() {
@@ -40,7 +42,8 @@ export default class Viewer extends React.PureComponent {
   viewer = null
 
   render() {
-    const { className, full, style } = this.props;
+    const { viewer } = this;
+    const { children, className, full, style } = this.props;
     return (
       <div
         className={className}
@@ -54,7 +57,9 @@ export default class Viewer extends React.PureComponent {
             top: "0"
           } : {},
           ...style
-        }} />
+        }}>
+        {viewer ? children : null}
+      </div>
     );
   }
 
