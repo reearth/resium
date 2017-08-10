@@ -1,17 +1,23 @@
 "use strict";
 
+const env = process.env.NODE_ENV;
+const coverage = env === "coverage";
+
 module.exports = function(config) {
   config.set({
     browsers: ["ChromeHeadless"],
     frameworks: ["jasmine"],
     files: [
-      "node_modules/cesium/Build/CesiumUnminified/Cesium.js",
-      "src/**/*.test.js"
-    ],
+      "node_modules/cesium/Build/CesiumUnminified/Cesium.js"
+    ].concat(coverage ? [
+      "src/**/*.js"
+    ] : [
+        "src/**/*.test.js"
+      ]),
     preprocessors: {
-      "src/**/*.test.js": ["rollup"]
+      [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"]
     },
-    reporters: ["progress"],
+    reporters: ["progress"].concat(env === "coverage" ? ["coverage"] : []),
     autoWatch: false,
     singleRun: true,
     rollupPreprocessor: {
@@ -30,7 +36,11 @@ module.exports = function(config) {
       globals: {
         cesium: "Cesium"
       },
-      external: ["cesium"]
+      external: ["cesium"],
+      moduleName: "CesiumReact"
+    },
+    coverageReporter: {
+      type: "lcov"
     }
   });
 };

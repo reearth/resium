@@ -13,7 +13,7 @@ export default {
   entry: "src/index.js",
   dest: pkg.browser,
   format: "umd",
-  moduleName: pkg.name,
+  moduleName: "CesiumReact",
   plugins: [
     resolve(),
     commonjs(),
