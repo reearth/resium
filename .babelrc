@@ -16,14 +16,46 @@
     "transform-class-properties",
     "transform-export-extensions",
     "transform-object-rest-spread",
-    "transform-runtime"
+    "external-helpers"
   ],
   "env": {
     "commonjs": {
       "presets": [
         ["env", {
-          "modules": "commonjs"
+          "modules": "commonjs",
+          "targets": {
+            "browsers": [
+              "last 2 versions",
+              ">= 5%",
+              "not IE < 11"
+            ]
+          }
         }]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-object-rest-spread",
+        "transform-runtime",
+        "external-helpers"
+      ]
+    },
+    "test": {
+      "presets": [
+        ["env", {
+          "modules": false,
+          "targets": {
+            "browsers": [
+              "last 2 Chrome versions"
+            ]
+          }
+        }]
+      ],
+      "plugins": [
+        "transform-class-properties",
+        "transform-export-extensions",
+        "transform-object-rest-spread",
+        "external-helpers"
       ]
     }
   }
