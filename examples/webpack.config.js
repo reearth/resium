@@ -78,7 +78,8 @@ module.exports = opts => ({
     new webpack.optimize.ModuleConcatenationPlugin(),
     new webpack.DefinePlugin({
       "process.env": {
-        NODE_ENV: JSON.stringify(opts && opts.prod ? "production" : "development")
+        NODE_ENV: JSON.stringify(opts && opts.prod ? "production" : "development"),
+        CESIUM_BASE_URL: JSON.stringify("/cesium")
       }
     }),
     new HtmlPlugin({
