@@ -39,6 +39,7 @@ export default class Viewer extends React.PureComponent {
   }
 
   element = null
+
   viewer = null
 
   render() {

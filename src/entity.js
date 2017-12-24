@@ -28,6 +28,7 @@ export default class Entity extends React.PureComponent {
       position,
       description
     } = this.props;
+    const { viewer } = this.context;
     this.entity = new CesiumEntity({
       id,
       name,
@@ -37,7 +38,7 @@ export default class Entity extends React.PureComponent {
         pixelSize: 10
       }
     });
-    this.context.viewer.entities.add(this.entity);
+    viewer.entities.add(this.entity);
   }
 
   componentDidUpdate(prevProps) {
@@ -52,8 +53,9 @@ export default class Entity extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.context.viewer && !this.context.viewer.isDestroyed()) {
-      this.context.viewer.entities.remove(this.entity);
+    const { viewer } = this.context;
+    if (viewer && !viewer.isDestroyed()) {
+      viewer.entities.remove(this.entity);
     }
     this.entity = null;
   }
