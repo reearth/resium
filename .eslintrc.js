@@ -302,7 +302,13 @@ module.exports = {
   },
   overrides: [
     {
-      files: ["rollup.config.js"],
+      files: [
+        "rollup.config.js",
+        ".storybook/**/*.js"
+      ],
+      excludedFiles: [
+        ".storybook/webpack.config.js"
+      ],
       env: {
         commonjs: true
       },
@@ -310,7 +316,8 @@ module.exports = {
         sourceType: "module"
       },
       rules: {
-        "node/no-unsupported-features": 0
+        "import/unambiguous": 0,
+        "node/no-unsupported-features": 0,
       }
     },
     {
