@@ -10,26 +10,28 @@ import pkg from "./package.json";
 const env = process.env.NODE_ENV;
 
 export default {
-  entry: "src/index.js",
-  dest: pkg.browser,
-  format: "umd",
-  moduleName: "CesiumReact",
+  input: "src/index.js",
+  output: {
+    format: "umd",
+    file: pkg.browser,
+    globals: {
+      react: "React",
+      "prop-types": "PropTypes",
+      cesium: "Cesium"
+    },
+    name: "CesiumReact"
+  },
   plugins: [
-    resolve(),
-    commonjs(),
     babel({
       exclude: "node_modules/**"
     }),
     replace({
       "process.env.NODE_ENV": JSON.stringify(env === "production" ? "production" : "development")
-    })
+    }),
+    resolve(),
+    commonjs()
   ].concat(env === "production" ? [
     uglify({}, minify)
   ] : []),
-  globals: {
-    react: "React",
-    "prop-types": "PropTypes",
-    cesium: "Cesium"
-  },
   external: ["react", "prop-types", "cesium"]
 };
