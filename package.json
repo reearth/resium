@@ -19,7 +19,7 @@
     "build:umd:min": "cross-env NODE_ENV=production rollup -co dist/cesium-react.min.js",
     "examples:lint": "eslint examples",
     "examples:dev": "cross-env BABEL_ENV=examples webpack-dev-server --config examples/webpack.config.js --progress",
-    "examples:build": "cross-env BABEL_ENV=examples webpack --env.prod --config examples/webpack.config.js --progress",
+    "examples:build": "cross-env BABEL_ENV=examples-prod webpack --env.prod --config examples/webpack.config.js --progress",
     "storybook": "cross-env BABEL_ENV=storybook start-storybook -p 9001"
   },
   "engines": {
