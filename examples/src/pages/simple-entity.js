@@ -5,7 +5,7 @@ import { Cartesian3 } from "cesium";
 import { Viewer, Entity } from "cesium-react";
 
 const positions = [
-  Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100),
+  Cartesian3.fromDegrees(-74.0707383, 40.7117244, 1000000),
   Cartesian3.fromDegrees(139.767052, 35.681167, 100)
 ];
 
@@ -25,7 +25,7 @@ export default class SimpleEntity extends React.PureComponent {
       <Viewer full>
         <Entity
           name="test"
-          description="test"
+          description="test!!!!"
           position={positions[pos]} />
         <div
           style={{
