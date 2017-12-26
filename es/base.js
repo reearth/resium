@@ -1,16 +1,22 @@
+import _Object$getPrototypeOf from "babel-runtime/core-js/object/get-prototype-of";
+import _classCallCheck from "babel-runtime/helpers/classCallCheck";
+import _createClass from "babel-runtime/helpers/createClass";
+import _possibleConstructorReturn from "babel-runtime/helpers/possibleConstructorReturn";
+import _inherits from "babel-runtime/helpers/inherits";
 import React from "react";
 
 import viewerType from "./propTypes/viewer";
 
 var Base = function (_React$PureComponent) {
-  babelHelpers.inherits(Base, _React$PureComponent);
+  _inherits(Base, _React$PureComponent);
 
   function Base() {
-    babelHelpers.classCallCheck(this, Base);
-    return babelHelpers.possibleConstructorReturn(this, (Base.__proto__ || Object.getPrototypeOf(Base)).apply(this, arguments));
+    _classCallCheck(this, Base);
+
+    return _possibleConstructorReturn(this, (Base.__proto__ || _Object$getPrototypeOf(Base)).apply(this, arguments));
   }
 
-  babelHelpers.createClass(Base, [{
+  _createClass(Base, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       var viewer = this.context.viewer;
@@ -37,6 +43,7 @@ var Base = function (_React$PureComponent) {
       return null;
     }
   }]);
+
   return Base;
 }(React.PureComponent);
 
