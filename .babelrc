@@ -16,7 +16,7 @@
     "transform-class-properties",
     "transform-export-extensions",
     "transform-object-rest-spread",
-    "external-helpers"
+    "transform-runtime"
   ],
   "env": {
     "commonjs": {
@@ -36,8 +36,7 @@
         "transform-class-properties",
         "transform-export-extensions",
         "transform-object-rest-spread",
-        "transform-runtime",
-        "external-helpers"
+        "transform-runtime"
       ]
     },
     "examples": {
