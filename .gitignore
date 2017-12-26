@@ -2,6 +2,3 @@ node_modules
 *.log
 examples/build
 /coverage
-/lib
-/es
-/dist
