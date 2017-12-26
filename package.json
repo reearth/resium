@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "description": "React components for Cesium",
   "main": "lib/index.js",
-  "module": "es/index.js",
   "repository": "https://github.com/rot1024/cesium-react.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
