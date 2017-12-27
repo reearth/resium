@@ -1,13 +1,8 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('cesium'), require('prop-types'), require('react')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'cesium', 'prop-types', 'react'], factory) :
-	(factory((global.CesiumReact = {}),global.Cesium,global.PropTypes,global.React));
-}(this, (function (exports,cesium,PropTypes,React) { 'use strict';
+import { Entity, Viewer } from 'cesium';
+import PropTypes from 'prop-types';
+import React from 'react';
 
-PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
-React = React && React.hasOwnProperty('default') ? React['default'] : React;
-
-var viewerType = PropTypes.instanceOf(cesium.Viewer);
+var viewerType = PropTypes.instanceOf(Viewer);
 
 
 
@@ -101,7 +96,7 @@ var Viewer$1 = function (_React$PureComponent) {
   };
 
   Viewer$$1.prototype.componentDidMount = function componentDidMount() {
-    this.viewer = new cesium.Viewer(this.element);
+    this.viewer = new Viewer(this.element);
     this.forceUpdate();
   };
 
@@ -178,7 +173,7 @@ var Entity$1 = function (_React$PureComponent) {
         description = _props.description;
     var viewer = this.context.viewer;
 
-    this.entity = new cesium.Entity({
+    this.entity = new Entity({
       id: id,
       name: name,
       position: position,
@@ -228,10 +223,4 @@ Entity$1.contextTypes = {
   viewer: viewerType
 };
 
-exports.PropTypes = index;
-exports.Viewer = Viewer$1;
-exports.Entity = Entity$1;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+export { index as PropTypes, Viewer$1 as Viewer, Entity$1 as Entity };
