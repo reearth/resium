@@ -1,6 +1,7 @@
 {
   "presets": [
     ["env", {
+      "loose": true,
       "modules": false,
       "targets": {
         "browsers": [
@@ -16,29 +17,9 @@
     "transform-class-properties",
     "transform-export-extensions",
     "transform-object-rest-spread",
-    "transform-runtime"
+    "external-helpers"
   ],
   "env": {
-    "commonjs": {
-      "presets": [
-        ["env", {
-          "modules": "commonjs",
-          "targets": {
-            "browsers": [
-              "last 2 versions",
-              ">= 5%",
-              "not IE < 11"
-            ]
-          }
-        }]
-      ],
-      "plugins": [
-        "transform-class-properties",
-        "transform-export-extensions",
-        "transform-object-rest-spread",
-        "transform-runtime"
-      ]
-    },
     "examples": {
       "presets": [
         ["env", {

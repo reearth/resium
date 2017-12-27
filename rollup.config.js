@@ -12,8 +12,8 @@ const env = process.env.NODE_ENV;
 export default {
   input: "src/index.js",
   output: {
-    format: "umd",
-    file: pkg.browser,
+    format: ["es", "cjs"].indexOf(env) >= 0 ? env : "umd",
+    file: env === "es" ? pkg.module : env === "cjs" ? pkg.main : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "prop-types": "PropTypes",
@@ -23,16 +23,14 @@ export default {
   },
   plugins: [
     babel({
-      exclude: "node_modules/**",
-      externalHelpers: false,
-      runtimeHelpers: true
-    }),
-    replace({
-      "process.env.NODE_ENV": JSON.stringify(env === "production" ? "production" : "development")
+      exclude: "node_modules/**"
     }),
     resolve(),
     commonjs()
   ].concat(env === "production" ? [
+    replace({
+      "process.env.NODE_ENV": JSON.stringify("production")
+    }),
     uglify({}, minify)
   ] : []),
   external: ["react", "prop-types", "cesium"]

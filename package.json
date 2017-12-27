@@ -2,7 +2,8 @@
   "name": "cesium-react",
   "version": "0.0.0",
   "description": "React components for Cesium",
-  "main": "lib/index.js",
+  "main": "lib/cesium-react.js",
+  "module": "es/cesium-react.js",
   "repository": "https://github.com/rot1024/cesium-react.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
@@ -12,17 +13,14 @@
     "clean": "del dist lib es coverage examples/build",
     "lint": "eslint *.js src",
     "build": "run-p build:es build:cjs build:umd build:umd:min",
-    "build:es": "babel src --out-dir es --ignore src/test,*.test.js",
-    "build:cjs": "cross-env BABEL_ENV=commonjs babel src --out-dir lib --ignore src/test,*.test.js",
-    "build:umd": "rollup -co dist/cesium-react.js",
-    "build:umd:min": "cross-env NODE_ENV=production rollup -co dist/cesium-react.min.js",
+    "build:es": "cross-env NODE_ENV=es rollup -c",
+    "build:cjs": "cross-env NODE_ENV=cjs rollup -c",
+    "build:umd": "rollup -c",
+    "build:umd:min": "cross-env NODE_ENV=production rollup -c",
     "examples:lint": "eslint examples",
     "examples:dev": "cross-env BABEL_ENV=examples webpack-dev-server --config examples/webpack.config.js --progress",
     "examples:build": "cross-env BABEL_ENV=examples-prod webpack --env.prod --config examples/webpack.config.js --progress",
     "storybook": "cross-env BABEL_ENV=storybook start-storybook -p 9001"
-  },
-  "engines": {
-    "node": ">=4"
   },
   "browserslist": [
     "last 2 versions",
