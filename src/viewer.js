@@ -2,14 +2,16 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Viewer as CesiumViewer } from "cesium";
 
+import CesiumComponent from "./cesium-component";
 import viewerType from "./propTypes/viewer";
 
-export default class Viewer extends React.PureComponent {
+export default class Viewer extends CesiumComponent {
 
   static propTypes = {
     children: PropTypes.any,
     className: PropTypes.string,
     full: PropTypes.bool,
+    onSelectedEntityChanged: PropTypes.func,
     style: PropTypes.object
   }
 
@@ -28,14 +30,29 @@ export default class Viewer extends React.PureComponent {
   }
 
   componentDidMount() {
-    this.viewer = new CesiumViewer(this.element);
+    super.componentDidMount();
     this.forceUpdate();
   }
 
-  componentWillUnmount() {
+  onMount() {
+    this.viewer = new CesiumViewer(this.element);
+  }
+
+  onUnmount() {
     this.viewer.destroy();
     this.viewer = null;
     this.element = null;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getEvents() {
+    return [
+      "selectedEntityChanged"
+    ];
+  }
+
+  getTarget() {
+    return this.viewer;
   }
 
   element = null
