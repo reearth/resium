@@ -8,6 +8,7 @@ import { viewerType } from "./types";
 export default class Viewer extends CesiumComponent {
 
   static propTypes = {
+    ...CesiumComponent.propTypes,
     children: PropTypes.any,
     className: PropTypes.string,
     full: PropTypes.bool,

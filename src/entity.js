@@ -7,6 +7,7 @@ import { viewerType } from "./types";
 export default class Entity extends CesiumComponent {
 
   static propTypes = {
+    ...CesiumComponent.propTypes,
     description: PropTypes.string,
     id: PropTypes.string,
     name: PropTypes.string,

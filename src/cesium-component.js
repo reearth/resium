@@ -1,10 +1,18 @@
 import React from "react";
+import PropTypes from "prop-types";
 
 import { attachEvents, detachEvents, updateEvents, getEventProps } from "./utils/events";
 
 export default class CesiumComponent extends React.PureComponent {
 
+  static propTypes = {
+    onMount: PropTypes.func,
+    onUnmount: PropTypes.func,
+    onUpdate: PropTypes.func
+  };
+
   componentDidMount() {
+    let target;
     if (this.onMount) {
       const { props } = this;
       const options = this.getProps().reduce((a, b) => typeof props[b] === "undefined" ? a : ({
@@ -12,11 +20,16 @@ export default class CesiumComponent extends React.PureComponent {
         [b]: props[b]
       }), {});
 
-      const target = this.onMount(options, this.props, this.context);
+      target = this.onMount(options, this.props, this.context);
       if (target) {
         this.target = target;
         attachEvents(target, getEventProps(this.getEvents(), this.props));
       }
+    }
+
+    const { onMount } = this.props;
+    if (onMount) {
+      onMount(target);
     }
   }
 
@@ -41,10 +54,21 @@ export default class CesiumComponent extends React.PureComponent {
     if (this.onUpdate) {
       this.onUpdate(target, props, prevProps, this.context);
     }
+
+    const { onUpdate } = this.props;
+    if (onUpdate) {
+      onUpdate(target);
+    }
   }
 
   componentWillUnmount() {
     const { target } = this;
+
+    const { onUnmount } = this.props;
+    if (onUnmount) {
+      onUnmount(target);
+    }
+
     if (target) {
       detachEvents(target, getEventProps(this.getEvents(), this.props));
     }
@@ -52,7 +76,6 @@ export default class CesiumComponent extends React.PureComponent {
     if (this.onUnmount) {
       this.onUnmount(target, this.props, this.context);
     }
-
     this.target = null;
   }
 
