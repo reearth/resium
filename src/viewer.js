@@ -23,9 +23,15 @@ export default class Viewer extends CesiumComponent {
     viewer: viewerType
   }
 
+  static cesiumProps = []
+
+  static cesiumEvents = [
+    "selectedEntityChanged"
+  ]
+
   getChildContext() {
     return {
-      viewer: this.viewer
+      viewer: this.getTarget()
     };
   }
 
@@ -35,32 +41,18 @@ export default class Viewer extends CesiumComponent {
   }
 
   onMount() {
-    this.viewer = new CesiumViewer(this.element);
+    return new CesiumViewer(this.element, {});
   }
 
   onUnmount() {
-    this.viewer.destroy();
-    this.viewer = null;
+    this.getTarget().destroy();
     this.element = null;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  getEvents() {
-    return [
-      "selectedEntityChanged"
-    ];
-  }
-
-  getTarget() {
-    return this.viewer;
   }
 
   element = null
 
-  viewer = null
-
   render() {
-    const { viewer } = this;
+    const viewer = this.getTarget();
     const { children, className, full, style } = this.props;
     return (
       <div

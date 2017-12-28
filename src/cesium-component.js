@@ -6,17 +6,22 @@ export default class CesiumComponent extends React.PureComponent {
 
   componentDidMount() {
     if (this.onMount) {
-      this.onMount(target, this.props);
-    }
+      const { props } = this;
+      const options = this.getProps().reduce((a, b) => ({
+        ...a,
+        [b]: props[b]
+      }), {});
 
-    const target = this.getTarget();
-    if (target) {
-      attachEvents(target, getEventProps(this.getEvents(), this.props));
+      const target = this.onMount(options, this.props);
+      if (target) {
+        this.target = target;
+        attachEvents(target, getEventProps(this.getEvents(), this.props));
+      }
     }
   }
 
   componentDidUpdate(prevProps) {
-    const target = this.getTarget();
+    const { target } = this;
     if (target) {
       const events = this.getEvents();
       updateEvents(
@@ -26,13 +31,20 @@ export default class CesiumComponent extends React.PureComponent {
       );
     }
 
+    const { props } = this;
+    this.getProps().forEach(p => {
+      if (prevProps[p] !== props[p]) {
+        target[p] = props[p];
+      }
+    });
+
     if (this.onUpdate) {
-      this.onUpdate(target, this.props, prevProps);
+      this.onUpdate(target, props, prevProps);
     }
   }
 
   componentWillUnmount() {
-    const target = this.getTarget();
+    const { target } = this;
     if (target) {
       detachEvents(target, getEventProps(this.getEvents(), this.props));
     }
@@ -40,17 +52,23 @@ export default class CesiumComponent extends React.PureComponent {
     if (this.onUnmount) {
       this.onUnmount(target, this.props);
     }
+
+    this.target = null;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   getEvents() {
-    return [];
+    return this.constructor.cesiumEvents || [];
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  getTarget() {
-    return null;
+  getProps() {
+    return this.constructor.cesiumProps || [];
   }
+
+  getTarget() {
+    return this.target;
+  }
+
+  target = null
 
   render() {
     return null;
