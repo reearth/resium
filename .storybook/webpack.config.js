@@ -3,8 +3,6 @@
 const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 
-// const conf = require("../webpack.config")({});
-
 module.exports = {
   externals: {
     cesium: "Cesium"
