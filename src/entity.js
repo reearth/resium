@@ -13,10 +13,6 @@ export default class Entity extends CesiumComponent {
     position: PropTypes.object
   }
 
-  static defaultProps = {
-
-  }
-
   static contextTypes = {
     viewer: viewerType
   }
