@@ -14,6 +14,9 @@ module.exports = function(config) {
     ] : [
         "src/**/*.test.js"
       ]),
+    exclude: [
+      "src/**/*.stories.js"
+    ],
     preprocessors: {
       [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"]
     },

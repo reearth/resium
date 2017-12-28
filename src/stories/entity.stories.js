@@ -2,8 +2,8 @@ import React from "react";
 import { Cartesian3 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import Viewer from "./viewer";
-import Entity from "./entity";
+import Viewer from "../viewer";
+import Entity from "../entity";
 
 export default () => {
 
