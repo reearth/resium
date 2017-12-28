@@ -7,12 +7,12 @@ export default class CesiumComponent extends React.PureComponent {
   componentDidMount() {
     if (this.onMount) {
       const { props } = this;
-      const options = this.getProps().reduce((a, b) => ({
+      const options = this.getProps().reduce((a, b) => typeof props[b] === "undefined" ? a : ({
         ...a,
         [b]: props[b]
       }), {});
 
-      const target = this.onMount(options, this.props);
+      const target = this.onMount(options, this.props, this.context);
       if (target) {
         this.target = target;
         attachEvents(target, getEventProps(this.getEvents(), this.props));
@@ -39,7 +39,7 @@ export default class CesiumComponent extends React.PureComponent {
     });
 
     if (this.onUpdate) {
-      this.onUpdate(target, props, prevProps);
+      this.onUpdate(target, props, prevProps, this.context);
     }
   }
 
@@ -50,7 +50,7 @@ export default class CesiumComponent extends React.PureComponent {
     }
 
     if (this.onUnmount) {
-      this.onUnmount(target, this.props);
+      this.onUnmount(target, this.props, this.context);
     }
 
     this.target = null;
