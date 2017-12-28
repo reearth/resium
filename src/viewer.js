@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Viewer as CesiumViewer } from "cesium";
 
 import CesiumComponent from "./cesium-component";
-import viewerType from "./propTypes/viewer";
+import { viewerType } from "./types";
 
 export default class Viewer extends CesiumComponent {
 
