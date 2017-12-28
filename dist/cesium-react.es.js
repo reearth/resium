@@ -1,11 +1,6 @@
-(function (global, factory) {
-	typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('cesium'), require('prop-types'), require('react')) :
-	typeof define === 'function' && define.amd ? define(['exports', 'cesium', 'prop-types', 'react'], factory) :
-	(factory((global.CesiumReact = {}),global.Cesium,global.PropTypes,global.React));
-}(this, (function (exports,cesium,PropTypes,React) { 'use strict';
-
-PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
-React = React && React.hasOwnProperty('default') ? React['default'] : React;
+import { Entity, Viewer } from 'cesium';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 function _extends() {
   _extends = Object.assign || function (target) {
@@ -52,7 +47,7 @@ function _assertThisInitialized(self) {
   return self;
 }
 
-var viewerType = PropTypes.instanceOf(cesium.Viewer);
+var viewerType = PropTypes.instanceOf(Viewer);
 
 
 
@@ -246,7 +241,7 @@ function (_CesiumComponent) {
   };
 
   _proto.onMount = function onMount() {
-    return new cesium.Viewer(this.element, {});
+    return new Viewer(this.element, {});
   };
 
   _proto.onUnmount = function onUnmount() {
@@ -310,7 +305,7 @@ function (_CesiumComponent) {
 
   _proto.onMount = function onMount(options, _, _ref) {
     var viewer = _ref.viewer;
-    var entity = new cesium.Entity(_extends({}, options, {
+    var entity = new Entity(_extends({}, options, {
       point: {
         pixelSize: 10
       }
@@ -342,10 +337,4 @@ Entity$1.contextTypes = {
 Entity$1.cesiumProps = ["id", "name", "position", "description"];
 Entity$1.cesiumEvents = [];
 
-exports.PropTypes = types;
-exports.Viewer = Viewer$1;
-exports.Entity = Entity$1;
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-})));
+export { types as PropTypes, Viewer$1 as Viewer, Entity$1 as Entity };
