@@ -417,18 +417,7 @@ module.exports = {
           logical: "parens",
           prop: "parens"
         }],
-        "class-methods-use-this": [1, {
-          exceptMethods: [
-            "shouldComponentUpdate",
-            "componentWillMount",
-            "componentDidMount",
-            "componentWillReceiveProps",
-            "componentWillUpdate",
-            "componentDidUpdate",
-            "componentWillUnmount",
-            "render"
-          ]
-        }],
+        "class-methods-use-this": 0,
         "new-cap": 0,
         "object-curly-spacing": 0
       }
