@@ -14,16 +14,18 @@ export default class CesiumComponent extends React.PureComponent {
   componentWillMount() {
     if (this.createCesiumElement && !this.constructor.initCesiumComponentWhenComponentDidMount) {
       this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
+      if (this.cesiumElement) {
+        attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
+      }
     }
   }
 
   componentDidMount() {
     if (this.createCesiumElement && this.constructor.initCesiumComponentWhenComponentDidMount) {
       this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
-    }
-
-    if (this.cesiumElement) {
-      attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
+      if (this.cesiumElement) {
+        attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
+      }
     }
 
     if (this.mountCesiumElement) {
@@ -89,9 +91,16 @@ export default class CesiumComponent extends React.PureComponent {
     return this.constructor.cesiumProps || [];
   }
 
+  getCesiumReadOnlyProps() {
+    return this.constructor.cesiumReadOnlyProps || [];
+  }
+
   getPropsForCesium() {
-    // eslint-disable-next-line react/destructuring-assignment
-    return this.getCesiumProps().reduce((a, b) => typeof this.props[b] === "undefined" ? a : ({
+    return [
+      ...this.getCesiumProps(),
+      ...this.getCesiumReadOnlyProps()
+      // eslint-disable-next-line react/destructuring-assignment
+    ].reduce((a, b) => typeof this.props[b] === "undefined" ? a : ({
       ...a,
       // eslint-disable-next-line react/destructuring-assignment
       [b]: this.props[b]
