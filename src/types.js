@@ -1,6 +1,7 @@
 import {
   Camera,
   EntityCollection,
+  PointPrimitiveCollection,
   PrimitiveCollection,
   Scene,
   Viewer
@@ -9,6 +10,7 @@ import PropTypes from "prop-types";
 
 export const cameraType = PropTypes.instanceOf(Camera);
 export const entityCollectionType = PropTypes.instanceOf(EntityCollection);
+export const pointPrimitiveCollectionType = PropTypes.instanceOf(PointPrimitiveCollection);
 export const primitiveCollectionType = PropTypes.instanceOf(PrimitiveCollection);
 export const sceneType = PropTypes.instanceOf(Scene);
 export const viewerType = PropTypes.instanceOf(Viewer);
