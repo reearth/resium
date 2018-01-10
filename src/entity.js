@@ -21,21 +21,38 @@ export default class Entity extends CesiumComponent {
   static cesiumProps = [
     "id",
     "name",
+    "availability",
+    "show",
+    "description",
     "position",
-    "description"
+    "orientation",
+    "viewFrom",
+    "parent",
+    "billboard",
+    "box",
+    "corridor",
+    "cylinder",
+    "ellipse",
+    "ellipsoid",
+    "label",
+    "model",
+    "path",
+    "plane",
+    "point",
+    "polygon",
+    "polyline",
+    "properties",
+    "polylineVolume",
+    "rectangle",
+    "wall"
   ]
 
-  static cesiumEvents = []
+  static cesiumEvents = [
+    "definitionChanged"
+  ]
 
   createCesiumElement(options) {
-    const entity = new CesiumEntity({
-      ...options,
-      point: {
-        pixelSize: 10
-      }
-    });
-
-    return entity;
+    return new CesiumEntity(options);
   }
 
   mountCesiumElement(entity) {
