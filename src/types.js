@@ -1,5 +1,6 @@
 import {
   Camera,
+  CesiumWidget,
   EntityCollection,
   PointPrimitiveCollection,
   PrimitiveCollection,
@@ -9,6 +10,7 @@ import {
 import PropTypes from "prop-types";
 
 export const cameraType = PropTypes.instanceOf(Camera);
+export const cesiumWidgetType = PropTypes.instanceOf(CesiumWidget);
 export const entityCollectionType = PropTypes.instanceOf(EntityCollection);
 export const pointPrimitiveCollectionType = PropTypes.instanceOf(PointPrimitiveCollection);
 export const primitiveCollectionType = PropTypes.instanceOf(PrimitiveCollection);
