@@ -26,7 +26,8 @@ export default class SimpleEntity extends React.PureComponent {
         <Entity
           name="test"
           description="test"
-          position={positions[pos]} />
+          position={positions[pos]}
+          point={{ pixelSize: 10 }} />
         <div
           style={{
             position: "absolute",
