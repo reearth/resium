@@ -36,6 +36,7 @@
     "@babel/preset-env": "^7.0.0-beta.37",
     "@babel/preset-react": "^7.0.0-beta.37",
     "@storybook/react": "^3.3.6",
+    "babel-core": "^7.0.0-beta.37",
     "babel-eslint": "^8.2.1",
     "babel-loader": "^8.0.0-beta.0",
     "babel-plugin-istanbul": "^4.1.5",
