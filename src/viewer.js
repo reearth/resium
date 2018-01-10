@@ -30,9 +30,11 @@ export default class Viewer extends CesiumComponent {
     "selectedEntityChanged"
   ]
 
+  static initCesiumComponentWhenComponentDidMount = true
+
   getChildContext() {
     return {
-      viewer: this.getTarget()
+      viewer: this.cesiumElement
     };
   }
 
@@ -41,19 +43,21 @@ export default class Viewer extends CesiumComponent {
     this.forceUpdate();
   }
 
-  onMount() {
-    return new CesiumViewer(this.element, {});
+  createCesiumElement() {
+    if (this.element) {
+      return new CesiumViewer(this.element, {});
+    }
+    return null;
   }
 
-  onUnmount() {
-    this.getTarget().destroy();
+  destroyCesiumElement(cesiumElement) {
+    cesiumElement.destroy();
     this.element = null;
   }
 
   element = null
 
   render() {
-    const viewer = this.getTarget();
     const { children, className, full, style } = this.props;
     return (
       <div
@@ -69,7 +73,7 @@ export default class Viewer extends CesiumComponent {
           } : {},
           ...style
         }}>
-        {viewer ? children : null}
+        {this.cesiumElement ? children : null}
       </div>
     );
   }

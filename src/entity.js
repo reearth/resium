@@ -27,7 +27,7 @@ export default class Entity extends CesiumComponent {
 
   static cesiumEvents = []
 
-  onMount(options, _, { viewer }) {
+  createCesiumElement(options) {
     const entity = new CesiumEntity({
       ...options,
       point: {
@@ -35,12 +35,15 @@ export default class Entity extends CesiumComponent {
       }
     });
 
-    viewer.entities.add(entity);
-
     return entity;
   }
 
-  onUnmount(entity, _, { viewer }) {
+  mountCesiumElement(entity) {
+    this.context.viewer.entities.add(entity);
+  }
+
+  destroyCesiumElement(entity) {
+    const { viewer } = this.context;
     if (viewer && !viewer.isDestroyed()) {
       viewer.entities.remove(entity);
     }

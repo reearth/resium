@@ -11,87 +11,94 @@ export default class CesiumComponent extends React.PureComponent {
     onUpdate: PropTypes.func
   };
 
-  componentDidMount() {
-    let target;
-    if (this.onMount) {
-      const { props } = this;
-      const options = this.getProps().reduce((a, b) => typeof props[b] === "undefined" ? a : ({
-        ...a,
-        [b]: props[b]
-      }), {});
+  componentWillMount() {
+    if (this.createCesiumElement && !this.constructor.initCesiumComponentWhenComponentDidMount) {
+      this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
+    }
+  }
 
-      target = this.onMount(options, this.props, this.context);
-      if (target) {
-        this.target = target;
-        attachEvents(target, getEventProps(this.getEvents(), this.props));
-      }
+  componentDidMount() {
+    if (this.createCesiumElement && this.constructor.initCesiumComponentWhenComponentDidMount) {
+      this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
+    }
+
+    if (this.cesiumElement) {
+      attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
+    }
+
+    if (this.mountCesiumElement) {
+      this.mountCesiumElement(this.cesiumElement);
     }
 
     const { onMount } = this.props;
     if (onMount) {
-      onMount(target);
+      this.onMount(this.cesiumElement);
     }
   }
 
   componentDidUpdate(prevProps) {
-    const { target } = this;
-    if (target) {
-      const events = this.getEvents();
+    const { cesiumElement } = this;
+    if (cesiumElement) {
+      const events = this.getCesiumEvents();
       updateEvents(
-        target,
+        cesiumElement,
         getEventProps(events, prevProps),
         getEventProps(events, this.props)
       );
     }
 
     const { props } = this;
-    this.getProps().forEach(p => {
-      if (prevProps[p] !== props[p]) {
-        target[p] = props[p];
-      }
+    this.getCesiumProps().filter(p => prevProps[p] !== props[p]).forEach(p => {
+      cesiumElement[p] = props[p];
     });
 
-    if (this.onUpdate) {
-      this.onUpdate(target, props, prevProps, this.context);
+    if (this.updateCesiumElement) {
+      this.updateCesiumElement(cesiumElement, prevProps);
     }
 
     const { onUpdate } = this.props;
     if (onUpdate) {
-      onUpdate(target);
+      onUpdate(cesiumElement, prevProps);
     }
   }
 
   componentWillUnmount() {
-    const { target } = this;
+    const { cesiumElement } = this;
 
     const { onUnmount } = this.props;
     if (onUnmount) {
-      onUnmount(target);
+      onUnmount(cesiumElement);
     }
 
-    if (target) {
-      detachEvents(target, getEventProps(this.getEvents(), this.props));
+    if (cesiumElement) {
+      detachEvents(cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
     }
 
-    if (this.onUnmount) {
-      this.onUnmount(target, this.props, this.context);
+    if (this.destroyCesiumElement) {
+      this.destroyCesiumElement(cesiumElement);
     }
-    this.target = null;
+
+    this.cesiumElement = null;
   }
 
-  getEvents() {
+  getCesiumEvents() {
     return this.constructor.cesiumEvents || [];
   }
 
-  getProps() {
+  getCesiumProps() {
     return this.constructor.cesiumProps || [];
   }
 
-  getTarget() {
-    return this.target;
+  getPropsForCesium() {
+    // eslint-disable-next-line react/destructuring-assignment
+    return this.getCesiumProps().reduce((a, b) => typeof this.props[b] === "undefined" ? a : ({
+      ...a,
+      // eslint-disable-next-line react/destructuring-assignment
+      [b]: this.props[b]
+    }), {});
   }
 
-  target = null
+  cesiumElement = null
 
   render() {
     return null;
