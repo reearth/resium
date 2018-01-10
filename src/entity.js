@@ -16,7 +16,7 @@ export default class Entity extends CesiumComponent {
     description: PropTypes.any,
     ellipse: PropTypes.any,
     ellipsoid: PropTypes.any,
-    id: PropTypes.any,
+    id: PropTypes.string,
     label: PropTypes.any,
     model: PropTypes.any,
     name: PropTypes.any,
@@ -43,8 +43,6 @@ export default class Entity extends CesiumComponent {
   }
 
   static cesiumProps = [
-    "id",
-    "name",
     "availability",
     "show",
     "description",
@@ -60,6 +58,7 @@ export default class Entity extends CesiumComponent {
     "ellipsoid",
     "label",
     "model",
+    "name",
     "path",
     "plane",
     "point",
@@ -69,6 +68,10 @@ export default class Entity extends CesiumComponent {
     "polylineVolume",
     "rectangle",
     "wall"
+  ]
+
+  static cesiumReadOnlyProps = [
+    "id"
   ]
 
   static cesiumEvents = [
