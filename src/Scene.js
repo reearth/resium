@@ -1,4 +1,5 @@
 import PropTypes from "prop-types";
+import { SceneMode } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
 import { cesiumWidgetType, sceneType, viewerType } from "./types";
@@ -84,7 +85,6 @@ export default class Scene extends CesiumComponent {
     "mapMode2D",
     "mapProjection",
     "minimumDisableDepthTestDistance",
-    "mode",
     "moon",
     "nearToFarDistance2D",
     "pickTranslucentDepth",
@@ -121,11 +121,41 @@ export default class Scene extends CesiumComponent {
     Object.keys(options).filter(k => typeof options[k] !== "undefined").forEach(k => {
       s[k] = options[k];
     });
+    if (typeof this.props.mode !== "undefined") {
+      this._changeMode(s);
+    }
     return s;
   }
 
-  updateCesiumElement() {
-    // morph
+  updateCesiumElement(scene, prev) {
+    if (prev.mode !== this.props.mode) {
+      this._changeMode(scene);
+    }
+  }
+
+  _changeMode(scene) {
+    const { mode, morph } = this.props;
+    if (typeof mode !== "number") return;
+    if (typeof morph === "number") {
+      switch (mode) {
+        case SceneMode.SCENE2D:
+          scene.morphTo2D(morph);
+          break;
+
+        case SceneMode.COLUMBUS_VIEW:
+          scene.morphToColumbusView(morph);
+          break;
+
+        case SceneMode.SCENE3D:
+          scene.morphTo3D(morph);
+          break;
+
+        default:
+          scene.mode = mode;
+      }
+    } else {
+      scene.mode = mode;
+    }
   }
 
 }

@@ -10,7 +10,7 @@ export default () => {
   storiesOf("Scene", module)
     .addWithJSX("default", () => (
       <Viewer full>
-        <Scene mode={SceneMode.SCENE2D} />
+        <Scene mode={SceneMode.SCENE2D} morph={10} />
       </Viewer>
     ));
 
