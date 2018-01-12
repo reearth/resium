@@ -5,7 +5,7 @@ const coverage = env === "coverage";
 
 module.exports = function(config) {
   config.set({
-    browsers: ["ChromeHeadless"],
+    browsers: process.env.TRAVIS ? ["ChromeTravisCI"] : ["ChromeHeadless"],
     frameworks: ["jasmine"],
     files: [
       "node_modules/cesium/Build/CesiumUnminified/Cesium.js"
@@ -46,6 +46,12 @@ module.exports = function(config) {
     },
     coverageReporter: {
       type: "lcov"
+    },
+    customLaunchers: {
+      ChromeTravisCI: {
+        base: "ChromeHeadless",
+        flags: ["--no-sandbox"]
+      }
     }
   });
 };
