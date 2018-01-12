@@ -1,15 +1,18 @@
+import PropTypes from "prop-types";
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import { sceneType, screenSpaceEventHandlerType } from "./types";
+import { cesiumWidgetType, sceneType, screenSpaceEventHandlerType } from "./types";
 
 export default class ScreenSpaceEventHandler extends CesiumComponent {
 
   static propTypes = {
     ...CesiumComponent.propTypes,
+    useDefault: PropTypes.bool
   }
 
   static contextTypes = {
+    cesiumWidget: cesiumWidgetType,
     scene: sceneType
   }
 
@@ -32,11 +35,19 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
   }
 
   createCesiumElement() {
+    if (this.props.useDefault) {
+      this._useDefault = true;
+      return this.context.cesiumWidget.screenSpaceEventHandler;
+    }
     return new CesiumScreenSpaceEventHandler(this.parent.canvas);
   }
 
   destroyCesiumElement(cesiumElement) {
-    cesiumElement.destroy();
+    if (!this._useDefault) {
+      cesiumElement.destroy();
+    }
   }
+
+  _useDefault = false
 
 }
