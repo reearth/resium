@@ -22,3 +22,6 @@ export ScreenSpaceEvent from "./ScreenSpaceEvent";
 export ScreenSpaceEventHandler from "./ScreenSpaceEventHandler";
 
 export ImageryLayer from "./ImageryLayer";
+
+export CameraOperation from "./CameraOperation";
+export CameraFlyTo from "./CameraFlyTo";
