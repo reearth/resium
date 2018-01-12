@@ -90,6 +90,15 @@ export default class CesiumComponent extends React.PureComponent {
   _create() {
     if (!this.createCesiumElement) return;
     this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
+
+    if (this.constructor.setCesiumOptionsAfterCreate && this.cesiumElement) {
+      // eslint-disable-next-line react/destructuring-assignment
+      this.getCesiumProps().filter(p => typeof this.props[p] !== "undefined").forEach(p => {
+        // eslint-disable-next-line react/destructuring-assignment
+        this.cesiumElement[p] = this.props[p];
+      });
+    }
+
     if (this.cesiumElement) {
       attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
     }

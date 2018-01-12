@@ -54,17 +54,16 @@ export default class Camera extends CesiumComponent {
     "moveStart"
   ]
 
+  static setCesiumOptionsAfterCreate = true
+
   getChildContext() {
     return {
       camera: this.cesiumElement
     };
   }
 
-  createCesiumElement(options) {
+  createCesiumElement() {
     const c = this.context.scene.camera;
-    Object.keys(options).filter(k => typeof options[k] !== "undefined").forEach(k => {
-      c[k] = options[k];
-    });
     if (typeof this.props.view === "object") {
       c.setView(this.props.view);
     }

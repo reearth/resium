@@ -109,18 +109,17 @@ export default class Scene extends CesiumComponent {
     "terrainProviderChanged"
   ]
 
+  static setCesiumOptionsAfterCreate = true
+
   getChildContext() {
     return {
       scene: this.cesiumElement
     };
   }
 
-  createCesiumElement(options) {
+  createCesiumElement() {
     const { cesiumWidget, viewer } = this.context;
     const s = cesiumWidget ? cesiumWidget.scene : viewer.scene;
-    Object.keys(options).filter(k => typeof options[k] !== "undefined").forEach(k => {
-      s[k] = options[k];
-    });
     if (typeof this.props.mode !== "undefined") {
       this._changeMode(s);
     }
