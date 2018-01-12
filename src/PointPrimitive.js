@@ -38,10 +38,6 @@ export default class PointPrimitive extends CesiumComponent {
     "translucencyByDistance"
   ]
 
-  static cesiumReadOnlyProps = []
-
-  static cesiumEvents = []
-
   get parent() {
     const { pointPrimitiveCollection } = this.context;
     if (pointPrimitiveCollection && !pointPrimitiveCollection.isDestroyed()) {

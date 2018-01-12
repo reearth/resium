@@ -35,10 +35,6 @@ export default class PointPrimitiveCollection extends CesiumComponent {
     "modelMatrix"
   ]
 
-  static cesiumReadOnlyProps = []
-
-  static cesiumEvents = []
-
   state = {
     mounted: false
   }

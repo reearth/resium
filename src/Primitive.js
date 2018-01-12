@@ -48,10 +48,6 @@ export default class Primitive extends CesiumComponent {
     "releaseGeometryInstances"
   ]
 
-  static cesiumEvents = []
-
-  static remountCesiumComponent = true
-
   get parent() {
     const { premitiveCollection, scene, viewer } = this.context;
     if (premitiveCollection && !premitiveCollection.isDestroyed()) {

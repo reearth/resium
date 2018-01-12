@@ -38,7 +38,6 @@ export default class CesiumComponent extends React.PureComponent {
     const { props } = this;
 
     if (
-      this.constructor.remountCesiumComponent &&
       this.getCesiumReadOnlyProps().some(p => prevProps[p] !== props[p])
     ) {
       this._remount();
