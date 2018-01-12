@@ -6,6 +6,7 @@ import {
   PointPrimitiveCollection,
   PrimitiveCollection,
   Scene,
+  ScreenSpaceEventHandler,
   Viewer
 } from "cesium";
 import PropTypes from "prop-types";
@@ -17,4 +18,5 @@ export const entityCollectionType = PropTypes.instanceOf(EntityCollection);
 export const pointPrimitiveCollectionType = PropTypes.instanceOf(PointPrimitiveCollection);
 export const primitiveCollectionType = PropTypes.instanceOf(PrimitiveCollection);
 export const sceneType = PropTypes.instanceOf(Scene);
+export const screenSpaceEventHandlerType = PropTypes.instanceOf(ScreenSpaceEventHandler);
 export const viewerType = PropTypes.instanceOf(Viewer);

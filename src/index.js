@@ -13,3 +13,6 @@ export KmlDataSource from "./KmlDataSource";
 export Primitive from "./Primitive";
 export PointPrimitive from "./PointPrimitive";
 export PointPrimitiveCollection from "./PointPrimitiveCollection";
+
+export ScreenSpaceEvent from "./ScreenSpaceEvent";
+export ScreenSpaceEventHandler from "./ScreenSpaceEventHandler";
