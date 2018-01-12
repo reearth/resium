@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Primitive as CesiumPrimitive } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import { primitiveCollectionType, sceneType, viewerType } from "./types";
+import { primitiveCollectionType, sceneType } from "./types";
 
 export default class Primitive extends CesiumComponent {
 
@@ -25,8 +25,7 @@ export default class Primitive extends CesiumComponent {
 
   static contextTypes = {
     primitiveCollection: primitiveCollectionType,
-    scene: sceneType,
-    viewer: viewerType
+    scene: sceneType
   }
 
   static cesiumProps = [
@@ -49,15 +48,12 @@ export default class Primitive extends CesiumComponent {
   ]
 
   get parent() {
-    const { premitiveCollection, scene, viewer } = this.context;
+    const { premitiveCollection, scene } = this.context;
     if (premitiveCollection && !premitiveCollection.isDestroyed()) {
       return premitiveCollection;
     }
     if (scene && !scene.isDestroyed()) {
-      return scene.primitives;
-    }
-    if (viewer && !viewer.isDestroyed()) {
-      return viewer.scene.primitives;
+      return scene.primitives; // TODO: scene#groundPrimitives
     }
     return null;
   }

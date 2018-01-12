@@ -1,7 +1,7 @@
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import { sceneType, screenSpaceEventHandlerType, viewerType } from "./types";
+import { sceneType, screenSpaceEventHandlerType } from "./types";
 
 export default class ScreenSpaceEventHandler extends CesiumComponent {
 
@@ -10,8 +10,7 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
   }
 
   static contextTypes = {
-    scene: sceneType,
-    viewer: viewerType
+    scene: sceneType
   }
 
   static childContextTypes= {
@@ -25,12 +24,9 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
   }
 
   get parent() {
-    const { scene, viewer } = this.context;
+    const { scene } = this.context;
     if (scene && !scene.isDestroyed()) {
       return scene;
-    }
-    if (viewer && !viewer.isDestroyed()) {
-      return viewer.scene;
     }
     return null;
   }

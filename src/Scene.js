@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { SceneMode } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import { cesiumWidgetType, sceneType, viewerType } from "./types";
+import { cesiumWidgetType, sceneType } from "./types";
 
 export default class Scene extends CesiumComponent {
 
@@ -54,8 +54,7 @@ export default class Scene extends CesiumComponent {
   }
 
   static contextTypes = {
-    cesiumWidget: cesiumWidgetType,
-    viewer: viewerType
+    cesiumWidget: cesiumWidgetType
   }
 
   static childContextTypes = {
@@ -118,8 +117,8 @@ export default class Scene extends CesiumComponent {
   }
 
   createCesiumElement() {
-    const { cesiumWidget, viewer } = this.context;
-    const s = cesiumWidget ? cesiumWidget.scene : viewer.scene;
+    const { cesiumWidget } = this.context;
+    const s = cesiumWidget.scene;
     if (typeof this.props.mode !== "undefined") {
       this._changeMode(s);
     }

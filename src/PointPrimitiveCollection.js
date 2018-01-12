@@ -5,8 +5,7 @@ import CesiumComponent from "./CesiumComponent";
 import {
   pointPrimitiveCollectionType,
   primitiveCollectionType,
-  sceneType,
-  viewerType
+  sceneType
 } from "./types";
 
 export default class PointPrimitiveCollection extends CesiumComponent {
@@ -20,8 +19,7 @@ export default class PointPrimitiveCollection extends CesiumComponent {
 
   static contextTypes = {
     primitiveCollection: primitiveCollectionType,
-    scene: sceneType,
-    viewer: viewerType
+    scene: sceneType
   }
 
   static childContextTypes = {
@@ -41,15 +39,12 @@ export default class PointPrimitiveCollection extends CesiumComponent {
   }
 
   get parent() {
-    const { premitiveCollection, scene, viewer } = this.context;
+    const { premitiveCollection, scene } = this.context;
     if (premitiveCollection && !premitiveCollection.isDestroyed()) {
       return premitiveCollection;
     }
     if (scene && !scene.isDestroyed()) {
       return scene.primitives;
-    }
-    if (viewer && !viewer.isDestroyed()) {
-      return viewer.scene.primitives;
     }
     return null;
   }

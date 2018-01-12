@@ -3,7 +3,13 @@ import PropTypes from "prop-types";
 import { Viewer as CesiumViewer } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import { cesiumWidgetType, sceneType, viewerType } from "./types";
+import {
+  cesiumWidgetType,
+  dataSourceCollectionType,
+  entityCollectionType,
+  sceneType,
+  viewerType
+} from "./types";
 
 export default class Viewer extends CesiumComponent {
 
@@ -68,6 +74,8 @@ export default class Viewer extends CesiumComponent {
 
   static childContextTypes = {
     cesiumWidget: cesiumWidgetType,
+    dataSourceCollection: dataSourceCollectionType,
+    entityCollection: entityCollectionType,
     scene: sceneType,
     viewer: viewerType
   }
@@ -125,6 +133,9 @@ export default class Viewer extends CesiumComponent {
   getChildContext() {
     return {
       cesiumWidget: this.cesiumElement ? this.cesiumElement.cesiumWidget : null,
+      dataSourceCollection: this.cesiumElement ?
+        this.cesiumElement.dataSourceDisplay.dataSources : null,
+      entityCollection: this.cesiumElement ? this.cesiumElement.entities : null,
       scene: this.cesiumElement ? this.cesiumElement.scene : null,
       viewer: this.cesiumElement
     };

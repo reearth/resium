@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import CesiumComponent from "./CesiumComponent";
-import { entityCollectionType, dataSourceCollectionType, viewerType } from "./types";
+import { entityCollectionType, dataSourceCollectionType } from "./types";
 
 // abstract
 export default class DataSource extends CesiumComponent {
@@ -17,8 +17,7 @@ export default class DataSource extends CesiumComponent {
   }
 
   static contextTypes = {
-    dataSourceCollection: dataSourceCollectionType,
-    viewer: viewerType
+    dataSourceCollection: dataSourceCollectionType
   }
 
   static childContextTypes = {
@@ -63,12 +62,9 @@ export default class DataSource extends CesiumComponent {
   }
 
   get parent() {
-    const { dataSourceCollection, viewer } = this.context;
+    const { dataSourceCollection } = this.context;
     if (dataSourceCollection && !dataSourceCollection.isDestroyed()) {
       return dataSourceCollection;
-    }
-    if (viewer && !viewer.isDestroyed()) {
-      return viewer.dataSourceDisplay.dataSources;
     }
     return null;
   }

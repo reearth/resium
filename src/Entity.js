@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import { Entity as CesiumEntity } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import { entityCollectionType, viewerType } from "./types";
+import { entityCollectionType } from "./types";
 
 export default class Entity extends CesiumComponent {
 
@@ -38,8 +38,7 @@ export default class Entity extends CesiumComponent {
   }
 
   static contextTypes = {
-    entityCollection: entityCollectionType,
-    viewer: viewerType
+    entityCollection: entityCollectionType
   }
 
   static cesiumProps = [
@@ -79,12 +78,9 @@ export default class Entity extends CesiumComponent {
   ]
 
   get parent() {
-    const { entityCollection, viewer } = this.context;
+    const { entityCollection } = this.context;
     if (entityCollection) {
       return entityCollection;
-    }
-    if (viewer && !viewer.isDestroyed()) {
-      return viewer.entities;
     }
     return null;
   }
