@@ -37,10 +37,6 @@ export default class DataSource extends CesiumComponent {
     "loadingEvent"
   ]
 
-  state = {
-    mounted: false
-  }
-
   getChildContext() {
     return {
       entityCollection: this.cesiumElement ? this.cesiumElement.entities : null
@@ -65,12 +61,6 @@ export default class DataSource extends CesiumComponent {
     }
   }
 
-  render() {
-    const { children } = this.props;
-    const { mounted } = this.state;
-    return mounted ? children : null;
-  }
-
   get parent() {
     const { dataSourceCollection, viewer } = this.context;
     if (dataSourceCollection && !dataSourceCollection.isDestroyed()) {
@@ -88,7 +78,6 @@ export default class DataSource extends CesiumComponent {
 
   mountCesiumElement(entity) {
     this.parent.add(entity);
-    this.setState({ mounted: true });
   }
 
   destroyCesiumElement(entity) {

@@ -18,10 +18,6 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
     screenSpaceEventHandler: screenSpaceEventHandlerType
   }
 
-  state = {
-    mounted: false
-  }
-
   getChildContext() {
     return {
       screenSpaceEventHandler: this.cesiumElement
@@ -43,18 +39,8 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
     return new CesiumScreenSpaceEventHandler(this.parent.canvas);
   }
 
-  mountCesiumElement() {
-    this.setState({ mounted: true });
-  }
-
   destroyCesiumElement(cesiumElement) {
     cesiumElement.destroy();
-  }
-
-  render() {
-    const { children } = this.props;
-    const { mounted } = this.state;
-    return mounted ? children : null;
   }
 
 }

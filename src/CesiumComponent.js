@@ -6,10 +6,11 @@ import { attachEvents, detachEvents, updateEvents, getEventProps } from "./utils
 export default class CesiumComponent extends React.PureComponent {
 
   static propTypes = {
+    children: PropTypes.any,
     onMount: PropTypes.func,
     onUnmount: PropTypes.func,
     onUpdate: PropTypes.func
-  };
+  }
 
   componentWillMount() {
     if (!this.constructor.initCesiumComponentWhenComponentDidMount) {
@@ -103,6 +104,9 @@ export default class CesiumComponent extends React.PureComponent {
     if (onMount) {
       this.onMount(this.cesiumElement);
     }
+
+    this._mounted = true;
+    this.forceUpdate();
   }
 
   _unmount() {
@@ -132,8 +136,11 @@ export default class CesiumComponent extends React.PureComponent {
 
   cesiumElement = null
 
+  _mounted = false;
+
   render() {
-    return null;
+    const { children } = this.props;
+    return this._mounted && typeof children !== "undefined" ? children : null;
   }
 
 }

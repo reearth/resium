@@ -14,7 +14,6 @@ export default class PointPrimitiveCollection extends CesiumComponent {
   static propTypes = {
     ...CesiumComponent.propTypes,
     blendOption: PropTypes.any,
-    children: PropTypes.any,
     debugShowBoundingVolume: PropTypes.bool,
     modelMatrix: PropTypes.any
   }
@@ -34,10 +33,6 @@ export default class PointPrimitiveCollection extends CesiumComponent {
     "debugShowBoundingVolume",
     "modelMatrix"
   ]
-
-  state = {
-    mounted: false
-  }
 
   getChildContext() {
     return {
@@ -65,7 +60,6 @@ export default class PointPrimitiveCollection extends CesiumComponent {
 
   mountCesiumElement(col) {
     this.parent.add(col);
-    this.setState({ mounted: true });
   }
 
   destroyCesiumElement(col) {
@@ -76,12 +70,6 @@ export default class PointPrimitiveCollection extends CesiumComponent {
     if (!col.isDestroyed()) {
       col.destroy();
     }
-  }
-
-  render() {
-    const { children } = this.props;
-    const { mounted } = this.state;
-    return mounted ? children : null;
   }
 
 }
