@@ -36,18 +36,13 @@ export const updateEvents = (target, prevEvents, newEvents) => {
   attachEvents(target, ne);
 };
 
-
-const regex = /^on([A-Z])/;
-
 // eslint-disable-next-line react/destructuring-assignment
-export const getEventProps = (eventNames, props) => Object.keys(props).reduce((a, b) => {
+export const getEventProps = (eventNames, props) => eventNames.reduce((a, b) => {
+  const pn = `on${b[0].toUpperCase()}${b.slice(1).replace(/Event$/, "")}`;
   // eslint-disable-next-line react/destructuring-assignment
-  if (!regex.test(b) || typeof props[b] !== "function") {
-    return a;
-  }
-  const en = b.replace(regex, (m, p) => p.toLowerCase());
-  if (eventNames.indexOf(en) >= 0) {
-    a[en] = props[b];
-  }
-  return a;
+  return typeof props[pn] === "function" ? {
+    ...a,
+    // eslint-disable-next-line react/destructuring-assignment
+    [b]: props[pn]
+  } : a;
 }, {});

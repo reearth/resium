@@ -94,18 +94,21 @@ describe("utils/events", () => {
   });
 
   it("should return event props", () => {
-    const names = ["add", "remove"];
+    const names = ["add", "remove", "loadingEvent"];
     const props = {
       onAdd: () => { /* dummy */ },
+      onLoading: () => { /* dummy */ },
       remove: () => { /* dummy */ }
     };
 
     const result = getEventProps(names, props);
 
     // eslint-disable-next-line react/destructuring-assignment
-    expect(result).toEqual({ add: props.onAdd });
+    expect(result).toEqual({ add: props.onAdd, loadingEvent: props.onLoading });
     // eslint-disable-next-line react/destructuring-assignment
     expect(result.add).toBe(props.onAdd);
+    // eslint-disable-next-line react/destructuring-assignment
+    expect(result.loadingEvent).toBe(props.onLoading);
   });
 
 });
