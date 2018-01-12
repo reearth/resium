@@ -9,7 +9,7 @@ import ScreenSpaceEventHandler from "../ScreenSpaceEventHandler";
 export default () => {
 
   storiesOf("ScreenSpaceEventHandler", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <ScreenSpaceEventHandler>
           <ScreenSpaceEvent

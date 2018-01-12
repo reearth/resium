@@ -36,7 +36,7 @@ const czml = [{
 export default () => {
 
   storiesOf("CzmlDataSource", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <CzmlDataSource
           czml={czml} />

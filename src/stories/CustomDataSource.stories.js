@@ -9,7 +9,7 @@ import Entity from "../Entity";
 export default () => {
 
   storiesOf("CustomDataSource", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <CustomDataSource name="custom">
           <Entity

@@ -15,7 +15,7 @@ const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 export default () => {
 
   storiesOf("PointPrimitive", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <PointPrimitiveCollection
           modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>

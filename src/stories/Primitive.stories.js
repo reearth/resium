@@ -31,7 +31,7 @@ const appearance = new EllipsoidSurfaceAppearance({
 export default () => {
 
   storiesOf("Primitive", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <Primitive
           geometryInstances={geometry}

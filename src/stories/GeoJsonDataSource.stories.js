@@ -21,7 +21,7 @@ const data = {
 export default () => {
 
   storiesOf("GeoJsonDataSource", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <GeoJsonDataSource
           data={data}

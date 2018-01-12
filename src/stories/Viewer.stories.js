@@ -6,7 +6,7 @@ import Viewer from "../Viewer";
 export default () => {
 
   storiesOf("Viewer", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full />
     ));
 

@@ -8,7 +8,7 @@ import ImageryLayer from "../ImageryLayer";
 export default () => {
 
   storiesOf("ImageryLayer", module)
-    .add("default", () => (
+    .addWithJSX("default", () => (
       <Viewer full>
         <ImageryLayer
           imageryProvider={new ArcGisMapServerImageryProvider({
