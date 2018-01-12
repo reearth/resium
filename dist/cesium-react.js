@@ -356,6 +356,8 @@ function (_CesiumComponent) {
   _proto.getChildContext = function getChildContext() {
     return {
       cesiumWidget: this.cesiumElement ? this.cesiumElement.cesiumWidget : null,
+      dataSourceCollection: this.cesiumElement ? this.cesiumElement.dataSourceDisplay.dataSources : null,
+      entityCollection: this.cesiumElement ? this.cesiumElement.entities : null,
       scene: this.cesiumElement ? this.cesiumElement.scene : null,
       viewer: this.cesiumElement
     };
@@ -489,6 +491,8 @@ Viewer$1.defaultProps = {
 };
 Viewer$1.childContextTypes = {
   cesiumWidget: cesiumWidgetType,
+  dataSourceCollection: dataSourceCollectionType,
+  entityCollection: entityCollectionType,
   scene: sceneType,
   viewer: viewerType
 };
@@ -623,10 +627,8 @@ function (_CesiumComponent) {
   };
 
   _proto.createCesiumElement = function createCesiumElement() {
-    var _context = this.context,
-        cesiumWidget = _context.cesiumWidget,
-        viewer = _context.viewer;
-    var s = cesiumWidget ? cesiumWidget.scene : viewer.scene;
+    var cesiumWidget = this.context.cesiumWidget;
+    var s = cesiumWidget.scene;
 
     if (typeof this.props.mode !== "undefined") {
       this._changeMode(s);
@@ -718,8 +720,7 @@ Scene$1.propTypes = _extends({}, CesiumComponent.propTypes, {
   useWebVR: PropTypes.any
 });
 Scene$1.contextTypes = {
-  cesiumWidget: cesiumWidgetType,
-  viewer: viewerType
+  cesiumWidget: cesiumWidgetType
 };
 Scene$1.childContextTypes = {
   scene: sceneType
@@ -822,16 +823,10 @@ function (_CesiumComponent) {
   _createClass(Entity$$1, [{
     key: "parent",
     get: function get() {
-      var _context = this.context,
-          entityCollection = _context.entityCollection,
-          viewer = _context.viewer;
+      var entityCollection = this.context.entityCollection;
 
       if (entityCollection) {
         return entityCollection;
-      }
-
-      if (viewer && !viewer.isDestroyed()) {
-        return viewer.entities;
       }
 
       return null;
@@ -870,8 +865,7 @@ Entity$1.propTypes = _extends({}, CesiumComponent.propTypes, {
   wall: PropTypes.any
 });
 Entity$1.contextTypes = {
-  entityCollection: entityCollectionType,
-  viewer: viewerType
+  entityCollection: entityCollectionType
 };
 Entity$1.cesiumProps = ["availability", "show", "description", "position", "orientation", "viewFrom", "parent", "billboard", "box", "corridor", "cylinder", "ellipse", "ellipsoid", "label", "model", "name", "path", "plane", "point", "polygon", "polyline", "properties", "polylineVolume", "rectangle", "wall"];
 Entity$1.cesiumReadOnlyProps = ["id"];
@@ -935,16 +929,10 @@ function (_CesiumComponent) {
   _createClass(DataSource, [{
     key: "parent",
     get: function get() {
-      var _context = this.context,
-          dataSourceCollection = _context.dataSourceCollection,
-          viewer = _context.viewer;
+      var dataSourceCollection = this.context.dataSourceCollection;
 
       if (dataSourceCollection && !dataSourceCollection.isDestroyed()) {
         return dataSourceCollection;
-      }
-
-      if (viewer && !viewer.isDestroyed()) {
-        return viewer.dataSourceDisplay.dataSources;
       }
 
       return null;
@@ -963,8 +951,7 @@ DataSource.propTypes = {
   show: PropTypes.bool
 };
 DataSource.contextTypes = {
-  dataSourceCollection: dataSourceCollectionType,
-  viewer: viewerType
+  dataSourceCollection: dataSourceCollectionType
 };
 DataSource.childContextTypes = {
   entityCollection: entityCollectionType
@@ -1274,19 +1261,14 @@ function (_CesiumComponent) {
     get: function get() {
       var _context = this.context,
           premitiveCollection = _context.premitiveCollection,
-          scene = _context.scene,
-          viewer = _context.viewer;
+          scene = _context.scene;
 
       if (premitiveCollection && !premitiveCollection.isDestroyed()) {
         return premitiveCollection;
       }
 
       if (scene && !scene.isDestroyed()) {
-        return scene.primitives;
-      }
-
-      if (viewer && !viewer.isDestroyed()) {
-        return viewer.scene.primitives;
+        return scene.primitives; // TODO: scene#groundPrimitives
       }
 
       return null;
@@ -1312,8 +1294,7 @@ Primitive$1.propTypes = _extends({}, CesiumComponent.propTypes, {
 });
 Primitive$1.contextTypes = {
   primitiveCollection: primitiveCollectionType,
-  scene: sceneType,
-  viewer: viewerType
+  scene: sceneType
 };
 Primitive$1.cesiumProps = ["allowPicking", "appearance", "cull", "debugShowBoundingVolume", "depthFailAppearance", "modelMatrix", "shadows", "show"];
 Primitive$1.cesiumReadOnlyProps = ["asynchronous", "compressVertices", "geometryInstances", "interleave", "releaseGeometryInstances"];
@@ -1429,8 +1410,7 @@ function (_CesiumComponent) {
     get: function get() {
       var _context = this.context,
           premitiveCollection = _context.premitiveCollection,
-          scene = _context.scene,
-          viewer = _context.viewer;
+          scene = _context.scene;
 
       if (premitiveCollection && !premitiveCollection.isDestroyed()) {
         return premitiveCollection;
@@ -1438,10 +1418,6 @@ function (_CesiumComponent) {
 
       if (scene && !scene.isDestroyed()) {
         return scene.primitives;
-      }
-
-      if (viewer && !viewer.isDestroyed()) {
-        return viewer.scene.primitives;
       }
 
       return null;
@@ -1457,8 +1433,7 @@ PointPrimitiveCollection$1.propTypes = _extends({}, CesiumComponent.propTypes, {
 });
 PointPrimitiveCollection$1.contextTypes = {
   primitiveCollection: primitiveCollectionType,
-  scene: sceneType,
-  viewer: viewerType
+  scene: sceneType
 };
 PointPrimitiveCollection$1.childContextTypes = {
   pointPrimitiveCollection: pointPrimitiveCollectionType
@@ -1482,7 +1457,13 @@ function (_React$PureComponent) {
         modifier = _props.modifier,
         type = _props.type;
     var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
-    screenSpaceEventHandler.setInputAction(action, type, modifier);
+
+    if (action) {
+      screenSpaceEventHandler.setInputAction(action, type, modifier);
+    } else {
+      // just remove default events
+      screenSpaceEventHandler.removeInputAction(type, modifier);
+    }
   };
 
   _proto.componentDidUpdate = function componentDidUpdate(prevProps) {
@@ -1493,11 +1474,12 @@ function (_React$PureComponent) {
 
   _proto.componentWillUnmount = function componentWillUnmount() {
     var _props2 = this.props,
+        action = _props2.action,
         modifier = _props2.modifier,
         type = _props2.type;
     var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
 
-    if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed()) {
+    if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
       screenSpaceEventHandler.removeInputAction(type, modifier);
     }
   };
@@ -1510,7 +1492,7 @@ function (_React$PureComponent) {
 }(React.PureComponent);
 
 ScreenSpaceEvent.propTypes = {
-  action: PropTypes.func.isRequired,
+  action: PropTypes.func,
   modifier: PropTypes.number,
   type: PropTypes.number.isRequired
 };
@@ -1524,7 +1506,13 @@ function (_CesiumComponent) {
   _inheritsLoose(ScreenSpaceEventHandler$$1, _CesiumComponent);
 
   function ScreenSpaceEventHandler$$1() {
-    return _CesiumComponent.apply(this, arguments) || this;
+    var _temp, _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    return (_temp = _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this, _this._useDefault = false, _temp) || _assertThisInitialized(_this);
   }
 
   var _proto = ScreenSpaceEventHandler$$1.prototype;
@@ -1536,26 +1524,27 @@ function (_CesiumComponent) {
   };
 
   _proto.createCesiumElement = function createCesiumElement() {
+    if (this.props.useDefault) {
+      this._useDefault = true;
+      return this.context.cesiumWidget.screenSpaceEventHandler;
+    }
+
     return new cesium.ScreenSpaceEventHandler(this.parent.canvas);
   };
 
   _proto.destroyCesiumElement = function destroyCesiumElement(cesiumElement) {
-    cesiumElement.destroy();
+    if (!this._useDefault) {
+      cesiumElement.destroy();
+    }
   };
 
   _createClass(ScreenSpaceEventHandler$$1, [{
     key: "parent",
     get: function get() {
-      var _context = this.context,
-          scene = _context.scene,
-          viewer = _context.viewer;
+      var scene = this.context.scene;
 
       if (scene && !scene.isDestroyed()) {
         return scene;
-      }
-
-      if (viewer && !viewer.isDestroyed()) {
-        return viewer.scene;
       }
 
       return null;
@@ -1564,10 +1553,12 @@ function (_CesiumComponent) {
   return ScreenSpaceEventHandler$$1;
 }(CesiumComponent);
 
-ScreenSpaceEventHandler$1.propTypes = _extends({}, CesiumComponent.propTypes);
+ScreenSpaceEventHandler$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+  useDefault: PropTypes.bool
+});
 ScreenSpaceEventHandler$1.contextTypes = {
-  scene: sceneType,
-  viewer: viewerType
+  cesiumWidget: cesiumWidgetType,
+  scene: sceneType
 };
 ScreenSpaceEventHandler$1.childContextTypes = {
   screenSpaceEventHandler: screenSpaceEventHandlerType
@@ -1607,8 +1598,7 @@ function (_CesiumComponent) {
     get: function get() {
       var _context = this.context,
           imageryLayerCollection = _context.imageryLayerCollection,
-          scene = _context.scene,
-          viewer = _context.viewer;
+          scene = _context.scene;
 
       if (imageryLayerCollection && !imageryLayerCollection.isDestroyed()) {
         return imageryLayerCollection;
@@ -1616,10 +1606,6 @@ function (_CesiumComponent) {
 
       if (scene && !scene.isDestroyed()) {
         return scene.imageryLayers;
-      }
-
-      if (viewer && !viewer.isDestroyed()) {
-        return viewer.imageryLayers;
       }
 
       return null;
@@ -1659,8 +1645,7 @@ imageryLayer.propTypes = _extends({}, CesiumComponent.propTypes, {
 });
 imageryLayer.contextTypes = {
   imageryLayerCollection: imageryLayerCollectionType,
-  scene: sceneType,
-  viewer: viewerType
+  scene: sceneType
 };
 imageryLayer.cesiumProps = ["alpha", "brightness", "contrast", "hue", "saturation", "gamma", "splitDirection", "minificationFilter", "magnificationFilter", "show"];
 imageryLayer.cesiumReadOnlyProps = ["imageryProvider", "rectangle", "maximumAnisotropy", "minimumTerrainLevel", "maximumTerrainLevel"];
