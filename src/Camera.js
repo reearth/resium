@@ -21,7 +21,8 @@ export default class Camera extends CesiumComponent {
     percentageChanged: PropTypes.any,
     position: PropTypes.any,
     right: PropTypes.any,
-    up: PropTypes.any
+    up: PropTypes.any,
+    view: PropTypes.object
   }
 
   static contextTypes = {
@@ -64,7 +65,16 @@ export default class Camera extends CesiumComponent {
     Object.keys(options).filter(k => typeof options[k] !== "undefined").forEach(k => {
       c[k] = options[k];
     });
+    if (typeof this.props.view === "object") {
+      c.setView(this.props.view);
+    }
     return c;
+  }
+
+  updateCesiumElement(camera, prev) {
+    if (this.props.view !== prev.view) {
+      camera.setView(this.props.view);
+    }
   }
 
 }
