@@ -12,30 +12,16 @@ export default class CesiumComponent extends React.PureComponent {
   };
 
   componentWillMount() {
-    if (this.createCesiumElement && !this.constructor.initCesiumComponentWhenComponentDidMount) {
-      this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
-      if (this.cesiumElement) {
-        attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
-      }
+    if (!this.constructor.initCesiumComponentWhenComponentDidMount) {
+      this._create();
     }
   }
 
   componentDidMount() {
-    if (this.createCesiumElement && this.constructor.initCesiumComponentWhenComponentDidMount) {
-      this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
-      if (this.cesiumElement) {
-        attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
-      }
+    if (this.constructor.initCesiumComponentWhenComponentDidMount) {
+      this._create();
     }
-
-    if (this.mountCesiumElement) {
-      this.mountCesiumElement(this.cesiumElement);
-    }
-
-    const { onMount } = this.props;
-    if (onMount) {
-      this.onMount(this.cesiumElement);
-    }
+    this._mount();
   }
 
   componentDidUpdate(prevProps) {
@@ -50,6 +36,15 @@ export default class CesiumComponent extends React.PureComponent {
     }
 
     const { props } = this;
+
+    if (
+      this.constructor.remountCesiumComponent &&
+      this.getCesiumReadOnlyProps().some(p => prevProps[p] !== props[p])
+    ) {
+      this._remount();
+      return;
+    }
+
     this.getCesiumProps().filter(p => prevProps[p] !== props[p]).forEach(p => {
       cesiumElement[p] = props[p];
     });
@@ -65,22 +60,7 @@ export default class CesiumComponent extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    const { cesiumElement } = this;
-
-    const { onUnmount } = this.props;
-    if (onUnmount) {
-      onUnmount(cesiumElement);
-    }
-
-    if (cesiumElement) {
-      detachEvents(cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
-    }
-
-    if (this.destroyCesiumElement) {
-      this.destroyCesiumElement(cesiumElement);
-    }
-
-    this.cesiumElement = null;
+    this._unmount();
   }
 
   getCesiumEvents() {
@@ -105,6 +85,50 @@ export default class CesiumComponent extends React.PureComponent {
       // eslint-disable-next-line react/destructuring-assignment
       [b]: this.props[b]
     }), {});
+  }
+
+  _create() {
+    if (!this.createCesiumElement) return;
+    this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
+    if (this.cesiumElement) {
+      attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
+    }
+  }
+
+  _mount() {
+    if (this.mountCesiumElement) {
+      this.mountCesiumElement(this.cesiumElement);
+    }
+
+    const { onMount } = this.props;
+    if (onMount) {
+      this.onMount(this.cesiumElement);
+    }
+  }
+
+  _unmount() {
+    const { cesiumElement } = this;
+
+    const { onUnmount } = this.props;
+    if (onUnmount) {
+      onUnmount(cesiumElement);
+    }
+
+    if (cesiumElement) {
+      detachEvents(cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
+    }
+
+    if (this.destroyCesiumElement) {
+      this.destroyCesiumElement(cesiumElement);
+    }
+
+    this.cesiumElement = null;
+  }
+
+  _remount() {
+    this._unmount();
+    this._create();
+    this._mount();
   }
 
   cesiumElement = null
