@@ -21,6 +21,8 @@ export PointPrimitiveCollection from "./PointPrimitiveCollection";
 export ScreenSpaceEvent from "./ScreenSpaceEvent";
 export ScreenSpaceEventHandler from "./ScreenSpaceEventHandler";
 
+export ScreenSpaceCameraController from "./ScreenSpaceEventHandler";
+
 export ImageryLayer from "./ImageryLayer";
 
 export CameraOperation from "./CameraOperation";
