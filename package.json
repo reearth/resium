@@ -23,9 +23,9 @@
     "storybook": "cross-env BABEL_ENV=storybook start-storybook -p 9001"
   },
   "peerDependencies": {
-    "cesium": "^1.40.0",
-    "prop-types": "^15.6.0",
-    "react": "^16.2.0"
+    "cesium": "1.x",
+    "prop-types": "*",
+    "react": "16.x"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.37",
