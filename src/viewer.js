@@ -20,6 +20,7 @@ export default class Viewer extends CesiumComponent {
     creditContainer: PropTypes.any,
     creditViewport: PropTypes.any,
     dataSources: PropTypes.any,
+    extend: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.any), PropTypes.any]),
     full: PropTypes.bool,
     fullscreenButton: PropTypes.any,
     fullscreenElement: PropTypes.any,
@@ -41,6 +42,7 @@ export default class Viewer extends CesiumComponent {
     scene3DOnly: PropTypes.any,
     sceneMode: PropTypes.any,
     sceneModePicker: PropTypes.any,
+    selectedEntity: PropTypes.any,
     selectedImageryProviderViewModel: PropTypes.any,
     selectedTerrainProviderViewModel: PropTypes.any,
     selectionIndicator: PropTypes.any,
@@ -55,6 +57,7 @@ export default class Viewer extends CesiumComponent {
     terrainProviderViewModels: PropTypes.any,
     terrainShadows: PropTypes.any,
     timeline: PropTypes.any,
+    trackedEntity: PropTypes.any,
     useDefaultRenderLoop: PropTypes.any,
     vrButton: PropTypes.any,
   }
@@ -134,9 +137,29 @@ export default class Viewer extends CesiumComponent {
 
   createCesiumElement(options) {
     if (this.element) {
-      return new CesiumViewer(this.element, options);
+      const v = new CesiumViewer(this.element, options);
+      const { extend } = this.props;
+      if (extend) {
+        if (Array.isArray(extend)) {
+          extend.forEach(e => {
+            v.extend(e);
+          });
+        } else {
+          v.extend(extend);
+        }
+      }
+      return v;
     }
     return null;
+  }
+
+  updateCesiumElement(cesiumElement, prev) {
+    if (this.props.selectedEntity !== prev.selectedEntity) {
+      cesiumElement.selectedEntity = this.props.selectedEntity;
+    }
+    if (this.props.trackedEntity !== prev.trackedEntity) {
+      cesiumElement.trackedEntity = this.props.trackedEntity;
+    }
   }
 
   destroyCesiumElement(cesiumElement) {
