@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import CesiumComponent from "./CesiumComponent";
 import { entityCollectionType, dataSourceCollectionType, viewerType } from "./types";
 
+// abstract
 export default class DataSource extends CesiumComponent {
 
   static propTypes = {
