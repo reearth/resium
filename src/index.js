@@ -26,3 +26,4 @@ export ImageryLayer from "./ImageryLayer";
 export CameraOperation from "./CameraOperation";
 export CameraFlyHome from "./CameraFlyHome";
 export CameraFlyTo from "./CameraFlyTo";
+export CameraFlyToBoundingSphere from "./CameraFlyToBoundingSphere";
