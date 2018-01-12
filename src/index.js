@@ -3,6 +3,9 @@ export * as PropTypes from "./types";
 export Viewer from "./Viewer";
 export CesiumWidget from "./CesiumWidget";
 
+export Scene from "./Scene";
+export Camera from "./Camera";
+
 export Entity from "./Entity";
 
 export DataSource from "./DataSource";

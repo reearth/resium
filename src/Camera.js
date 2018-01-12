@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
 import CesiumComponent from "./CesiumComponent";
-import { cameraType, sceneType, viewerType } from "./types";
+import { cameraType, sceneType } from "./types";
 
 export default class Camera extends CesiumComponent {
 
@@ -29,9 +29,7 @@ export default class Camera extends CesiumComponent {
   }
 
   static childContextTypes = {
-    camera: cameraType,
-    scene: sceneType,
-    viewer: viewerType
+    camera: cameraType
   }
 
   static cesiumProps = [
@@ -57,14 +55,16 @@ export default class Camera extends CesiumComponent {
 
   getChildContext() {
     return {
-      camera: this.getTarget(),
-      scene: this.context.scene,
-      viewer: this.context.viewer
+      camera: this.cesiumElement
     };
   }
 
-  onMount(_, _2, { scene }) {
-    return scene.camera;
+  createCesiumElement(options) {
+    const c = this.context.scene.camera;
+    Object.keys(options).filter(k => typeof options[k] !== "undefined").forEach(k => {
+      c[k] = options[k];
+    });
+    return c;
   }
 
 }
