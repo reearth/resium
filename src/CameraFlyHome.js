@@ -14,9 +14,7 @@ export default class CameraFlyHome extends CameraOperation {
       duration
     } = this.props;
 
-    camera.flyHome({
-      duration
-    });
+    camera.flyHome(duration);
   }
 
 }
