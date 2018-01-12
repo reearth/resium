@@ -254,8 +254,20 @@ function (_React$PureComponent) {
   };
 
   _proto._create = function _create() {
+    var _this3 = this;
+
     if (!this.createCesiumElement) return;
     this.cesiumElement = this.createCesiumElement(this.getPropsForCesium());
+
+    if (this.constructor.setCesiumOptionsAfterCreate && this.cesiumElement) {
+      // eslint-disable-next-line react/destructuring-assignment
+      this.getCesiumProps().filter(function (p) {
+        return typeof _this3.props[p] !== "undefined";
+      }).forEach(function (p) {
+        // eslint-disable-next-line react/destructuring-assignment
+        _this3.cesiumElement[p] = _this3.props[p];
+      });
+    }
 
     if (this.cesiumElement) {
       attachEvents(this.cesiumElement, getEventProps(this.getCesiumEvents(), this.props));
@@ -605,16 +617,11 @@ function (_CesiumComponent) {
     };
   };
 
-  _proto.createCesiumElement = function createCesiumElement(options) {
+  _proto.createCesiumElement = function createCesiumElement() {
     var _context = this.context,
         cesiumWidget = _context.cesiumWidget,
         viewer = _context.viewer;
     var s = cesiumWidget ? cesiumWidget.scene : viewer.scene;
-    Object.keys(options).filter(function (k) {
-      return typeof options[k] !== "undefined";
-    }).forEach(function (k) {
-      s[k] = options[k];
-    });
 
     if (typeof this.props.mode !== "undefined") {
       this._changeMode(s);
@@ -714,6 +721,7 @@ Scene$1.childContextTypes = {
 };
 Scene$1.cesiumProps = ["backgroundColor", "canvas", "completeMorphOnUserInput", "debugCommandFilter", "debugShowCommands", "debugShowDepthFrustum", "debugShowFramesPerSecond", "debugShowFrustumPlanes", "debugShowFrustums", "debugShowGlobeDepth", "eyeSeparation", "farToNearRatio", "focalLength", "fog", "fxaa", "globe", "imagerySplitPosition", "invertClassification", "invertClassificationColor", "mapMode2D", "mapProjection", "minimumDisableDepthTestDistance", "moon", "nearToFarDistance2D", "pickTranslucentDepth", "rethrowRenderErrors", "shadowMap", "skyAtmosphere", "skyBox", "sun", "sunBloom", "terrainExaggeration", "terrainProvider", "useDepthPicking", "useWebVR"];
 Scene$1.cesiumEvents = ["morphComplete", "morphStart", "postRender", "preRender", "renderError", "terrainProviderChanged"];
+Scene$1.setCesiumOptionsAfterCreate = true;
 
 var Camera$1 =
 /*#__PURE__*/
@@ -732,14 +740,20 @@ function (_CesiumComponent) {
     };
   };
 
-  _proto.createCesiumElement = function createCesiumElement(options) {
+  _proto.createCesiumElement = function createCesiumElement() {
     var c = this.context.scene.camera;
-    Object.keys(options).filter(function (k) {
-      return typeof options[k] !== "undefined";
-    }).forEach(function (k) {
-      c[k] = options[k];
-    });
+
+    if (typeof this.props.view === "object") {
+      c.setView(this.props.view);
+    }
+
     return c;
+  };
+
+  _proto.updateCesiumElement = function updateCesiumElement(camera, prev) {
+    if (this.props.view !== prev.view) {
+      camera.setView(this.props.view);
+    }
   };
 
   return Camera$$1;
@@ -760,7 +774,8 @@ Camera$1.propTypes = _extends({}, CesiumComponent.propTypes, {
   percentageChanged: PropTypes.any,
   position: PropTypes.any,
   right: PropTypes.any,
-  up: PropTypes.any
+  up: PropTypes.any,
+  view: PropTypes.object
 });
 Camera$1.contextTypes = {
   scene: sceneType
@@ -770,6 +785,7 @@ Camera$1.childContextTypes = {
 };
 Camera$1.cesiumProps = ["constrainedAxis", "defaultLookAmount", "defaultMoveAmount", "defaultRotateAmount", "defaultZoomAmount", "direction", "frustum", "maximumZoomFactor", "percentageChanged", "position", "right", "up"];
 Camera$1.cesiumEvents = ["changed", "moveEnd", "moveStart"];
+Camera$1.setCesiumOptionsAfterCreate = true;
 
 var Entity$1 =
 /*#__PURE__*/
@@ -1697,6 +1713,29 @@ CameraOperation.contextTypes = {
   scene: sceneType
 };
 
+var CameraFlyHome =
+/*#__PURE__*/
+function (_CameraOperation) {
+  _inheritsLoose(CameraFlyHome, _CameraOperation);
+
+  function CameraFlyHome() {
+    return _CameraOperation.apply(this, arguments) || this;
+  }
+
+  var _proto = CameraFlyHome.prototype;
+
+  _proto.cameraOperationStart = function cameraOperationStart(camera) {
+    var duration = this.props.duration;
+    camera.flyHome(duration);
+  };
+
+  return CameraFlyHome;
+}(CameraOperation);
+
+CameraFlyHome.propTypes = _extends({}, CameraOperation.propTypes, {
+  duration: PropTypes.number
+});
+
 var CameraFlyTo =
 /*#__PURE__*/
 function (_CameraOperation) {
@@ -1753,4 +1792,59 @@ CameraFlyTo.propTypes = _extends({}, CameraOperation.propTypes, {
   pitchAdjustHeight: PropTypes.number
 });
 
-export { types as PropTypes, Viewer$1 as Viewer, CesiumWidget$1 as CesiumWidget, Scene$1 as Scene, Camera$1 as Camera, Entity$1 as Entity, DataSource, CustomDataSource$1 as CustomDataSource, CzmlDataSource$1 as CzmlDataSource, GeoJsonDataSource$1 as GeoJsonDataSource, KmlDataSource$1 as KmlDataSource, Primitive$1 as Primitive, PointPrimitive, PointPrimitiveCollection$1 as PointPrimitiveCollection, ScreenSpaceEvent, ScreenSpaceEventHandler$1 as ScreenSpaceEventHandler, imageryLayer as ImageryLayer, CameraOperation, CameraFlyTo };
+var CameraFlyToBoundingSphere =
+/*#__PURE__*/
+function (_CameraOperation) {
+  _inheritsLoose(CameraFlyToBoundingSphere, _CameraOperation);
+
+  function CameraFlyToBoundingSphere() {
+    return _CameraOperation.apply(this, arguments) || this;
+  }
+
+  var _proto = CameraFlyToBoundingSphere.prototype;
+
+  _proto.cameraOperationStart = function cameraOperationStart(camera) {
+    var _props = this.props,
+        boundingSphere = _props.boundingSphere,
+        offset = _props.offset,
+        duration = _props.duration,
+        onComplete = _props.onComplete,
+        onCancel = _props.onCancel,
+        endTransform = _props.endTransform,
+        maximumHeight = _props.maximumHeight,
+        pitchAdjustHeight = _props.pitchAdjustHeight,
+        flyOverLongitude = _props.flyOverLongitude,
+        flyOverLongitudeWeight = _props.flyOverLongitudeWeight,
+        easingFunction = _props.easingFunction;
+    camera.flyToBoundingSphere(boundingSphere, {
+      offset: offset,
+      duration: duration,
+      complete: onComplete,
+      cancel: onCancel,
+      endTransform: endTransform,
+      maximumHeight: maximumHeight,
+      pitchAdjustHeight: pitchAdjustHeight,
+      flyOverLongitude: flyOverLongitude,
+      flyOverLongitudeWeight: flyOverLongitudeWeight,
+      easingFunction: easingFunction
+    });
+  };
+
+  return CameraFlyToBoundingSphere;
+}(CameraOperation);
+
+CameraFlyToBoundingSphere.propTypes = _extends({}, CameraOperation.propTypes, {
+  boundingSphere: PropTypes.any.isRequired,
+  duration: PropTypes.number,
+  easingFunction: PropTypes.any,
+  endTransform: PropTypes.any,
+  flyOverLongitude: PropTypes.number,
+  flyOverLongitudeWeight: PropTypes.number,
+  maximumHeight: PropTypes.number,
+  offset: PropTypes.any,
+  onCancel: PropTypes.func,
+  onComplete: PropTypes.func,
+  pitchAdjustHeight: PropTypes.number
+});
+
+export { types as PropTypes, Viewer$1 as Viewer, CesiumWidget$1 as CesiumWidget, Scene$1 as Scene, Camera$1 as Camera, Entity$1 as Entity, DataSource, CustomDataSource$1 as CustomDataSource, CzmlDataSource$1 as CzmlDataSource, GeoJsonDataSource$1 as GeoJsonDataSource, KmlDataSource$1 as KmlDataSource, Primitive$1 as Primitive, PointPrimitive, PointPrimitiveCollection$1 as PointPrimitiveCollection, ScreenSpaceEvent, ScreenSpaceEventHandler$1 as ScreenSpaceEventHandler, ScreenSpaceEventHandler$1 as ScreenSpaceCameraController, imageryLayer as ImageryLayer, CameraOperation, CameraFlyHome, CameraFlyTo, CameraFlyToBoundingSphere };
