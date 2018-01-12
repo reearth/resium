@@ -1,1 +1,8 @@
 /examples
+/src/test
+/src/stories
+/.storybook
+karma.conf.js
+.travis.yml
+.eslintignore
+.eslintrc.js
