@@ -80,7 +80,7 @@ export default class Entity extends CesiumComponent {
 
   get parent() {
     const { entityCollection, viewer } = this.context;
-    if (entityCollection && !entityCollection.isDestroyed()) {
+    if (entityCollection) {
       return entityCollection;
     }
     if (viewer && !viewer.isDestroyed()) {
