@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Viewer as CesiumViewer } from "cesium";
 
-import CesiumComponent from "./cesium-component";
+import CesiumComponent from "./CesiumComponent";
 import { cesiumWidgetType, sceneType, viewerType } from "./types";
 
 export default class Viewer extends CesiumComponent {

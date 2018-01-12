@@ -6,9 +6,9 @@ import {
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import Viewer from "../viewer";
-import PointPrimitive from "../point-primitive";
-import PointPrimitiveCollection from "../point-primitive-collection";
+import Viewer from "../Viewer";
+import PointPrimitive from "../PointPrimitive";
+import PointPrimitiveCollection from "../PointPrimitiveCollection";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 

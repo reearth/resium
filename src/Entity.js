@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Entity as CesiumEntity } from "cesium";
 
-import CesiumComponent from "./cesium-component";
+import CesiumComponent from "./CesiumComponent";
 import { entityCollectionType, viewerType } from "./types";
 
 export default class Entity extends CesiumComponent {

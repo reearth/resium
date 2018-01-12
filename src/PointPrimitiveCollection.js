@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
 
-import CesiumComponent from "./cesium-component";
+import CesiumComponent from "./CesiumComponent";
 import {
   pointPrimitiveCollectionType,
   primitiveCollectionType,

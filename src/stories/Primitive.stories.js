@@ -10,8 +10,8 @@ import {
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import Viewer from "../viewer";
-import Primitive from "../primitive";
+import Viewer from "../Viewer";
+import Primitive from "../Primitive";
 
 const geometry = new GeometryInstance({
   geometry: new EllipseGeometry({

@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { Primitive as CesiumPrimitive } from "cesium";
 
-import CesiumComponent from "./cesium-component";
+import CesiumComponent from "./CesiumComponent";
 import { primitiveCollectionType, sceneType, viewerType } from "./types";
 
 export default class Primitive extends CesiumComponent {
