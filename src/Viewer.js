@@ -164,7 +164,6 @@ export default class Viewer extends CesiumComponent {
 
   destroyCesiumElement(cesiumElement) {
     cesiumElement.destroy();
-    this.element = null;
   }
 
   element = null
