@@ -18,3 +18,8 @@ script:
   - yarn run lint
   - yarn run examples:lint
   - yarn test
+
+notifications:
+  email:
+    on_success: never
+    on_failure: never
