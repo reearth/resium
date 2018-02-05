@@ -22,7 +22,11 @@ export default class Camera extends CesiumComponent {
     position: PropTypes.any,
     right: PropTypes.any,
     up: PropTypes.any,
-    view: PropTypes.object
+    view: PropTypes.object,
+    viewBoundingSphere: PropTypes.shape({
+      boundingSphere: PropTypes.any,
+      offset: PropTypes.any
+    }),
   }
 
   static contextTypes = {
@@ -64,14 +68,30 @@ export default class Camera extends CesiumComponent {
 
   createCesiumElement() {
     const c = this.context.scene.camera;
-    if (typeof this.props.view === "object") {
+    if (typeof this.props.viewBoundingSphere === "object") {
+      c.viewBoundingSphere(
+        this.props.viewBoundingSphere.boundingSphere,
+        this.props.viewBoundingSphere.offset,
+      );
+    } else if (typeof this.props.view === "object") {
       c.setView(this.props.view);
     }
     return c;
   }
 
   updateCesiumElement(camera, prev) {
-    if (this.props.view !== prev.view) {
+    if (
+      this.props.view !== prev.viewBoundingSphere &&
+      typeof this.props.viewBoundingSphere === "object"
+    ) {
+      camera.viewBoundingSphere(
+        this.props.viewBoundingSphere.boundingSphere,
+        this.props.viewBoundingSphere.offset,
+      );
+    } else if (
+      this.props.view !== prev.view &&
+      typeof this.props.view === "object"
+    ) {
       camera.setView(this.props.view);
     }
   }
