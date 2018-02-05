@@ -73,19 +73,25 @@ export default class KmlDataSource extends DataSource {
       url
     } = this.props;
     if (data || url) {
-      this.cesiumElement.load(data || url, {
-        clampToGround,
-        query,
-        sourceUri
-      }).then(
-        (...args) => {
-          this.parent.add(args[0]); // args[0] === this.cesiumElement
-          if (onLoad) return onLoad(...args);
-          return undefined;
-        },
-        onError,
-        onProgress
-      );
+      this.cesiumElement
+        .load(data || url, {
+          clampToGround,
+          query,
+          sourceUri
+        })
+        .then(
+          (...args) => {
+            try {
+              if (onLoad) onLoad(...args);
+            } catch (e) {
+              console.error(e);
+              throw e;
+            }
+            this.parent.add(args[0]); // args[0] === this.cesiumElement
+          },
+          onError,
+          onProgress
+        );
     }
   }
 

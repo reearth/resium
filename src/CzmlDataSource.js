@@ -59,9 +59,13 @@ export default class CzmlDataSource extends DataSource {
     if (czml || url) {
       this.cesiumElement.load(czml || url, { sourceUri, query }).then(
         (...args) => {
+          try {
+            if (onLoad) onLoad(...args);
+          } catch (e) {
+            console.error(e);
+            throw e;
+          }
           this.parent.add(args[0]); // args[0] === this.cesiumElement
-          if (onLoad) return onLoad(...args);
-          return undefined;
         },
         onError,
         onProgress
