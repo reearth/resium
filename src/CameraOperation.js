@@ -7,7 +7,7 @@ import { cameraType, sceneType } from "./types";
 export default class CameraOperation extends React.PureComponent {
 
   static propTypes = {
-    continueCameraFlight: PropTypes.bool
+    cancelCameraFlight: PropTypes.bool
   }
 
   static contextTypes = {
@@ -25,8 +25,8 @@ export default class CameraOperation extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    const { continueCameraFlight } = this.props;
-    if (!continueCameraFlight) {
+    const { cancelCameraFlight } = this.props;
+    if (cancelCameraFlight) {
       this.camera.cancelFlight();
     }
   }
