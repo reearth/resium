@@ -25,7 +25,8 @@
   "peerDependencies": {
     "cesium": "1.x",
     "prop-types": "*",
-    "react": "16.x"
+    "react": "16.x",
+    "react-dom": "16.x"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.37",

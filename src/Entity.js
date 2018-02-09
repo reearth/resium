@@ -1,3 +1,4 @@
+import ReactDOM from "react-dom/server";
 import PropTypes from "prop-types";
 import { Entity as CesiumEntity } from "cesium";
 
@@ -11,6 +12,7 @@ export default class Entity extends CesiumComponent {
     availability: PropTypes.any,
     billboard: PropTypes.any,
     box: PropTypes.any,
+    children: PropTypes.element,
     corridor: PropTypes.any,
     cylinder: PropTypes.any,
     description: PropTypes.any,
@@ -86,11 +88,27 @@ export default class Entity extends CesiumComponent {
   }
 
   createCesiumElement(options) {
-    return new CesiumEntity(options);
+    const entity = new CesiumEntity(options);
+
+    if (this.props.children) {
+      entity.description = ReactDOM.renderToStaticMarkup(this.props.children);
+    }
+
+    return entity;
   }
 
   mountCesiumElement(entity) {
     this.parent.add(entity);
+  }
+
+  updateCesiumElement(entity, prev) {
+    if (prev.children !== this.props.children) {
+      if (this.props.children) {
+        entity.description = ReactDOM.renderToStaticMarkup(this.props.children);
+      } else {
+        entity.description = this.props.description;
+      }
+    }
   }
 
   destroyCesiumElement(entity) {
