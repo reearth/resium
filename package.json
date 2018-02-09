@@ -10,7 +10,7 @@
   "scripts": {
     "test": "cross-env NODE_ENV=test karma start",
     "test:cov": "cross-env NODE_ENV=coverage karma start",
-    "clean": "del dist lib es coverage examples/build",
+    "clean": "del dist coverage examples/build",
     "lint": "eslint *.js src",
     "build": "run-p build:es build:cjs build:umd build:umd:min",
     "build:es": "cross-env NODE_ENV=es rollup -c",
