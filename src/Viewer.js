@@ -149,6 +149,8 @@ export default class Viewer extends CesiumComponent {
   createCesiumElement(options) {
     if (this.element) {
       const v = new CesiumViewer(this.element, options);
+      if (!v) return null; // failed to initialize Viewer
+
       const { extend } = this.props;
       if (extend) {
         if (Array.isArray(extend)) {
@@ -165,6 +167,7 @@ export default class Viewer extends CesiumComponent {
   }
 
   updateCesiumElement(cesiumElement, prev) {
+    if (!cesiumElement) return;
     if (this.props.selectedEntity !== prev.selectedEntity) {
       cesiumElement.selectedEntity = this.props.selectedEntity;
     }
@@ -174,6 +177,7 @@ export default class Viewer extends CesiumComponent {
   }
 
   destroyCesiumElement(cesiumElement) {
+    if (!cesiumElement) return;
     cesiumElement.destroy();
   }
 
