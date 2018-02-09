@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom/server";
+import ReactDOMServer from "react-dom/server.browser";
 import PropTypes from "prop-types";
 import { Entity as CesiumEntity } from "cesium";
 
@@ -91,7 +91,7 @@ export default class Entity extends CesiumComponent {
     const entity = new CesiumEntity(options);
 
     if (this.props.children) {
-      entity.description = ReactDOM.renderToStaticMarkup(this.props.children);
+      entity.description = ReactDOMServer.renderToStaticMarkup(this.props.children);
     }
 
     return entity;
