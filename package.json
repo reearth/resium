@@ -26,6 +26,9 @@
     "examples:build": "webpack --env.prod --config examples/webpack.config.js --progress",
     "storybook": "cross-env BABEL_ENV=storybook start-storybook -p 9001"
   },
+  "engines": {
+    "node": ">=6"
+  },
   "peerDependencies": {
     "cesium": "1.x",
     "prop-types": "*",

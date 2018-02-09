@@ -7,9 +7,9 @@ module.exports = function(config) {
   config.set({
     browsers: process.env.TRAVIS ? ["ChromeTravisCI"] : ["ChromeHeadless"],
     frameworks: ["jasmine"],
-    files: ["node_modules/cesium/Build/CesiumUnminified/Cesium.js"].concat(
-      coverage ? ["src/**/*.js"] : ["src/**/*.test.js"],
-    ),
+    files: ["node_modules/cesium/Build/CesiumUnminified/Cesium.js"].concat([
+      coverage ? "src/**/*.js" : "src/**/*.test.js",
+    ]),
     exclude: ["src/**/*.stories.js"],
     preprocessors: {
       [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"],
