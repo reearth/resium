@@ -156,6 +156,8 @@ export default class CesiumComponent extends React.PureComponent {
 
   render() {
     const { children } = this.props;
-    return this._mounted && typeof children !== "undefined" ? children : null;
+    return this._mounted && typeof children !== "undefined" && !this.constructor.cesiumNoRender
+      ? children
+      : null;
   }
 }

@@ -74,6 +74,8 @@ export default class Entity extends CesiumComponent {
 
   static cesiumEvents = ["definitionChanged"];
 
+  static cesiumNoRender = true;
+
   get parent() {
     const { entityCollection } = this.context;
     if (entityCollection) {
