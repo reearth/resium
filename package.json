@@ -1,6 +1,6 @@
 {
   "name": "cesium-react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "React components for Cesium",
   "main": "dist/cesium-react.cjs.js",
   "module": "dist/cesium-react.es.js",
