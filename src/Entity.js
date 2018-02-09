@@ -12,7 +12,7 @@ export default class Entity extends CesiumComponent {
     availability: PropTypes.any,
     billboard: PropTypes.any,
     box: PropTypes.any,
-    children: PropTypes.element,
+    children: PropTypes.any,
     corridor: PropTypes.any,
     cylinder: PropTypes.any,
     description: PropTypes.any,
