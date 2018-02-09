@@ -16,6 +16,7 @@ export default {
     file: env === "es" ? pkg.module : env === "cjs" ? pkg.main : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
+      "react-dom": "ReactDOM",
       "prop-types": "PropTypes",
       cesium: "Cesium"
     },
