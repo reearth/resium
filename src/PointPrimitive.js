@@ -4,7 +4,6 @@ import CesiumComponent from "./CesiumComponent";
 import { pointPrimitiveCollectionType } from "./types";
 
 export default class PointPrimitive extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     color: PropTypes.any,
@@ -17,12 +16,12 @@ export default class PointPrimitive extends CesiumComponent {
     position: PropTypes.any,
     scaleByDistance: PropTypes.any,
     show: PropTypes.bool,
-    translucencyByDistance: PropTypes.any
-  }
+    translucencyByDistance: PropTypes.any,
+  };
 
   static contextTypes = {
-    pointPrimitiveCollection: pointPrimitiveCollectionType
-  }
+    pointPrimitiveCollection: pointPrimitiveCollectionType,
+  };
 
   static cesiumProps = [
     "color",
@@ -35,8 +34,8 @@ export default class PointPrimitive extends CesiumComponent {
     "position",
     "scaleByDistance",
     "show",
-    "translucencyByDistance"
-  ]
+    "translucencyByDistance",
+  ];
 
   get parent() {
     const { pointPrimitiveCollection } = this.context;
@@ -63,6 +62,5 @@ export default class PointPrimitive extends CesiumComponent {
     this.initialOptions = null;
   }
 
-  initialOptions = null
-
+  initialOptions = null;
 }

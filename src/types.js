@@ -8,7 +8,7 @@ import {
   PrimitiveCollection,
   Scene,
   ScreenSpaceEventHandler,
-  Viewer
+  Viewer,
 } from "cesium";
 import PropTypes from "prop-types";
 

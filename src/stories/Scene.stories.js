@@ -6,12 +6,9 @@ import Viewer from "../Viewer";
 import Scene from "../Scene";
 
 export default () => {
-
-  storiesOf("Scene", module)
-    .addWithJSX("default", () => (
-      <Viewer full>
-        <Scene mode={SceneMode.SCENE2D} morph={10} />
-      </Viewer>
-    ));
-
+  storiesOf("Scene", module).addWithJSX("default", () => (
+    <Viewer full>
+      <Scene mode={SceneMode.SCENE2D} morph={10} />
+    </Viewer>
+  ));
 };

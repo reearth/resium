@@ -2,39 +2,30 @@ import PropTypes from "prop-types";
 import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
 
 import CesiumComponent from "./CesiumComponent";
-import {
-  pointPrimitiveCollectionType,
-  primitiveCollectionType,
-  sceneType
-} from "./types";
+import { pointPrimitiveCollectionType, primitiveCollectionType, sceneType } from "./types";
 
 export default class PointPrimitiveCollection extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     blendOption: PropTypes.any,
     debugShowBoundingVolume: PropTypes.bool,
-    modelMatrix: PropTypes.any
-  }
+    modelMatrix: PropTypes.any,
+  };
 
   static contextTypes = {
     primitiveCollection: primitiveCollectionType,
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   static childContextTypes = {
-    pointPrimitiveCollection: pointPrimitiveCollectionType
-  }
+    pointPrimitiveCollection: pointPrimitiveCollectionType,
+  };
 
-  static cesiumProps = [
-    "blendOption",
-    "debugShowBoundingVolume",
-    "modelMatrix"
-  ]
+  static cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"];
 
   getChildContext() {
     return {
-      pointPrimitiveCollection: this.cesiumElement
+      pointPrimitiveCollection: this.cesiumElement,
     };
   }
 
@@ -66,5 +57,4 @@ export default class PointPrimitiveCollection extends CesiumComponent {
       col.destroy();
     }
   }
-
 }

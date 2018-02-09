@@ -5,7 +5,6 @@ import DataSource from "./DataSource";
 import { sceneType } from "./types";
 
 export default class KmlDataSource extends DataSource {
-
   static propTypes = {
     ...DataSource.propTypes,
     clampToGround: PropTypes.bool,
@@ -17,36 +16,26 @@ export default class KmlDataSource extends DataSource {
     onUnsupportedNode: PropTypes.func,
     query: PropTypes.object,
     sourceUri: PropTypes.string,
-    url: PropTypes.string
-  }
+    url: PropTypes.string,
+  };
 
   static contextTypes = {
     ...DataSource.contextTypes,
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
-  static cesiumProps = [
-    ...DataSource.cesiumProps
-  ]
+  static cesiumProps = [...DataSource.cesiumProps];
 
-  static cesiumReadonlyProps = [
-    "camera",
-    "canvas",
-    "proxy"
-  ]
+  static cesiumReadonlyProps = ["camera", "canvas", "proxy"];
 
-  static cesiumEvents = [
-    ...DataSource.cesiumEvents,
-    "refreshEvent",
-    "unsupportedNodeEvent"
-  ]
+  static cesiumEvents = [...DataSource.cesiumEvents, "refreshEvent", "unsupportedNodeEvent"];
 
   createCesiumElement(options) {
     const { scene } = this.context;
     return new CesiumKmlDataSource({
       camera: options.camera || (scene ? scene.camera : undefined),
       canvas: options.canvas || (scene ? scene.canvas : undefined),
-      proxy: options.proxy
+      proxy: options.proxy,
     });
   }
 
@@ -62,22 +51,13 @@ export default class KmlDataSource extends DataSource {
   }
 
   _load() {
-    const {
-      clampToGround,
-      data,
-      query,
-      onError,
-      onLoad,
-      onProgress,
-      sourceUri,
-      url
-    } = this.props;
+    const { clampToGround, data, query, onError, onLoad, onProgress, sourceUri, url } = this.props;
     if (data || url) {
       this.cesiumElement
         .load(data || url, {
           clampToGround,
           query,
-          sourceUri
+          sourceUri,
         })
         .then(
           (...args) => {
@@ -90,9 +70,8 @@ export default class KmlDataSource extends DataSource {
             this.parent.add(args[0]); // args[0] === this.cesiumElement
           },
           onError,
-          onProgress
+          onProgress,
         );
     }
   }
-
 }

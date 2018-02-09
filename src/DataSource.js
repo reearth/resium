@@ -5,7 +5,6 @@ import { entityCollectionType, dataSourceCollectionType } from "./types";
 
 // abstract
 export default class DataSource extends CesiumComponent {
-
   static propTypes = {
     clock: PropTypes.any,
     clustering: PropTypes.any,
@@ -13,33 +12,24 @@ export default class DataSource extends CesiumComponent {
     onChanged: PropTypes.func,
     onError: PropTypes.func,
     onLoading: PropTypes.func,
-    show: PropTypes.bool
-  }
+    show: PropTypes.bool,
+  };
 
   static contextTypes = {
-    dataSourceCollection: dataSourceCollectionType
-  }
+    dataSourceCollection: dataSourceCollectionType,
+  };
 
   static childContextTypes = {
-    entityCollection: entityCollectionType
-  }
+    entityCollection: entityCollectionType,
+  };
 
-  static cesiumProps = [
-    "clock",
-    "clustering",
-    "name",
-    "show"
-  ]
+  static cesiumProps = ["clock", "clustering", "name", "show"];
 
-  static cesiumEvents = [
-    "changedEvent",
-    "errorEvent",
-    "loadingEvent"
-  ]
+  static cesiumEvents = ["changedEvent", "errorEvent", "loadingEvent"];
 
   getChildContext() {
     return {
-      entityCollection: this.cesiumElement ? this.cesiumElement.entities : null
+      entityCollection: this.cesiumElement ? this.cesiumElement.entities : null,
     };
   }
 
@@ -83,5 +73,4 @@ export default class DataSource extends CesiumComponent {
       p.remove(entity);
     }
   }
-
 }

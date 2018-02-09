@@ -6,7 +6,7 @@ import {
   GeometryInstance,
   Material,
   Math as CesiumMath,
-  VertexFormat
+  VertexFormat,
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
@@ -19,24 +19,19 @@ const geometry = new GeometryInstance({
     semiMinorAxis: 500000.0,
     semiMajorAxis: 1000000.0,
     rotation: CesiumMath.PI_OVER_FOUR,
-    vertexFormat: VertexFormat.POSITION_AND_ST
+    vertexFormat: VertexFormat.POSITION_AND_ST,
   }),
-  id: "id"
+  id: "id",
 });
 
 const appearance = new EllipsoidSurfaceAppearance({
-  material: Material.fromType("Checkerboard")
+  material: Material.fromType("Checkerboard"),
 });
 
 export default () => {
-
-  storiesOf("Primitive", module)
-    .addWithJSX("default", () => (
-      <Viewer full>
-        <Primitive
-          geometryInstances={geometry}
-          appearance={appearance} />
-      </Viewer>
-    ));
-
+  storiesOf("Primitive", module).addWithJSX("default", () => (
+    <Viewer full>
+      <Primitive geometryInstances={geometry} appearance={appearance} />
+    </Viewer>
+  ));
 };

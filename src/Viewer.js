@@ -8,11 +8,10 @@ import {
   dataSourceCollectionType,
   entityCollectionType,
   sceneType,
-  viewerType
+  viewerType,
 } from "./types";
 
 export default class Viewer extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     animation: PropTypes.any,
@@ -66,19 +65,19 @@ export default class Viewer extends CesiumComponent {
     trackedEntity: PropTypes.any,
     useDefaultRenderLoop: PropTypes.any,
     vrButton: PropTypes.any,
-  }
+  };
 
   static defaultProps = {
-    style: {}
-  }
+    style: {},
+  };
 
   static childContextTypes = {
     cesiumWidget: cesiumWidgetType,
     dataSourceCollection: dataSourceCollectionType,
     entityCollection: entityCollectionType,
     scene: sceneType,
-    viewer: viewerType
-  }
+    viewer: viewerType,
+  };
 
   static cesiumProps = [
     "animation",
@@ -120,24 +119,22 @@ export default class Viewer extends CesiumComponent {
     "shadows",
     "terrainShadows",
     "mapMode2D",
-    "projectionPicker"
-  ]
+    "projectionPicker",
+  ];
 
-  static cesiumEvents = [
-    "selectedEntityChanged",
-    "trackedEntityChanged"
-  ]
+  static cesiumEvents = ["selectedEntityChanged", "trackedEntityChanged"];
 
-  static initCesiumComponentWhenComponentDidMount = true
+  static initCesiumComponentWhenComponentDidMount = true;
 
   getChildContext() {
     return {
       cesiumWidget: this.cesiumElement ? this.cesiumElement.cesiumWidget : null,
-      dataSourceCollection: this.cesiumElement ?
-        this.cesiumElement.dataSourceDisplay.dataSources : null,
+      dataSourceCollection: this.cesiumElement
+        ? this.cesiumElement.dataSourceDisplay.dataSources
+        : null,
       entityCollection: this.cesiumElement ? this.cesiumElement.entities : null,
       scene: this.cesiumElement ? this.cesiumElement.scene : null,
-      viewer: this.cesiumElement
+      viewer: this.cesiumElement,
     };
   }
 
@@ -181,7 +178,7 @@ export default class Viewer extends CesiumComponent {
     cesiumElement.destroy();
   }
 
-  element = null
+  element = null;
 
   render() {
     const { children, containerProps, className, full, id, style } = this.props;
@@ -189,21 +186,24 @@ export default class Viewer extends CesiumComponent {
       <div
         className={className}
         id={id}
-        ref={e => { this.element = e; }}
+        ref={e => {
+          this.element = e;
+        }}
         style={{
-          ...full ? {
-            position: "absolute",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            top: "0"
-          } : {},
-          ...style
+          ...(full
+            ? {
+                position: "absolute",
+                bottom: "0",
+                left: "0",
+                right: "0",
+                top: "0",
+              }
+            : {}),
+          ...style,
         }}
         {...containerProps}>
         {this.cesiumElement ? children : null}
       </div>
     );
   }
-
 }

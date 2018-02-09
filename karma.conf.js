@@ -7,18 +7,12 @@ module.exports = function(config) {
   config.set({
     browsers: process.env.TRAVIS ? ["ChromeTravisCI"] : ["ChromeHeadless"],
     frameworks: ["jasmine"],
-    files: [
-      "node_modules/cesium/Build/CesiumUnminified/Cesium.js"
-    ].concat(coverage ? [
-      "src/**/*.js"
-    ] : [
-        "src/**/*.test.js"
-      ]),
-    exclude: [
-      "src/**/*.stories.js"
-    ],
+    files: ["node_modules/cesium/Build/CesiumUnminified/Cesium.js"].concat(
+      coverage ? ["src/**/*.js"] : ["src/**/*.test.js"],
+    ),
+    exclude: ["src/**/*.stories.js"],
     preprocessors: {
-      [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"]
+      [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"],
     },
     reporters: ["progress"].concat(env === "coverage" ? ["coverage"] : []),
     autoWatch: false,
@@ -26,32 +20,32 @@ module.exports = function(config) {
     rollupPreprocessor: {
       plugins: [
         require("rollup-plugin-babel")({
-          exclude: "node_modules/**"
+          exclude: "node_modules/**",
         }),
         require("rollup-plugin-replace")({
-          "process.env.NODE_ENV": JSON.stringify("development")
+          "process.env.NODE_ENV": JSON.stringify("development"),
         }),
         require("rollup-plugin-node-resolve")(),
-        require("rollup-plugin-commonjs")()
+        require("rollup-plugin-commonjs")(),
       ],
       external: ["cesium"],
       output: {
         name: "CesiumReact",
         globals: {
-          cesium: "Cesium"
+          cesium: "Cesium",
         },
         format: "iife",
-        sourcemap: "inline"
-      }
+        sourcemap: "inline",
+      },
     },
     coverageReporter: {
-      type: "lcov"
+      type: "lcov",
     },
     customLaunchers: {
       ChromeTravisCI: {
         base: "ChromeHeadless",
-        flags: ["--no-sandbox"]
-      }
-    }
+        flags: ["--no-sandbox"],
+      },
+    },
   });
 };

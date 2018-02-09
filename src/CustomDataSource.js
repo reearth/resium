@@ -3,25 +3,19 @@ import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 import DataSource from "./DataSource";
 
 export default class CustomDataSource extends DataSource {
-
   static PropTypes = {
-    ...DataSource.propTypes
-  }
+    ...DataSource.propTypes,
+  };
 
   static contextTypes = {
-    ...DataSource.contextTypes
-  }
+    ...DataSource.contextTypes,
+  };
 
-  static cesiumProps = [
-    ...DataSource.cesiumProps
-  ]
+  static cesiumProps = [...DataSource.cesiumProps];
 
-  static cesiumEvents = [
-    ...DataSource.cesiumEvents
-  ]
+  static cesiumEvents = [...DataSource.cesiumEvents];
 
   createCesiumElement(options) {
     return new CesiumCustomDataSource(options.name);
   }
-
 }

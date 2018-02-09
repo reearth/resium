@@ -5,7 +5,8 @@ import Viewer from "../Viewer";
 import KmlDataSource from "../KmlDataSource";
 
 export default () => {
-  const data = new DOMParser().parseFromString(`
+  const data = new DOMParser().parseFromString(
+    `
 <?xml version="1.0" encoding="utf-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
   <Document>
@@ -49,13 +50,13 @@ export default () => {
     </Placemark>
   </Document>
 </kml>
-  `.trim(), "text/xml");
+  `.trim(),
+    "text/xml",
+  );
 
-  storiesOf("KmlDataSource", module)
-    .addWithJSX("default", () => (
-      <Viewer full>
-        <KmlDataSource data={data} />
-      </Viewer>
-    ));
-
+  storiesOf("KmlDataSource", module).addWithJSX("default", () => (
+    <Viewer full>
+      <KmlDataSource data={data} />
+    </Viewer>
+  ));
 };

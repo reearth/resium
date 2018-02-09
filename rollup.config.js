@@ -13,26 +13,33 @@ export default {
   input: "src/index.js",
   output: {
     format: ["es", "cjs"].indexOf(env) >= 0 ? env : "umd",
-    file: env === "es" ? pkg.module : env === "cjs" ? pkg.main : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
+    file:
+      env === "es"
+        ? pkg.module
+        : env === "cjs" ? pkg.main : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom/server.browser": "ReactDOMServer",
       "prop-types": "PropTypes",
-      cesium: "Cesium"
+      cesium: "Cesium",
     },
-    name: "CesiumReact"
+    name: "CesiumReact",
   },
   plugins: [
     babel({
-      exclude: "node_modules/**"
+      exclude: "node_modules/**",
     }),
     resolve(),
-    commonjs()
-  ].concat(env === "production" ? [
-    replace({
-      "process.env.NODE_ENV": JSON.stringify("production")
-    }),
-    uglify({}, minify)
-  ] : []),
-  external: ["react", "prop-types", "cesium"]
+    commonjs(),
+  ].concat(
+    env === "production"
+      ? [
+          replace({
+            "process.env.NODE_ENV": JSON.stringify("production"),
+          }),
+          uglify({}, minify),
+        ]
+      : [],
+  ),
+  external: ["react", "prop-types", "cesium"],
 };

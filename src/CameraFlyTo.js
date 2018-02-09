@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import CameraOperation from "./CameraOperation";
 
 export default class CameraFlyTo extends CameraOperation {
-
   static propTypes = {
     ...CameraOperation.propTypes,
     destination: PropTypes.any.isRequired,
@@ -16,8 +15,8 @@ export default class CameraFlyTo extends CameraOperation {
     onCancel: PropTypes.func,
     onComplete: PropTypes.func,
     orientation: PropTypes.object,
-    pitchAdjustHeight: PropTypes.number
-  }
+    pitchAdjustHeight: PropTypes.number,
+  };
 
   cameraOperationStart(camera) {
     const {
@@ -31,7 +30,7 @@ export default class CameraFlyTo extends CameraOperation {
       pitchAdjustHeight,
       flyOverLongitude,
       flyOverLongitudeWeight,
-      easingFunction
+      easingFunction,
     } = this.props;
 
     camera.flyTo({
@@ -45,8 +44,7 @@ export default class CameraFlyTo extends CameraOperation {
       pitchAdjustHeight,
       flyOverLongitude,
       flyOverLongitudeWeight,
-      easingFunction
+      easingFunction,
     });
   }
-
 }

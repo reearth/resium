@@ -5,15 +5,14 @@ import { cameraType, sceneType } from "./types";
 
 // abstract
 export default class CameraOperation extends React.PureComponent {
-
   static propTypes = {
-    cancelCameraFlight: PropTypes.bool
-  }
+    cancelCameraFlight: PropTypes.bool,
+  };
 
   static contextTypes = {
     camera: cameraType,
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   componentDidMount() {
     this.cameraOperationStart(this.camera);
@@ -39,5 +38,4 @@ export default class CameraOperation extends React.PureComponent {
   render() {
     return null;
   }
-
 }

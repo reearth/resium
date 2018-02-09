@@ -5,7 +5,6 @@ import CesiumComponent from "./CesiumComponent";
 import { imageryLayerCollectionType, sceneType } from "./types";
 
 export default class imageryLayer extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     availability: PropTypes.any,
@@ -34,13 +33,13 @@ export default class imageryLayer extends CesiumComponent {
     rectangle: PropTypes.any,
     show: PropTypes.any,
     viewFrom: PropTypes.any,
-    wall: PropTypes.any
-  }
+    wall: PropTypes.any,
+  };
 
   static contextTypes = {
     imageryLayerCollection: imageryLayerCollectionType,
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   static cesiumProps = [
     "alpha",
@@ -52,20 +51,18 @@ export default class imageryLayer extends CesiumComponent {
     "splitDirection",
     "minificationFilter",
     "magnificationFilter",
-    "show"
-  ]
+    "show",
+  ];
 
   static cesiumReadOnlyProps = [
     "imageryProvider",
     "rectangle",
     "maximumAnisotropy",
     "minimumTerrainLevel",
-    "maximumTerrainLevel"
-  ]
+    "maximumTerrainLevel",
+  ];
 
-  static cesiumEvents = [
-    "definitionChanged"
-  ]
+  static cesiumEvents = ["definitionChanged"];
 
   get parent() {
     const { imageryLayerCollection, scene } = this.context;
@@ -79,10 +76,7 @@ export default class imageryLayer extends CesiumComponent {
   }
 
   createCesiumElement(options) {
-    const {
-      imageryProvider,
-      ...opts
-    } = options;
+    const { imageryProvider, ...opts } = options;
     return new CesiumImageryLayer(imageryProvider, opts);
   }
 
@@ -96,5 +90,4 @@ export default class imageryLayer extends CesiumComponent {
       p.remove(layer);
     }
   }
-
 }

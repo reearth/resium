@@ -5,7 +5,6 @@ import CesiumComponent from "./CesiumComponent";
 import { cesiumWidgetType, sceneType } from "./types";
 
 export default class Scene extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     backgroundColor: PropTypes.any,
@@ -50,16 +49,16 @@ export default class Scene extends CesiumComponent {
     terrainExaggeration: PropTypes.any,
     terrainProvider: PropTypes.any,
     useDepthPicking: PropTypes.any,
-    useWebVR: PropTypes.any
-  }
+    useWebVR: PropTypes.any,
+  };
 
   static contextTypes = {
-    cesiumWidget: cesiumWidgetType
-  }
+    cesiumWidget: cesiumWidgetType,
+  };
 
   static childContextTypes = {
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   static cesiumProps = [
     "backgroundColor",
@@ -96,8 +95,8 @@ export default class Scene extends CesiumComponent {
     "terrainExaggeration",
     "terrainProvider",
     "useDepthPicking",
-    "useWebVR"
-  ]
+    "useWebVR",
+  ];
 
   static cesiumEvents = [
     "morphComplete",
@@ -105,14 +104,14 @@ export default class Scene extends CesiumComponent {
     "postRender",
     "preRender",
     "renderError",
-    "terrainProviderChanged"
-  ]
+    "terrainProviderChanged",
+  ];
 
-  static setCesiumOptionsAfterCreate = true
+  static setCesiumOptionsAfterCreate = true;
 
   getChildContext() {
     return {
-      scene: this.cesiumElement
+      scene: this.cesiumElement,
     };
   }
 
@@ -155,5 +154,4 @@ export default class Scene extends CesiumComponent {
       scene.mode = mode;
     }
   }
-
 }

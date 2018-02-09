@@ -4,16 +4,15 @@ import PropTypes from "prop-types";
 import { screenSpaceEventHandlerType } from "./types";
 
 export default class ScreenSpaceEvent extends React.PureComponent {
-
   static propTypes = {
     action: PropTypes.func,
     modifier: PropTypes.number,
-    type: PropTypes.number.isRequired
-  }
+    type: PropTypes.number.isRequired,
+  };
 
   static contextTypes = {
-    screenSpaceEventHandler: screenSpaceEventHandlerType
-  }
+    screenSpaceEventHandler: screenSpaceEventHandlerType,
+  };
 
   componentDidMount() {
     const { action, modifier, type } = this.props;
@@ -43,5 +42,4 @@ export default class ScreenSpaceEvent extends React.PureComponent {
   render() {
     return null;
   }
-
 }

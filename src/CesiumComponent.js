@@ -4,13 +4,12 @@ import PropTypes from "prop-types";
 import { attachEvents, detachEvents, updateEvents, getEventProps } from "./utils/events";
 
 export default class CesiumComponent extends React.PureComponent {
-
   static propTypes = {
     children: PropTypes.any,
     onMount: PropTypes.func,
     onUnmount: PropTypes.func,
-    onUpdate: PropTypes.func
-  }
+    onUpdate: PropTypes.func,
+  };
 
   componentWillMount() {
     if (!this.constructor.initCesiumComponentWhenComponentDidMount) {
@@ -32,22 +31,22 @@ export default class CesiumComponent extends React.PureComponent {
       updateEvents(
         cesiumElement,
         getEventProps(events, prevProps),
-        getEventProps(events, this.props)
+        getEventProps(events, this.props),
       );
     }
 
     const { props } = this;
 
-    if (
-      this.getCesiumReadOnlyProps().some(p => prevProps[p] !== props[p])
-    ) {
+    if (this.getCesiumReadOnlyProps().some(p => prevProps[p] !== props[p])) {
       this._remount();
       return;
     }
 
-    this.getCesiumProps().filter(p => prevProps[p] !== props[p]).forEach(p => {
-      cesiumElement[p] = props[p];
-    });
+    this.getCesiumProps()
+      .filter(p => prevProps[p] !== props[p])
+      .forEach(p => {
+        cesiumElement[p] = props[p];
+      });
 
     if (this.updateCesiumElement) {
       this.updateCesiumElement(cesiumElement, prevProps);
@@ -78,13 +77,19 @@ export default class CesiumComponent extends React.PureComponent {
   getPropsForCesium() {
     return [
       ...this.getCesiumProps(),
-      ...this.getCesiumReadOnlyProps()
+      ...this.getCesiumReadOnlyProps(),
       // eslint-disable-next-line react/destructuring-assignment
-    ].reduce((a, b) => typeof this.props[b] === "undefined" ? a : ({
-      ...a,
-      // eslint-disable-next-line react/destructuring-assignment
-      [b]: this.props[b]
-    }), {});
+    ].reduce(
+      (a, b) =>
+        typeof this.props[b] === "undefined"
+          ? a
+          : {
+              ...a,
+              // eslint-disable-next-line react/destructuring-assignment
+              [b]: this.props[b],
+            },
+      {},
+    );
   }
 
   _create() {
@@ -93,10 +98,12 @@ export default class CesiumComponent extends React.PureComponent {
 
     if (this.constructor.setCesiumOptionsAfterCreate && this.cesiumElement) {
       // eslint-disable-next-line react/destructuring-assignment
-      this.getCesiumProps().filter(p => typeof this.props[p] !== "undefined").forEach(p => {
-        // eslint-disable-next-line react/destructuring-assignment
-        this.cesiumElement[p] = this.props[p];
-      });
+      this.getCesiumProps()
+        .filter(p => typeof this.props[p] !== "undefined")
+        .forEach(p => {
+          // eslint-disable-next-line react/destructuring-assignment
+          this.cesiumElement[p] = this.props[p];
+        });
     }
 
     if (this.cesiumElement) {
@@ -143,7 +150,7 @@ export default class CesiumComponent extends React.PureComponent {
     this._mount();
   }
 
-  cesiumElement = null
+  cesiumElement = null;
 
   _mounted = false;
 
@@ -151,5 +158,4 @@ export default class CesiumComponent extends React.PureComponent {
     const { children } = this.props;
     return this._mounted && typeof children !== "undefined" ? children : null;
   }
-
 }

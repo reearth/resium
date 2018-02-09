@@ -6,7 +6,6 @@ import CesiumComponent from "./CesiumComponent";
 import { cesiumWidgetType, sceneType } from "./types";
 
 export default class CesiumWidget extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     children: PropTypes.any,
@@ -34,17 +33,17 @@ export default class CesiumWidget extends CesiumComponent {
     terrainExaggeration: PropTypes.any,
     terrainProvider: PropTypes.any,
     terrainShadows: PropTypes.any,
-    useDefaultRenderLoop: PropTypes.any
-  }
+    useDefaultRenderLoop: PropTypes.any,
+  };
 
   static defaultProps = {
-    style: {}
-  }
+    style: {},
+  };
 
   static childContextTypes = {
     cesiumWidget: cesiumWidgetType,
     scene: sceneType,
-  }
+  };
 
   static cesiumProps = [
     "scene3DOnly",
@@ -66,15 +65,15 @@ export default class CesiumWidget extends CesiumComponent {
     "terrainExaggeration",
     "shadows",
     "terrainShadows",
-    "mapMode2D"
-  ]
+    "mapMode2D",
+  ];
 
-  static initCesiumComponentWhenComponentDidMount = true
+  static initCesiumComponentWhenComponentDidMount = true;
 
   getChildContext() {
     return {
       cesiumWidget: this.cesiumElement,
-      scene: this.cesiumElement ? this.cesiumElement.scene : null
+      scene: this.cesiumElement ? this.cesiumElement.scene : null,
     };
   }
 
@@ -94,7 +93,7 @@ export default class CesiumWidget extends CesiumComponent {
     cesiumElement.destroy();
   }
 
-  element = null
+  element = null;
 
   render() {
     const { children, containerProps, className, full, id, style } = this.props;
@@ -102,21 +101,24 @@ export default class CesiumWidget extends CesiumComponent {
       <div
         className={className}
         id={id}
-        ref={e => { this.element = e; }}
+        ref={e => {
+          this.element = e;
+        }}
         style={{
-          ...full ? {
-            position: "absolute",
-            bottom: "0",
-            left: "0",
-            right: "0",
-            top: "0"
-          } : {},
-          ...style
+          ...(full
+            ? {
+                position: "absolute",
+                bottom: "0",
+                left: "0",
+                right: "0",
+                top: "0",
+              }
+            : {}),
+          ...style,
         }}
         {...containerProps}>
         {this.cesiumElement ? children : null}
       </div>
     );
   }
-
 }

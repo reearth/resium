@@ -5,24 +5,23 @@ import CesiumComponent from "./CesiumComponent";
 import { cesiumWidgetType, sceneType, screenSpaceEventHandlerType } from "./types";
 
 export default class ScreenSpaceEventHandler extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
-    useDefault: PropTypes.bool
-  }
+    useDefault: PropTypes.bool,
+  };
 
   static contextTypes = {
     cesiumWidget: cesiumWidgetType,
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
-  static childContextTypes= {
-    screenSpaceEventHandler: screenSpaceEventHandlerType
-  }
+  static childContextTypes = {
+    screenSpaceEventHandler: screenSpaceEventHandlerType,
+  };
 
   getChildContext() {
     return {
-      screenSpaceEventHandler: this.cesiumElement
+      screenSpaceEventHandler: this.cesiumElement,
     };
   }
 
@@ -48,6 +47,5 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
     }
   }
 
-  _useDefault = false
-
+  _useDefault = false;
 }

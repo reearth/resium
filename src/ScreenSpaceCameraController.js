@@ -4,7 +4,6 @@ import CesiumComponent from "./CesiumComponent";
 import { sceneType } from "./types";
 
 export default class ScreenSpaceCameraController extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     bounceAnimationTime: PropTypes.number,
@@ -28,12 +27,12 @@ export default class ScreenSpaceCameraController extends CesiumComponent {
     rotateEventTypes: PropTypes.any,
     tiltEventTypes: PropTypes.any,
     translateEventTypes: PropTypes.any,
-    zoomEventTypes: PropTypes.any
-  }
+    zoomEventTypes: PropTypes.any,
+  };
 
   static contextTypes = {
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   static cesiumProps = [
     "bounceAnimationTime",
@@ -57,13 +56,12 @@ export default class ScreenSpaceCameraController extends CesiumComponent {
     "rotateEventTypes",
     "tiltEventTypes",
     "translateEventTypes",
-    "zoomEventTypes"
-  ]
+    "zoomEventTypes",
+  ];
 
-  static setCesiumOptionsAfterCreate = true
+  static setCesiumOptionsAfterCreate = true;
 
   createCesiumElement() {
     return this.context.scene.screenSpaceCameraController;
   }
-
 }

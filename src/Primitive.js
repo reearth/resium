@@ -5,7 +5,6 @@ import CesiumComponent from "./CesiumComponent";
 import { primitiveCollectionType, sceneType } from "./types";
 
 export default class Primitive extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     allowPicking: PropTypes.any,
@@ -20,13 +19,13 @@ export default class Primitive extends CesiumComponent {
     modelMatrix: PropTypes.any,
     releaseGeometryInstances: PropTypes.bool,
     shadows: PropTypes.any,
-    show: PropTypes.bool
-  }
+    show: PropTypes.bool,
+  };
 
   static contextTypes = {
     primitiveCollection: primitiveCollectionType,
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   static cesiumProps = [
     "allowPicking",
@@ -36,16 +35,16 @@ export default class Primitive extends CesiumComponent {
     "depthFailAppearance",
     "modelMatrix",
     "shadows",
-    "show"
-  ]
+    "show",
+  ];
 
   static cesiumReadOnlyProps = [
     "asynchronous",
     "compressVertices",
     "geometryInstances",
     "interleave",
-    "releaseGeometryInstances"
-  ]
+    "releaseGeometryInstances",
+  ];
 
   get parent() {
     const { premitiveCollection, scene } = this.context;
@@ -72,5 +71,4 @@ export default class Primitive extends CesiumComponent {
       p.remove(premitive);
     }
   }
-
 }

@@ -10,23 +10,18 @@ const data = {
   properties: {
     name: "Coors Field",
     amenity: "Baseball Stadium",
-    popupContent: "This is where the Rockies play!"
+    popupContent: "This is where the Rockies play!",
   },
   geometry: {
     type: "Point",
-    coordinates: [-104.99404, 39.75621]
-  }
+    coordinates: [-104.99404, 39.75621],
+  },
 };
 
 export default () => {
-
-  storiesOf("GeoJsonDataSource", module)
-    .addWithJSX("default", () => (
-      <Viewer full>
-        <GeoJsonDataSource
-          data={data}
-          markerColor={Color.RED} />
-      </Viewer>
-    ));
-
+  storiesOf("GeoJsonDataSource", module).addWithJSX("default", () => (
+    <Viewer full>
+      <GeoJsonDataSource data={data} markerColor={Color.RED} />
+    </Viewer>
+  ));
 };

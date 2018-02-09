@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import CameraOperation from "./CameraOperation";
 
 export default class CameraFlyToBoundingSphere extends CameraOperation {
-
   static propTypes = {
     ...CameraOperation.propTypes,
     boundingSphere: PropTypes.any.isRequired,
@@ -16,8 +15,8 @@ export default class CameraFlyToBoundingSphere extends CameraOperation {
     offset: PropTypes.any,
     onCancel: PropTypes.func,
     onComplete: PropTypes.func,
-    pitchAdjustHeight: PropTypes.number
-  }
+    pitchAdjustHeight: PropTypes.number,
+  };
 
   cameraOperationStart(camera) {
     const {
@@ -31,7 +30,7 @@ export default class CameraFlyToBoundingSphere extends CameraOperation {
       pitchAdjustHeight,
       flyOverLongitude,
       flyOverLongitudeWeight,
-      easingFunction
+      easingFunction,
     } = this.props;
 
     camera.flyToBoundingSphere(boundingSphere, {
@@ -44,8 +43,7 @@ export default class CameraFlyToBoundingSphere extends CameraOperation {
       pitchAdjustHeight,
       flyOverLongitude,
       flyOverLongitudeWeight,
-      easingFunction
+      easingFunction,
     });
   }
-
 }

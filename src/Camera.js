@@ -4,7 +4,6 @@ import CesiumComponent from "./CesiumComponent";
 import { cameraType, sceneType } from "./types";
 
 export default class Camera extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     constrainedAxis: PropTypes.func,
@@ -25,17 +24,17 @@ export default class Camera extends CesiumComponent {
     view: PropTypes.object,
     viewBoundingSphere: PropTypes.shape({
       boundingSphere: PropTypes.any,
-      offset: PropTypes.any
+      offset: PropTypes.any,
     }),
-  }
+  };
 
   static contextTypes = {
-    scene: sceneType
-  }
+    scene: sceneType,
+  };
 
   static childContextTypes = {
-    camera: cameraType
-  }
+    camera: cameraType,
+  };
 
   static cesiumProps = [
     "constrainedAxis",
@@ -49,20 +48,16 @@ export default class Camera extends CesiumComponent {
     "percentageChanged",
     "position",
     "right",
-    "up"
-  ]
+    "up",
+  ];
 
-  static cesiumEvents = [
-    "changed",
-    "moveEnd",
-    "moveStart"
-  ]
+  static cesiumEvents = ["changed", "moveEnd", "moveStart"];
 
-  static setCesiumOptionsAfterCreate = true
+  static setCesiumOptionsAfterCreate = true;
 
   getChildContext() {
     return {
-      camera: this.cesiumElement
+      camera: this.cesiumElement,
     };
   }
 
@@ -88,12 +83,8 @@ export default class Camera extends CesiumComponent {
         this.props.viewBoundingSphere.boundingSphere,
         this.props.viewBoundingSphere.offset,
       );
-    } else if (
-      this.props.view !== prev.view &&
-      typeof this.props.view === "object"
-    ) {
+    } else if (this.props.view !== prev.view && typeof this.props.view === "object") {
       camera.setView(this.props.view);
     }
   }
-
 }

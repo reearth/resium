@@ -6,7 +6,6 @@ import CesiumComponent from "./CesiumComponent";
 import { entityCollectionType } from "./types";
 
 export default class Entity extends CesiumComponent {
-
   static propTypes = {
     ...CesiumComponent.propTypes,
     availability: PropTypes.any,
@@ -36,12 +35,12 @@ export default class Entity extends CesiumComponent {
     rectangle: PropTypes.any,
     show: PropTypes.any,
     viewFrom: PropTypes.any,
-    wall: PropTypes.any
-  }
+    wall: PropTypes.any,
+  };
 
   static contextTypes = {
-    entityCollection: entityCollectionType
-  }
+    entityCollection: entityCollectionType,
+  };
 
   static cesiumProps = [
     "availability",
@@ -68,16 +67,12 @@ export default class Entity extends CesiumComponent {
     "properties",
     "polylineVolume",
     "rectangle",
-    "wall"
-  ]
+    "wall",
+  ];
 
-  static cesiumReadOnlyProps = [
-    "id"
-  ]
+  static cesiumReadOnlyProps = ["id"];
 
-  static cesiumEvents = [
-    "definitionChanged"
-  ]
+  static cesiumEvents = ["definitionChanged"];
 
   get parent() {
     const { entityCollection } = this.context;
@@ -117,5 +112,4 @@ export default class Entity extends CesiumComponent {
       p.remove(entity);
     }
   }
-
 }

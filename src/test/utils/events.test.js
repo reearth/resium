@@ -1,9 +1,7 @@
 import { attachEvents, detachEvents, updateEvents, getEventProps } from "../../utils/events";
 
 describe("utils/events", () => {
-
   class EventMock {
-
     constructor(events = []) {
       this.events = new Set(events);
     }
@@ -15,13 +13,14 @@ describe("utils/events", () => {
     removeEventListener(e) {
       this.events.delete(e);
     }
-
   }
 
   it("should attach events", () => {
     const events = {
-      a: () => { /* dummy */ },
-      b: 1 // not a function
+      a: () => {
+        /* dummy */
+      },
+      b: 1, // not a function
     };
 
     const target = {
@@ -44,14 +43,22 @@ describe("utils/events", () => {
 
   it("should update events", () => {
     const prevEvents = {
-      a: () => { /* dummy */ },
-      b: () => { /* dummy */ },
-      c: () => { /* dummy */ },
+      a: () => {
+        /* dummy */
+      },
+      b: () => {
+        /* dummy */
+      },
+      c: () => {
+        /* dummy */
+      },
     };
 
     const newEvents = {
-      a: () => { /* dummy */ },
-      b: 1 // not a function
+      a: () => {
+        /* dummy */
+      },
+      b: 1, // not a function
     };
 
     const target = {
@@ -76,12 +83,14 @@ describe("utils/events", () => {
 
   it("should detach events", () => {
     const events = {
-      a: () => { /* dummy */ }
+      a: () => {
+        /* dummy */
+      },
     };
 
     const target = {
       a: new EventMock([events.a]),
-      b: new EventMock()
+      b: new EventMock(),
     };
 
     expect(target.a.events.size).toBe(1);
@@ -96,9 +105,15 @@ describe("utils/events", () => {
   it("should return event props", () => {
     const names = ["add", "remove", "loadingEvent"];
     const props = {
-      onAdd: () => { /* dummy */ },
-      onLoading: () => { /* dummy */ },
-      remove: () => { /* dummy */ }
+      onAdd: () => {
+        /* dummy */
+      },
+      onLoading: () => {
+        /* dummy */
+      },
+      remove: () => {
+        /* dummy */
+      },
     };
 
     const result = getEventProps(names, props);
@@ -110,5 +125,4 @@ describe("utils/events", () => {
     // eslint-disable-next-line react/destructuring-assignment
     expect(result.loadingEvent).toBe(props.onLoading);
   });
-
 });
