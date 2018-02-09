@@ -104,7 +104,7 @@ export default class Entity extends CesiumComponent {
   updateCesiumElement(entity, prev) {
     if (prev.children !== this.props.children) {
       if (this.props.children) {
-        entity.description = ReactDOM.renderToStaticMarkup(this.props.children);
+        entity.description = ReactDOMServer.renderToStaticMarkup(this.props.children);
       } else {
         entity.description = this.props.description;
       }
