@@ -41,5 +41,5 @@ export default {
         ]
       : [],
   ),
-  external: ["react", "prop-types", "cesium"],
+  external: ["react", "react-dom/server.browser", "prop-types", "cesium"],
 };
