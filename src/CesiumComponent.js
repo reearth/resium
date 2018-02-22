@@ -118,7 +118,7 @@ export default class CesiumComponent extends React.PureComponent {
 
     const { onMount } = this.props;
     if (onMount) {
-      this.onMount(this.cesiumElement);
+      onMount(this.cesiumElement);
     }
 
     this._mounted = true;
