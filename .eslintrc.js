@@ -207,6 +207,7 @@ module.exports = {
       },
     ],
     "prefer-numeric-literals": 1,
+    "prefer-object-spread": 1,
     "prefer-promise-reject-errors": 1,
     "prefer-rest-params": 0,
     "prefer-spread": 1,

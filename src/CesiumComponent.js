@@ -11,7 +11,8 @@ export default class CesiumComponent extends React.PureComponent {
     onUpdate: PropTypes.func,
   };
 
-  componentWillMount() {
+  constructor(props) {
+    super(props);
     if (!this.constructor.initCesiumComponentWhenComponentDidMount) {
       this._create();
     }

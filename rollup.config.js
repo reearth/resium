@@ -2,9 +2,9 @@ import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import babel from "rollup-plugin-babel";
 import replace from "rollup-plugin-replace";
-import uglify from "rollup-plugin-uglify";
-import { minify } from "uglify-es";
+import { terser } from "rollup-plugin-terser";
 
+// eslint-disable-next-line import/extensions
 import pkg from "./package.json";
 
 const env = process.env.NODE_ENV;
@@ -16,7 +16,9 @@ export default {
     file:
       env === "es"
         ? pkg.module
-        : env === "cjs" ? pkg.main : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
+        : env === "cjs"
+          ? pkg.main
+          : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom/server.browser": "ReactDOMServer",
@@ -37,7 +39,7 @@ export default {
           replace({
             "process.env.NODE_ENV": JSON.stringify("production"),
           }),
-          uglify({}, minify),
+          terser(),
         ]
       : [],
   ),

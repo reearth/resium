@@ -1,6 +1,6 @@
 "use strict";
 
-const webpack = require("webpack");
+const webpack = require("webpack-v3");
 const CopyPlugin = require("copy-webpack-plugin");
 
 module.exports = {
