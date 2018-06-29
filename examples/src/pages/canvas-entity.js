@@ -5,10 +5,9 @@ import { Cartesian3 } from "cesium";
 import { Viewer, Entity } from "cesium-react";
 
 export default class CanvasEntity extends React.PureComponent {
-
   state = {
     progress: 0,
-    image: null
+    image: null,
   };
 
   componentDidMount() {
@@ -36,7 +35,7 @@ export default class CanvasEntity extends React.PureComponent {
       }
       return {
         progress: newPrgoress,
-        image: canvas
+        image: canvas,
       };
     });
   }
@@ -59,7 +58,7 @@ export default class CanvasEntity extends React.PureComponent {
     c.clearRect(0, 0, can.width, can.height);
     c.fillStyle = "rgba(100,0,0,0.8)";
     c.beginPath();
-    c.arc(can.width / 2, can.height / 2, p * can.width / 2, 0, Math.PI * 2, false);
+    c.arc(can.width / 2, can.height / 2, (p * can.width) / 2, 0, Math.PI * 2, false);
     c.fill();
   }
 
@@ -71,9 +70,9 @@ export default class CanvasEntity extends React.PureComponent {
           name="test"
           description="test"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-          billboard={{ image }} />
+          billboard={{ image }}
+        />
       </Viewer>
     );
   }
-
 }

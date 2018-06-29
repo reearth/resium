@@ -6,16 +6,16 @@ export default [
   {
     name: "Basic",
     slug: "basic",
-    component: Basic
+    component: Basic,
   },
   {
     name: "Simple entity",
     slug: "entity",
-    component: SimpleEntity
+    component: SimpleEntity,
   },
   {
     name: "Canvas entity",
     slug: "canvas_entity",
-    component: CanvasEntity
-  }
+    component: CanvasEntity,
+  },
 ];

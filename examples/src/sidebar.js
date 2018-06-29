@@ -8,9 +8,7 @@ const Sidebar = ({ className, pages }) => (
   <div className={className}>
     <ul className={styles.sidebarList}>
       <li className={styles.sidebarItem}>
-        <Link
-          to="/"
-          className={styles.sidebarTitle}>
+        <Link to="/" className={styles.sidebarTitle}>
           cesium-react examples
         </Link>
       </li>
@@ -30,15 +28,17 @@ const Sidebar = ({ className, pages }) => (
 
 Sidebar.propTypes = {
   className: PropTypes.string,
-  pages: PropTypes.arrayOf(PropTypes.shape({
-    component: PropTypes.func.isRequired,
-    name: PropTypes.string,
-    slug: PropTypes.string.isRequired
-  }))
+  pages: PropTypes.arrayOf(
+    PropTypes.shape({
+      component: PropTypes.func.isRequired,
+      name: PropTypes.string,
+      slug: PropTypes.string.isRequired,
+    }),
+  ),
 };
 
 Sidebar.defaultProps = {
-  pages: []
+  pages: [],
 };
 
 export default Sidebar;
