@@ -1,4 +1,4 @@
-import { Camera, CesiumWidget, CustomDataSource, CzmlDataSource, DataSourceCollection, Entity, EntityCollection, GeoJsonDataSource, ImageryLayer, ImageryLayerCollection, KmlDataSource, PointPrimitiveCollection, Primitive, PrimitiveCollection, Scene, SceneMode, ScreenSpaceEventHandler, Viewer } from 'cesium';
+import { Camera, CesiumWidget, DataSourceCollection, EntityCollection, ImageryLayerCollection, PointPrimitiveCollection, PrimitiveCollection, Scene, ScreenSpaceEventHandler, Viewer, SceneMode, Entity, CustomDataSource, CzmlDataSource, GeoJsonDataSource, KmlDataSource, Primitive, ImageryLayer } from 'cesium';
 import PropTypes from 'prop-types';
 import React from 'react';
 import ReactDOMServer from 'react-dom/server.browser';
@@ -14,17 +14,17 @@ var sceneType = PropTypes.instanceOf(Scene);
 var screenSpaceEventHandlerType = PropTypes.instanceOf(ScreenSpaceEventHandler);
 var viewerType = PropTypes.instanceOf(Viewer);
 
-var types = Object.freeze({
-	cameraType: cameraType,
-	cesiumWidgetType: cesiumWidgetType,
-	dataSourceCollectionType: dataSourceCollectionType,
-	entityCollectionType: entityCollectionType,
-	imageryLayerCollectionType: imageryLayerCollectionType,
-	pointPrimitiveCollectionType: pointPrimitiveCollectionType,
-	primitiveCollectionType: primitiveCollectionType,
-	sceneType: sceneType,
-	screenSpaceEventHandlerType: screenSpaceEventHandlerType,
-	viewerType: viewerType
+var types = /*#__PURE__*/Object.freeze({
+  cameraType: cameraType,
+  cesiumWidgetType: cesiumWidgetType,
+  dataSourceCollectionType: dataSourceCollectionType,
+  entityCollectionType: entityCollectionType,
+  imageryLayerCollectionType: imageryLayerCollectionType,
+  pointPrimitiveCollectionType: pointPrimitiveCollectionType,
+  primitiveCollectionType: primitiveCollectionType,
+  sceneType: sceneType,
+  screenSpaceEventHandlerType: screenSpaceEventHandlerType,
+  viewerType: viewerType
 });
 
 function _defineProperties(target, props) {
@@ -43,6 +43,21 @@ function _createClass(Constructor, protoProps, staticProps) {
   return Constructor;
 }
 
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
+
 function _extends() {
   _extends = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -59,6 +74,25 @@ function _extends() {
   };
 
   return _extends.apply(this, arguments);
+}
+
+function _objectSpread(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = arguments[i] != null ? arguments[i] : {};
+    var ownKeys = Object.keys(source);
+
+    if (typeof Object.getOwnPropertySymbols === 'function') {
+      ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) {
+        return Object.getOwnPropertyDescriptor(source, sym).enumerable;
+      }));
+    }
+
+    ownKeys.forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    });
+  }
+
+  return target;
 }
 
 function _inheritsLoose(subClass, superClass) {
@@ -91,14 +125,6 @@ function _objectWithoutProperties(source, excluded) {
   }
 
   return target;
-}
-
-function _assertThisInitialized(self) {
-  if (self === void 0) {
-    throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
-  }
-
-  return self;
 }
 
 var attachEvents = function attachEvents(target, events) {
@@ -152,11 +178,11 @@ var updateEvents = function updateEvents(target, prevEvents, newEvents) {
 
 var getEventProps = function getEventProps(eventNames, props) {
   return eventNames.reduce(function (a, b) {
-    var _extends2;
+    var _objectSpread2;
 
     var pn = "on" + b[0].toUpperCase() + b.slice(1).replace(/Event$/, ""); // eslint-disable-next-line react/destructuring-assignment
 
-    return typeof props[pn] === "function" ? _extends({}, a, (_extends2 = {}, _extends2[b] = props[pn], _extends2)) : a;
+    return typeof props[pn] === "function" ? _objectSpread({}, a, (_objectSpread2 = {}, _objectSpread2[b] = props[pn], _objectSpread2)) : a;
   }, {});
 };
 
@@ -165,23 +191,21 @@ var CesiumComponent =
 function (_React$PureComponent) {
   _inheritsLoose(CesiumComponent, _React$PureComponent);
 
-  function CesiumComponent() {
-    var _temp, _this;
+  function CesiumComponent(props) {
+    var _this;
 
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
+    _this = _React$PureComponent.call(this, props) || this;
+    _this.cesiumElement = null;
+    _this._mounted = false;
+
+    if (!_this.constructor.initCesiumComponentWhenComponentDidMount) {
+      _this._create();
     }
 
-    return (_temp = _this = _React$PureComponent.call.apply(_React$PureComponent, [this].concat(args)) || this, _this.cesiumElement = null, _this._mounted = false, _temp) || _assertThisInitialized(_this);
+    return _this;
   }
 
   var _proto = CesiumComponent.prototype;
-
-  _proto.componentWillMount = function componentWillMount() {
-    if (!this.constructor.initCesiumComponentWhenComponentDidMount) {
-      this._create();
-    }
-  };
 
   _proto.componentDidMount = function componentDidMount() {
     if (this.constructor.initCesiumComponentWhenComponentDidMount) {
@@ -246,9 +270,9 @@ function (_React$PureComponent) {
     var _this2 = this;
 
     return this.getCesiumProps().concat(this.getCesiumReadOnlyProps()).reduce(function (a, b) {
-      var _extends2;
+      var _objectSpread2;
 
-      return typeof _this2.props[b] === "undefined" ? a : _extends({}, a, (_extends2 = {}, _extends2[b] = _this2.props[b], _extends2));
+      return typeof _this2.props[b] === "undefined" ? a : _objectSpread({}, a, (_objectSpread2 = {}, _objectSpread2[b] = _this2.props[b], _objectSpread2));
     }, {});
   };
 
@@ -336,13 +360,15 @@ function (_CesiumComponent) {
   _inheritsLoose(Viewer$$1, _CesiumComponent);
 
   function Viewer$$1() {
-    var _temp, _this;
+    var _this;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return (_temp = _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this, _this.element = null, _temp) || _assertThisInitialized(_this);
+    _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this;
+    _this.element = null;
+    return _this;
   }
 
   var _proto = Viewer$$1.prototype;
@@ -406,20 +432,20 @@ function (_CesiumComponent) {
   _proto.render = function render() {
     var _this2 = this;
 
-    var _props = this.props,
-        children = _props.children,
-        containerProps = _props.containerProps,
-        className = _props.className,
-        full = _props.full,
-        id = _props.id,
-        style = _props.style;
+    var _this$props = this.props,
+        children = _this$props.children,
+        containerProps = _this$props.containerProps,
+        className = _this$props.className,
+        full = _this$props.full,
+        id = _this$props.id,
+        style = _this$props.style;
     return React.createElement("div", _extends({
       className: className,
       id: id,
       ref: function ref(e) {
         _this2.element = e;
       },
-      style: _extends({}, full ? {
+      style: _objectSpread({}, full ? {
         position: "absolute",
         bottom: "0",
         left: "0",
@@ -432,7 +458,7 @@ function (_CesiumComponent) {
   return Viewer$$1;
 }(CesiumComponent);
 
-Viewer$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+Viewer$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   animation: PropTypes.any,
   automaticallyTrackDataSourceClocks: PropTypes.any,
   baseLayerPicker: PropTypes.any,
@@ -505,13 +531,15 @@ function (_CesiumComponent) {
   _inheritsLoose(CesiumWidget$$1, _CesiumComponent);
 
   function CesiumWidget$$1() {
-    var _temp, _this;
+    var _this;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return (_temp = _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this, _this.element = null, _temp) || _assertThisInitialized(_this);
+    _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this;
+    _this.element = null;
+    return _this;
   }
 
   var _proto = CesiumWidget$$1.prototype;
@@ -544,20 +572,20 @@ function (_CesiumComponent) {
   _proto.render = function render() {
     var _this2 = this;
 
-    var _props = this.props,
-        children = _props.children,
-        containerProps = _props.containerProps,
-        className = _props.className,
-        full = _props.full,
-        id = _props.id,
-        style = _props.style;
+    var _this$props = this.props,
+        children = _this$props.children,
+        containerProps = _this$props.containerProps,
+        className = _this$props.className,
+        full = _this$props.full,
+        id = _this$props.id,
+        style = _this$props.style;
     return React.createElement("div", _extends({
       className: className,
       id: id,
       ref: function ref(e) {
         _this2.element = e;
       },
-      style: _extends({}, full ? {
+      style: _objectSpread({}, full ? {
         position: "absolute",
         bottom: "0",
         left: "0",
@@ -570,7 +598,7 @@ function (_CesiumComponent) {
   return CesiumWidget$$1;
 }(CesiumComponent);
 
-CesiumWidget$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+CesiumWidget$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   children: PropTypes.any,
   className: PropTypes.string,
   clock: PropTypes.any,
@@ -643,9 +671,9 @@ function (_CesiumComponent) {
   };
 
   _proto._changeMode = function _changeMode(scene) {
-    var _props = this.props,
-        mode = _props.mode,
-        morph = _props.morph;
+    var _this$props = this.props,
+        mode = _this$props.mode,
+        morph = _this$props.morph;
     if (typeof mode !== "number") return;
 
     if (typeof morph === "number") {
@@ -673,7 +701,7 @@ function (_CesiumComponent) {
   return Scene$$1;
 }(CesiumComponent);
 
-Scene$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+Scene$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   backgroundColor: PropTypes.any,
   canvas: PropTypes.any,
   completeMorphOnUserInput: PropTypes.any,
@@ -768,7 +796,7 @@ function (_CesiumComponent) {
   return Camera$$1;
 }(CesiumComponent);
 
-Camera$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+Camera$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   constrainedAxis: PropTypes.func,
   defaultLookAmount: PropTypes.any,
   defaultMoveAmount: PropTypes.any,
@@ -859,7 +887,7 @@ function (_CesiumComponent) {
   return Entity$$1;
 }(CesiumComponent);
 
-Entity$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+Entity$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   availability: PropTypes.any,
   billboard: PropTypes.any,
   box: PropTypes.any,
@@ -1004,8 +1032,8 @@ function (_DataSource) {
   return CustomDataSource$$1;
 }(DataSource);
 
-CustomDataSource$1.PropTypes = _extends({}, DataSource.propTypes);
-CustomDataSource$1.contextTypes = _extends({}, DataSource.contextTypes);
+CustomDataSource$1.PropTypes = _objectSpread({}, DataSource.propTypes);
+CustomDataSource$1.contextTypes = _objectSpread({}, DataSource.contextTypes);
 CustomDataSource$1.cesiumProps = DataSource.cesiumProps.concat();
 CustomDataSource$1.cesiumEvents = DataSource.cesiumEvents.concat();
 
@@ -1029,9 +1057,9 @@ function (_DataSource) {
   };
 
   _proto.updateCesiumElement = function updateCesiumElement(ds, prev) {
-    var _props = this.props,
-        czml = _props.czml,
-        url = _props.url;
+    var _this$props = this.props,
+        czml = _this$props.czml,
+        url = _this$props.url;
 
     if (czml !== prev.czml || url !== prev.url) {
       this._load();
@@ -1041,14 +1069,14 @@ function (_DataSource) {
   _proto._load = function _load() {
     var _this = this;
 
-    var _props2 = this.props,
-        czml = _props2.czml,
-        onError = _props2.onError,
-        onLoad = _props2.onLoad,
-        onProgress = _props2.onProgress,
-        query = _props2.query,
-        sourceUri = _props2.sourceUri,
-        url = _props2.url;
+    var _this$props2 = this.props,
+        czml = _this$props2.czml,
+        onError = _this$props2.onError,
+        onLoad = _this$props2.onLoad,
+        onProgress = _this$props2.onProgress,
+        query = _this$props2.query,
+        sourceUri = _this$props2.sourceUri,
+        url = _this$props2.url;
 
     if (czml || url) {
       this.cesiumElement.load(czml || url, {
@@ -1071,7 +1099,7 @@ function (_DataSource) {
   return CzmlDataSource$$1;
 }(DataSource);
 
-CzmlDataSource$1.propTypes = _extends({}, DataSource.propTypes, {
+CzmlDataSource$1.propTypes = _objectSpread({}, DataSource.propTypes, {
   czml: PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.object)]),
   onError: PropTypes.func,
   onLoad: PropTypes.func,
@@ -1080,7 +1108,7 @@ CzmlDataSource$1.propTypes = _extends({}, DataSource.propTypes, {
   sourceUri: PropTypes.string,
   url: PropTypes.string
 });
-CzmlDataSource$1.contextTypes = _extends({}, DataSource.contextTypes);
+CzmlDataSource$1.contextTypes = _objectSpread({}, DataSource.contextTypes);
 CzmlDataSource$1.cesiumProps = DataSource.cesiumProps.concat();
 CzmlDataSource$1.cesiumEvents = DataSource.cesiumEvents.concat();
 
@@ -1104,9 +1132,9 @@ function (_DataSource) {
   };
 
   _proto.updateCesiumElement = function updateCesiumElement(ds, prev) {
-    var _props = this.props,
-        data = _props.data,
-        url = _props.url;
+    var _this$props = this.props,
+        data = _this$props.data,
+        url = _this$props.url;
 
     if (data !== prev.data || url !== prev.url) {
       this._load();
@@ -1116,21 +1144,21 @@ function (_DataSource) {
   _proto._load = function _load() {
     var _this = this;
 
-    var _props2 = this.props,
-        clampToGround = _props2.clampToGround,
-        data = _props2.data,
-        describe = _props2.describe,
-        fill = _props2.fill,
-        markerColor = _props2.markerColor,
-        markerSize = _props2.markerSize,
-        markerSymbol = _props2.markerSymbol,
-        onError = _props2.onError,
-        onLoad = _props2.onLoad,
-        onProgress = _props2.onProgress,
-        sourceUri = _props2.sourceUri,
-        stroke = _props2.stroke,
-        strokeWidth = _props2.strokeWidth,
-        url = _props2.url;
+    var _this$props2 = this.props,
+        clampToGround = _this$props2.clampToGround,
+        data = _this$props2.data,
+        describe = _this$props2.describe,
+        fill = _this$props2.fill,
+        markerColor = _this$props2.markerColor,
+        markerSize = _this$props2.markerSize,
+        markerSymbol = _this$props2.markerSymbol,
+        onError = _this$props2.onError,
+        onLoad = _this$props2.onLoad,
+        onProgress = _this$props2.onProgress,
+        sourceUri = _this$props2.sourceUri,
+        stroke = _this$props2.stroke,
+        strokeWidth = _this$props2.strokeWidth,
+        url = _this$props2.url;
 
     if (data || url) {
       this.cesiumElement.load(data || url, {
@@ -1160,7 +1188,7 @@ function (_DataSource) {
   return GeoJsonDataSource$$1;
 }(DataSource);
 
-GeoJsonDataSource$1.propTypes = _extends({}, DataSource.propTypes, {
+GeoJsonDataSource$1.propTypes = _objectSpread({}, DataSource.propTypes, {
   clampToGround: PropTypes.bool,
   data: PropTypes.object,
   describe: PropTypes.any,
@@ -1176,7 +1204,7 @@ GeoJsonDataSource$1.propTypes = _extends({}, DataSource.propTypes, {
   strokeWidth: PropTypes.number,
   url: PropTypes.string
 });
-GeoJsonDataSource$1.contextTypes = _extends({}, DataSource.contextTypes);
+GeoJsonDataSource$1.contextTypes = _objectSpread({}, DataSource.contextTypes);
 GeoJsonDataSource$1.cesiumProps = DataSource.cesiumProps.concat();
 GeoJsonDataSource$1.cesiumEvents = DataSource.cesiumEvents.concat();
 
@@ -1205,9 +1233,9 @@ function (_DataSource) {
   };
 
   _proto.updateCesiumElement = function updateCesiumElement(ds, prev) {
-    var _props = this.props,
-        data = _props.data,
-        url = _props.url;
+    var _this$props = this.props,
+        data = _this$props.data,
+        url = _this$props.url;
 
     if (data !== prev.data || url !== prev.url) {
       this._load();
@@ -1217,15 +1245,15 @@ function (_DataSource) {
   _proto._load = function _load() {
     var _this = this;
 
-    var _props2 = this.props,
-        clampToGround = _props2.clampToGround,
-        data = _props2.data,
-        query = _props2.query,
-        onError = _props2.onError,
-        onLoad = _props2.onLoad,
-        onProgress = _props2.onProgress,
-        sourceUri = _props2.sourceUri,
-        url = _props2.url;
+    var _this$props2 = this.props,
+        clampToGround = _this$props2.clampToGround,
+        data = _this$props2.data,
+        query = _this$props2.query,
+        onError = _this$props2.onError,
+        onLoad = _this$props2.onLoad,
+        onProgress = _this$props2.onProgress,
+        sourceUri = _this$props2.sourceUri,
+        url = _this$props2.url;
 
     if (data || url) {
       this.cesiumElement.load(data || url, {
@@ -1249,7 +1277,7 @@ function (_DataSource) {
   return KmlDataSource$$1;
 }(DataSource);
 
-KmlDataSource$1.propTypes = _extends({}, DataSource.propTypes, {
+KmlDataSource$1.propTypes = _objectSpread({}, DataSource.propTypes, {
   clampToGround: PropTypes.bool,
   data: PropTypes.any,
   onError: PropTypes.func,
@@ -1261,7 +1289,7 @@ KmlDataSource$1.propTypes = _extends({}, DataSource.propTypes, {
   sourceUri: PropTypes.string,
   url: PropTypes.string
 });
-KmlDataSource$1.contextTypes = _extends({}, DataSource.contextTypes, {
+KmlDataSource$1.contextTypes = _objectSpread({}, DataSource.contextTypes, {
   scene: sceneType
 });
 KmlDataSource$1.cesiumProps = DataSource.cesiumProps.concat();
@@ -1298,9 +1326,9 @@ function (_CesiumComponent) {
   _createClass(Primitive$$1, [{
     key: "parent",
     get: function get() {
-      var _context = this.context,
-          premitiveCollection = _context.premitiveCollection,
-          scene = _context.scene;
+      var _this$context = this.context,
+          premitiveCollection = _this$context.premitiveCollection,
+          scene = _this$context.scene;
 
       if (premitiveCollection && !premitiveCollection.isDestroyed()) {
         return premitiveCollection;
@@ -1317,7 +1345,7 @@ function (_CesiumComponent) {
   return Primitive$$1;
 }(CesiumComponent);
 
-Primitive$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+Primitive$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   allowPicking: PropTypes.any,
   appearance: PropTypes.any,
   asynchronous: PropTypes.bool,
@@ -1345,13 +1373,15 @@ function (_CesiumComponent) {
   _inheritsLoose(PointPrimitive, _CesiumComponent);
 
   function PointPrimitive() {
-    var _temp, _this;
+    var _this;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return (_temp = _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this, _this.initialOptions = null, _temp) || _assertThisInitialized(_this);
+    _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this;
+    _this.initialOptions = null;
+    return _this;
   }
 
   var _proto = PointPrimitive.prototype;
@@ -1391,7 +1421,7 @@ function (_CesiumComponent) {
   return PointPrimitive;
 }(CesiumComponent);
 
-PointPrimitive.propTypes = _extends({}, CesiumComponent.propTypes, {
+PointPrimitive.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   color: PropTypes.any,
   disableDepthTestDistance: PropTypes.number,
   distanceDisplayCondition: PropTypes.any,
@@ -1449,9 +1479,9 @@ function (_CesiumComponent) {
   _createClass(PointPrimitiveCollection$$1, [{
     key: "parent",
     get: function get() {
-      var _context = this.context,
-          premitiveCollection = _context.premitiveCollection,
-          scene = _context.scene;
+      var _this$context = this.context,
+          premitiveCollection = _this$context.premitiveCollection,
+          scene = _this$context.scene;
 
       if (premitiveCollection && !premitiveCollection.isDestroyed()) {
         return premitiveCollection;
@@ -1468,7 +1498,7 @@ function (_CesiumComponent) {
   return PointPrimitiveCollection$$1;
 }(CesiumComponent);
 
-PointPrimitiveCollection$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+PointPrimitiveCollection$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   blendOption: PropTypes.any,
   debugShowBoundingVolume: PropTypes.bool,
   modelMatrix: PropTypes.any
@@ -1494,10 +1524,10 @@ function (_React$PureComponent) {
   var _proto = ScreenSpaceEvent.prototype;
 
   _proto.componentDidMount = function componentDidMount() {
-    var _props = this.props,
-        action = _props.action,
-        modifier = _props.modifier,
-        type = _props.type;
+    var _this$props = this.props,
+        action = _this$props.action,
+        modifier = _this$props.modifier,
+        type = _this$props.type;
     var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
 
     if (action) {
@@ -1515,10 +1545,10 @@ function (_React$PureComponent) {
   };
 
   _proto.componentWillUnmount = function componentWillUnmount() {
-    var _props2 = this.props,
-        action = _props2.action,
-        modifier = _props2.modifier,
-        type = _props2.type;
+    var _this$props2 = this.props,
+        action = _this$props2.action,
+        modifier = _this$props2.modifier,
+        type = _this$props2.type;
     var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
 
     if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
@@ -1548,13 +1578,15 @@ function (_CesiumComponent) {
   _inheritsLoose(ScreenSpaceEventHandler$$1, _CesiumComponent);
 
   function ScreenSpaceEventHandler$$1() {
-    var _temp, _this;
+    var _this;
 
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
 
-    return (_temp = _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this, _this._useDefault = false, _temp) || _assertThisInitialized(_this);
+    _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this;
+    _this._useDefault = false;
+    return _this;
   }
 
   var _proto = ScreenSpaceEventHandler$$1.prototype;
@@ -1596,7 +1628,7 @@ function (_CesiumComponent) {
   return ScreenSpaceEventHandler$$1;
 }(CesiumComponent);
 
-ScreenSpaceEventHandler$1.propTypes = _extends({}, CesiumComponent.propTypes, {
+ScreenSpaceEventHandler$1.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   useDefault: PropTypes.bool
 });
 ScreenSpaceEventHandler$1.contextTypes = {
@@ -1640,9 +1672,9 @@ function (_CesiumComponent) {
   _createClass(imageryLayer, [{
     key: "parent",
     get: function get() {
-      var _context = this.context,
-          imageryLayerCollection = _context.imageryLayerCollection,
-          scene = _context.scene;
+      var _this$context = this.context,
+          imageryLayerCollection = _this$context.imageryLayerCollection,
+          scene = _this$context.scene;
 
       if (imageryLayerCollection && !imageryLayerCollection.isDestroyed()) {
         return imageryLayerCollection;
@@ -1659,7 +1691,7 @@ function (_CesiumComponent) {
   return imageryLayer;
 }(CesiumComponent);
 
-imageryLayer.propTypes = _extends({}, CesiumComponent.propTypes, {
+imageryLayer.propTypes = _objectSpread({}, CesiumComponent.propTypes, {
   availability: PropTypes.any,
   billboard: PropTypes.any,
   box: PropTypes.any,
@@ -1731,9 +1763,9 @@ function (_React$PureComponent) {
   _createClass(CameraOperation, [{
     key: "camera",
     get: function get() {
-      var _context = this.context,
-          camera = _context.camera,
-          scene = _context.scene;
+      var _this$context = this.context,
+          camera = _this$context.camera,
+          scene = _this$context.scene;
       return camera || scene.camera;
     }
   }]);
@@ -1768,7 +1800,7 @@ function (_CameraOperation) {
   return CameraFlyHome;
 }(CameraOperation);
 
-CameraFlyHome.propTypes = _extends({}, CameraOperation.propTypes, {
+CameraFlyHome.propTypes = _objectSpread({}, CameraOperation.propTypes, {
   duration: PropTypes.number
 });
 
@@ -1784,18 +1816,18 @@ function (_CameraOperation) {
   var _proto = CameraFlyTo.prototype;
 
   _proto.cameraOperationStart = function cameraOperationStart(camera) {
-    var _props = this.props,
-        destination = _props.destination,
-        orientation = _props.orientation,
-        duration = _props.duration,
-        onComplete = _props.onComplete,
-        onCancel = _props.onCancel,
-        endTransform = _props.endTransform,
-        maximumHeight = _props.maximumHeight,
-        pitchAdjustHeight = _props.pitchAdjustHeight,
-        flyOverLongitude = _props.flyOverLongitude,
-        flyOverLongitudeWeight = _props.flyOverLongitudeWeight,
-        easingFunction = _props.easingFunction;
+    var _this$props = this.props,
+        destination = _this$props.destination,
+        orientation = _this$props.orientation,
+        duration = _this$props.duration,
+        onComplete = _this$props.onComplete,
+        onCancel = _this$props.onCancel,
+        endTransform = _this$props.endTransform,
+        maximumHeight = _this$props.maximumHeight,
+        pitchAdjustHeight = _this$props.pitchAdjustHeight,
+        flyOverLongitude = _this$props.flyOverLongitude,
+        flyOverLongitudeWeight = _this$props.flyOverLongitudeWeight,
+        easingFunction = _this$props.easingFunction;
     camera.flyTo({
       destination: destination,
       orientation: orientation,
@@ -1814,7 +1846,7 @@ function (_CameraOperation) {
   return CameraFlyTo;
 }(CameraOperation);
 
-CameraFlyTo.propTypes = _extends({}, CameraOperation.propTypes, {
+CameraFlyTo.propTypes = _objectSpread({}, CameraOperation.propTypes, {
   destination: PropTypes.any.isRequired,
   duration: PropTypes.number,
   easingFunction: PropTypes.any,
@@ -1840,18 +1872,18 @@ function (_CameraOperation) {
   var _proto = CameraFlyToBoundingSphere.prototype;
 
   _proto.cameraOperationStart = function cameraOperationStart(camera) {
-    var _props = this.props,
-        boundingSphere = _props.boundingSphere,
-        offset = _props.offset,
-        duration = _props.duration,
-        onComplete = _props.onComplete,
-        onCancel = _props.onCancel,
-        endTransform = _props.endTransform,
-        maximumHeight = _props.maximumHeight,
-        pitchAdjustHeight = _props.pitchAdjustHeight,
-        flyOverLongitude = _props.flyOverLongitude,
-        flyOverLongitudeWeight = _props.flyOverLongitudeWeight,
-        easingFunction = _props.easingFunction;
+    var _this$props = this.props,
+        boundingSphere = _this$props.boundingSphere,
+        offset = _this$props.offset,
+        duration = _this$props.duration,
+        onComplete = _this$props.onComplete,
+        onCancel = _this$props.onCancel,
+        endTransform = _this$props.endTransform,
+        maximumHeight = _this$props.maximumHeight,
+        pitchAdjustHeight = _this$props.pitchAdjustHeight,
+        flyOverLongitude = _this$props.flyOverLongitude,
+        flyOverLongitudeWeight = _this$props.flyOverLongitudeWeight,
+        easingFunction = _this$props.easingFunction;
     camera.flyToBoundingSphere(boundingSphere, {
       offset: offset,
       duration: duration,
@@ -1869,7 +1901,7 @@ function (_CameraOperation) {
   return CameraFlyToBoundingSphere;
 }(CameraOperation);
 
-CameraFlyToBoundingSphere.propTypes = _extends({}, CameraOperation.propTypes, {
+CameraFlyToBoundingSphere.propTypes = _objectSpread({}, CameraOperation.propTypes, {
   boundingSphere: PropTypes.any.isRequired,
   duration: PropTypes.number,
   easingFunction: PropTypes.any,
