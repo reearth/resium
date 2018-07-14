@@ -58,12 +58,12 @@ Please refer to storybook and examples:
 ```bash
 git clone https://github.com/rot1024/cesium-react.git
 cd cesium-react
-npm i
+yarn
 
 # run dev server for examples
-npm run examples:dev
+yarn run examples:dev
 # run storybook
-npm run storybook
+yarn run storybook
 ```
 
 ## Getting Started
