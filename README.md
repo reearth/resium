@@ -68,16 +68,21 @@ yarn run storybook
 
 ## Getting Started
 
-### Typical env: webpack + html-webpack-plugin
+### Typical env: webpack + copy-webpack-plugin + html-webpack-include-assets-plugin
 
 ```bash
 npm i cesium cesium-react --save
-npm i html-include-assets-plugin --save-dev
+npm i copy-webpack-plugin --save-dev
+npm i html-webpack-include-assets-plugin --save-dev
 ```
 
 webpack.config.js:
 
 ```js
+
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
+
 module.exports = {
   externals: {
     cesium: "Cesium"
@@ -87,13 +92,13 @@ module.exports = {
     // ...
   },
   plugins: {
-    new CopyPlugin([
+    new CopyWebpackPlugin([
       {
         from: `node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
         to: "cesium"
       }
     ]),
-    new HtmlIncludeAssetsPlugin({
+    new HtmlWebpackIncludeAssetsPlugin({
       append: false,
       assets: [
         "cesium/Widgets/widgets.css",
