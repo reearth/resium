@@ -43,8 +43,7 @@
     "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
     "@babel/preset-env": "^7.1.0",
     "@babel/preset-react": "^7.0.0",
-    "@storybook/react": "^3.4.8",
-    "babel-core": "^7.0.0-beta.37",
+    "@storybook/react": "^4.0.0-alpha.23",
     "babel-eslint": "^10.0.0",
     "babel-loader": "^8.0.2",
     "babel-plugin-istanbul": "^5.0.1",
@@ -87,11 +86,10 @@
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-replace": "^2.0.0",
     "rollup-plugin-terser": "^3.0.0",
-    "storybook-addon-jsx": "^5.3.0",
+    "storybook-addon-jsx": "^5.4.0",
     "style-loader": "^0.23.0",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.1",
-    "webpack-dev-server": "^3.1.9",
-    "webpack-v3": "npm:webpack@^3.11.0"
+    "webpack-dev-server": "^3.1.9"
   }
 }
