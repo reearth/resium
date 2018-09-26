@@ -107,7 +107,7 @@ function _inheritsLoose(subClass, superClass) {
   subClass.__proto__ = superClass;
 }
 
-function _objectWithoutProperties(source, excluded) {
+function _objectWithoutPropertiesLoose(source, excluded) {
   if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
@@ -117,17 +117,6 @@ function _objectWithoutProperties(source, excluded) {
     key = sourceKeys[i];
     if (excluded.indexOf(key) >= 0) continue;
     target[key] = source[key];
-  }
-
-  if (Object.getOwnPropertySymbols) {
-    var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-
-    for (i = 0; i < sourceSymbolKeys.length; i++) {
-      key = sourceSymbolKeys[i];
-      if (excluded.indexOf(key) >= 0) continue;
-      if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue;
-      target[key] = source[key];
-    }
   }
 
   return target;
@@ -761,6 +750,7 @@ Scene.childContextTypes = {
 Scene.cesiumProps = ["backgroundColor", "canvas", "completeMorphOnUserInput", "debugCommandFilter", "debugShowCommands", "debugShowDepthFrustum", "debugShowFramesPerSecond", "debugShowFrustumPlanes", "debugShowFrustums", "debugShowGlobeDepth", "eyeSeparation", "farToNearRatio", "focalLength", "fog", "fxaa", "globe", "imagerySplitPosition", "invertClassification", "invertClassificationColor", "mapMode2D", "mapProjection", "minimumDisableDepthTestDistance", "moon", "nearToFarDistance2D", "pickTranslucentDepth", "rethrowRenderErrors", "shadowMap", "skyAtmosphere", "skyBox", "sun", "sunBloom", "terrainExaggeration", "terrainProvider", "useDepthPicking", "useWebVR"];
 Scene.cesiumEvents = ["morphComplete", "morphStart", "postRender", "preRender", "renderError", "terrainProviderChanged"];
 Scene.setCesiumOptionsAfterCreate = true;
+Scene.initCesiumComponentWhenComponentDidMount = true;
 
 var Camera =
 /*#__PURE__*/
@@ -832,6 +822,7 @@ Camera.childContextTypes = {
 };
 Camera.cesiumProps = ["constrainedAxis", "defaultLookAmount", "defaultMoveAmount", "defaultRotateAmount", "defaultZoomAmount", "direction", "frustum", "maximumZoomFactor", "percentageChanged", "position", "right", "up"];
 Camera.cesiumEvents = ["changed", "moveEnd", "moveStart"];
+Camera.initCesiumComponentWhenComponentDidMount = true;
 Camera.setCesiumOptionsAfterCreate = true;
 
 var Entity =
@@ -937,7 +928,33 @@ function (_CesiumComponent) {
   _inheritsLoose(DataSource, _CesiumComponent);
 
   function DataSource() {
-    return _CesiumComponent.apply(this, arguments) || this;
+    var _this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    _this = _CesiumComponent.call.apply(_CesiumComponent, [this].concat(args)) || this;
+
+    if (_this.cesiumElement) {
+      if (_this.props.clock) {
+        _this.cesiumElement.clock = _this.props.clock;
+      }
+
+      if (_this.props.clustering) {
+        _this.cesiumElement.clustering = _this.props.clustering;
+      }
+
+      if (_this.props.name) {
+        _this.cesiumElement.name = _this.props.name;
+      }
+
+      if (_this.props.show === true || _this.props.show === false) {
+        _this.cesiumElement.show = _this.props.show;
+      }
+    }
+
+    return _this;
   }
 
   var _proto = DataSource.prototype;
@@ -946,28 +963,6 @@ function (_CesiumComponent) {
     return {
       entityCollection: this.cesiumElement ? this.cesiumElement.entities : null
     };
-  };
-
-  _proto.componentWillMount = function componentWillMount() {
-    _CesiumComponent.prototype.componentWillMount.call(this);
-
-    if (this.cesiumElement) {
-      if (this.props.clock) {
-        this.cesiumElement.clock = this.props.clock;
-      }
-
-      if (this.props.clustering) {
-        this.cesiumElement.clustering = this.props.clustering;
-      }
-
-      if (this.props.name) {
-        this.cesiumElement.name = this.props.name;
-      }
-
-      if (this.props.show === true || this.props.show === false) {
-        this.cesiumElement.show = this.props.show;
-      }
-    }
   };
 
   _proto.createCesiumElement = function createCesiumElement() {
@@ -1019,6 +1014,7 @@ DataSource.childContextTypes = {
 };
 DataSource.cesiumProps = ["clock", "clustering", "name", "show"];
 DataSource.cesiumEvents = ["changedEvent", "errorEvent", "loadingEvent"];
+DataSource.initCesiumComponentWhenComponentDidMount = true;
 
 var CustomDataSource =
 /*#__PURE__*/
@@ -1644,6 +1640,7 @@ ScreenSpaceEventHandler.contextTypes = {
 ScreenSpaceEventHandler.childContextTypes = {
   screenSpaceEventHandler: screenSpaceEventHandlerType
 };
+ScreenSpaceEventHandler.initCesiumComponentWhenComponentDidMount = true;
 
 var imageryLayer =
 /*#__PURE__*/
@@ -1658,7 +1655,7 @@ function (_CesiumComponent) {
 
   _proto.createCesiumElement = function createCesiumElement(options) {
     var imageryProvider = options.imageryProvider,
-        opts = _objectWithoutProperties(options, ["imageryProvider"]);
+        opts = _objectWithoutPropertiesLoose(options, ["imageryProvider"]);
 
     return new cesium.ImageryLayer(imageryProvider, opts);
   };
