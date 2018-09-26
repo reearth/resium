@@ -27,14 +27,10 @@ export default class DataSource extends CesiumComponent {
 
   static cesiumEvents = ["changedEvent", "errorEvent", "loadingEvent"];
 
-  getChildContext() {
-    return {
-      entityCollection: this.cesiumElement ? this.cesiumElement.entities : null,
-    };
-  }
+  static initCesiumComponentWhenComponentDidMount = true;
 
-  componentWillMount() {
-    super.componentWillMount();
+  constructor(...args) {
+    super(...args);
     if (this.cesiumElement) {
       if (this.props.clock) {
         this.cesiumElement.clock = this.props.clock;
@@ -49,6 +45,12 @@ export default class DataSource extends CesiumComponent {
         this.cesiumElement.show = this.props.show;
       }
     }
+  }
+
+  getChildContext() {
+    return {
+      entityCollection: this.cesiumElement ? this.cesiumElement.entities : null,
+    };
   }
 
   get parent() {

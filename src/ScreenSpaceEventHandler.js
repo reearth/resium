@@ -19,6 +19,8 @@ export default class ScreenSpaceEventHandler extends CesiumComponent {
     screenSpaceEventHandler: screenSpaceEventHandlerType,
   };
 
+  static initCesiumComponentWhenComponentDidMount = true;
+
   getChildContext() {
     return {
       screenSpaceEventHandler: this.cesiumElement,

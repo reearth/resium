@@ -53,6 +53,8 @@ export default class Camera extends CesiumComponent {
 
   static cesiumEvents = ["changed", "moveEnd", "moveStart"];
 
+  static initCesiumComponentWhenComponentDidMount = true;
+
   static setCesiumOptionsAfterCreate = true;
 
   getChildContext() {

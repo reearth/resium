@@ -61,6 +61,8 @@ export default class ScreenSpaceCameraController extends CesiumComponent {
 
   static setCesiumOptionsAfterCreate = true;
 
+  static initCesiumComponentWhenComponentDidMount = true;
+
   createCesiumElement() {
     return this.context.scene.screenSpaceCameraController;
   }

@@ -109,6 +109,8 @@ export default class Scene extends CesiumComponent {
 
   static setCesiumOptionsAfterCreate = true;
 
+  static initCesiumComponentWhenComponentDidMount = true;
+
   getChildContext() {
     return {
       scene: this.cesiumElement,
