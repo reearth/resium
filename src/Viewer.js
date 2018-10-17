@@ -38,12 +38,14 @@ export default class Viewer extends CesiumComponent {
     infoBox: PropTypes.any,
     mapMode2D: PropTypes.any,
     mapProjection: PropTypes.any,
+    maximumRenderTimeChange: PropTypes.any,
     navigationHelpButton: PropTypes.any,
     navigationInstructionsInitiallyVisible: PropTypes.any,
     onSelectedEntityChanged: PropTypes.func,
     onTrackedEntityChanged: PropTypes.func,
     orderIndependentTranslucency: PropTypes.any,
     projectionPicker: PropTypes.any,
+    requestRenderMode: PropTypes.any,
     scene3DOnly: PropTypes.any,
     sceneMode: PropTypes.any,
     sceneModePicker: PropTypes.any,
@@ -120,6 +122,8 @@ export default class Viewer extends CesiumComponent {
     "terrainShadows",
     "mapMode2D",
     "projectionPicker",
+    "requestRenderMode",
+    "maximumRenderTimeChange",
   ];
 
   static cesiumEvents = ["selectedEntityChanged", "trackedEntityChanged"];
