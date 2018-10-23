@@ -477,12 +477,14 @@
     infoBox: PropTypes.any,
     mapMode2D: PropTypes.any,
     mapProjection: PropTypes.any,
+    maximumRenderTimeChange: PropTypes.any,
     navigationHelpButton: PropTypes.any,
     navigationInstructionsInitiallyVisible: PropTypes.any,
     onSelectedEntityChanged: PropTypes.func,
     onTrackedEntityChanged: PropTypes.func,
     orderIndependentTranslucency: PropTypes.any,
     projectionPicker: PropTypes.any,
+    requestRenderMode: PropTypes.any,
     scene3DOnly: PropTypes.any,
     sceneMode: PropTypes.any,
     sceneModePicker: PropTypes.any,
@@ -515,7 +517,7 @@
     scene: sceneType,
     viewer: viewerType
   };
-  Viewer.cesiumProps = ["animation", "baseLayerPicker", "fullscreenButton", "vrButton", "geocoder", "homeButton", "infoBox", "sceneModePicker", "selectionIndicator", "timeline", "navigationHelpButton", "navigationInstructionsInitiallyVisible", "scene3DOnly", "clockViewModel", "selectedImageryProviderViewModel", "imageryProviderViewModels", "selectedTerrainProviderViewModel", "terrainProviderViewModels", "imageryProvider", "terrainProvider", "skyBox", "skyAtmosphere", "fullscreenElement", "useDefaultRenderLoop", "targetFrameRate", "showRenderLoopErrors", "automaticallyTrackDataSourceClocks", "contextOptions", "sceneMode", "mapProjection", "globe", "orderIndependentTranslucency", "creditContainer", "creditViewport", "dataSources", "terrainExaggeration", "shadows", "terrainShadows", "mapMode2D", "projectionPicker"];
+  Viewer.cesiumProps = ["animation", "baseLayerPicker", "fullscreenButton", "vrButton", "geocoder", "homeButton", "infoBox", "sceneModePicker", "selectionIndicator", "timeline", "navigationHelpButton", "navigationInstructionsInitiallyVisible", "scene3DOnly", "clockViewModel", "selectedImageryProviderViewModel", "imageryProviderViewModels", "selectedTerrainProviderViewModel", "terrainProviderViewModels", "imageryProvider", "terrainProvider", "skyBox", "skyAtmosphere", "fullscreenElement", "useDefaultRenderLoop", "targetFrameRate", "showRenderLoopErrors", "automaticallyTrackDataSourceClocks", "contextOptions", "sceneMode", "mapProjection", "globe", "orderIndependentTranslucency", "creditContainer", "creditViewport", "dataSources", "terrainExaggeration", "shadows", "terrainShadows", "mapMode2D", "projectionPicker", "requestRenderMode", "maximumRenderTimeChange"];
   Viewer.cesiumEvents = ["selectedEntityChanged", "trackedEntityChanged"];
   Viewer.initCesiumComponentWhenComponentDidMount = true;
 
