@@ -7,7 +7,7 @@ html, body {
   color: #333;
 }
 
-:global .full {
+.full {
   position: absolute;
   bottom: 0;
   left: 0;
