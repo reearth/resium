@@ -5,14 +5,16 @@ import { Switch, Route } from "react-router-dom";
 import Sidebar from "./sidebar";
 import pages from "./pages";
 
-import styles from "./style.css";
+import "./style.css";
 
 const App = () => (
   <div className="full">
-    <Sidebar className={styles.sidebar} pages={pages} />
-    <div className={styles.viewer}>
+    <Sidebar className="sidebar" pages={pages} />
+    <div className="viewer">
       <Switch>
-        {pages.map(p => <Route key={p.slug} path={`/${p.slug}`} component={p.component} />)}
+        {pages.map(p => (
+          <Route key={p.slug} path={`/${p.slug}`} component={p.component} />
+        ))}
       </Switch>
     </div>
   </div>

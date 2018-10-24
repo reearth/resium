@@ -2,22 +2,19 @@ import React from "react";
 import PropTypes from "prop-types";
 import { NavLink, Link } from "react-router-dom";
 
-import styles from "./style.css";
+import "./style.css";
 
 const Sidebar = ({ className, pages }) => (
   <div className={className}>
-    <ul className={styles.sidebarList}>
-      <li className={styles.sidebarItem}>
-        <Link to="/" className={styles.sidebarTitle}>
+    <ul className="sidebar-list">
+      <li className="sidebar-item">
+        <Link to="/" className="sidebar-title">
           cesium-react examples
         </Link>
       </li>
       {pages.map(r => (
-        <li key={r.slug} className={styles.sidebarItem}>
-          <NavLink
-            to={`/${r.slug}`}
-            className={styles.sidebarLink}
-            activeClassName={styles.sidebarActiveLink}>
+        <li key={r.slug} className="sidebar-item">
+          <NavLink to={`/${r.slug}`} className="sidebar-link" activeClassName="sidebar-active-link">
             {r.name || r.slug}
           </NavLink>
         </li>

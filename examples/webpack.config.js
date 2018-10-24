@@ -6,7 +6,7 @@ const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
-const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 
 module.exports = (env, args) => {
@@ -47,33 +47,17 @@ module.exports = (env, args) => {
         },
         {
           test: /\.css$/,
-          use: prod
-            ? ExtractTextPlugin.extract({
-                fallback: "style-loader",
-                use: {
-                  loader: "css-loader",
-                  options: {
-                    camelCase: true,
-                    localIdentName: "[local]_[hash:base64:5]",
-                    minimize: false,
-                    modules: true,
-                    sourceMaps: !prod,
-                  },
+          use: [
+            prod ? MiniCssExtractPlugin.loader : "style-loader",
+              {
+                loader: "css-loader",
+                options: {
+                  sourceMap: !prod,
+                  // minimized by OptimizeCssAssetsPlugin
+                  minimize: false,
                 },
-              })
-            : [
-                "style-loader",
-                {
-                  loader: "css-loader",
-                  options: {
-                    camelCase: true,
-                    localIdentName: "[local]_[hash:base64:5]",
-                    minimize: false,
-                    modules: true,
-                    sourceMaps: !prod,
-                  },
-                },
-              ],
+              },
+          ],
         },
       ],
     },
@@ -115,7 +99,7 @@ module.exports = (env, args) => {
       }),
     ].concat(
       prod
-        ? [new ExtractTextPlugin("style.css"), new OptimizeCssAssetsPlugin()]
+        ? [new MiniCssExtractPlugin("style.css"), new OptimizeCssAssetsPlugin()]
         : [new webpack.HotModuleReplacementPlugin()],
     ),
     resolve: {
