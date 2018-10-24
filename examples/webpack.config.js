@@ -47,35 +47,17 @@ module.exports = (env, args) => {
         },
         {
           test: /\.css$/,
-          use: prod
-            ? [
-                {
-                  loader: MiniCssExtractPlugin.loader,
+          use: [
+            prod ? MiniCssExtractPlugin.loader : "style-loader",
+              {
+                loader: "css-loader",
+                options: {
+                  sourceMap: !prod,
+                  // minimized by OptimizeCssAssetsPlugin
+                  minimize: false,
                 },
-                {
-                  loader: "css-loader",
-                  options: {
-                    camelCase: true,
-                    localIdentName: "[local]_[hash:base64:5]",
-                    minimize: false,
-                    modules: true,
-                    sourceMaps: !prod,
-                  },
-                },
-              ]
-            : [
-                "style-loader",
-                {
-                  loader: "css-loader",
-                  options: {
-                    camelCase: true,
-                    localIdentName: "[local]_[hash:base64:5]",
-                    minimize: false,
-                    modules: true,
-                    sourceMaps: !prod,
-                  },
-                },
-              ],
+              },
+          ],
         },
       ],
     },
