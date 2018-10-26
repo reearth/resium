@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
 
-import DataSource from "./DataSource";
+import DataSource from "./core/DataSource";
 
 export default class CzmlDataSource extends DataSource {
   static propTypes = {

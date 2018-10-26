@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
-import CesiumComponent from "./CesiumComponent";
-import { cameraType, sceneType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { cameraType, sceneType } from "./core/types";
 
 export default class Camera extends CesiumComponent {
   static propTypes = {

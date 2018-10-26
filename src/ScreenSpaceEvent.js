@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { screenSpaceEventHandlerType } from "./types";
+import { screenSpaceEventHandlerType } from "./core/types";
 
 export default class ScreenSpaceEvent extends React.PureComponent {
   static propTypes = {

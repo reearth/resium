@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
-import CesiumComponent from "./CesiumComponent";
-import { cesiumWidgetType, sceneType, screenSpaceEventHandlerType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { cesiumWidgetType, sceneType, screenSpaceEventHandlerType } from "./core/types";
 
 export default class ScreenSpaceEventHandler extends CesiumComponent {
   static propTypes = {

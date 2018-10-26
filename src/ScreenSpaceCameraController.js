@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 
-import CesiumComponent from "./CesiumComponent";
-import { sceneType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { sceneType } from "./core/types";
 
 export default class ScreenSpaceCameraController extends CesiumComponent {
   static propTypes = {

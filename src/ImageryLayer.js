@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { ImageryLayer as CesiumImageryLayer } from "cesium";
 
-import CesiumComponent from "./CesiumComponent";
-import { imageryLayerCollectionType, sceneType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { imageryLayerCollectionType, sceneType } from "./core/types";
 
 export default class imageryLayer extends CesiumComponent {
   static propTypes = {

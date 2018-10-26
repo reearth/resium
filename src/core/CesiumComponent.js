@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { attachEvents, detachEvents, updateEvents, getEventProps } from "./utils/events";
+import { attachEvents, detachEvents, updateEvents, getEventProps } from "../utils/events";
 
 export default class CesiumComponent extends React.PureComponent {
   static propTypes = {

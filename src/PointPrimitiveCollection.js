@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
 
-import CesiumComponent from "./CesiumComponent";
-import { pointPrimitiveCollectionType, primitiveCollectionType, sceneType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { pointPrimitiveCollectionType, primitiveCollectionType, sceneType } from "./core/types";
 
 export default class PointPrimitiveCollection extends CesiumComponent {
   static propTypes = {

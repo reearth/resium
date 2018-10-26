@@ -2,8 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
-import CesiumComponent from "./CesiumComponent";
-import { cesiumWidgetType, sceneType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { cesiumWidgetType, sceneType } from "./core/types";
 
 export default class CesiumWidget extends CesiumComponent {
   static propTypes = {

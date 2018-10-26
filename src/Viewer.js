@@ -2,14 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Viewer as CesiumViewer } from "cesium";
 
-import CesiumComponent from "./CesiumComponent";
+import CesiumComponent from "./core/CesiumComponent";
 import {
   cesiumWidgetType,
   dataSourceCollectionType,
   entityCollectionType,
   sceneType,
   viewerType,
-} from "./types";
+} from "./core/types";
 
 export default class Viewer extends CesiumComponent {
   static propTypes = {

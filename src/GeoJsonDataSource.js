@@ -1,7 +1,7 @@
 import PropTypes from "prop-types";
 import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
-import DataSource from "./DataSource";
+import DataSource from "./core/DataSource";
 
 export default class GeoJsonDataSource extends DataSource {
   static propTypes = {

@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { SceneMode } from "cesium";
 
-import CesiumComponent from "./CesiumComponent";
-import { cesiumWidgetType, sceneType } from "./types";
+import CesiumComponent from "./core/CesiumComponent";
+import { cesiumWidgetType, sceneType } from "./core/types";
 
 export default class Scene extends CesiumComponent {
   static propTypes = {

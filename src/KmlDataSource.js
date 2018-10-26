@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
-import DataSource from "./DataSource";
-import { sceneType } from "./types";
+import DataSource from "./core/DataSource";
+import { sceneType } from "./core/types";
 
 export default class KmlDataSource extends DataSource {
   static propTypes = {

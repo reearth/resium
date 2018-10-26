@@ -1,6 +1,6 @@
 import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 
-import DataSource from "./DataSource";
+import DataSource from "./core/DataSource";
 
 export default class CustomDataSource extends DataSource {
   static PropTypes = {

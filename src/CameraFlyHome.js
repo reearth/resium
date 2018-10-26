@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 
-import CameraOperation from "./CameraOperation";
+import CameraOperation from "./core/CameraOperation";
 
 export default class CameraFlyHome extends CameraOperation {
   static propTypes = {
