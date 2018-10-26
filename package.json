@@ -11,7 +11,7 @@
     "test": "cross-env NODE_ENV=test karma start",
     "test:cov": "cross-env NODE_ENV=coverage karma start",
     "clean": "del dist coverage examples/build",
-    "lint": "eslint *.js src",
+    "lint": "eslint .",
     "build": "run-p build:es build:cjs build:umd build:umd:min",
     "build:es": "cross-env NODE_ENV=es rollup -c",
     "build:cjs": "cross-env NODE_ENV=cjs rollup -c",
