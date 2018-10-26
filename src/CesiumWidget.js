@@ -98,27 +98,29 @@ export default class CesiumWidget extends CesiumComponent {
   render() {
     const { children, containerProps, className, full, id, style } = this.props;
     return (
-      <div
-        className={className}
-        id={id}
-        ref={e => {
-          this.element = e;
-        }}
-        style={{
-          ...(full
-            ? {
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                right: "0",
-                top: "0",
-              }
-            : {}),
-          ...style,
-        }}
-        {...containerProps}>
-        {this.cesiumElement ? children : null}
-      </div>
+      <React.StrictMode>
+        <div
+          className={className}
+          id={id}
+          ref={e => {
+            this.element = e;
+          }}
+          style={{
+            ...(full
+              ? {
+                  position: "absolute",
+                  bottom: "0",
+                  left: "0",
+                  right: "0",
+                  top: "0",
+                }
+              : {}),
+            ...style,
+          }}
+          {...containerProps}>
+          {this.cesiumElement ? children : null}
+        </div>
+      </React.StrictMode>
     );
   }
 }
