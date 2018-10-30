@@ -15,7 +15,7 @@
     "lint": "run-p lint:js lint:ts",
     "lint:js": "eslint .",
     "lint:ts": "tslint 'src/**/*.ts?(x)'",
-    "build": "run-p build:es build:cjs build:umd build:umd:min",
+    "build": "run-s build:es build:cjs build:umd build:umd:min",
     "build:es": "cross-env NODE_ENV=es rollup -c",
     "build:cjs": "cross-env NODE_ENV=cjs rollup -c",
     "build:umd": "rollup -c",

@@ -28,6 +28,7 @@ export default {
       cesium: "Cesium",
     },
     name: "CesiumReact",
+    sourcemap: true,
   },
   plugins: [
     babel({
@@ -36,7 +37,7 @@ export default {
     typescript({
       tsconfigOverride: {
         compilerOptions: {
-          declaration: true,
+          declaration: env === "es", // only compile defs in es format
           declarationDir: "dist/types",
           module: "es2015",
         },
@@ -57,5 +58,4 @@ export default {
       : [],
   ),
   external: ["react", "react-dom/server.browser", "prop-types", "cesium"],
-  sourceMap: true,
 };
