@@ -4,6 +4,7 @@ import babel from "rollup-plugin-babel";
 import typescript from "rollup-plugin-typescript2";
 import replace from "rollup-plugin-replace";
 import { terser } from "rollup-plugin-terser";
+import sourcemaps from "rollup-plugin-sourcemaps";
 
 // eslint-disable-next-line import/extensions
 import pkg from "./package.json";
@@ -44,6 +45,7 @@ export default {
     }),
     resolve(),
     commonjs(),
+    sourcemaps(),
   ].concat(
     env === "production"
       ? [
@@ -55,4 +57,5 @@ export default {
       : [],
   ),
   external: ["react", "react-dom/server.browser", "prop-types", "cesium"],
+  sourceMap: true,
 };
