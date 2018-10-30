@@ -7,6 +7,15 @@ module.exports = {
   externals: {
     cesium: "Cesium",
   },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: "ts-loader",
+      },
+    ],
+  },
   plugins: [
     new webpack.DefinePlugin({
       "process.env": {
@@ -21,4 +30,7 @@ module.exports = {
       },
     ]),
   ],
+  resolve: {
+    extensions: [".js", ".ts", ".tsx"],
+  },
 };

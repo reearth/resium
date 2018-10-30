@@ -8,6 +8,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCssAssetsPlugin = require("optimize-css-assets-webpack-plugin");
+const ForkTsCheckerPlugin = require("fork-ts-checker-webpack-plugin");
 
 module.exports = (env, args) => {
   const prod = args.mode === "production";
@@ -46,17 +47,42 @@ module.exports = (env, args) => {
           use: "babel-loader",
         },
         {
+          test: /\.tsx?$/,
+          exclude: /node_modules/,
+          use: [
+            {
+              loader: "babel-loader",
+              options: {
+                babelrc: false,
+                cacheDirectory: true,
+                plugins: ["react-hot-loader/babel"],
+              },
+            },
+            {
+              loader: "ts-loader",
+              options: prod
+                ? {}
+                : {
+                    compilerOptions: {
+                      target: "es6",
+                    },
+                    happyPackMode: true,
+                  },
+            },
+          ],
+        },
+        {
           test: /\.css$/,
           use: [
             prod ? MiniCssExtractPlugin.loader : "style-loader",
-              {
-                loader: "css-loader",
-                options: {
-                  sourceMap: !prod,
-                  // minimized by OptimizeCssAssetsPlugin
-                  minimize: false,
-                },
+            {
+              loader: "css-loader",
+              options: {
+                sourceMap: !prod,
+                // minimized by OptimizeCssAssetsPlugin
+                minimize: false,
               },
+            },
           ],
         },
       ],
@@ -100,9 +126,15 @@ module.exports = (env, args) => {
     ].concat(
       prod
         ? [new MiniCssExtractPlugin("style.css"), new OptimizeCssAssetsPlugin()]
-        : [new webpack.HotModuleReplacementPlugin()],
+        : [
+            new webpack.HotModuleReplacementPlugin(),
+            new ForkTsCheckerPlugin({
+              checkSyntacticErrors: true,
+            }),
+          ],
     ),
     resolve: {
+      extensions: [".js", ".ts", ".tsx"],
       alias: {
         "cesium-react": path.resolve(__dirname, "..", "src"),
       },

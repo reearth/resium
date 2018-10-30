@@ -8,6 +8,6 @@
   "bracketSpacing": true,
   "jsxBracketSameLine": true,
   "arrowParens": "avoid",
-  "parser": "babylon",
+  "parser": "typescript",
   "proseWrap": "preserve"
 }
