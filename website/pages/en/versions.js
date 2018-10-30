@@ -5,9 +5,9 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-const React = require('react');
+const React = require("react");
 
-const CompLibrary = require('../../core/CompLibrary');
+const CompLibrary = require("../../core/CompLibrary");
 
 const Container = CompLibrary.Container;
 
@@ -18,9 +18,7 @@ const versions = require(`${CWD}/versions.json`);
 
 function Versions() {
   const latestVersion = versions[0];
-  const repoUrl = `https://github.com/${siteConfig.organizationName}/${
-    siteConfig.projectName
-  }`;
+  const repoUrl = `https://github.com/${siteConfig.organizationName}/${siteConfig.projectName}`;
   return (
     <div className="docMainWrapper wrapper">
       <Container className="mainContainer versionsContainer">
@@ -44,8 +42,8 @@ function Versions() {
             </tbody>
           </table>
           <p>
-            This is the version that is configured automatically when you first
-            install this project.
+            This is the version that is configured automatically when you first install this
+            project.
           </p>
           <h3 id="rc">Pre-release versions</h3>
           <table className="versions">
@@ -82,8 +80,7 @@ function Versions() {
             </tbody>
           </table>
           <p>
-            You can find past versions of this project on{' '}
-            <a href={repoUrl}>GitHub</a>.
+            You can find past versions of this project on <a href={repoUrl}>GitHub</a>.
           </p>
         </div>
       </Container>

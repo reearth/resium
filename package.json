@@ -18,12 +18,13 @@
     "build:umd": "rollup -c",
     "build:umd:min": "cross-env NODE_ENV=production rollup -c",
     "format": "run-p format:js",
-    "format:js": "prettier-eslint --write '*.js' --write 'src/**/*.js' --write '.storybook/**/*.js'",
+    "format:js": "prettier-eslint --write '*.js' --write 'src/**/*.js' --write '.storybook/**/*.js' --write 'website/**/*.js'",
     "examples:lint": "eslint examples",
     "examples:dev": "cross-env BABEL_ENV=examples webpack-dev-server --mode development --config examples/webpack.config.js --progress",
     "examples:format": "run-p format:js",
     "examples:format:js": "prettier-eslint --write 'examples/**/*.js'",
     "examples:build": "webpack --mode production --config examples/webpack.config.js --progress",
+    "docs:lint": "eslint website/**/*.js",
     "storybook": "cross-env BABEL_ENV=storybook start-storybook -p 9001"
   },
   "engines": {
