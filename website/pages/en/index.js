@@ -6,7 +6,6 @@
  */
 
 const React = require("react");
-const PropTypes = require("prop-types");
 
 /* eslint-disable-next-line node/no-missing-require */
 const CompLibrary = require("../../core/CompLibrary.js");
@@ -30,11 +29,6 @@ function pageUrl(page, language) {
 }
 
 class Button extends React.Component {
-  static propTypes = {
-    href: PropTypes.string,
-    target: PropTypes.string,
-    children: PropTypes.any,
-  };
   render() {
     return (
       <div className="pluginWrapper buttonWrapper">
@@ -46,10 +40,6 @@ class Button extends React.Component {
   }
 }
 
-Button.defaultProps = {
-  target: "_self",
-};
-
 const SplashContainer = props => (
   <div className="homeContainer">
     <div className="homeSplashFade">
@@ -57,19 +47,12 @@ const SplashContainer = props => (
     </div>
   </div>
 );
-SplashContainer.propTypes = {
-  children: PropTypes.any,
-};
 
 const Logo = props => (
   <div className="projectLogo">
     <img src={props.img_src} alt="Project Logo" />
   </div>
 );
-
-Logo.propTypes = {
-  img_src: PropTypes.string,
-};
 
 const ProjectTitle = () => (
   <h2 className="projectTitle">
@@ -85,14 +68,8 @@ const PromoSection = props => (
     </div>
   </div>
 );
-PromoSection.propTypes = {
-  children: PropTypes.any,
-};
 
 class HomeSplash extends React.Component {
-  static propTypes = {
-    language: PropTypes.string,
-  };
   render() {
     const language = this.props.language || "";
     return (
@@ -116,12 +93,6 @@ const Block = props => (
     <GridBlock align="center" contents={props.children} layout={props.layout} />
   </Container>
 );
-Block.propTypes = {
-  id: PropTypes.string,
-  background: PropTypes.string,
-  children: PropTypes.any,
-  layout: PropTypes.any,
-};
 
 const Features = () => (
   <Block layout="fourColumn">
@@ -212,14 +183,8 @@ const Showcase = props => {
     </div>
   );
 };
-Showcase.propTypes = {
-  language: PropTypes.string,
-};
 
 class Index extends React.Component {
-  static propTypes = {
-    language: PropTypes.string,
-  };
   render() {
     const language = this.props.language || "";
 
