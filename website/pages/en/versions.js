@@ -7,6 +7,7 @@
 
 const React = require("react");
 
+/* eslint-disable-next-line node/no-missing-require */
 const CompLibrary = require("../../core/CompLibrary");
 
 const Container = CompLibrary.Container;

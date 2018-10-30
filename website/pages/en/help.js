@@ -7,11 +7,13 @@
 
 const React = require("react");
 
+/* eslint-disable-next-line node/no-missing-require */
 const CompLibrary = require("../../core/CompLibrary.js");
 
 const Container = CompLibrary.Container;
 const GridBlock = CompLibrary.GridBlock;
 
+/* eslint-disable-next-line node/no-missing-require */
 const translate = require("../../server/translate.js").translate;
 
 class Help extends React.Component {
@@ -30,7 +32,7 @@ class Help extends React.Component {
         title: <translate>Join the community</translate>,
       },
       {
-        content: <translate>Find out what's new with this project</translate>,
+        content: <translate>Find out what&apos;s new with this project</translate>,
         title: <translate>Stay up to date</translate>,
       },
     ];
