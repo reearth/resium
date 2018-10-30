@@ -1,0 +1,43 @@
+{
+    "_comment": "このファイルはwrite-translations.jsによって自動で生成されています",
+    "localized-strings": {
+        "next": "次へ",
+        "previous": "前へ",
+        "tagline": "テストウェブサイト",
+        "docs": {
+            "doc1": {
+                "title": "Latin-ish",
+                "sidebar_label": "Exampleページ"
+            },
+            "doc2": {
+                "title": "ドキュメント２"
+            },
+            "doc3": {
+                "title": "ドキュメント３"
+            },
+            "doc4": {
+                "title": "その他のドキュメント"
+            },
+            "doc5": {
+                "title": "５番目のドキュメント"
+            }
+        },
+        "links": {
+            "Docs": "ドキュメント",
+            "API": "API",
+            "Help": "ヘルプ",
+            "Blog": "ブログ",
+            "Version": "バージョン"
+        },
+        "categories": {
+            "Docusaurus": "Docusaurus",
+            "First Category": "最初のカテゴリー",
+            "Second Category": "2番めのカテゴリー"
+        }
+    },
+    "pages-strings": {
+        "Help Translate|recruit community translators for your project": "翻訳を手伝う",
+        "Edit this Doc|recruitment message asking to edit the doc source": "編集する",
+        "Translate this Doc|recruitment message asking to translate the docs": "翻訳する"
+    }
+}
