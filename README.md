@@ -1,13 +1,13 @@
-# cesium-react
+# resium
 
 [![Build Status](https://travis-ci.org/rot1024/cesium-react.svg?branch=master)](https://travis-ci.org/rot1024/cesium-react) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
 
-React components for 🌏 [Cesium](https://cesiumjs.org/)
+React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 
 ```js
 import React from "react";
 import { Cartesian3 } from "cesium";
-import { Viewer, Entity } from "cesium-react";
+import { Viewer, Entity } from "resium";
 
 export default class Cesium extends React.PureComponent {
 
@@ -54,8 +54,8 @@ Available components:
 The documentation is currently under construction. Refer to [storybook](src/stories).
 
 ```bash
-git clone https://github.com/rot1024/cesium-react.git
-cd cesium-react
+git clone https://github.com/darwin-education/resium.git
+cd resium
 yarn
 yarn run storybook # run storybook
 ```
@@ -67,7 +67,7 @@ yarn run storybook # run storybook
 See also: [example](example)
 
 ```bash
-npm i cesium-react cesium copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
+npm i resium cesium copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
 ```
 
 webpack.config.js:
@@ -117,7 +117,7 @@ module.exports = (env, args) => {
 After the article:
 
 ```bash
-npm i cesium-react
+npm i resium
 ```
 
 ```js

@@ -5,7 +5,7 @@
   "main": "dist/cesium-react.cjs.js",
   "module": "dist/cesium-react.es.js",
   "types": "dist/types/index.d.ts",
-  "repository": "https://github.com/rot1024/cesium-react.git",
+  "repository": "https://github.com/darwin-education/resium.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
   "scripts": {
