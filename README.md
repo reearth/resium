@@ -51,7 +51,7 @@ Available components:
 
 ## Documentation
 
-The documentation is currently under construction. Refer to storybook.
+The documentation is currently under construction. Refer to [storybook](src/stories).
 
 ```bash
 git clone https://github.com/rot1024/cesium-react.git
@@ -62,10 +62,12 @@ yarn run storybook # run storybook
 
 ## Getting Started
 
-### Typical env: webpack + copy-webpack-plugin + html-webpack-include-assets-plugin
+### Option1: webpack + copy-webpack-plugin + html-webpack-plugin  + html-webpack-include-assets-plugin
+
+See also: [example](example)
 
 ```bash
-npm i cesium cesium-react copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
+npm i cesium-react cesium copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
 ```
 
 webpack.config.js:
@@ -81,12 +83,12 @@ module.exports = (env, args) => {
 
   return {
     externals: {
-      cesium: "Cesium"
+      cesium: 'Cesium'
     },
     plugins: {
       new CopyWebpackPlugin([
         {
-          from: `node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
+          from: `node_modules/cesium/Build/Cesium${prod ? '' : 'Unminified'}`,
           to: 'cesium'
         }
       ]),
@@ -99,7 +101,7 @@ module.exports = (env, args) => {
         ]
       }),
       new webpack.DefinePlugin({
-        CESIUM_BASE_URL: JSON.stringify("cesium")
+        CESIUM_BASE_URL: JSON.stringify('cesium')
       })
       // ...
     }
@@ -108,7 +110,7 @@ module.exports = (env, args) => {
 }
 ```
 
-### [Cesium official way](https://cesiumjs.org/tutorials/cesium-and-webpack/)
+### Option2: [Cesium official way](https://cesiumjs.org/tutorials/cesium-and-webpack/)
 
 **⚠ Unconfirmed**
 
