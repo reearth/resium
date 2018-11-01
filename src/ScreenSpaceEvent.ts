@@ -1,20 +1,19 @@
 import React from "react";
-import PropTypes from "prop-types";
 
 import { screenSpaceEventHandlerType } from "./core/types";
 
-export default class ScreenSpaceEvent extends React.PureComponent {
-  static propTypes = {
-    action: PropTypes.func,
-    modifier: PropTypes.number,
-    type: PropTypes.number.isRequired,
-  };
+export interface ScreenSpaceEventProps {
+  action: () => void;
+  modifier?: number;
+  type: number;
+}
 
-  static contextTypes = {
+export default class ScreenSpaceEvent extends React.PureComponent<ScreenSpaceEventProps> {
+  public static contextTypes = {
     screenSpaceEventHandler: screenSpaceEventHandlerType,
   };
 
-  componentDidMount() {
+  public componentDidMount() {
     const { action, modifier, type } = this.props;
     const { screenSpaceEventHandler } = this.context;
     if (action) {
@@ -25,13 +24,13 @@ export default class ScreenSpaceEvent extends React.PureComponent {
     }
   }
 
-  componentDidUpdate(prevProps) {
+  public componentDidUpdate(prevProps: ScreenSpaceEventProps) {
     const { screenSpaceEventHandler } = this.context;
     screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
     this.componentDidMount();
   }
 
-  componentWillUnmount() {
+  public componentWillUnmount() {
     const { action, modifier, type } = this.props;
     const { screenSpaceEventHandler } = this.context;
     if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
@@ -39,7 +38,7 @@ export default class ScreenSpaceEvent extends React.PureComponent {
     }
   }
 
-  render() {
+  public render() {
     return null;
   }
 }
