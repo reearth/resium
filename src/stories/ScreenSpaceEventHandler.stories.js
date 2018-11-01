@@ -8,7 +8,7 @@ import ScreenSpaceEvent from "../ScreenSpaceEvent";
 import ScreenSpaceEventHandler from "../ScreenSpaceEventHandler";
 
 export default () => {
-  storiesOf("ScreenSpaceEventHandler", module).addWithJSX("default", () => (
+  storiesOf("ScreenSpaceEventHandler", module).add("default", () => (
     <Viewer full>
       <ScreenSpaceEventHandler>
         <ScreenSpaceEvent action={action("Left Click")} type={ScreenSpaceEventType.LEFT_CLICK} />
