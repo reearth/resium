@@ -1,24 +1,23 @@
-import PropTypes from "prop-types";
+import { EasingFunction, Camera, Cartesian3, Matrix4, Rectangle } from "cesium";
 
 import CameraOperation from "./core/CameraOperation";
 
-export default class CameraFlyTo extends CameraOperation {
-  static propTypes = {
-    ...CameraOperation.propTypes,
-    destination: PropTypes.any.isRequired,
-    duration: PropTypes.number,
-    easingFunction: PropTypes.any,
-    endTransform: PropTypes.any,
-    flyOverLongitude: PropTypes.number,
-    flyOverLongitudeWeight: PropTypes.number,
-    maximumHeight: PropTypes.number,
-    onCancel: PropTypes.func,
-    onComplete: PropTypes.func,
-    orientation: PropTypes.object,
-    pitchAdjustHeight: PropTypes.number,
-  };
+export interface CameraFlyToProps {
+  destination: Cartesian3 | Rectangle;
+  orientation?: any;
+  duration?: number;
+  onComplete?: Camera.FlightCompleteCallback;
+  onCancel?: Camera.FlightCancelledCallback;
+  endTransform?: Matrix4;
+  maximumHeight?: number;
+  pitchAdjustHeight?: number;
+  flyOverLongitude?: number;
+  flyOverLongitudeWeight?: number;
+  easingFunction?: EasingFunction;
+}
 
-  cameraOperationStart(camera) {
+export default class CameraFlyTo extends CameraOperation<CameraFlyToProps> {
+  public cameraOperationStart(camera: Camera) {
     const {
       destination,
       orientation,
