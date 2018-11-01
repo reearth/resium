@@ -35,9 +35,7 @@ module.exports = (env, args) => {
     },
     plugins: [
       new webpack.DefinePlugin({
-        "process.env": {
-          CESIUM_BASE_URL: JSON.stringify("/cesium"),
-        },
+        CESIUM_BASE_URL: JSON.stringify("/cesium"),
       }),
       new CopyPlugin([
         {
