@@ -7,7 +7,7 @@ import Entity from "../Entity";
 
 export default () => {
   storiesOf("Entity", module)
-    .addWithJSX("default", () => (
+    .add("default", () => (
       <Viewer full>
         <Entity
           name="test"
@@ -17,7 +17,7 @@ export default () => {
         />
       </Viewer>
     ))
-    .addWithJSX("children", () => (
+    .add("children", () => (
       <Viewer full>
         <Entity
           name="test"

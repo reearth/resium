@@ -29,7 +29,7 @@ const appearance = new EllipsoidSurfaceAppearance({
 });
 
 export default () => {
-  storiesOf("Primitive", module).addWithJSX("default", () => (
+  storiesOf("Primitive", module).add("default", () => (
     <Viewer full>
       <Primitive geometryInstances={geometry} appearance={appearance} />
     </Viewer>

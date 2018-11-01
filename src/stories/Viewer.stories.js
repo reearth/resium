@@ -4,5 +4,5 @@ import { storiesOf } from "@storybook/react";
 import Viewer from "../Viewer";
 
 export default () => {
-  storiesOf("Viewer", module).addWithJSX("default", () => <Viewer full />);
+  storiesOf("Viewer", module).add("default", () => <Viewer full />);
 };
