@@ -4,7 +4,7 @@ import { Cartesian3 } from "cesium";
 import { Viewer, Entity } from "resium";
 
 const App = () => (
-  <Viewer className="full">
+  <Viewer full>
     <Entity
       name="Tokyo"
       position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
