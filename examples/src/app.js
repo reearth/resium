@@ -1,23 +1,17 @@
 import React from "react";
 import { hot } from "react-hot-loader";
-import { Switch, Route } from "react-router-dom";
-
-import Sidebar from "./sidebar";
-import pages from "./pages";
-
-import "./style.css";
+import { Cartesian3 } from "cesium";
+import { Viewer, Entity } from "resium";
 
 const App = () => (
-  <div className="full">
-    <Sidebar className="sidebar" pages={pages} />
-    <div className="viewer">
-      <Switch>
-        {pages.map(p => (
-          <Route key={p.slug} path={`/${p.slug}`} component={p.component} />
-        ))}
-      </Switch>
-    </div>
-  </div>
+  <Viewer className="full">
+    <Entity
+      name="Tokyo"
+      position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+      point={{ pixelSize: 10 }}>
+      <h1>Hello, world.</h1>
+    </Entity>
+  </Viewer>
 );
 
 export default hot(module)(App);
