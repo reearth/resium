@@ -4,6 +4,7 @@ import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
 import Entity from "../Entity";
+import CanvasEntity from "./CanvasEntity";
 
 export default () => {
   storiesOf("Entity", module)
@@ -17,7 +18,7 @@ export default () => {
         />
       </Viewer>
     ))
-    .add("children", () => (
+    .add("Children with JSX", () => (
       <Viewer full>
         <Entity
           name="test"
@@ -26,6 +27,15 @@ export default () => {
           <h1>Hello!</h1>
           <p>This is description. It can be described with JSX!</p>
         </Entity>
+      </Viewer>
+    ))
+    .add("Animated canvas", () => (
+      <Viewer full>
+        <CanvasEntity
+          name="test"
+          description="test"
+          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
+        />
       </Viewer>
     ));
 };
