@@ -51,19 +51,13 @@ Available components:
 
 ## Documentation
 
-Sorry, no documents now.
-
-Please refer to storybook and examples:
+The documentation is currently under construction. Refer to storybook.
 
 ```bash
 git clone https://github.com/rot1024/cesium-react.git
 cd cesium-react
 yarn
-
-# run dev server for examples
-yarn run examples:dev
-# run storybook
-yarn run storybook
+yarn run storybook # run storybook
 ```
 
 ## Getting Started
@@ -71,49 +65,46 @@ yarn run storybook
 ### Typical env: webpack + copy-webpack-plugin + html-webpack-include-assets-plugin
 
 ```bash
-npm i cesium cesium-react --save
-npm i copy-webpack-plugin --save-dev
-npm i html-webpack-include-assets-plugin --save-dev
+npm i cesium cesium-react copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
 ```
 
 webpack.config.js:
 
 ```js
-
+const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 const HtmlWebpackIncludeAssetsPlugin = require('html-webpack-include-assets-plugin');
 
-module.exports = {
-  externals: {
-    cesium: "Cesium"
-  },
-  output: {
-    publicPath: "/"
+module.exports = (env, args) => {
+  const prod = args.mode === "production";
+
+  return {
+    externals: {
+      cesium: "Cesium"
+    },
+    plugins: {
+      new CopyWebpackPlugin([
+        {
+          from: `node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
+          to: 'cesium'
+        }
+      ]),
+      new HtmlWebpackPlugin(),
+      new HtmlWebpackIncludeAssetsPlugin({
+        append: false,
+        assets: [
+          'cesium/Widgets/widgets.css',
+          'cesium/Cesium.js'
+        ]
+      }),
+      new webpack.DefinePlugin({
+        CESIUM_BASE_URL: JSON.stringify("cesium")
+      })
+      // ...
+    }
     // ...
-  },
-  plugins: {
-    new CopyWebpackPlugin([
-      {
-        from: `node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
-        to: "cesium"
-      }
-    ]),
-    new HtmlWebpackIncludeAssetsPlugin({
-      append: false,
-      assets: [
-        "cesium/Widgets/widgets.css",
-        "cesium/Cesium.js"
-      ]
-    }),
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(opts && prod ? "production" : "development"),
-        CESIUM_BASE_URL: JSON.stringify("/cesium")
-      }
-    })
-    // ...
-  }
-  // ...
+  };
 }
 ```
 
@@ -152,11 +143,7 @@ import Color from "cesiumSource/Core/Color";
 
 ## TODO
 
-- [ ] Implement other components (Model, EntityCollection, ParticleSystem, Cesium3DTileset ...)
-- [ ] Set up proper prop types
-- [ ] More unit tests
-- [ ] More documentation
-- [ ] More examples
+Refer to GitHub issues.
 
 ## Contributing
 
