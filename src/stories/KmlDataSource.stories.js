@@ -54,7 +54,7 @@ export default () => {
     "text/xml",
   );
 
-  storiesOf("KmlDataSource", module).addWithJSX("default", () => (
+  storiesOf("KmlDataSource", module).add("default", () => (
     <Viewer full>
       <KmlDataSource data={data} />
     </Viewer>

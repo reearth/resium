@@ -24,7 +24,17 @@
   "settings": {
     "react": {
       "version": "16.4"
-    }
+    },
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    },
   },
   "overrides": [
     {

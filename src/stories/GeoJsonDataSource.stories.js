@@ -19,7 +19,7 @@ const data = {
 };
 
 export default () => {
-  storiesOf("GeoJsonDataSource", module).addWithJSX("default", () => (
+  storiesOf("GeoJsonDataSource", module).add("default", () => (
     <Viewer full>
       <GeoJsonDataSource data={data} markerColor={Color.RED} />
     </Viewer>

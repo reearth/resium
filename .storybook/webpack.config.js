@@ -7,12 +7,18 @@ module.exports = {
   externals: {
     cesium: "Cesium",
   },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        use: "ts-loader",
+      },
+    ],
+  },
   plugins: [
     new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify("development"),
-        CESIUM_BASE_URL: JSON.stringify("/cesium"),
-      },
+      CESIUM_BASE_URL: JSON.stringify("/cesium"),
     }),
     new CopyPlugin([
       {
@@ -21,4 +27,7 @@ module.exports = {
       },
     ]),
   ],
+  resolve: {
+    extensions: [".js", ".ts", ".tsx"],
+  },
 };

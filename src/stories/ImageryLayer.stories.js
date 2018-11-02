@@ -6,7 +6,7 @@ import Viewer from "../Viewer";
 import ImageryLayer from "../ImageryLayer";
 
 export default () => {
-  storiesOf("ImageryLayer", module).addWithJSX("default", () => (
+  storiesOf("ImageryLayer", module).add("default", () => (
     <Viewer full>
       <ImageryLayer
         imageryProvider={

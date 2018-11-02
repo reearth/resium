@@ -2,3 +2,5 @@ node_modules
 *.log
 examples/build
 /coverage
+/.cache
+/.rpt2_cache

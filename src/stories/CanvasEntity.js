@@ -1,10 +1,12 @@
 import React from "react";
 
-import { Cartesian3 } from "cesium";
-
-import { Viewer, Entity } from "cesium-react";
+import Entity from "../Entity";
 
 export default class CanvasEntity extends React.PureComponent {
+  static propTypes = {
+    ...Entity.propTypes,
+  };
+
   state = {
     progress: 0,
     image: null,
@@ -64,15 +66,6 @@ export default class CanvasEntity extends React.PureComponent {
 
   render() {
     const { image } = this.state;
-    return (
-      <Viewer full>
-        <Entity
-          name="test"
-          description="test"
-          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-          billboard={{ image }}
-        />
-      </Viewer>
-    );
+    return <Entity {...this.props} billboard={{ image }} />;
   }
 }

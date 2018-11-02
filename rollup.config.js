@@ -1,8 +1,10 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
 import babel from "rollup-plugin-babel";
+import typescript from "rollup-plugin-typescript2";
 import replace from "rollup-plugin-replace";
 import { terser } from "rollup-plugin-terser";
+import sourcemaps from "rollup-plugin-sourcemaps";
 
 // eslint-disable-next-line import/extensions
 import pkg from "./package.json";
@@ -26,13 +28,25 @@ export default {
       cesium: "Cesium",
     },
     name: "CesiumReact",
+    sourcemap: true,
   },
   plugins: [
     babel({
       exclude: "node_modules/**",
     }),
+    typescript({
+      tsconfigOverride: {
+        compilerOptions: {
+          declaration: env === "es", // only compile defs in es format
+          declarationDir: "dist/types",
+          module: "es2015",
+        },
+      },
+      useTsconfigDeclarationDir: true,
+    }),
     resolve(),
     commonjs(),
+    sourcemaps(),
   ].concat(
     env === "production"
       ? [
