@@ -21,7 +21,7 @@ const users = [
 ];
 
 const siteConfig = {
-  title: "resium documents", // Title for your website.
+  title: "resium", // Title for your website.
   tagline: "Documents for resium",
   url: "https://darwin-education.github.io", // Your website URL
   baseUrl: "/resium/", // Base URL for your project */
@@ -43,6 +43,7 @@ const siteConfig = {
     { page: "help", label: "Help" },
     { blog: true, label: "Blog" },
     { page: "versions", label: "Version" },
+    { href: "https://github.com/", label: "GitHub" },
     { languages: true },
   ],
 
@@ -56,30 +57,24 @@ const siteConfig = {
 
   /* Colors for website */
   colors: {
-    primaryColor: "#2E8555",
-    secondaryColor: "#205C3B",
+    primaryColor: "#34323A",
+    secondaryColor: "#232323",
+    myColor: {},
   },
 
   /* Custom fonts for website */
-  /*
   fonts: {
-    myFont: [
-      "Times New Roman",
-      "Serif"
-    ],
-    myOtherFont: [
-      "-apple-system",
-      "system-ui"
-    ]
+    myFont: ["Roboto", "Serif"],
+    myOtherFont: ["-apple-system", "system-ui"],
   },
-  */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Your Name or Your Company Name`,
+  copyright: `Copyright © ${new Date().getFullYear()} Darwin Education Inc.`,
 
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
     theme: "default",
+    defaultLang: "javascript",
   },
 
   // Add custom scripts here that would be placed in <script> tags.
@@ -91,8 +86,18 @@ const siteConfig = {
   cleanUrl: true,
 
   // Open Graph and Twitter card images.
+  twitter: true,
   ogImage: "img/docusaurus.png",
   twitterImage: "img/docusaurus.png",
+
+  algolia: {
+    apiKey: "",
+    indexName: "",
+    appId: "",
+  },
+
+  enableUpdateTime: true,
+  scrollToTop: true,
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...

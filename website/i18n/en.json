@@ -43,7 +43,8 @@
       "API": "API",
       "Help": "Help",
       "Blog": "Blog",
-      "Version": "Version"
+      "Version": "Version",
+      "GitHub": "GitHub"
     },
     "categories": {
       "Docusaurus": "Docusaurus",
