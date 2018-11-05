@@ -7,9 +7,15 @@
     "Guides": [
       "doc3",
       "doc4",
-      "doc5"
+      "doc5",
+      "doc6"
     ],
-    "Examples": [],
-    "API": []
+    "Examples": [
+      "doc7"
+    ],
+    "API": [
+      "doc8",
+      "doc9"
+    ]
   }
 }

@@ -7,9 +7,15 @@
     "Guides": [
       "version-1.0.0-doc3",
       "version-1.0.0-doc4",
-      "version-1.0.0-doc5"
+      "version-1.0.0-doc5",
+      "version-1.0.0-doc6"
     ],
-    "Examples": [],
-    "API": []
+    "Examples": [
+      "version-1.0.0-doc7"
+    ],
+    "API": [
+      "version-1.0.0-doc8",
+      "version-1.0.0-doc9"
+    ]
   }
 }

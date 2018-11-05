@@ -19,7 +19,19 @@
         "title": "How properties work"
       },
       "doc5": {
-        "title": "Fifth Document"
+        "title": "How to make your own components"
+      },
+      "doc6": {
+        "title": "How to use cesium object directly"
+      },
+      "doc7": {
+        "title": "Examples"
+      },
+      "doc8": {
+        "title": "Components API"
+      },
+      "doc9": {
+        "title": "Types"
       },
       "version-1.0.0-doc1": {
         "title": "Installation",
@@ -36,6 +48,18 @@
       },
       "version-1.0.0-doc5": {
         "title": "How to make your own components"
+      },
+      "version-1.0.0-doc6": {
+        "title": "How to use cesium object directly"
+      },
+      "version-1.0.0-doc7": {
+        "title": "Examples"
+      },
+      "version-1.0.0-doc8": {
+        "title": "Components API"
+      },
+      "version-1.0.0-doc9": {
+        "title": "Types"
       }
     },
     "links": {

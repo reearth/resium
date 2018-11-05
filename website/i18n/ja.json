@@ -10,7 +10,7 @@
                 "sidebar_label": "インストール方法"
             },
             "doc2": {
-                "title": "実行 & ビルド方法"
+                "title": "実行 & ビルド"
             },
             "doc3": {
                 "title": "ライフサイクル"
@@ -19,7 +19,47 @@
                 "title": "プロパティの挙動"
             },
             "doc5": {
-                "title": "５番目のドキュメント"
+                "title": "オリジナルのコンポーネントを作る"
+            },
+            "doc6": {
+                "title": "Cesiumのオブジェクトを直接操作する"
+            },
+            "doc7": {
+                "title": "実装例"
+            },
+            "doc8": {
+                "title": "コンポーネント API"
+            },
+            "doc9": {
+                "title": "型"
+            },
+            "version-1.0.0-doc1": {
+                "title": "インストール",
+                "sidebar_label": "インストール"
+            },
+            "version-1.0.0-doc2": {
+                "title": "実行 & ビルド"
+            },
+            "version-1.0.0-doc3": {
+                "title": "ライフサイクル"
+            },
+            "version-1.0.0-doc4": {
+                "title": "プロパティの挙動"
+            },
+            "version-1.0.0-doc5": {
+                "title": "オリジナルのコンポーネントを作る"
+            },
+            "version-1.0.0-doc6": {
+                "title": "Cesiumのオブジェクトを直接操作する"
+            },
+            "version-1.0.0-doc7": {
+                "title": "実装例"
+            },
+            "version-1.0.0-doc8": {
+                "title": "コンポーネント API"
+            },
+            "version-1.0.0-doc9": {
+                "title": "型"
             }
         },
         "links": {
