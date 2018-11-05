@@ -1,7 +1,8 @@
 ---
-id: doc1
-title: Latin-ish
-sidebar_label: Example Page
+id: version-1.0.0-doc1
+title: Installation
+sidebar_label: Installation
+original_id: doc1
 ---
 
 Check the [documentation](https://docusaurus.io) for how to use Docusaurus.

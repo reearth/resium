@@ -1,6 +1,7 @@
 ---
-id: doc2
-title: document number 2
+id: version-1.0.0-doc2
+title: How to run and build
+original_id: doc2
 ---
 
 This is a link to [another document.](doc3.md)  

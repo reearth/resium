@@ -1,6 +1,6 @@
 ---
 id: doc4
-title: Other Document
+title: How properties work
 ---
 
 this is another document

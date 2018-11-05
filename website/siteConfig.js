@@ -25,16 +25,10 @@ const siteConfig = {
   tagline: "Documents for resium",
   url: "https://darwin-education.github.io", // Your website URL
   baseUrl: "/resium/", // Base URL for your project */
-  // For github.io type URLs, you would set the url and baseUrl like:
-  //   url: 'https://facebook.github.io',
-  //   baseUrl: '/test-site/',
 
   // Used for publishing and more
   projectName: "resium",
   organizationName: "darwin-education",
-  // For top-level user or org sites, the organization is still the same.
-  // e.g., for the https://JoelMarcey.github.io site, it would be set like...
-  //   organizationName: 'JoelMarcey'
 
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
@@ -43,7 +37,7 @@ const siteConfig = {
     { page: "help", label: "Help" },
     { blog: true, label: "Blog" },
     { page: "versions", label: "Version" },
-    { href: "https://github.com/", label: "GitHub" },
+    { href: "https://github.com/darwin-education/resium/", label: "GitHub" },
     { languages: true },
   ],
 
@@ -90,18 +84,19 @@ const siteConfig = {
   ogImage: "img/docusaurus.png",
   twitterImage: "img/docusaurus.png",
 
-  algolia: {
-    apiKey: "",
-    indexName: "",
-    appId: "",
-  },
+  // algolia: {
+  //   apiKey: "",
+  //   indexName: "",
+  //   appId: "",
+  // },
 
   enableUpdateTime: true,
   scrollToTop: true,
+  blogSidebarTitle: { default: "Recent posts", all: "All blog posts" },
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-  //   repoUrl: 'https://github.com/facebook/test-site',
+  repoUrl: "https://github.com/darwin-education/resium",
 };
 
 module.exports = siteConfig;

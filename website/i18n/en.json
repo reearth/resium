@@ -6,36 +6,36 @@
     "tagline": "Documents for resium",
     "docs": {
       "doc1": {
-        "title": "Latin-ish",
-        "sidebar_label": "Example Page"
+        "title": "Installation",
+        "sidebar_label": "Installation"
       },
       "doc2": {
-        "title": "document number 2"
+        "title": "How to run and build"
       },
       "doc3": {
-        "title": "This is document number 3"
+        "title": "Lifecycles"
       },
       "doc4": {
-        "title": "Other Document"
+        "title": "How properties work"
       },
       "doc5": {
         "title": "Fifth Document"
       },
       "version-1.0.0-doc1": {
-        "title": "Latin-ish",
-        "sidebar_label": "Example Page"
+        "title": "Installation",
+        "sidebar_label": "Installation"
       },
       "version-1.0.0-doc2": {
-        "title": "document number 2"
+        "title": "How to run and build"
       },
       "version-1.0.0-doc3": {
-        "title": "This is document number 3"
+        "title": "Lifecycles"
       },
       "version-1.0.0-doc4": {
-        "title": "Other Document"
+        "title": "How properties work"
       },
       "version-1.0.0-doc5": {
-        "title": "Fifth Document"
+        "title": "How to make your own components"
       }
     },
     "links": {
@@ -47,9 +47,10 @@
       "GitHub": "GitHub"
     },
     "categories": {
-      "Docusaurus": "Docusaurus",
-      "First Category": "First Category",
-      "Second Category": "Second Category"
+      "Getting Started": "Getting Started",
+      "Guides": "Guides",
+      "Examples": "Examples",
+      "API": "API"
     }
   },
   "pages-strings": {

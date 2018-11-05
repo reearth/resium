@@ -1,10 +1,15 @@
 {
   "docs": {
-    "Docusaurus": ["doc1"],
-    "First Category": ["doc2"],
-    "Second Category": ["doc3"]
-  },
-  "docs-other": {
-    "First Category": ["doc4", "doc5"]
+    "Getting Started": [
+      "doc1",
+      "doc2"
+    ],
+    "Guides": [
+      "doc3",
+      "doc4",
+      "doc5"
+    ],
+    "Examples": [],
+    "API": []
   }
 }

@@ -3,20 +3,20 @@
     "localized-strings": {
         "next": "次へ",
         "previous": "前へ",
-        "tagline": "テストウェブサイト",
+        "tagline": "resium ドキュメント",
         "docs": {
             "doc1": {
-                "title": "Latin-ish",
-                "sidebar_label": "Exampleページ"
+                "title": "インストール方法",
+                "sidebar_label": "インストール方法"
             },
             "doc2": {
-                "title": "ドキュメント２"
+                "title": "実行 & ビルド方法"
             },
             "doc3": {
-                "title": "ドキュメント３"
+                "title": "ライフサイクル"
             },
             "doc4": {
-                "title": "その他のドキュメント"
+                "title": "プロパティの挙動"
             },
             "doc5": {
                 "title": "５番目のドキュメント"
@@ -30,12 +30,20 @@
             "Version": "バージョン"
         },
         "categories": {
-            "Docusaurus": "Docusaurus",
-            "First Category": "最初のカテゴリー",
-            "Second Category": "2番めのカテゴリー"
+            "Getting Started": "始める",
+            "Guides": "ガイド",
+            "Examples": "実装例"
         }
     },
     "pages-strings": {
+        "Learn more using the [documentation on this site.](/test-site/docs/en/doc1.html)|no description given": " [このサイトのドキュメント](/test-site/docs/en/doc1.html)についてもう少し知る",
+        "Browse Docs|no description given": "ドキュメントを見る",
+        "Ask questions about the documentation and project|no description given": "このドキュメントやプロジェクトに質問がある方はこちら",
+        "Join the community|no description given": "コミュニティに入る",
+        "Find out what's new with this project|no description given": "このプロジェクトの最新情報を知る",
+        "Stay up to date|no description given": "最新情報をキャッチアップする",
+        "Need help?|no description given": "お困りですか?",
+        "This project is maintained by a dedicated group of people.|statement made to reader": "このプロジェクトは専門のメンバーがメンテナンスを行っております。",
         "Help Translate|recruit community translators for your project": "翻訳を手伝う",
         "Edit this Doc|recruitment message asking to edit the doc source": "編集する",
         "Translate this Doc|recruitment message asking to translate the docs": "翻訳する"
