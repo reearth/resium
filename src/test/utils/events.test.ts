@@ -1,26 +1,33 @@
-import { attachEvents, detachEvents, updateEvents, getEventProps } from "../../utils/events";
+import {
+  attachEvents,
+  detachEvents,
+  updateEvents,
+  getEventProps,
+  Events,
+} from "../../utils/events";
 
 describe("utils/events", () => {
   class EventMock {
-    constructor(events = []) {
+    public events: Set<(...args: any[]) => void>;
+
+    constructor(events?: Array<(...args: any[]) => void>) {
       this.events = new Set(events);
     }
 
-    addEventListener(e) {
+    public addEventListener(e: (...args: any[]) => void) {
       this.events.add(e);
     }
 
-    removeEventListener(e) {
+    public removeEventListener(e: (...args: any[]) => void) {
       this.events.delete(e);
     }
   }
 
   it("should attach events", () => {
-    const events = {
+    const events: Events = {
       a: () => {
         /* dummy */
       },
-      b: 1, // not a function
     };
 
     const target = {
@@ -42,7 +49,7 @@ describe("utils/events", () => {
   });
 
   it("should update events", () => {
-    const prevEvents = {
+    const prevEvents: Events = {
       a: () => {
         /* dummy */
       },
@@ -54,11 +61,10 @@ describe("utils/events", () => {
       },
     };
 
-    const newEvents = {
+    const newEvents: Events = {
       a: () => {
         /* dummy */
       },
-      b: 1, // not a function
     };
 
     const target = {
@@ -82,7 +88,7 @@ describe("utils/events", () => {
   });
 
   it("should detach events", () => {
-    const events = {
+    const events: Events = {
       a: () => {
         /* dummy */
       },
@@ -104,7 +110,7 @@ describe("utils/events", () => {
 
   it("should return event props", () => {
     const names = ["add", "remove", "loadingEvent"];
-    const props = {
+    const props: Events = {
       onAdd: () => {
         /* dummy */
       },
@@ -118,11 +124,8 @@ describe("utils/events", () => {
 
     const result = getEventProps(names, props);
 
-    // eslint-disable-next-line react/destructuring-assignment
     expect(result).toEqual({ add: props.onAdd, loadingEvent: props.onLoading });
-    // eslint-disable-next-line react/destructuring-assignment
     expect(result.add).toBe(props.onAdd);
-    // eslint-disable-next-line react/destructuring-assignment
     expect(result.loadingEvent).toBe(props.onLoading);
   });
 });
