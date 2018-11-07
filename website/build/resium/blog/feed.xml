@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0">
+    <channel>
+        <title>resium Blog</title>
+        <link>https://darwin-education.github.io/resium/blog</link>
+        <description>The best place to stay up-to-date with the latest resium news and events.</description>
+        <lastBuildDate>Thu, 01 Jan 1970 00:00:00 GMT</lastBuildDate>
+        <docs>http://blogs.law.harvard.edu/tech/rss</docs>
+        <generator>Feed for Node.js</generator>
+        <image>
+            <title>resium Blog</title>
+            <url>https://darwin-education.github.io/resium/img/docusaurus.svg</url>
+            <link>https://darwin-education.github.io/resium/blog</link>
+        </image>
+        <copyright>Copyright © 2018 Darwin Education Inc.</copyright>
+        <item>
+            <title><![CDATA[We are building resium documents 1.0!]]></title>
+            <link>https://darwin-education.github.io/resium/blog/2018/11/5/new-version-1.0.0.html</link>
+            <guid>https://darwin-education.github.io/resium/blog/2018/11/5/new-version-1.0.0.html</guid>
+            <pubDate>Thu, 01 Jan 1970 00:00:00 GMT</pubDate>
+            <description><![CDATA[<p>Now we are building and writing our API and Documents for resium v1.0! Our suggestion of a table of contents is <a href="https://github.com/darwin-education/resium/issues/19">HERE.</a> Please check and give us your opinions!</p> ]]></description>
+        </item>
+    </channel>
+</rss>
