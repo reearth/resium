@@ -1,10 +1,4 @@
-import {
-  attachEvents,
-  detachEvents,
-  updateEvents,
-  getEventProps,
-  Events,
-} from "../../utils/events";
+import { attachEvents, detachEvents, updateEvents, getEventProps, Events } from "../../core/events";
 
 describe("utils/events", () => {
   class EventMock {

@@ -13,7 +13,7 @@ export interface Events {
 export const attachEvents = (target: unknown, events: Events) => {
   Object.entries(events).forEach(([k, v]) => {
     const ev = (target as Target)[k];
-    if (ev instanceof Event) {
+    if (ev instanceof Event && v) {
       ev.addEventListener(v);
     }
   });
@@ -22,7 +22,7 @@ export const attachEvents = (target: unknown, events: Events) => {
 export const detachEvents = (target: unknown, events: Events) => {
   Object.entries(events).forEach(([k, v]) => {
     const ev = (target as Target)[k];
-    if (ev instanceof Event) {
+    if (ev instanceof Event && v) {
       ev.removeEventListener(v);
     }
   });
