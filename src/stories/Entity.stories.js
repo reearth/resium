@@ -4,6 +4,7 @@ import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
 import Entity from "../Entity";
+import EntityDescription from "../EntityDescription";
 import CanvasEntity from "./CanvasEntity";
 
 export default () => {
@@ -12,7 +13,7 @@ export default () => {
       <Viewer full>
         <Entity
           name="test"
-          description="test"
+          description="test!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
           point={{ pixelSize: 10 }}
         />
@@ -24,8 +25,10 @@ export default () => {
           name="test"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
           point={{ pixelSize: 10 }}>
-          <h1>Hello!</h1>
-          <p>This is description. It can be described with JSX!</p>
+          <EntityDescription>
+            <h1>Hello!</h1>
+            <p>This is description. It can be described with JSX!</p>
+          </EntityDescription>
         </Entity>
       </Viewer>
     ))
