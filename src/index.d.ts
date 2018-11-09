@@ -1,3 +1,5 @@
+import "@storybook/addon-actions";
+
 declare module "@storybook/addon-actions" {
   export const actions: <T extends string>(
     ...args: T[]
