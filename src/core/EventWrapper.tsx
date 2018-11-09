@@ -72,9 +72,12 @@ const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
       }
 
       public componentDidMount() {
-        this.sseh = new ScreenSpaceEventHandler(this.props.cesium.cesiumWidget.canvas);
         this.sseh2 = new ScreenSpaceEventHandler(this.props.cesium.cesiumWidget.canvas);
-        this.sseh2.setInputAction(this.checkHovering as any, ScreenSpaceEventType.MOUSE_MOVE);
+        if (this.props.onMouseEnter || this.props.onMouseLeave) {
+          this.sseh2.setInputAction(this.checkHovering as any, ScreenSpaceEventType.MOUSE_MOVE);
+        }
+
+        this.sseh = new ScreenSpaceEventHandler(this.props.cesium.cesiumWidget.canvas);
         EventWrapper.events.forEach(e => {
           const prop = this.props[e.prop];
           if (this.sseh && prop) {
@@ -95,6 +98,22 @@ const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
             this.sseh.setInputAction(ev as any, e.type);
           }
         });
+
+        if (
+          this.sseh2 &&
+          (prevProps.onMouseEnter !== this.props.onMouseEnter ||
+            prevProps.onMouseLeave !== this.props.onMouseLeave)
+        ) {
+          if (!this.props.onMouseEnter && !this.props.onMouseLeave) {
+            this.sseh2.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
+          } else if (
+            (this.props.onMouseEnter || this.props.onMouseLeave) &&
+            !prevProps.onMouseEnter &&
+            !prevProps.onMouseLeave
+          ) {
+            this.sseh2.setInputAction(this.checkHovering as any, ScreenSpaceEventType.MOUSE_MOVE);
+          }
+        }
       }
 
       public componentWillUnmount() {
