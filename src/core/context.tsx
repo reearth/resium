@@ -9,7 +9,7 @@ export type WithContextType<P, C extends Context> = React.ComponentType<WithCont
 export const { Provider, Consumer } = React.createContext<Context>({});
 
 export const withContext = <P extends any, C extends Context>(Component: WithContextType<P, C>) => {
-  const withContextomponent: WithContextType<P, C> = (props, ref: React.Ref<any>) => (
+  const withContextomponent: React.SFC<P> = (props, ref: React.Ref<any>) => (
     <Consumer>{(value: Context) => <Component {...props} ref={ref} cesium={value} />}</Consumer>
   );
   return React.forwardRef(withContextomponent);
