@@ -157,7 +157,7 @@ const Viewer = createCesiumComponent<
   name: "Viewer",
   initLazy: true,
   createRef: true,
-  create(cprops, props, ref) {
+  create(cprops, props, context, ref) {
     // ref is not always undefined
     const v = new CesiumViewer((ref as React.RefObject<HTMLDivElement>).current as any, cprops);
 

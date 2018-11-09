@@ -10,7 +10,12 @@ export type EventkeyMap<T, P> = { [K in EventKeys<T>]?: P };
 
 export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   name: string;
-  create: (cesiumProps: Readonly<P>, props: Readonly<P>, ref?: React.RefObject<R>) => E;
+  create: (
+    cesiumProps: Readonly<P>,
+    props: Readonly<P>,
+    context: Readonly<C>,
+    ref?: React.RefObject<R>,
+  ) => E;
   mount?: (element: E, context: Readonly<C>, props: Readonly<P>, ref?: React.RefObject<R>) => void;
   unmount?: (
     element: E,
@@ -163,7 +168,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
         ...(opts.cesiumProps || []),
         ...(opts.cesiumReadonlyProps || []),
       ]);
-      this._ce = opts.create(cesiumProps, props, this.ref);
+      this._ce = opts.create(cesiumProps, props, this.props.cesium, this.ref);
 
       if (opts.setCesiumPropsAfterCreate && this._ce) {
         Object.entries(CesiumComponent.getCesiumProps(this.props)).forEach(([k, v]) => {
