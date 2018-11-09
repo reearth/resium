@@ -5,7 +5,9 @@ import { storiesOf } from "@storybook/react";
 import Viewer from "../Viewer";
 import Entity from "../Entity";
 import EntityDescription from "../EntityDescription";
+import ExtendedEntity from "../ExtendedEntity";
 import CanvasEntity from "./CanvasEntity";
+import { actions } from "@storybook/addon-actions";
 
 export default () => {
   storiesOf("Entity", module)
@@ -38,6 +40,35 @@ export default () => {
           name="test"
           description="test"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
+        />
+      </Viewer>
+    ))
+    .add("Extended entity", () => (
+      <Viewer full>
+        <ExtendedEntity
+          name="test"
+          description="test!!"
+          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
+          point={{ pixelSize: 10 }}
+          {...actions(
+            "onClick",
+            "onDoubleClick",
+            "onMouseDown",
+            "onMouseUp",
+            "onMiddleClick",
+            "onMiddleDown",
+            "onMiddleUp",
+            "onMouseMove",
+            "onPinchEnd",
+            "onPinchMove",
+            "onPinchStart",
+            "onRightClick",
+            "onRightDown",
+            "onRightUp",
+            "onWheel",
+            "onMouseEnter",
+            "onMouseLeave",
+          )}
         />
       </Viewer>
     ));
