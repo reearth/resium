@@ -41,9 +41,17 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   createRef?: boolean;
 }
 
+export type CesiumInnerComponentType<E, P> = React.ComponentType<P> & {
+  readonly cesiumElement?: E;
+};
+
+export type CesiumComponentType<E, P> = React.ComponentType<
+  P & React.ClassAttributes<CesiumInnerComponentType<E, P>>
+>;
+
 const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
   opts: CesiumComponentOption<E, P, C, CC, R>,
-) => {
+): CesiumComponentType<E, P> => {
   class CesiumComponent extends React.PureComponent<Prop<P, C>> {
     public static displayName = opts.name;
 
@@ -76,12 +84,6 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
     ) {
       return pick(props, opts.cesiumReadonlyProps || []);
-    }
-
-    private static getAllCesiumProps(
-      props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
-    ) {
-      return pick(props, (opts.cesiumProps || []).concat(opts.cesiumReadonlyProps || []));
     }
 
     private static shouldUpdate(a: { [key: string]: any }, b: { [key: string]: any }) {
