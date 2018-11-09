@@ -7,7 +7,7 @@ import Cesium, {
   Scene,
 } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "./core/TCesiumComponent";
+import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface ViewerCesiumProps {
   terrainProvider: Cesium.TerrainProvider;

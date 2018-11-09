@@ -1,6 +1,6 @@
 import Cesium, { EntityCollection, Entity as CesiumEntity } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "./core/TCesiumComponent";
+import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface EntityCesiumProps {
   availability: Cesium.TimeIntervalCollection;
