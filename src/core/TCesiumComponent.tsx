@@ -4,28 +4,41 @@ import pick from "lodash.pick";
 import { withContext, Provider } from "./context";
 import { attachEvents, updateEvents, detachEvents } from "./events";
 
-type Prop<P, C> = P & { cesium: C };
+export type Prop<P, C> = P & { cesium: C };
+export type EventKeys<T> = { [P in keyof T]: T[P] extends Cesium.Event ? P : never }[keyof T];
+export type EventkeyMap<T, P> = { [K in EventKeys<T>]?: P };
 
-type EventKeys<T> = { [P in keyof T]: T[P] extends Cesium.Event ? P : never }[keyof T];
-type EventkeyMap<T, P> = { [K in EventKeys<T>]: P };
-
-export interface CesiumComponentOption<E, P, C, CC = {}> {
+export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   name: string;
-  create: (props: Readonly<P>) => E;
-  mount?: (element: E, context: Readonly<C>, props: Readonly<P>) => void;
-  unmount?: (element: E, context: Readonly<C>, props: Readonly<P>) => void;
-  render?: (props: Readonly<P>) => React.ReactNode | false;
+  create: (cesiumProps: Readonly<P>, props: Readonly<P>, ref?: React.RefObject<R>) => E;
+  mount?: (element: E, context: Readonly<C>, props: Readonly<P>, ref?: React.RefObject<R>) => void;
+  unmount?: (
+    element: E,
+    context: Readonly<C>,
+    props: Readonly<P>,
+    ref?: React.RefObject<R>,
+  ) => void;
+  render?: (
+    element: E | undefined,
+    props: Readonly<P> & Readonly<{ children?: React.ReactNode }>,
+    mounted?: boolean,
+    ref?: React.RefObject<R>,
+  ) => React.ReactNode;
   updateProperties?: (element: E, props: Readonly<P>, prevProps: Readonly<P>) => void;
   update?: (element: E, props: Readonly<P>, prevProps: Readonly<P>) => void;
-  provide?: (props: Readonly<P>) => CC;
+  provide?: (element: E, props: Readonly<P>) => CC;
   cesiumProps?: Array<keyof P>;
-  cesiumReadOnlyProps?: Array<keyof P>;
+  cesiumReadonlyProps?: Array<keyof P>;
   cesiumEventProps?: EventkeyMap<E, keyof P>;
   initLazy?: boolean;
   setCesiumPropsAfterCreate?: boolean;
+  noRender?: boolean;
+  createRef?: boolean;
 }
 
-const createCesiumComponent = <E, P, C, CC>(opts: CesiumComponentOption<E, P, C, CC>) => {
+const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
+  opts: CesiumComponentOption<E, P, C, CC, R>,
+) => {
   class CesiumComponent extends React.PureComponent<Prop<P, C>> {
     public static displayName = opts.name;
 
@@ -38,7 +51,11 @@ const createCesiumComponent = <E, P, C, CC>(opts: CesiumComponentOption<E, P, C,
       return Object.entries(opts.cesiumEventProps).reduce(
         (a, [cesiumEventName, eventProp]) => ({
           ...a,
-          [cesiumEventName]: props[eventProp],
+          ...(eventProp
+            ? {
+                [cesiumEventName]: props[eventProp],
+              }
+            : {}),
         }),
         {},
       );
@@ -53,7 +70,13 @@ const createCesiumComponent = <E, P, C, CC>(opts: CesiumComponentOption<E, P, C,
     private static getCesiumReadOnlyProps(
       props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
     ) {
-      return pick(props, opts.cesiumReadOnlyProps || []);
+      return pick(props, opts.cesiumReadonlyProps || []);
+    }
+
+    private static getAllCesiumProps(
+      props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
+    ) {
+      return pick(props, (opts.cesiumProps || []).concat(opts.cesiumReadonlyProps || []));
     }
 
     private static shouldUpdate(a: { [key: string]: any }, b: { [key: string]: any }) {
@@ -65,32 +88,44 @@ const createCesiumComponent = <E, P, C, CC>(opts: CesiumComponentOption<E, P, C,
 
     private mounted: boolean = false;
 
+    private ref?: React.RefObject<R>;
+
     constructor(props: Readonly<Prop<P, C>>) {
       super(props);
+      if (opts.createRef) {
+        this.ref = React.createRef();
+      }
       if (!opts.initLazy) {
         this.create(props);
       }
     }
 
     public render() {
-      if (opts.render) {
-        return opts.render(this.props);
-      } else if (opts.render === false) {
+      if (opts.noRender) {
         return null;
       }
 
-      return !this.mounted ? null : opts.provide ? (
-        <Provider value={Object.assign({}, this.props.cesium, opts.provide(this.props))}>
-          {this.props.children}
+      const render = opts.render
+        ? opts.render(this._ce, this.props, this.mounted, this.ref)
+        : this.props.children || null;
+
+      return !opts.render && !this.mounted ? null : opts.provide ? (
+        <Provider
+          value={Object.assign(
+            {},
+            this.props.cesium,
+            this._ce ? opts.provide(this._ce, this.props) : {},
+          )}>
+          {render}
         </Provider>
       ) : (
-        this.props.children
+        render
       );
     }
 
     public componentDidMount() {
       if (opts.initLazy) {
-        this.create(this.props);
+        this.create();
       }
       this.mount();
       this.mounted = true;
@@ -123,8 +158,12 @@ const createCesiumComponent = <E, P, C, CC>(opts: CesiumComponentOption<E, P, C,
       return this._ce;
     }
 
-    private create(props?: Readonly<Prop<P, C>>) {
-      this._ce = opts.create(props || this.props);
+    private create(props: Readonly<Prop<P, C>> = this.props) {
+      const cesiumProps = pick(props, [
+        ...(opts.cesiumProps || []),
+        ...(opts.cesiumReadonlyProps || []),
+      ]);
+      this._ce = opts.create(cesiumProps, props, this.ref);
 
       if (opts.setCesiumPropsAfterCreate && this._ce) {
         Object.entries(CesiumComponent.getCesiumProps(this.props)).forEach(([k, v]) => {
@@ -139,18 +178,20 @@ const createCesiumComponent = <E, P, C, CC>(opts: CesiumComponentOption<E, P, C,
 
     private mount() {
       if (opts.mount && this._ce) {
-        opts.mount(this._ce, this.props.cesium, this.props);
+        opts.mount(this._ce, this.props.cesium, this.props, this.ref);
       }
     }
 
     private unmount() {
       if (opts.unmount && this._ce) {
-        opts.unmount(this._ce, this.props.cesium, this.props);
+        opts.unmount(this._ce, this.props.cesium, this.props, this.ref);
       }
 
       if (this._ce) {
         detachEvents(this._ce, CesiumComponent.getCesiumEventMap(this.props));
       }
+
+      this._ce = undefined;
     }
 
     private update(prevProps: Readonly<Prop<P, C>>) {
