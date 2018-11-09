@@ -1,46 +1,41 @@
 import React from "react";
 import { Camera } from "cesium";
-
-import { cameraType, sceneType } from "./types";
+import { withContext } from "./context";
 
 export interface CameraOperationProps {
   cancelCameraFlight?: boolean;
 }
 
-export default abstract class CameraOperation<P = {}, S = {}, SS = any> extends React.PureComponent<
-  CameraOperationProps & P,
-  S,
-  SS
-> {
-  public static contextTypes = {
-    camera: cameraType,
-    scene: sceneType,
-  };
+const createCameraOperation = <P>(opts: {
+  name: string;
+  cameraOperationStart: (camera: Camera, props: Readonly<P>, prevProps?: Readonly<P>) => void;
+}) =>
+  withContext(
+    class CameraOperation extends React.PureComponent<
+      CameraOperationProps & { cesium: { camera: Cesium.Camera } } & P
+    > {
+      public static displayName = name;
 
-  public componentDidMount() {
-    this.cameraOperationStart(this.camera);
-  }
+      public componentDidMount() {
+        opts.cameraOperationStart(this.props.cesium.camera, this.props);
+      }
 
-  public componentDidUpdate() {
-    this.camera.cancelFlight();
-    this.cameraOperationStart(this.camera);
-  }
+      public componentDidUpdate(prevProps: Readonly<P>) {
+        this.props.cesium.camera.cancelFlight();
+        opts.cameraOperationStart(this.props.cesium.camera, this.props, prevProps);
+      }
 
-  public componentWillUnmount() {
-    const { cancelCameraFlight } = this.props;
-    if (cancelCameraFlight) {
-      this.camera.cancelFlight();
-    }
-  }
+      public componentWillUnmount() {
+        const { cancelCameraFlight } = this.props;
+        if (cancelCameraFlight) {
+          this.props.cesium.camera.cancelFlight();
+        }
+      }
 
-  public render() {
-    return null;
-  }
+      public render() {
+        return null;
+      }
+    },
+  );
 
-  private get camera() {
-    const { camera, scene } = this.context;
-    return camera || scene.camera;
-  }
-
-  public abstract cameraOperationStart(camera: Camera): void;
-}
+export default createCameraOperation;

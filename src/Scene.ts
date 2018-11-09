@@ -142,6 +142,12 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps, SceneContext>({
       morph(scene, props.mode, props.morph);
     }
   },
+  // provide(element) {
+  //   return {
+  //     scene: element,
+  //     camera: element.camera,
+  //   };
+  // },
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

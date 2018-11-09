@@ -5,6 +5,7 @@ import Cesium, {
   DataSourceCollection,
   EntityCollection,
   Scene,
+  Camera,
 } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
@@ -145,6 +146,7 @@ export interface ViewerContext {
   dataSourceCollection: DataSourceCollection;
   entityCollection: EntityCollection;
   scene: Scene;
+  camera: Camera;
 }
 
 const Viewer = createCesiumComponent<
@@ -215,6 +217,7 @@ const Viewer = createCesiumComponent<
       dataSourceCollection: element.dataSources,
       entityCollection: element.entities,
       scene: element.scene,
+      camera: element.scene.camera,
     };
   },
   cesiumProps,

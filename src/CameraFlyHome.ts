@@ -1,13 +1,16 @@
-import CameraOperation from "./core/CameraOperation";
 import { Camera } from "cesium";
+
+import createCameraOperation from "./core/CameraOperation";
 
 export interface CameraFlyHomeProps {
   duration: number;
 }
 
-export default class CameraFlyHome extends CameraOperation<CameraFlyHomeProps> {
-  public cameraOperationStart(camera: Camera) {
-    const { duration } = this.props;
-    camera.flyHome(duration);
-  }
-}
+const CameraFlyHome = createCameraOperation({
+  name: "CameraFlyHome",
+  cameraOperationStart(camera: Camera, props: CameraFlyHomeProps) {
+    camera.flyHome(props.duration);
+  },
+});
+
+export default CameraFlyHome;

@@ -1,6 +1,6 @@
 import { EasingFunction, Camera, Cartesian3, Matrix4, Rectangle } from "cesium";
 
-import CameraOperation from "./core/CameraOperation";
+import createCameraOperation from "./core/CameraOperation";
 
 export interface CameraFlyToProps {
   destination: Cartesian3 | Rectangle;
@@ -16,8 +16,9 @@ export interface CameraFlyToProps {
   easingFunction?: EasingFunction;
 }
 
-export default class CameraFlyTo extends CameraOperation<CameraFlyToProps> {
-  public cameraOperationStart(camera: Camera) {
+const CameraFlyTo = createCameraOperation({
+  name: "CameraFlyHome",
+  cameraOperationStart(camera: Camera, props: CameraFlyToProps) {
     const {
       destination,
       orientation,
@@ -30,7 +31,7 @@ export default class CameraFlyTo extends CameraOperation<CameraFlyToProps> {
       flyOverLongitude,
       flyOverLongitudeWeight,
       easingFunction,
-    } = this.props;
+    } = props;
 
     camera.flyTo({
       destination,
@@ -45,5 +46,7 @@ export default class CameraFlyTo extends CameraOperation<CameraFlyToProps> {
       flyOverLongitudeWeight,
       easingFunction,
     });
-  }
-}
+  },
+});
+
+export default CameraFlyTo;

@@ -1,6 +1,6 @@
 import { BoundingSphere, EasingFunction, Camera, HeadingPitchRange, Matrix4 } from "cesium";
 
-import CameraOperation from "./core/CameraOperation";
+import createCameraOperation from "./core/CameraOperation";
 
 export interface CameraFlyToBoundingSphereProps {
   boundingSphere: BoundingSphere;
@@ -16,10 +16,9 @@ export interface CameraFlyToBoundingSphereProps {
   easingFunction?: EasingFunction;
 }
 
-export default class CameraFlyToBoundingSphere extends CameraOperation<
-  CameraFlyToBoundingSphereProps
-> {
-  public cameraOperationStart(camera: Camera) {
+const CameraFlyToBoundingSphere = createCameraOperation({
+  name: "CameraFlyHome",
+  cameraOperationStart(camera: Camera, props: CameraFlyToBoundingSphereProps) {
     const {
       boundingSphere,
       offset,
@@ -32,7 +31,7 @@ export default class CameraFlyToBoundingSphere extends CameraOperation<
       flyOverLongitude,
       flyOverLongitudeWeight,
       easingFunction,
-    } = this.props;
+    } = props;
 
     camera.flyToBoundingSphere(boundingSphere, {
       offset,
@@ -46,5 +45,7 @@ export default class CameraFlyToBoundingSphere extends CameraOperation<
       flyOverLongitudeWeight,
       easingFunction,
     });
-  }
-}
+  },
+});
+
+export default CameraFlyToBoundingSphere;
