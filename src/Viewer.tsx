@@ -10,16 +10,16 @@ import Cesium, {
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface ViewerCesiumProps {
-  terrainProvider: Cesium.TerrainProvider;
-  terrainShadows: Cesium.ShadowMode;
-  clockTrackedDataSource: Cesium.DataSource;
-  targetFrameRate: number;
-  useDefaultRenderLoop: boolean;
-  resolutionScale: number;
-  allowDataSourcesToSuspendAnimation: boolean;
-  trackedEntity: Cesium.Entity;
-  selectedEntity: Cesium.Entity;
-  shadows: boolean;
+  terrainProvider?: Cesium.TerrainProvider;
+  terrainShadows?: Cesium.ShadowMode;
+  clockTrackedDataSource?: Cesium.DataSource;
+  targetFrameRate?: number;
+  useDefaultRenderLoop?: boolean;
+  resolutionScale?: number;
+  allowDataSourcesToSuspendAnimation?: boolean;
+  trackedEntity?: Cesium.Entity;
+  selectedEntity?: Cesium.Entity;
+  shadows?: boolean;
 }
 
 export interface ViewerCesiumReadonlyProps {
