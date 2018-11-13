@@ -129,10 +129,21 @@ const GeoJsonDataSource = createCesiumComponent<
     }
   },
   update(element, props, prevProps, context) {
-    if (prevProps.show !== props.show) {
+    if (prevProps.show !== props.show || !props.data) {
       element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
     }
-    if (prevProps.data !== props.data && props.data) {
+    if (
+      props.data &&
+      (prevProps.data !== props.data ||
+        prevProps.clampToGround !== props.clampToGround ||
+        prevProps.sourceUri !== props.sourceUri ||
+        prevProps.markerSize !== props.markerSize ||
+        prevProps.markerSymbol !== props.markerSymbol ||
+        prevProps.markerColor !== props.markerColor ||
+        prevProps.stroke !== props.stroke ||
+        prevProps.strokeWidth !== props.strokeWidth ||
+        prevProps.fill !== props.fill)
+    ) {
       load({
         element,
         dataSources: context.dataSourceCollection,
