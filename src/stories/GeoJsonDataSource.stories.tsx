@@ -4,6 +4,7 @@ import { Color } from "cesium";
 
 import Viewer from "../Viewer";
 import GeoJsonDataSource from "../GeoJsonDataSource";
+import { action } from "@storybook/addon-actions";
 
 const data = {
   type: "Feature",
@@ -18,10 +19,23 @@ const data = {
   },
 };
 
+const onLoadAction = action("onLoad");
+
+const onLoad = (g: Cesium.GeoJsonDataSource) => {
+  // You can process the data source here
+  g.entities.values[0].name = "Coors Field!";
+  onLoadAction(g);
+};
+
 export default () => {
   storiesOf("GeoJsonDataSource", module).add("default", () => (
     <Viewer full>
-      <GeoJsonDataSource data={data} markerColor={Color.RED} />
+      <GeoJsonDataSource
+        data={data}
+        markerColor={Color.RED}
+        onLoad={onLoad}
+        onError={action("onError")}
+      />
     </Viewer>
   ));
 };
