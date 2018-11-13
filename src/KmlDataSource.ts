@@ -118,18 +118,16 @@ const KmlDataSource = createCesiumComponent<
     if (prevProps.show !== props.show) {
       element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
     }
-    if (prevProps.data !== props.data) {
-      if (props.data) {
-        load({
-          element,
-          dataSources: context.dataSourceCollection,
-          data: props.data,
-          onLoad: props.onLoad,
-          clampToGround: props.clampToGround,
-          ellipsoid: props.ellipsoid,
-          sourceUri: props.sourceUri,
-        });
-      }
+    if (prevProps.data !== props.data && props.data) {
+      load({
+        element,
+        dataSources: context.dataSourceCollection,
+        data: props.data,
+        onLoad: props.onLoad,
+        clampToGround: props.clampToGround,
+        ellipsoid: props.ellipsoid,
+        sourceUri: props.sourceUri,
+      });
     }
   },
   unmount(element, context) {
