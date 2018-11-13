@@ -1,5 +1,7 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
+import { Color } from "cesium";
 
 import Viewer from "../Viewer";
 import KmlDataSource from "../KmlDataSource";
@@ -54,9 +56,17 @@ export default () => {
     "text/xml",
   );
 
+  const onLoadAct = action("onLoad");
+
+  const onLoad = (k: Cesium.KmlDataSource) => {
+    // You can process the data source here
+    k.entities.values[4].polygon.material = Color.RED;
+    onLoadAct(k);
+  };
+
   storiesOf("KmlDataSource", module).add("default", () => (
     <Viewer full>
-      <KmlDataSource data={data} />
+      <KmlDataSource data={data} onLoad={onLoad} onError={action("onError")} />
     </Viewer>
   ));
 };
