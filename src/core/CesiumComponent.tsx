@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Context } from "react";
 import pick from "lodash.pick";
 
 import { withContext, Provider } from "./context";
@@ -30,7 +30,7 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
     ref?: React.RefObject<R>,
   ) => React.ReactNode;
   updateProperties?: (element: E, props: Readonly<P>, prevProps: Readonly<P>) => void;
-  update?: (element: E, props: Readonly<P>, prevProps: Readonly<P>) => void;
+  update?: (element: E, props: Readonly<P>, prevProps: Readonly<P>, context: Readonly<C>) => void;
   provide?: (element: E, props: Readonly<P>) => CC;
   cesiumProps?: Array<keyof P>;
   cesiumReadonlyProps?: Array<keyof P>;
@@ -223,7 +223,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       }
 
       if (opts.update && this._ce) {
-        opts.update(this._ce, this.props, prevProps);
+        opts.update(this._ce, this.props, prevProps, this.props.cesium);
       }
     }
 
