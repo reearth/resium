@@ -1,5 +1,5 @@
 import React from "react";
-import { ArcGisMapServerImageryProvider, createTileMapServiceImageryProvider } from "cesium";
+import { ArcGisMapServerImageryProvider, IonImageryProvider } from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
@@ -15,14 +15,7 @@ export default () => {
           })
         }
       />
-      <ImageryLayer
-        alpha={0.5}
-        imageryProvider={createTileMapServiceImageryProvider({
-          url: "//cesiumjs.org/tilesets/imagery/blackmarble",
-          maximumLevel: 8,
-          credit: "Black Marble imagery courtesy NASA Earth Observatory",
-        })}
-      />
+      <ImageryLayer alpha={0.5} imageryProvider={new IonImageryProvider({ assetId: 3812 })} />
     </Viewer>
   ));
 };

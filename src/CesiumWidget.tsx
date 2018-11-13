@@ -140,6 +140,7 @@ const CesiumWidget = createCesiumComponent<
       cesiumWidget: element,
       scene: element.scene,
       camera: element.scene.camera,
+      imageryLayerCollection: element.scene.globe.imageryLayers,
     };
   },
   cesiumProps,
