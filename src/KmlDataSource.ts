@@ -9,7 +9,7 @@ export interface KmlDataSourceCesiumProps {
 export interface KmlDataSourceCesiumReadonlyProps {
   camera?: Cesium.Camera;
   canvas?: HTMLCanvasElement;
-  elipsoid?: Cesium.Ellipsoid;
+  ellipsoid?: Cesium.Ellipsoid;
 }
 
 export interface KmlDataSourceCesiumEvents {
@@ -42,7 +42,7 @@ const cesiumProps: Array<keyof KmlDataSourceCesiumProps> = ["clustering"];
 const cesiumReadonlyProps: Array<keyof KmlDataSourceCesiumReadonlyProps> = [
   "camera",
   "canvas",
-  "elipsoid",
+  "ellipsoid",
 ];
 
 const cesiumEventProps: EventkeyMap<Cesium.KmlDataSource, keyof KmlDataSourceCesiumEvents> = {
@@ -90,7 +90,7 @@ const KmlDataSource = createCesiumComponent<
     const ds = new Cesium.KmlDataSource({
       camera: cprops.camera || context.scene.camera,
       canvas: cprops.canvas || (context.scene.canvas as HTMLCanvasElement),
-      ellipsoid: cprops.elipsoid,
+      ellipsoid: cprops.ellipsoid,
     });
     if (cprops.clustering) {
       ds.clustering = cprops.clustering;
