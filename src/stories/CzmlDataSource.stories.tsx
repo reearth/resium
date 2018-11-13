@@ -1,5 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import CzmlDataSource from "../CzmlDataSource";
@@ -35,10 +36,18 @@ const czml = [
   },
 ];
 
+const onLoadAction = action("onLoad");
+
+const onLoad = (g: Cesium.GeoJsonDataSource) => {
+  // You can process the data source here
+  g.entities.values[0].name = "TOKYO!";
+  onLoadAction(g);
+};
+
 export default () => {
   storiesOf("CzmlDataSource", module).add("default", () => (
     <Viewer full>
-      <CzmlDataSource czml={czml} />
+      <CzmlDataSource data={czml} onLoad={onLoad} onError={action("onError")} />
     </Viewer>
   ));
 };
