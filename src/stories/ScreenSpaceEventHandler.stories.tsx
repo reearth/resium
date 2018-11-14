@@ -12,6 +12,11 @@ export default () => {
     <Viewer full>
       <ScreenSpaceEventHandler>
         <ScreenSpaceEvent action={action("Left Click")} type={ScreenSpaceEventType.LEFT_CLICK} />
+        <ScreenSpaceEvent action={action("Right Click")} type={ScreenSpaceEventType.RIGHT_CLICK} />
+        <ScreenSpaceEvent
+          action={action("Left Double Click")}
+          type={ScreenSpaceEventType.LEFT_DOUBLE_CLICK}
+        />
         <ScreenSpaceEvent
           action={action("Shift + Right Click")}
           type={ScreenSpaceEventType.RIGHT_CLICK}

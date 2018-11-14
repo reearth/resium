@@ -1,38 +1,38 @@
 import React from "react";
+import Cesium from "cesium";
 
-import { screenSpaceEventHandlerType } from "./core/types";
+import { withContext } from "./core/context";
 
 export interface ScreenSpaceEventProps {
-  action: () => void;
+  action: (e: { position: Cesium.Cartesian2 }) => void;
   modifier?: number;
   type: number;
 }
 
-export default class ScreenSpaceEvent extends React.PureComponent<ScreenSpaceEventProps> {
-  public static contextTypes = {
-    screenSpaceEventHandler: screenSpaceEventHandlerType,
-  };
+interface ScreenSpaceEventContext {
+  screenSpaceEventHandler: Cesium.ScreenSpaceEventHandler;
+}
 
+class ScreenSpaceEvent extends React.PureComponent<
+  ScreenSpaceEventProps & { cesium: ScreenSpaceEventContext }
+> {
   public componentDidMount() {
-    const { action, modifier, type } = this.props;
-    const { screenSpaceEventHandler } = this.context;
-    if (action) {
-      screenSpaceEventHandler.setInputAction(action, type, modifier);
-    } else {
-      // just remove default events
-      screenSpaceEventHandler.removeInputAction(type, modifier);
-    }
+    this.setEvent();
   }
 
   public componentDidUpdate(prevProps: ScreenSpaceEventProps) {
     const { screenSpaceEventHandler } = this.context;
     screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
-    this.componentDidMount();
+    this.setEvent();
   }
 
   public componentWillUnmount() {
-    const { action, modifier, type } = this.props;
-    const { screenSpaceEventHandler } = this.context;
+    const {
+      action,
+      cesium: { screenSpaceEventHandler },
+      modifier,
+      type,
+    } = this.props;
     if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
       screenSpaceEventHandler.removeInputAction(type, modifier);
     }
@@ -41,4 +41,21 @@ export default class ScreenSpaceEvent extends React.PureComponent<ScreenSpaceEve
   public render() {
     return null;
   }
+
+  private setEvent() {
+    const {
+      action,
+      cesium: { screenSpaceEventHandler },
+      modifier,
+      type,
+    } = this.props;
+    if (action) {
+      screenSpaceEventHandler.setInputAction(action as () => void, type, modifier);
+    } else {
+      // just remove default events
+      screenSpaceEventHandler.removeInputAction(type, modifier);
+    }
+  }
 }
+
+export default withContext<ScreenSpaceEventProps, ScreenSpaceEventContext>(ScreenSpaceEvent);
