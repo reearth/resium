@@ -14,7 +14,7 @@ module.exports = function(config) {
     browsers: process.env.TRAVIS ? ["ChromeTravisCI"] : ["ChromeHeadless"],
     frameworks: ["jasmine"],
     files: ["node_modules/cesium/Build/CesiumUnminified/Cesium.js"].concat(files),
-    exclude: ["src/**/*.stories.js"],
+    exclude: ["src/**/*.stories.js", "src/**/*.stories.ts", "src/**/*.stories.tsx"],
     preprocessors: {
       [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"],
       [coverage ? "src/**/*.ts" : "src/**/*.test.ts"]: ["rollup"],
@@ -32,9 +32,6 @@ module.exports = function(config) {
               module: "es2015",
             },
           },
-        }),
-        require("rollup-plugin-babel")({
-          exclude: "node_modules/**",
         }),
         require("rollup-plugin-replace")({
           "process.env.NODE_ENV": JSON.stringify("development"),

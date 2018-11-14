@@ -1,6 +1,8 @@
 import React from "react";
-import ReactDOMServer from "react-dom/server";
 import { ConstantProperty } from "cesium";
+// tslint:disable-next-line:no-var-requires
+const { renderToStaticMarkup } = require("react-dom/server.browser");
+// WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
 import { withContext } from "./core/context";
 import { Entity } from "cesium";
@@ -32,7 +34,7 @@ class EntityDescription extends React.PureComponent<Props> {
   private update(props: Readonly<Props> & { children?: React.ReactNode } = this.props) {
     if (props.cesium && props.cesium.entity && props.children) {
       props.cesium.entity.description = new ConstantProperty(
-        ReactDOMServer.renderToStaticMarkup(props.children as React.ReactElement<any>),
+        renderToStaticMarkup(props.children as React.ReactElement<any>),
       );
     }
   }
