@@ -219,6 +219,7 @@ const Viewer = createCesiumComponent<
       scene: element.scene,
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
+      primitiveCollection: element.scene.primitives,
     };
   },
   cesiumProps,

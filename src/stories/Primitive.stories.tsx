@@ -20,7 +20,7 @@ const geometry = new GeometryInstance({
     semiMajorAxis: 1000000.0,
     rotation: CesiumMath.PI_OVER_FOUR,
     vertexFormat: VertexFormat.POSITION_AND_ST,
-  }),
+  }) as Cesium.Geometry,
   id: "id",
 });
 
