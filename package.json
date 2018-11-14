@@ -30,7 +30,6 @@
   },
   "peerDependencies": {
     "cesium": "1.x",
-    "prop-types": "*",
     "react": "16.x",
     "react-dom": "16.x"
   },
@@ -78,7 +77,6 @@
     "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1",
-    "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "rollup": "^0.66.6",
