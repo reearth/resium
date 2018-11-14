@@ -7,7 +7,7 @@ import Entity from "../Entity";
 import EntityDescription from "../EntityDescription";
 import ExtendedEntity from "../ExtendedEntity";
 import CanvasEntity from "./CanvasEntity";
-import { actions } from "@storybook/addon-actions";
+import { action } from "@storybook/addon-actions";
 
 export default () => {
   storiesOf("Entity", module)
@@ -50,25 +50,23 @@ export default () => {
           description="test!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
           point={{ pixelSize: 10 }}
-          {...actions(
-            "onClick",
-            "onDoubleClick",
-            "onMouseDown",
-            "onMouseUp",
-            "onMiddleClick",
-            "onMiddleDown",
-            "onMiddleUp",
-            "onMouseMove",
-            "onPinchEnd",
-            "onPinchMove",
-            "onPinchStart",
-            "onRightClick",
-            "onRightDown",
-            "onRightUp",
-            "onWheel",
-            "onMouseEnter",
-            "onMouseLeave",
-          )}
+          onClick={action("onClick")}
+          onDoubleClick={action("onDoubleClick")}
+          onMouseDown={action("onMouseDown")}
+          onMouseUp={action("onMouseUp")}
+          onMiddleClick={action("onMiddleClick")}
+          onMiddleDown={action("onMiddleDown")}
+          onMiddleUp={action("onMiddleUp")}
+          onMouseMove={action("onMouseMove")}
+          onPinchEnd={action("onPinchEnd")}
+          onPinchMove={action("onPinchMove")}
+          onPinchStart={action("onPinchStart")}
+          onRightClick={action("onRightClick")}
+          onRightDown={action("onRightDown")}
+          onRightUp={action("onRightUp")}
+          onWheel={action("onWheel")}
+          onMouseEnter={action("onMouseEnter")}
+          onMouseLeave={action("onMouseLeave")}
         />
       </Viewer>
     ));
