@@ -17,7 +17,7 @@ export interface CameraFlyToBoundingSphereProps {
 }
 
 const CameraFlyToBoundingSphere = createCameraOperation({
-  name: "CameraFlyHome",
+  name: "CameraFlyToBoundingSphere",
   cameraOperationStart(camera: Camera, props: CameraFlyToBoundingSphereProps) {
     const {
       boundingSphere,

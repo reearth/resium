@@ -17,7 +17,7 @@ export interface CameraFlyToProps {
 }
 
 const CameraFlyTo = createCameraOperation({
-  name: "CameraFlyHome",
+  name: "CameraFlyTo",
   cameraOperationStart(camera: Camera, props: CameraFlyToProps) {
     const {
       destination,
