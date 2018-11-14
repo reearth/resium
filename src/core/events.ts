@@ -1,18 +1,18 @@
 import { Event } from "cesium";
 
-export type EventFunc = (...args: any[]) => any;
+type EventFunc = (...args: any[]) => any;
 
-export interface Target {
+interface EventTarget {
   [key: string]: Event | unknown;
 }
 
 export interface Events {
-  [key: string]: EventFunc;
+  [key: string]: (...args: any[]) => any;
 }
 
 export const attachEvents = (target: unknown, events: Events) => {
   Object.entries(events).forEach(([k, v]) => {
-    const ev = (target as Target)[k];
+    const ev = (target as EventTarget)[k];
     if (ev instanceof Event && v) {
       ev.addEventListener(v);
     }
@@ -21,7 +21,7 @@ export const attachEvents = (target: unknown, events: Events) => {
 
 export const detachEvents = (target: unknown, events: Events) => {
   Object.entries(events).forEach(([k, v]) => {
-    const ev = (target as Target)[k];
+    const ev = (target as EventTarget)[k];
     if (ev instanceof Event && v) {
       ev.removeEventListener(v);
     }

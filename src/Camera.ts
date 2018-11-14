@@ -1,6 +1,6 @@
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
-export interface SceneCesiumProps {
+export interface CameraCesiumProps {
   position?: Cesium.Cartesian3;
   direction?: Cesium.Cartesian3;
   up?: Cesium.Cartesian3;
@@ -15,19 +15,19 @@ export interface SceneCesiumProps {
   maximumZoomFactor?: number;
 }
 
-export interface SceneCesiumEventProps {
+export interface CameraCesiumEventProps {
   onChange?: (areaPercentage: number) => void;
   onMoveEnd?: () => void;
   onMoveStart?: () => void;
 }
 
-export interface CameraProps extends SceneCesiumProps, SceneCesiumEventProps {}
+export interface CameraProps extends CameraCesiumProps, CameraCesiumEventProps {}
 
 export interface CameraContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof SceneCesiumProps> = [
+const cesiumProps: Array<keyof CameraCesiumProps> = [
   "position",
   "direction",
   "up",
@@ -42,7 +42,7 @@ const cesiumProps: Array<keyof SceneCesiumProps> = [
   "maximumZoomFactor",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof SceneCesiumEventProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof CameraCesiumEventProps> = {
   changed: "onChange",
   moveEnd: "onMoveEnd",
   moveStart: "onMoveStart",
@@ -53,9 +53,6 @@ const Camera = createCesiumComponent<Cesium.Camera, CameraProps, CameraContext>(
   create(cprops, props, context) {
     return context.scene.camera;
   },
-  // provide(camera) {
-  //   return { camera };
-  // },
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

@@ -13,7 +13,7 @@ export interface CesiumMovementEvent {
   endPosition?: Cesium.Cartesian2;
 }
 
-export interface Events<T> {
+export interface EventWrapperProps<T> {
   onClick?: (movement: CesiumMovementEvent, target: T) => void;
   onDoubleClick?: (movement: CesiumMovementEvent, target: T) => void;
   onMouseDown?: (movement: CesiumMovementEvent, target: T) => void;
@@ -41,9 +41,12 @@ interface Context {
 }
 
 const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
-  withContext<Events<E> & P, Context>(
-    class EventWrapper extends React.PureComponent<Events<E> & P & { cesium: Context }> {
-      private static events: Array<{ prop: keyof Events<E>; type: Cesium.ScreenSpaceEventType }> = [
+  withContext<EventWrapperProps<E> & P, Context>(
+    class EventWrapper extends React.PureComponent<EventWrapperProps<E> & P & { cesium: Context }> {
+      private static events: Array<{
+        prop: keyof EventWrapperProps<E>;
+        type: Cesium.ScreenSpaceEventType;
+      }> = [
         { prop: "onClick", type: ScreenSpaceEventType.LEFT_CLICK },
         { prop: "onDoubleClick", type: ScreenSpaceEventType.LEFT_DOUBLE_CLICK },
         { prop: "onMouseDown", type: ScreenSpaceEventType.LEFT_DOWN },
@@ -87,7 +90,7 @@ const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
         });
       }
 
-      public componentDidUpdate(prevProps: Readonly<Events<E>>) {
+      public componentDidUpdate(prevProps: Readonly<EventWrapperProps<E>>) {
         EventWrapper.events.forEach(e => {
           const prop = this.props[e.prop];
           if (this.sseh && prevProps[e.prop] && prevProps[e.prop] !== prop && !prop) {
