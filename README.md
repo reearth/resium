@@ -1,4 +1,5 @@
 # resium
+![](website/static/img/resium.gif)
 
 [![Build Status](https://travis-ci.org/rot1024/cesium-react.svg?branch=master)](https://travis-ci.org/rot1024/cesium-react) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
 
@@ -28,7 +29,6 @@ export default class Cesium extends React.PureComponent {
 ```
 
 ![Screenshot](docs/screenshot.png)
-
 Available components:
 
 - `<Viewer>`
