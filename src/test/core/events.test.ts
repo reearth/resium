@@ -1,105 +1,99 @@
+import { Event } from "cesium";
 import { attachEvents, detachEvents, updateEvents, getEventProps, Events } from "../../core/events";
 
 describe("utils/events", () => {
-  class EventMock {
-    public events: Set<(...args: any[]) => void>;
-
-    constructor(events?: Array<(...args: any[]) => void>) {
-      this.events = new Set(events);
-    }
-
-    public addEventListener(e: (...args: any[]) => void) {
-      this.events.add(e);
-    }
-
-    public removeEventListener(e: (...args: any[]) => void) {
-      this.events.delete(e);
-    }
-  }
-
   it("should attach events", () => {
     const events: Events = {
-      a: () => {
-        /* dummy */
-      },
+      a: jest.fn(),
     };
 
     const target = {
-      a: new EventMock(),
-      b: new EventMock(),
-      c: new EventMock(),
+      a: new Event(),
+      b: new Event(),
+      c: new Event(),
     };
 
-    expect(target.a.events.size).toBe(0);
-    expect(target.b.events.size).toBe(0);
-    expect(target.c.events.size).toBe(0);
+    expect(target.a.numberOfListeners).toBe(0);
+    expect(target.b.numberOfListeners).toBe(0);
+    expect(target.c.numberOfListeners).toBe(0);
 
     attachEvents(target, events);
 
-    expect(target.a.events.size).toBe(1);
-    expect(target.b.events.size).toBe(0);
-    expect(target.c.events.size).toBe(0);
-    expect(target.a.events.values().next().value).toBe(events.a);
+    expect(target.a.numberOfListeners).toBe(1);
+    expect(target.b.numberOfListeners).toBe(0);
+    expect(target.c.numberOfListeners).toBe(0);
+
+    target.a.raiseEvent();
+    expect(events.a).toBeCalledTimes(1);
   });
 
   it("should update events", () => {
     const prevEvents: Events = {
-      a: () => {
-        /* dummy */
-      },
+      a: jest.fn(),
       b: () => {
-        /* dummy */
+        // dummy
       },
       c: () => {
-        /* dummy */
+        // dummy
       },
     };
 
     const newEvents: Events = {
-      a: () => {
-        /* dummy */
-      },
+      a: jest.fn(),
     };
+
+    const eventA = new Event();
+    eventA.addEventListener(prevEvents.a);
+    const eventB = new Event();
+    eventB.addEventListener(prevEvents.b);
+    const eventC = new Event();
+    eventC.addEventListener(prevEvents.c);
 
     const target = {
-      a: new EventMock([prevEvents.a]),
-      b: new EventMock([prevEvents.b]),
-      c: new EventMock([prevEvents.c]),
+      a: eventA,
+      b: eventB,
+      c: eventC,
     };
 
-    expect(target.a.events.size).toBe(1);
-    expect(target.b.events.size).toBe(1);
-    expect(target.c.events.size).toBe(1);
-    expect(target.a.events.values().next().value).toBe(prevEvents.a);
-    expect(target.b.events.values().next().value).toBe(prevEvents.b);
+    expect(target.a.numberOfListeners).toBe(1);
+    expect(target.b.numberOfListeners).toBe(1);
+    expect(target.c.numberOfListeners).toBe(1);
 
     updateEvents(target, prevEvents, newEvents);
 
-    expect(target.a.events.size).toBe(1);
-    expect(target.b.events.size).toBe(0);
-    expect(target.c.events.size).toBe(0);
-    expect(target.a.events.values().next().value).toBe(newEvents.a);
+    expect(target.a.numberOfListeners).toBe(1);
+    expect(target.b.numberOfListeners).toBe(0);
+    expect(target.c.numberOfListeners).toBe(0);
+
+    target.a.raiseEvent();
+    expect(prevEvents.a).not.toBeCalled();
+    expect(newEvents.a).toBeCalledTimes(1);
   });
 
   it("should detach events", () => {
     const events: Events = {
-      a: () => {
-        /* dummy */
-      },
+      a: jest.fn(),
     };
+
+    const eventA = new Event();
+    eventA.addEventListener(events.a);
+    const eventB = new Event();
 
     const target = {
-      a: new EventMock([events.a]),
-      b: new EventMock(),
+      a: eventA,
+      b: eventB,
     };
 
-    expect(target.a.events.size).toBe(1);
-    expect(target.b.events.size).toBe(0);
+    expect(target.a.numberOfListeners).toBe(1);
+    expect(target.b.numberOfListeners).toBe(0);
 
     detachEvents(target, events);
 
-    expect(target.a.events.size).toBe(0);
-    expect(target.b.events.size).toBe(0);
+    expect(target.a.numberOfListeners).toBe(0);
+    expect(target.b.numberOfListeners).toBe(0);
+
+    target.a.raiseEvent();
+    expect(events.a).not.toBeCalled();
   });
 
   it("should return event props", () => {
