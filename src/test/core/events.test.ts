@@ -1,7 +1,7 @@
 import { Event } from "cesium";
 import { attachEvents, detachEvents, updateEvents, getEventProps, Events } from "../../core/events";
 
-describe("utils/events", () => {
+describe("core/events", () => {
   it("should attach events", () => {
     const events: Events = {
       a: jest.fn(),
