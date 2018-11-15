@@ -23,46 +23,37 @@
     "format": "run-p format:js format:ts",
     "format:js": "prettier-eslint --write '*.js' --write 'src/**/*.js' --write '.storybook/**/*.js'",
     "format:ts": "prettier --write '**/*.ts' --write '**/*.tsx'",
-    "storybook": "cross-env BABEL_ENV=storybook start-storybook -p 9001"
+    "storybook": "cross-env start-storybook -p 9001"
   },
   "engines": {
     "node": ">=8"
   },
   "peerDependencies": {
     "cesium": "1.x",
-    "prop-types": "*",
     "react": "16.x",
     "react-dom": "16.x"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/plugin-proposal-class-properties": "^7.1.0",
-    "@babel/plugin-proposal-export-default-from": "^7.0.0",
-    "@babel/plugin-proposal-export-namespace-from": "^7.0.0",
-    "@babel/plugin-proposal-object-rest-spread": "^7.0.0",
-    "@babel/preset-env": "^7.1.0",
-    "@babel/preset-react": "^7.0.0",
+    "@babel/core": "^7.1.6",
     "@storybook/addon-actions": "^4.0.2",
     "@storybook/react": "^4.0.2",
     "@types/cesium": "^1.47.3",
+    "@types/jest": "^23.3.9",
+    "@types/lodash.omit": "^4.5.4",
+    "@types/lodash.pick": "^4.4.4",
     "@types/prop-types": "^15.5.6",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/storybook__addon-actions": "^3.4.1",
     "@types/storybook__react": "^3.0.9",
-    "babel-eslint": "^10.0.1",
     "babel-loader": "^8.0.4",
-    "babel-plugin-istanbul": "^5.1.0",
     "cesium": "^1.50.0",
     "copy-webpack-plugin": "^4.6.0",
     "cross-env": "^5.2.0",
     "del-cli": "^1.1.0",
     "eslint": "^5.8.0",
     "eslint-config-prettier": "^3.1.0",
-    "eslint-import-resolver-webpack": "^0.10.1",
-    "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-node": "^8.0.0",
-    "eslint-plugin-react": "^7.11.1",
     "jasmine-core": "^3.3.0",
     "karma": "^3.1.1",
     "karma-chrome-launcher": "^2.2.0",
@@ -75,11 +66,9 @@
     "prettier": "^1.14.3",
     "prettier-eslint": "^8.8.2",
     "prettier-eslint-cli": "^4.7.1",
-    "prop-types": "^15.6.2",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "rollup": "^0.66.6",
-    "rollup-plugin-babel": "^4.0.3",
     "rollup-plugin-commonjs": "^9.2.0",
     "rollup-plugin-node-resolve": "^3.4.0",
     "rollup-plugin-replace": "^2.1.0",
@@ -93,5 +82,9 @@
     "tslint-react": "^3.6.0",
     "typescript": "^3.1.5",
     "webpack": "^4.23.1"
+  },
+  "dependencies": {
+    "lodash.omit": "^4.5.0",
+    "lodash.pick": "^4.4.0"
   }
 }

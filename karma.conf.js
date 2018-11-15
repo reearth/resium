@@ -3,24 +3,35 @@
 const env = process.env.NODE_ENV;
 const coverage = env === "coverage";
 
+const files = [
+  coverage ? "src/**/*.js" : "src/**/*.test.js",
+  coverage ? "src/**/*.ts" : "src/**/*.test.ts",
+  coverage ? "src/**/*.tsx" : "src/**/*.test.tsx",
+];
+
 module.exports = function(config) {
   config.set({
     browsers: process.env.TRAVIS ? ["ChromeTravisCI"] : ["ChromeHeadless"],
     frameworks: ["jasmine"],
-    files: ["node_modules/cesium/Build/CesiumUnminified/Cesium.js"].concat([
-      coverage ? "src/**/*.js" : "src/**/*.test.js",
-    ]),
-    exclude: ["src/**/*.stories.js"],
+    files: ["node_modules/cesium/Build/CesiumUnminified/Cesium.js"].concat(files),
+    exclude: ["src/**/*.stories.js", "src/**/*.stories.ts", "src/**/*.stories.tsx"],
     preprocessors: {
       [coverage ? "src/**/*.js" : "src/**/*.test.js"]: ["rollup"],
+      [coverage ? "src/**/*.ts" : "src/**/*.test.ts"]: ["rollup"],
+      [coverage ? "src/**/*.tsx" : "src/**/*.test.tsx"]: ["rollup"],
     },
     reporters: ["progress"].concat(env === "coverage" ? ["coverage"] : []),
     autoWatch: false,
     singleRun: true,
     rollupPreprocessor: {
       plugins: [
-        require("rollup-plugin-babel")({
+        require("rollup-plugin-typescript2")({
           exclude: "node_modules/**",
+          tsconfigOverride: {
+            compilerOptions: {
+              module: "es2015",
+            },
+          },
         }),
         require("rollup-plugin-replace")({
           "process.env.NODE_ENV": JSON.stringify("development"),
@@ -30,7 +41,7 @@ module.exports = function(config) {
       ],
       external: ["cesium"],
       output: {
-        name: "CesiumReact",
+        name: "Resium",
         globals: {
           cesium: "Cesium",
         },
