@@ -39,7 +39,7 @@ export default {
         },
       },
       useTsconfigDeclarationDir: true,
-      exclude: ["src/stories/*"],
+      exclude: ["src/stories/*", "src/test/*"],
     }),
     resolve(),
     commonjs(),
