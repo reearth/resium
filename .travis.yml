@@ -16,7 +16,6 @@ before_install:
 
 script:
   - yarn run lint
-  - yarn run examples:lint
   - yarn test
 
 notifications:

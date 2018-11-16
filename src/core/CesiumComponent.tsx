@@ -28,13 +28,11 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
     mounted?: boolean,
     ref?: React.RefObject<R>,
   ) => React.ReactNode;
-  updateProperties?: (element: E, props: Readonly<P>, prevProps: Readonly<P>) => void;
   update?: (element: E, props: Readonly<P>, prevProps: Readonly<P>, context: Readonly<C>) => void;
   provide?: (element: E, props: Readonly<P>) => CC;
   cesiumProps?: Array<keyof P>;
   cesiumReadonlyProps?: Array<keyof P>;
   cesiumEventProps?: EventkeyMap<E, keyof P>;
-  initLazy?: boolean;
   setCesiumPropsAfterCreate?: boolean;
   noRender?: boolean;
   createRef?: boolean;
@@ -105,7 +103,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       if (opts.createRef) {
         this.ref = React.createRef();
       }
-      if (!opts.initLazy) {
+      if (!opts.createRef) {
         this.create(props);
       }
     }
@@ -134,7 +132,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
 
     public componentDidMount() {
-      if (opts.initLazy) {
+      if (opts.createRef) {
         this.create();
       }
       this.mount();
@@ -199,25 +197,19 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
 
     private update(prevProps: Readonly<WithContextProps<P, C>>) {
-      if (opts.updateProperties) {
-        if (this._ce) {
-          opts.updateProperties(this._ce, this.props, prevProps);
-        }
-      } else {
-        Object.entries(CesiumComponent.getCesiumProps(this.props))
-          .filter(([k, v]) => (prevProps as any)[k] !== v)
-          .forEach(([k, v]) => {
-            if (this._ce) {
-              (this._ce as any)[k] = v;
-            }
-          });
+      Object.entries(CesiumComponent.getCesiumProps(this.props))
+        .filter(([k, v]) => (prevProps as any)[k] !== v)
+        .forEach(([k, v]) => {
+          if (this._ce) {
+            (this._ce as any)[k] = v;
+          }
+        });
 
-        updateEvents(
-          this._ce,
-          CesiumComponent.getCesiumEventMap(prevProps),
-          CesiumComponent.getCesiumEventMap(this.props),
-        );
-      }
+      updateEvents(
+        this._ce,
+        CesiumComponent.getCesiumEventMap(prevProps),
+        CesiumComponent.getCesiumEventMap(this.props),
+      );
 
       if (opts.update && this._ce) {
         opts.update(this._ce, this.props, prevProps, this.props.cesium);
