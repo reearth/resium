@@ -157,7 +157,6 @@ const Viewer = createCesiumComponent<
   HTMLDivElement
 >({
   name: "Viewer",
-  initLazy: true,
   createRef: true,
   create(cprops, props, context, ref) {
     // ref is not always undefined

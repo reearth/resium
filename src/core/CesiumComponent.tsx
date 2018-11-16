@@ -33,7 +33,6 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   cesiumProps?: Array<keyof P>;
   cesiumReadonlyProps?: Array<keyof P>;
   cesiumEventProps?: EventkeyMap<E, keyof P>;
-  initLazy?: boolean;
   setCesiumPropsAfterCreate?: boolean;
   noRender?: boolean;
   createRef?: boolean;
@@ -104,7 +103,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       if (opts.createRef) {
         this.ref = React.createRef();
       }
-      if (!opts.initLazy) {
+      if (!opts.createRef) {
         this.create(props);
       }
     }
@@ -133,7 +132,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
 
     public componentDidMount() {
-      if (opts.initLazy) {
+      if (opts.createRef) {
         this.create();
       }
       this.mount();
