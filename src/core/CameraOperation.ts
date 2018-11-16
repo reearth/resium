@@ -10,7 +10,7 @@ const createCameraOperation = <P>(opts: {
   name: string;
   cameraOperationStart: (camera: Camera, props: Readonly<P>, prevProps?: Readonly<P>) => void;
 }) =>
-  withContext(
+  withContext<P & CameraOperationProps, { camera: Cesium.Camera }>(
     class CameraOperation extends React.PureComponent<
       CameraOperationProps & { cesium: { camera: Cesium.Camera } } & P
     > {
