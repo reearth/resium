@@ -3,14 +3,22 @@ import React from "react";
 export interface Context {
   [key: string]: unknown | undefined;
 }
-export type WithContextProps<P, C extends Context> = P & { cesium: C };
-export type WithContextType<P, C extends Context> = React.ComponentType<WithContextProps<P, C>>;
+
+export interface CesiumProp<C> {
+  cesium: C;
+}
+
+export type WithContextProps<P, C> = P & CesiumProp<C>;
+export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
 
 export const { Provider, Consumer } = React.createContext<Context>({});
 
-export const withContext = <P extends any, C extends Context>(Component: WithContextType<P, C>) => {
-  const withContextomponent: React.SFC<P> = (props, ref: React.Ref<any>) => (
-    <Consumer>{(value: Context) => <Component {...props} ref={ref} cesium={value} />}</Consumer>
+export const withContext = <P, C>(Component: WithContextType<P, C>) =>
+  // supports both functional components and class components
+  React.forwardRef<WithContextType<P, C>, P>(
+    (props: P & { children?: React.ReactNode }, ref?: React.Ref<WithContextType<P, C>> | null) => (
+      <Consumer>
+        {(value: any) => <Component {...Object.assign({}, props, { ref })} cesium={value} />}
+      </Consumer>
+    ),
   );
-  return React.forwardRef(withContextomponent);
-};

@@ -3,7 +3,7 @@ import { ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 import omit from "lodash.omit";
 
 import { withContext } from "./context";
-import { CesiumComponentType, CesiumInnerComponentType } from "./CesiumComponent";
+import { CesiumComponentType, CesiumElementHolder } from "./CesiumComponent";
 
 type Event = () => void;
 
@@ -64,7 +64,7 @@ const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
         { prop: "onWheel", type: ScreenSpaceEventType.WHEEL },
       ];
 
-      private ref = React.createRef<CesiumInnerComponentType<E, P>>();
+      private ref = React.createRef<CesiumElementHolder<E>>();
       private sseh?: Cesium.ScreenSpaceEventHandler;
       private sseh2?: Cesium.ScreenSpaceEventHandler;
       private hovering = false;

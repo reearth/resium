@@ -1,10 +1,9 @@
-import React, { Context } from "react";
+import React from "react";
 import pick from "lodash.pick";
 
-import { withContext, Provider } from "./context";
+import { withContext, Provider, WithContextProps } from "./context";
 import { attachEvents, updateEvents, detachEvents } from "./events";
 
-export type Prop<P, C> = P & { cesium: C };
 export type EventKeys<T> = { [P in keyof T]: T[P] extends Cesium.Event ? P : never }[keyof T];
 export type EventkeyMap<T, P> = { [K in EventKeys<T>]?: P };
 
@@ -41,22 +40,22 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   createRef?: boolean;
 }
 
-export type CesiumInnerComponentType<E, P> = React.ComponentType<P> & {
-  readonly cesiumElement?: E;
-};
+export interface CesiumElementHolder<E> {
+  readonly cesiumElement: E | undefined;
+}
 
-export type CesiumComponentType<E, P> = React.ComponentType<
-  P & React.ClassAttributes<CesiumInnerComponentType<E, P>>
+export type CesiumComponentType<E, P> = React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<P> & React.RefAttributes<CesiumElementHolder<E>>
 >;
 
 const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
   opts: CesiumComponentOption<E, P, C, CC, R>,
 ): CesiumComponentType<E, P> => {
-  class CesiumComponent extends React.PureComponent<Prop<P, C>> {
+  class CesiumComponent extends React.PureComponent<WithContextProps<P, C>> {
     public static displayName = opts.name;
 
     private static getCesiumEventMap(
-      props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
+      props: Readonly<WithContextProps<P, C>> & Readonly<{ children?: React.ReactNode }>,
     ) {
       if (!opts.cesiumEventProps) {
         return {};
@@ -75,19 +74,23 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
 
     private static getCesiumProps(
-      props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
+      props: Readonly<WithContextProps<P, C>> & Readonly<{ children?: React.ReactNode }>,
     ) {
       return pick(props, opts.cesiumProps || []);
     }
 
     private static getCesiumReadOnlyProps(
-      props: Readonly<Prop<P, C>> & Readonly<{ children?: React.ReactNode }>,
+      props: Readonly<WithContextProps<P, C>> & Readonly<{ children?: React.ReactNode }>,
     ) {
       return pick(props, opts.cesiumReadonlyProps || []);
     }
 
     private static shouldUpdate(a: { [key: string]: any }, b: { [key: string]: any }) {
       return Object.keys(a).some(k => a[k] !== b[k]);
+    }
+
+    public get cesiumElement() {
+      return this._ce;
     }
 
     // tslint:disable-next-line:variable-name
@@ -97,7 +100,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
 
     private ref?: React.RefObject<R>;
 
-    constructor(props: Readonly<Prop<P, C>>) {
+    constructor(props: WithContextProps<P, C>) {
       super(props);
       if (opts.createRef) {
         this.ref = React.createRef();
@@ -139,9 +142,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       this.forceUpdate();
     }
 
-    public componentDidUpdate(
-      prevProps: Readonly<Prop<P, C> & Readonly<{ children?: React.ReactNode }>>,
-    ) {
+    public componentDidUpdate(prevProps: WithContextProps<P, C>) {
       // if readonly props is updated, remount this component.
       if (
         CesiumComponent.shouldUpdate(
@@ -161,11 +162,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       this._ce = undefined;
     }
 
-    public get cesiumElement() {
-      return this._ce;
-    }
-
-    private create(props: Readonly<Prop<P, C>> = this.props) {
+    private create(props: Readonly<WithContextProps<P, C>> = this.props) {
       const cesiumProps = pick(props, [
         ...(opts.cesiumProps || []),
         ...(opts.cesiumReadonlyProps || []),
@@ -201,7 +198,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       this._ce = undefined;
     }
 
-    private update(prevProps: Readonly<Prop<P, C>>) {
+    private update(prevProps: Readonly<WithContextProps<P, C>>) {
       if (opts.updateProperties) {
         if (this._ce) {
           opts.updateProperties(this._ce, this.props, prevProps);
