@@ -40,4 +40,4 @@ class EntityDescription extends React.PureComponent<Props> {
   }
 }
 
-export default withContext<{}, { entity: Entity }>(EntityDescription);
+export default withContext<{ children?: React.ReactNode }, { entity: Entity }>(EntityDescription);
