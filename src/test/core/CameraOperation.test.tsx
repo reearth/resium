@@ -17,19 +17,44 @@ describe("core/CameraOperation", () => {
       cameraOperationStart,
     });
 
-    const wrapper = mount(
+    const TestComponent: React.SFC<{ test: number }> = ({ test }) => (
       <Provider value={{ camera }}>
-        <DummyCameraOperation test={0} />
-      </Provider>,
+        <DummyCameraOperation test={test} />
+      </Provider>
     );
 
-    expect(cameraOperationStart).toHaveBeenCalledTimes(1);
-    expect(camera.cancelFlight).not.toHaveBeenCalled();
+    const wrapper = mount(<TestComponent test={0} />);
 
-    wrapper.find(DummyCameraOperation).setProps({ test: 1 });
+    expect(cameraOperationStart).toHaveBeenCalledTimes(1);
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(0);
+
+    wrapper.update();
+
+    expect(cameraOperationStart).toHaveBeenCalledTimes(1);
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(0);
+
+    wrapper.setProps({ test: 1 });
 
     expect(cameraOperationStart).toHaveBeenCalledTimes(2);
-    expect(camera.cancelFlight).not.toHaveBeenCalled();
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
+  });
+
+  it("should call cancelFlight", () => {
+    const camera = {
+      cancelFlight: jest.fn(),
+    };
+
+    const DummyCameraOperation = createCameraOperation({
+      name: "dummy",
+      // tslint:disable-next-line:no-empty
+      cameraOperationStart: () => {},
+    });
+
+    const wrapper = mount(
+      <Provider value={{ camera }}>
+        <DummyCameraOperation cancelCameraFlight />
+      </Provider>,
+    );
 
     wrapper.unmount();
 
