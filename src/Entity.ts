@@ -1,4 +1,4 @@
-import Cesium, { EntityCollection, Entity as CesiumEntity, Color } from "cesium";
+import Cesium, { Entity as CesiumEntity } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
@@ -321,7 +321,7 @@ export interface EntityProps
     EntityCesiumEvents {}
 
 export interface EntityContext {
-  entityCollection: EntityCollection;
+  entityCollection: Cesium.EntityCollection;
 }
 
 const cesiumProps: Array<keyof EntityCesiumProps> = [
@@ -355,11 +355,11 @@ const cesiumProps: Array<keyof EntityCesiumProps> = [
 
 const cesiumReadonlyProps: Array<keyof EntityCesiumReadonlyProps> = ["id"];
 
-const cesiumEventProps: EventkeyMap<CesiumEntity, keyof EntityCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<Cesium.Entity, keyof EntityCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 
-const Entity = createCesiumComponent<CesiumEntity, EntityProps, EntityContext>({
+const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>({
   name: "Entity",
   create(cprops) {
     return new CesiumEntity(cprops as any);
