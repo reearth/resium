@@ -165,11 +165,12 @@ describe("core/CesiumComponent", () => {
     const cesiumElement = {
       foo: new Event(),
       bar: new Event(),
+      hoge: new Event(),
     };
 
     const Component = createCesiumComponent<
       typeof cesiumElement,
-      { foo?: () => void; bar?: () => void },
+      { foo?: () => void; bar?: () => void; hoge?: () => void },
       {}
     >({
       name: "test",
@@ -179,20 +180,22 @@ describe("core/CesiumComponent", () => {
       cesiumEventProps: {
         foo: "foo",
         bar: "bar",
+        hoge: "hoge",
       },
     });
 
     // tslint:disable-next-line:no-empty jsx-no-lambda
-    const wrapper = mount(<Component foo={() => {}} />);
+    const wrapper = mount(<Component foo={() => {}} hoge={() => {}} />);
 
     expect(cesiumElement.foo.numberOfListeners).toBe(1);
     expect(cesiumElement.bar.numberOfListeners).toBe(0);
 
     // tslint:disable-next-line:no-empty
-    wrapper.setProps({ foo: undefined, bar: () => {} });
+    wrapper.setProps({ foo: undefined, bar: () => {}, hoge: () => {} });
 
     expect(cesiumElement.foo.numberOfListeners).toBe(0);
     expect(cesiumElement.bar.numberOfListeners).toBe(1);
+    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
   });
 
   it("should remount when cesium read only props are updated", () => {
