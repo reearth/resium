@@ -1,7 +1,7 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import { Cartesian3 } from "cesium";
-import { Viewer, Entity } from "../../dist/cesium-react.es";
+import { Viewer, Entity } from "resium";
 
 const App = () => (
   <Viewer full>

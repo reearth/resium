@@ -33,20 +33,24 @@ export const updateEvents = (target: unknown, prevEvents: Events, newEvents: Eve
   const nek = Object.keys(newEvents);
 
   // removed events
-  const re = pek.map<[string, EventFunc]>(k => [k, prevEvents[k]]).reduce<Events>((e, [k, v]) => {
-    if (nek.indexOf(k) === -1 || v !== newEvents[k]) {
-      e[k] = v;
-    }
-    return e;
-  }, {});
+  const re = pek
+    .map<[string, EventFunc]>(k => [k, prevEvents[k]])
+    .reduce<Events>((e, [k, v]) => {
+      if (nek.indexOf(k) === -1 || v !== newEvents[k]) {
+        e[k] = v;
+      }
+      return e;
+    }, {});
 
   // new events
-  const ne = nek.map<[string, EventFunc]>(k => [k, newEvents[k]]).reduce<Events>((e, [k, v]) => {
-    if (pek.indexOf(k) === -1 || v !== prevEvents[k]) {
-      e[k] = v;
-    }
-    return e;
-  }, {});
+  const ne = nek
+    .map<[string, EventFunc]>(k => [k, newEvents[k]])
+    .reduce<Events>((e, [k, v]) => {
+      if (pek.indexOf(k) === -1 || v !== prevEvents[k]) {
+        e[k] = v;
+      }
+      return e;
+    }, {});
 
   detachEvents(target, re);
   attachEvents(target, ne);
