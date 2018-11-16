@@ -1,8 +1,10 @@
 # resium
 
-[![Build Status](https://travis-ci.org/rot1024/cesium-react.svg?branch=master)](https://travis-ci.org/rot1024/cesium-react) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
+[![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
 
 React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
+
+**WARN:** `master` branch now includes braking changes for v1 (not yet released).
 
 ```js
 import React from "react";
