@@ -1,5 +1,5 @@
 import React from "react";
-import { ScreenSpaceEventType } from "cesium";
+import { ScreenSpaceEventHandler, ScreenSpaceEventType } from "cesium";
 import { mount } from "enzyme";
 
 import { Provider } from "../../core/context";
@@ -8,6 +8,7 @@ import createCesiumComponent from "../../core/CesiumComponent";
 
 describe("core/EventWrapper", () => {
   it("should attach events to ScreenSpaceEventHandler", () => {
+    const sseh = new ScreenSpaceEventHandler();
     const Component = createCesiumComponent<{}, {}, {}>({
       name: "test",
       create() {
@@ -15,31 +16,23 @@ describe("core/EventWrapper", () => {
       },
     });
     const Wrapped = createEventWrapper(Component);
-    const dummyScreenSpaceEventHandler = {
-      setInputAction: jest.fn(),
-      removeInputAction: jest.fn(),
-    };
-
     const onClick = () => {
       /* dummy */
     };
 
     const wrapper = mount(
-      <Provider value={{ screenSpaceEventHandler: dummyScreenSpaceEventHandler }}>
+      <Provider value={{ cesiumWidget: {} }}>
         <Wrapped onClick={onClick} />
       </Provider>,
     );
 
-    expect(dummyScreenSpaceEventHandler.setInputAction).toBeCalledWith(
-      onClick,
+    expect(sseh.setInputAction).toBeCalledWith(
+      expect.any(Function),
       ScreenSpaceEventType.LEFT_CLICK,
     );
 
     wrapper.unmount();
 
-    expect(dummyScreenSpaceEventHandler.removeInputAction).toBeCalledWith(
-      onClick,
-      ScreenSpaceEventType.LEFT_CLICK,
-    );
+    expect(sseh.destroy).toBeCalled();
   });
 });
