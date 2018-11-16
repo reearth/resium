@@ -1,9 +1,10 @@
-const obj = {
-  setInputAction: jest.fn(),
-  removeInputAction: jest.fn(),
-  destroy: jest.fn(),
-};
+import mockCesiumElement from "./helper";
 
-export default () => {
-  return obj;
-};
+export default mockCesiumElement(
+  {
+    setInputAction: jest.fn(),
+    removeInputAction: jest.fn(),
+    destroy: jest.fn(),
+  },
+  true,
+);
