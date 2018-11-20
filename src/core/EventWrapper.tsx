@@ -35,14 +35,16 @@ export interface EventWrapperProps<T> {
   onMouseLeave?: (movement: CesiumMovementEvent, target: T) => void;
 }
 
-interface Context {
+export interface EventWrapperContext {
   cesiumWidget: Cesium.CesiumWidget;
   scene: Cesium.Scene;
 }
 
 const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
-  withContext<EventWrapperProps<E> & P, Context>(
-    class EventWrapper extends React.PureComponent<EventWrapperProps<E> & P & { cesium: Context }> {
+  withContext<EventWrapperProps<E> & P, EventWrapperContext>(
+    class EventWrapper extends React.PureComponent<
+      EventWrapperProps<E> & P & { cesium: EventWrapperContext }
+    > {
       private static events: Array<{
         prop: keyof EventWrapperProps<E>;
         type: Cesium.ScreenSpaceEventType;
