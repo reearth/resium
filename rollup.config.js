@@ -11,19 +11,18 @@ import pkg from "./package.json";
 const env = process.env.NODE_ENV;
 
 export default {
-  input: "src/index.ts",
+  input: "./src/index.ts",
   output: {
     format: ["es", "cjs"].indexOf(env) >= 0 ? env : "umd",
     file:
       env === "es"
         ? pkg.module
         : env === "cjs"
-          ? pkg.main
-          : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
+        ? pkg.main
+        : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom/server.browser": "ReactDOMServer",
-      "prop-types": "PropTypes",
       cesium: "Cesium",
     },
     name: "CesiumReact",
@@ -39,7 +38,7 @@ export default {
         },
       },
       useTsconfigDeclarationDir: true,
-      exclude: ["src/stories/*", "src/test/*"],
+      exclude: ["./src/stories/*", "./src/test/**/*", "./__mocks__/**/*"],
     }),
     resolve(),
     commonjs(),
