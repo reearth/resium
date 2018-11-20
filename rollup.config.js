@@ -19,13 +19,13 @@ export default {
         ? pkg.module
         : env === "cjs"
         ? pkg.main
-        : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
+        : `dist/resium${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom/server.browser": "ReactDOMServer",
       cesium: "Cesium",
     },
-    name: "CesiumReact",
+    name: "Resium",
     sourcemap: true,
   },
   plugins: [
@@ -53,5 +53,5 @@ export default {
         ]
       : [],
   ),
-  external: ["react", "react-dom/server.browser", "prop-types", "cesium"],
+  external: ["react", "react-dom/server.browser", "cesium"],
 };
