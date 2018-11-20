@@ -42,7 +42,6 @@
     "@types/jest": "^23.3.9",
     "@types/lodash.omit": "^4.5.4",
     "@types/lodash.pick": "^4.4.4",
-    "@types/prop-types": "^15.5.6",
     "@types/react": "^16.4.18",
     "@types/react-dom": "^16.0.9",
     "@types/storybook__addon-actions": "^3.4.1",
