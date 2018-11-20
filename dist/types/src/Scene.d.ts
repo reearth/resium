@@ -50,6 +50,7 @@ export interface SceneCesiumEvents {
     onTerrainProviderChange?: () => void;
 }
 export interface SceneProps extends SceneCesiumProps, SceneCesiumEvents {
+    children?: React.ReactNode;
     morph?: number;
 }
 export interface SceneContext {

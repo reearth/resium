@@ -281,6 +281,7 @@ export interface EntityCesiumEvents {
     onDefinitionChange?: () => void;
 }
 export interface EntityProps extends EntityCesiumProps, EntityCesiumReadonlyProps, EntityCesiumEvents {
+    children?: React.ReactNode;
 }
 export interface EntityContext {
     entityCollection: Cesium.EntityCollection;

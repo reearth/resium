@@ -63,6 +63,7 @@ export interface ViewerProps extends ViewerCesiumProps, ViewerCesiumReadonlyProp
     full?: boolean;
     containerProps?: any;
     extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
+    children?: React.ReactNode;
 }
 export interface ViewerContext {
     viewer: CesiumViewer;

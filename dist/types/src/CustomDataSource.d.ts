@@ -11,6 +11,7 @@ export interface CustomDataSourceCesiumEvents {
     onLoading?: (customDataSource: Cesium.CustomDataSource, isLoaded: boolean) => void;
 }
 export interface CustomDataSourceProps extends CustomDataSourceCesiumProps, CustomDataSourceCesiumEvents {
+    children?: React.ReactNode;
 }
 export interface CustomDataSourceContext {
     dataSourceCollection: Cesium.DataSourceCollection;

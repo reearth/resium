@@ -32,6 +32,7 @@ export interface CesiumWidgetProps extends CesiumWidgetCesiumProps, CesiumWidget
     style?: React.CSSProperties;
     full?: boolean;
     containerProps?: any;
+    children?: React.ReactNode;
 }
 export interface CesiumWidgetContext {
     cesiumWidget: Cesium.CesiumWidget;
