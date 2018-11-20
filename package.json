@@ -4,7 +4,7 @@
   "description": "React components for Cesium",
   "main": "dist/resium.cjs.js",
   "module": "dist/resium.es.js",
-  "types": "dist/types/index.d.ts",
+  "types": "dist/types/src/index.d.ts",
   "repository": "https://github.com/darwin-education/resium.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
