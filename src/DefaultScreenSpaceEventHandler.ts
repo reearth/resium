@@ -8,7 +8,9 @@ export interface DefaultScreenSpaceEventHandlerContext {
 
 const DefaultScreenSpaceEventHandler = createCesiumComponent<
   Cesium.ScreenSpaceEventHandler,
-  {},
+  {
+    children?: React.ReactNode;
+  },
   DefaultScreenSpaceEventHandlerContext
 >({
   name: "ScreenSpaceEventHandler",

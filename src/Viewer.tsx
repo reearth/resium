@@ -138,6 +138,7 @@ export interface ViewerProps
   full?: boolean;
   containerProps?: any;
   extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
+  children?: React.ReactNode;
 }
 
 export interface ViewerContext {

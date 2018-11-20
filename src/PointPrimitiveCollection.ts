@@ -8,6 +8,10 @@ export interface PointPrimitiveCollectionCesiumProps {
   modelMatrix?: Cesium.Matrix4;
 }
 
+export interface PointPrimitiveCollectionProps extends PointPrimitiveCollectionCesiumProps {
+  children?: React.ReactNode;
+}
+
 export interface PointPrimitiveCollectionContext {
   primitiveCollection: Cesium.PrimitiveCollection;
 }
@@ -20,7 +24,7 @@ const cesiumProps: Array<keyof PointPrimitiveCollectionCesiumProps> = [
 
 const PointPrimitiveCollection = createCesiumComponent<
   Cesium.PointPrimitiveCollection,
-  PointPrimitiveCollectionCesiumProps,
+  PointPrimitiveCollectionProps,
   PointPrimitiveCollectionContext
 >({
   name: "PointPrimitveCollection",

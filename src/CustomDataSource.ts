@@ -16,7 +16,9 @@ export interface CustomDataSourceCesiumEvents {
 
 export interface CustomDataSourceProps
   extends CustomDataSourceCesiumProps,
-    CustomDataSourceCesiumEvents {}
+    CustomDataSourceCesiumEvents {
+  children?: React.ReactNode;
+}
 
 export interface CustomDataSourceContext {
   dataSourceCollection: Cesium.DataSourceCollection;

@@ -67,6 +67,7 @@ export interface CesiumWidgetProps
   style?: React.CSSProperties;
   full?: boolean;
   containerProps?: any;
+  children?: React.ReactNode;
 }
 
 export interface CesiumWidgetContext {

@@ -318,7 +318,9 @@ export interface EntityCesiumEvents {
 export interface EntityProps
   extends EntityCesiumProps,
     EntityCesiumReadonlyProps,
-    EntityCesiumEvents {}
+    EntityCesiumEvents {
+  children?: React.ReactNode;
+}
 
 export interface EntityContext {
   entityCollection: Cesium.EntityCollection;

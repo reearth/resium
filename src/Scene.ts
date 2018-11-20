@@ -54,6 +54,7 @@ export interface SceneCesiumEvents {
 }
 
 export interface SceneProps extends SceneCesiumProps, SceneCesiumEvents {
+  children?: React.ReactNode;
   morph?: number;
 }
 
