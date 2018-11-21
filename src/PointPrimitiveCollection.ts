@@ -35,10 +35,10 @@ const PointPrimitiveCollection = createCesiumComponent<
     context.primitiveCollection.add(element);
   },
   unmount(element, context) {
-    if (!context.primitiveCollection.isDestroyed) {
+    if (!context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
-    if (!element.isDestroyed) {
+    if (!element.isDestroyed()) {
       element.destroy();
     }
   },
