@@ -4,7 +4,7 @@ import createCesiumComponent from "./core/CesiumComponent";
 
 export interface PointPrimitiveCesiumProps {
   color?: Cesium.Color;
-  disableDepthTestDistance?: boolean;
+  disableDepthTestDistance?: number;
   distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
   id?: any;
   outlineColor?: Cesium.Color;
@@ -47,7 +47,7 @@ const PointPrimitive = createCesiumComponent<
     context.pointPrimitiveCollection.add(element);
   },
   unmount(element, context) {
-    if (!context.pointPrimitiveCollection.isDestroyed) {
+    if (!context.pointPrimitiveCollection.isDestroyed()) {
       context.pointPrimitiveCollection.remove(element);
     }
   },
