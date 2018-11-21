@@ -20,11 +20,6 @@ const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
   create(cprops, props, context) {
     return context.scene.sun;
   },
-  unmount(element, context) {
-    if (!context.scene.sun.isDestroyed) {
-      context.scene.sun.destroy();
-    }
-  },
   cesiumProps,
   setCesiumPropsAfterCreate: true,
 });
