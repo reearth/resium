@@ -5,7 +5,7 @@ export default mockCesiumElement(
     setInputAction: jest.fn(),
     removeInputAction: jest.fn(),
     destroy: jest.fn(),
-    isDestroy: jest.fn(() => false),
+    isDestroyed: jest.fn(() => false),
   },
   true,
 );
