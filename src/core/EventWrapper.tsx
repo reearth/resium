@@ -122,10 +122,10 @@ const createEventWrapper = <E, P>(Comp: CesiumComponentType<E, P>) =>
       }
 
       public componentWillUnmount() {
-        if (this.sseh && !this.sseh.isDestroyed) {
+        if (this.sseh && !this.sseh.isDestroyed()) {
           this.sseh.destroy();
         }
-        if (this.sseh2 && !this.sseh2.isDestroyed) {
+        if (this.sseh2 && !this.sseh2.isDestroyed()) {
           this.sseh2.destroy();
         }
       }

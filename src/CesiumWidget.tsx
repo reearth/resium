@@ -128,7 +128,7 @@ const CesiumWidget = createCesiumComponent<
     );
   },
   unmount(element) {
-    if (element && !element.isDestroyed) {
+    if (element && !element.isDestroyed()) {
       element.destroy();
     }
   },

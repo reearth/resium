@@ -58,7 +58,7 @@ const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, Primit
   },
   unmount(element, context) {
     context.primitiveCollection.remove(element);
-    if (!element.isDestroyed) {
+    if (!element.isDestroyed()) {
       element.destroy();
     }
   },
