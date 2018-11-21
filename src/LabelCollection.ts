@@ -5,7 +5,6 @@ import createCesiumComponent from "./core/CesiumComponent";
 export interface LabelCollectionCesiumProps {
   blendOption?: Cesium.BlendOption;
   debugShowBoundingVolume?: boolean;
-  length?: number;
   modelMatrix?: Cesium.Matrix4;
 }
 
@@ -15,12 +14,12 @@ export interface LabelCollectionProps extends LabelCollectionCesiumProps {
 
 export interface LabelCollectionContext {
   primitiveCollection: Cesium.PrimitiveCollection;
+  scene: Cesium.Scene;
 }
 
 const cesiumProps: Array<keyof LabelCollectionCesiumProps> = [
   "blendOption",
   "debugShowBoundingVolume",
-  "length",
   "modelMatrix",
 ];
 
@@ -30,8 +29,13 @@ const LabelCollection = createCesiumComponent<
   LabelCollectionContext
 >({
   name: "LabelCollection",
-  create(cprops) {
-    return new Cesium.LabelCollection(cprops);
+  create(cprops, props, context) {
+    return new Cesium.LabelCollection({
+      scene: context.scene,
+      modelMatrix: cprops.modelMatrix,
+      blendOption: cprops.blendOption,
+      debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+    } as any);
   },
   mount(element, context) {
     context.primitiveCollection.add(element);

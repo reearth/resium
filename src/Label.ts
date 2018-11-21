@@ -60,11 +60,10 @@ const cesiumProps: Array<keyof LabelCesiumProps> = [
 
 const Label = createCesiumComponent<Cesium.Label, LabelCesiumProps, LabelContext>({
   name: "Label",
-  create() {
-    return new Cesium.Label();
+  create(cprops, props, context) {
+    return new (Cesium.Label as any)(cprops, context.labelCollection);
   },
   mount(element, context) {
-    console.log(context);
     context.labelCollection.add(element);
   },
   unmount(element, context) {
@@ -73,7 +72,6 @@ const Label = createCesiumComponent<Cesium.Label, LabelCesiumProps, LabelContext
     }
   },
   cesiumProps,
-  setCesiumPropsAfterCreate: true,
 });
 
 export default Label;
