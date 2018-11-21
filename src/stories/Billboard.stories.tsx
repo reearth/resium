@@ -25,7 +25,7 @@ export default () => {
         <Billboard
           color={Color.GREEN}
           position={new Cartesian3(0.0, 1000000.0, 0.0)}
-          image="../assets/example.jpg"
+          image="assets/example.jpg"
         />
         <Billboard
           color={Color.CYAN}
