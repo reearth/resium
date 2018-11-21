@@ -17,8 +17,17 @@ const cesiumProps: Array<keyof SunCesiumProps> = ["glowFactor", "show"];
 
 const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
   name: "sun",
-  create(cprops, props, context) {
-    return context.scene.sun;
+  create() {
+    return new Cesium.Sun();
+  },
+  mount(element, context) {
+    context.scene.sun = element;
+  },
+  unmount(element, context) {
+    context.scene.sun = new Cesium.Sun();
+    if (!element.isDestroyed()) {
+      element.destroy();
+    }
   },
   cesiumProps,
   setCesiumPropsAfterCreate: true,
