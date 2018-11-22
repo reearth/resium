@@ -64,7 +64,13 @@ describe("core/CesiumComponent", () => {
       </Provider>,
     ).unmount();
 
-    expect(unmount).toBeCalledWith("foobar", value, { cesium: value, test: 1 }, undefined);
+    expect(unmount).toBeCalledWith(
+      "foobar",
+      value,
+      { cesium: value, test: 1 },
+      undefined,
+      undefined,
+    );
   });
 
   it("should expose cesiumElement", () => {
@@ -338,5 +344,25 @@ describe("core/CesiumComponent", () => {
     );
 
     expect(wrapper.find("div").length).toBe(0);
+  });
+
+  it("should set state", () => {
+    const provide = jest.fn();
+    const unmount = jest.fn();
+    const value = { hoge: 1 };
+
+    const Component = createCesiumComponent<string, {}, any>({
+      name: "test",
+      create() {
+        return ["foobar", "state"];
+      },
+      provide,
+      unmount,
+    });
+
+    mount(<Component />).unmount();
+
+    expect(provide).toBeCalledWith("foobar", { cesium: {} }, "state");
+    expect(unmount).toBeCalledWith("foobar", {}, { cesium: {} }, undefined, "state");
   });
 });

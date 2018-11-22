@@ -14,22 +14,23 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
     props: Readonly<P>,
     context: Readonly<C>,
     ref?: React.RefObject<R>,
-  ) => E;
+  ) => E | [E, any];
   mount?: (element: E, context: Readonly<C>, props: Readonly<P>, ref?: React.RefObject<R>) => void;
   unmount?: (
     element: E,
     context: Readonly<C>,
     props: Readonly<P>,
-    ref?: React.RefObject<R>,
+    ref: React.RefObject<R> | undefined,
+    state: any,
   ) => void;
   render?: (
     element: E | undefined,
     props: Readonly<P> & Readonly<{ children?: React.ReactNode }>,
-    mounted?: boolean,
-    ref?: React.RefObject<R>,
+    mounted: boolean,
+    ref: React.RefObject<R> | undefined,
   ) => React.ReactNode;
   update?: (element: E, props: Readonly<P>, prevProps: Readonly<P>, context: Readonly<C>) => void;
-  provide?: (element: E, props: Readonly<P>) => CC;
+  provide?: (element: E, props: Readonly<P>, state: any) => CC;
   cesiumProps?: Array<keyof P>;
   cesiumReadonlyProps?: Array<keyof P>;
   cesiumEventProps?: EventkeyMap<E, keyof P>;
@@ -93,9 +94,9 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
 
     // tslint:disable-next-line:variable-name
     private _ce?: E;
-
+    // tslint:disable-next-line:variable-name
+    private _state: any;
     private mounted: boolean = false;
-
     private ref?: React.RefObject<R>;
 
     constructor(props: WithContextProps<P, C>) {
@@ -122,7 +123,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
           value={Object.assign(
             {},
             this.props.cesium,
-            this._ce ? opts.provide(this._ce, this.props) : {},
+            this._ce ? opts.provide(this._ce, this.props, this._state) : {},
           )}>
           {render}
         </Provider>
@@ -165,7 +166,13 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
         ...(opts.cesiumProps || []),
         ...(opts.cesiumReadonlyProps || []),
       ]);
-      this._ce = opts.create(cesiumProps, props, this.props.cesium, this.ref);
+      const element = opts.create(cesiumProps, props, this.props.cesium, this.ref);
+      if (Array.isArray(element)) {
+        this._ce = element[0];
+        this._state = element[1];
+      } else {
+        this._ce = element;
+      }
 
       if (opts.setCesiumPropsAfterCreate && this._ce) {
         Object.entries(CesiumComponent.getCesiumProps(this.props)).forEach(([k, v]) => {
@@ -186,7 +193,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
 
     private unmount() {
       if (opts.unmount && this._ce) {
-        opts.unmount(this._ce, this.props.cesium, this.props, this.ref);
+        opts.unmount(this._ce, this.props.cesium, this.props, this.ref, this._state);
       }
 
       if (this._ce) {
