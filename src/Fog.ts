@@ -12,7 +12,9 @@ export interface FogCesiumProps {
 export interface FogProps extends FogCesiumProps {}
 
 /* tslint:disable-next-line: no-empty-interface */
-export interface FogContext {}
+export interface FogContext {
+  scene?: Cesium.Scene;
+}
 
 const cesiumProps: Array<keyof FogCesiumProps> = [
   "density",
@@ -25,6 +27,16 @@ const Fog = createCesiumComponent<Cesium.Fog, FogProps, FogContext>({
   name: "fog",
   create(cprops, props, context) {
     return new Cesium.Fog();
+  },
+  mount(element, context) {
+    if (context.scene) {
+      context.scene.fog = element;
+    }
+  },
+  unmount(element, context) {
+    if (context.scene && !context.scene.isDestroyed()) {
+      context.scene.fog = new Cesium.Fog();
+    }
   },
   cesiumProps,
   setCesiumPropsAfterCreate: true,
