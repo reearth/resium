@@ -1,6 +1,7 @@
 import Cesium, { Entity as CesiumEntity } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
+import EventManager, { EventProps } from "./core/eventManager";
 
 export interface EntityCesiumProps {
   availability?: Cesium.TimeIntervalCollection;
@@ -318,7 +319,8 @@ export interface EntityCesiumEvents {
 export interface EntityProps
   extends EntityCesiumProps,
     EntityCesiumReadonlyProps,
-    EntityCesiumEvents {
+    EntityCesiumEvents,
+    EventProps<Cesium.Entity> {
   children?: React.ReactNode;
   selected?: boolean;
   tracked?: boolean;
@@ -327,6 +329,7 @@ export interface EntityProps
 export interface EntityContext {
   entityCollection?: Cesium.EntityCollection;
   viewer?: Cesium.Viewer;
+  __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
 const cesiumProps: Array<keyof EntityCesiumProps> = [
@@ -370,6 +373,9 @@ const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>(
     return new CesiumEntity(cprops as any);
   },
   mount(element, context, props) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+    }
     if (context.entityCollection) {
       context.entityCollection.add(element);
     }
@@ -381,11 +387,18 @@ const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>(
     }
   },
   unmount(element, context) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+    }
     if (context.entityCollection) {
       context.entityCollection.remove(element);
     }
   },
   update(element, props, prevProps, context) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+    }
+
     if (context.viewer) {
       if (props.selected !== prevProps.selected) {
         if (props.selected) {
