@@ -25,10 +25,8 @@ export interface BillboardCesiumProps {
   width?: number;
 }
 
-export interface BillboardCesiumReadonlyProps {
-  ready?: boolean;
-}
-export interface BillboardProps extends BillboardCesiumProps, BillboardCesiumReadonlyProps {}
+/* tslint:disable-next-line: no-empty-interface */
+export interface BillboardProps extends BillboardCesiumProps {}
 
 export interface BillboardContext {
   billboardCollection: Cesium.BillboardCollection;
@@ -57,8 +55,6 @@ const cesiumProps: Array<keyof BillboardCesiumProps> = [
   "width",
 ];
 
-const cesiumReadonlyProps: Array<keyof BillboardCesiumReadonlyProps> = ["ready"];
-
 const Billboard = createCesiumComponent<Cesium.Billboard, BillboardProps, BillboardContext>({
   name: "Billboard",
   create(cprops, props, context) {
@@ -73,7 +69,6 @@ const Billboard = createCesiumComponent<Cesium.Billboard, BillboardProps, Billbo
     }
   },
   cesiumProps,
-  cesiumReadonlyProps,
   setCesiumPropsAfterCreate: true,
 });
 
