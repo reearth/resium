@@ -29,7 +29,7 @@ export interface PrimitiveProps
     EventProps<Cesium.Primitive> {}
 
 export interface PrimitiveContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
+  primitiveCollection?: Cesium.PrimitiveCollection;
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
@@ -62,7 +62,9 @@ const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, Primit
     if (context.__RESIUM_EVENT_MANAGER) {
       context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
     }
-    context.primitiveCollection.add(element);
+    if (context.primitiveCollection) {
+      context.primitiveCollection.add(element);
+    }
   },
   update(element, props, prevProps, context) {
     if (context.__RESIUM_EVENT_MANAGER) {
@@ -73,7 +75,9 @@ const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, Primit
     if (context.__RESIUM_EVENT_MANAGER) {
       context.__RESIUM_EVENT_MANAGER.clearEvents(element);
     }
-    context.primitiveCollection.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element);
+    }
     if (!element.isDestroyed()) {
       element.destroy();
     }

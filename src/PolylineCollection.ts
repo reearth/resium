@@ -13,7 +13,7 @@ export interface PolylineCollectionProps extends PolylineCollectionCesiumProps {
 }
 
 export interface PolylineCollectionContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
+  primitiveCollection?: Cesium.PrimitiveCollection;
   scene: Cesium.Scene;
 }
 
@@ -38,10 +38,12 @@ const PolylineCollection = createCesiumComponent<
     } as any);
   },
   mount(element, context) {
-    context.primitiveCollection.add(element);
+    if (context.primitiveCollection) {
+      context.primitiveCollection.add(element);
+    }
   },
   unmount(element, context) {
-    if (!context.primitiveCollection.isDestroyed()) {
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

@@ -8,7 +8,7 @@ import { withContext } from "./core/context";
 import { Entity } from "cesium";
 
 export interface Props {
-  cesium: { entity: Entity };
+  cesium: { entity?: Entity };
 }
 
 class EntityDescription extends React.PureComponent<Props> {
@@ -40,4 +40,4 @@ class EntityDescription extends React.PureComponent<Props> {
   }
 }
 
-export default withContext<{ children?: React.ReactNode }, { entity: Entity }>(EntityDescription);
+export default withContext<{ children?: React.ReactNode }, { entity?: Entity }>(EntityDescription);

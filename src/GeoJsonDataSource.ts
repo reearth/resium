@@ -30,8 +30,7 @@ export interface GeoJsonDataSourceProps
 }
 
 export interface GeoJsonDataSourceContext {
-  dataSourceCollection: Cesium.DataSourceCollection;
-  scene: Cesium.Scene;
+  dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
 const cesiumProps: Array<keyof GeoJsonDataSourceCesiumProps> = ["clustering", "name"];
@@ -110,22 +109,24 @@ const GeoJsonDataSource = createCesiumComponent<
     return ds;
   },
   mount(element, context, props) {
-    context.dataSourceCollection.add(element);
-    if (props.data) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        clampToGround: props.clampToGround,
-        sourceUri: props.sourceUri,
-        markerSize: props.markerSize,
-        markerSymbol: props.markerSymbol,
-        markerColor: props.markerColor,
-        stroke: props.stroke,
-        strokeWidth: props.strokeWidth,
-        fill: props.fill,
-      });
+    if (context.dataSourceCollection) {
+      context.dataSourceCollection.add(element);
+      if (props.data) {
+        load({
+          element,
+          dataSources: context.dataSourceCollection,
+          data: props.data,
+          onLoad: props.onLoad,
+          clampToGround: props.clampToGround,
+          sourceUri: props.sourceUri,
+          markerSize: props.markerSize,
+          markerSymbol: props.markerSymbol,
+          markerColor: props.markerColor,
+          stroke: props.stroke,
+          strokeWidth: props.strokeWidth,
+          fill: props.fill,
+        });
+      }
     }
   },
   update(element, props, prevProps, context) {
@@ -133,6 +134,7 @@ const GeoJsonDataSource = createCesiumComponent<
       element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
     }
     if (
+      context.dataSourceCollection &&
       props.data &&
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
@@ -161,7 +163,9 @@ const GeoJsonDataSource = createCesiumComponent<
     }
   },
   unmount(element, context) {
-    context.dataSourceCollection.remove(element);
+    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+      context.dataSourceCollection.remove(element);
+    }
   },
   cesiumProps,
   cesiumEventProps,

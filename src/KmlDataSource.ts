@@ -33,7 +33,7 @@ export interface KmlDataSourceProps
 }
 
 export interface KmlDataSourceContext {
-  dataSourceCollection: Cesium.DataSourceCollection;
+  dataSourceCollection?: Cesium.DataSourceCollection;
   scene: Cesium.Scene;
 }
 
@@ -101,17 +101,19 @@ const KmlDataSource = createCesiumComponent<
     return ds;
   },
   mount(element, context, props) {
-    context.dataSourceCollection.add(element);
-    if (props.data) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        clampToGround: props.clampToGround,
-        ellipsoid: props.ellipsoid,
-        sourceUri: props.sourceUri,
-      });
+    if (context.dataSourceCollection) {
+      context.dataSourceCollection.add(element);
+      if (props.data) {
+        load({
+          element,
+          dataSources: context.dataSourceCollection,
+          data: props.data,
+          onLoad: props.onLoad,
+          clampToGround: props.clampToGround,
+          ellipsoid: props.ellipsoid,
+          sourceUri: props.sourceUri,
+        });
+      }
     }
   },
   update(element, props, prevProps, context) {
@@ -119,6 +121,7 @@ const KmlDataSource = createCesiumComponent<
       element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
     }
     if (
+      context.dataSourceCollection &&
       props.data &&
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
@@ -137,7 +140,9 @@ const KmlDataSource = createCesiumComponent<
     }
   },
   unmount(element, context) {
-    context.dataSourceCollection.remove(element);
+    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+      context.dataSourceCollection.remove(element);
+    }
   },
   cesiumProps,
   cesiumReadonlyProps,

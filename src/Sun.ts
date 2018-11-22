@@ -10,7 +10,7 @@ export interface SunCesiumProps {
 export interface SunProps extends SunCesiumProps {}
 
 export interface SunContext {
-  scene: Cesium.Scene;
+  scene?: Cesium.Scene;
 }
 
 const cesiumProps: Array<keyof SunCesiumProps> = ["glowFactor", "show"];
@@ -21,13 +21,17 @@ const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
     return new Cesium.Sun();
   },
   mount(element, context) {
-    context.scene.sun = element;
+    if (context.scene) {
+      context.scene.sun = element;
+    }
   },
   unmount(element, context) {
-    context.scene.sun = new Cesium.Sun();
-    if (!element.isDestroyed()) {
-      element.destroy();
+    if (context.scene && !context.scene.isDestroyed()) {
+      context.scene.sun = new Cesium.Sun();
     }
+    // if (!element.isDestroyed()) {
+    //   element.destroy();
+    // }
   },
   cesiumProps,
   setCesiumPropsAfterCreate: true,

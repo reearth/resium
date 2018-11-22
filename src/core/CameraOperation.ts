@@ -10,25 +10,32 @@ const createCameraOperation = <P>(opts: {
   name: string;
   cameraOperationStart: (camera: Camera, props: Readonly<P>, prevProps?: Readonly<P>) => void;
 }) =>
-  withContext<P & CameraOperationProps, { camera: Cesium.Camera }>(
+  withContext<P & CameraOperationProps, { camera?: Cesium.Camera }>(
     class CameraOperation extends React.PureComponent<
-      CameraOperationProps & { cesium: { camera: Cesium.Camera } } & P
+      CameraOperationProps & { cesium: { camera?: Cesium.Camera } } & P
     > {
       public static displayName = name;
 
       public componentDidMount() {
-        opts.cameraOperationStart(this.props.cesium.camera, this.props);
+        if (this.props.cesium.camera) {
+          opts.cameraOperationStart(this.props.cesium.camera, this.props);
+        }
       }
 
       public componentDidUpdate(prevProps: Readonly<P>) {
-        this.props.cesium.camera.cancelFlight();
-        opts.cameraOperationStart(this.props.cesium.camera, this.props, prevProps);
+        if (this.props.cesium.camera) {
+          this.props.cesium.camera.cancelFlight();
+          opts.cameraOperationStart(this.props.cesium.camera, this.props, prevProps);
+        }
       }
 
       public componentWillUnmount() {
-        const { cancelCameraFlight } = this.props;
-        if (cancelCameraFlight) {
-          this.props.cesium.camera.cancelFlight();
+        const {
+          cancelCameraFlight,
+          cesium: { camera },
+        } = this.props;
+        if (cancelCameraFlight && camera) {
+          camera.cancelFlight();
         }
       }
 

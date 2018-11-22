@@ -60,7 +60,7 @@ export interface Cesium3DTilesetProps extends Cesium3DTilesetCesiumProps {
 }
 
 export interface Cesium3DTilesetContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
+  primitiveCollection?: Cesium.PrimitiveCollection;
 }
 
 const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
@@ -133,11 +133,14 @@ const Cesium3DTileset = createCesiumComponent<any, Cesium3DTilesetProps, Cesium3
     return c3ts;
   },
   mount(element, context) {
-    console.log("mounted", element);
-    context.primitiveCollection.add(element);
+    if (context.primitiveCollection) {
+      context.primitiveCollection.add(element);
+    }
   },
   unmount(element, context) {
-    context.primitiveCollection.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element);
+    }
     if (!element.isDestroyed()) {
       element.destroy();
     }
