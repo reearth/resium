@@ -1,7 +1,7 @@
 import React from "react";
 
 import createCesiumComponent from "./core/CesiumComponent";
-import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import Cesium, { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
 export interface CesiumWidgetCesiumProps {
   resolutionScale?: number;
@@ -79,7 +79,7 @@ export interface CesiumWidgetContext {
 }
 
 const CesiumWidget = createCesiumComponent<
-  Cesium.CesiumWidget | undefined,
+  Cesium.CesiumWidget,
   CesiumWidgetProps,
   {},
   CesiumWidgetContext | {},
@@ -94,8 +94,8 @@ const CesiumWidget = createCesiumComponent<
       cprops,
     );
 
-    if (!v) {
-      return undefined; // failed to initialize Viewer
+    if (v && typeof props.resolutionScale === "number") {
+      v.resolutionScale = props.resolutionScale;
     }
 
     if (typeof props.resolutionScale === "number") {
