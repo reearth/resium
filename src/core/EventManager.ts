@@ -1,5 +1,7 @@
 import Cesium, { ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 
+import { pickedObjectEquals } from "./util";
+
 export type EventType =
   | "onClick"
   | "onDoubleClick"
@@ -89,15 +91,6 @@ export default class EventManager {
     onMouseEnter: ScreenSpaceEventType.MOUSE_MOVE,
     onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
   };
-
-  private static equalsPickedObject(picked: any, element: any) {
-    return (
-      !!picked &&
-      (picked === element ||
-        picked.primitive === element ||
-        (!!picked.primitive.equals && picked.primitive.equals(element)))
-    );
-  }
 
   private scene: Cesium.Scene;
   private sshe: ScreenSpaceEventHandler;
@@ -226,7 +219,7 @@ export default class EventManager {
     this.changed.clear();
 
     this.hovered.forEach((h, element) => {
-      const p = EventManager.equalsPickedObject(picked, element);
+      const p = pickedObjectEquals(picked, element);
       this.hovered.set(element, p);
       if (p !== h) {
         this.changed.set(element, p);
@@ -260,7 +253,7 @@ export default class EventManager {
     const picked = this.pick(e.position);
     if (picked) {
       this.events[et].forEach((cb, element) => {
-        if (EventManager.equalsPickedObject(picked, element)) {
+        if (pickedObjectEquals(picked, element)) {
           cb(e, element);
         }
       });
