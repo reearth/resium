@@ -7,7 +7,7 @@ import Viewer from "../Viewer";
 import Model from "../Model";
 import CameraFlyTo from "../CameraFlyTo";
 
-import glb from "./models/Cesium_Air.glb";
+import glb from "./assets/Cesium_Air.glb";
 
 const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
 const cameraDest = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 210000);
