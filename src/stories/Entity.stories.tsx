@@ -34,6 +34,18 @@ export default () => {
         </Entity>
       </Viewer>
     ))
+    .add("Selected and tracked", () => (
+      <Viewer full>
+        <Entity
+          name="test"
+          description="test!!"
+          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
+          point={{ pixelSize: 10 }}
+          selected
+          tracked
+        />
+      </Viewer>
+    ))
     .add("Animated canvas", () => (
       <Viewer full>
         <CanvasEntity

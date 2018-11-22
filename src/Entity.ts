@@ -320,10 +320,13 @@ export interface EntityProps
     EntityCesiumReadonlyProps,
     EntityCesiumEvents {
   children?: React.ReactNode;
+  selected?: boolean;
+  tracked?: boolean;
 }
 
 export interface EntityContext {
-  entityCollection: Cesium.EntityCollection;
+  entityCollection?: Cesium.EntityCollection;
+  viewer?: Cesium.Viewer;
 }
 
 const cesiumProps: Array<keyof EntityCesiumProps> = [
@@ -366,11 +369,40 @@ const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>(
   create(cprops) {
     return new CesiumEntity(cprops as any);
   },
-  mount(element, context) {
-    context.entityCollection.add(element);
+  mount(element, context, props) {
+    if (context.entityCollection) {
+      context.entityCollection.add(element);
+    }
+    if (context.viewer && props.selected) {
+      context.viewer.selectedEntity = element;
+    }
+    if (context.viewer && props.tracked) {
+      context.viewer.trackedEntity = element;
+    }
   },
   unmount(element, context) {
-    context.entityCollection.remove(element);
+    if (context.entityCollection) {
+      context.entityCollection.remove(element);
+    }
+  },
+  update(element, props, prevProps, context) {
+    if (context.viewer) {
+      if (props.selected !== prevProps.selected) {
+        if (props.selected) {
+          context.viewer.selectedEntity = element;
+        } else if (context.viewer.selectedEntity === element) {
+          (context.viewer as any).selectedEntity = undefined;
+        }
+      }
+
+      if (props.tracked !== prevProps.tracked) {
+        if (props.tracked) {
+          context.viewer.trackedEntity = element;
+        } else if (context.viewer.trackedEntity === element) {
+          (context.viewer as any).trackedEntity = undefined;
+        }
+      }
+    }
   },
   provide(element) {
     return {
