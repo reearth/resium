@@ -35,7 +35,7 @@ export interface EntityCesiumProps {
         dimensions?: Cesium.Property;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | number;
         outlineWidth?: Cesium.Property | number;
@@ -53,7 +53,7 @@ export interface EntityCesiumProps {
         extrudedHeight?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -71,7 +71,7 @@ export interface EntityCesiumProps {
         bottomRadius?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -91,7 +91,7 @@ export interface EntityCesiumProps {
         extrudedHeight?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -110,7 +110,7 @@ export interface EntityCesiumProps {
         radii?: Cesium.Property | Cesium.Cartesian3;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -180,7 +180,7 @@ export interface EntityCesiumProps {
         trailTime?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         width?: Cesium.Property | number;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         resolution?: Cesium.Property | number;
         distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
       };
@@ -189,7 +189,7 @@ export interface EntityCesiumProps {
     dimensions: Cesium.Property | Cesium.Cartesian2;
     show: Cesium.Property | boolean;
     fill: Cesium.Property | boolean;
-    material: Cesium.MaterialProperty | Cesium.Color;
+    material: Cesium.MaterialProperty | Cesium.Color | string;
     outline: Cesium.Property | boolean;
     outlineColor?: Cesium.Property | Cesium.Color;
     outlineWidth?: Cesium.Property | number;
@@ -220,7 +220,7 @@ export interface EntityCesiumProps {
         extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -241,8 +241,8 @@ export interface EntityCesiumProps {
         clampToGround?: Cesium.Property | boolean;
         width?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
-        depthFailMaterial?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
+        depthFailMaterial?: Cesium.MaterialProperty | Cesium.Color | string;
         granularity?: Cesium.Property | number;
         shadows?: Cesium.Property | Cesium.ShadowMode;
         distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
@@ -256,7 +256,7 @@ export interface EntityCesiumProps {
         cornerType?: Cesium.Property | Cesium.CornerType;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -276,7 +276,7 @@ export interface EntityCesiumProps {
         extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -297,7 +297,7 @@ export interface EntityCesiumProps {
         minimumHeights?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
