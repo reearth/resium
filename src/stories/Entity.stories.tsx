@@ -1,13 +1,12 @@
 import React from "react";
 import { Cartesian3 } from "cesium";
 import { storiesOf } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import Entity from "../Entity";
 import EntityDescription from "../EntityDescription";
-import ExtendedEntity from "../ExtendedEntity";
 import CanvasEntity from "./CanvasEntity";
-import { action } from "@storybook/addon-actions";
 
 export default () => {
   storiesOf("Entity", module)
@@ -55,9 +54,9 @@ export default () => {
         />
       </Viewer>
     ))
-    .add("Extended entity", () => (
+    .add("Events", () => (
       <Viewer full>
-        <ExtendedEntity
+        <Entity
           name="test"
           description="test!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
