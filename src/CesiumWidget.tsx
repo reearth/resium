@@ -98,11 +98,13 @@ const CesiumWidget = createCesiumComponent<
       v.resolutionScale = props.resolutionScale;
     }
 
-    if (typeof props.resolutionScale === "number") {
-      v.resolutionScale = props.resolutionScale;
+    // common ScreenSpaceEventHandler for events of Entity and Primitives
+    let state: any;
+    if (v) {
+      state = new Cesium.ScreenSpaceEventHandler(v.canvas);
     }
 
-    return v;
+    return [v, state];
   },
   render(element, props, mounted, ref) {
     return (
@@ -127,12 +129,18 @@ const CesiumWidget = createCesiumComponent<
       </div>
     );
   },
-  unmount(element) {
+  unmount(element, cprops, props, ref, state) {
+    if (element && state) {
+      const sshe = state as Cesium.ScreenSpaceEventHandler;
+      if (!sshe.isDestroyed()) {
+        sshe.destroy();
+      }
+    }
     if (element && !element.isDestroyed()) {
       element.destroy();
     }
   },
-  provide(element) {
+  provide(element, props, state) {
     if (!element) {
       return {};
     }
@@ -142,6 +150,7 @@ const CesiumWidget = createCesiumComponent<
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
+      __RESIUM_SSEH: state, // ScreenSpaceEventHandler
     };
   },
   cesiumProps,

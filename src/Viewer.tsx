@@ -167,7 +167,13 @@ const Viewer = createCesiumComponent<
       }
     }
 
-    return v;
+    // common event manager for managing events of Entity and Primitives
+    let state: any;
+    if (v) {
+      state = new EventManager(v.scene, v.canvas);
+    }
+
+    return [v, state];
   },
   render(element, props, mounted, ref) {
     return (
@@ -192,12 +198,18 @@ const Viewer = createCesiumComponent<
       </div>
     );
   },
-  unmount(element) {
+  unmount(element, cprops, props, ref, state) {
+    if (element && state) {
+      const em = state as EventManager;
+      if (!em.isDestroyed()) {
+        em.destroy();
+      }
+    }
     if (element && !element.isDestroyed()) {
       element.destroy();
     }
   },
-  provide(element) {
+  provide(element, props, state) {
     if (!element) {
       return {};
     }
@@ -210,6 +222,7 @@ const Viewer = createCesiumComponent<
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
+      __RESIUM_EVENT_MANAGER: state, // EventManager
     };
   },
   cesiumProps,
