@@ -1,7 +1,7 @@
 import React from "react";
 
 import createCesiumComponent from "./core/CesiumComponent";
-import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import Cesium, { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
 export interface CesiumWidgetCesiumProps {
   resolutionScale?: number;
@@ -79,7 +79,7 @@ export interface CesiumWidgetContext {
 }
 
 const CesiumWidget = createCesiumComponent<
-  Cesium.CesiumWidget | undefined,
+  Cesium.CesiumWidget,
   CesiumWidgetProps,
   {},
   CesiumWidgetContext | {},
@@ -94,15 +94,17 @@ const CesiumWidget = createCesiumComponent<
       cprops,
     );
 
-    if (!v) {
-      return undefined; // failed to initialize Viewer
-    }
-
-    if (typeof props.resolutionScale === "number") {
+    if (v && typeof props.resolutionScale === "number") {
       v.resolutionScale = props.resolutionScale;
     }
 
-    return v;
+    // common ScreenSpaceEventHandler for events of Entity and Primitives
+    let state: any;
+    if (v) {
+      state = new Cesium.ScreenSpaceEventHandler(v.canvas);
+    }
+
+    return [v, state];
   },
   render(element, props, mounted, ref) {
     return (
@@ -127,12 +129,18 @@ const CesiumWidget = createCesiumComponent<
       </div>
     );
   },
-  unmount(element) {
+  unmount(element, cprops, props, ref, state) {
+    if (element && state) {
+      const sshe = state as Cesium.ScreenSpaceEventHandler;
+      if (!sshe.isDestroyed()) {
+        sshe.destroy();
+      }
+    }
     if (element && !element.isDestroyed()) {
       element.destroy();
     }
   },
-  provide(element) {
+  provide(element, props, state) {
     if (!element) {
       return {};
     }
@@ -142,6 +150,7 @@ const CesiumWidget = createCesiumComponent<
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
+      __RESIUM_SSEH: state, // ScreenSpaceEventHandler
     };
   },
   cesiumProps,

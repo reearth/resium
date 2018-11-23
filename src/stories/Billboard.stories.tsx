@@ -4,29 +4,52 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import PointPrimitive from "../PointPrimitive";
-import PointPrimitiveCollection from "../PointPrimitiveCollection";
+import Billboard from "../Billboard";
+import BillboardCollection from "../BillboardCollection";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
+import exampleImg from "./assets/example.jpg";
 
 export default () => {
-  storiesOf("PointPrimitive", module)
+  storiesOf("Billboard", module)
     .add("default", () => (
       <Viewer full>
-        <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-          <PointPrimitive color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} />
-          <PointPrimitive color={Color.YELLOW} position={new Cartesian3(1000000.0, 0.0, 0.0)} />
-          <PointPrimitive color={Color.GREEN} position={new Cartesian3(0.0, 1000000.0, 0.0)} />
-          <PointPrimitive color={Color.CYAN} position={new Cartesian3(0.0, 0.0, 1000000.0)} />
-        </PointPrimitiveCollection>
+        <BillboardCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+          <Billboard
+            color={Color.ORANGE}
+            position={new Cartesian3(0.0, 0.0, 0.0)}
+            image={exampleImg}
+            scale={0.1}
+          />
+          <Billboard
+            color={Color.YELLOW}
+            position={new Cartesian3(1000000.0, 0.0, 0.0)}
+            image={exampleImg}
+            scale={0.1}
+          />
+          <Billboard
+            color={Color.GREEN}
+            position={new Cartesian3(0.0, 1000000.0, 0.0)}
+            image={exampleImg}
+            scale={0.1}
+          />
+          <Billboard
+            color={Color.CYAN}
+            position={new Cartesian3(0.0, 0.0, 1000000.0)}
+            image={exampleImg}
+            scale={0.1}
+          />
+        </BillboardCollection>
       </Viewer>
     ))
     .add("Events", () => (
       <Viewer full>
-        <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-          <PointPrimitive
+        <BillboardCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+          <Billboard
             color={Color.ORANGE}
             position={new Cartesian3(0.0, 0.0, 0.0)}
+            image={exampleImg}
+            scale={0.1}
             onClick={action("onClick")}
             onDoubleClick={action("onDoubleClick")}
             onMouseDown={action("onMouseDown")}
@@ -45,7 +68,7 @@ export default () => {
             onMouseEnter={action("onMouseEnter")}
             onMouseLeave={action("onMouseLeave")}
           />
-        </PointPrimitiveCollection>
+        </BillboardCollection>
       </Viewer>
     ));
 };

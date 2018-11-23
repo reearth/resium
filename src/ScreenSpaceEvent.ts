@@ -10,7 +10,7 @@ export interface ScreenSpaceEventProps {
 }
 
 interface ScreenSpaceEventContext {
-  screenSpaceEventHandler: Cesium.ScreenSpaceEventHandler;
+  screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler;
 }
 
 class ScreenSpaceEvent extends React.PureComponent<
@@ -49,6 +49,9 @@ class ScreenSpaceEvent extends React.PureComponent<
       modifier,
       type,
     } = this.props;
+    if (!screenSpaceEventHandler) {
+      return;
+    }
     if (action) {
       screenSpaceEventHandler.setInputAction(action as () => void, type, modifier);
     } else {

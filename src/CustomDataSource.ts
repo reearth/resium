@@ -21,7 +21,7 @@ export interface CustomDataSourceProps
 }
 
 export interface CustomDataSourceContext {
-  dataSourceCollection: Cesium.DataSourceCollection;
+  dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
 const cesiumProps: Array<keyof CustomDataSourceCesiumProps> = ["clustering", "name", "show"];
@@ -49,10 +49,14 @@ const CustomDataSource = createCesiumComponent<
     return ds;
   },
   mount(element, context) {
-    context.dataSourceCollection.add(element);
+    if (context.dataSourceCollection) {
+      context.dataSourceCollection.add(element);
+    }
   },
   unmount(element, context) {
-    context.dataSourceCollection.remove(element);
+    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+      context.dataSourceCollection.remove(element);
+    }
   },
   provide(element) {
     return {

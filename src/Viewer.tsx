@@ -1,14 +1,8 @@
 import React from "react";
-import Cesium, {
-  Viewer as CesiumViewer,
-  CesiumWidget,
-  DataSourceCollection,
-  EntityCollection,
-  Scene,
-  Camera,
-} from "cesium";
+import Cesium, { Viewer as CesiumViewer } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
+import EventManager from "./core/EventManager";
 
 export interface ViewerCesiumProps {
   terrainProvider?: Cesium.TerrainProvider;
@@ -56,7 +50,7 @@ export interface ViewerCesiumReadonlyProps {
   orderIndependentTranslucency?: boolean;
   creditContainer?: Element | string;
   creditViewport?: Element | string;
-  dataSources?: DataSourceCollection;
+  dataSources?: Cesium.DataSourceCollection;
   terrainExaggeration?: number;
   mapMode2D?: Cesium.MapMode2D;
   projectionPicker?: boolean;
@@ -143,15 +137,15 @@ export interface ViewerProps
 
 export interface ViewerContext {
   viewer: CesiumViewer;
-  cesiumWidget: CesiumWidget;
-  dataSourceCollection: DataSourceCollection;
-  entityCollection: EntityCollection;
-  scene: Scene;
-  camera: Camera;
+  cesiumWidget: Cesium.CesiumWidget;
+  dataSourceCollection: Cesium.DataSourceCollection;
+  entityCollection: Cesium.EntityCollection;
+  scene: Cesium.Scene;
+  camera: Cesium.Camera;
 }
 
 const Viewer = createCesiumComponent<
-  CesiumViewer | undefined,
+  CesiumViewer,
   ViewerProps,
   {},
   ViewerContext | {},
@@ -163,11 +157,7 @@ const Viewer = createCesiumComponent<
     // ref is not always undefined
     const v = new CesiumViewer((ref as React.RefObject<HTMLDivElement>).current as any, cprops);
 
-    if (!v) {
-      return undefined; // failed to initialize Viewer
-    }
-
-    if (props.extend) {
+    if (v && props.extend) {
       if (Array.isArray(props.extend)) {
         props.extend.forEach(e => {
           v.extend(e, {});
@@ -177,7 +167,13 @@ const Viewer = createCesiumComponent<
       }
     }
 
-    return v;
+    // common event manager for managing events of Entity and Primitives
+    let state: any;
+    if (v) {
+      state = new EventManager(v.scene, v.canvas);
+    }
+
+    return [v, state];
   },
   render(element, props, mounted, ref) {
     return (
@@ -202,12 +198,18 @@ const Viewer = createCesiumComponent<
       </div>
     );
   },
-  unmount(element) {
+  unmount(element, cprops, props, ref, state) {
+    if (element && state) {
+      const em = state as EventManager;
+      if (!em.isDestroyed()) {
+        em.destroy();
+      }
+    }
     if (element && !element.isDestroyed()) {
       element.destroy();
     }
   },
-  provide(element) {
+  provide(element, props, state) {
     if (!element) {
       return {};
     }
@@ -220,6 +222,7 @@ const Viewer = createCesiumComponent<
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
+      __RESIUM_EVENT_MANAGER: state, // EventManager
     };
   },
   cesiumProps,

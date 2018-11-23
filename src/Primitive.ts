@@ -1,6 +1,7 @@
 import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
+import EventManager, { EventProps } from "./core/EventManager";
 
 export interface PrimitiveCesiumProps {
   appearance?: Cesium.Appearance;
@@ -22,10 +23,14 @@ export interface PrimitiveCesiumReadonlyProps {
   vertexCacheOptimize?: boolean;
 }
 
-export interface PrimitiveProps extends PrimitiveCesiumProps, PrimitiveCesiumReadonlyProps {}
+export interface PrimitiveProps
+  extends PrimitiveCesiumProps,
+    PrimitiveCesiumReadonlyProps,
+    EventProps<Cesium.Primitive> {}
 
 export interface PrimitiveContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
+  primitiveCollection?: Cesium.PrimitiveCollection;
+  __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
 const cesiumProps: Array<keyof PrimitiveCesiumProps> = [
@@ -53,11 +58,26 @@ const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, Primit
   create(cprops) {
     return new Cesium.Primitive(cprops);
   },
-  mount(element, context) {
-    context.primitiveCollection.add(element);
+  mount(element, context, props) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+    }
+    if (context.primitiveCollection) {
+      context.primitiveCollection.add(element);
+    }
+  },
+  update(element, props, prevProps, context) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+    }
   },
   unmount(element, context) {
-    context.primitiveCollection.remove(element);
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+    }
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element);
+    }
     if (!element.isDestroyed()) {
       element.destroy();
     }

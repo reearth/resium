@@ -1,6 +1,7 @@
 import Cesium, { Entity as CesiumEntity } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
+import EventManager, { EventProps } from "./core/EventManager";
 
 export interface EntityCesiumProps {
   availability?: Cesium.TimeIntervalCollection;
@@ -35,7 +36,7 @@ export interface EntityCesiumProps {
         dimensions?: Cesium.Property;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | number;
         outlineWidth?: Cesium.Property | number;
@@ -53,7 +54,7 @@ export interface EntityCesiumProps {
         extrudedHeight?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -71,7 +72,7 @@ export interface EntityCesiumProps {
         bottomRadius?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -91,7 +92,7 @@ export interface EntityCesiumProps {
         extrudedHeight?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -110,7 +111,7 @@ export interface EntityCesiumProps {
         radii?: Cesium.Property | Cesium.Cartesian3;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -180,7 +181,7 @@ export interface EntityCesiumProps {
         trailTime?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         width?: Cesium.Property | number;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         resolution?: Cesium.Property | number;
         distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
       };
@@ -189,7 +190,7 @@ export interface EntityCesiumProps {
     dimensions: Cesium.Property | Cesium.Cartesian2;
     show: Cesium.Property | boolean;
     fill: Cesium.Property | boolean;
-    material: Cesium.MaterialProperty | Cesium.Color;
+    material: Cesium.MaterialProperty | Cesium.Color | string;
     outline: Cesium.Property | boolean;
     outlineColor?: Cesium.Property | Cesium.Color;
     outlineWidth?: Cesium.Property | number;
@@ -220,7 +221,7 @@ export interface EntityCesiumProps {
         extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -241,8 +242,8 @@ export interface EntityCesiumProps {
         clampToGround?: Cesium.Property | boolean;
         width?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
-        depthFailMaterial?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
+        depthFailMaterial?: Cesium.MaterialProperty | Cesium.Color | string;
         granularity?: Cesium.Property | number;
         shadows?: Cesium.Property | Cesium.ShadowMode;
         distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
@@ -256,7 +257,7 @@ export interface EntityCesiumProps {
         cornerType?: Cesium.Property | Cesium.CornerType;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -276,7 +277,7 @@ export interface EntityCesiumProps {
         extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -297,7 +298,7 @@ export interface EntityCesiumProps {
         minimumHeights?: Cesium.Property | number;
         show?: Cesium.Property | boolean;
         fill?: Cesium.Property | boolean;
-        material?: Cesium.MaterialProperty | Cesium.Color;
+        material?: Cesium.MaterialProperty | Cesium.Color | string;
         outline?: Cesium.Property | boolean;
         outlineColor?: Cesium.Property | Cesium.Color;
         outlineWidth?: Cesium.Property | number;
@@ -318,12 +319,17 @@ export interface EntityCesiumEvents {
 export interface EntityProps
   extends EntityCesiumProps,
     EntityCesiumReadonlyProps,
-    EntityCesiumEvents {
+    EntityCesiumEvents,
+    EventProps<Cesium.Entity> {
   children?: React.ReactNode;
+  selected?: boolean;
+  tracked?: boolean;
 }
 
 export interface EntityContext {
-  entityCollection: Cesium.EntityCollection;
+  entityCollection?: Cesium.EntityCollection;
+  viewer?: Cesium.Viewer;
+  __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
 const cesiumProps: Array<keyof EntityCesiumProps> = [
@@ -366,11 +372,50 @@ const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>(
   create(cprops) {
     return new CesiumEntity(cprops as any);
   },
-  mount(element, context) {
-    context.entityCollection.add(element);
+  mount(element, context, props) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+    }
+    if (context.entityCollection) {
+      context.entityCollection.add(element);
+    }
+    if (context.viewer && props.selected) {
+      context.viewer.selectedEntity = element;
+    }
+    if (context.viewer && props.tracked) {
+      context.viewer.trackedEntity = element;
+    }
   },
   unmount(element, context) {
-    context.entityCollection.remove(element);
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+    }
+    if (context.entityCollection) {
+      context.entityCollection.remove(element);
+    }
+  },
+  update(element, props, prevProps, context) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+    }
+
+    if (context.viewer) {
+      if (props.selected !== prevProps.selected) {
+        if (props.selected) {
+          context.viewer.selectedEntity = element;
+        } else if (context.viewer.selectedEntity === element) {
+          (context.viewer as any).selectedEntity = undefined;
+        }
+      }
+
+      if (props.tracked !== prevProps.tracked) {
+        if (props.tracked) {
+          context.viewer.trackedEntity = element;
+        } else if (context.viewer.trackedEntity === element) {
+          (context.viewer as any).trackedEntity = undefined;
+        }
+      }
+    }
   },
   provide(element) {
     return {

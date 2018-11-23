@@ -2,34 +2,40 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 
-export interface PointPrimitiveCollectionCesiumProps {
+export interface LabelCollectionCesiumProps {
   blendOption?: Cesium.BlendOption;
   debugShowBoundingVolume?: boolean;
   modelMatrix?: Cesium.Matrix4;
 }
 
-export interface PointPrimitiveCollectionProps extends PointPrimitiveCollectionCesiumProps {
+export interface LabelCollectionProps extends LabelCollectionCesiumProps {
   children?: React.ReactNode;
 }
 
-export interface PointPrimitiveCollectionContext {
+export interface LabelCollectionContext {
   primitiveCollection?: Cesium.PrimitiveCollection;
+  scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof PointPrimitiveCollectionCesiumProps> = [
+const cesiumProps: Array<keyof LabelCollectionCesiumProps> = [
   "blendOption",
   "debugShowBoundingVolume",
   "modelMatrix",
 ];
 
-const PointPrimitiveCollection = createCesiumComponent<
-  Cesium.PointPrimitiveCollection,
-  PointPrimitiveCollectionProps,
-  PointPrimitiveCollectionContext
+const LabelCollection = createCesiumComponent<
+  Cesium.LabelCollection,
+  LabelCollectionProps,
+  LabelCollectionContext
 >({
-  name: "PointPrimitveCollection",
-  create(cprops) {
-    return new Cesium.PointPrimitiveCollection(cprops);
+  name: "LabelCollection",
+  create(cprops, props, context) {
+    return new Cesium.LabelCollection({
+      scene: context.scene,
+      modelMatrix: cprops.modelMatrix,
+      blendOption: cprops.blendOption,
+      debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+    } as any);
   },
   mount(element, context) {
     if (context.primitiveCollection) {
@@ -46,10 +52,10 @@ const PointPrimitiveCollection = createCesiumComponent<
   },
   provide(element) {
     return {
-      pointPrimitiveCollection: element,
+      labelCollection: element,
     };
   },
   cesiumProps,
 });
 
-export default PointPrimitiveCollection;
+export default LabelCollection;

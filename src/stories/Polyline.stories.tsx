@@ -4,29 +4,32 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import PointPrimitive from "../PointPrimitive";
-import PointPrimitiveCollection from "../PointPrimitiveCollection";
+import Polyline from "../Polyline";
+import PolylineCollection from "../PolylineCollection";
+import CameraFlyTo from "../CameraFlyTo";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
-
+const positions = [
+  new Cartesian3(-75, 35, 0),
+  new Cartesian3(-125, 35, 0),
+  new Cartesian3(-125, 135, 0),
+];
 export default () => {
-  storiesOf("PointPrimitive", module)
+  storiesOf("Polyline", module)
     .add("default", () => (
       <Viewer full>
-        <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-          <PointPrimitive color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} />
-          <PointPrimitive color={Color.YELLOW} position={new Cartesian3(1000000.0, 0.0, 0.0)} />
-          <PointPrimitive color={Color.GREEN} position={new Cartesian3(0.0, 1000000.0, 0.0)} />
-          <PointPrimitive color={Color.CYAN} position={new Cartesian3(0.0, 0.0, 1000000.0)} />
-        </PointPrimitiveCollection>
+        <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+          <Polyline positions={positions} width={10} />
+        </PolylineCollection>
+        <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
       </Viewer>
     ))
     .add("Events", () => (
       <Viewer full>
-        <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-          <PointPrimitive
-            color={Color.ORANGE}
-            position={new Cartesian3(0.0, 0.0, 0.0)}
+        <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+          <Polyline
+            positions={positions}
+            width={10}
             onClick={action("onClick")}
             onDoubleClick={action("onDoubleClick")}
             onMouseDown={action("onMouseDown")}
@@ -45,7 +48,8 @@ export default () => {
             onMouseEnter={action("onMouseEnter")}
             onMouseLeave={action("onMouseLeave")}
           />
-        </PointPrimitiveCollection>
+        </PolylineCollection>
+        <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
       </Viewer>
     ));
 };

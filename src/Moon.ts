@@ -14,7 +14,7 @@ export interface MoonCesiumReadonlyProps {
 export interface MoonProps extends MoonCesiumProps, MoonCesiumReadonlyProps {}
 
 export interface MoonContext {
-  scene: Cesium.Scene;
+  scene?: Cesium.Scene;
 }
 
 const cesiumProps: Array<keyof MoonCesiumProps> = ["onlySunLighting", "show", "textureUrl"];
@@ -27,13 +27,17 @@ const Moon = createCesiumComponent<Cesium.Moon, MoonProps, MoonContext>({
     return new Cesium.Moon(cprops);
   },
   mount(element, context) {
-    context.scene.moon = element;
+    if (context.scene) {
+      context.scene.moon = element;
+    }
   },
   unmount(element, context) {
-    context.scene.moon = new Cesium.Moon();
-    if (!element.isDestroyed()) {
-      element.destroy();
+    if (context.scene && !context.scene.isDestroyed()) {
+      context.scene.moon = new Cesium.Moon();
     }
+    // if (!element.isDestroyed()) {
+    //   element.destroy();
+    // }
   },
   cesiumProps,
   cesiumReadonlyProps,
