@@ -1,7 +1,7 @@
 import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
-import EventManager, { EventProps } from "./core/eventManager";
+import EventManager, { EventProps } from "./core/EventManager";
 
 export interface BillboardCesiumProps {
   alignAxis?: Cesium.Cartesian3;
