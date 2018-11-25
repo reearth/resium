@@ -2,33 +2,11 @@ import Cesium, { Entity as CesiumEntity } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 import EventManager, { EventProps } from "./core/EventManager";
+import { BillbaordGraphicsCesiumProps } from "./BillboardGraphics";
 
 export interface EntityCesiumProps {
   availability?: Cesium.TimeIntervalCollection;
-  billboard?:
-    | Cesium.BillboardGraphics
-    | {
-        image?: Cesium.Property | ImageData | string | HTMLCanvasElement;
-        show?: Cesium.Property | boolean;
-        scale?: Cesium.Property | number;
-        horizontalOrigin?: Cesium.Property | Cesium.HorizontalOrigin;
-        verticalOrigin?: Cesium.Property | Cesium.VerticalOrigin;
-        eyeOffset?: Cesium.Property | Cesium.Cartesian3;
-        pixelOffset?: Cesium.Property | Cesium.Cartesian2;
-        rotation?: Cesium.Property | number;
-        alignedAxis?: Cesium.Property | Cesium.Cartesian3;
-        width?: Cesium.Property | number;
-        height?: Cesium.Property | number;
-        color?: Cesium.Property | Cesium.Color;
-        scaleByDistance?: Cesium.Property | Cesium.NearFarScalar;
-        translucencyByDistance?: Cesium.Property | Cesium.NearFarScalar;
-        pixelOffsetScaleByDistance?: Cesium.Property | Cesium.NearFarScalar;
-        imageSubRegion?: Cesium.Property | Cesium.BoundingRectangle;
-        sizeInMeters?: Cesium.Property | boolean;
-        heightReference?: Cesium.Property | Cesium.HeightReference;
-        distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-        disableDepthTestDistance?: Cesium.Property | number;
-      };
+  billboard?: Cesium.BillboardGraphics | BillbaordGraphicsCesiumProps;
   box?:
     | Cesium.BoxGraphics
     | {

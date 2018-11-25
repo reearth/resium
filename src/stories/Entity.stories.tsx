@@ -7,6 +7,8 @@ import Viewer from "../Viewer";
 import Entity from "../Entity";
 import EntityDescription from "../EntityDescription";
 import CanvasEntity from "./CanvasEntity";
+import BillbaordGraphics from "../BillboardGraphics";
+import billboardImage from "./assets/example.jpg";
 
 export default () => {
   storiesOf("Entity", module)
@@ -79,6 +81,18 @@ export default () => {
           onMouseEnter={action("onMouseEnter")}
           onMouseLeave={action("onMouseLeave")}
         />
+      </Viewer>
+    ))
+    .add("Graphics", () => (
+      <Viewer full>
+        <Entity
+          name="test"
+          description="test!!"
+          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
+          selected
+          tracked>
+          <BillbaordGraphics image={billboardImage} />
+        </Entity>
       </Viewer>
     ));
 };
