@@ -38,7 +38,21 @@ export interface Cesium3DTilesetCesiumProps {
   colorBlendMode?: any; // Cesium3DTileColorBlendMode
 }
 
-export interface Cesium3DTilesetProps extends Cesium3DTilesetCesiumProps {
+export interface Cesium3DTilesetCesiumReadonlyProps {
+  pointCloudShading?: {
+    attenuation?: boolean;
+    geometricErrorScale?: number;
+    maximumAttenuation?: number;
+    baseResolution?: number;
+    eyeDomeLighting?: boolean;
+    eyeDomeLightingStrength?: number;
+    eyeDomeLightingRadius?: number;
+  };
+}
+
+export interface Cesium3DTilesetProps
+  extends Cesium3DTilesetCesiumProps,
+    Cesium3DTilesetCesiumReadonlyProps {
   onAllTilesLoad?: () => void;
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
@@ -46,17 +60,7 @@ export interface Cesium3DTilesetProps extends Cesium3DTilesetCesiumProps {
   onTileLoad?: () => void;
   onTileUnload?: () => void;
   onTileVisible?: () => void;
-  pointCloudShading?:
-    | any // Cesium.PointCloudShading
-    | {
-        attenuation?: boolean;
-        geometricErrorScale?: number;
-        maximumAttenuation?: number;
-        baseResolution?: number;
-        eyeDomeLighting?: boolean;
-        eyeDomeLightingStrength?: number;
-        eyeDomeLightingRadius?: number;
-      };
+  onReady?: (tileset: any /* Cesium.3DTileset */) => void;
 }
 
 export interface Cesium3DTilesetContext {
@@ -100,6 +104,8 @@ const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
   "colorBlendMode",
 ];
 
+const cesiumReadonlyProps: Array<keyof Cesium3DTilesetCesiumReadonlyProps> = ["pointCloudShading"];
+
 const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetProps> = {
   allTilesLoaded: "onAllTilesLoad",
   initialTilesLoaded: "onInitialTilesLoad",
@@ -114,22 +120,12 @@ const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetProps> = {
 const Cesium3DTileset = createCesiumComponent<any, Cesium3DTilesetProps, Cesium3DTilesetContext>({
   name: "Cesium3DTileset",
   create(cprops, props) {
-    const pointCloudShading =
-      props.pointCloudShading instanceof (Cesium as any).PointCloudShading
-        ? {
-            attenuation: props.pointCloudShading.attenuation,
-            geometricErrorScale: props.pointCloudShading.geometricErrorScale,
-            maximumAttenuation: props.pointCloudShading.maximumAttenuation,
-            baseResolution: props.pointCloudShading.baseResolution,
-            eyeDomeLighting: props.pointCloudShading.eyeDomeLighting,
-            eyeDomeLightingStrength: props.pointCloudShading.eyeDomeLightingStrength,
-            eyeDomeLightingRadius: props.pointCloudShading.eyeDomeLightingRadius,
-          }
-        : props.pointCloudShading;
-
-    const c3ts = new (Cesium as any).Cesium3DTileset({ ...cprops, pointCloudShading });
+    const c3ts = new (Cesium as any).Cesium3DTileset(cprops);
     c3ts.colorBlendAmount = cprops.colorBlendAmount;
     c3ts.colorBlendMode = cprops.colorBlendMode;
+    if (props.onReady) {
+      c3ts.readyPromise.then(props.onReady);
+    }
     return c3ts;
   },
   mount(element, context) {
@@ -145,18 +141,8 @@ const Cesium3DTileset = createCesiumComponent<any, Cesium3DTilesetProps, Cesium3
       element.destroy();
     }
   },
-  update(element, props, prevProps) {
-    if (prevProps.pointCloudShading !== props.pointCloudShading) {
-      if (!props.pointCloudShading) {
-        element.pointCloudShading = new (Cesium as any).PointCloudShading();
-      } else if (!(props.pointCloudShading instanceof (Cesium as any).PointCloudShading)) {
-        element.pointCloudShading = new (Cesium as any).PointCloudShading(props.pointCloudShading);
-      } else {
-        element.pointCloudShading = props.pointCloudShading;
-      }
-    }
-  },
   cesiumProps,
+  cesiumReadonlyProps,
   cesiumEventProps,
 });
 
