@@ -5,6 +5,7 @@ import Cesium from "cesium";
 import Viewer from "../Viewer";
 import TimeDynamicPointCloud from "../TimeDynamicPointCloud";
 import { CesiumElementHolder } from "../core/CesiumComponent";
+import Clock from "../Clock";
 
 import point0 from "./assets/0.pnts";
 import point1 from "./assets/1.pnts";
@@ -45,11 +46,12 @@ export default () => {
     };
     return (
       <Viewer full shouldAnimate ref={viewer}>
-        {/* <Clock
+        <Clock
           startTime={start}
           currentTime={start}
           stopTime={stop}
-          clockRange={Cesium.ClockRange.LOOP_STOP} /> */}
+          clockRange={Cesium.ClockRange.LOOP_STOP}
+        />
         <TimeDynamicPointCloud intervals={intervals} style={style} onReady={onReady} />
       </Viewer>
     );
