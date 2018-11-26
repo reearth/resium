@@ -1,9 +1,8 @@
 import Cesium from "cesium";
 
-import createCesiumComponent from "./core/CesiumComponent";
-import { EventkeyMap } from "./core/CesiumComponent";
+import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
-export interface BillbaordGraphicsCesiumProps {
+export interface BillboardGraphicsCesiumProps {
   image?: Cesium.Property | ImageData | string | HTMLCanvasElement;
   show?: Cesium.Property | boolean;
   scale?: Cesium.Property | number;
@@ -26,15 +25,15 @@ export interface BillbaordGraphicsCesiumProps {
   disableDepthTestDistance?: Cesium.Property | number;
 }
 
-export interface BillbaordGraphicsProps extends BillbaordGraphicsCesiumProps {
+export interface BillboardGraphicsProps extends BillboardGraphicsCesiumProps {
   onDefinitionChange?: () => void;
 }
 
-export interface BillbaordGraphicsContext {
+export interface BillboardGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof BillbaordGraphicsCesiumProps> = [
+const cesiumProps: Array<keyof BillboardGraphicsCesiumProps> = [
   "image",
   "show",
   "scale",
@@ -57,16 +56,16 @@ const cesiumProps: Array<keyof BillbaordGraphicsCesiumProps> = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BillboardGraphics, keyof BillbaordGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.BillboardGraphics, keyof BillboardGraphicsProps> = {
   definitionChanged: "onDefinitionChange",
 };
 
-const BillbaordGraphics = createCesiumComponent<
+const BillboardGraphics = createCesiumComponent<
   Cesium.BillboardGraphics,
-  BillbaordGraphicsProps,
-  BillbaordGraphicsContext
+  BillboardGraphicsProps,
+  BillboardGraphicsContext
 >({
-  name: "BillbaordGraphics",
+  name: "BillboardGraphics",
   create(cprops) {
     // workaround: type of "image" prop
     return new Cesium.BillboardGraphics(cprops as any);
@@ -85,4 +84,4 @@ const BillbaordGraphics = createCesiumComponent<
   cesiumEventProps,
 });
 
-export default BillbaordGraphics;
+export default BillboardGraphics;
