@@ -1,4 +1,4 @@
-import createCesiumComponent from "./core/CesiumComponent";
+import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 import Cesium, { CesiumWidget } from "cesium";
 
 export interface ClockCesiumProps {
@@ -7,17 +7,21 @@ export interface ClockCesiumProps {
   clockStep?: Cesium.ClockStep;
   currentTime?: Cesium.JulianDate;
   multiplier?: number;
-  onStop?: Cesium.Event;
-  onTick?: Cesium.Event;
   shouldAnimate?: boolean;
   startTime?: Cesium.JulianDate;
   stopTime?: Cesium.JulianDate;
 }
+export interface ClockCesiumEventProps {
+  onStop?: (clock: Cesium.Clock) => void;
+  onTick?: (clock: Cesium.Clock) => void;
+}
+const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof ClockCesiumEventProps> = {
+  onStop: "onStop",
+  onTick: "onTick",
+};
 
-/* tslint:disable-next-line: no-empty-interface */
-export interface ClockProps extends ClockCesiumProps {}
+export interface ClockProps extends ClockCesiumProps, ClockCesiumEventProps {}
 
-/* tslint:disable-next-line: no-empty-interface */
 export interface ClockContext {
   cesiumWidget: CesiumWidget;
 }
@@ -28,8 +32,6 @@ const cesiumProps: Array<keyof ClockCesiumProps> = [
   "clockStep",
   "currentTime",
   "multiplier",
-  "onStop",
-  "onTick",
   "shouldAnimate",
   "startTime",
   "stopTime",
@@ -41,6 +43,7 @@ const Clock = createCesiumComponent<Cesium.Clock, ClockProps, ClockContext>({
     return context.cesiumWidget.clock;
   },
   cesiumProps,
+  cesiumEventProps,
   setCesiumPropsAfterCreate: true,
 });
 
