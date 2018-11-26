@@ -1,7 +1,7 @@
 import React from "react";
 import Cesium from "cesium";
 
-import { withContext } from "./core/context";
+import { withCesium } from "./core/context";
 
 export interface ScreenSpaceEventProps {
   action: (e: { position: Cesium.Cartesian2 }) => void;
@@ -61,4 +61,4 @@ class ScreenSpaceEvent extends React.PureComponent<
   }
 }
 
-export default withContext<ScreenSpaceEventProps, ScreenSpaceEventContext>(ScreenSpaceEvent);
+export default withCesium<ScreenSpaceEventProps, ScreenSpaceEventContext>(ScreenSpaceEvent);

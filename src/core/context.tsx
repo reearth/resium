@@ -13,7 +13,7 @@ export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
 
 export const { Provider, Consumer } = React.createContext<Context>({});
 
-export const withContext = <P, C>(Component: WithContextType<P, C>) =>
+export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
   // supports both functional components and class components
   React.forwardRef<WithContextType<P, C>, P>(
     (props: P & { children?: React.ReactNode }, ref?: React.Ref<WithContextType<P, C>> | null) => (
