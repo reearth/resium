@@ -4,7 +4,7 @@ import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
 import ParticleSystem from "../ParticleSystem";
-import { withContext } from "../core/context";
+import { withCesium } from "../core/context";
 import CameraFlyTo from "../CameraFlyTo";
 
 import snowImg from "./assets/circular_particle.png";
@@ -80,7 +80,7 @@ class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene }
   };
 }
 
-const WrappedSnowParticle = withContext<{}, { scene: Cesium.Scene }>(SnowParticle);
+const WrappedSnowParticle = withCesium<{}, { scene: Cesium.Scene }>(SnowParticle);
 
 export default () => {
   storiesOf("ParticleSystem", module).add("default", () => (
