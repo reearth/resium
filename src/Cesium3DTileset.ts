@@ -57,9 +57,9 @@ export interface Cesium3DTilesetProps
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: () => void;
-  onTileLoad?: () => void;
+  onTileLoad?: (tile: any /* Cesium.Tileset */) => void;
   onTileUnload?: () => void;
-  onTileVisible?: () => void;
+  onTileVisible?: (tile: any /* Cesium.Tileset */) => void;
   onReady?: (tileset: any /* Cesium.3DTileset */) => void;
 }
 
