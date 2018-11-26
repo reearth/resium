@@ -15,7 +15,7 @@ module.exports = {
         use: "ts-loader",
       },
       {
-        test: /.(glb|jpg|png)$/,
+        test: /.(glb|jpg|png|pnts)$/,
         use: "file-loader",
       },
     ],
