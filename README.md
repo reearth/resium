@@ -4,6 +4,10 @@
 
 React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 
+```
+npm install resium
+```
+
 **WARN:** `master` branch now includes braking changes for v1 (not yet released).
 
 ```js
@@ -69,7 +73,8 @@ yarn run storybook # run storybook
 See also: [example](example)
 
 ```bash
-npm i resium cesium copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
+npm i --save resium cesium
+npm i --save-dev copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
 ```
 
 webpack.config.js:
