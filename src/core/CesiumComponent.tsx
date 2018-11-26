@@ -1,7 +1,7 @@
 import React from "react";
 import pick from "lodash.pick";
 
-import { withContext, Provider, WithContextProps } from "./context";
+import { withCesium, Provider, WithContextProps } from "./context";
 import { attachEvents, updateEvents, detachEvents } from "./events";
 
 export type EventKeys<T> = { [P in keyof T]: T[P] extends Cesium.Event ? P : never }[keyof T];
@@ -230,7 +230,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
   }
 
-  return withContext(CesiumComponent);
+  return withCesium(CesiumComponent);
 };
 
 export default createCesiumComponent;

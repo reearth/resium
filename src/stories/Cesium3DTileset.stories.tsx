@@ -7,18 +7,33 @@ import Viewer from "../Viewer";
 import Cesium3DTileset from "../Cesium3DTileset";
 
 export default () => {
-  storiesOf("Cesium3DTileset", module).add("default", () => (
-    <Viewer full>
-      <Cesium3DTileset
-        url={(Cesium as any).IonResource.fromAssetId(5714)}
-        onAllTilesLoad={action("onAllTilesLoad")}
-        onInitialTilesLoad={action("onInitialTilesLoad")}
-        onLoadProgress={action("onLoadProgress")}
-        onTileFailed={action("onTileFailed")}
-        onTileLoad={action("onTileLoad")}
-        onTileUnload={action("onTileUnload")}
-        onTileVisible={action("onTileVisible")}
-      />
-    </Viewer>
-  ));
+  storiesOf("Cesium3DTileset", module).add("default", () => {
+    let viewer: Cesium.Viewer | undefined;
+    const onReady = (tileset: any) => {
+      if (viewer) {
+        viewer.zoomTo(tileset);
+      }
+    };
+    return (
+      <Viewer
+        full
+        ref={e => {
+          if (e !== null && e.cesiumElement) {
+            viewer = e.cesiumElement;
+          } else {
+            viewer = undefined;
+          }
+        }}>
+        <Cesium3DTileset
+          url={(Cesium as any).IonResource.fromAssetId(5714)}
+          onAllTilesLoad={action("onAllTilesLoad")}
+          onInitialTilesLoad={action("onInitialTilesLoad")}
+          onTileFailed={action("onTileFailed")}
+          onTileLoad={action("onTileLoad")}
+          onTileUnload={action("onTileUnload")}
+          onReady={onReady}
+        />
+      </Viewer>
+    );
+  });
 };

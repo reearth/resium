@@ -26,7 +26,9 @@ export interface PrimitiveCesiumReadonlyProps {
 export interface PrimitiveProps
   extends PrimitiveCesiumProps,
     PrimitiveCesiumReadonlyProps,
-    EventProps<Cesium.Primitive> {}
+    EventProps<Cesium.Primitive> {
+  onReady?: (primitive: Cesium.Primitive) => void;
+}
 
 export interface PrimitiveContext {
   primitiveCollection?: Cesium.PrimitiveCollection;
@@ -55,8 +57,12 @@ const cesiumReadonlyProps: Array<keyof PrimitiveCesiumReadonlyProps> = [
 
 const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, PrimitiveContext>({
   name: "Primitive",
-  create(cprops) {
-    return new Cesium.Primitive(cprops);
+  create(cprops, props) {
+    const primitive = new Cesium.Primitive(cprops);
+    if (props.onReady) {
+      primitive.readyPromise.then(props.onReady);
+    }
+    return primitive;
   },
   mount(element, context, props) {
     if (context.__RESIUM_EVENT_MANAGER) {
