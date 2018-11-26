@@ -4,7 +4,7 @@ import { ConstantProperty } from "cesium";
 const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
-import { withContext } from "./core/context";
+import { withCesium } from "./core/context";
 import { Entity } from "cesium";
 
 export interface Props {
@@ -40,4 +40,4 @@ class EntityDescription extends React.PureComponent<Props> {
   }
 }
 
-export default withContext<{ children?: React.ReactNode }, { entity?: Entity }>(EntityDescription);
+export default withCesium<{ children?: React.ReactNode }, { entity?: Entity }>(EntityDescription);

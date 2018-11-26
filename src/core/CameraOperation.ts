@@ -1,6 +1,6 @@
 import React from "react";
 import { Camera } from "cesium";
-import { withContext } from "./context";
+import { withCesium } from "./context";
 
 export interface CameraOperationProps {
   cancelCameraFlight?: boolean;
@@ -10,7 +10,7 @@ const createCameraOperation = <P>(opts: {
   name: string;
   cameraOperationStart: (camera: Camera, props: Readonly<P>, prevProps?: Readonly<P>) => void;
 }) =>
-  withContext<P & CameraOperationProps, { camera?: Cesium.Camera }>(
+  withCesium<P & CameraOperationProps, { camera?: Cesium.Camera }>(
     class CameraOperation extends React.PureComponent<
       CameraOperationProps & { cesium: { camera?: Cesium.Camera } } & P
     > {
