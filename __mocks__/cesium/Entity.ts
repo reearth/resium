@@ -1,6 +1,5 @@
 import mockCesiumElement from "./helper";
-import { Event } from "cesium";
 
-export default mockCesiumElement({
-  definitionChanged: new Event(),
-});
+export const { element, reset } = mockCesiumElement(["definitionChanged"]);
+
+export default element;
