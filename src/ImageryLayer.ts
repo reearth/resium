@@ -85,7 +85,7 @@ export interface ImageryLayerProps
     ImageryLayerCesiumReadonlyProps {}
 
 export interface ImageryLayerContext {
-  imageryLayerCollection: Cesium.ImageryLayerCollection;
+  imageryLayerCollection?: Cesium.ImageryLayerCollection;
 }
 
 const cesiumProps: Array<keyof ImageryLayerCesiumProps> = [
@@ -139,10 +139,14 @@ const ImageryLayer = createCesiumComponent<
     );
   },
   mount(element, context) {
-    context.imageryLayerCollection.add(element);
+    if (context.imageryLayerCollection) {
+      context.imageryLayerCollection.add(element);
+    }
   },
   unmount(element, context) {
-    context.imageryLayerCollection.remove(element);
+    if (context.imageryLayerCollection) {
+      context.imageryLayerCollection.remove(element);
+    }
   },
   cesiumProps,
   cesiumReadonlyProps,

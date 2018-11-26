@@ -1,7 +1,7 @@
 import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
-import EventManager, { EventProps } from "./core/eventManager";
+import EventManager, { EventProps } from "./core/EventManager";
 
 export interface PointPrimitiveCesiumProps {
   color?: Cesium.Color;
@@ -22,7 +22,7 @@ export interface PointPrimitiveProps
     EventProps<Cesium.PointPrimitive> {}
 
 export interface PointPrimitiveContext {
-  pointPrimitiveCollection: Cesium.PointPrimitiveCollection;
+  pointPrimitiveCollection?: Cesium.PointPrimitiveCollection;
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
@@ -53,7 +53,9 @@ const PointPrimitive = createCesiumComponent<
     if (context.__RESIUM_EVENT_MANAGER) {
       context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
     }
-    context.pointPrimitiveCollection.add(element);
+    if (context.pointPrimitiveCollection) {
+      context.pointPrimitiveCollection.add(element);
+    }
   },
   update(element, props, prevProps, context) {
     if (context.__RESIUM_EVENT_MANAGER) {
@@ -64,7 +66,7 @@ const PointPrimitive = createCesiumComponent<
     if (context.__RESIUM_EVENT_MANAGER) {
       context.__RESIUM_EVENT_MANAGER.clearEvents(element);
     }
-    if (!context.pointPrimitiveCollection.isDestroyed()) {
+    if (context.pointPrimitiveCollection && !context.pointPrimitiveCollection.isDestroyed()) {
       context.pointPrimitiveCollection.remove(element);
     }
   },

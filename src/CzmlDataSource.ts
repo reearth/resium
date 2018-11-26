@@ -27,8 +27,7 @@ export interface CzmlDataSourceProps
 }
 
 export interface CzmlDataSourceContext {
-  dataSourceCollection: Cesium.DataSourceCollection;
-  scene: Cesium.Scene;
+  dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
 const cesiumProps: Array<keyof CzmlDataSourceCesiumProps> = ["clustering"];
@@ -85,22 +84,28 @@ const CzmlDataSource = createCesiumComponent<
     return ds;
   },
   mount(element, context, props) {
-    context.dataSourceCollection.add(element);
-    if (props.data) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        sourceUri: props.sourceUri,
-      });
+    if (context.dataSourceCollection) {
+      context.dataSourceCollection.add(element);
+      if (props.data) {
+        load({
+          element,
+          dataSources: context.dataSourceCollection,
+          data: props.data,
+          onLoad: props.onLoad,
+          sourceUri: props.sourceUri,
+        });
+      }
     }
   },
   update(element, props, prevProps, context) {
     if (prevProps.show !== props.show || !props.data) {
       element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
     }
-    if (props.data && (prevProps.data !== props.data || prevProps.sourceUri !== props.sourceUri)) {
+    if (
+      context.dataSourceCollection &&
+      props.data &&
+      (prevProps.data !== props.data || prevProps.sourceUri !== props.sourceUri)
+    ) {
       load({
         element,
         dataSources: context.dataSourceCollection,
@@ -111,7 +116,9 @@ const CzmlDataSource = createCesiumComponent<
     }
   },
   unmount(element, context) {
-    context.dataSourceCollection.remove(element);
+    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+      context.dataSourceCollection.remove(element);
+    }
   },
   cesiumProps,
   cesiumReadonlyProps,
