@@ -26,10 +26,6 @@ export interface GlobeCesiumProps {
   tileCacheSize?: number;
 }
 
-export interface GlobeCesiumReadonlyProps {
-  tilesLoaded?: boolean;
-}
-
 export interface GlobeCesiumEventProps {
   onImageryLayersUpdate?: () => void;
   onTerrainProviderChange?: (terrainProvider: Cesium.TerrainProvider) => void;
@@ -44,10 +40,7 @@ const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof GlobeCesiumEventProps> =
   tileLoadProgressEvent: "onTileLoadProgress",
 };
 
-export interface GlobeProps
-  extends GlobeCesiumProps,
-    GlobeCesiumReadonlyProps,
-    GlobeCesiumEventProps {}
+export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEventProps {}
 
 export interface GlobeContext {
   scene: Cesium.Scene;
@@ -77,7 +70,6 @@ const cesiumProps: Array<keyof GlobeCesiumProps> = [
   "terrainProvider",
   "tileCacheSize",
 ];
-const cesiumReadonlyProps: Array<keyof GlobeCesiumReadonlyProps> = ["tilesLoaded"];
 
 const Globe = createCesiumComponent<Cesium.Globe, GlobeProps, GlobeContext>({
   name: "globe",
@@ -85,7 +77,6 @@ const Globe = createCesiumComponent<Cesium.Globe, GlobeProps, GlobeContext>({
     return context.scene.globe;
   },
   cesiumProps,
-  cesiumReadonlyProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,
 });
