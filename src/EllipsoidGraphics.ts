@@ -53,7 +53,6 @@ const EllipsoidGraphics = createCesiumComponent<
 >({
   name: "EllipsoidGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.EllipsoidGraphics(cprops as any);
   },
   mount(element, context) {

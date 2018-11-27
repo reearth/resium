@@ -54,7 +54,6 @@ const PolylineVolumeGraphics = createCesiumComponent<
 >({
   name: "PolylineVolumeGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.PolylineVolumeGraphics(cprops as any);
   },
   mount(element, context) {

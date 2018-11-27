@@ -44,7 +44,6 @@ const BoxGraphics = createCesiumComponent<Cesium.BoxGraphics, BoxGraphicsProps, 
   {
     name: "BoxGraphics",
     create(cprops) {
-      // workaround: type of "image" prop
       return new Cesium.BoxGraphics(cprops as any);
     },
     mount(element, context) {

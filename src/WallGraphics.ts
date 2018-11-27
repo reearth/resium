@@ -51,7 +51,6 @@ const WallGraphics = createCesiumComponent<
 >({
   name: "WallGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.WallGraphics(cprops as any);
   },
   mount(element, context) {

@@ -67,7 +67,6 @@ const PolygonGraphics = createCesiumComponent<
 >({
   name: "PolygonGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     const pg = new Cesium.PolygonGraphics(cprops as any);
     if (cprops.classificationType) {
       (pg as any).classificationType = cprops.classificationType;

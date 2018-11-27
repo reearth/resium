@@ -47,7 +47,6 @@ const PlaneGraphics = createCesiumComponent<
 >({
   name: "PlaneGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.PlaneGraphics(cprops as any);
   },
   mount(element, context) {

@@ -62,7 +62,6 @@ const RectangleGraphics = createCesiumComponent<
 >({
   name: "RectangleGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.RectangleGraphics(cprops as any);
   },
   mount(element, context) {

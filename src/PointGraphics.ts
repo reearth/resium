@@ -47,7 +47,6 @@ const PointGraphics = createCesiumComponent<
 >({
   name: "PointGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.PointGraphics(cprops as any);
   },
   mount(element, context) {

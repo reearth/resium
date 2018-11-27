@@ -65,7 +65,6 @@ const EllipseGraphics = createCesiumComponent<
 >({
   name: "EllipseGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     const eg = new Cesium.EllipseGraphics(cprops as any);
     if (cprops.classificationType) {
       (eg as any).classificationType = cprops.classificationType;

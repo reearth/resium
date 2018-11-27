@@ -55,7 +55,6 @@ const CylinderGraphics = createCesiumComponent<
 >({
   name: "CylinderGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.CylinderGraphics(cprops as any);
   },
   mount(element, context) {

@@ -63,7 +63,6 @@ const CorridorGraphics = createCesiumComponent<
 >({
   name: "CorridorGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     const cg = new Cesium.CorridorGraphics(cprops as any);
     if (cprops.classificationType) {
       (cg as any).classificationType = cprops.classificationType;

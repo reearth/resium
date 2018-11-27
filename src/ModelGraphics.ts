@@ -67,7 +67,6 @@ const ModelGraphics = createCesiumComponent<
 >({
   name: "ModelGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.ModelGraphics(cprops as any);
   },
   mount(element, context) {

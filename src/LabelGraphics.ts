@@ -69,7 +69,6 @@ const LabelGraphics = createCesiumComponent<
 >({
   name: "LabelGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.LabelGraphics(cprops as any);
   },
   mount(element, context) {

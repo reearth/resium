@@ -41,7 +41,6 @@ const PathGraphics = createCesiumComponent<
 >({
   name: "PathGraphics",
   create(cprops) {
-    // workaround: type of "image" prop
     return new Cesium.PathGraphics(cprops as any);
   },
   mount(element, context) {
