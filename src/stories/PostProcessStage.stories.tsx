@@ -1,6 +1,5 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { Cartesian3 } from "cesium";
 
 import Viewer from "../Viewer";
 import PostProcessStage from "../PostProcessStage";

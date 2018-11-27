@@ -1,6 +1,8 @@
 import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
+import { createPostProcessStage } from "./core/PostProcessStage";
+import { number } from "prop-types";
 
 export interface PostProcessStageCompositeCesiumProps {
   enabled?: boolean;
@@ -62,6 +64,47 @@ const PostProcessStageComposite = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+});
+
+export const AmbientOcclusion = createPostProcessStage<{
+  intensity?: number;
+  bias?: number;
+  lengthCap?: number;
+  stepSize?: number;
+  frustumLength?: number;
+  ambientOcclusionOnly?: boolean;
+  delta?: number;
+  sigma?: number;
+}>({
+  name: "AmbientOcclusion",
+  create(props, collection) {
+    return collection.ambientOcclusion;
+  },
+  props: [
+    "ambientOcclusionOnly",
+    "bias",
+    "delta",
+    "frustumLength",
+    "intensity",
+    "lengthCap",
+    "sigma",
+    "stepSize",
+  ],
+});
+
+export const Bloom = createPostProcessStage<{
+  contrast?: number;
+  brightness?: number;
+  glowOnly?: boolean;
+  delta?: number;
+  sigma?: number;
+  stepSize?: number;
+}>({
+  name: "Bloom",
+  create(props, collection) {
+    return collection.bloom;
+  },
+  props: ["brightness", "contrast", "delta", "glowOnly", "sigma", "stepSize"],
 });
 
 export default PostProcessStageComposite;
