@@ -75,6 +75,7 @@ export interface CesiumWidgetContext {
   dataSourceCollection: Cesium.DataSourceCollection;
   entityCollection: Cesium.EntityCollection;
   scene: Cesium.Scene;
+  globe: Cesium.Globe;
   camera: Cesium.Camera;
 }
 
@@ -150,6 +151,7 @@ const CesiumWidget = createCesiumComponent<
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
+      globe: element.scene.globe,
       __RESIUM_SSEH: state, // ScreenSpaceEventHandler
     };
   },

@@ -141,6 +141,7 @@ export interface ViewerContext {
   dataSourceCollection: Cesium.DataSourceCollection;
   entityCollection: Cesium.EntityCollection;
   scene: Cesium.Scene;
+  globe: Cesium.Globe;
   camera: Cesium.Camera;
 }
 
@@ -222,6 +223,7 @@ const Viewer = createCesiumComponent<
       camera: element.scene.camera,
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
+      globe: element.scene.globe,
       __RESIUM_EVENT_MANAGER: state, // EventManager
     };
   },
