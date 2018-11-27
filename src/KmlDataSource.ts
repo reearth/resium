@@ -144,6 +144,11 @@ const KmlDataSource = createCesiumComponent<
       context.dataSourceCollection.remove(element);
     }
   },
+  provide(element) {
+    return {
+      dataSource: element,
+    };
+  },
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,

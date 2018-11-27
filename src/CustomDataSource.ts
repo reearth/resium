@@ -61,6 +61,7 @@ const CustomDataSource = createCesiumComponent<
   provide(element) {
     return {
       entityCollection: element.entities,
+      dataSource: element,
     };
   },
   cesiumProps,
