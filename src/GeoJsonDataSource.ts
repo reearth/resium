@@ -167,6 +167,11 @@ const GeoJsonDataSource = createCesiumComponent<
       context.dataSourceCollection.remove(element);
     }
   },
+  provide(element) {
+    return {
+      dataSource: element,
+    };
+  },
   cesiumProps,
   cesiumEventProps,
 });

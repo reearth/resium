@@ -37,6 +37,7 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   setCesiumPropsAfterCreate?: boolean;
   noRender?: boolean;
   createRef?: boolean;
+  defaultProps?: Partial<P>;
 }
 
 export interface CesiumElementHolder<E> {
@@ -52,6 +53,9 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
 ): CesiumComponentType<E, P> => {
   class CesiumComponent extends React.PureComponent<WithContextProps<P, C>> {
     public static displayName = opts.name;
+
+    public static defaultProps: Partial<WithContextProps<P, C>> =
+      (opts.defaultProps as Partial<WithContextProps<P, C>>) || {};
 
     private static getCesiumEventMap(
       props: Readonly<WithContextProps<P, C>> & Readonly<{ children?: React.ReactNode }>,
