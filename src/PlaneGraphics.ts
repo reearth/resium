@@ -3,12 +3,12 @@ import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface PlaneGraphicsCesiumProps {
-  plane: Cesium.Property;
-  dimensions: Cesium.Property | Cesium.Cartesian2;
-  show: Cesium.Property | boolean;
-  fill: Cesium.Property | boolean;
-  material: Cesium.MaterialProperty | Cesium.Color | string;
-  outline: Cesium.Property | boolean;
+  plane?: Cesium.Property;
+  dimensions?: Cesium.Property | Cesium.Cartesian2;
+  show?: Cesium.Property | boolean;
+  fill?: Cesium.Property | boolean;
+  material?: Cesium.MaterialProperty | Cesium.Color | string;
+  outline?: Cesium.Property | boolean;
   outlineColor?: Cesium.Property | Cesium.Color;
   outlineWidth?: Cesium.Property | number;
   shadows?: Cesium.Property | Cesium.ShadowMode;
@@ -36,27 +36,28 @@ const cesiumProps: Array<keyof PlaneGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PlaneGraphics, keyof PlaneGraphicsProps> = {
+// Cesium.PlaneGraphics
+const cesiumEventProps: EventkeyMap<any, keyof PlaneGraphicsProps> = {
   definitionChanged: "onDefinitionChange",
 };
 
 const PlaneGraphics = createCesiumComponent<
-  Cesium.PlaneGraphics,
+  any, // Cesium.PlaneGraphics
   PlaneGraphicsProps,
   PlaneGraphicsContext
 >({
   name: "PlaneGraphics",
   create(cprops) {
-    return new Cesium.PlaneGraphics(cprops as any);
+    return new (Cesium as any).PlaneGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {
-      context.entity.path = element;
+      context.entity.plane = element;
     }
   },
   unmount(element, context) {
     if (context.entity) {
-      context.entity.path = undefined as any;
+      context.entity.plane = undefined as any;
     }
   },
   cesiumProps,
