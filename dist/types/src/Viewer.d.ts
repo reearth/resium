@@ -1,5 +1,5 @@
 import React from "react";
-import Cesium, { Viewer as CesiumViewer, CesiumWidget, DataSourceCollection, EntityCollection, Scene, Camera } from "cesium";
+import Cesium, { Viewer as CesiumViewer } from "cesium";
 export interface ViewerCesiumProps {
     terrainProvider?: Cesium.TerrainProvider;
     terrainShadows?: Cesium.ShadowMode;
@@ -45,7 +45,7 @@ export interface ViewerCesiumReadonlyProps {
     orderIndependentTranslucency?: boolean;
     creditContainer?: Element | string;
     creditViewport?: Element | string;
-    dataSources?: DataSourceCollection;
+    dataSources?: Cesium.DataSourceCollection;
     terrainExaggeration?: number;
     mapMode2D?: Cesium.MapMode2D;
     projectionPicker?: boolean;
@@ -67,11 +67,12 @@ export interface ViewerProps extends ViewerCesiumProps, ViewerCesiumReadonlyProp
 }
 export interface ViewerContext {
     viewer: CesiumViewer;
-    cesiumWidget: CesiumWidget;
-    dataSourceCollection: DataSourceCollection;
-    entityCollection: EntityCollection;
-    scene: Scene;
-    camera: Camera;
+    cesiumWidget: Cesium.CesiumWidget;
+    dataSourceCollection: Cesium.DataSourceCollection;
+    entityCollection: Cesium.EntityCollection;
+    scene: Cesium.Scene;
+    globe: Cesium.Globe;
+    camera: Cesium.Camera;
 }
-declare const Viewer: React.ForwardRefExoticComponent<ViewerProps & React.RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.Viewer | undefined>>>;
+declare const Viewer: React.ForwardRefExoticComponent<ViewerProps & React.RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.Viewer>>>;
 export default Viewer;

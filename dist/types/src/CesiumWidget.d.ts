@@ -1,5 +1,5 @@
 import React from "react";
-import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import Cesium from "cesium";
 export interface CesiumWidgetCesiumProps {
     resolutionScale?: number;
     useDefaultRenderLoop?: boolean;
@@ -39,7 +39,8 @@ export interface CesiumWidgetContext {
     dataSourceCollection: Cesium.DataSourceCollection;
     entityCollection: Cesium.EntityCollection;
     scene: Cesium.Scene;
+    globe: Cesium.Globe;
     camera: Cesium.Camera;
 }
-declare const CesiumWidget: React.ForwardRefExoticComponent<CesiumWidgetProps & React.RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<CesiumCesiumWidget | undefined>>>;
+declare const CesiumWidget: React.ForwardRefExoticComponent<CesiumWidgetProps & React.RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.CesiumWidget>>>;
 export default CesiumWidget;

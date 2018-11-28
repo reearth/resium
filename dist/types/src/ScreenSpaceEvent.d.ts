@@ -8,7 +8,7 @@ export interface ScreenSpaceEventProps {
     type: number;
 }
 interface ScreenSpaceEventContext {
-    screenSpaceEventHandler: Cesium.ScreenSpaceEventHandler;
+    screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler;
 }
 declare const _default: React.ForwardRefExoticComponent<ScreenSpaceEventProps & React.RefAttributes<React.ComponentType<import("./core/context").WithContextProps<ScreenSpaceEventProps, ScreenSpaceEventContext>>>>;
 export default _default;

@@ -23,8 +23,7 @@ export interface GeoJsonDataSourceProps extends GeoJsonDataSourceCesiumProps, Ge
     onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
 }
 export interface GeoJsonDataSourceContext {
-    dataSourceCollection: Cesium.DataSourceCollection;
-    scene: Cesium.Scene;
+    dataSourceCollection?: Cesium.DataSourceCollection;
 }
 declare const GeoJsonDataSource: import("react").ForwardRefExoticComponent<GeoJsonDataSourceProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.GeoJsonDataSource>>>;
 export default GeoJsonDataSource;

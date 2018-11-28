@@ -23,7 +23,7 @@ export interface ImageryLayerCesiumReadonlyProps {
 export interface ImageryLayerProps extends ImageryLayerCesiumProps, ImageryLayerCesiumReadonlyProps {
 }
 export interface ImageryLayerContext {
-    imageryLayerCollection: Cesium.ImageryLayerCollection;
+    imageryLayerCollection?: Cesium.ImageryLayerCollection;
 }
 declare const ImageryLayer: import("react").ForwardRefExoticComponent<ImageryLayerProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.ImageryLayer>>>;
 export default ImageryLayer;

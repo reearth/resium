@@ -24,7 +24,7 @@ export interface KmlDataSourceProps extends KmlDataSourceCesiumProps, KmlDataSou
     onLoad?: (kmlDataSouce: Cesium.KmlDataSource) => void;
 }
 export interface KmlDataSourceContext {
-    dataSourceCollection: Cesium.DataSourceCollection;
+    dataSourceCollection?: Cesium.DataSourceCollection;
     scene: Cesium.Scene;
 }
 declare const KmlDataSource: import("react").ForwardRefExoticComponent<KmlDataSourceProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.KmlDataSource>>>;

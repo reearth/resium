@@ -36,15 +36,8 @@ export interface Cesium3DTilesetCesiumProps {
     colorBlendAmount?: number;
     colorBlendMode?: any;
 }
-export interface Cesium3DTilesetProps extends Cesium3DTilesetCesiumProps {
-    onAllTilesLoad?: () => void;
-    onInitialTilesLoad?: () => void;
-    onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
-    onTileFailed?: () => void;
-    onTileLoad?: () => void;
-    onTileUnload?: () => void;
-    onTileVisible?: () => void;
-    pointCloudShading?: any | {
+export interface Cesium3DTilesetCesiumReadonlyProps {
+    pointCloudShading?: {
         attenuation?: boolean;
         geometricErrorScale?: number;
         maximumAttenuation?: number;
@@ -54,8 +47,18 @@ export interface Cesium3DTilesetProps extends Cesium3DTilesetCesiumProps {
         eyeDomeLightingRadius?: number;
     };
 }
+export interface Cesium3DTilesetProps extends Cesium3DTilesetCesiumProps, Cesium3DTilesetCesiumReadonlyProps {
+    onAllTilesLoad?: () => void;
+    onInitialTilesLoad?: () => void;
+    onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
+    onTileFailed?: () => void;
+    onTileLoad?: (tile: any) => void;
+    onTileUnload?: () => void;
+    onTileVisible?: (tile: any) => void;
+    onReady?: (tileset: any) => void;
+}
 export interface Cesium3DTilesetContext {
-    primitiveCollection: Cesium.PrimitiveCollection;
+    primitiveCollection?: Cesium.PrimitiveCollection;
 }
 declare const Cesium3DTileset: import("react").ForwardRefExoticComponent<Cesium3DTilesetProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<any>>>;
 export default Cesium3DTileset;

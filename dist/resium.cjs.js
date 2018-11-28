@@ -556,7 +556,7 @@ var lodash_pick = pick;
 
 var _a;
 var Provider = (_a = React.createContext({}), _a.Provider), Consumer = _a.Consumer;
-var withContext = function (Component) {
+var withCesium = function (Component) {
     // supports both functional components and class components
     return React.forwardRef(function (props, ref) { return (React.createElement(Consumer, null, function (value) { return React.createElement(Component, __assign({}, Object.assign({}, props, { ref: ref }), { cesium: value })); })); });
 };
@@ -662,7 +662,7 @@ var createCesiumComponent = function (opts) {
             var render = opts.render
                 ? opts.render(this._ce, this.props, this.mounted, this.ref)
                 : this.props.children || null;
-            return !opts.render && !this.mounted ? null : opts.provide ? (React.createElement(Provider, { value: Object.assign({}, this.props.cesium, this._ce ? opts.provide(this._ce, this.props) : {}) }, render)) : (render);
+            return !opts.render && !this.mounted ? null : opts.provide ? (React.createElement(Provider, { value: Object.assign({}, this.props.cesium, this._ce ? opts.provide(this._ce, this.props, this._state) : {}) }, render)) : (render);
         };
         CesiumComponent.prototype.componentDidMount = function () {
             if (opts.createRef) {
@@ -688,7 +688,14 @@ var createCesiumComponent = function (opts) {
             var _this = this;
             if (props === void 0) { props = this.props; }
             var cesiumProps = lodash_pick(props, (opts.cesiumProps || []).concat((opts.cesiumReadonlyProps || [])));
-            this._ce = opts.create(cesiumProps, props, this.props.cesium, this.ref);
+            var element = opts.create(cesiumProps, props, this.props.cesium, this.ref);
+            if (Array.isArray(element)) {
+                this._ce = element[0];
+                this._state = element[1];
+            }
+            else {
+                this._ce = element;
+            }
             if (opts.setCesiumPropsAfterCreate && this._ce) {
                 Object.entries(CesiumComponent.getCesiumProps(this.props)).forEach(function (_a) {
                     var k = _a[0], v = _a[1];
@@ -706,7 +713,7 @@ var createCesiumComponent = function (opts) {
         };
         CesiumComponent.prototype.unmount = function () {
             if (opts.unmount && this._ce) {
-                opts.unmount(this._ce, this.props.cesium, this.props, this.ref);
+                opts.unmount(this._ce, this.props.cesium, this.props, this.ref, this._state);
             }
             if (this._ce) {
                 detachEvents(this._ce, CesiumComponent.getCesiumEventMap(this.props));
@@ -737,29 +744,34 @@ var createCesiumComponent = function (opts) {
             this.mount();
         };
         CesiumComponent.displayName = opts.name;
+        CesiumComponent.defaultProps = opts.defaultProps || {};
         return CesiumComponent;
     }(React.PureComponent));
-    return withContext(CesiumComponent);
+    return withCesium(CesiumComponent);
 };
 
 var createCameraOperation = function (opts) {
     var _a;
-    return withContext((_a = /** @class */ (function (_super) {
+    return withCesium((_a = /** @class */ (function (_super) {
             __extends(CameraOperation, _super);
             function CameraOperation() {
                 return _super !== null && _super.apply(this, arguments) || this;
             }
             CameraOperation.prototype.componentDidMount = function () {
-                opts.cameraOperationStart(this.props.cesium.camera, this.props);
+                if (this.props.cesium.camera) {
+                    opts.cameraOperationStart(this.props.cesium.camera, this.props);
+                }
             };
             CameraOperation.prototype.componentDidUpdate = function (prevProps) {
-                this.props.cesium.camera.cancelFlight();
-                opts.cameraOperationStart(this.props.cesium.camera, this.props, prevProps);
+                if (this.props.cesium.camera) {
+                    this.props.cesium.camera.cancelFlight();
+                    opts.cameraOperationStart(this.props.cesium.camera, this.props, prevProps);
+                }
             };
             CameraOperation.prototype.componentWillUnmount = function () {
-                var cancelCameraFlight = this.props.cancelCameraFlight;
-                if (cancelCameraFlight) {
-                    this.props.cesium.camera.cancelFlight();
+                var _a = this.props, cancelCameraFlight = _a.cancelCameraFlight, camera = _a.cesium.camera;
+                if (cancelCameraFlight && camera) {
+                    camera.cancelFlight();
                 }
             };
             CameraOperation.prototype.render = function () {
@@ -771,1888 +783,402 @@ var createCameraOperation = function (opts) {
         _a));
 };
 
-/**
- * lodash (Custom Build) <https://lodash.com/>
- * Build: `lodash modularize exports="npm" -o ./`
- * Copyright jQuery Foundation and other contributors <https://jquery.org/>
- * Released under MIT license <https://lodash.com/license>
- * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
- * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
- */
+var polylineEquals = function (a, b) {
+    return !!a &&
+        !!b &&
+        a instanceof Cesium.Polyline &&
+        b instanceof Cesium.Polyline &&
+        a.show === b.show &&
+        a.width === b.width &&
+        a.loop === b.loop &&
+        a.material === b.material &&
+        a.positions === b.positions &&
+        a.id === b.id &&
+        Cesium.DistanceDisplayCondition.equals(a.distanceDisplayCondition, b.distanceDisplayCondition);
+};
+var pickedObjectEquals = function (picked, element) {
+    return !!picked &&
+        (picked === element ||
+            picked.primitive === element ||
+            (!!picked.primitive.equals && picked.primitive.equals(element)) ||
+            polylineEquals(picked.primitive, element));
+};
 
-/** Used as the size to enable large array optimizations. */
-var LARGE_ARRAY_SIZE = 200;
-
-/** Used to stand-in for `undefined` hash values. */
-var HASH_UNDEFINED = '__lodash_hash_undefined__';
-
-/** Used as references for various `Number` constants. */
-var INFINITY$1 = 1 / 0,
-    MAX_SAFE_INTEGER$1 = 9007199254740991;
-
-/** `Object#toString` result references. */
-var argsTag$1 = '[object Arguments]',
-    funcTag$1 = '[object Function]',
-    genTag$1 = '[object GeneratorFunction]',
-    symbolTag$1 = '[object Symbol]';
-
-/**
- * Used to match `RegExp`
- * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
- */
-var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
-
-/** Used to detect host constructors (Safari). */
-var reIsHostCtor = /^\[object .+?Constructor\]$/;
-
-/** Used to detect unsigned integer values. */
-var reIsUint = /^(?:0|[1-9]\d*)$/;
-
-/** Detect free variable `global` from Node.js. */
-var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-/** Detect free variable `self`. */
-var freeSelf$1 = typeof self == 'object' && self && self.Object === Object && self;
-
-/** Used as a reference to the global object. */
-var root$1 = freeGlobal$1 || freeSelf$1 || Function('return this')();
-
-/**
- * A faster alternative to `Function#apply`, this function invokes `func`
- * with the `this` binding of `thisArg` and the arguments of `args`.
- *
- * @private
- * @param {Function} func The function to invoke.
- * @param {*} thisArg The `this` binding of `func`.
- * @param {Array} args The arguments to invoke `func` with.
- * @returns {*} Returns the result of `func`.
- */
-function apply$1(func, thisArg, args) {
-  switch (args.length) {
-    case 0: return func.call(thisArg);
-    case 1: return func.call(thisArg, args[0]);
-    case 2: return func.call(thisArg, args[0], args[1]);
-    case 3: return func.call(thisArg, args[0], args[1], args[2]);
-  }
-  return func.apply(thisArg, args);
-}
-
-/**
- * A specialized version of `_.includes` for arrays without support for
- * specifying an index to search from.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludes(array, value) {
-  var length = array ? array.length : 0;
-  return !!length && baseIndexOf(array, value, 0) > -1;
-}
-
-/**
- * This function is like `arrayIncludes` except that it accepts a comparator.
- *
- * @private
- * @param {Array} [array] The array to inspect.
- * @param {*} target The value to search for.
- * @param {Function} comparator The comparator invoked per element.
- * @returns {boolean} Returns `true` if `target` is found, else `false`.
- */
-function arrayIncludesWith(array, value, comparator) {
-  var index = -1,
-      length = array ? array.length : 0;
-
-  while (++index < length) {
-    if (comparator(value, array[index])) {
-      return true;
+var eventNames = [
+    "onClick",
+    "onDoubleClick",
+    "onMouseDown",
+    "onMouseUp",
+    "onMiddleClick",
+    "onMiddleDown",
+    "onMiddleUp",
+    "onMouseMove",
+    "onPinchEnd",
+    "onPinchMove",
+    "onPinchStart",
+    "onRightClick",
+    "onRightDown",
+    "onRightUp",
+    "onWheel",
+    "onMouseEnter",
+    "onMouseLeave",
+];
+var EventManager = /** @class */ (function () {
+    function EventManager(scene, canvas) {
+        var _this = this;
+        this.events = {
+            onClick: new Map(),
+            onDoubleClick: new Map(),
+            onMouseDown: new Map(),
+            onMouseUp: new Map(),
+            onMiddleClick: new Map(),
+            onMiddleDown: new Map(),
+            onMiddleUp: new Map(),
+            onMouseMove: new Map(),
+            onPinchEnd: new Map(),
+            onPinchMove: new Map(),
+            onPinchStart: new Map(),
+            onRightClick: new Map(),
+            onRightDown: new Map(),
+            onRightUp: new Map(),
+            onWheel: new Map(),
+            onMouseEnter: new Map(),
+            onMouseLeave: new Map(),
+        };
+        this.hovered = new Map();
+        this.changed = new Map();
+        this.onMouseMove = function (e) {
+            var picked = _this.pick(e.endPosition);
+            _this.changed.clear();
+            _this.hovered.forEach(function (h, element) {
+                var p = pickedObjectEquals(picked, element);
+                _this.hovered.set(element, p);
+                if (p !== h) {
+                    _this.changed.set(element, p);
+                }
+            });
+            if (picked) {
+                _this.events.onMouseMove.forEach(function (cb, element) {
+                    if (_this.hovered.get(element)) {
+                        cb(e, element);
+                    }
+                });
+            }
+            _this.changed.forEach(function (hovered, element) {
+                if (hovered) {
+                    var onMouseEnter = _this.events.onMouseEnter.get(element);
+                    if (onMouseEnter) {
+                        onMouseEnter(e, element);
+                    }
+                }
+                else {
+                    var onMouseLeave = _this.events.onMouseLeave.get(element);
+                    if (onMouseLeave) {
+                        onMouseLeave(e, element);
+                    }
+                }
+            });
+        };
+        this.eventCallback = function (et) { return function (e) {
+            var picked = _this.pick(e.position);
+            if (picked) {
+                _this.events[et].forEach(function (cb, element) {
+                    if (pickedObjectEquals(picked, element)) {
+                        cb(e, element);
+                    }
+                });
+            }
+        }; };
+        this.scene = scene;
+        this.sshe = new Cesium.ScreenSpaceEventHandler(canvas);
     }
-  }
-  return false;
-}
-
-/**
- * A specialized version of `_.map` for arrays without support for iteratee
- * shorthands.
- *
- * @private
- * @param {Array} [array] The array to iterate over.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the new mapped array.
- */
-function arrayMap$1(array, iteratee) {
-  var index = -1,
-      length = array ? array.length : 0,
-      result = Array(length);
-
-  while (++index < length) {
-    result[index] = iteratee(array[index], index, array);
-  }
-  return result;
-}
-
-/**
- * Appends the elements of `values` to `array`.
- *
- * @private
- * @param {Array} array The array to modify.
- * @param {Array} values The values to append.
- * @returns {Array} Returns `array`.
- */
-function arrayPush$1(array, values) {
-  var index = -1,
-      length = values.length,
-      offset = array.length;
-
-  while (++index < length) {
-    array[offset + index] = values[index];
-  }
-  return array;
-}
-
-/**
- * The base implementation of `_.findIndex` and `_.findLastIndex` without
- * support for iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Function} predicate The function invoked per iteration.
- * @param {number} fromIndex The index to search from.
- * @param {boolean} [fromRight] Specify iterating from right to left.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseFindIndex(array, predicate, fromIndex, fromRight) {
-  var length = array.length,
-      index = fromIndex + (fromRight ? 1 : -1);
-
-  while ((fromRight ? index-- : ++index < length)) {
-    if (predicate(array[index], index, array)) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-/**
- * The base implementation of `_.indexOf` without `fromIndex` bounds checks.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} value The value to search for.
- * @param {number} fromIndex The index to search from.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function baseIndexOf(array, value, fromIndex) {
-  if (value !== value) {
-    return baseFindIndex(array, baseIsNaN, fromIndex);
-  }
-  var index = fromIndex - 1,
-      length = array.length;
-
-  while (++index < length) {
-    if (array[index] === value) {
-      return index;
-    }
-  }
-  return -1;
-}
-
-/**
- * The base implementation of `_.isNaN` without support for number objects.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is `NaN`, else `false`.
- */
-function baseIsNaN(value) {
-  return value !== value;
-}
-
-/**
- * The base implementation of `_.times` without support for iteratee shorthands
- * or max array length checks.
- *
- * @private
- * @param {number} n The number of times to invoke `iteratee`.
- * @param {Function} iteratee The function invoked per iteration.
- * @returns {Array} Returns the array of results.
- */
-function baseTimes(n, iteratee) {
-  var index = -1,
-      result = Array(n);
-
-  while (++index < n) {
-    result[index] = iteratee(index);
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.unary` without support for storing metadata.
- *
- * @private
- * @param {Function} func The function to cap arguments for.
- * @returns {Function} Returns the new capped function.
- */
-function baseUnary(func) {
-  return function(value) {
-    return func(value);
-  };
-}
-
-/**
- * Checks if a cache value for `key` exists.
- *
- * @private
- * @param {Object} cache The cache to query.
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function cacheHas(cache, key) {
-  return cache.has(key);
-}
-
-/**
- * Gets the value at `key` of `object`.
- *
- * @private
- * @param {Object} [object] The object to query.
- * @param {string} key The key of the property to get.
- * @returns {*} Returns the property value.
- */
-function getValue(object, key) {
-  return object == null ? undefined : object[key];
-}
-
-/**
- * Checks if `value` is a host object in IE < 9.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a host object, else `false`.
- */
-function isHostObject(value) {
-  // Many host objects are `Object` objects that can coerce to strings
-  // despite having improperly defined `toString` methods.
-  var result = false;
-  if (value != null && typeof value.toString != 'function') {
-    try {
-      result = !!(value + '');
-    } catch (e) {}
-  }
-  return result;
-}
-
-/**
- * Creates a unary function that invokes `func` with its argument transformed.
- *
- * @private
- * @param {Function} func The function to wrap.
- * @param {Function} transform The argument transform.
- * @returns {Function} Returns the new function.
- */
-function overArg(func, transform) {
-  return function(arg) {
-    return func(transform(arg));
-  };
-}
-
-/** Used for built-in method references. */
-var arrayProto = Array.prototype,
-    funcProto = Function.prototype,
-    objectProto$1 = Object.prototype;
-
-/** Used to detect overreaching core-js shims. */
-var coreJsData = root$1['__core-js_shared__'];
-
-/** Used to detect methods masquerading as native. */
-var maskSrcKey = (function() {
-  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
-  return uid ? ('Symbol(src)_1.' + uid) : '';
+    EventManager.prototype.destroy = function () {
+        if (!this.sshe.isDestroyed()) {
+            this.sshe.destroy();
+        }
+    };
+    EventManager.prototype.isDestroyed = function () {
+        return this.sshe.isDestroyed();
+    };
+    EventManager.prototype.on = function (element, type, cb) {
+        this.events[type].set(element, cb);
+    };
+    EventManager.prototype.off = function (element, type) {
+        this.events[type].delete(element);
+    };
+    EventManager.prototype.setEvents = function (element, props) {
+        var _this = this;
+        Object.entries(props).forEach(function (_a) {
+            var k = _a[0], v = _a[1];
+            var et = k;
+            if (eventNames.includes(et)) {
+                if (v) {
+                    _this.on(element, et, v);
+                }
+                else {
+                    _this.off(element, et);
+                }
+            }
+        });
+        this.commit();
+    };
+    EventManager.prototype.clearEvents = function (element) {
+        var _this = this;
+        eventNames.forEach(function (et) {
+            _this.off(element, et);
+        });
+        this.commit();
+    };
+    EventManager.prototype.commit = function () {
+        var _this = this;
+        var sshe = this.sshe;
+        var destroyed = this.sshe.isDestroyed();
+        var elements = new Set(this.hovered.keys());
+        var elements2 = new Set();
+        if (!destroyed) {
+            if (this.events.onMouseEnter.size === 0 &&
+                this.events.onMouseLeave.size === 0 &&
+                this.events.onMouseMove.size === 0) {
+                this.sshe.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            }
+            else if (!this.sshe.getInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE)) {
+                this.sshe.setInputAction(this.onMouseMove, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
+            }
+        }
+        Object.entries(this.events).forEach(function (_a) {
+            var et = _a[0], m = _a[1];
+            var eventType = et;
+            m.forEach(function (v, k) {
+                if (!_this.hovered.has(k)) {
+                    _this.hovered.set(k, false);
+                }
+                elements2.add(k);
+            });
+            if (et === "onMouseEnter" || et === "onMouseLeave" || et === "onMouseMove") {
+                return;
+            }
+            var cesiumEventType = EventManager.eventTypeMap[eventType];
+            if (!destroyed) {
+                if (m.size === 0) {
+                    sshe.removeInputAction(cesiumEventType);
+                }
+                else if (!sshe.getInputAction(cesiumEventType)) {
+                    sshe.setInputAction(_this.eventCallback(eventType), cesiumEventType);
+                }
+            }
+        });
+        elements.forEach(function (e) {
+            if (!elements2.has(e)) {
+                _this.hovered.delete(e);
+            }
+        });
+    };
+    EventManager.prototype.getScreenSpaceEventHandler = function () {
+        return this.sshe;
+    };
+    EventManager.prototype.pick = function (pos) {
+        if (!pos) {
+            return undefined;
+        }
+        var picked = this.scene.pick(pos);
+        if (picked) {
+            // Entity
+            if (picked.id instanceof Cesium__default.Entity) {
+                return picked.id;
+            }
+            // Other
+            return picked;
+        }
+        return undefined;
+    };
+    EventManager.eventTypeMap = {
+        onClick: Cesium.ScreenSpaceEventType.LEFT_CLICK,
+        onDoubleClick: Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
+        onMouseDown: Cesium.ScreenSpaceEventType.LEFT_DOWN,
+        onMouseUp: Cesium.ScreenSpaceEventType.LEFT_UP,
+        onMiddleClick: Cesium.ScreenSpaceEventType.MIDDLE_CLICK,
+        onMiddleDown: Cesium.ScreenSpaceEventType.MIDDLE_DOWN,
+        onMiddleUp: Cesium.ScreenSpaceEventType.MIDDLE_UP,
+        onMouseMove: Cesium.ScreenSpaceEventType.MOUSE_MOVE,
+        onPinchEnd: Cesium.ScreenSpaceEventType.PINCH_END,
+        onPinchMove: Cesium.ScreenSpaceEventType.PINCH_MOVE,
+        onPinchStart: Cesium.ScreenSpaceEventType.PINCH_START,
+        onRightClick: Cesium.ScreenSpaceEventType.RIGHT_CLICK,
+        onRightDown: Cesium.ScreenSpaceEventType.RIGHT_DOWN,
+        onRightUp: Cesium.ScreenSpaceEventType.RIGHT_UP,
+        onWheel: Cesium.ScreenSpaceEventType.WHEEL,
+        onMouseEnter: Cesium.ScreenSpaceEventType.MOUSE_MOVE,
+        onMouseLeave: Cesium.ScreenSpaceEventType.MOUSE_MOVE,
+    };
+    return EventManager;
 }());
 
-/** Used to resolve the decompiled source of functions. */
-var funcToString = funcProto.toString;
-
-/** Used to check objects for own properties. */
-var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
-
-/**
- * Used to resolve the
- * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
- * of values.
- */
-var objectToString$1 = objectProto$1.toString;
-
-/** Used to detect if a method is native. */
-var reIsNative = RegExp('^' +
-  funcToString.call(hasOwnProperty$1).replace(reRegExpChar, '\\$&')
-  .replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$'
-);
-
-/** Built-in value references. */
-var Symbol$2 = root$1.Symbol,
-    getPrototype = overArg(Object.getPrototypeOf, Object),
-    propertyIsEnumerable$1 = objectProto$1.propertyIsEnumerable,
-    splice = arrayProto.splice,
-    spreadableSymbol$1 = Symbol$2 ? Symbol$2.isConcatSpreadable : undefined;
-
-/* Built-in method references for those with the same name as other `lodash` methods. */
-var nativeGetSymbols = Object.getOwnPropertySymbols,
-    nativeMax$1 = Math.max;
-
-/* Built-in method references that are verified to be native. */
-var Map = getNative(root$1, 'Map'),
-    nativeCreate = getNative(Object, 'create');
-
-/**
- * Creates a hash object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function Hash(entries) {
-  var index = -1,
-      length = entries ? entries.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-/**
- * Removes all key-value entries from the hash.
- *
- * @private
- * @name clear
- * @memberOf Hash
- */
-function hashClear() {
-  this.__data__ = nativeCreate ? nativeCreate(null) : {};
-}
-
-/**
- * Removes `key` and its value from the hash.
- *
- * @private
- * @name delete
- * @memberOf Hash
- * @param {Object} hash The hash to modify.
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function hashDelete(key) {
-  return this.has(key) && delete this.__data__[key];
-}
-
-/**
- * Gets the hash value for `key`.
- *
- * @private
- * @name get
- * @memberOf Hash
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function hashGet(key) {
-  var data = this.__data__;
-  if (nativeCreate) {
-    var result = data[key];
-    return result === HASH_UNDEFINED ? undefined : result;
-  }
-  return hasOwnProperty$1.call(data, key) ? data[key] : undefined;
-}
-
-/**
- * Checks if a hash value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf Hash
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function hashHas(key) {
-  var data = this.__data__;
-  return nativeCreate ? data[key] !== undefined : hasOwnProperty$1.call(data, key);
-}
-
-/**
- * Sets the hash `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf Hash
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the hash instance.
- */
-function hashSet(key, value) {
-  var data = this.__data__;
-  data[key] = (nativeCreate && value === undefined) ? HASH_UNDEFINED : value;
-  return this;
-}
-
-// Add methods to `Hash`.
-Hash.prototype.clear = hashClear;
-Hash.prototype['delete'] = hashDelete;
-Hash.prototype.get = hashGet;
-Hash.prototype.has = hashHas;
-Hash.prototype.set = hashSet;
-
-/**
- * Creates an list cache object.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function ListCache(entries) {
-  var index = -1,
-      length = entries ? entries.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-/**
- * Removes all key-value entries from the list cache.
- *
- * @private
- * @name clear
- * @memberOf ListCache
- */
-function listCacheClear() {
-  this.__data__ = [];
-}
-
-/**
- * Removes `key` and its value from the list cache.
- *
- * @private
- * @name delete
- * @memberOf ListCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function listCacheDelete(key) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  if (index < 0) {
-    return false;
-  }
-  var lastIndex = data.length - 1;
-  if (index == lastIndex) {
-    data.pop();
-  } else {
-    splice.call(data, index, 1);
-  }
-  return true;
-}
-
-/**
- * Gets the list cache value for `key`.
- *
- * @private
- * @name get
- * @memberOf ListCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function listCacheGet(key) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  return index < 0 ? undefined : data[index][1];
-}
-
-/**
- * Checks if a list cache value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf ListCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function listCacheHas(key) {
-  return assocIndexOf(this.__data__, key) > -1;
-}
-
-/**
- * Sets the list cache `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf ListCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the list cache instance.
- */
-function listCacheSet(key, value) {
-  var data = this.__data__,
-      index = assocIndexOf(data, key);
-
-  if (index < 0) {
-    data.push([key, value]);
-  } else {
-    data[index][1] = value;
-  }
-  return this;
-}
-
-// Add methods to `ListCache`.
-ListCache.prototype.clear = listCacheClear;
-ListCache.prototype['delete'] = listCacheDelete;
-ListCache.prototype.get = listCacheGet;
-ListCache.prototype.has = listCacheHas;
-ListCache.prototype.set = listCacheSet;
-
-/**
- * Creates a map cache object to store key-value pairs.
- *
- * @private
- * @constructor
- * @param {Array} [entries] The key-value pairs to cache.
- */
-function MapCache(entries) {
-  var index = -1,
-      length = entries ? entries.length : 0;
-
-  this.clear();
-  while (++index < length) {
-    var entry = entries[index];
-    this.set(entry[0], entry[1]);
-  }
-}
-
-/**
- * Removes all key-value entries from the map.
- *
- * @private
- * @name clear
- * @memberOf MapCache
- */
-function mapCacheClear() {
-  this.__data__ = {
-    'hash': new Hash,
-    'map': new (Map || ListCache),
-    'string': new Hash
-  };
-}
-
-/**
- * Removes `key` and its value from the map.
- *
- * @private
- * @name delete
- * @memberOf MapCache
- * @param {string} key The key of the value to remove.
- * @returns {boolean} Returns `true` if the entry was removed, else `false`.
- */
-function mapCacheDelete(key) {
-  return getMapData(this, key)['delete'](key);
-}
-
-/**
- * Gets the map value for `key`.
- *
- * @private
- * @name get
- * @memberOf MapCache
- * @param {string} key The key of the value to get.
- * @returns {*} Returns the entry value.
- */
-function mapCacheGet(key) {
-  return getMapData(this, key).get(key);
-}
-
-/**
- * Checks if a map value for `key` exists.
- *
- * @private
- * @name has
- * @memberOf MapCache
- * @param {string} key The key of the entry to check.
- * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
- */
-function mapCacheHas(key) {
-  return getMapData(this, key).has(key);
-}
-
-/**
- * Sets the map `key` to `value`.
- *
- * @private
- * @name set
- * @memberOf MapCache
- * @param {string} key The key of the value to set.
- * @param {*} value The value to set.
- * @returns {Object} Returns the map cache instance.
- */
-function mapCacheSet(key, value) {
-  getMapData(this, key).set(key, value);
-  return this;
-}
-
-// Add methods to `MapCache`.
-MapCache.prototype.clear = mapCacheClear;
-MapCache.prototype['delete'] = mapCacheDelete;
-MapCache.prototype.get = mapCacheGet;
-MapCache.prototype.has = mapCacheHas;
-MapCache.prototype.set = mapCacheSet;
-
-/**
- *
- * Creates an array cache object to store unique values.
- *
- * @private
- * @constructor
- * @param {Array} [values] The values to cache.
- */
-function SetCache(values) {
-  var index = -1,
-      length = values ? values.length : 0;
-
-  this.__data__ = new MapCache;
-  while (++index < length) {
-    this.add(values[index]);
-  }
-}
-
-/**
- * Adds `value` to the array cache.
- *
- * @private
- * @name add
- * @memberOf SetCache
- * @alias push
- * @param {*} value The value to cache.
- * @returns {Object} Returns the cache instance.
- */
-function setCacheAdd(value) {
-  this.__data__.set(value, HASH_UNDEFINED);
-  return this;
-}
-
-/**
- * Checks if `value` is in the array cache.
- *
- * @private
- * @name has
- * @memberOf SetCache
- * @param {*} value The value to search for.
- * @returns {number} Returns `true` if `value` is found, else `false`.
- */
-function setCacheHas(value) {
-  return this.__data__.has(value);
-}
-
-// Add methods to `SetCache`.
-SetCache.prototype.add = SetCache.prototype.push = setCacheAdd;
-SetCache.prototype.has = setCacheHas;
-
-/**
- * Creates an array of the enumerable property names of the array-like `value`.
- *
- * @private
- * @param {*} value The value to query.
- * @param {boolean} inherited Specify returning inherited property names.
- * @returns {Array} Returns the array of property names.
- */
-function arrayLikeKeys(value, inherited) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  // Safari 9 makes `arguments.length` enumerable in strict mode.
-  var result = (isArray$1(value) || isArguments$1(value))
-    ? baseTimes(value.length, String)
-    : [];
-
-  var length = result.length,
-      skipIndexes = !!length;
-
-  for (var key in value) {
-    if ((inherited || hasOwnProperty$1.call(value, key)) &&
-        !(skipIndexes && (key == 'length' || isIndex(key, length)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * Gets the index at which the `key` is found in `array` of key-value pairs.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {*} key The key to search for.
- * @returns {number} Returns the index of the matched value, else `-1`.
- */
-function assocIndexOf(array, key) {
-  var length = array.length;
-  while (length--) {
-    if (eq(array[length][0], key)) {
-      return length;
-    }
-  }
-  return -1;
-}
-
-/**
- * The base implementation of methods like `_.difference` without support
- * for excluding multiple arrays or iteratee shorthands.
- *
- * @private
- * @param {Array} array The array to inspect.
- * @param {Array} values The values to exclude.
- * @param {Function} [iteratee] The iteratee invoked per element.
- * @param {Function} [comparator] The comparator invoked per element.
- * @returns {Array} Returns the new array of filtered values.
- */
-function baseDifference(array, values, iteratee, comparator) {
-  var index = -1,
-      includes = arrayIncludes,
-      isCommon = true,
-      length = array.length,
-      result = [],
-      valuesLength = values.length;
-
-  if (!length) {
-    return result;
-  }
-  if (iteratee) {
-    values = arrayMap$1(values, baseUnary(iteratee));
-  }
-  if (comparator) {
-    includes = arrayIncludesWith;
-    isCommon = false;
-  }
-  else if (values.length >= LARGE_ARRAY_SIZE) {
-    includes = cacheHas;
-    isCommon = false;
-    values = new SetCache(values);
-  }
-  outer:
-  while (++index < length) {
-    var value = array[index],
-        computed = iteratee ? iteratee(value) : value;
-
-    value = (comparator || value !== 0) ? value : 0;
-    if (isCommon && computed === computed) {
-      var valuesIndex = valuesLength;
-      while (valuesIndex--) {
-        if (values[valuesIndex] === computed) {
-          continue outer;
-        }
-      }
-      result.push(value);
-    }
-    else if (!includes(values, computed, comparator)) {
-      result.push(value);
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.flatten` with support for restricting flattening.
- *
- * @private
- * @param {Array} array The array to flatten.
- * @param {number} depth The maximum recursion depth.
- * @param {boolean} [predicate=isFlattenable] The function invoked per iteration.
- * @param {boolean} [isStrict] Restrict to values that pass `predicate` checks.
- * @param {Array} [result=[]] The initial result value.
- * @returns {Array} Returns the new flattened array.
- */
-function baseFlatten$1(array, depth, predicate, isStrict, result) {
-  var index = -1,
-      length = array.length;
-
-  predicate || (predicate = isFlattenable$1);
-  result || (result = []);
-
-  while (++index < length) {
-    var value = array[index];
-    if (depth > 0 && predicate(value)) {
-      if (depth > 1) {
-        // Recursively flatten arrays (susceptible to call stack limits).
-        baseFlatten$1(value, depth - 1, predicate, isStrict, result);
-      } else {
-        arrayPush$1(result, value);
-      }
-    } else if (!isStrict) {
-      result[result.length] = value;
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `getAllKeys` and `getAllKeysIn` which uses
- * `keysFunc` and `symbolsFunc` to get the enumerable property names and
- * symbols of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {Function} keysFunc The function to get the keys of `object`.
- * @param {Function} symbolsFunc The function to get the symbols of `object`.
- * @returns {Array} Returns the array of property names and symbols.
- */
-function baseGetAllKeys(object, keysFunc, symbolsFunc) {
-  var result = keysFunc(object);
-  return isArray$1(object) ? result : arrayPush$1(result, symbolsFunc(object));
-}
-
-/**
- * The base implementation of `_.isNative` without bad shim checks.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a native function,
- *  else `false`.
- */
-function baseIsNative(value) {
-  if (!isObject$1(value) || isMasked(value)) {
-    return false;
-  }
-  var pattern = (isFunction$1(value) || isHostObject(value)) ? reIsNative : reIsHostCtor;
-  return pattern.test(toSource(value));
-}
-
-/**
- * The base implementation of `_.keysIn` which doesn't treat sparse arrays as dense.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function baseKeysIn(object) {
-  if (!isObject$1(object)) {
-    return nativeKeysIn(object);
-  }
-  var isProto = isPrototype(object),
-      result = [];
-
-  for (var key in object) {
-    if (!(key == 'constructor' && (isProto || !hasOwnProperty$1.call(object, key)))) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.pick` without support for individual
- * property identifiers.
- *
- * @private
- * @param {Object} object The source object.
- * @param {string[]} props The property identifiers to pick.
- * @returns {Object} Returns the new object.
- */
-function basePick$1(object, props) {
-  object = Object(object);
-  return basePickBy$1(object, props, function(value, key) {
-    return key in object;
-  });
-}
-
-/**
- * The base implementation of  `_.pickBy` without support for iteratee shorthands.
- *
- * @private
- * @param {Object} object The source object.
- * @param {string[]} props The property identifiers to pick from.
- * @param {Function} predicate The function invoked per property.
- * @returns {Object} Returns the new object.
- */
-function basePickBy$1(object, props, predicate) {
-  var index = -1,
-      length = props.length,
-      result = {};
-
-  while (++index < length) {
-    var key = props[index],
-        value = object[key];
-
-    if (predicate(value, key)) {
-      result[key] = value;
-    }
-  }
-  return result;
-}
-
-/**
- * The base implementation of `_.rest` which doesn't validate or coerce arguments.
- *
- * @private
- * @param {Function} func The function to apply a rest parameter to.
- * @param {number} [start=func.length-1] The start position of the rest parameter.
- * @returns {Function} Returns the new function.
- */
-function baseRest$1(func, start) {
-  start = nativeMax$1(start === undefined ? (func.length - 1) : start, 0);
-  return function() {
-    var args = arguments,
-        index = -1,
-        length = nativeMax$1(args.length - start, 0),
-        array = Array(length);
-
-    while (++index < length) {
-      array[index] = args[start + index];
-    }
-    index = -1;
-    var otherArgs = Array(start + 1);
-    while (++index < start) {
-      otherArgs[index] = args[index];
-    }
-    otherArgs[start] = array;
-    return apply$1(func, this, otherArgs);
-  };
-}
-
-/**
- * Creates an array of own and inherited enumerable property names and
- * symbols of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names and symbols.
- */
-function getAllKeysIn(object) {
-  return baseGetAllKeys(object, keysIn, getSymbolsIn);
-}
-
-/**
- * Gets the data for `map`.
- *
- * @private
- * @param {Object} map The map to query.
- * @param {string} key The reference key.
- * @returns {*} Returns the map data.
- */
-function getMapData(map, key) {
-  var data = map.__data__;
-  return isKeyable(key)
-    ? data[typeof key == 'string' ? 'string' : 'hash']
-    : data.map;
-}
-
-/**
- * Gets the native function at `key` of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @param {string} key The key of the method to get.
- * @returns {*} Returns the function if it's native, else `undefined`.
- */
-function getNative(object, key) {
-  var value = getValue(object, key);
-  return baseIsNative(value) ? value : undefined;
-}
-
-/**
- * Creates an array of the own enumerable symbol properties of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of symbols.
- */
-var getSymbols = nativeGetSymbols ? overArg(nativeGetSymbols, Object) : stubArray;
-
-/**
- * Creates an array of the own and inherited enumerable symbol properties
- * of `object`.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of symbols.
- */
-var getSymbolsIn = !nativeGetSymbols ? stubArray : function(object) {
-  var result = [];
-  while (object) {
-    arrayPush$1(result, getSymbols(object));
-    object = getPrototype(object);
-  }
-  return result;
-};
-
-/**
- * Checks if `value` is a flattenable `arguments` object or array.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is flattenable, else `false`.
- */
-function isFlattenable$1(value) {
-  return isArray$1(value) || isArguments$1(value) ||
-    !!(spreadableSymbol$1 && value && value[spreadableSymbol$1]);
-}
-
-/**
- * Checks if `value` is a valid array-like index.
- *
- * @private
- * @param {*} value The value to check.
- * @param {number} [length=MAX_SAFE_INTEGER] The upper bounds of a valid index.
- * @returns {boolean} Returns `true` if `value` is a valid index, else `false`.
- */
-function isIndex(value, length) {
-  length = length == null ? MAX_SAFE_INTEGER$1 : length;
-  return !!length &&
-    (typeof value == 'number' || reIsUint.test(value)) &&
-    (value > -1 && value % 1 == 0 && value < length);
-}
-
-/**
- * Checks if `value` is suitable for use as unique object key.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
- */
-function isKeyable(value) {
-  var type = typeof value;
-  return (type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean')
-    ? (value !== '__proto__')
-    : (value === null);
-}
-
-/**
- * Checks if `func` has its source masked.
- *
- * @private
- * @param {Function} func The function to check.
- * @returns {boolean} Returns `true` if `func` is masked, else `false`.
- */
-function isMasked(func) {
-  return !!maskSrcKey && (maskSrcKey in func);
-}
-
-/**
- * Checks if `value` is likely a prototype object.
- *
- * @private
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a prototype, else `false`.
- */
-function isPrototype(value) {
-  var Ctor = value && value.constructor,
-      proto = (typeof Ctor == 'function' && Ctor.prototype) || objectProto$1;
-
-  return value === proto;
-}
-
-/**
- * This function is like
- * [`Object.keys`](http://ecma-international.org/ecma-262/7.0/#sec-object.keys)
- * except that it includes inherited enumerable properties.
- *
- * @private
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- */
-function nativeKeysIn(object) {
-  var result = [];
-  if (object != null) {
-    for (var key in Object(object)) {
-      result.push(key);
-    }
-  }
-  return result;
-}
-
-/**
- * Converts `value` to a string key if it's not a string or symbol.
- *
- * @private
- * @param {*} value The value to inspect.
- * @returns {string|symbol} Returns the key.
- */
-function toKey$1(value) {
-  if (typeof value == 'string' || isSymbol$1(value)) {
-    return value;
-  }
-  var result = (value + '');
-  return (result == '0' && (1 / value) == -INFINITY$1) ? '-0' : result;
-}
-
-/**
- * Converts `func` to its source code.
- *
- * @private
- * @param {Function} func The function to process.
- * @returns {string} Returns the source code.
- */
-function toSource(func) {
-  if (func != null) {
-    try {
-      return funcToString.call(func);
-    } catch (e) {}
-    try {
-      return (func + '');
-    } catch (e) {}
-  }
-  return '';
-}
-
-/**
- * Performs a
- * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
- * comparison between two values to determine if they are equivalent.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to compare.
- * @param {*} other The other value to compare.
- * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
- * @example
- *
- * var object = { 'a': 1 };
- * var other = { 'a': 1 };
- *
- * _.eq(object, object);
- * // => true
- *
- * _.eq(object, other);
- * // => false
- *
- * _.eq('a', 'a');
- * // => true
- *
- * _.eq('a', Object('a'));
- * // => false
- *
- * _.eq(NaN, NaN);
- * // => true
- */
-function eq(value, other) {
-  return value === other || (value !== value && other !== other);
-}
-
-/**
- * Checks if `value` is likely an `arguments` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an `arguments` object,
- *  else `false`.
- * @example
- *
- * _.isArguments(function() { return arguments; }());
- * // => true
- *
- * _.isArguments([1, 2, 3]);
- * // => false
- */
-function isArguments$1(value) {
-  // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
-  return isArrayLikeObject$1(value) && hasOwnProperty$1.call(value, 'callee') &&
-    (!propertyIsEnumerable$1.call(value, 'callee') || objectToString$1.call(value) == argsTag$1);
-}
-
-/**
- * Checks if `value` is classified as an `Array` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array, else `false`.
- * @example
- *
- * _.isArray([1, 2, 3]);
- * // => true
- *
- * _.isArray(document.body.children);
- * // => false
- *
- * _.isArray('abc');
- * // => false
- *
- * _.isArray(_.noop);
- * // => false
- */
-var isArray$1 = Array.isArray;
-
-/**
- * Checks if `value` is array-like. A value is considered array-like if it's
- * not a function and has a `value.length` that's an integer greater than or
- * equal to `0` and less than or equal to `Number.MAX_SAFE_INTEGER`.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is array-like, else `false`.
- * @example
- *
- * _.isArrayLike([1, 2, 3]);
- * // => true
- *
- * _.isArrayLike(document.body.children);
- * // => true
- *
- * _.isArrayLike('abc');
- * // => true
- *
- * _.isArrayLike(_.noop);
- * // => false
- */
-function isArrayLike$1(value) {
-  return value != null && isLength$1(value.length) && !isFunction$1(value);
-}
-
-/**
- * This method is like `_.isArrayLike` except that it also checks if `value`
- * is an object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an array-like object,
- *  else `false`.
- * @example
- *
- * _.isArrayLikeObject([1, 2, 3]);
- * // => true
- *
- * _.isArrayLikeObject(document.body.children);
- * // => true
- *
- * _.isArrayLikeObject('abc');
- * // => false
- *
- * _.isArrayLikeObject(_.noop);
- * // => false
- */
-function isArrayLikeObject$1(value) {
-  return isObjectLike$1(value) && isArrayLike$1(value);
-}
-
-/**
- * Checks if `value` is classified as a `Function` object.
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a function, else `false`.
- * @example
- *
- * _.isFunction(_);
- * // => true
- *
- * _.isFunction(/abc/);
- * // => false
- */
-function isFunction$1(value) {
-  // The use of `Object#toString` avoids issues with the `typeof` operator
-  // in Safari 8-9 which returns 'object' for typed array and other constructors.
-  var tag = isObject$1(value) ? objectToString$1.call(value) : '';
-  return tag == funcTag$1 || tag == genTag$1;
-}
-
-/**
- * Checks if `value` is a valid array-like length.
- *
- * **Note:** This method is loosely based on
- * [`ToLength`](http://ecma-international.org/ecma-262/7.0/#sec-tolength).
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a valid length, else `false`.
- * @example
- *
- * _.isLength(3);
- * // => true
- *
- * _.isLength(Number.MIN_VALUE);
- * // => false
- *
- * _.isLength(Infinity);
- * // => false
- *
- * _.isLength('3');
- * // => false
- */
-function isLength$1(value) {
-  return typeof value == 'number' &&
-    value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER$1;
-}
-
-/**
- * Checks if `value` is the
- * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
- * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
- *
- * @static
- * @memberOf _
- * @since 0.1.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is an object, else `false`.
- * @example
- *
- * _.isObject({});
- * // => true
- *
- * _.isObject([1, 2, 3]);
- * // => true
- *
- * _.isObject(_.noop);
- * // => true
- *
- * _.isObject(null);
- * // => false
- */
-function isObject$1(value) {
-  var type = typeof value;
-  return !!value && (type == 'object' || type == 'function');
-}
-
-/**
- * Checks if `value` is object-like. A value is object-like if it's not `null`
- * and has a `typeof` result of "object".
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is object-like, else `false`.
- * @example
- *
- * _.isObjectLike({});
- * // => true
- *
- * _.isObjectLike([1, 2, 3]);
- * // => true
- *
- * _.isObjectLike(_.noop);
- * // => false
- *
- * _.isObjectLike(null);
- * // => false
- */
-function isObjectLike$1(value) {
-  return !!value && typeof value == 'object';
-}
-
-/**
- * Checks if `value` is classified as a `Symbol` primitive or object.
- *
- * @static
- * @memberOf _
- * @since 4.0.0
- * @category Lang
- * @param {*} value The value to check.
- * @returns {boolean} Returns `true` if `value` is a symbol, else `false`.
- * @example
- *
- * _.isSymbol(Symbol.iterator);
- * // => true
- *
- * _.isSymbol('abc');
- * // => false
- */
-function isSymbol$1(value) {
-  return typeof value == 'symbol' ||
-    (isObjectLike$1(value) && objectToString$1.call(value) == symbolTag$1);
-}
-
-/**
- * Creates an array of the own and inherited enumerable property names of `object`.
- *
- * **Note:** Non-object values are coerced to objects.
- *
- * @static
- * @memberOf _
- * @since 3.0.0
- * @category Object
- * @param {Object} object The object to query.
- * @returns {Array} Returns the array of property names.
- * @example
- *
- * function Foo() {
- *   this.a = 1;
- *   this.b = 2;
- * }
- *
- * Foo.prototype.c = 3;
- *
- * _.keysIn(new Foo);
- * // => ['a', 'b', 'c'] (iteration order is not guaranteed)
- */
-function keysIn(object) {
-  return isArrayLike$1(object) ? arrayLikeKeys(object, true) : baseKeysIn(object);
-}
-
-/**
- * The opposite of `_.pick`; this method creates an object composed of the
- * own and inherited enumerable string keyed properties of `object` that are
- * not omitted.
- *
- * @static
- * @since 0.1.0
- * @memberOf _
- * @category Object
- * @param {Object} object The source object.
- * @param {...(string|string[])} [props] The property identifiers to omit.
- * @returns {Object} Returns the new object.
- * @example
- *
- * var object = { 'a': 1, 'b': '2', 'c': 3 };
- *
- * _.omit(object, ['a', 'c']);
- * // => { 'b': '2' }
- */
-var omit = baseRest$1(function(object, props) {
-  if (object == null) {
-    return {};
-  }
-  props = arrayMap$1(baseFlatten$1(props, 1), toKey$1);
-  return basePick$1(object, baseDifference(getAllKeysIn(object), props));
-});
-
-/**
- * This method returns a new empty array.
- *
- * @static
- * @memberOf _
- * @since 4.13.0
- * @category Util
- * @returns {Array} Returns the new empty array.
- * @example
- *
- * var arrays = _.times(2, _.stubArray);
- *
- * console.log(arrays);
- * // => [[], []]
- *
- * console.log(arrays[0] === arrays[1]);
- * // => false
- */
-function stubArray() {
-  return [];
-}
-
-var lodash_omit = omit;
-
-var createEventWrapper = function (Comp) {
-    var _a;
-    return withContext((_a = /** @class */ (function (_super) {
-            __extends(EventWrapper, _super);
-            function EventWrapper() {
-                var _this = _super !== null && _super.apply(this, arguments) || this;
-                _this.ref = React.createRef();
-                _this.hovering = false;
-                _this.checkHovering = function (m) {
-                    if (!_this.ref.current || !_this.ref.current.cesiumElement) {
-                        return;
-                    }
-                    var source = _this.ref.current.cesiumElement;
-                    var scene = _this.props.cesium.scene;
-                    var picked = m.endPosition ? scene.pick(m.endPosition) : undefined;
-                    var before = _this.hovering;
-                    var hovering = !!picked && !!picked.id && picked.id === source;
-                    _this.hovering = hovering;
-                    if (before !== hovering) {
-                        if (hovering) {
-                            if (_this.props.onMouseEnter) {
-                                _this.props.onMouseEnter(m, source);
-                            }
-                        }
-                        else {
-                            if (_this.props.onMouseLeave) {
-                                _this.props.onMouseLeave(m, source);
-                            }
-                        }
-                    }
-                };
-                return _this;
-            }
-            EventWrapper.prototype.render = function () {
-                var props = lodash_omit(this.props, EventWrapper.events.map(function (e) { return e.prop; }));
-                return React.createElement(Comp, __assign({ ref: this.ref }, props));
-            };
-            EventWrapper.prototype.componentDidMount = function () {
-                var _this = this;
-                this.sseh2 = new Cesium.ScreenSpaceEventHandler(this.props.cesium.cesiumWidget.canvas);
-                if (this.props.onMouseEnter || this.props.onMouseLeave) {
-                    this.sseh2.setInputAction(this.checkHovering, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                }
-                this.sseh = new Cesium.ScreenSpaceEventHandler(this.props.cesium.cesiumWidget.canvas);
-                EventWrapper.events.forEach(function (e) {
-                    var prop = _this.props[e.prop];
-                    if (_this.sseh && prop) {
-                        var ev = _this.createEvent(prop);
-                        _this.sseh.setInputAction(ev, e.type);
-                    }
-                });
-            };
-            EventWrapper.prototype.componentDidUpdate = function (prevProps) {
-                var _this = this;
-                EventWrapper.events.forEach(function (e) {
-                    var prop = _this.props[e.prop];
-                    if (_this.sseh && prevProps[e.prop] && prevProps[e.prop] !== prop && !prop) {
-                        _this.sseh.removeInputAction(e.type);
-                    }
-                    if (_this.sseh && prop && prevProps[e.prop] !== prop) {
-                        var ev = _this.createEvent(prop);
-                        _this.sseh.setInputAction(ev, e.type);
-                    }
-                });
-                if (this.sseh2 &&
-                    (prevProps.onMouseEnter !== this.props.onMouseEnter ||
-                        prevProps.onMouseLeave !== this.props.onMouseLeave)) {
-                    if (!this.props.onMouseEnter && !this.props.onMouseLeave) {
-                        this.sseh2.removeInputAction(Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                    }
-                    else if ((this.props.onMouseEnter || this.props.onMouseLeave) &&
-                        !prevProps.onMouseEnter &&
-                        !prevProps.onMouseLeave) {
-                        this.sseh2.setInputAction(this.checkHovering, Cesium.ScreenSpaceEventType.MOUSE_MOVE);
-                    }
-                }
-            };
-            EventWrapper.prototype.componentWillUnmount = function () {
-                if (this.sseh && !this.sseh.isDestroyed) {
-                    this.sseh.destroy();
-                }
-                if (this.sseh2 && !this.sseh2.isDestroyed) {
-                    this.sseh2.destroy();
-                }
-            };
-            EventWrapper.prototype.createEvent = function (fn) {
-                if (!this.ref.current || !this.ref.current.cesiumElement) {
-                    return;
-                }
-                var source = this.ref.current.cesiumElement;
-                var scene = this.props.cesium.scene;
-                return function (movement) {
-                    var picked = movement.position ? scene.pick(movement.position) : undefined;
-                    if (picked && picked.id && picked.id === source) {
-                        fn(movement, source);
-                    }
-                };
-            };
-            return EventWrapper;
-        }(React.PureComponent)),
-        _a.events = [
-            { prop: "onClick", type: Cesium.ScreenSpaceEventType.LEFT_CLICK },
-            { prop: "onDoubleClick", type: Cesium.ScreenSpaceEventType.LEFT_DOUBLE_CLICK },
-            { prop: "onMouseDown", type: Cesium.ScreenSpaceEventType.LEFT_DOWN },
-            { prop: "onMouseUp", type: Cesium.ScreenSpaceEventType.LEFT_UP },
-            { prop: "onMiddleClick", type: Cesium.ScreenSpaceEventType.MIDDLE_CLICK },
-            { prop: "onMiddleDown", type: Cesium.ScreenSpaceEventType.MIDDLE_DOWN },
-            { prop: "onMiddleUp", type: Cesium.ScreenSpaceEventType.MIDDLE_UP },
-            { prop: "onMouseMove", type: Cesium.ScreenSpaceEventType.MOUSE_MOVE },
-            { prop: "onPinchEnd", type: Cesium.ScreenSpaceEventType.PINCH_END },
-            { prop: "onPinchMove", type: Cesium.ScreenSpaceEventType.PINCH_MOVE },
-            { prop: "onPinchStart", type: Cesium.ScreenSpaceEventType.PINCH_START },
-            { prop: "onRightClick", type: Cesium.ScreenSpaceEventType.RIGHT_CLICK },
-            { prop: "onRightDown", type: Cesium.ScreenSpaceEventType.RIGHT_DOWN },
-            { prop: "onRightUp", type: Cesium.ScreenSpaceEventType.RIGHT_UP },
-            { prop: "onWheel", type: Cesium.ScreenSpaceEventType.WHEEL },
-        ],
-        _a));
-};
-
 var cesiumProps = [
-    "terrainProvider",
-    "terrainShadows",
-    "clockTrackedDataSource",
-    "targetFrameRate",
-    "useDefaultRenderLoop",
-    "resolutionScale",
-    "allowDataSourcesToSuspendAnimation",
-    "trackedEntity",
-    "selectedEntity",
-    "shadows",
+    "alignAxis",
+    "color",
+    "disableDepthTestDistance",
+    "distanceDisplayCondition",
+    "height",
+    "heightReference",
+    "horizontalOrigin",
+    "id",
+    "image",
+    "pixelOffset",
+    "pixelOffsetScaleByDistance",
+    "position",
+    "rotation",
+    "scale",
+    "scaleByDistance",
+    "show",
+    "sizeInMeters",
+    "translucencyByDistance",
+    "verticalOrigin",
+    "width",
 ];
-var cesiumReadonlyProps = [
-    "animation",
-    "baseLayerPicker",
-    "fullscreenButton",
-    "vrButton",
-    "geocoder",
-    "homeButton",
-    "infoBox",
-    "sceneModePicker",
-    "selectionIndicator",
-    "timeline",
-    "navigationHelpButton",
-    "navigationInstructionsInitiallyVisible",
-    "scene3DOnly",
-    "shouldAnimate",
-    "clockViewModel",
-    "selectedImageryProviderViewModel",
-    "imageryProviderViewModels",
-    "selectedTerrainProviderViewModel",
-    "terrainProviderViewModels",
-    "imageryProvider",
-    "skyBox",
-    "skyAtmosphere",
-    "fullscreenElement",
-    "showRenderLoopErrors",
-    "automaticallyTrackDataSourceClocks",
-    "contextOptions",
-    "sceneMode",
-    "mapProjection",
-    "globe",
-    "orderIndependentTranslucency",
-    "creditContainer",
-    "creditViewport",
-    "dataSources",
-    "terrainExaggeration",
-    "mapMode2D",
-    "projectionPicker",
-    "requestRenderMode",
-    "maximumRenderTimeChange",
-];
-var cesiumEventProps = {
-    selectedEntityChanged: "onSelectedEntityChange",
-    trackedEntityChanged: "onTrackedEntityChange",
-};
-var Viewer = createCesiumComponent({
-    name: "Viewer",
-    createRef: true,
-    create: function (cprops, props, context, ref) {
-        // ref is not always undefined
-        var v = new Cesium.Viewer(ref.current, cprops);
-        if (!v) {
-            return undefined; // failed to initialize Viewer
-        }
-        if (props.extend) {
-            if (Array.isArray(props.extend)) {
-                props.extend.forEach(function (e) {
-                    v.extend(e, {});
-                });
-            }
-            else {
-                v.extend(props.extend, {});
-            }
-        }
-        return v;
+var Billboard = createCesiumComponent({
+    name: "Billboard",
+    create: function (cprops, props, context) {
+        return new Cesium__default.Billboard(cprops, context.billboardCollection);
     },
-    render: function (element, props, mounted, ref) {
-        return (React.createElement("div", __assign({ className: props.className, id: props.id, ref: ref, style: __assign({}, (props.full
-                ? {
-                    position: "absolute",
-                    bottom: "0",
-                    left: "0",
-                    right: "0",
-                    top: "0",
-                }
-                : {}), props.style) }, props.containerProps), element ? props.children : null));
-    },
-    unmount: function (element) {
-        if (element && !element.isDestroyed) {
-            element.destroy();
+    mount: function (element, context) {
+        if (context.billboardCollection) {
+            context.billboardCollection.add(element);
         }
     },
-    provide: function (element) {
-        if (!element) {
-            return {};
+    unmount: function (element, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.clearEvents(element);
         }
-        return {
-            viewer: element,
-            cesiumWidget: element.cesiumWidget,
-            dataSourceCollection: element.dataSources,
-            entityCollection: element.entities,
-            scene: element.scene,
-            camera: element.scene.camera,
-            imageryLayerCollection: element.scene.globe.imageryLayers,
-            primitiveCollection: element.scene.primitives,
-        };
+        if (context.billboardCollection && !context.billboardCollection.isDestroyed()) {
+            context.billboardCollection.remove(element);
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
     },
     cesiumProps: cesiumProps,
-    cesiumReadonlyProps: cesiumReadonlyProps,
-    cesiumEventProps: cesiumEventProps,
-});
-
-var cesiumProps$1 = [
-    "resolutionScale",
-    "useDefaultRenderLoop",
-    "targetFrameRate",
-];
-var cesiumReadonlyProps$1 = [
-    "clock",
-    "imageryProvider",
-    "terrainProvider",
-    "skyBox",
-    "skyAtmosphere",
-    "sceneMode",
-    "scene3DOnly",
-    "orderIndependentTranslucency",
-    "mapProjection",
-    "globe",
-    "showRenderLoopErrors",
-    "contextOptions",
-    "creditContainer",
-    "creditViewport",
-    "terrainExaggeration",
-    "shadows",
-    "terrainShadows",
-    "requestRenderMode",
-    "maximumRenderTimeChange",
-];
-var CesiumWidget = createCesiumComponent({
-    name: "Viewer",
-    createRef: true,
-    create: function (cprops, props, context, ref) {
-        // ref is not always undefined
-        var v = new Cesium.CesiumWidget(ref.current, cprops);
-        if (!v) {
-            return undefined; // failed to initialize Viewer
-        }
-        if (typeof props.resolutionScale === "number") {
-            v.resolutionScale = props.resolutionScale;
-        }
-        return v;
-    },
-    render: function (element, props, mounted, ref) {
-        return (React.createElement("div", __assign({ className: props.className, id: props.id, ref: ref, style: __assign({}, (props.full
-                ? {
-                    position: "absolute",
-                    bottom: "0",
-                    left: "0",
-                    right: "0",
-                    top: "0",
-                }
-                : {}), props.style) }, props.containerProps), element ? props.children : null));
-    },
-    unmount: function (element) {
-        if (element && !element.isDestroyed) {
-            element.destroy();
-        }
-    },
-    provide: function (element) {
-        if (!element) {
-            return {};
-        }
-        return {
-            cesiumWidget: element,
-            scene: element.scene,
-            camera: element.scene.camera,
-            imageryLayerCollection: element.scene.globe.imageryLayers,
-            primitiveCollection: element.scene.primitives,
-        };
-    },
-    cesiumProps: cesiumProps$1,
-    cesiumReadonlyProps: cesiumReadonlyProps$1,
-});
-
-var cesiumProps$2 = [
-    "backgroundColor",
-    "completeMorphOnUserInput",
-    "debugCommandFilter",
-    "debugShowCommands",
-    "debugShowDepthFrustum",
-    "debugShowFramesPerSecond",
-    "debugShowFrustumPlanes",
-    "debugShowFrustums",
-    "eyeSeparation",
-    "farToNearRatio",
-    "focalLength",
-    "fog",
-    "fxaa",
-    "globe",
-    "imagerySplitPosition",
-    "invertClassification",
-    "invertClassificationColor",
-    "logarithmicDepthBuffer",
-    "logarithmicDepthFarToNearRatio",
-    "mapMode2D",
-    "maximumRenderTimeChange",
-    "minimumDisableDepthTestDistance",
-    // "mode", // enable morph with animation
-    "moon",
-    "morphTime",
-    "nearToFarDistance2D",
-    "pickTranslucentDepth",
-    "requestRenderMode",
-    "rethrowRenderErrors",
-    "shadowMap",
-    "skyAtmosphere",
-    "skyBox",
-    "sun",
-    "sunBloom",
-    "terrainExaggeration",
-    "terrainProvider",
-    "useDepthPicking",
-    "useWebVR",
-];
-var cesiumEventProps$1 = {
-    morphComplete: "onMorphComplete",
-    morphStart: "onMorphStart",
-    postRender: "onPostRender",
-    preRender: "onPreRender",
-    preUpdate: "onPreUpdate",
-    renderError: "onRenderError",
-    terrainProviderChanged: "onTerrainProviderChange",
-};
-var morph = function (scene, mode, morphTime) {
-    switch (mode) {
-        case Cesium.SceneMode.SCENE2D:
-            scene.morphTo2D(morphTime);
-            break;
-        case Cesium.SceneMode.COLUMBUS_VIEW:
-            scene.morphToColumbusView(morphTime);
-            break;
-        case Cesium.SceneMode.SCENE3D:
-            scene.morphTo3D(morphTime);
-            break;
-    }
-};
-var Scene = createCesiumComponent({
-    name: "Scene",
-    create: function (cprops, props, context) {
-        var scene = context.scene;
-        if (props.mode) {
-            morph(scene, props.mode, props.morph);
-        }
-        return scene;
-    },
-    update: function (scene, props, prevProps) {
-        if (props.mode !== prevProps.mode && props.mode) {
-            morph(scene, props.mode, props.morph);
-        }
-    },
-    // provide(element) {
-    //   return {
-    //     scene: element,
-    //     camera: element.camera,
-    //   };
-    // },
-    cesiumProps: cesiumProps$2,
-    cesiumEventProps: cesiumEventProps$1,
     setCesiumPropsAfterCreate: true,
 });
 
+var cesiumProps$1 = [
+    "blendOption",
+    "debugShowBoundingVolume",
+    "length",
+    "modelMatrix",
+];
+var BillboardCollection = createCesiumComponent({
+    name: "BillboardCollection",
+    create: function (cprops, props, context) {
+        return new Cesium__default.BillboardCollection({
+            modelMatrix: cprops.modelMatrix,
+            debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+            scene: context.scene,
+            blendOption: cprops.blendOption,
+        });
+    },
+    mount: function (element, context) {
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element) {
+        return {
+            billboardCollection: element,
+        };
+    },
+    cesiumProps: cesiumProps$1,
+});
+
+var cesiumProps$2 = [
+    "image",
+    "show",
+    "scale",
+    "horizontalOrigin",
+    "verticalOrigin",
+    "eyeOffset",
+    "pixelOffset",
+    "rotation",
+    "alignedAxis",
+    "width",
+    "height",
+    "color",
+    "scaleByDistance",
+    "translucencyByDistance",
+    "pixelOffsetScaleByDistance",
+    "imageSubRegion",
+    "sizeInMeters",
+    "heightReference",
+    "distanceDisplayCondition",
+    "disableDepthTestDistance",
+];
+var cesiumEventProps = {
+    definitionChanged: "onDefinitionChange",
+};
+var BillboardGraphics = createCesiumComponent({
+    name: "BillboardGraphics",
+    create: function (cprops) {
+        // workaround: type of "image" prop
+        return new Cesium__default.BillboardGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.billboard = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.billboard = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$2,
+    cesiumEventProps: cesiumEventProps,
+});
+
 var cesiumProps$3 = [
+    "heightReference",
+    "dimensions",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "shadows",
+    "distanceDisplayCondition",
+];
+var cesiumEventProps$1 = {
+    definitionChanged: "onDefinitionChange",
+};
+var BoxGraphics = createCesiumComponent({
+    name: "BoxGraphics",
+    create: function (cprops) {
+        return new Cesium__default.BoxGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.box = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.box = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$3,
+    cesiumEventProps: cesiumEventProps$1,
+});
+
+var cesiumProps$4 = [
     "position",
     "direction",
     "up",
@@ -2676,627 +1202,9 @@ var Camera = createCesiumComponent({
     create: function (cprops, props, context) {
         return context.scene.camera;
     },
-    cesiumProps: cesiumProps$3,
+    cesiumProps: cesiumProps$4,
     cesiumEventProps: cesiumEventProps$2,
     setCesiumPropsAfterCreate: true,
-});
-
-var cesiumProps$4 = [
-    "availability",
-    "billboard",
-    "box",
-    "corridor",
-    "cylinder",
-    "description",
-    "ellipse",
-    "ellipsoid",
-    "entityCollection",
-    "label",
-    "model",
-    "name",
-    "orientation",
-    "parent",
-    "path",
-    "plane",
-    "point",
-    "polygon",
-    "polyline",
-    "polylineVolume",
-    "position",
-    "properties",
-    "rectangle",
-    "show",
-    "viewFrom",
-    "wall",
-];
-var cesiumReadonlyProps$2 = ["id"];
-var cesiumEventProps$3 = {
-    definitionChanged: "onDefinitionChange",
-};
-var Entity = createCesiumComponent({
-    name: "Entity",
-    create: function (cprops) {
-        return new Cesium.Entity(cprops);
-    },
-    mount: function (element, context) {
-        context.entityCollection.add(element);
-    },
-    unmount: function (element, context) {
-        context.entityCollection.remove(element);
-    },
-    provide: function (element) {
-        return {
-            entity: element,
-        };
-    },
-    cesiumProps: cesiumProps$4,
-    cesiumReadonlyProps: cesiumReadonlyProps$2,
-    cesiumEventProps: cesiumEventProps$3,
-});
-
-// tslint:disable-next-line:no-var-requires
-var renderToStaticMarkup = require("react-dom/server.browser").renderToStaticMarkup;
-var EntityDescription = /** @class */ (function (_super) {
-    __extends(EntityDescription, _super);
-    function EntityDescription(props) {
-        var _this = _super.call(this, props) || this;
-        _this.update(props);
-        return _this;
-    }
-    EntityDescription.prototype.componentDidMount = function () {
-        this.update();
-    };
-    EntityDescription.prototype.componentDidUpdate = function (prevProps) {
-        if (this.props.children !== prevProps.children) {
-            this.update();
-        }
-    };
-    EntityDescription.prototype.render = function () {
-        return null;
-    };
-    EntityDescription.prototype.update = function (props) {
-        if (props === void 0) { props = this.props; }
-        if (props.cesium && props.cesium.entity && props.children) {
-            props.cesium.entity.description = new Cesium.ConstantProperty(renderToStaticMarkup(props.children));
-        }
-    };
-    return EntityDescription;
-}(React.PureComponent));
-var EntityDescription$1 = withContext(EntityDescription);
-
-var ExtendedEntity = createEventWrapper(Entity);
-
-var cesiumProps$5 = ["clustering", "name", "show"];
-var cesiumEventProps$4 = {
-    changedEvent: "onChange",
-    errorEvent: "onError",
-    loadingEvent: "onLoading",
-};
-var CustomDataSource = createCesiumComponent({
-    name: "CustomDataSource",
-    create: function (cprops) {
-        var ds = new Cesium__default.CustomDataSource(cprops.name);
-        if (cprops.clustering) {
-            ds.clustering = cprops.clustering;
-        }
-        if (typeof cprops.show === "boolean") {
-            ds.show = cprops.show;
-        }
-        return ds;
-    },
-    mount: function (element, context) {
-        context.dataSourceCollection.add(element);
-    },
-    unmount: function (element, context) {
-        context.dataSourceCollection.remove(element);
-    },
-    provide: function (element) {
-        return {
-            entityCollection: element.entities,
-        };
-    },
-    cesiumProps: cesiumProps$5,
-    cesiumEventProps: cesiumEventProps$4,
-});
-
-var cesiumProps$6 = ["clustering"];
-var cesiumReadonlyProps$3 = ["name"];
-var cesiumEventProps$5 = {
-    changedEvent: "onChange",
-    errorEvent: "onError",
-    loadingEvent: "onLoading",
-};
-var load = function (_a) {
-    var element = _a.element, data = _a.data, onLoad = _a.onLoad, sourceUri = _a.sourceUri;
-    element
-        .load(data, {
-        sourceUri: sourceUri,
-    })
-        .then(function (value) {
-        if (onLoad) {
-            try {
-                onLoad(value);
-            }
-            catch (e) {
-                throw e;
-            }
-        }
-    });
-};
-var CzmlDataSource = createCesiumComponent({
-    name: "CzmlDataSource",
-    create: function (cprops, props) {
-        var ds = new Cesium__default.CzmlDataSource(props.name);
-        if (cprops.clustering) {
-            ds.clustering = cprops.clustering;
-        }
-        if (typeof cprops.show === "boolean") {
-            ds.show = cprops.show;
-        }
-        return ds;
-    },
-    mount: function (element, context, props) {
-        context.dataSourceCollection.add(element);
-        if (props.data) {
-            load({
-                element: element,
-                dataSources: context.dataSourceCollection,
-                data: props.data,
-                onLoad: props.onLoad,
-                sourceUri: props.sourceUri,
-            });
-        }
-    },
-    update: function (element, props, prevProps, context) {
-        if (prevProps.show !== props.show || !props.data) {
-            element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
-        }
-        if (props.data && (prevProps.data !== props.data || prevProps.sourceUri !== props.sourceUri)) {
-            load({
-                element: element,
-                dataSources: context.dataSourceCollection,
-                data: props.data,
-                onLoad: props.onLoad,
-                sourceUri: props.sourceUri,
-            });
-        }
-    },
-    unmount: function (element, context) {
-        context.dataSourceCollection.remove(element);
-    },
-    cesiumProps: cesiumProps$6,
-    cesiumReadonlyProps: cesiumReadonlyProps$3,
-    cesiumEventProps: cesiumEventProps$5,
-});
-
-var cesiumProps$7 = ["clustering", "name"];
-var cesiumEventProps$6 = {
-    changedEvent: "onChange",
-    errorEvent: "onError",
-    loadingEvent: "onLoading",
-};
-var load$1 = function (_a) {
-    var element = _a.element, data = _a.data, onLoad = _a.onLoad, clampToGround = _a.clampToGround, sourceUri = _a.sourceUri, markerSize = _a.markerSize, markerSymbol = _a.markerSymbol, markerColor = _a.markerColor, stroke = _a.stroke, strokeWidth = _a.strokeWidth, fill = _a.fill;
-    element
-        .load(data, {
-        clampToGround: clampToGround,
-        markerSize: markerSize,
-        markerSymbol: markerSymbol,
-        markerColor: markerColor,
-        stroke: stroke,
-        strokeWidth: strokeWidth,
-        fill: fill,
-        sourceUri: sourceUri,
-    })
-        .then(function (value) {
-        if (onLoad) {
-            try {
-                onLoad(value);
-            }
-            catch (e) {
-                throw e;
-            }
-        }
-    });
-};
-var GeoJsonDataSource = createCesiumComponent({
-    name: "GeoJsonDataSource",
-    create: function (cprops, props, context) {
-        var ds = new Cesium__default.GeoJsonDataSource(props.name);
-        if (cprops.clustering) {
-            ds.clustering = cprops.clustering;
-        }
-        if (typeof cprops.show === "boolean") {
-            ds.show = cprops.show;
-        }
-        return ds;
-    },
-    mount: function (element, context, props) {
-        context.dataSourceCollection.add(element);
-        if (props.data) {
-            load$1({
-                element: element,
-                dataSources: context.dataSourceCollection,
-                data: props.data,
-                onLoad: props.onLoad,
-                clampToGround: props.clampToGround,
-                sourceUri: props.sourceUri,
-                markerSize: props.markerSize,
-                markerSymbol: props.markerSymbol,
-                markerColor: props.markerColor,
-                stroke: props.stroke,
-                strokeWidth: props.strokeWidth,
-                fill: props.fill,
-            });
-        }
-    },
-    update: function (element, props, prevProps, context) {
-        if (prevProps.show !== props.show || !props.data) {
-            element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
-        }
-        if (props.data &&
-            (prevProps.data !== props.data ||
-                prevProps.clampToGround !== props.clampToGround ||
-                prevProps.sourceUri !== props.sourceUri ||
-                prevProps.markerSize !== props.markerSize ||
-                prevProps.markerSymbol !== props.markerSymbol ||
-                prevProps.markerColor !== props.markerColor ||
-                prevProps.stroke !== props.stroke ||
-                prevProps.strokeWidth !== props.strokeWidth ||
-                prevProps.fill !== props.fill)) {
-            load$1({
-                element: element,
-                dataSources: context.dataSourceCollection,
-                data: props.data,
-                onLoad: props.onLoad,
-                clampToGround: props.clampToGround,
-                sourceUri: props.sourceUri,
-                markerSize: props.markerSize,
-                markerSymbol: props.markerSymbol,
-                markerColor: props.markerColor,
-                stroke: props.stroke,
-                strokeWidth: props.strokeWidth,
-                fill: props.fill,
-            });
-        }
-    },
-    unmount: function (element, context) {
-        context.dataSourceCollection.remove(element);
-    },
-    cesiumProps: cesiumProps$7,
-    cesiumEventProps: cesiumEventProps$6,
-});
-
-var cesiumProps$8 = ["clustering"];
-var cesiumReadonlyProps$4 = [
-    "camera",
-    "canvas",
-    "ellipsoid",
-];
-var cesiumEventProps$7 = {
-    changedEvent: "onChange",
-    errorEvent: "onError",
-    loadingEvent: "onLoading",
-    refreshEvent: "onReferesh",
-    unsupportedNodeEvent: "onUnsupportedNode",
-};
-var load$2 = function (_a) {
-    var element = _a.element, data = _a.data, onLoad = _a.onLoad, clampToGround = _a.clampToGround, ellipsoid = _a.ellipsoid, sourceUri = _a.sourceUri;
-    element.load(data, { clampToGround: clampToGround, ellipsoid: ellipsoid, sourceUri: sourceUri }).then(function (value) {
-        if (onLoad) {
-            try {
-                onLoad(value);
-            }
-            catch (e) {
-                throw e;
-            }
-        }
-    });
-};
-var KmlDataSource = createCesiumComponent({
-    name: "KmlDataSource",
-    create: function (cprops, props, context) {
-        var ds = new Cesium__default.KmlDataSource({
-            camera: cprops.camera || context.scene.camera,
-            canvas: cprops.canvas || context.scene.canvas,
-            ellipsoid: cprops.ellipsoid,
-        });
-        if (cprops.clustering) {
-            ds.clustering = cprops.clustering;
-        }
-        if (typeof cprops.show === "boolean") {
-            ds.show = cprops.show;
-        }
-        return ds;
-    },
-    mount: function (element, context, props) {
-        context.dataSourceCollection.add(element);
-        if (props.data) {
-            load$2({
-                element: element,
-                dataSources: context.dataSourceCollection,
-                data: props.data,
-                onLoad: props.onLoad,
-                clampToGround: props.clampToGround,
-                ellipsoid: props.ellipsoid,
-                sourceUri: props.sourceUri,
-            });
-        }
-    },
-    update: function (element, props, prevProps, context) {
-        if (prevProps.show !== props.show || !props.data) {
-            element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
-        }
-        if (props.data &&
-            (prevProps.data !== props.data ||
-                prevProps.clampToGround !== props.clampToGround ||
-                prevProps.ellipsoid !== props.ellipsoid ||
-                prevProps.sourceUri !== props.sourceUri)) {
-            load$2({
-                element: element,
-                dataSources: context.dataSourceCollection,
-                data: props.data,
-                onLoad: props.onLoad,
-                clampToGround: props.clampToGround,
-                ellipsoid: props.ellipsoid,
-                sourceUri: props.sourceUri,
-            });
-        }
-    },
-    unmount: function (element, context) {
-        context.dataSourceCollection.remove(element);
-    },
-    cesiumProps: cesiumProps$8,
-    cesiumReadonlyProps: cesiumReadonlyProps$4,
-    cesiumEventProps: cesiumEventProps$7,
-});
-
-var cesiumProps$9 = [
-    "appearance",
-    "cull",
-    "debugShowBoundingVolume",
-    "depthFailAppearance",
-    "modelMatrix",
-    "shadows",
-    "show",
-];
-var cesiumReadonlyProps$5 = [
-    "allowPicking",
-    "asynchronous",
-    "compressVertices",
-    "geometryInstances",
-    "interleave",
-    "releaseGeometryInstances",
-    "vertexCacheOptimize",
-];
-var Primitive = createCesiumComponent({
-    name: "Primitive",
-    create: function (cprops) {
-        return new Cesium__default.Primitive(cprops);
-    },
-    mount: function (element, context) {
-        context.primitiveCollection.add(element);
-    },
-    unmount: function (element, context) {
-        context.primitiveCollection.remove(element);
-        if (!element.isDestroyed) {
-            element.destroy();
-        }
-    },
-    cesiumProps: cesiumProps$9,
-    cesiumReadonlyProps: cesiumReadonlyProps$5,
-});
-
-var ExtendedPrimitve = createEventWrapper(Primitive);
-
-var cesiumProps$a = [
-    "color",
-    "disableDepthTestDistance",
-    "distanceDisplayCondition",
-    "id",
-    "outlineColor",
-    "outlineWidth",
-    "pixelSize",
-    "position",
-    "scaleByDistance",
-    "show",
-    "translucencyByDistance",
-];
-var PointPrimitive = createCesiumComponent({
-    name: "PointPrimitive",
-    create: function () {
-        return new Cesium__default.PointPrimitive();
-    },
-    mount: function (element, context) {
-        context.pointPrimitiveCollection.add(element);
-    },
-    unmount: function (element, context) {
-        if (!context.pointPrimitiveCollection.isDestroyed) {
-            context.pointPrimitiveCollection.remove(element);
-        }
-    },
-    cesiumProps: cesiumProps$a,
-    setCesiumPropsAfterCreate: true,
-});
-
-var ExtendedPointPrimitve = createEventWrapper(PointPrimitive);
-
-var cesiumProps$b = [
-    "blendOption",
-    "debugShowBoundingVolume",
-    "modelMatrix",
-];
-var PointPrimitiveCollection = createCesiumComponent({
-    name: "PointPrimitveCollection",
-    create: function (cprops) {
-        return new Cesium__default.PointPrimitiveCollection(cprops);
-    },
-    mount: function (element, context) {
-        context.primitiveCollection.add(element);
-    },
-    unmount: function (element, context) {
-        if (!context.primitiveCollection.isDestroyed) {
-            context.primitiveCollection.remove(element);
-        }
-        if (!element.isDestroyed) {
-            element.destroy();
-        }
-    },
-    provide: function (element) {
-        return {
-            pointPrimitiveCollection: element,
-        };
-    },
-    cesiumProps: cesiumProps$b,
-});
-
-var ScreenSpaceEvent = /** @class */ (function (_super) {
-    __extends(ScreenSpaceEvent, _super);
-    function ScreenSpaceEvent() {
-        return _super !== null && _super.apply(this, arguments) || this;
-    }
-    ScreenSpaceEvent.prototype.componentDidMount = function () {
-        this.setEvent();
-    };
-    ScreenSpaceEvent.prototype.componentDidUpdate = function (prevProps) {
-        var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
-        screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
-        this.setEvent();
-    };
-    ScreenSpaceEvent.prototype.componentWillUnmount = function () {
-        var _a = this.props, action = _a.action, screenSpaceEventHandler = _a.cesium.screenSpaceEventHandler, modifier = _a.modifier, type = _a.type;
-        if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
-            screenSpaceEventHandler.removeInputAction(type, modifier);
-        }
-    };
-    ScreenSpaceEvent.prototype.render = function () {
-        return null;
-    };
-    ScreenSpaceEvent.prototype.setEvent = function () {
-        var _a = this.props, action = _a.action, screenSpaceEventHandler = _a.cesium.screenSpaceEventHandler, modifier = _a.modifier, type = _a.type;
-        if (action) {
-            screenSpaceEventHandler.setInputAction(action, type, modifier);
-        }
-        else {
-            // just remove default events
-            screenSpaceEventHandler.removeInputAction(type, modifier);
-        }
-    };
-    return ScreenSpaceEvent;
-}(React.PureComponent));
-var ScreenSpaceEvent$1 = withContext(ScreenSpaceEvent);
-
-var ScreenSpaceEventHandler = createCesiumComponent({
-    name: "ScreenSpaceEventHandler",
-    create: function (cprops, props, context) {
-        return new Cesium__default.ScreenSpaceEventHandler(context.scene.canvas);
-    },
-    unmount: function (element) {
-        if (!element.isDestroyed()) {
-            element.destroy();
-        }
-    },
-    provide: function (element) {
-        return {
-            screenSpaceEventHandler: element,
-        };
-    },
-});
-
-var cesiumProps$c = [
-    "bounceAnimationTime",
-    "enableCollisionDetection",
-    "enableInputs",
-    "enableLook",
-    "enableRotate",
-    "enableTilt",
-    "enableTranslate",
-    "enableZoom",
-    "inertiaSpin",
-    "inertiaTranslate",
-    "inertiaZoom",
-    "lookEventTypes",
-    "maximumMovementRatio",
-    "maximumZoomDistance",
-    "minimumCollisionTerrainHeight",
-    "minimumPickingTerrainHeight",
-    "minimumTrackBallHeight",
-    "minimumZoomDistance",
-    "rotateEventTypes",
-    "tiltEventTypes",
-    "translateEventTypes",
-    "zoomEventTypes",
-];
-var ScreenSpaceCameraController = createCesiumComponent({
-    name: "ScreenSpaceCameraController",
-    create: function (cprops, props, context) {
-        return context.scene.screenSpaceCameraController;
-    },
-    cesiumProps: cesiumProps$c,
-    setCesiumPropsAfterCreate: true,
-});
-
-var DefaultScreenSpaceEventHandler = createCesiumComponent({
-    name: "ScreenSpaceEventHandler",
-    create: function (cprops, props, context) {
-        return context.cesiumWidget.screenSpaceEventHandler;
-    },
-    provide: function (element) {
-        return {
-            screenSpaceEventHandler: element,
-        };
-    },
-});
-
-var cesiumProps$d = [
-    "alpha",
-    "brightness",
-    "contrast",
-    "hue",
-    "saturation",
-    "gamma",
-    "splitDirection",
-    "minificationFilter",
-    "magnificationFilter",
-    "cutoutRectangle",
-    "show",
-];
-var cesiumReadonlyProps$6 = [
-    "imageryProvider",
-    "rectangle",
-    "maximumAnisotropy",
-    "minimumTerrainLevel",
-    "maximumTerrainLevel",
-];
-var ImageryLayer = createCesiumComponent({
-    name: "ImageryLayer",
-    create: function (cprops) {
-        return new Cesium__default.ImageryLayer(cprops.imageryProvider, {
-            rectangle: cprops.rectangle,
-            alpha: cprops.alpha,
-            brightness: cprops.brightness,
-            contrast: cprops.contrast,
-            hue: cprops.hue,
-            saturation: cprops.saturation,
-            gamma: cprops.gamma,
-            splitDirection: cprops.splitDirection,
-            minificationFilter: cprops.minificationFilter,
-            magnificationFilter: cprops.magnificationFilter,
-            show: cprops.show,
-            maximumAnisotropy: cprops.maximumAnisotropy,
-            minimumTerrainLevel: cprops.minimumTerrainLevel,
-            maximumTerrainLevel: cprops.maximumTerrainLevel,
-            cutoutRectangle: cprops.cutoutRectangle,
-        } /* workaround for splitDirection */);
-    },
-    mount: function (element, context) {
-        context.imageryLayerCollection.add(element);
-    },
-    unmount: function (element, context) {
-        context.imageryLayerCollection.remove(element);
-    },
-    cesiumProps: cesiumProps$d,
-    cesiumReadonlyProps: cesiumReadonlyProps$6,
 });
 
 var CameraFlyHome = createCameraOperation({
@@ -3345,38 +1253,2421 @@ var CameraFlyToBoundingSphere = createCameraOperation({
     },
 });
 
+var cesiumProps$5 = [
+    "url",
+    "show",
+    "modelMatrix",
+    "shadows",
+    "maximumScreenSpaceError",
+    "maximumMemoryUsage",
+    "cullWithChildrenBounds",
+    "dynamicScreenSpaceError",
+    "dynamicScreenSpaceErrorDensity",
+    "dynamicScreenSpaceErrorFactor",
+    "dynamicScreenSpaceErrorHeightFalloff",
+    "skipLevelOfDetail",
+    "baseScreenSpaceError",
+    "skipScreenSpaceErrorFactor",
+    "skipLevels",
+    "immediatelyLoadDesiredLevelOfDetail",
+    "loadSiblings",
+    "clippingPlanes",
+    "classificationType",
+    "ellipsoid",
+    "imageBasedLightingFactor",
+    "lightColor",
+    "debugFreezeFrame",
+    "debugColorizeTiles",
+    "debugWireframe",
+    "debugShowBoundingVolume",
+    "debugShowContentBoundingVolume",
+    "debugShowViewerRequestVolume",
+    "debugShowGeometricError",
+    "debugShowRenderingStatistics",
+    "debugShowMemoryUsage",
+    "debugShowUrl",
+    "colorBlendAmount",
+    "colorBlendMode",
+];
+var cesiumReadonlyProps = ["pointCloudShading"];
+var cesiumEventProps$3 = {
+    allTilesLoaded: "onAllTilesLoad",
+    initialTilesLoaded: "onInitialTilesLoad",
+    loadProgress: "onLoadProgress",
+    tileFailed: "onTileFailed",
+    tileLoad: "onTileLoad",
+    tileUnload: "onTileUnload",
+    tileVisible: "onTileVisible",
+};
+// workaround: any => Cesium.3DTileset
+var Cesium3DTileset = createCesiumComponent({
+    name: "Cesium3DTileset",
+    create: function (cprops, props) {
+        var c3ts = new Cesium__default.Cesium3DTileset(cprops);
+        c3ts.colorBlendAmount = cprops.colorBlendAmount;
+        c3ts.colorBlendMode = cprops.colorBlendMode;
+        if (props.onReady) {
+            c3ts.readyPromise.then(props.onReady);
+        }
+        return c3ts;
+    },
+    mount: function (element, context) {
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    cesiumProps: cesiumProps$5,
+    cesiumReadonlyProps: cesiumReadonlyProps,
+    cesiumEventProps: cesiumEventProps$3,
+});
+
+var cesiumProps$6 = [
+    "resolutionScale",
+    "useDefaultRenderLoop",
+    "targetFrameRate",
+];
+var cesiumReadonlyProps$1 = [
+    "clock",
+    "imageryProvider",
+    "terrainProvider",
+    "skyBox",
+    "skyAtmosphere",
+    "sceneMode",
+    "scene3DOnly",
+    "orderIndependentTranslucency",
+    "mapProjection",
+    "globe",
+    "showRenderLoopErrors",
+    "contextOptions",
+    "creditContainer",
+    "creditViewport",
+    "terrainExaggeration",
+    "shadows",
+    "terrainShadows",
+    "requestRenderMode",
+    "maximumRenderTimeChange",
+];
+var CesiumWidget = createCesiumComponent({
+    name: "Viewer",
+    createRef: true,
+    create: function (cprops, props, context, ref) {
+        // ref is not always undefined
+        var v = new Cesium.CesiumWidget(ref.current, cprops);
+        if (v && typeof props.resolutionScale === "number") {
+            v.resolutionScale = props.resolutionScale;
+        }
+        // common ScreenSpaceEventHandler for events of Entity and Primitives
+        var state;
+        if (v) {
+            state = new Cesium__default.ScreenSpaceEventHandler(v.canvas);
+        }
+        return [v, state];
+    },
+    render: function (element, props, mounted, ref) {
+        return (React.createElement("div", __assign({ className: props.className, id: props.id, ref: ref, style: __assign({}, (props.full
+                ? {
+                    position: "absolute",
+                    bottom: "0",
+                    left: "0",
+                    right: "0",
+                    top: "0",
+                }
+                : {}), props.style) }, props.containerProps), element ? props.children : null));
+    },
+    unmount: function (element, cprops, props, ref, state) {
+        if (element && state) {
+            var sshe = state;
+            if (!sshe.isDestroyed()) {
+                sshe.destroy();
+            }
+        }
+        if (element && !element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element, props, state) {
+        if (!element) {
+            return {};
+        }
+        return {
+            cesiumWidget: element,
+            scene: element.scene,
+            camera: element.scene.camera,
+            imageryLayerCollection: element.scene.globe.imageryLayers,
+            primitiveCollection: element.scene.primitives,
+            globe: element.scene.globe,
+            __RESIUM_SSEH: state,
+        };
+    },
+    cesiumProps: cesiumProps$6,
+    cesiumReadonlyProps: cesiumReadonlyProps$1,
+});
+
+var cesiumEventProps$4 = {
+    onStop: "onStop",
+    onTick: "onTick",
+};
+var cesiumProps$7 = [
+    "canAnimate",
+    "clockRange",
+    "clockStep",
+    "currentTime",
+    "multiplier",
+    "shouldAnimate",
+    "startTime",
+    "stopTime",
+];
+var Clock = createCesiumComponent({
+    name: "clock",
+    create: function (cprops, props, context) {
+        return context.cesiumWidget.clock;
+    },
+    cesiumProps: cesiumProps$7,
+    cesiumEventProps: cesiumEventProps$4,
+    setCesiumPropsAfterCreate: true,
+});
+
+var cesiumProps$8 = [
+    "positions",
+    "width",
+    "cornerType",
+    "height",
+    "heightReference",
+    "extrudedHeight",
+    "extrudedHeightReference",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "granularity",
+    "shadows",
+    "distanceDisplayCondition",
+    "zIndex",
+    "classificationType",
+];
+var cesiumEventProps$5 = {
+    definitionChanged: "onDefinitionChange",
+};
+var CorridorGraphics = createCesiumComponent({
+    name: "CorridorGraphics",
+    create: function (cprops) {
+        var cg = new Cesium__default.CorridorGraphics(cprops);
+        if (cprops.classificationType) {
+            cg.classificationType = cprops.classificationType;
+        }
+        return cg;
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.corridor = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.corridor = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$8,
+    cesiumEventProps: cesiumEventProps$5,
+});
+
+var cesiumProps$9 = ["clustering", "name", "show"];
+var cesiumEventProps$6 = {
+    changedEvent: "onChange",
+    errorEvent: "onError",
+    loadingEvent: "onLoading",
+};
+var CustomDataSource = createCesiumComponent({
+    name: "CustomDataSource",
+    create: function (cprops) {
+        var ds = new Cesium__default.CustomDataSource(cprops.name);
+        if (cprops.clustering) {
+            ds.clustering = cprops.clustering;
+        }
+        if (typeof cprops.show === "boolean") {
+            ds.show = cprops.show;
+        }
+        return ds;
+    },
+    mount: function (element, context) {
+        if (context.dataSourceCollection) {
+            context.dataSourceCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+            context.dataSourceCollection.remove(element);
+        }
+    },
+    provide: function (element) {
+        return {
+            entityCollection: element.entities,
+            dataSource: element,
+        };
+    },
+    cesiumProps: cesiumProps$9,
+    cesiumEventProps: cesiumEventProps$6,
+});
+
+var cesiumProps$a = [
+    "heightReference",
+    "length",
+    "topRadius",
+    "bottomRadius",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "numberOfVerticalLines",
+    "slices",
+    "shadowMode",
+    "distanceDisplayCondition",
+];
+var cesiumEventProps$7 = {
+    definitionChanged: "onDefinitionChange",
+};
+var CylinderGraphics = createCesiumComponent({
+    name: "CylinderGraphics",
+    create: function (cprops) {
+        return new Cesium__default.CylinderGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.cylinder = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.cylinder = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$a,
+    cesiumEventProps: cesiumEventProps$7,
+});
+
+var cesiumProps$b = ["clustering"];
+var cesiumReadonlyProps$2 = ["name"];
+var cesiumEventProps$8 = {
+    changedEvent: "onChange",
+    errorEvent: "onError",
+    loadingEvent: "onLoading",
+};
+var load = function (_a) {
+    var element = _a.element, data = _a.data, onLoad = _a.onLoad, sourceUri = _a.sourceUri;
+    element
+        .load(data, {
+        sourceUri: sourceUri,
+    })
+        .then(function (value) {
+        if (onLoad) {
+            try {
+                onLoad(value);
+            }
+            catch (e) {
+                throw e;
+            }
+        }
+    });
+};
+var CzmlDataSource = createCesiumComponent({
+    name: "CzmlDataSource",
+    create: function (cprops, props) {
+        var ds = new Cesium__default.CzmlDataSource(props.name);
+        if (cprops.clustering) {
+            ds.clustering = cprops.clustering;
+        }
+        if (typeof cprops.show === "boolean") {
+            ds.show = cprops.show;
+        }
+        return ds;
+    },
+    mount: function (element, context, props) {
+        if (context.dataSourceCollection) {
+            context.dataSourceCollection.add(element);
+            if (props.data) {
+                load({
+                    element: element,
+                    dataSources: context.dataSourceCollection,
+                    data: props.data,
+                    onLoad: props.onLoad,
+                    sourceUri: props.sourceUri,
+                });
+            }
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (prevProps.show !== props.show || !props.data) {
+            element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
+        }
+        if (context.dataSourceCollection &&
+            props.data &&
+            (prevProps.data !== props.data || prevProps.sourceUri !== props.sourceUri)) {
+            load({
+                element: element,
+                dataSources: context.dataSourceCollection,
+                data: props.data,
+                onLoad: props.onLoad,
+                sourceUri: props.sourceUri,
+            });
+        }
+    },
+    unmount: function (element, context) {
+        if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+            context.dataSourceCollection.remove(element);
+        }
+    },
+    provide: function (element) {
+        return {
+            dataSource: element,
+        };
+    },
+    cesiumProps: cesiumProps$b,
+    cesiumReadonlyProps: cesiumReadonlyProps$2,
+    cesiumEventProps: cesiumEventProps$8,
+});
+
+var DefaultScreenSpaceEventHandler = createCesiumComponent({
+    name: "ScreenSpaceEventHandler",
+    create: function (cprops, props, context) {
+        return context.cesiumWidget.screenSpaceEventHandler;
+    },
+    provide: function (element) {
+        return {
+            screenSpaceEventHandler: element,
+        };
+    },
+});
+
+var cesiumProps$c = [
+    "semiMajorAxis",
+    "semiMinorAxis",
+    "height",
+    "heightReference",
+    "extrudedHeight",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "numberOfVerticalLines",
+    "rotation",
+    "stRotation",
+    "granularity",
+    "shadows",
+    "distanceDisplayCondition",
+    "zIndex",
+    "classificationType",
+];
+var cesiumEventProps$9 = {
+    definitionChanged: "onDefinitionChange",
+};
+var EllipseGraphics = createCesiumComponent({
+    name: "EllipseGraphics",
+    create: function (cprops) {
+        var eg = new Cesium__default.EllipseGraphics(cprops);
+        if (cprops.classificationType) {
+            eg.classificationType = cprops.classificationType;
+        }
+        return eg;
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.ellipse = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.ellipse = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$c,
+    cesiumEventProps: cesiumEventProps$9,
+});
+
+var cesiumProps$d = [
+    "heightReference",
+    "radii",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "subdivisions",
+    "stackPartitions",
+    "slicePartitions",
+    "shadows",
+    "distanceDisplayCondition",
+];
+var cesiumEventProps$a = {
+    definitionChanged: "onDefinitionChange",
+};
+var EllipsoidGraphics = createCesiumComponent({
+    name: "EllipsoidGraphics",
+    create: function (cprops) {
+        return new Cesium__default.EllipsoidGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.ellipsoid = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.ellipsoid = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$d,
+    cesiumEventProps: cesiumEventProps$a,
+});
+
+var cesiumProps$e = [
+    "availability",
+    "billboard",
+    "box",
+    "corridor",
+    "cylinder",
+    "description",
+    "ellipse",
+    "ellipsoid",
+    "entityCollection",
+    "label",
+    "model",
+    "name",
+    "orientation",
+    "parent",
+    "path",
+    "plane",
+    "point",
+    "polygon",
+    "polyline",
+    "polylineVolume",
+    "position",
+    "properties",
+    "rectangle",
+    "show",
+    "viewFrom",
+    "wall",
+];
+var cesiumReadonlyProps$3 = ["id"];
+var cesiumEventProps$b = {
+    definitionChanged: "onDefinitionChange",
+};
+var Entity = createCesiumComponent({
+    name: "Entity",
+    create: function (cprops) {
+        return new Cesium.Entity(cprops);
+    },
+    mount: function (element, context, props) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+        if (context.entityCollection) {
+            context.entityCollection.add(element);
+        }
+        if (context.viewer && props.selected) {
+            context.viewer.selectedEntity = element;
+        }
+        if (context.viewer && props.tracked) {
+            context.viewer.trackedEntity = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+        }
+        if (context.entityCollection) {
+            context.entityCollection.remove(element);
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+        if (context.viewer) {
+            if (props.selected !== prevProps.selected) {
+                if (props.selected) {
+                    context.viewer.selectedEntity = element;
+                }
+                else if (context.viewer.selectedEntity === element) {
+                    context.viewer.selectedEntity = undefined;
+                }
+            }
+            if (props.tracked !== prevProps.tracked) {
+                if (props.tracked) {
+                    context.viewer.trackedEntity = element;
+                }
+                else if (context.viewer.trackedEntity === element) {
+                    context.viewer.trackedEntity = undefined;
+                }
+            }
+        }
+    },
+    provide: function (element) {
+        return {
+            entity: element,
+        };
+    },
+    cesiumProps: cesiumProps$e,
+    cesiumReadonlyProps: cesiumReadonlyProps$3,
+    cesiumEventProps: cesiumEventProps$b,
+});
+
+// tslint:disable-next-line:no-var-requires
+var renderToStaticMarkup = require("react-dom/server.browser").renderToStaticMarkup;
+var EntityDescription = /** @class */ (function (_super) {
+    __extends(EntityDescription, _super);
+    function EntityDescription(props) {
+        var _this = _super.call(this, props) || this;
+        _this.update(props);
+        return _this;
+    }
+    EntityDescription.prototype.componentDidMount = function () {
+        this.update();
+    };
+    EntityDescription.prototype.componentDidUpdate = function (prevProps) {
+        if (this.props.children !== prevProps.children) {
+            this.update();
+        }
+    };
+    EntityDescription.prototype.render = function () {
+        return null;
+    };
+    EntityDescription.prototype.update = function (props) {
+        if (props === void 0) { props = this.props; }
+        if (props.cesium && props.cesium.entity && props.children) {
+            props.cesium.entity.description = new Cesium.ConstantProperty(renderToStaticMarkup(props.children));
+        }
+    };
+    return EntityDescription;
+}(React.PureComponent));
+var EntityDescription$1 = withCesium(EntityDescription);
+
+var cesiumProps$f = [
+    "density",
+    "enabled",
+    "minimumBrightness",
+    "screenSpaceErrorFactor",
+];
+var Fog = createCesiumComponent({
+    name: "fog",
+    create: function (cprops, props, context) {
+        return new Cesium__default.Fog();
+    },
+    mount: function (element, context) {
+        if (context.scene) {
+            context.scene.fog = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.fog = new Cesium__default.Fog();
+        }
+    },
+    cesiumProps: cesiumProps$f,
+    setCesiumPropsAfterCreate: true,
+});
+
+var cesiumProps$g = ["clustering", "name"];
+var cesiumEventProps$c = {
+    changedEvent: "onChange",
+    errorEvent: "onError",
+    loadingEvent: "onLoading",
+};
+var load$1 = function (_a) {
+    var element = _a.element, data = _a.data, onLoad = _a.onLoad, clampToGround = _a.clampToGround, sourceUri = _a.sourceUri, markerSize = _a.markerSize, markerSymbol = _a.markerSymbol, markerColor = _a.markerColor, stroke = _a.stroke, strokeWidth = _a.strokeWidth, fill = _a.fill;
+    element
+        .load(data, {
+        clampToGround: clampToGround,
+        markerSize: markerSize,
+        markerSymbol: markerSymbol,
+        markerColor: markerColor,
+        stroke: stroke,
+        strokeWidth: strokeWidth,
+        fill: fill,
+        sourceUri: sourceUri,
+    })
+        .then(function (value) {
+        if (onLoad) {
+            try {
+                onLoad(value);
+            }
+            catch (e) {
+                throw e;
+            }
+        }
+    });
+};
+var GeoJsonDataSource = createCesiumComponent({
+    name: "GeoJsonDataSource",
+    create: function (cprops, props, context) {
+        var ds = new Cesium__default.GeoJsonDataSource(props.name);
+        if (cprops.clustering) {
+            ds.clustering = cprops.clustering;
+        }
+        if (typeof cprops.show === "boolean") {
+            ds.show = cprops.show;
+        }
+        return ds;
+    },
+    mount: function (element, context, props) {
+        if (context.dataSourceCollection) {
+            context.dataSourceCollection.add(element);
+            if (props.data) {
+                load$1({
+                    element: element,
+                    dataSources: context.dataSourceCollection,
+                    data: props.data,
+                    onLoad: props.onLoad,
+                    clampToGround: props.clampToGround,
+                    sourceUri: props.sourceUri,
+                    markerSize: props.markerSize,
+                    markerSymbol: props.markerSymbol,
+                    markerColor: props.markerColor,
+                    stroke: props.stroke,
+                    strokeWidth: props.strokeWidth,
+                    fill: props.fill,
+                });
+            }
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (prevProps.show !== props.show || !props.data) {
+            element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
+        }
+        if (context.dataSourceCollection &&
+            props.data &&
+            (prevProps.data !== props.data ||
+                prevProps.clampToGround !== props.clampToGround ||
+                prevProps.sourceUri !== props.sourceUri ||
+                prevProps.markerSize !== props.markerSize ||
+                prevProps.markerSymbol !== props.markerSymbol ||
+                prevProps.markerColor !== props.markerColor ||
+                prevProps.stroke !== props.stroke ||
+                prevProps.strokeWidth !== props.strokeWidth ||
+                prevProps.fill !== props.fill)) {
+            load$1({
+                element: element,
+                dataSources: context.dataSourceCollection,
+                data: props.data,
+                onLoad: props.onLoad,
+                clampToGround: props.clampToGround,
+                sourceUri: props.sourceUri,
+                markerSize: props.markerSize,
+                markerSymbol: props.markerSymbol,
+                markerColor: props.markerColor,
+                stroke: props.stroke,
+                strokeWidth: props.strokeWidth,
+                fill: props.fill,
+            });
+        }
+    },
+    unmount: function (element, context) {
+        if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+            context.dataSourceCollection.remove(element);
+        }
+    },
+    provide: function (element) {
+        return {
+            dataSource: element,
+        };
+    },
+    cesiumProps: cesiumProps$g,
+    cesiumEventProps: cesiumEventProps$c,
+});
+
+var cesiumEventProps$d = {
+    imageryLayersUpdatedEvent: "onImageryLayersUpdate",
+    terrainProviderChanged: "onTerrainProviderChange",
+    tileLoadedEvent: "onTileLoad",
+    tileLoadProgressEvent: "onTileLoadProgress",
+};
+var cesiumProps$h = [
+    "atmosphereBrightnessShift",
+    "atmosphereHueShift",
+    "atmosphereSaturationShift",
+    "baseColor",
+    "clippingPlanes",
+    "depthTestAgainstTerrain",
+    "ellipsoid",
+    "enableLighting",
+    "imageryLayers",
+    "lightingFadeInDistance",
+    "lightingFadeOutDistance",
+    "material",
+    "maximumScreenSpaceError",
+    "nightFadeInDistance",
+    "nightFadeOutDistance",
+    "oceanNormalMapUrl",
+    "shadows",
+    "show",
+    "showGroundAtmosphere",
+    "showWaterEffect",
+    "terrainProvider",
+    "tileCacheSize",
+];
+var Globe = createCesiumComponent({
+    name: "globe",
+    create: function (cprops, props, context) {
+        return context.scene.globe;
+    },
+    cesiumProps: cesiumProps$h,
+    cesiumEventProps: cesiumEventProps$d,
+    setCesiumPropsAfterCreate: true,
+});
+
+var cesiumProps$i = [
+    "alpha",
+    "brightness",
+    "contrast",
+    "hue",
+    "saturation",
+    "gamma",
+    "splitDirection",
+    "minificationFilter",
+    "magnificationFilter",
+    "cutoutRectangle",
+    "show",
+];
+var cesiumReadonlyProps$4 = [
+    "imageryProvider",
+    "rectangle",
+    "maximumAnisotropy",
+    "minimumTerrainLevel",
+    "maximumTerrainLevel",
+];
+var ImageryLayer = createCesiumComponent({
+    name: "ImageryLayer",
+    create: function (cprops) {
+        return new Cesium__default.ImageryLayer(cprops.imageryProvider, {
+            rectangle: cprops.rectangle,
+            alpha: cprops.alpha,
+            brightness: cprops.brightness,
+            contrast: cprops.contrast,
+            hue: cprops.hue,
+            saturation: cprops.saturation,
+            gamma: cprops.gamma,
+            splitDirection: cprops.splitDirection,
+            minificationFilter: cprops.minificationFilter,
+            magnificationFilter: cprops.magnificationFilter,
+            show: cprops.show,
+            maximumAnisotropy: cprops.maximumAnisotropy,
+            minimumTerrainLevel: cprops.minimumTerrainLevel,
+            maximumTerrainLevel: cprops.maximumTerrainLevel,
+            cutoutRectangle: cprops.cutoutRectangle,
+        } /* workaround for splitDirection */);
+    },
+    mount: function (element, context) {
+        if (context.imageryLayerCollection) {
+            context.imageryLayerCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.imageryLayerCollection) {
+            context.imageryLayerCollection.remove(element);
+        }
+    },
+    cesiumProps: cesiumProps$i,
+    cesiumReadonlyProps: cesiumReadonlyProps$4,
+});
+
+var cesiumEventProps$e = {
+    layerAdded: "onLayerAdd",
+    layerMoved: "onLayerMove",
+    layerRemoved: "onLayerRemove",
+    layerShownOrHidden: "onLayerShowOrHide",
+};
+var ImageryLayerCollection = createCesiumComponent({
+    name: "ImageryLayerCollection",
+    create: function (cprops, props, context) {
+        return context.globe.imageryLayers;
+    },
+    cesiumEventProps: cesiumEventProps$e,
+});
+
+var cesiumProps$j = ["clustering"];
+var cesiumReadonlyProps$5 = [
+    "camera",
+    "canvas",
+    "ellipsoid",
+];
+var cesiumEventProps$f = {
+    changedEvent: "onChange",
+    errorEvent: "onError",
+    loadingEvent: "onLoading",
+    refreshEvent: "onReferesh",
+    unsupportedNodeEvent: "onUnsupportedNode",
+};
+var load$2 = function (_a) {
+    var element = _a.element, data = _a.data, onLoad = _a.onLoad, clampToGround = _a.clampToGround, ellipsoid = _a.ellipsoid, sourceUri = _a.sourceUri;
+    element.load(data, { clampToGround: clampToGround, ellipsoid: ellipsoid, sourceUri: sourceUri }).then(function (value) {
+        if (onLoad) {
+            try {
+                onLoad(value);
+            }
+            catch (e) {
+                throw e;
+            }
+        }
+    });
+};
+var KmlDataSource = createCesiumComponent({
+    name: "KmlDataSource",
+    create: function (cprops, props, context) {
+        var ds = new Cesium__default.KmlDataSource({
+            camera: cprops.camera || context.scene.camera,
+            canvas: cprops.canvas || context.scene.canvas,
+            ellipsoid: cprops.ellipsoid,
+        });
+        if (cprops.clustering) {
+            ds.clustering = cprops.clustering;
+        }
+        if (typeof cprops.show === "boolean") {
+            ds.show = cprops.show;
+        }
+        return ds;
+    },
+    mount: function (element, context, props) {
+        if (context.dataSourceCollection) {
+            context.dataSourceCollection.add(element);
+            if (props.data) {
+                load$2({
+                    element: element,
+                    dataSources: context.dataSourceCollection,
+                    data: props.data,
+                    onLoad: props.onLoad,
+                    clampToGround: props.clampToGround,
+                    ellipsoid: props.ellipsoid,
+                    sourceUri: props.sourceUri,
+                });
+            }
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (prevProps.show !== props.show || !props.data) {
+            element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
+        }
+        if (context.dataSourceCollection &&
+            props.data &&
+            (prevProps.data !== props.data ||
+                prevProps.clampToGround !== props.clampToGround ||
+                prevProps.ellipsoid !== props.ellipsoid ||
+                prevProps.sourceUri !== props.sourceUri)) {
+            load$2({
+                element: element,
+                dataSources: context.dataSourceCollection,
+                data: props.data,
+                onLoad: props.onLoad,
+                clampToGround: props.clampToGround,
+                ellipsoid: props.ellipsoid,
+                sourceUri: props.sourceUri,
+            });
+        }
+    },
+    unmount: function (element, context) {
+        if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+            context.dataSourceCollection.remove(element);
+        }
+    },
+    provide: function (element) {
+        return {
+            dataSource: element,
+        };
+    },
+    cesiumProps: cesiumProps$j,
+    cesiumReadonlyProps: cesiumReadonlyProps$5,
+    cesiumEventProps: cesiumEventProps$f,
+});
+
+var cesiumProps$k = [
+    "backgroundColor",
+    "backgroundPadding",
+    "disableDepthTestDistance",
+    "distanceDisplayCondition",
+    "eyeOffset",
+    "fillColor",
+    "font",
+    "heightReference",
+    "horizontalOrigin",
+    "id",
+    "outlineColor",
+    "outlineWidth",
+    "pixelOffset",
+    "pixelOffsetScaleByDistance",
+    "position",
+    "scale",
+    "scaleByDistance",
+    "show",
+    "showBackground",
+    "style",
+    "text",
+    "translucencyByDistance",
+    "verticalOrigin",
+];
+var Label = createCesiumComponent({
+    name: "Label",
+    create: function (cprops, props, context) {
+        return new Cesium__default.Label(cprops, context.labelCollection);
+    },
+    mount: function (element, context, props) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+        if (context.labelCollection) {
+            context.labelCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+        }
+        if (context.labelCollection && !context.labelCollection.isDestroyed()) {
+            context.labelCollection.remove(element);
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+    },
+    cesiumProps: cesiumProps$k,
+});
+
+var cesiumProps$l = [
+    "blendOption",
+    "debugShowBoundingVolume",
+    "modelMatrix",
+];
+var LabelCollection = createCesiumComponent({
+    name: "LabelCollection",
+    create: function (cprops, props, context) {
+        return new Cesium__default.LabelCollection({
+            scene: context.scene,
+            modelMatrix: cprops.modelMatrix,
+            blendOption: cprops.blendOption,
+            debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+        });
+    },
+    mount: function (element, context) {
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element) {
+        return {
+            labelCollection: element,
+        };
+    },
+    cesiumProps: cesiumProps$l,
+});
+
+var cesiumProps$m = [
+    "text",
+    "font",
+    "style",
+    "fillColor",
+    "outlineColor",
+    "outlineWidth",
+    "show",
+    "showBackground",
+    "backgroundColor",
+    "backgroundPadding",
+    "scale",
+    "horizontalOrigin",
+    "verticalOrigin",
+    "eyeOffset",
+    "pixelOffset",
+    "translucencyByDistance",
+    "pixelOffsetScaleByDistance",
+    "scaleByDistance",
+    "heightReference",
+    "distanceDisplayCondition",
+    "disableDepthTestDistance",
+];
+var cesiumEventProps$g = {
+    definitionChanged: "onDefinitionChange",
+};
+var LabelGraphics = createCesiumComponent({
+    name: "LabelGraphics",
+    create: function (cprops) {
+        return new Cesium__default.LabelGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.label = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.label = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$m,
+    cesiumEventProps: cesiumEventProps$g,
+});
+
+var cesiumProps$n = [
+    "basePath",
+    "clampAnimations",
+    "clippingPlanes",
+    "color",
+    "colorBlendAmount",
+    "colorBlendMode",
+    "debugShowBoundingVolume",
+    "debugWireframe",
+    "dequantizeInShader",
+    "distanceDisplayCondition",
+    "id",
+    "imageBasedLightingFactor",
+    "lightColor",
+    "maximumScale",
+    "minimumPixelSize",
+    "modelMatrix",
+    "scale",
+    "scene",
+    "shadows",
+    "show",
+    "silhouetteColor",
+    "silhouetteSize",
+];
+var cesiumReadonlyProps$6 = [
+    "allowPicking",
+    "asynchronous",
+    "gltf",
+    "incrementallyLoadTextures",
+    "url",
+];
+var Model = createCesiumComponent({
+    name: "Model",
+    create: function (cprops, props) {
+        // Workaround: basePath?: Cesium.Resource | string;
+        var model = props.url
+            ? Cesium__default.Model.fromGltf(cprops)
+            : new Cesium__default.Model(cprops);
+        if (props.onReady) {
+            model.readyPromise.then(props.onReady);
+        }
+        return model;
+    },
+    mount: function (element, context) {
+        context.primitiveCollection.add(element);
+    },
+    unmount: function (element, context) {
+        context.primitiveCollection.remove(element);
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    cesiumProps: cesiumProps$n,
+    cesiumReadonlyProps: cesiumReadonlyProps$6,
+});
+
+var cesiumProps$o = [
+    "uri",
+    "show",
+    "scale",
+    "minimumPixelSize",
+    "maximumScale",
+    "incrementallyLoadTextures",
+    "runAnimations",
+    "clampAnimations",
+    "nodeTransformations",
+    "shadows",
+    "heightReference",
+    "distanceDisplayCondition",
+    "silhouetteColor",
+    "silhouetteSize",
+    "color",
+    "colorBlendMode",
+    "colorBlendAmount",
+    "clippingPlanes",
+    "imageBasedLightingFactor",
+    "lightColor",
+];
+var cesiumEventProps$h = {
+    definitionChanged: "onDefinitionChange",
+};
+var ModelGraphics = createCesiumComponent({
+    name: "ModelGraphics",
+    create: function (cprops) {
+        return new Cesium__default.ModelGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.model = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.model = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$o,
+    cesiumEventProps: cesiumEventProps$h,
+});
+
+var cesiumProps$p = ["onlySunLighting", "show", "textureUrl"];
+var cesiumReadonlyProps$7 = ["ellipsoid"];
+var Moon = createCesiumComponent({
+    name: "moon",
+    create: function (cprops, props, context) {
+        return new Cesium__default.Moon(cprops);
+    },
+    mount: function (element, context) {
+        if (context.scene) {
+            context.scene.moon = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.moon = new Cesium__default.Moon();
+        }
+        // if (!element.isDestroyed()) {
+        //   element.destroy();
+        // }
+    },
+    cesiumProps: cesiumProps$p,
+    cesiumReadonlyProps: cesiumReadonlyProps$7,
+});
+
+var cesiumProps$q = [
+    "show",
+    "emitter",
+    "modelMatrix",
+    "emitterModelMatrix",
+    "emissionRate",
+    "bursts",
+    "loop",
+    "scale",
+    "startScale",
+    "endScale",
+    "color",
+    "startColor",
+    "endColor",
+    "image",
+    "imageSize",
+    "minimumImageSize",
+    "maximumImageSize",
+    "speed",
+    "minimumSpeed",
+    "maximumSpeed",
+    "lifetime",
+    "particleLife",
+    "minimumParticleLife",
+    "maximumParticleLife",
+    "mass",
+    "minimumMass",
+    "maximumMass",
+];
+var cesiumEventProps$i = {
+    complete: "onComplete",
+};
+var ParticleSystem = createCesiumComponent({
+    name: "ParticleSystem",
+    create: function (cprops, props) {
+        return new Cesium__default.ParticleSystem(__assign({}, cprops, { updateCallback: props.onUpdate }));
+    },
+    update: function (element, props, prevProps) {
+        if (props.onUpdate !== prevProps.onUpdate) {
+            element.updateCallback = props.onUpdate;
+        }
+    },
+    mount: function (element, context) {
+        context.primitiveCollection.add(element);
+    },
+    unmount: function (element, context) {
+        if (!context.primitiveCollection.isDestroyed) {
+            context.primitiveCollection.remove(element);
+        }
+    },
+    cesiumProps: cesiumProps$q,
+    cesiumEventProps: cesiumEventProps$i,
+});
+
+var cesiumProps$r = [
+    "leadTime",
+    "trailTime",
+    "show",
+    "width",
+    "material",
+    "resolution",
+    "distanceDisplayCondition",
+];
+var cesiumEventProps$j = {
+    definitionChanged: "onDefinitionChange",
+};
+var PathGraphics = createCesiumComponent({
+    name: "PathGraphics",
+    create: function (cprops) {
+        return new Cesium__default.PathGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.path = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.path = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$r,
+    cesiumEventProps: cesiumEventProps$j,
+});
+
+var cesiumProps$s = [
+    "plane",
+    "dimensions",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "shadows",
+    "distanceDisplayCondition",
+];
+// Cesium.PlaneGraphics
+var cesiumEventProps$k = {
+    definitionChanged: "onDefinitionChange",
+};
+var PlaneGraphics = createCesiumComponent({
+    name: "PlaneGraphics",
+    create: function (cprops) {
+        return new Cesium__default.PlaneGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.plane = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.plane = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$s,
+    cesiumEventProps: cesiumEventProps$k,
+});
+
+var cesiumProps$t = [
+    "color",
+    "pixelSize",
+    "outlineColor",
+    "outlineWidth",
+    "show",
+    "scaleByDistance",
+    "translucencyByDistance",
+    "heightReference",
+    "distanceDisplayCondition",
+    "disableDepthTestDistance",
+];
+var cesiumEventProps$l = {
+    definitionChanged: "onDefinitionChange",
+};
+var PointGraphics = createCesiumComponent({
+    name: "PointGraphics",
+    create: function (cprops) {
+        return new Cesium__default.PointGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.point = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.point = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$t,
+    cesiumEventProps: cesiumEventProps$l,
+});
+
+var cesiumProps$u = [
+    "color",
+    "disableDepthTestDistance",
+    "distanceDisplayCondition",
+    "id",
+    "outlineColor",
+    "outlineWidth",
+    "pixelSize",
+    "position",
+    "scaleByDistance",
+    "show",
+    "translucencyByDistance",
+];
+var PointPrimitive = createCesiumComponent({
+    name: "PointPrimitive",
+    create: function () {
+        return new Cesium__default.PointPrimitive();
+    },
+    mount: function (element, context, props) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+        if (context.pointPrimitiveCollection) {
+            context.pointPrimitiveCollection.add(element);
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+        }
+        if (context.pointPrimitiveCollection && !context.pointPrimitiveCollection.isDestroyed()) {
+            context.pointPrimitiveCollection.remove(element);
+        }
+    },
+    cesiumProps: cesiumProps$u,
+    setCesiumPropsAfterCreate: true,
+});
+
+var cesiumProps$v = [
+    "blendOption",
+    "debugShowBoundingVolume",
+    "modelMatrix",
+];
+var PointPrimitiveCollection = createCesiumComponent({
+    name: "PointPrimitveCollection",
+    create: function (cprops) {
+        return new Cesium__default.PointPrimitiveCollection(cprops);
+    },
+    mount: function (element, context) {
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element) {
+        return {
+            pointPrimitiveCollection: element,
+        };
+    },
+    cesiumProps: cesiumProps$v,
+});
+
+var cesiumProps$w = [
+    "hierarchy",
+    "height",
+    "heightReference",
+    "extrudedHeight",
+    "extrudedHeightReference",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "stRotation",
+    "granularity",
+    "perPositionHeight",
+    "closeTop",
+    "closeBottom",
+    "shadows",
+    "distanceDisplayCondition",
+    "zIndex",
+    "classificationType",
+];
+var cesiumEventProps$m = {
+    definitionChanged: "onDefinitionChange",
+};
+var PolygonGraphics = createCesiumComponent({
+    name: "PolygonGraphics",
+    create: function (cprops) {
+        var pg = new Cesium__default.PolygonGraphics(cprops);
+        if (cprops.classificationType) {
+            pg.classificationType = cprops.classificationType;
+        }
+        return pg;
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.polygon = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.polygon = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$w,
+    cesiumEventProps: cesiumEventProps$m,
+});
+
+var cesiumProps$x = [
+    "distanceDisplayCondition",
+    "id",
+    "loop",
+    "material",
+    "positions",
+    "show",
+    "width",
+];
+var Polyline = createCesiumComponent({
+    name: "Polyline",
+    create: function (cprops, props, context) {
+        return new Cesium__default.Polyline(cprops, context.polylineCollection);
+    },
+    mount: function (element, context) {
+        if (context.polylineCollection) {
+            context.polylineCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+        }
+        if (context.polylineCollection && !context.polylineCollection.isDestroyed()) {
+            context.polylineCollection.remove(element);
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+    },
+    cesiumProps: cesiumProps$x,
+});
+
+var cesiumProps$y = [
+    "debugShowBoundingVolume",
+    "length",
+    "modelMatrix",
+];
+var PolylineCollection = createCesiumComponent({
+    name: "PolylineCollection",
+    create: function (cprops, props, context) {
+        return new Cesium__default.PolylineCollection({
+            modelMatrix: cprops.modelMatrix,
+            debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+            length: cprops.length,
+            scene: context.scene,
+        });
+    },
+    mount: function (element, context) {
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element) {
+        return {
+            polylineCollection: element,
+        };
+    },
+    cesiumProps: cesiumProps$y,
+});
+
+var cesiumProps$z = [
+    "positions",
+    "followSurface",
+    "clampToGround",
+    "width",
+    "show",
+    "material",
+    "depthFailMaterial",
+    "granularity",
+    "shadows",
+    "distanceDisplayCondition",
+    "zIndex",
+];
+var cesiumEventProps$n = {
+    definitionChanged: "onDefinitionChange",
+};
+var PolylineGraphics = createCesiumComponent({
+    name: "PolylineGraphics",
+    create: function (cprops) {
+        return new Cesium__default.PolylineGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.polyline = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.polyline = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$z,
+    cesiumEventProps: cesiumEventProps$n,
+});
+
+var cesiumProps$A = [
+    "positions",
+    "shape",
+    "cornerType",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "granularity",
+    "shadows",
+    "distanceDisplayCondition",
+];
+var cesiumEventProps$o = {
+    definitionChanged: "onDefinitionChange",
+};
+var PolylineVolumeGraphics = createCesiumComponent({
+    name: "PolylineVolumeGraphics",
+    create: function (cprops) {
+        return new Cesium__default.PolylineVolumeGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.polylineVolume = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.polylineVolume = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$A,
+    cesiumEventProps: cesiumEventProps$o,
+});
+
+var cesiumProps$B = ["enabled", "selected"];
+var createPostProcessStage = function (opts) {
+    return createCesiumComponent({
+        name: name,
+        create: function (cprops, props, context) {
+            var ps = opts.create(cprops, context.scene.postProcessStages);
+            if (typeof cprops.enabled === "boolean") {
+                ps.enabled = cprops.enabled;
+            }
+            if (cprops.selected) {
+                ps.selected = cprops.selected;
+            }
+            opts.props.forEach(function (k) {
+                if ((!opts.readonlyProps || !opts.readonlyProps.includes(k)) &&
+                    typeof props[k] !== "undefined") {
+                    ps.uniforms[k] = props[k];
+                }
+            });
+            return ps;
+        },
+        mount: function (element, context) {
+            if (!opts.noMount && context.scene && !context.scene.isDestroyed()) {
+                context.scene.postProcessStages.add(element);
+            }
+        },
+        unmount: function (element, context) {
+            if (!opts.noMount) {
+                if (context.scene && !context.scene.isDestroyed()) {
+                    context.scene.postProcessStages.remove(element);
+                }
+                if (!element.isDestroyed()) {
+                    element.destroy();
+                }
+            }
+            else {
+                element.enabled = false;
+            }
+        },
+        update: function (element, props, prevProps) {
+            opts.props.forEach(function (k) {
+                if ((!opts.readonlyProps || !opts.readonlyProps.includes(k)) && props[k] !== prevProps[k]) {
+                    element.uniforms[k] = props[k];
+                }
+            });
+        },
+        cesiumProps: cesiumProps$B,
+        cesiumReadonlyProps: opts.readonlyProps,
+        defaultProps: {
+            enabled: true,
+        },
+    });
+};
+
+var cesiumProps$C = ["enabled", "selected"];
+var cesiumReadonlyProps$8 = [
+    "clearColor",
+    "forcePowerOfTwo",
+    "fragmentShader",
+    "name",
+    "pixelDatatype",
+    "pixelFormat",
+    "sampleMode",
+    "scissorRectangle",
+    "textureScale",
+    "uniforms",
+];
+var PostProcessStage = createCesiumComponent({
+    name: "PostProcessStage",
+    create: function (cprops, props, context) {
+        var ps = new Cesium__default.PostProcessStage(cprops);
+        if (typeof cprops.enabled === "boolean") {
+            ps.enabled = cprops.enabled;
+        }
+        if (cprops.selected) {
+            ps.selected = cprops.selected;
+        }
+        return ps;
+    },
+    mount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.postProcessStages.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.postProcessStages.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    cesiumProps: cesiumProps$C,
+    cesiumReadonlyProps: cesiumReadonlyProps$8,
+});
+var BlackAndWhiteStage = createPostProcessStage({
+    name: "BlackAndWhiteStage",
+    props: ["gradations"],
+    create: function () {
+        return Cesium__default.PostProcessStageLibrary.createBlackAndWhiteStage();
+    },
+});
+var BlurStage = createPostProcessStage({
+    name: "BlurStage",
+    props: ["delta", "sigma", "stepSize"],
+    create: function () {
+        return Cesium__default.PostProcessStageLibrary.createBlurStage();
+    },
+});
+var BrightnessStage = createPostProcessStage({
+    name: "BrightnessStage",
+    props: ["brightness"],
+    create: function () {
+        return Cesium__default.PostProcessStageLibrary.createBrightnessStage();
+    },
+});
+var DepthOfFieldStage = createPostProcessStage({
+    name: "DepthOfFieldStage",
+    props: ["delta", "focalDistance", "sigma", "stepSize"],
+    create: function () {
+        return Cesium__default.PostProcessStageLibrary.createDepthOfFieldStage();
+    },
+});
+var EdgeDetectionStage = createPostProcessStage({
+    name: "EdgeDetectionStage",
+    props: ["color", "length"],
+    create: function () {
+        return Cesium__default.PostProcessStageLibrary.createEdgeDetectionStage();
+    },
+});
+var LensFlareStage = createPostProcessStage({
+    name: "LensFlareStage",
+    props: [
+        "dirtTexture",
+        "starTexture",
+        "intensity",
+        "distortion",
+        "ghostDispersal",
+        "haloWidth",
+        "earthRadius",
+    ],
+    create: function () {
+        return Cesium__default.PostProcessStageLibrary.createLensFlareStage();
+    },
+});
+var NightVisionStage = createPostProcessStage({
+    name: "NightVisionStage",
+    props: ["color", "length"],
+    readonlyProps: ["stages"],
+    create: function (props) {
+        return Cesium__default.PostProcessStageLibrary.createNightVisionStage(props.stages);
+    },
+});
+var SilhouetteStage = createPostProcessStage({
+    name: "SilhouetteStage",
+    props: ["color", "length"],
+    readonlyProps: ["stages"],
+    create: function (props) {
+        return Cesium__default.PostProcessStageLibrary.createSilhouetteStage(props.stages);
+    },
+});
+var Fxaa = createPostProcessStage({
+    name: "Bloom",
+    create: function (props, collection) {
+        return collection.fxaa;
+    },
+    props: [],
+});
+
+var cesiumProps$D = ["enabled", "selected"];
+var cesiumReadonlyProps$9 = [
+    "inputPreviousStageTexture",
+    "name",
+    "stages",
+    "uniforms",
+];
+var PostProcessStageComposite = createCesiumComponent({
+    name: "PostProcessStageComposite",
+    create: function (cprops) {
+        var ps = new Cesium__default.PostProcessStageComposite(cprops);
+        if (typeof cprops.enabled === "boolean") {
+            ps.enabled = cprops.enabled;
+        }
+        if (cprops.selected) {
+            ps.selected = cprops.selected;
+        }
+        return ps;
+    },
+    mount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.postProcessStages.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.postProcessStages.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    cesiumProps: cesiumProps$D,
+    cesiumReadonlyProps: cesiumReadonlyProps$9,
+});
+var AmbientOcclusion = createPostProcessStage({
+    name: "AmbientOcclusion",
+    create: function (props, collection) {
+        return collection.ambientOcclusion;
+    },
+    props: [
+        "ambientOcclusionOnly",
+        "bias",
+        "delta",
+        "frustumLength",
+        "intensity",
+        "lengthCap",
+        "sigma",
+        "stepSize",
+    ],
+    noMount: true,
+});
+var Bloom = createPostProcessStage({
+    name: "Bloom",
+    create: function (props, collection) {
+        return collection.bloom;
+    },
+    props: ["brightness", "contrast", "delta", "glowOnly", "sigma", "stepSize"],
+    noMount: true,
+});
+
+var cesiumProps$E = [
+    "appearance",
+    "cull",
+    "debugShowBoundingVolume",
+    "depthFailAppearance",
+    "modelMatrix",
+    "shadows",
+    "show",
+];
+var cesiumReadonlyProps$a = [
+    "allowPicking",
+    "asynchronous",
+    "compressVertices",
+    "geometryInstances",
+    "interleave",
+    "releaseGeometryInstances",
+    "vertexCacheOptimize",
+];
+var Primitive = createCesiumComponent({
+    name: "Primitive",
+    create: function (cprops, props) {
+        var primitive = new Cesium__default.Primitive(cprops);
+        if (props.onReady) {
+            primitive.readyPromise.then(props.onReady);
+        }
+        return primitive;
+    },
+    mount: function (element, context, props) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    update: function (element, props, prevProps, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.__RESIUM_EVENT_MANAGER) {
+            context.__RESIUM_EVENT_MANAGER.clearEvents(element);
+        }
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    cesiumProps: cesiumProps$E,
+    cesiumReadonlyProps: cesiumReadonlyProps$a,
+});
+
+var cesiumProps$F = [
+    "coordinates",
+    "height",
+    "heightReference",
+    "extrudedHeight",
+    "extrudedHeightReference",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "rotation",
+    "stRotation",
+    "granularity",
+    "shadows",
+    "distanceDisplayCondition",
+    "zIndex",
+];
+var cesiumEventProps$p = {
+    definitionChanged: "onDefinitionChange",
+};
+var RectangleGraphics = createCesiumComponent({
+    name: "RectangleGraphics",
+    create: function (cprops) {
+        return new Cesium__default.RectangleGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.rectangle = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.rectangle = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$F,
+    cesiumEventProps: cesiumEventProps$p,
+});
+
+var cesiumProps$G = [
+    "backgroundColor",
+    "completeMorphOnUserInput",
+    "debugCommandFilter",
+    "debugShowCommands",
+    "debugShowDepthFrustum",
+    "debugShowFramesPerSecond",
+    "debugShowFrustumPlanes",
+    "debugShowFrustums",
+    "eyeSeparation",
+    "farToNearRatio",
+    "focalLength",
+    "fog",
+    "fxaa",
+    "globe",
+    "imagerySplitPosition",
+    "invertClassification",
+    "invertClassificationColor",
+    "logarithmicDepthBuffer",
+    "logarithmicDepthFarToNearRatio",
+    "mapMode2D",
+    "maximumRenderTimeChange",
+    "minimumDisableDepthTestDistance",
+    // "mode", // enable morph with animation
+    "moon",
+    "morphTime",
+    "nearToFarDistance2D",
+    "pickTranslucentDepth",
+    "requestRenderMode",
+    "rethrowRenderErrors",
+    "shadowMap",
+    "skyAtmosphere",
+    "skyBox",
+    "sun",
+    "sunBloom",
+    "terrainExaggeration",
+    "terrainProvider",
+    "useDepthPicking",
+    "useWebVR",
+];
+var cesiumEventProps$q = {
+    morphComplete: "onMorphComplete",
+    morphStart: "onMorphStart",
+    postRender: "onPostRender",
+    preRender: "onPreRender",
+    preUpdate: "onPreUpdate",
+    renderError: "onRenderError",
+    terrainProviderChanged: "onTerrainProviderChange",
+};
+var morph = function (scene, mode, morphTime) {
+    switch (mode) {
+        case Cesium.SceneMode.SCENE2D:
+            scene.morphTo2D(morphTime);
+            break;
+        case Cesium.SceneMode.COLUMBUS_VIEW:
+            scene.morphToColumbusView(morphTime);
+            break;
+        case Cesium.SceneMode.SCENE3D:
+            scene.morphTo3D(morphTime);
+            break;
+    }
+};
+var Scene = createCesiumComponent({
+    name: "Scene",
+    create: function (cprops, props, context) {
+        var scene = context.scene;
+        if (props.mode) {
+            morph(scene, props.mode, props.morph);
+        }
+        return scene;
+    },
+    update: function (scene, props, prevProps) {
+        if (props.mode !== prevProps.mode && props.mode) {
+            morph(scene, props.mode, props.morph);
+        }
+    },
+    // provide(element) {
+    //   return {
+    //     scene: element,
+    //     camera: element.camera,
+    //   };
+    // },
+    cesiumProps: cesiumProps$G,
+    cesiumEventProps: cesiumEventProps$q,
+    setCesiumPropsAfterCreate: true,
+});
+
+var cesiumProps$H = [
+    "bounceAnimationTime",
+    "enableCollisionDetection",
+    "enableInputs",
+    "enableLook",
+    "enableRotate",
+    "enableTilt",
+    "enableTranslate",
+    "enableZoom",
+    "inertiaSpin",
+    "inertiaTranslate",
+    "inertiaZoom",
+    "lookEventTypes",
+    "maximumMovementRatio",
+    "maximumZoomDistance",
+    "minimumCollisionTerrainHeight",
+    "minimumPickingTerrainHeight",
+    "minimumTrackBallHeight",
+    "minimumZoomDistance",
+    "rotateEventTypes",
+    "tiltEventTypes",
+    "translateEventTypes",
+    "zoomEventTypes",
+];
+var ScreenSpaceCameraController = createCesiumComponent({
+    name: "ScreenSpaceCameraController",
+    create: function (cprops, props, context) {
+        return context.scene.screenSpaceCameraController;
+    },
+    cesiumProps: cesiumProps$H,
+    setCesiumPropsAfterCreate: true,
+});
+
+var ScreenSpaceEvent = /** @class */ (function (_super) {
+    __extends(ScreenSpaceEvent, _super);
+    function ScreenSpaceEvent() {
+        return _super !== null && _super.apply(this, arguments) || this;
+    }
+    ScreenSpaceEvent.prototype.componentDidMount = function () {
+        this.setEvent();
+    };
+    ScreenSpaceEvent.prototype.componentDidUpdate = function (prevProps) {
+        var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
+        screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
+        this.setEvent();
+    };
+    ScreenSpaceEvent.prototype.componentWillUnmount = function () {
+        var _a = this.props, action = _a.action, screenSpaceEventHandler = _a.cesium.screenSpaceEventHandler, modifier = _a.modifier, type = _a.type;
+        if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
+            screenSpaceEventHandler.removeInputAction(type, modifier);
+        }
+    };
+    ScreenSpaceEvent.prototype.render = function () {
+        return null;
+    };
+    ScreenSpaceEvent.prototype.setEvent = function () {
+        var _a = this.props, action = _a.action, screenSpaceEventHandler = _a.cesium.screenSpaceEventHandler, modifier = _a.modifier, type = _a.type;
+        if (!screenSpaceEventHandler) {
+            return;
+        }
+        if (action) {
+            screenSpaceEventHandler.setInputAction(action, type, modifier);
+        }
+        else {
+            // just remove default events
+            screenSpaceEventHandler.removeInputAction(type, modifier);
+        }
+    };
+    return ScreenSpaceEvent;
+}(React.PureComponent));
+var ScreenSpaceEvent$1 = withCesium(ScreenSpaceEvent);
+
+var ScreenSpaceEventHandler = createCesiumComponent({
+    name: "ScreenSpaceEventHandler",
+    create: function (cprops, props, context) {
+        return new Cesium__default.ScreenSpaceEventHandler(context.scene.canvas);
+    },
+    unmount: function (element) {
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element) {
+        return {
+            screenSpaceEventHandler: element,
+        };
+    },
+});
+
+var cesiumProps$I = ["glowFactor", "show"];
+var Sun = createCesiumComponent({
+    name: "sun",
+    create: function () {
+        return new Cesium__default.Sun();
+    },
+    mount: function (element, context) {
+        if (context.scene) {
+            context.scene.sun = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.scene && !context.scene.isDestroyed()) {
+            context.scene.sun = new Cesium__default.Sun();
+        }
+        // if (!element.isDestroyed()) {
+        //   element.destroy();
+        // }
+    },
+    cesiumProps: cesiumProps$I,
+    setCesiumPropsAfterCreate: true,
+});
+
+var cesiumProps$J = [
+    "clippingPlanes",
+    "clock",
+    "intervals",
+    "maximumMemoryUsage",
+    "modelMatrix",
+    "shadows",
+    "show",
+    "style",
+];
+var cesiumReadonlyProps$b = ["shading"];
+var cesiumEventProps$r = {
+    frameChanged: "onFrameChange",
+};
+var TimeDynamicPointCloud = createCesiumComponent({
+    name: "TimeDynamicPointCloud",
+    create: function (cprops, props, context) {
+        var tdpc = new Cesium__default.TimeDynamicPointCloud(__assign({}, cprops, { clock: cprops.clock || (context.cesiumWidget && context.cesiumWidget.clock) }));
+        if (props.onReady) {
+            console.log("ready", tdpc);
+            tdpc.readyPromise.then(props.onReady);
+        }
+        return tdpc;
+    },
+    mount: function (element, context) {
+        if (context.primitiveCollection) {
+            context.primitiveCollection.add(element);
+        }
+    },
+    unmount: function (element, context) {
+        if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+            context.primitiveCollection.remove(element);
+        }
+        if (!element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    cesiumProps: cesiumProps$J,
+    cesiumReadonlyProps: cesiumReadonlyProps$b,
+    cesiumEventProps: cesiumEventProps$r,
+});
+
+var cesiumProps$K = [
+    "terrainProvider",
+    "terrainShadows",
+    "clockTrackedDataSource",
+    "targetFrameRate",
+    "useDefaultRenderLoop",
+    "resolutionScale",
+    "allowDataSourcesToSuspendAnimation",
+    "trackedEntity",
+    "selectedEntity",
+    "shadows",
+];
+var cesiumReadonlyProps$c = [
+    "animation",
+    "baseLayerPicker",
+    "fullscreenButton",
+    "vrButton",
+    "geocoder",
+    "homeButton",
+    "infoBox",
+    "sceneModePicker",
+    "selectionIndicator",
+    "timeline",
+    "navigationHelpButton",
+    "navigationInstructionsInitiallyVisible",
+    "scene3DOnly",
+    "shouldAnimate",
+    "clockViewModel",
+    "selectedImageryProviderViewModel",
+    "imageryProviderViewModels",
+    "selectedTerrainProviderViewModel",
+    "terrainProviderViewModels",
+    "imageryProvider",
+    "skyBox",
+    "skyAtmosphere",
+    "fullscreenElement",
+    "showRenderLoopErrors",
+    "automaticallyTrackDataSourceClocks",
+    "contextOptions",
+    "sceneMode",
+    "mapProjection",
+    "globe",
+    "orderIndependentTranslucency",
+    "creditContainer",
+    "creditViewport",
+    "dataSources",
+    "terrainExaggeration",
+    "mapMode2D",
+    "projectionPicker",
+    "requestRenderMode",
+    "maximumRenderTimeChange",
+];
+var cesiumEventProps$s = {
+    selectedEntityChanged: "onSelectedEntityChange",
+    trackedEntityChanged: "onTrackedEntityChange",
+};
+var Viewer = createCesiumComponent({
+    name: "Viewer",
+    createRef: true,
+    create: function (cprops, props, context, ref) {
+        // ref is not always undefined
+        var v = new Cesium.Viewer(ref.current, cprops);
+        if (v && props.extend) {
+            if (Array.isArray(props.extend)) {
+                props.extend.forEach(function (e) {
+                    v.extend(e, {});
+                });
+            }
+            else {
+                v.extend(props.extend, {});
+            }
+        }
+        // common event manager for managing events of Entity and Primitives
+        var state;
+        if (v) {
+            state = new EventManager(v.scene, v.canvas);
+        }
+        return [v, state];
+    },
+    render: function (element, props, mounted, ref) {
+        return (React.createElement("div", __assign({ className: props.className, id: props.id, ref: ref, style: __assign({}, (props.full
+                ? {
+                    position: "absolute",
+                    bottom: "0",
+                    left: "0",
+                    right: "0",
+                    top: "0",
+                }
+                : {}), props.style) }, props.containerProps), element ? props.children : null));
+    },
+    unmount: function (element, cprops, props, ref, state) {
+        if (element && state) {
+            var em = state;
+            if (!em.isDestroyed()) {
+                em.destroy();
+            }
+        }
+        if (element && !element.isDestroyed()) {
+            element.destroy();
+        }
+    },
+    provide: function (element, props, state) {
+        if (!element) {
+            return {};
+        }
+        return {
+            viewer: element,
+            cesiumWidget: element.cesiumWidget,
+            dataSourceCollection: element.dataSources,
+            entityCollection: element.entities,
+            scene: element.scene,
+            camera: element.scene.camera,
+            imageryLayerCollection: element.scene.globe.imageryLayers,
+            primitiveCollection: element.scene.primitives,
+            globe: element.scene.globe,
+            __RESIUM_EVENT_MANAGER: state,
+        };
+    },
+    cesiumProps: cesiumProps$K,
+    cesiumReadonlyProps: cesiumReadonlyProps$c,
+    cesiumEventProps: cesiumEventProps$s,
+});
+
+var cesiumProps$L = [
+    "positions",
+    "maximumHeights",
+    "minimumHeights",
+    "show",
+    "fill",
+    "material",
+    "outline",
+    "outlineColor",
+    "outlineWidth",
+    "granularity",
+    "shadows",
+    "distanceDisplayCondition",
+];
+var cesiumEventProps$t = {
+    definitionChanged: "onDefinitionChange",
+};
+var WallGraphics = createCesiumComponent({
+    name: "WallGraphics",
+    create: function (cprops) {
+        return new Cesium__default.WallGraphics(cprops);
+    },
+    mount: function (element, context) {
+        if (context.entity) {
+            context.entity.wall = element;
+        }
+    },
+    unmount: function (element, context) {
+        if (context.entity) {
+            context.entity.wall = undefined;
+        }
+    },
+    cesiumProps: cesiumProps$L,
+    cesiumEventProps: cesiumEventProps$t,
+});
+
 exports.createCesiumComponent = createCesiumComponent;
 exports.CameraOperation = createCameraOperation;
-exports.createEventWrapper = createEventWrapper;
-exports.Viewer = Viewer;
-exports.CesiumWidget = CesiumWidget;
-exports.Scene = Scene;
+exports.Billboard = Billboard;
+exports.BillboardCollection = BillboardCollection;
+exports.BillboardGraphics = BillboardGraphics;
+exports.BoxGraphics = BoxGraphics;
 exports.Camera = Camera;
-exports.Entity = Entity;
-exports.EntityDescription = EntityDescription$1;
-exports.ExtendedEntity = ExtendedEntity;
-exports.CustomDataSource = CustomDataSource;
-exports.CzmlDataSource = CzmlDataSource;
-exports.GeoJsonDataSource = GeoJsonDataSource;
-exports.KmlDataSource = KmlDataSource;
-exports.Primitive = Primitive;
-exports.ExtendedPrimitive = ExtendedPrimitve;
-exports.ExtendedPointPrimitive = ExtendedPointPrimitve;
-exports.PointPrimitive = PointPrimitive;
-exports.PointPrimitiveCollection = PointPrimitiveCollection;
-exports.ScreenSpaceEvent = ScreenSpaceEvent$1;
-exports.ScreenSpaceEventHandler = ScreenSpaceEventHandler;
-exports.ScreenSpaceCameraController = ScreenSpaceCameraController;
-exports.DefaultScreenSpaceEventHandler = DefaultScreenSpaceEventHandler;
-exports.ImageryLayer = ImageryLayer;
 exports.CameraFlyHome = CameraFlyHome;
 exports.CameraFlyTo = CameraFlyTo;
 exports.CameraFlyToBoundingSphere = CameraFlyToBoundingSphere;
+exports.Cesium3DTileset = Cesium3DTileset;
+exports.CesiumWidget = CesiumWidget;
+exports.Clock = Clock;
+exports.CorridorGraphics = CorridorGraphics;
+exports.CustomDataSource = CustomDataSource;
+exports.CylinderGraphics = CylinderGraphics;
+exports.CzmlDataSource = CzmlDataSource;
+exports.DefaultScreenSpaceEventHandler = DefaultScreenSpaceEventHandler;
+exports.EllipseGraphics = EllipseGraphics;
+exports.EllipsoidGraphics = EllipsoidGraphics;
+exports.Entity = Entity;
+exports.EntityDescription = EntityDescription$1;
+exports.Fog = Fog;
+exports.GeoJsonDataSource = GeoJsonDataSource;
+exports.Globe = Globe;
+exports.ImageryLayer = ImageryLayer;
+exports.ImageryLayerCollection = ImageryLayerCollection;
+exports.KmlDataSource = KmlDataSource;
+exports.Label = Label;
+exports.LabelCollection = LabelCollection;
+exports.LabelGraphics = LabelGraphics;
+exports.Model = Model;
+exports.ModelGraphics = ModelGraphics;
+exports.Moon = Moon;
+exports.ParticleSystem = ParticleSystem;
+exports.PathGraphics = PathGraphics;
+exports.PlaneGraphics = PlaneGraphics;
+exports.PointGraphics = PointGraphics;
+exports.PointPrimitive = PointPrimitive;
+exports.PointPrimitiveCollection = PointPrimitiveCollection;
+exports.PolygonGraphics = PolygonGraphics;
+exports.Polyline = Polyline;
+exports.PolylineCollection = PolylineCollection;
+exports.PolylineGraphics = PolylineGraphics;
+exports.PolylineVolumeGraphics = PolylineVolumeGraphics;
+exports.PostProcessStage = PostProcessStage;
+exports.BlackAndWhiteStage = BlackAndWhiteStage;
+exports.BlurStage = BlurStage;
+exports.BrightnessStage = BrightnessStage;
+exports.DepthOfFieldStage = DepthOfFieldStage;
+exports.EdgeDetectionStage = EdgeDetectionStage;
+exports.LensFlareStage = LensFlareStage;
+exports.Fxaa = Fxaa;
+exports.NightVisionStage = NightVisionStage;
+exports.SilhouetteStage = SilhouetteStage;
+exports.PostProcessStageComposite = PostProcessStageComposite;
+exports.AmbientOcclusion = AmbientOcclusion;
+exports.Bloom = Bloom;
+exports.Primitive = Primitive;
+exports.RectangleGraphics = RectangleGraphics;
+exports.Scene = Scene;
+exports.ScreenSpaceCameraController = ScreenSpaceCameraController;
+exports.ScreenSpaceEvent = ScreenSpaceEvent$1;
+exports.ScreenSpaceEventHandler = ScreenSpaceEventHandler;
+exports.Sun = Sun;
+exports.TimeDynamicPointCloud = TimeDynamicPointCloud;
+exports.Viewer = Viewer;
+exports.WallGraphics = WallGraphics;
 exports.Provider = Provider;
 exports.Consumer = Consumer;
-exports.withContext = withContext;
+exports.withCesium = withCesium;
 exports.attachEvents = attachEvents;
 exports.detachEvents = detachEvents;
 exports.updateEvents = updateEvents;
 exports.getEventProps = getEventProps;
+exports.eventNames = eventNames;
 //# sourceMappingURL=resium.cjs.js.map

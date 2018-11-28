@@ -14,7 +14,7 @@ export interface CustomDataSourceProps extends CustomDataSourceCesiumProps, Cust
     children?: React.ReactNode;
 }
 export interface CustomDataSourceContext {
-    dataSourceCollection: Cesium.DataSourceCollection;
+    dataSourceCollection?: Cesium.DataSourceCollection;
 }
 declare const CustomDataSource: import("react").ForwardRefExoticComponent<CustomDataSourceProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.CustomDataSource>>>;
 export default CustomDataSource;

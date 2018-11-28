@@ -9,7 +9,7 @@ export interface PointPrimitiveCollectionProps extends PointPrimitiveCollectionC
     children?: React.ReactNode;
 }
 export interface PointPrimitiveCollectionContext {
-    primitiveCollection: Cesium.PrimitiveCollection;
+    primitiveCollection?: Cesium.PrimitiveCollection;
 }
 declare const PointPrimitiveCollection: import("react").ForwardRefExoticComponent<PointPrimitiveCollectionProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.PointPrimitiveCollection>>>;
 export default PointPrimitiveCollection;

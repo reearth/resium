@@ -8,6 +8,6 @@ declare const CameraFlyHome: import("react").ForwardRefExoticComponent<{
 } & import("./core/CameraOperation").CameraOperationProps & import("react").RefAttributes<import("react").ComponentType<import("./core/context").WithContextProps<{
     duration: number;
 } & import("./core/CameraOperation").CameraOperationProps, {
-    camera: Camera;
+    camera?: Camera | undefined;
 }>>>>;
 export default CameraFlyHome;

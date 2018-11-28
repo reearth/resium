@@ -38,6 +38,6 @@ declare const CameraFlyTo: import("react").ForwardRefExoticComponent<{
     flyOverLongitudeWeight?: number | undefined;
     easingFunction?: EasingFunction | undefined;
 } & import("./core/CameraOperation").CameraOperationProps, {
-    camera: Camera;
+    camera?: Camera | undefined;
 }>>>>;
 export default CameraFlyTo;

@@ -38,6 +38,6 @@ declare const CameraFlyToBoundingSphere: import("react").ForwardRefExoticCompone
     flyOverLongitudeWeight?: number | undefined;
     easingFunction?: EasingFunction | undefined;
 } & import("./core/CameraOperation").CameraOperationProps, {
-    camera: Camera;
+    camera?: Camera | undefined;
 }>>>>;
 export default CameraFlyToBoundingSphere;

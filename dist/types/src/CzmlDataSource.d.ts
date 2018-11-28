@@ -18,8 +18,7 @@ export interface CzmlDataSourceProps extends CzmlDataSourceCesiumProps, CzmlData
     onLoad?: (CzmlDataSouce: Cesium.CzmlDataSource) => void;
 }
 export interface CzmlDataSourceContext {
-    dataSourceCollection: Cesium.DataSourceCollection;
-    scene: Cesium.Scene;
+    dataSourceCollection?: Cesium.DataSourceCollection;
 }
 declare const CzmlDataSource: import("react").ForwardRefExoticComponent<CzmlDataSourceProps & import("react").RefAttributes<import("./core/CesiumComponent").CesiumElementHolder<Cesium.CzmlDataSource>>>;
 export default CzmlDataSource;
