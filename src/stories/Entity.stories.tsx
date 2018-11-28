@@ -1,5 +1,16 @@
 import React from "react";
-import { Cartesian3, Color, CornerType, LabelStyle } from "cesium";
+
+import Cesium, {
+  Cartesian2,
+  Cartesian3,
+  Color,
+  CornerType,
+  LabelStyle,
+  Plane,
+  Rectangle,
+  Math,
+  PolylineArrowMaterialProperty,
+} from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -24,6 +35,7 @@ import RectangleGraphics from "../RectangleGraphics";
 import WallGraphics from "../WallGraphics";
 
 import billboardImage from "./assets/example.png";
+import glb from "./assets/Cesium_Air.glb";
 
 export default () => {
   storiesOf("Entity", module)
@@ -172,7 +184,7 @@ export default () => {
         <Entity
           name="LabelGraphics"
           description="LabelGraphics!!"
-          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
+          position={Cartesian3.fromDegrees(-34.0707383, 5.7117244, 100)}>
           <LabelGraphics
             text="LabelGraphics"
             font="24px Helvetica"
@@ -186,49 +198,142 @@ export default () => {
           name="ModelGraphics"
           description="ModelGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <ModelGraphics uri={url} minimumPixelSize={128} maximumScale={20000} />
+          <ModelGraphics uri={glb} minimumPixelSize={128} maximumScale={20000} />
         </Entity>
         <Entity
           name="PathGraphics"
           description="PathGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <PathGraphics material={Color.RED} />
+          {/* workaround: add loop function */}
+          <PathGraphics
+            material={Color.RED}
+            width={8}
+            leadTime={10}
+            trailTime={1000}
+            resolution={5}
+          />
         </Entity>
         <Entity
           name="PlaneGraphics"
           description="PlaneGraphics!!"
-          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <PlaneGraphics material={Color.RED} />
+          position={Cartesian3.fromDegrees(-74.0707383, 50.7117244, 100)}>
+          <PlaneGraphics
+            plane={new Plane(Cartesian3.UNIT_Z, 0.0) as any} // Cesium.Plane
+            dimensions={new Cartesian2(400000.0, 300000.0)}
+            fill={false}
+            outline
+            outlineColor={Color.YELLOW}
+          />
         </Entity>
         <Entity
           name="PointGraphics"
           description="PointGraphics!!"
-          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <PointGraphics color={Color.RED} />
+          position={Cartesian3.fromDegrees(-74.0707383, 60.7117244, 100)}>
+          <PointGraphics color={Color.BISQUE} pixelSize={10} />
         </Entity>
         <Entity
           name="PolylineGraphics"
           description="PolylineGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <PolylineGraphics material={Color.RED} />
+          <PolylineGraphics
+            positions={Cartesian3.fromDegreesArrayHeights([-75, 45, 500000, -125, 45, 500000])}
+            width={4}
+            material={
+              new (Cesium as any).PolylineDashMaterialProperty({
+                color: Color.CYAN,
+              } as any)
+            }
+          />
         </Entity>
         <Entity
           name="PolylineVolumeGraphics"
           description="PolylineVolumeGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <PolylineVolumeGraphics material={Color.RED} />
+          <PolylineVolumeGraphics
+            positions={Cartesian3.fromDegreesArrayHeights([
+              -90.0,
+              32.0,
+              0.0,
+              -90.0,
+              36.0,
+              100000.0,
+              -94.0,
+              36.0,
+              0.0,
+            ])}
+            shape={[
+              new Cartesian2(-50000, -50000),
+              new Cartesian2(50000, -50000),
+              new Cartesian2(50000, 50000),
+              new Cartesian2(-50000, 50000),
+            ]}
+            cornerType={CornerType.BEVELED}
+            material={Color.GREEN.withAlpha(0.5)}
+            outline
+            outlineColor={Color.BLACK}
+          />
         </Entity>
         <Entity
           name="RectangleGraphics"
           description="RectangleGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <RectangleGraphics material={Color.RED} />
+          <RectangleGraphics
+            coordinates={Rectangle.fromDegrees(-140.0, 30.0, -100.0, 40.0)}
+            material={Color.PEACHPUFF.withAlpha(0.5)}
+            rotation={Math.toRadians(45)}
+            extrudedHeight={300000.0}
+            height={100000.0}
+            outline // height must be set for outline to display
+            outlineColor={Color.BLACK}
+          />
         </Entity>
         <Entity
           name="WallGraphics"
           description="WallGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          <WallGraphics material={Color.RED} />
+          <WallGraphics
+            positions={Cartesian3.fromDegreesArray([
+              -115.0,
+              50.0,
+              -112.5,
+              50.0,
+              -110.0,
+              50.0,
+              -107.5,
+              50.0,
+              -105.0,
+              50.0,
+              -102.5,
+              50.0,
+              -100.0,
+              50.0,
+              -97.5,
+              50.0,
+              -95.0,
+              50.0,
+              -92.5,
+              50.0,
+              -90.0,
+              50.0,
+            ])}
+            maximumHeights={[
+              100000,
+              200000,
+              100000,
+              200000,
+              100000,
+              200000,
+              100000,
+              200000,
+              100000,
+              200000,
+              100000,
+            ]}
+            minimumHeights={[0, 100000, 0, 100000, 0, 100000, 0, 100000, 0, 100000, 0]}
+            material={Color.BLUE.withAlpha(0.5)}
+            outline
+            outlineColor={Color.BLACK}
+          />
         </Entity>
       </Viewer>
     ));
