@@ -4,7 +4,7 @@ import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface PolylineVolumeGraphicsCesiumProps {
   positions?: Cesium.Property | Cesium.Cartesian3[];
-  shape?: Cesium.Property | Cesium.Cartesian2;
+  shape?: Cesium.Property | Cesium.Cartesian2[];
   cornerType?: Cesium.Property | Cesium.CornerType;
   show?: Cesium.Property | boolean;
   fill?: Cesium.Property | boolean;
