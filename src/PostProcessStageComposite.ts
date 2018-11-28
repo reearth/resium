@@ -32,7 +32,7 @@ const cesiumReadonlyProps: Array<keyof PostProcessStageCompositeCesiumReadonlyPr
   "uniforms",
 ];
 
-const PostProcessStageComposite = createCesiumComponent<
+export const PostProcessStageComposite = createCesiumComponent<
   any /* Cesium.PostProcessStageComposite */,
   PostProcessStageCompositeProps,
   PostProcessStageCompositeContext
