@@ -1,8 +1,14 @@
-/examples
+/example
+/docs
 /src/test
 /src/stories
 /.storybook
-karma.conf.js
+/__mocks__
+rollup.config.js
+jest.config.js
 .travis.yml
 .eslintignore
-.eslintrc.js
+.eslintrc
+.prettierrc
+tsconfig.json
+tslint.json
