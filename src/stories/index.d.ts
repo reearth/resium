@@ -1,4 +1,4 @@
-declare module "*.jpg" {
+declare module "*.png" {
   const src: string;
   export default src;
 }
