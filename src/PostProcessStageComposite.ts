@@ -2,7 +2,6 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 import { createPostProcessStage } from "./core/PostProcessStage";
-import { number } from "prop-types";
 
 export interface PostProcessStageCompositeCesiumProps {
   enabled?: boolean;
@@ -40,7 +39,7 @@ const PostProcessStageComposite = createCesiumComponent<
 >({
   name: "PostProcessStageComposite",
   create(cprops) {
-    const ps = new (Cesium as any).PostProcessStage(cprops);
+    const ps = new (Cesium as any).PostProcessStageComposite(cprops);
     if (typeof cprops.enabled === "boolean") {
       ps.enabled = cprops.enabled;
     }
@@ -90,6 +89,7 @@ export const AmbientOcclusion = createPostProcessStage<{
     "sigma",
     "stepSize",
   ],
+  noMount: true,
 });
 
 export const Bloom = createPostProcessStage<{
@@ -105,6 +105,7 @@ export const Bloom = createPostProcessStage<{
     return collection.bloom;
   },
   props: ["brightness", "contrast", "delta", "glowOnly", "sigma", "stepSize"],
+  noMount: true,
 });
 
 export default PostProcessStageComposite;

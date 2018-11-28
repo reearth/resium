@@ -1,16 +1,83 @@
 import Cesium from "cesium";
 
-import { createPostProcessStage, createBultinPostProcessStage } from "./core/PostProcessStage";
+import { createPostProcessStage } from "./core/PostProcessStage";
+import createCesiumComponent from "./core/CesiumComponent";
 
-export const PostProcessStage = createPostProcessStage<{}>({
+export interface PostProcessStageCesiumProps {
+  enabled?: boolean;
+  selected?: any[];
+}
+
+export interface PostProcessStageCesiumReadonlyProps {
+  fragmentShader: string;
+  uniforms?: any;
+  textureScale?: number;
+  forcePowerOfTwo?: boolean;
+  sampleMode?: any; // Cesium.PostProcessStageSampleMode
+  pixelFormat?: Cesium.PixelFormat;
+  pixelDatatype?: any; // Cesium.PixelDatatype;
+  clearColor?: Cesium.Color;
+  scissorRectangle?: Cesium.BoundingRectangle;
+  name?: string;
+}
+
+export interface PostProcessStageProps
+  extends PostProcessStageCesiumProps,
+    PostProcessStageCesiumReadonlyProps {}
+
+export interface PostProcessStageContext {
+  scene: Cesium.Scene;
+}
+
+const cesiumProps: Array<keyof PostProcessStageCesiumProps> = ["enabled", "selected"];
+
+const cesiumReadonlyProps: Array<keyof PostProcessStageCesiumReadonlyProps> = [
+  "clearColor",
+  "forcePowerOfTwo",
+  "fragmentShader",
+  "name",
+  "pixelDatatype",
+  "pixelFormat",
+  "sampleMode",
+  "scissorRectangle",
+  "textureScale",
+  "uniforms",
+];
+
+export const PostProcessStage = createCesiumComponent<
+  any /* PostProcessStage */,
+  PostProcessStageProps,
+  PostProcessStageContext
+>({
   name: "PostProcessStage",
-  props: [],
-  create(props) {
-    return new (Cesium as any).PostProcessStage(props);
+  create(cprops, props, context) {
+    const ps = new (Cesium as any).PostProcessStage(cprops);
+    if (typeof cprops.enabled === "boolean") {
+      ps.enabled = cprops.enabled;
+    }
+    if (cprops.selected) {
+      ps.selected = cprops.selected;
+    }
+    return ps;
   },
+  mount(element, context) {
+    if (context.scene && !context.scene.isDestroyed()) {
+      (context.scene as any).postProcessStages.add(element);
+    }
+  },
+  unmount(element, context) {
+    if (context.scene && !context.scene.isDestroyed()) {
+      (context.scene as any).postProcessStages.remove(element);
+    }
+    if (!element.isDestroyed()) {
+      element.destroy();
+    }
+  },
+  cesiumProps,
+  cesiumReadonlyProps,
 });
 
-export const BlackAndWhiteStage = createBultinPostProcessStage<{
+export const BlackAndWhiteStage = createPostProcessStage<{
   gradations?: number;
 }>({
   name: "BlackAndWhiteStage",
@@ -20,7 +87,7 @@ export const BlackAndWhiteStage = createBultinPostProcessStage<{
   },
 });
 
-export const BlurStage = createBultinPostProcessStage<{
+export const BlurStage = createPostProcessStage<{
   delta?: number;
   sigma?: number;
   stepSize?: number;
@@ -32,7 +99,7 @@ export const BlurStage = createBultinPostProcessStage<{
   },
 });
 
-export const BrightnessStage = createBultinPostProcessStage<{
+export const BrightnessStage = createPostProcessStage<{
   brightness?: number;
 }>({
   name: "BrightnessStage",
@@ -42,7 +109,7 @@ export const BrightnessStage = createBultinPostProcessStage<{
   },
 });
 
-export const DepthOfFieldStage = createBultinPostProcessStage<{
+export const DepthOfFieldStage = createPostProcessStage<{
   focalDistance?: number;
   delta?: number;
   sigma?: number;
@@ -55,7 +122,7 @@ export const DepthOfFieldStage = createBultinPostProcessStage<{
   },
 });
 
-export const EdgeDetectionStage = createBultinPostProcessStage<{
+export const EdgeDetectionStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
 }>({
@@ -66,14 +133,14 @@ export const EdgeDetectionStage = createBultinPostProcessStage<{
   },
 });
 
-export const LensFlareStage = createBultinPostProcessStage<{
+export const LensFlareStage = createPostProcessStage<{
   dirtTexture?: any;
   starTexture?: any;
   intensity?: number;
   distortion?: number;
   ghostDispersal?: number;
   haloWidth?: number;
-  earthRadius?: Cesium.Ellipsoid;
+  earthRadius?: number;
 }>({
   name: "LensFlareStage",
   props: [
@@ -90,7 +157,7 @@ export const LensFlareStage = createBultinPostProcessStage<{
   },
 });
 
-export const NightVisionStage = createBultinPostProcessStage<{
+export const NightVisionStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
   stages?: any[]; // Cesium.PostProcessStage[]
@@ -103,7 +170,7 @@ export const NightVisionStage = createBultinPostProcessStage<{
   },
 });
 
-export const SilhouetteStage = createBultinPostProcessStage<{
+export const SilhouetteStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
   stages?: any[]; // Cesium.PostProcessStage[]
