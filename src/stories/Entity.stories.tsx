@@ -204,7 +204,7 @@ export default () => {
           name="PathGraphics"
           description="PathGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-          {/* workaround: add loop function */}
+          {/* TODO: add loop function */}
           <PathGraphics
             material={Color.RED}
             width={8}
