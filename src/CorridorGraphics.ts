@@ -3,7 +3,7 @@ import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface CorridorGraphicsCesiumProps {
-  positions?: Cesium.Property | Cesium.Cartesian3;
+  positions?: Cesium.Property | Cesium.Cartesian3[];
   width?: Cesium.Property | number;
   cornerType?: Cesium.Property | Cesium.CornerType;
   height?: Cesium.Property | number;
