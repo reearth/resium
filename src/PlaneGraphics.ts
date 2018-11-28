@@ -3,7 +3,7 @@ import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface PlaneGraphicsCesiumProps {
-  plane?: Cesium.Property;
+  plane?: Cesium.Property | any;
   dimensions?: Cesium.Property | Cesium.Cartesian2;
   show?: Cesium.Property | boolean;
   fill?: Cesium.Property | boolean;

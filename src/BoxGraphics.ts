@@ -4,7 +4,7 @@ import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
 export interface BoxGraphicsCesiumProps {
   heightReference?: Cesium.Property | Cesium.HeightReference;
-  dimensions?: Cesium.Property;
+  dimensions?: Cesium.Property | Cesium.Cartesian3;
   show?: Cesium.Property | boolean;
   fill?: Cesium.Property | boolean;
   material?: Cesium.MaterialProperty | Cesium.Color | string;
