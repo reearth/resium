@@ -8,7 +8,7 @@ import Billboard from "../Billboard";
 import BillboardCollection from "../BillboardCollection";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
-import exampleImg from "./assets/example.jpg";
+import exampleImg from "./assets/example.png";
 
 export default () => {
   storiesOf("Billboard", module)
