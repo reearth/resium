@@ -19,6 +19,8 @@ export const polylineEquals = (a: any, b: any) =>
 export const pickedObjectEquals = (picked: any, element: any) =>
   !!picked &&
   (picked === element ||
-    picked.primitive === element ||
-    (!!picked.primitive.equals && picked.primitive.equals(element)) ||
-    polylineEquals(picked.primitive, element));
+    (!!picked.id && picked.id === element) ||
+    (!!picked.primitive &&
+      (picked.primitive === element ||
+        (!!picked.primitive.equals && picked.primitive.equals(element)) ||
+        polylineEquals(picked.primitive, element))));
