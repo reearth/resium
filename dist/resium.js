@@ -49,34 +49,15 @@
 
     var commonjsGlobal = typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
-    /**
-     * lodash (Custom Build) <https://lodash.com/>
-     * Build: `lodash modularize exports="npm" -o ./`
-     * Copyright jQuery Foundation and other contributors <https://jquery.org/>
-     * Released under MIT license <https://lodash.com/license>
-     * Based on Underscore.js 1.8.3 <http://underscorejs.org/LICENSE>
-     * Copyright Jeremy Ashkenas, DocumentCloud and Investigative Reporters & Editors
-     */
-
-    /** Used as references for various `Number` constants. */
     var INFINITY = 1 / 0,
         MAX_SAFE_INTEGER = 9007199254740991;
-
-    /** `Object#toString` result references. */
     var argsTag = '[object Arguments]',
         funcTag = '[object Function]',
         genTag = '[object GeneratorFunction]',
         symbolTag = '[object Symbol]';
-
-    /** Detect free variable `global` from Node.js. */
     var freeGlobal = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
-
-    /** Detect free variable `self`. */
     var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
-
-    /** Used as a reference to the global object. */
     var root = freeGlobal || freeSelf || Function('return this')();
-
     /**
      * A faster alternative to `Function#apply`, this function invokes `func`
      * with the `this` binding of `thisArg` and the arguments of `args`.
@@ -96,7 +77,6 @@
       }
       return func.apply(thisArg, args);
     }
-
     /**
      * A specialized version of `_.map` for arrays without support for iteratee
      * shorthands.
@@ -110,13 +90,11 @@
       var index = -1,
           length = array ? array.length : 0,
           result = Array(length);
-
       while (++index < length) {
         result[index] = iteratee(array[index], index, array);
       }
       return result;
     }
-
     /**
      * Appends the elements of `values` to `array`.
      *
@@ -129,34 +107,18 @@
       var index = -1,
           length = values.length,
           offset = array.length;
-
       while (++index < length) {
         array[offset + index] = values[index];
       }
       return array;
     }
-
-    /** Used for built-in method references. */
     var objectProto = Object.prototype;
-
-    /** Used to check objects for own properties. */
     var hasOwnProperty = objectProto.hasOwnProperty;
-
-    /**
-     * Used to resolve the
-     * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
-     * of values.
-     */
     var objectToString = objectProto.toString;
-
-    /** Built-in value references. */
     var Symbol$1 = root.Symbol,
         propertyIsEnumerable = objectProto.propertyIsEnumerable,
         spreadableSymbol = Symbol$1 ? Symbol$1.isConcatSpreadable : undefined;
-
-    /* Built-in method references for those with the same name as other `lodash` methods. */
     var nativeMax = Math.max;
-
     /**
      * The base implementation of `_.flatten` with support for restricting flattening.
      *
@@ -171,15 +133,12 @@
     function baseFlatten(array, depth, predicate, isStrict, result) {
       var index = -1,
           length = array.length;
-
       predicate || (predicate = isFlattenable);
       result || (result = []);
-
       while (++index < length) {
         var value = array[index];
         if (depth > 0 && predicate(value)) {
           if (depth > 1) {
-            // Recursively flatten arrays (susceptible to call stack limits).
             baseFlatten(value, depth - 1, predicate, isStrict, result);
           } else {
             arrayPush(result, value);
@@ -190,7 +149,6 @@
       }
       return result;
     }
-
     /**
      * The base implementation of `_.pick` without support for individual
      * property identifiers.
@@ -206,7 +164,6 @@
         return key in object;
       });
     }
-
     /**
      * The base implementation of  `_.pickBy` without support for iteratee shorthands.
      *
@@ -220,18 +177,15 @@
       var index = -1,
           length = props.length,
           result = {};
-
       while (++index < length) {
         var key = props[index],
             value = object[key];
-
         if (predicate(value, key)) {
           result[key] = value;
         }
       }
       return result;
     }
-
     /**
      * The base implementation of `_.rest` which doesn't validate or coerce arguments.
      *
@@ -247,7 +201,6 @@
             index = -1,
             length = nativeMax(args.length - start, 0),
             array = Array(length);
-
         while (++index < length) {
           array[index] = args[start + index];
         }
@@ -260,7 +213,6 @@
         return apply(func, this, otherArgs);
       };
     }
-
     /**
      * Checks if `value` is a flattenable `arguments` object or array.
      *
@@ -272,7 +224,6 @@
       return isArray(value) || isArguments(value) ||
         !!(spreadableSymbol && value && value[spreadableSymbol]);
     }
-
     /**
      * Converts `value` to a string key if it's not a string or symbol.
      *
@@ -287,7 +238,6 @@
       var result = (value + '');
       return (result == '0' && (1 / value) == -INFINITY) ? '-0' : result;
     }
-
     /**
      * Checks if `value` is likely an `arguments` object.
      *
@@ -307,11 +257,9 @@
      * // => false
      */
     function isArguments(value) {
-      // Safari 8.1 makes `arguments.callee` enumerable in strict mode.
       return isArrayLikeObject(value) && hasOwnProperty.call(value, 'callee') &&
         (!propertyIsEnumerable.call(value, 'callee') || objectToString.call(value) == argsTag);
     }
-
     /**
      * Checks if `value` is classified as an `Array` object.
      *
@@ -336,7 +284,6 @@
      * // => false
      */
     var isArray = Array.isArray;
-
     /**
      * Checks if `value` is array-like. A value is considered array-like if it's
      * not a function and has a `value.length` that's an integer greater than or
@@ -365,7 +312,6 @@
     function isArrayLike(value) {
       return value != null && isLength(value.length) && !isFunction(value);
     }
-
     /**
      * This method is like `_.isArrayLike` except that it also checks if `value`
      * is an object.
@@ -394,7 +340,6 @@
     function isArrayLikeObject(value) {
       return isObjectLike(value) && isArrayLike(value);
     }
-
     /**
      * Checks if `value` is classified as a `Function` object.
      *
@@ -413,12 +358,9 @@
      * // => false
      */
     function isFunction(value) {
-      // The use of `Object#toString` avoids issues with the `typeof` operator
-      // in Safari 8-9 which returns 'object' for typed array and other constructors.
       var tag = isObject(value) ? objectToString.call(value) : '';
       return tag == funcTag || tag == genTag;
     }
-
     /**
      * Checks if `value` is a valid array-like length.
      *
@@ -449,7 +391,6 @@
       return typeof value == 'number' &&
         value > -1 && value % 1 == 0 && value <= MAX_SAFE_INTEGER;
     }
-
     /**
      * Checks if `value` is the
      * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
@@ -479,7 +420,6 @@
       var type = typeof value;
       return !!value && (type == 'object' || type == 'function');
     }
-
     /**
      * Checks if `value` is object-like. A value is object-like if it's not `null`
      * and has a `typeof` result of "object".
@@ -507,7 +447,6 @@
     function isObjectLike(value) {
       return !!value && typeof value == 'object';
     }
-
     /**
      * Checks if `value` is classified as a `Symbol` primitive or object.
      *
@@ -529,7 +468,6 @@
       return typeof value == 'symbol' ||
         (isObjectLike(value) && objectToString.call(value) == symbolTag);
     }
-
     /**
      * Creates an object composed of the picked `object` properties.
      *
@@ -550,13 +488,11 @@
     var pick = baseRest(function(object, props) {
       return object == null ? {} : basePick(object, arrayMap(baseFlatten(props, 1), toKey));
     });
-
     var lodash_pick = pick;
 
     var _a;
     var Provider = (_a = React.createContext({}), _a.Provider), Consumer = _a.Consumer;
     var withCesium = function (Component) {
-        // supports both functional components and class components
         return React.forwardRef(function (props, ref) { return (React.createElement(Consumer, null, function (value) { return React.createElement(Component, __assign({}, Object.assign({}, props, { ref: ref }), { cesium: value })); })); });
     };
 
@@ -581,7 +517,6 @@
     var updateEvents = function (target, prevEvents, newEvents) {
         var pek = Object.keys(prevEvents);
         var nek = Object.keys(newEvents);
-        // removed events
         var re = pek
             .map(function (k) { return [k, prevEvents[k]]; })
             .reduce(function (e, _a) {
@@ -591,7 +526,6 @@
             }
             return e;
         }, {});
-        // new events
         var ne = nek
             .map(function (k) { return [k, newEvents[k]]; })
             .reduce(function (e, _a) {
@@ -645,7 +579,7 @@
                 return lodash_pick(props, opts.cesiumReadonlyProps || []);
             };
             CesiumComponent.shouldUpdate = function (a, b) {
-                return Object.keys(a).some(function (k) { return a[k] !== b[k]; });
+                return Object.keys(a).filter(function (k) { return a[k] !== b[k]; });
             };
             Object.defineProperty(CesiumComponent.prototype, "cesiumElement", {
                 get: function () {
@@ -665,16 +599,33 @@
             };
             CesiumComponent.prototype.componentDidMount = function () {
                 if (opts.createRef) {
-                    this.create();
+                    this.create(this.props);
                 }
                 this.mount();
                 this.mounted = true;
                 this.forceUpdate();
             };
             CesiumComponent.prototype.componentDidUpdate = function (prevProps) {
-                // if readonly props is updated, remount this component.
-                if (CesiumComponent.shouldUpdate(CesiumComponent.getCesiumReadOnlyProps(this.props), CesiumComponent.getCesiumReadOnlyProps(prevProps))) {
-                    this.remount();
+                if (!this.mounted) {
+                    if (opts.createRef) {
+                        this.create(this.props);
+                    }
+                    this.mount();
+                    this.mounted = true;
+                    this.forceUpdate();
+                    return;
+                }
+                var shouldUpdateProps = CesiumComponent.shouldUpdate(CesiumComponent.getCesiumReadOnlyProps(this.props), CesiumComponent.getCesiumReadOnlyProps(prevProps));
+                if (shouldUpdateProps.length > 0) {
+                    if (process.env.NODE_ENV !== "production") {
+                        console.warn("Warning: <" + opts.name + "> is remounted because read only props have been updated: " + shouldUpdateProps.join(", "));
+                    }
+                    this.unmount();
+                    if (!opts.createRef) {
+                        this.create(this.props);
+                    }
+                    this.mounted = false;
+                    this.forceUpdate();
                     return;
                 }
                 this.update(prevProps);
@@ -685,7 +636,6 @@
             };
             CesiumComponent.prototype.create = function (props) {
                 var _this = this;
-                if (props === void 0) { props = this.props; }
                 var cesiumProps = lodash_pick(props, (opts.cesiumProps || []).concat((opts.cesiumReadonlyProps || [])));
                 var element = opts.create(cesiumProps, props, this.props.cesium, this.ref);
                 if (Array.isArray(element)) {
@@ -736,11 +686,6 @@
                 if (opts.update && this._ce) {
                     opts.update(this._ce, this.props, prevProps, this.props.cesium);
                 }
-            };
-            CesiumComponent.prototype.remount = function () {
-                this.unmount();
-                this.create(undefined);
-                this.mount();
             };
             CesiumComponent.displayName = opts.name;
             CesiumComponent.defaultProps = opts.defaultProps || {};
@@ -798,9 +743,11 @@
     var pickedObjectEquals = function (picked, element) {
         return !!picked &&
             (picked === element ||
-                picked.primitive === element ||
-                (!!picked.primitive.equals && picked.primitive.equals(element)) ||
-                polylineEquals(picked.primitive, element));
+                (!!picked.id && picked.id === element) ||
+                (!!picked.primitive &&
+                    (picked.primitive === element ||
+                        (!!picked.primitive.equals && picked.primitive.equals(element)) ||
+                        polylineEquals(picked.primitive, element))));
     };
 
     var eventNames = [
@@ -981,11 +928,9 @@
             }
             var picked = this.scene.pick(pos);
             if (picked) {
-                // Entity
                 if (picked.id instanceof Cesium__default.Entity) {
                     return picked.id;
                 }
-                // Other
                 return picked;
             }
             return undefined;
@@ -1126,7 +1071,6 @@
     var BillboardGraphics = createCesiumComponent({
         name: "BillboardGraphics",
         create: function (cprops) {
-            // workaround: type of "image" prop
             return new Cesium__default.BillboardGraphics(cprops);
         },
         mount: function (element, context) {
@@ -1298,7 +1242,6 @@
         tileUnload: "onTileUnload",
         tileVisible: "onTileVisible",
     };
-    // workaround: any => Cesium.3DTileset
     var Cesium3DTileset = createCesiumComponent({
         name: "Cesium3DTileset",
         create: function (cprops, props) {
@@ -1358,12 +1301,10 @@
         name: "Viewer",
         createRef: true,
         create: function (cprops, props, context, ref) {
-            // ref is not always undefined
             var v = new Cesium.CesiumWidget(ref.current, cprops);
             if (v && typeof props.resolutionScale === "number") {
                 v.resolutionScale = props.resolutionScale;
             }
-            // common ScreenSpaceEventHandler for events of Entity and Primitives
             var state;
             if (v) {
                 state = new Cesium__default.ScreenSpaceEventHandler(v.canvas);
@@ -1825,7 +1766,6 @@
         cesiumEventProps: cesiumEventProps$b,
     });
 
-    // tslint:disable-next-line:no-var-requires
     var renderToStaticMarkup = require("react-dom/server.browser").renderToStaticMarkup;
     var EntityDescription = /** @class */ (function (_super) {
         __extends(EntityDescription, _super);
@@ -2067,7 +2007,7 @@
                 minimumTerrainLevel: cprops.minimumTerrainLevel,
                 maximumTerrainLevel: cprops.maximumTerrainLevel,
                 cutoutRectangle: cprops.cutoutRectangle,
-            } /* workaround for splitDirection */);
+            }                                    );
         },
         mount: function (element, context) {
             if (context.imageryLayerCollection) {
@@ -2360,7 +2300,6 @@
     var Model = createCesiumComponent({
         name: "Model",
         create: function (cprops, props) {
-            // Workaround: basePath?: Cesium.Resource | string;
             var model = props.url
                 ? Cesium__default.Model.fromGltf(cprops)
                 : new Cesium__default.Model(cprops);
@@ -2442,9 +2381,6 @@
             if (context.scene && !context.scene.isDestroyed()) {
                 context.scene.moon = new Cesium__default.Moon();
             }
-            // if (!element.isDestroyed()) {
-            //   element.destroy();
-            // }
         },
         cesiumProps: cesiumProps$p,
         cesiumReadonlyProps: cesiumReadonlyProps$7,
@@ -2547,7 +2483,6 @@
         "shadows",
         "distanceDisplayCondition",
     ];
-    // Cesium.PlaneGraphics
     var cesiumEventProps$k = {
         definitionChanged: "onDefinitionChange",
     };
@@ -3216,7 +3151,6 @@
         "mapMode2D",
         "maximumRenderTimeChange",
         "minimumDisableDepthTestDistance",
-        // "mode", // enable morph with animation
         "moon",
         "morphTime",
         "nearToFarDistance2D",
@@ -3269,12 +3203,6 @@
                 morph(scene, props.mode, props.morph);
             }
         },
-        // provide(element) {
-        //   return {
-        //     scene: element,
-        //     camera: element.camera,
-        //   };
-        // },
         cesiumProps: cesiumProps$G,
         cesiumEventProps: cesiumEventProps$q,
         setCesiumPropsAfterCreate: true,
@@ -3322,9 +3250,15 @@
             this.setEvent();
         };
         ScreenSpaceEvent.prototype.componentDidUpdate = function (prevProps) {
-            var screenSpaceEventHandler = this.context.screenSpaceEventHandler;
-            screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
-            this.setEvent();
+            if (prevProps.type !== this.props.type ||
+                prevProps.modifier !== this.props.modifier ||
+                prevProps.action !== this.props.action) {
+                var screenSpaceEventHandler = this.props.cesium.screenSpaceEventHandler;
+                if (screenSpaceEventHandler) {
+                    screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
+                }
+                this.setEvent();
+            }
         };
         ScreenSpaceEvent.prototype.componentWillUnmount = function () {
             var _a = this.props, action = _a.action, screenSpaceEventHandler = _a.cesium.screenSpaceEventHandler, modifier = _a.modifier, type = _a.type;
@@ -3344,7 +3278,6 @@
                 screenSpaceEventHandler.setInputAction(action, type, modifier);
             }
             else {
-                // just remove default events
                 screenSpaceEventHandler.removeInputAction(type, modifier);
             }
         };
@@ -3384,9 +3317,6 @@
             if (context.scene && !context.scene.isDestroyed()) {
                 context.scene.sun = new Cesium__default.Sun();
             }
-            // if (!element.isDestroyed()) {
-            //   element.destroy();
-            // }
         },
         cesiumProps: cesiumProps$I,
         setCesiumPropsAfterCreate: true,
@@ -3494,7 +3424,6 @@
         name: "Viewer",
         createRef: true,
         create: function (cprops, props, context, ref) {
-            // ref is not always undefined
             var v = new Cesium.Viewer(ref.current, cprops);
             if (v && props.extend) {
                 if (Array.isArray(props.extend)) {
@@ -3506,7 +3435,6 @@
                     v.extend(props.extend, {});
                 }
             }
-            // common event manager for managing events of Entity and Primitives
             var state;
             if (v) {
                 state = new EventManager(v.scene, v.canvas);

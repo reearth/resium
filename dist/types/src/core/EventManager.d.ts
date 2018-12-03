@@ -4,7 +4,7 @@ export interface EventProps<T> {
     onClick?: (movement: CesiumMovementEvent, target: T) => void;
     onDoubleClick?: (movement: CesiumMovementEvent, target: T) => void;
     onMouseDown?: (movement: CesiumMovementEvent, target: T) => void;
-    onMouseUp?: (movement: CesiumMovementEvent, entitargetty: T) => void;
+    onMouseUp?: (movement: CesiumMovementEvent, target: T) => void;
     onMiddleClick?: (movement: CesiumMovementEvent, target: T) => void;
     onMiddleDown?: (movement: CesiumMovementEvent, target: T) => void;
     onMiddleUp?: (movement: CesiumMovementEvent, target: T) => void;
