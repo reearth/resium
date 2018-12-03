@@ -21,9 +21,17 @@ class ScreenSpaceEvent extends React.PureComponent<
   }
 
   public componentDidUpdate(prevProps: ScreenSpaceEventProps) {
-    const { screenSpaceEventHandler } = this.context;
-    screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
-    this.setEvent();
+    if (
+      prevProps.type !== this.props.type ||
+      prevProps.modifier !== this.props.modifier ||
+      prevProps.action !== this.props.action
+    ) {
+      const { screenSpaceEventHandler } = this.props.cesium;
+      if (screenSpaceEventHandler) {
+        screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
+      }
+      this.setEvent();
+    }
   }
 
   public componentWillUnmount() {
