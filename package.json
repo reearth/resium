@@ -22,7 +22,7 @@
     "format": "run-p format:js format:ts",
     "format:js": "prettier-eslint --write '*.js' --write 'src/**/*.js' --write '.storybook/**/*.js'",
     "format:ts": "prettier --write '**/*.ts' --write '**/*.tsx'",
-    "storybook": "cross-env start-storybook -p 9001"
+    "storybook": "start-storybook -p 9001"
   },
   "engines": {
     "node": ">=8"
