@@ -8,7 +8,7 @@ React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 npm install resium
 ```
 
-**WARNING:** `master` branch now includes braking changes for v1 (not yet released).
+**WARNING:** `master` branch now includes breaking changes for v1 (not yet released).
 
 ```jsx
 <Viewer full>
