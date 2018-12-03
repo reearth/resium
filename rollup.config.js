@@ -4,6 +4,7 @@ import typescript from "rollup-plugin-typescript2";
 import replace from "rollup-plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import cleanup from "rollup-plugin-cleanup";
 
 // eslint-disable-next-line import/extensions
 import pkg from "./package.json";
@@ -43,6 +44,10 @@ export default {
     resolve(),
     commonjs(),
     sourcemaps(),
+    cleanup({
+      comments: ["license", "jsdoc"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+    }),
   ].concat(
     env === "production"
       ? [
