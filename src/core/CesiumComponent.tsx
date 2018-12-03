@@ -89,7 +89,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
 
     private static shouldUpdate(a: { [key: string]: any }, b: { [key: string]: any }) {
-      return Object.keys(a).some(k => a[k] !== b[k]);
+      return Object.keys(a).filter(k => a[k] !== b[k]);
     }
 
     public get cesiumElement() {
@@ -138,7 +138,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
 
     public componentDidMount() {
       if (opts.createRef) {
-        this.create();
+        this.create(this.props);
       }
       this.mount();
       this.mounted = true;
@@ -146,14 +146,39 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     }
 
     public componentDidUpdate(prevProps: WithContextProps<P, C>) {
+      // rerender on remount
+      if (!this.mounted) {
+        if (opts.createRef) {
+          this.create(this.props);
+        }
+        this.mount();
+        this.mounted = true;
+        this.forceUpdate();
+        return;
+      }
+
       // if readonly props is updated, remount this component.
-      if (
-        CesiumComponent.shouldUpdate(
-          CesiumComponent.getCesiumReadOnlyProps(this.props),
-          CesiumComponent.getCesiumReadOnlyProps(prevProps),
-        )
-      ) {
-        this.remount();
+      const shouldUpdateProps = CesiumComponent.shouldUpdate(
+        CesiumComponent.getCesiumReadOnlyProps(this.props),
+        CesiumComponent.getCesiumReadOnlyProps(prevProps),
+      );
+      if (shouldUpdateProps.length > 0) {
+        if (process.env.NODE_ENV !== "production") {
+          console.warn(
+            `Warning: <${
+              opts.name
+            }> is remounted because read only props have been updated: ${shouldUpdateProps.join(
+              ", ",
+            )}`,
+          );
+        }
+
+        this.unmount();
+        if (!opts.createRef) {
+          this.create(this.props);
+        }
+        this.mounted = false;
+        this.forceUpdate();
         return;
       }
 
@@ -165,7 +190,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       this._ce = undefined;
     }
 
-    private create(props: Readonly<WithContextProps<P, C>> = this.props) {
+    private create(props: Readonly<WithContextProps<P, C>>) {
       const cesiumProps = pick(props, [
         ...(opts.cesiumProps || []),
         ...(opts.cesiumReadonlyProps || []),
@@ -225,12 +250,6 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       if (opts.update && this._ce) {
         opts.update(this._ce, this.props, prevProps, this.props.cesium);
       }
-    }
-
-    private remount() {
-      this.unmount();
-      this.create(undefined);
-      this.mount();
     }
   }
 
