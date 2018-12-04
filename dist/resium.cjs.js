@@ -3144,6 +3144,7 @@ var cesiumProps$G = [
     "fog",
     "fxaa",
     "globe",
+    "highDynamicRange",
     "imagerySplitPosition",
     "invertClassification",
     "invertClassificationColor",

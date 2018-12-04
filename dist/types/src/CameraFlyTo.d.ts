@@ -25,7 +25,7 @@ declare const CameraFlyTo: import("react").ForwardRefExoticComponent<{
     flyOverLongitude?: number | undefined;
     flyOverLongitudeWeight?: number | undefined;
     easingFunction?: EasingFunction | undefined;
-} & import("./core/CameraOperation").CameraOperationProps & import("react").RefAttributes<import("react").ComponentType<import("./core/context").WithContextProps<{
+} & import("./core/CameraOperation").CameraOperationProps & import("react").RefAttributes<import("react").ComponentType<import(".").WithContextProps<{
     destination: Cartesian3 | Rectangle;
     orientation?: any;
     duration?: number | undefined;

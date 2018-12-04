@@ -25,7 +25,7 @@ declare const CameraFlyToBoundingSphere: import("react").ForwardRefExoticCompone
     flyOverLongitude?: number | undefined;
     flyOverLongitudeWeight?: number | undefined;
     easingFunction?: EasingFunction | undefined;
-} & import("./core/CameraOperation").CameraOperationProps & import("react").RefAttributes<import("react").ComponentType<import("./core/context").WithContextProps<{
+} & import("./core/CameraOperation").CameraOperationProps & import("react").RefAttributes<import("react").ComponentType<import(".").WithContextProps<{
     boundingSphere: BoundingSphere;
     duration?: number | undefined;
     offset?: HeadingPitchRange | undefined;

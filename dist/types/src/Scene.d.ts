@@ -15,6 +15,7 @@ export interface SceneCesiumProps {
     fog?: Cesium.Fog;
     fxaa?: boolean;
     globe?: Cesium.Globe;
+    highDynamicRange?: boolean;
     imagerySplitPosition?: number;
     invertClassification?: boolean;
     invertClassificationColor?: Cesium.Color;

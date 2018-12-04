@@ -3143,6 +3143,7 @@
         "fog",
         "fxaa",
         "globe",
+        "highDynamicRange",
         "imagerySplitPosition",
         "invertClassification",
         "invertClassificationColor",
