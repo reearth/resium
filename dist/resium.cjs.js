@@ -3343,7 +3343,6 @@ var TimeDynamicPointCloud = createCesiumComponent({
     create: function (cprops, props, context) {
         var tdpc = new Cesium__default.TimeDynamicPointCloud(__assign({}, cprops, { clock: cprops.clock || (context.cesiumWidget && context.cesiumWidget.clock) }));
         if (props.onReady) {
-            console.log("ready", tdpc);
             tdpc.readyPromise.then(props.onReady);
         }
         return tdpc;
