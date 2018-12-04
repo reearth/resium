@@ -8,8 +8,6 @@ React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 npm install resium
 ```
 
-**WARNING:** `master` branch now includes breaking changes for v1 (not yet released).
-
 ```jsx
 <Viewer full>
   <Entity
@@ -23,25 +21,9 @@ npm install resium
 
 ![Screenshot](docs/screenshot.png)
 
-Available components:
+**WARNING:** `master` branch now includes breaking changes for v1 (not yet released).
 
-- `<Viewer>`
-- `<CesiumWidget>`
-- `<Scene>`
-- `<Camera>`
-- `<Entity>`
-- `<CustomDataSource>`
-- `<CzmlDataSource>`
-- `<GeoJsonDataSource>`
-- `<KmlDataSource>`
-- `<Primitive>`
-- `<PointPrimitive>`
-- `<PointPrimitiveCollection>`
-- `<ScreenSpaceEvent>`
-- `<ScreenSpaceEventHandler>`
-- `<ScreenSpaceCameraController>`
-- `<ImageryLayer>`
-- ...
+If you want to use beta versions, use `npm i resium@next`.
 
 ## Documentation
 
@@ -56,7 +38,7 @@ yarn run storybook # run storybook
 
 ## Getting Started
 
-### Option1: webpack + copy-webpack-plugin + html-webpack-plugin  + html-webpack-include-assets-plugin
+### Option1: copying cesium files without bundling
 
 See also: [example](example)
 
@@ -107,40 +89,27 @@ module.exports = (env, args) => {
 
 ### Option2: [Cesium official way](https://cesiumjs.org/tutorials/cesium-and-webpack/)
 
-**⚠ Unconfirmed**
+After [the article](https://cesiumjs.org/tutorials/cesium-and-webpack/), install resium:
 
-After the article:
-
-```bash
+```sh
 npm i resium
 ```
 
+And then, add aliases to webpack config as bellow:
+
 ```js
-module.exports = {
-  // ...
-  alias: {
-    cesiumSource: "cesium",
-    cesium: "cesium/Cesium"
-  },
-  // ...
+alias: {
+  cesium$: "cesium/Cesium",
+  cesium: "cesium/Source"
 }
 ```
 
-Then replace as bellow:
+Notes:
 
-```js
-import Color from "cesium/Core/Color";
-```
+- Be careful in order.
+- `cesium: path.resolve(__dirname, cesiumSource)` is unnecessary.
 
-to
-
-```js
-import Color from "cesiumSource/Core/Color";
-```
-
-## TODO
-
-Refer to GitHub issues.
+Everything is ready!
 
 ## Contributing
 
