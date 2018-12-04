@@ -17,6 +17,7 @@ export interface SceneCesiumProps {
   fog?: Cesium.Fog;
   fxaa?: boolean;
   globe?: Cesium.Globe;
+  highDynamicRange?: boolean;
   imagerySplitPosition?: number;
   invertClassification?: boolean;
   invertClassificationColor?: Cesium.Color;
@@ -73,6 +74,7 @@ const cesiumProps: Array<keyof SceneCesiumProps> = [
   "fog",
   "fxaa",
   "globe",
+  "highDynamicRange",
   "imagerySplitPosition",
   "invertClassification",
   "invertClassificationColor",
