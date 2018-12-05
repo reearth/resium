@@ -1,53 +1,30 @@
 # resium
 ![](website/static/img/resium.gif)
 
-[![Build Status](https://travis-ci.org/rot1024/cesium-react.svg?branch=master)](https://travis-ci.org/rot1024/cesium-react) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
+[![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
 
 React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 
-```js
-import React from "react";
-import { Cartesian3 } from "cesium";
-import { Viewer, Entity } from "resium";
+```
+npm install resium
+```
 
-export default class Cesium extends React.PureComponent {
-
-  render() {
-    return (
-      <Viewer full>
-        <Entity
-          name="tokyo"
-          position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
-          point={{ pixelSize: 10 }}>
-          test
-        </Entity>
-      </Viewer>
-    );
-  }
-
-}
+```jsx
+<Viewer full>
+  <Entity
+    description="test"
+    name="tokyo"
+    point={{ pixelSize: 10 }}
+    position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+   />
+</Viewer>
 ```
 
 ![Screenshot](docs/screenshot.png)
-Available components:
 
-- `<Viewer>`
-- `<CesiumWidget>`
-- `<Scene>`
-- `<Camera>`
-- `<Entity>`
-- `<CustomDataSource>`
-- `<CzmlDataSource>`
-- `<GeoJsonDataSource>`
-- `<KmlDataSource>`
-- `<Primitive>`
-- `<PointPrimitive>`
-- `<PointPrimitiveCollection>`
-- `<ScreenSpaceEvent>`
-- `<ScreenSpaceEventHandler>`
-- `<ScreenSpaceCameraController>`
-- `<ImageryLayer>`
-- ...
+**WARNING:** `master` branch now includes breaking changes for v1 (not yet released).
+
+If you want to use beta versions, use `npm i resium@next`.
 
 ## Documentation
 
@@ -62,12 +39,13 @@ yarn run storybook # run storybook
 
 ## Getting Started
 
-### Option1: webpack + copy-webpack-plugin + html-webpack-plugin  + html-webpack-include-assets-plugin
+### Option1: copying cesium files without bundling
 
 See also: [example](example)
 
 ```bash
-npm i resium cesium copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin --save-dev
+npm i --save resium cesium
+npm i --save-dev copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin
 ```
 
 webpack.config.js:
@@ -112,40 +90,27 @@ module.exports = (env, args) => {
 
 ### Option2: [Cesium official way](https://cesiumjs.org/tutorials/cesium-and-webpack/)
 
-**⚠ Unconfirmed**
+After [the article](https://cesiumjs.org/tutorials/cesium-and-webpack/), install resium:
 
-After the article:
-
-```bash
+```sh
 npm i resium
 ```
 
+And then, add aliases to webpack config as bellow:
+
 ```js
-module.exports = {
-  // ...
-  alias: {
-    cesiumSource: "cesium",
-    cesium: "cesium/Cesium"
-  },
-  // ...
+alias: {
+  cesium$: "cesium/Cesium",
+  cesium: "cesium/Source"
 }
 ```
 
-Then replace as bellow:
+Notes:
 
-```js
-import Color from "cesium/Core/Color";
-```
+- Be careful in order.
+- `cesium: path.resolve(__dirname, cesiumSource)` is unnecessary.
 
-to
-
-```js
-import Color from "cesiumSource/Core/Color";
-```
-
-## TODO
-
-Refer to GitHub issues.
+Everything is ready!
 
 ## Contributing
 

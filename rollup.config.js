@@ -1,10 +1,10 @@
 import resolve from "rollup-plugin-node-resolve";
 import commonjs from "rollup-plugin-commonjs";
-import babel from "rollup-plugin-babel";
 import typescript from "rollup-plugin-typescript2";
 import replace from "rollup-plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import cleanup from "rollup-plugin-cleanup";
 
 // eslint-disable-next-line import/extensions
 import pkg from "./package.json";
@@ -12,28 +12,24 @@ import pkg from "./package.json";
 const env = process.env.NODE_ENV;
 
 export default {
-  input: "src/index.js",
+  input: "./src/index.ts",
   output: {
     format: ["es", "cjs"].indexOf(env) >= 0 ? env : "umd",
     file:
       env === "es"
         ? pkg.module
         : env === "cjs"
-          ? pkg.main
-          : `dist/cesium-react${env === "production" ? ".min" : ""}.js`,
+        ? pkg.main
+        : `dist/resium${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom/server.browser": "ReactDOMServer",
-      "prop-types": "PropTypes",
       cesium: "Cesium",
     },
-    name: "CesiumReact",
+    name: "Resium",
     sourcemap: true,
   },
   plugins: [
-    babel({
-      exclude: "node_modules/**",
-    }),
     typescript({
       tsconfigOverride: {
         compilerOptions: {
@@ -43,10 +39,15 @@ export default {
         },
       },
       useTsconfigDeclarationDir: true,
+      exclude: ["./src/stories/*", "./src/test/**/*", "./__mocks__/**/*"],
     }),
     resolve(),
     commonjs(),
     sourcemaps(),
+    cleanup({
+      comments: ["license", "jsdoc"],
+      extensions: [".js", ".jsx", ".ts", ".tsx"],
+    }),
   ].concat(
     env === "production"
       ? [
@@ -57,5 +58,5 @@ export default {
         ]
       : [],
   ),
-  external: ["react", "react-dom/server.browser", "prop-types", "cesium"],
+  external: ["react", "react-dom/server.browser", "cesium"],
 };

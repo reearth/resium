@@ -8,7 +8,7 @@
     "moduleResolution": "node",
     "noImplicitReturns": true,
     "pretty": true,
-    "rootDir": "src",
+    "rootDir": ".",
     "sourceMap": true,
     "strict": true,
     "target": "es5",
