@@ -3,6 +3,7 @@ import CopyPlugin from "copy-webpack-plugin";
 
 export default {
   typescript: true,
+  title: "resium",
   htmlContext: {
     head: {
       links: [
