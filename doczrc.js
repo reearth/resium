@@ -4,6 +4,13 @@ import CopyPlugin from "copy-webpack-plugin";
 export default {
   typescript: true,
   title: "resium",
+  menu: [
+    "Home",
+    "Installation",
+    "Set up webpack config 1",
+    "Set up webpack config 2",
+    "Getting Started",
+  ],
   htmlContext: {
     head: {
       links: [
