@@ -1,0 +1,32 @@
+---
+name: Installation
+route: /installation
+order: 0
+---
+
+# Installation
+
+## 1. Install cesium and resium
+
+You can install `cesium` and `resium` from npm.
+
+```sh
+npm install --save cesium resium
+```
+
+**Note**: If you are using TypeScript, install `@types/cesium` also. Installing `@types/resium` is unnecessary as type definitions are built-in.
+
+## 2. Set up webpack configuration
+
+To use Cesium in webpack env, preparation is a bit more necessary, because Cesium includes many asset files and uses AMD as module system.
+
+**Note**: If you are using `create-react-app`, ejecting is required.
+
+There are two options. Choose one. 
+
+1. [Copy whole Cesium files and load Cesium in HTML](/installation1) (easier)
+2. [Copy only asset files and load Cesium partially](/installation2)
+
+## 3. Ready
+
+Everything is ready! Advance to [Getting Started](/getting_started).

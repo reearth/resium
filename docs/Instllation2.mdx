@@ -1,0 +1,148 @@
+---
+name: Set up webpack config 2
+route: /installation2
+---
+
+# Set up webpack config 2
+
+Copy only asset files and load Cesium partially.
+
+See also: [Cesium and Webpack](https://cesiumjs.org/tutorials/cesium-and-webpack/)
+
+## 1. Install webpack plugins and loaders
+
+```
+npm install --save-dev copy-webpack-plugin css-loader style-loader url-loader strip-pragma-loader
+```
+
+Then, edit your webpack configuration.
+
+## 2. Define Cesium path
+
+```js
+const cesiumSource = 'node_modules/cesium/Source';
+const cesiumWorkers = '../Build/Cesium/Workers';
+```
+
+## 3. Add aliases
+
+Be careful in order. Reversing them does not work.
+
+```js
+resolve: {
+  alias: {
+    cesium$: 'cesium/Cesium',
+    cesium: 'cesium/Source'
+  }
+}
+```
+
+## 4. Add copy-webpack-plugin
+
+Copy only asset files at build time.
+
+```js
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+```
+
+```js
+plugins: [
+  new CopyWebpackPlugin([
+    {
+      from: path.join(cesiumSource, cesiumWorkers),
+      to: 'Workers'
+    },
+    {
+      from: path.join(cesiumSource, 'Assets'),
+      to: 'Assets'
+    },
+    {
+      from: path.join(cesiumSource, 'Widgets'),
+      to: 'Widgets'
+    }
+  ])
+]
+```
+
+## 5. Add definition of CESIUM_BASE_URL
+
+Cesium refers to `CESIUM_BASE_URL` to find asset files.
+
+```js
+const webpack = require('webpack');
+```
+
+```js
+plugins: [
+  // ...
+  new webpack.DefinePlugin({
+    CESIUM_BASE_URL: JSON.stringify('')
+  })
+]
+```
+
+## 6. Set up other settings
+
+```js
+output: {
+  // Needed to compile multiline strings in Cesium
+  sourcePrefix: ''
+},
+amd: {
+  // Enable webpack-friendly use of require in Cesium
+  toUrlUndefined: true
+},
+node: {
+  // Resolve node module use of fs
+  fs: 'empty'
+}
+```
+
+## 7. Remove extra code in proction build
+
+This is optional, but it is recommended for production build.
+
+```js
+module.exports = (env, argv) => {
+  const prod = argv.mode === 'production';
+
+  return {
+    // ...
+    module: {
+      // ...
+      ...[prod ? {
+        // Strip cesium pragmas
+        test: /\.js$/,
+        enforce: 'pre',
+        include: path.resolve(__dirname, cesiumSource),
+        use: [
+          {
+            loader: 'strip-pragma-loader',
+        		options: {
+              pragmas: {
+                debug: false
+              }
+            }
+          }
+        ]
+      } : {}]
+    }
+  };
+};
+```
+
+## Ready!
+
+Everything is ready! Advance to [Getting Started](/getting_started).
+
+You cam load Cesium directly:
+
+```js
+import { Cartesian3 } from "cesium";
+```
+
+or
+
+```js
+import Cartesian3 from "cesium/Core/Cartesian3";
+```
