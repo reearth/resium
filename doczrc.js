@@ -6,10 +6,18 @@ export default {
   title: "resium",
   menu: [
     "Home",
-    "Installation",
-    "Set up webpack config 1",
-    "Set up webpack config 2",
+    {
+      name: "Installation",
+      menu: ["Installation", "Set up webpack config 1", "Set up webpack config 2"],
+    },
     "Getting Started",
+    "Guide",
+    {
+      name: "Components",
+      menu: ["Viewer"],
+    },
+    "Migration Guide",
+    "Contribution",
   ],
   htmlContext: {
     head: {
