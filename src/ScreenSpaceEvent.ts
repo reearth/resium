@@ -4,7 +4,7 @@ import Cesium from "cesium";
 import { withCesium } from "./core/context";
 
 export interface ScreenSpaceEventProps {
-  action: (e: { position: Cesium.Cartesian2 }) => void;
+  action?: (e: { position: Cesium.Cartesian2 }) => void;
   modifier?: number;
   type: number;
 }
