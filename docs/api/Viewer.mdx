@@ -1,7 +1,97 @@
 ---
 name: Viewer
-route: /components/viewer
+route: /components/Viewer
 menu: Components
 ---
 
+import { Playground } from "docz";
+import Viewer from "../components/Viewer";
+
 # Viewer
+
+`Viewer` is a root component of resium same as `CesiumWidget`. All components of resium except the root components have to be mounted inside it.
+
+Cesium documentation: [Viewer](https://cesiumjs.org/Cesium/Build/Documentation/Viewer.html)
+
+<Playground>
+  <Viewer full animation={false} timeline={false} />
+</Playground>
+
+## Properties
+
+### Cesium properties
+
+| Property | Type | Description |
+|--|--|--|
+| terrainProvider | Cesium.TerrainProvider | |
+| terrainShadows | Cesium.ShadowMode | |
+| clockTrackedDataSource | Cesium.DataSource | |
+| targetFrameRate | number | |
+| useDefaultRenderLoop | boolean | |
+| resolutionScale | number | |
+| allowDataSourcesToSuspendAnimation | boolean | |
+| trackedEntity | Cesium.Entity | |
+| selectedEntity | Cesium.Entity | |
+| shadows | boolean | |
+
+### Cesium read only properties
+
+| Property | Type | Description |
+|--|--|--|
+| animation | boolean | |
+| baseLayerPicker | boolean | |
+| fullscreenButton | boolean | |
+| vrButton | boolean | |
+| geocoder | boolean | |
+| homeButton | boolean | |
+| infoBox | boolean | |
+| sceneModePicker | boolean | |
+| selectionIndicator | boolean | |
+| timeline | boolean | |
+| navigationHelpButton | boolean | |
+| navigationInstructionsInitiallyVisible | boolean | |
+| scene3DOnly | boolean | |
+| shouldAnimate | boolean | |
+| clockViewModel | Cesium.ClockViewModel | |
+| selectedImageryProviderViewModel | Cesium.ProviderViewModel | |
+| imageryProviderViewModels | Cesium.ProviderViewModel[] | |
+| selectedTerrainProviderViewModel | Cesium.ProviderViewModel | |
+| terrainProviderViewModels | Cesium.ProviderViewModel[] | |
+| imageryProvider | Cesium.ImageryProvider | |
+| skyBox | Cesium.SkyBox | |
+| skyAtmosphere | Cesium.SkyAtmosphere | |
+| fullscreenElement | Element &#124; string | |
+| showRenderLoopErrors | boolean | |
+| automaticallyTrackDataSourceClocks | boolean | |
+| contextOptions | any | |
+| sceneMode | Cesium.SceneMode | |
+| mapProjection | Cesium.MapProjection | |
+| globe | Cesium.Globe | |
+| orderIndependentTranslucency | boolean | |
+| creditContainer | Element &#124; string | |
+| creditViewport | Element &#124; string | |
+| dataSources | Cesium.DataSourceCollection | |
+| terrainExaggeration | number | |
+| mapMode2D | Cesium.MapMode2D | |
+| projectionPicker | boolean | |
+| requestRenderMode | boolean | |
+| maximumRenderTimeChange | number | |
+
+### Cesium events
+
+| Property | Type  | Description |
+|--|--|--|--|
+| onSelectedEntityChange | () => void | Correspond to　[Viewer#selectedEntityChanged](https://cesiumjs.org/Cesium/Build/Documentation/Viewer.html#selectedEntityChanged) |
+| onTrackedEntityChange | () => void | Correspond to [Viewer#trackedEntityChanged](https://cesiumjs.org/Cesium/Build/Documentation/Viewer.html#trackedEntityChanged) |
+
+### Other properties
+
+| Property | Type | Description |
+|--|--|--|
+| className | string | `className` prop applied to outer `div` element |
+| id | string | `id` prop applied to outer `div` element |
+| style | React.CSSProperties | `style` prop applied to outer `div` element |
+| full | boolean | Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. |
+| containerProps | any | All properties applied to outer `div` element except `id`, `className`, and `style` prop. |
+| extend | Cesium.Viewer.ViewerMixin[] &#124; Cesium.Viewer.ViewerMixin | It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself. |
+| children | React.ReactNode | |
