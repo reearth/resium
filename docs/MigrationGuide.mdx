@@ -6,3 +6,106 @@ route: /migration
 # Migration Guide
 
 ## v0.x to v1
+
+### Resium are fully reimplemented
+
+New component lifecycle and new React Context API in React v16.3 are supported.
+
+There are possibilities that the behavior has changed in edge cases. For example, since detection of change of Cesium read only properties are improved, reinitialization of Cesium element may be more likely to occur.
+
+### Changed: Entity description
+
+Children of Entity component are no longer rendered as description. Use `EntityDescription` component instead.
+
+Before:
+
+```jsx
+import { Viewer, Entity } from "resium";
+
+const Component = () => (
+  <Viewer>
+    <Entity>
+      <h1>Hello, world</h1>
+      <p>This is test</p>
+    </Entity>
+  </Viewer>
+);
+```
+
+After:
+
+```jsx
+import { Viewer, Entity, EntityDescription } from "resium";
+
+const Component = () => (
+  <Viewer>
+    <Entity>
+      <EntityDescription>
+        <h1>Hello, world</h1>
+        <p>This is test</p>
+      </EntityDescription>
+    </Entity>
+  </Viewer>
+);
+```
+
+Now only `EntityDescription` depends on `react-dom`.
+
+### Decrepated: PropType
+
+PropType is no longer used. TypeScript is recommended.
+
+### Renamed: properties
+
+The following properties are renamed.
+
+- `Entity`: `onSelectedEntityChanged` => `onSelectedEntityChange`
+- `Entity`: `onTrackedEntityChanged` => `onTrackedEntityChange`
+- `CzmlDataSource`: `czml` => `data` (integrated into data prop)
+- `CzmlDataSource`: `url` => `data` (integrated into data prop)
+- `GeoJsonDataSource`: `url` => `data` (integrated into data prop)
+- `KmlDataSource`: `url` => `data` (integrated into data prop)
+
+### Decrepated: properties
+
+The following properties are decrepated.
+
+- all components: `onMount`, `onUpdate` and `onUnmount`
+- `GeoJsonDataSource`: `onProgress`
+- `CzmlDataSource`: `onProgress`
+- `KmlDataSource`: `onProgress` and `query`
+
+`onMount`, `onUpdate` and `onUnmount` have been deprecated as they violate React's custom. Use `ref` prop instead.
+
+Before:
+
+```jsx
+const Component = () => (
+  <Viewer
+    onMount={viewer => {
+      // some code
+    }}
+  />
+);
+```
+
+After:
+
+```jsx
+class Component extends React.PureComponent {
+  ref = React.createRef();
+
+  componentDidMount() {
+    if (ref.current) {
+      const viewer = ref.current.cesiumElement;
+      // some code
+    }
+  }
+
+  render() {
+    return (
+      <Viewer ref={this.ref} />
+    );
+  }
+);
+```
