@@ -19,7 +19,7 @@ npm install resium
 </Viewer>
 ```
 
-![Screenshot](docs/screenshot.png)
+![Screenshot](docs/resouces/screenshot.png)
 
 **WARNING:** `master` branch now includes breaking changes for v1 (not yet released).
 

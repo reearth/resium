@@ -19,7 +19,8 @@
     {
       "files": [
         "rollup.config.js",
-        ".storybook/**/*.js"
+        ".storybook/**/*.js",
+        "doczrc.js"
       ],
       "excludedFiles": [
         ".storybook/webpack.config.js"
