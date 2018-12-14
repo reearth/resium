@@ -3,6 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const ts = require("typescript");
 
+const name = process.argv.slice(2);
+
 function renderPropTable(types) {
   if (!types || types.length === 0) return "N/A";
 
@@ -10,6 +12,7 @@ function renderPropTable(types) {
 | Property | Type | Description |
 |--|--|--|
 ${types
+    .filter(t => !t.hidden)
     .map(t => {
       const type = t.type
         .replace(
@@ -29,30 +32,29 @@ ${types
 }
 
 function type2doc(type) {
+  const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
+
   return `
 ---
 name: ${type.name}
 route: /components/${type.name}
 menu: Components
 ---
-
 ${
-    type.playground
+    type.example
       ? `
 import { Playground } from "docz";
-import Viewer from "../components/Viewer";
-`.trim()
+import ${cesiumWidget ? "CesiumWidget" : "Viewer"} from "../components/${
+          cesiumWidget ? "CesiumWidget" : "Viewer"
+        }";
+${type.exampleImports ? type.exampleImports + "\n" : ""}`
       : ""
   }
-
 # ${type.name}
-
-${type.summary || ""}
-
+${type.summary ? `\n${type.summary}\n` : ""}
 **Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
     type.name
   }.html)
-
 ${
     type.example
       ? `
@@ -62,21 +64,17 @@ ${type.example
           .map(s => "  " + s)
           .join("\n")}
 </Playground>
-`.trim()
+`
       : ""
-  }
-
-
-${
+  }${
     type.scope
       ? `
 ## Available scope
 
 ${type.scope}
-`.trim()
+`
       : ""
   }
-
 ## Properties
 
 ### Cesium properties
@@ -123,12 +121,19 @@ function getTrailingComment(node, source) {
 }
 
 function formatComment(comment) {
-  return comment.replace(/^\/\/|^\/\*\*?|\*\/$/g, "").trim();
+  const jsdoc = /\/\*\*/.test(comment);
+  return comment
+    .split("\n")
+    .map(c => c.replace(/^\/\/ ?|^\/\*\*? ?|\*\/$/g, ""))
+    .map(c => (!jsdoc ? c : c.replace(/^ \* ?/g, "")))
+    .filter((c, i, a) => (i !== 0 && i !== a.length - 1) || c.trim().length !== 0)
+    .join("\n");
 }
 
 function parseLeadingComment(comments) {
   let kind = undefined;
   let description = [];
+  let hidden = false;
   comments.forEach(c => {
     if (/^@CesiumProps/.test(c)) {
       kind = "cesiumProps";
@@ -146,12 +151,16 @@ function parseLeadingComment(comments) {
       kind = "props";
       return;
     }
+    if (/^@hidden/.test(c)) {
+      hidden = true;
+    }
     // normal comment = description
     description.push(c.trim());
   });
   return {
     kind,
     description: description.join(" "),
+    hidden,
   };
 }
 
@@ -179,13 +188,47 @@ function getProp(node, source) {
     name: node.name.escapedText,
     type: comment ? comment.replace(";").trim() : formattedType,
     required: !optional,
-    kind: parsed.kind,
-    description: parsed.description,
+    ...parsed,
   };
 }
 
-function parsePropTypes(name, source) {
-  const sourceFile = ts.createSourceFile(name + ".ts", source, ts.ScriptTarget.ES6, true);
+function detectComponentDescription(comments) {
+  if (!comments && !comments.length > 0) return;
+  return comments
+    .map(c => {
+      if (/^ *?@summary/.test(c)) {
+        return {
+          summary: c.replace(/^ *?@summary/, "").trim(),
+        };
+      }
+      if (/^ *?@scope/.test(c)) {
+        return {
+          scope: c.replace(/^ *?@scope/, "").trim(),
+        };
+      }
+      if (/^ *?@example-imports/.test(c)) {
+        return {
+          exampleImports: c.replace(/^ *?@example-imports/, "").trim(),
+        };
+      }
+      if (/^ *?@example/.test(c)) {
+        return {
+          example: c.replace(/^ *?@example/, "").trim(),
+        };
+      }
+      return undefined;
+    })
+    .filter(c => !!c)
+    .reduce((a, b) => ({ ...a, ...b }), {});
+}
+
+function parsePropTypes(name, source, tsx) {
+  const sourceFile = ts.createSourceFile(
+    name + ".ts" + (tsx ? "x" : ""),
+    source,
+    ts.ScriptTarget.ES6,
+    true,
+  );
   const props = {
     name,
     cesiumProps: [],
@@ -231,6 +274,13 @@ function parsePropTypes(name, source) {
         eventMap.push([node2.initializer.text, node2.name.escapedText]);
       });
     }
+
+    const comment = detectComponentDescription(getLeadingComment(node));
+    if (comment) {
+      Object.entries(comment).forEach(([k, v]) => {
+        props[k] = v;
+      });
+    }
   });
 
   eventMap.forEach(ev => {
@@ -245,14 +295,21 @@ function parsePropTypes(name, source) {
   return props;
 }
 
+// eslint-disable-next-line no-console
+console.log(`Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}`);
+
 const componentFiles = fs
   .readdirSync(path.resolve(__dirname, "..", "..", "src"))
-  .filter(cf => /\.ts$/.test(cf) && !/index\.ts$/.test(cf));
+  .filter(cf => /\.tsx?$/.test(cf) && !/index\.tsx?$/.test(cf))
+  .filter(cf => name.length === 0 || name.includes(cf.replace(/\.tsx?$/, "")));
 
 componentFiles.forEach(cf => {
-  const name = cf.replace(".ts", "");
+  const name = cf.replace(/\.tsx?$/, "");
   const code = fs.readFileSync(path.resolve(__dirname, "..", "..", "src", cf), "utf8");
   const props = parsePropTypes(name, code);
   const result = type2doc(props);
   fs.writeFileSync(path.resolve(__dirname, "..", "..", "docs", "api", `${name}.mdx`), result);
 });
+
+// eslint-disable-next-line no-console
+console.log(`${componentFiles.length} documents have been genereted!`);
