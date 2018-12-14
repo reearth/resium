@@ -303,6 +303,14 @@ const componentFiles = fs
   .filter(cf => /\.tsx?$/.test(cf) && !/index\.tsx?$/.test(cf))
   .filter(cf => name.length === 0 || name.includes(cf.replace(/\.tsx?$/, "")));
 
+if (componentFiles.length > 0) {
+  try {
+    fs.mkdirSync(path.resolve(__dirname, "..", "api"));
+  } catch (err) {
+    // ignore
+  }
+}
+
 componentFiles.forEach(cf => {
   const name = cf.replace(/\.tsx?$/, "");
   const code = fs.readFileSync(path.resolve(__dirname, "..", "..", "src", cf), "utf8");
