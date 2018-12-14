@@ -5,3 +5,4 @@ examples/build
 /.cache
 /.rpt2_cache
 /.docz
+/docs/api
