@@ -97,22 +97,67 @@ ${renderPropTable(type.props)}
 `.trim();
 }
 
-function getComment(node, source) {
+function getLeadingComment(node) {
+  const text = node.getFullText();
+  let comment = [];
+  let start = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const comments = ts.getLeadingCommentRanges(text, start);
+    if (comments && comments[0]) {
+      comment.push(formatComment(text.slice(comments[0].pos, comments[0].end)));
+      start = comments[0].end;
+    } else {
+      break;
+    }
+  }
+  return comment;
+}
+
+function getTrailingComment(node, source) {
   const comments = ts.getTrailingCommentRanges(source, node.getEnd());
   if (comments && comments[0]) {
-    return source.slice(comments[0].pos, comments[0].end);
+    return formatComment(source.slice(comments[0].pos, comments[0].end));
   }
   return undefined;
 }
 
+function formatComment(comment) {
+  return comment.replace(/^\/\/|^\/\*\*?|\*\/$/g, "").trim();
+}
+
+function parseLeadingComment(comments) {
+  let kind = undefined;
+  let description = [];
+  comments.forEach(c => {
+    if (/^@CesiumProps/.test(c)) {
+      kind = "cesiumProps";
+      return;
+    }
+    if (/^@CesiumReadonlyProps/.test(c)) {
+      kind = "CesiumReadonlyProps";
+      return;
+    }
+    if (/^@CesiumEvents/.test(c)) {
+      kind = "cesiumEvents";
+      return;
+    }
+    if (/^@Props/.test(c)) {
+      kind = "props";
+      return;
+    }
+    // normal comment = description
+    description.push(c.trim());
+  });
+  return {
+    kind,
+    description: description.join(" "),
+  };
+}
+
 function getProp(node, source) {
-  const comment = getComment(node, source);
-  const formattedComment = comment
-    ? comment
-        .replace("// ", "")
-        .replace(";", "")
-        .trim()
-    : undefined;
+  const comment = getTrailingComment(node, source);
+  const leadingComment = getLeadingComment(node);
 
   let optional = false;
   let counter = 0;
@@ -128,11 +173,14 @@ function getProp(node, source) {
   });
 
   const formattedType = type.replace(/:.+?\/\* (.+) \*\/(,|\))/g, ": $1$2");
+  const parsed = parseLeadingComment(leadingComment);
 
   return {
     name: node.name.escapedText,
-    type: formattedComment || formattedType,
+    type: comment ? comment.replace(";").trim() : formattedType,
     required: !optional,
+    kind: parsed.kind,
+    description: parsed.description,
   };
 }
 
@@ -164,11 +212,7 @@ function parsePropTypes(name, source) {
       node.forEachChild(node2 => {
         if (node2.kind === ts.SyntaxKind.PropertySignature) {
           const p = getProp(node2, source);
-          if (/^on[A-Z]/.test(p.name)) {
-            props.cesiumEvents.push(p);
-          } else {
-            props[key].push(p);
-          }
+          props[p.kind || key].push(p);
         }
       });
     } else if (
@@ -191,7 +235,7 @@ function parsePropTypes(name, source) {
 
   eventMap.forEach(ev => {
     const ev2 = props.cesiumEvents.find(e => e.name === ev[0]);
-    if (ev2) {
+    if (ev2 && (!ev2.description || ev2.description === "")) {
       ev2.description = `Correspond to [${name}#${
         ev[1]
       }](https://cesiumjs.org/Cesium/Build/Documentation/${name}.html#${ev[1]})`;
