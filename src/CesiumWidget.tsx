@@ -3,6 +3,23 @@ import React from "react";
 import createCesiumComponent from "./core/CesiumComponent";
 import Cesium, { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
+/*
+@summary
+`CesiumWidget` is the simplest root component of resium. All components of resium except the root components have to be mounted inside it.
+
+`Viewer` is also a root component. It is a component with some widgets (info box, timeline, and so on) added to `CesiumWidget`.
+*/
+
+/*
+@example
+<CesiumWidget full />
+*/
+
+/*
+@scope
+Everywhere. `CesiumWidget` is a root component. 
+*/
+
 export interface CesiumWidgetCesiumProps {
   resolutionScale?: number;
   useDefaultRenderLoop?: boolean;
@@ -62,10 +79,15 @@ const cesiumReadonlyProps: Array<keyof CesiumWidgetCesiumReadonlyProps> = [
 export interface CesiumWidgetProps
   extends CesiumWidgetCesiumProps,
     CesiumWidgetCesiumReadonlyProps {
+  // Applied to outer `div` element
   className?: string;
+  // Applied to outer `div` element
   id?: string;
+  // Applied to outer `div` element
   style?: React.CSSProperties;
+  // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
   full?: boolean;
+  // All props applied to outer `div` element
   containerProps?: any;
   children?: React.ReactNode;
 }
