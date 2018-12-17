@@ -32,8 +32,11 @@ export interface ParticleSystemCesiumProps {
   maximumMass?: number;
 }
 
-export interface ParticleSystemProps extends ParticleSystemCesiumProps {
+export interface ParticleSystemCesiumEvents {
   onComplete?: () => void;
+}
+
+export interface ParticleSystemProps extends ParticleSystemCesiumProps, ParticleSystemCesiumEvents {
   onUpdate?: (particle: any /* Cesium.Particle */, dt: number) => void;
 }
 
@@ -71,7 +74,7 @@ const cesiumProps: Array<keyof ParticleSystemCesiumProps> = [
   "maximumMass",
 ];
 
-const cesiumEventProps: EventkeyMap<any, keyof ParticleSystemProps> = {
+const cesiumEventProps: EventkeyMap<any, keyof ParticleSystemCesiumEvents> = {
   complete: "onComplete",
 };
 

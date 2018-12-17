@@ -15,9 +15,11 @@ export interface PointGraphicsCesiumProps {
   disableDepthTestDistance?: Cesium.Property | number;
 }
 
-export interface PointGraphicsProps extends PointGraphicsCesiumProps {
+export interface PointGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PointGraphicsProps extends PointGraphicsCesiumProps, PointGraphicsCesiumEvents {}
 
 export interface PointGraphicsContext {
   entity?: Cesium.Entity;
@@ -36,7 +38,7 @@ const cesiumProps: Array<keyof PointGraphicsCesiumProps> = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PointGraphics, keyof PointGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PointGraphics, keyof PointGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

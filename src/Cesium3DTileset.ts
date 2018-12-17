@@ -19,7 +19,7 @@ export interface Cesium3DTilesetCesiumProps {
   skipLevels?: number;
   immediatelyLoadDesiredLevelOfDetail?: boolean;
   loadSiblings?: boolean;
-  clippingPlanes?: any; // Cesium.ClippingPlaneCollection;
+  clippingPlanes?: any; // Cesium.ClippingPlaneCollection
   classificationType?: any; // Cesium.ClassificationType
   ellipsoid?: Cesium.Ellipsoid;
   imageBasedLightingFactor?: Cesium.Cartesian2;
@@ -50,9 +50,7 @@ export interface Cesium3DTilesetCesiumReadonlyProps {
   };
 }
 
-export interface Cesium3DTilesetProps
-  extends Cesium3DTilesetCesiumProps,
-    Cesium3DTilesetCesiumReadonlyProps {
+export interface Cesium3DTilesetCesiumEvents {
   onAllTilesLoad?: () => void;
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
@@ -60,6 +58,12 @@ export interface Cesium3DTilesetProps
   onTileLoad?: (tile: any /* Cesium.Tileset */) => void;
   onTileUnload?: () => void;
   onTileVisible?: (tile: any /* Cesium.Tileset */) => void;
+}
+
+export interface Cesium3DTilesetProps
+  extends Cesium3DTilesetCesiumProps,
+    Cesium3DTilesetCesiumReadonlyProps,
+    Cesium3DTilesetCesiumEvents {
   onReady?: (tileset: any /* Cesium.3DTileset */) => void;
 }
 
@@ -106,7 +110,7 @@ const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
 
 const cesiumReadonlyProps: Array<keyof Cesium3DTilesetCesiumReadonlyProps> = ["pointCloudShading"];
 
-const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetProps> = {
+const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetCesiumEvents> = {
   allTilesLoaded: "onAllTilesLoad",
   initialTilesLoaded: "onInitialTilesLoad",
   loadProgress: "onLoadProgress",

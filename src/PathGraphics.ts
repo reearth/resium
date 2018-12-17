@@ -12,9 +12,11 @@ export interface PathGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface PathGraphicsProps extends PathGraphicsCesiumProps {
+export interface PathGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PathGraphicsProps extends PathGraphicsCesiumProps, PathGraphicsCesiumEvents {}
 
 export interface PathGraphicsContext {
   entity?: Cesium.Entity;
@@ -30,7 +32,7 @@ const cesiumProps: Array<keyof PathGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, keyof PathGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, keyof PathGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

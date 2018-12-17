@@ -15,9 +15,11 @@ export interface PlaneGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface PlaneGraphicsProps extends PlaneGraphicsCesiumProps {
+export interface PlaneGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PlaneGraphicsProps extends PlaneGraphicsCesiumProps, PlaneGraphicsCesiumEvents {}
 
 export interface PlaneGraphicsContext {
   entity?: Cesium.Entity;
@@ -37,7 +39,7 @@ const cesiumProps: Array<keyof PlaneGraphicsCesiumProps> = [
 ];
 
 // Cesium.PlaneGraphics
-const cesiumEventProps: EventkeyMap<any, keyof PlaneGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<any, keyof PlaneGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

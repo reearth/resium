@@ -15,13 +15,13 @@ export interface CameraCesiumProps {
   maximumZoomFactor?: number;
 }
 
-export interface CameraCesiumEventProps {
+export interface CameraCesiumEvents {
   onChange?: (areaPercentage: number) => void;
   onMoveEnd?: () => void;
   onMoveStart?: () => void;
 }
 
-export interface CameraProps extends CameraCesiumProps, CameraCesiumEventProps {}
+export interface CameraProps extends CameraCesiumProps, CameraCesiumEvents {}
 
 export interface CameraContext {
   scene: Cesium.Scene;
@@ -42,7 +42,7 @@ const cesiumProps: Array<keyof CameraCesiumProps> = [
   "maximumZoomFactor",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof CameraCesiumEventProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof CameraCesiumEvents> = {
   changed: "onChange",
   moveEnd: "onMoveEnd",
   moveStart: "onMoveStart",

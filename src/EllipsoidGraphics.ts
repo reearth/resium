@@ -18,9 +18,13 @@ export interface EllipsoidGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface EllipsoidGraphicsProps extends EllipsoidGraphicsCesiumProps {
+export interface EllipsoidGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface EllipsoidGraphicsProps
+  extends EllipsoidGraphicsCesiumProps,
+    EllipsoidGraphicsCesiumEvents {}
 
 export interface EllipsoidGraphicsContext {
   entity?: Cesium.Entity;
@@ -42,7 +46,10 @@ const cesiumProps: Array<keyof EllipsoidGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.EllipsoidGraphics, keyof EllipsoidGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<
+  Cesium.EllipsoidGraphics,
+  keyof EllipsoidGraphicsCesiumEvents
+> = {
   definitionChanged: "onDefinitionChange",
 };
 

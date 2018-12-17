@@ -17,9 +17,13 @@ export interface PolylineVolumeGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface PolylineVolumeGraphicsProps extends PolylineVolumeGraphicsCesiumProps {
+export interface PolylineVolumeGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PolylineVolumeGraphicsProps
+  extends PolylineVolumeGraphicsCesiumProps,
+    PolylineVolumeGraphicsCesiumEvents {}
 
 export interface PolylineVolumeGraphicsContext {
   entity?: Cesium.Entity;
@@ -42,7 +46,7 @@ const cesiumProps: Array<keyof PolylineVolumeGraphicsCesiumProps> = [
 
 const cesiumEventProps: EventkeyMap<
   Cesium.PolylineVolumeGraphics,
-  keyof PolylineVolumeGraphicsProps
+  keyof PolylineVolumeGraphicsCesiumEvents
 > = {
   definitionChanged: "onDefinitionChange",
 };

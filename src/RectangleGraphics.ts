@@ -23,9 +23,13 @@ export interface RectangleGraphicsCesiumProps {
   classificationType?: Cesium.Property | any; // Cesium.ClassificationType
 }
 
-export interface RectangleGraphicsProps extends RectangleGraphicsCesiumProps {
+export interface RectangleGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface RectangleGraphicsProps
+  extends RectangleGraphicsCesiumProps,
+    RectangleGraphicsCesiumEvents {}
 
 export interface RectangleGraphicsContext {
   entity?: Cesium.Entity;
@@ -51,7 +55,10 @@ const cesiumProps: Array<keyof RectangleGraphicsCesiumProps> = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.RectangleGraphics, keyof RectangleGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<
+  Cesium.RectangleGraphics,
+  keyof RectangleGraphicsCesiumEvents
+> = {
   definitionChanged: "onDefinitionChange",
 };
 

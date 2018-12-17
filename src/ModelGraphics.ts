@@ -25,9 +25,11 @@ export interface ModelGraphicsCesiumProps {
   lightColor?: Cesium.Property | Cesium.Color;
 }
 
-export interface ModelGraphicsProps extends ModelGraphicsCesiumProps {
+export interface ModelGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface ModelGraphicsProps extends ModelGraphicsCesiumProps, ModelGraphicsCesiumEvents {}
 
 export interface ModelGraphicsContext {
   entity?: Cesium.Entity;
@@ -56,7 +58,7 @@ const cesiumProps: Array<keyof ModelGraphicsCesiumProps> = [
   "lightColor",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, keyof ModelGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, keyof ModelGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

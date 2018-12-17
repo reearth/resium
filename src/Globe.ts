@@ -26,21 +26,21 @@ export interface GlobeCesiumProps {
   tileCacheSize?: number;
 }
 
-export interface GlobeCesiumEventProps {
+export interface GlobeCesiumEvents {
   onImageryLayersUpdate?: () => void;
   onTerrainProviderChange?: (terrainProvider: Cesium.TerrainProvider) => void;
   onTileLoad?: () => void;
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 }
 
-const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof GlobeCesiumEventProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof GlobeCesiumEvents> = {
   imageryLayersUpdatedEvent: "onImageryLayersUpdate",
   terrainProviderChanged: "onTerrainProviderChange",
   tileLoadedEvent: "onTileLoad",
   tileLoadProgressEvent: "onTileLoadProgress",
 };
 
-export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEventProps {}
+export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEvents {}
 
 export interface GlobeContext {
   scene: Cesium.Scene;

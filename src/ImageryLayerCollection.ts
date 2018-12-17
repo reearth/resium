@@ -1,12 +1,15 @@
 import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
-export interface ImageryLayerCollectionProps {
+export interface ImageryLayerCollectionCesiumEvents {
   onLayerAdd?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerMove?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerRemove?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerShowOrHide?: (layer: Cesium.ImageryLayer, index: number) => void;
 }
+
+// tslint:disable-next-line:no-empty-interface
+export interface ImageryLayerCollectionProps extends ImageryLayerCollectionCesiumEvents {}
 
 export interface ImageryLayerCollectionContext {
   globe: Cesium.Globe;
@@ -14,7 +17,7 @@ export interface ImageryLayerCollectionContext {
 
 const cesiumEventProps: EventkeyMap<
   Cesium.ImageryLayerCollection,
-  keyof ImageryLayerCollectionProps
+  keyof ImageryLayerCollectionCesiumEvents
 > = {
   layerAdded: "onLayerAdd",
   layerMoved: "onLayerMove",

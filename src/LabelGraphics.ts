@@ -26,9 +26,11 @@ export interface LabelGraphicsCesiumProps {
   disableDepthTestDistance?: Cesium.Property | number;
 }
 
-export interface LabelGraphicsProps extends LabelGraphicsCesiumProps {
+export interface LabelGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface LabelGraphicsProps extends LabelGraphicsCesiumProps, LabelGraphicsCesiumEvents {}
 
 export interface LabelGraphicsContext {
   entity?: Cesium.Entity;
@@ -58,7 +60,7 @@ const cesiumProps: Array<keyof LabelGraphicsCesiumProps> = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.LabelGraphics, keyof LabelGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.LabelGraphics, keyof LabelGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

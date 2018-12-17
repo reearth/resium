@@ -25,9 +25,13 @@ export interface PolygonGraphicsCesiumProps {
   classificationType?: Cesium.Property | any; // Cesium.ClassificationType
 }
 
-export interface PolygonGraphicsProps extends PolygonGraphicsCesiumProps {
+export interface PolygonGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PolygonGraphicsProps
+  extends PolygonGraphicsCesiumProps,
+    PolygonGraphicsCesiumEvents {}
 
 export interface PolygonGraphicsContext {
   entity?: Cesium.Entity;
@@ -56,7 +60,7 @@ const cesiumProps: Array<keyof PolygonGraphicsCesiumProps> = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, keyof PolygonGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, keyof PolygonGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

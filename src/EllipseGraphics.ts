@@ -24,9 +24,13 @@ export interface EllipseGraphicsCesiumProps {
   classificationType?: Cesium.Property | any; // Cesium.ClassificationType
 }
 
-export interface EllipseGraphicsProps extends EllipseGraphicsCesiumProps {
+export interface EllipseGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface EllipseGraphicsProps
+  extends EllipseGraphicsCesiumProps,
+    EllipseGraphicsCesiumEvents {}
 
 export interface EllipseGraphicsContext {
   entity?: Cesium.Entity;
@@ -54,7 +58,7 @@ const cesiumProps: Array<keyof EllipseGraphicsCesiumProps> = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.EllipseGraphics, keyof EllipseGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.EllipseGraphics, keyof EllipseGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

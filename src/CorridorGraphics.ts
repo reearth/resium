@@ -23,9 +23,11 @@ export interface CorridorGraphicsCesiumProps {
   classificationType?: Cesium.Property | any; // Cesium.ClassificationType
 }
 
-export interface CorridorGraphicsProps extends CorridorGraphicsCesiumProps {
+export interface CorridorCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface CorridorGraphicsProps extends CorridorGraphicsCesiumProps, CorridorCesiumEvents {}
 
 export interface CorridorGraphicsContext {
   entity?: Cesium.Entity;
@@ -52,7 +54,7 @@ const cesiumProps: Array<keyof CorridorGraphicsCesiumProps> = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CorridorGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CorridorCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

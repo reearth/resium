@@ -15,9 +15,11 @@ export interface BoxGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface BoxGraphicsProps extends BoxGraphicsCesiumProps {
+export interface BoxGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface BoxGraphicsProps extends BoxGraphicsCesiumProps, BoxGraphicsCesiumEvents {}
 
 export interface BoxGraphicsContext {
   entity?: Cesium.Entity;
@@ -36,7 +38,7 @@ const cesiumProps: Array<keyof BoxGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, keyof BoxGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, keyof BoxGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

@@ -19,9 +19,11 @@ export interface CylinderGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface CylinderGraphicsProps extends CylinderGraphicsCesiumProps {
+export interface CylinderCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface CylinderGraphicsProps extends CylinderGraphicsCesiumProps, CylinderCesiumEvents {}
 
 export interface CylinderGraphicsContext {
   entity?: Cesium.Entity;
@@ -44,7 +46,7 @@ const cesiumProps: Array<keyof CylinderGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CylinderGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CylinderCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

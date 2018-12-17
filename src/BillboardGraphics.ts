@@ -25,9 +25,13 @@ export interface BillboardGraphicsCesiumProps {
   disableDepthTestDistance?: Cesium.Property | number;
 }
 
-export interface BillboardGraphicsProps extends BillboardGraphicsCesiumProps {
+export interface BillboardGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface BillboardGraphicsProps
+  extends BillboardGraphicsCesiumProps,
+    BillboardGraphicsCesiumEvents {}
 
 export interface BillboardGraphicsContext {
   entity?: Cesium.Entity;
@@ -56,7 +60,10 @@ const cesiumProps: Array<keyof BillboardGraphicsCesiumProps> = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BillboardGraphics, keyof BillboardGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<
+  Cesium.BillboardGraphics,
+  keyof BillboardGraphicsCesiumEvents
+> = {
   definitionChanged: "onDefinitionChange",
 };
 

@@ -16,9 +16,13 @@ export interface PolylineGraphicsCesiumProps {
   zIndex?: Cesium.Property | number;
 }
 
-export interface PolylineGraphicsProps extends PolylineGraphicsCesiumProps {
+export interface PolylineGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PolylineGraphicsProps
+  extends PolylineGraphicsCesiumProps,
+    PolylineGraphicsCesiumEvents {}
 
 export interface PolylineGraphicsContext {
   entity?: Cesium.Entity;
@@ -38,7 +42,7 @@ const cesiumProps: Array<keyof PolylineGraphicsCesiumProps> = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, keyof PolylineGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, keyof PolylineGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

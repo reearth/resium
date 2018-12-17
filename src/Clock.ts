@@ -11,16 +11,18 @@ export interface ClockCesiumProps {
   startTime?: Cesium.JulianDate;
   stopTime?: Cesium.JulianDate;
 }
-export interface ClockCesiumEventProps {
+
+export interface ClockCesiumEvents {
   onStop?: (clock: Cesium.Clock) => void;
   onTick?: (clock: Cesium.Clock) => void;
 }
-const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof ClockCesiumEventProps> = {
+
+const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof ClockCesiumEvents> = {
   onStop: "onStop",
   onTick: "onTick",
 };
 
-export interface ClockProps extends ClockCesiumProps, ClockCesiumEventProps {}
+export interface ClockProps extends ClockCesiumProps, ClockCesiumEvents {}
 
 export interface ClockContext {
   cesiumWidget: CesiumWidget;

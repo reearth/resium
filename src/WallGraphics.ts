@@ -17,9 +17,11 @@ export interface WallGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface WallGraphicsProps extends WallGraphicsCesiumProps {
+export interface WallGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface WallGraphicsProps extends WallGraphicsCesiumProps, WallGraphicsCesiumEvents {}
 
 export interface WallGraphicsContext {
   entity?: Cesium.Entity;
@@ -40,7 +42,7 @@ const cesiumProps: Array<keyof WallGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.WallGraphics, keyof WallGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.WallGraphics, keyof WallGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 
