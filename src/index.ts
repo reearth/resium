@@ -19,7 +19,6 @@ export { default as CorridorGraphics } from "./CorridorGraphics";
 export { default as CustomDataSource } from "./CustomDataSource";
 export { default as CylinderGraphics } from "./CylinderGraphics";
 export { default as CzmlDataSource } from "./CzmlDataSource";
-export { default as DefaultScreenSpaceEventHandler } from "./DefaultScreenSpaceEventHandler";
 export { default as EllipseGraphics } from "./EllipseGraphics";
 export { default as EllipsoidGraphics } from "./EllipsoidGraphics";
 export { default as Entity } from "./Entity";
