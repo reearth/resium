@@ -26,7 +26,7 @@ ${types
         .split("\n")
         .map(s => s.trim())
         .join(" ");
-      return `| ${t.name} | ${type} | ${type.required ? "Required. " : ""}${t.description || ""} |`;
+      return `| ${t.name} | ${type} | ${t.required ? "Required. " : ""}${t.description || ""} |`;
     })
     .join("\n")}
 `.trim();
