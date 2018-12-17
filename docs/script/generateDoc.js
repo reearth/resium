@@ -34,6 +34,10 @@ ${types
 
 function type2doc(type) {
   const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
+  const generalComponent =
+    type.cesiumProps.length === 0 &&
+    type.cesiumReadonlyProps.length === 0 &&
+    type.cesiumEvents.length === 0;
 
   return `
 ---
@@ -75,25 +79,35 @@ ${type.example
 ${type.scope}
 `
       : ""
-  }
-## Properties
-
+  }${
+    !generalComponent
+      ? `
 ### Cesium properties
 
 ${renderPropTable(type.cesiumProps)}
-
+`
+      : ""
+  }${
+    !generalComponent
+      ? `
 ### Cesium read only properties
 
 ${renderPropTable(type.cesiumReadonlyProps)}
-
+`
+      : ""
+  }${
+    !generalComponent
+      ? `
 ### Cesium events
 
 ${renderPropTable(type.cesiumEvents)}
-
-### Other properties
+`
+      : ""
+  }
+### ${generalComponent ? "Properties" : "Other properties"}
 
 ${renderPropTable(type.props)}
-`.trim();
+`;
 }
 
 function getLeadingComment(node) {
