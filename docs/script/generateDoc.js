@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const ts = require("typescript");
 
-const name = process.argv.slice(2);
+const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
+const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 
 function renderPropTable(types) {
   if (!types || types.length === 0) return "N/A";
@@ -311,13 +312,22 @@ if (componentFiles.length > 0) {
   }
 }
 
+const preview = options.includes("--preview");
+
 componentFiles.forEach(cf => {
   const name = cf.replace(/\.tsx?$/, "");
   const code = fs.readFileSync(path.resolve(__dirname, "..", "..", "src", cf), "utf8");
   const props = parsePropTypes(name, code);
+  if (preview) {
+    // eslint-disable-next-line no-console
+    console.log(props);
+    return;
+  }
   const result = type2doc(props);
   fs.writeFileSync(path.resolve(__dirname, "..", "..", "docs", "api", `${name}.mdx`), result);
 });
 
-// eslint-disable-next-line no-console
-console.log(`${componentFiles.length} documents have been genereted!`);
+if (!preview) {
+  // eslint-disable-next-line no-console
+  console.log(`${componentFiles.length} documents have been genereted!`);
+}
