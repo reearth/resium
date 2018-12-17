@@ -11,16 +11,19 @@ export interface ModelGraphicsCesiumProps {
   incrementallyLoadTextures?: Cesium.Property | boolean;
   runAnimations?: Cesium.Property | boolean;
   clampAnimations?: Cesium.Property | boolean;
-  nodeTransformations?: Cesium.Property; // | { [name: string]: Cesium.TranslationRotationScale };
+  // @type Cesium.Property | { [name: string]: Cesium.TranslationRotationScale }
+  nodeTransformations?: Cesium.Property;
   shadows?: Cesium.Property | Cesium.ShadowMode;
   heightReference?: Cesium.Property | Cesium.HeightReference;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   silhouetteColor?: Cesium.Property | Cesium.Color;
   silhouetteSize?: Cesium.Property | number;
   color?: Cesium.Property | Cesium.Color;
-  colorBlendMode?: Cesium.Property; // | Cesium.ColorBlendMode;
+  // @type Cesium.Property | Cesium.ColorBlendMode
+  colorBlendMode?: Cesium.Property | any;
   colorBlendAmount?: Cesium.Property | number;
-  clippingPlanes?: Cesium.Property; // | Cesium.ClippingPlaneCollection;
+  // @type Cesium.Propert | Cesium.ClippingPlaneCollection
+  clippingPlanes?: Cesium.Property | any;
   imageBasedLightingFactor?: Cesium.Property | Cesium.Cartesian2;
   lightColor?: Cesium.Property | Cesium.Color;
 }

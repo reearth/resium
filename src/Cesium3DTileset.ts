@@ -19,8 +19,10 @@ export interface Cesium3DTilesetCesiumProps {
   skipLevels?: number;
   immediatelyLoadDesiredLevelOfDetail?: boolean;
   loadSiblings?: boolean;
-  clippingPlanes?: any; // Cesium.ClippingPlaneCollection
-  classificationType?: any; // Cesium.ClassificationType
+  // @type Cesium.ClippingPlaneCollection
+  clippingPlanes?: any;
+  // @type Cesium.ClassificationType
+  classificationType?: any;
   ellipsoid?: Cesium.Ellipsoid;
   imageBasedLightingFactor?: Cesium.Cartesian2;
   lightColor?: Cesium.Cartesian3;
@@ -35,7 +37,8 @@ export interface Cesium3DTilesetCesiumProps {
   debugShowMemoryUsage?: boolean;
   debugShowUrl?: boolean;
   colorBlendAmount?: number;
-  colorBlendMode?: any; // Cesium3DTileColorBlendMode
+  // @type Cesium.Cesium3DTileColorBlendMode
+  colorBlendMode?: any;
 }
 
 export interface Cesium3DTilesetCesiumReadonlyProps {
@@ -55,9 +58,9 @@ export interface Cesium3DTilesetCesiumEvents {
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: () => void;
-  onTileLoad?: (tile: any /* Cesium.Tileset */) => void;
+  onTileLoad?: (tile: any /* Cesium.3DTileset */) => void;
   onTileUnload?: () => void;
-  onTileVisible?: (tile: any /* Cesium.Tileset */) => void;
+  onTileVisible?: (tile: any /* Cesium.3DTileset */) => void;
 }
 
 export interface Cesium3DTilesetProps

@@ -22,7 +22,8 @@ export interface PolygonGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  classificationType?: Cesium.Property | any; // Cesium.ClassificationType
+  // @type Cesium.Property | Cesium.ClassificationType
+  classificationType?: Cesium.Property | any;
 }
 
 export interface PolygonGraphicsCesiumEvents {

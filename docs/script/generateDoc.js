@@ -26,7 +26,7 @@ ${types
         .split("\n")
         .map(s => s.trim())
         .join(" ");
-      return `| ${t.name} | ${type} | ${t.description || ""} |`;
+      return `| ${t.name} | ${type} | ${type.required ? "Required. " : ""}${t.description || ""} |`;
     })
     .join("\n")}
 `.trim();
@@ -98,12 +98,16 @@ ${renderPropTable(type.props)}
 
 function getLeadingComment(node) {
   const text = node.getFullText();
+  const nodeStart = node.getStart();
   let comment = [];
   let start = 0;
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const comments = ts.getLeadingCommentRanges(text, start);
     if (comments && comments[0]) {
+      if (comments[0].pos >= nodeStart) {
+        break;
+      }
       comment.push(formatComment(text.slice(comments[0].pos, comments[0].end)));
       start = comments[0].end;
     } else {
@@ -111,14 +115,6 @@ function getLeadingComment(node) {
     }
   }
   return comment;
-}
-
-function getTrailingComment(node, source) {
-  const comments = ts.getTrailingCommentRanges(source, node.getEnd());
-  if (comments && comments[0]) {
-    return formatComment(source.slice(comments[0].pos, comments[0].end));
-  }
-  return undefined;
 }
 
 function formatComment(comment) {
@@ -135,6 +131,8 @@ function parseLeadingComment(comments) {
   let kind = undefined;
   let description = [];
   let hidden = false;
+  let type = undefined;
+
   comments.forEach(c => {
     if (/^@CesiumProps/.test(c)) {
       kind = "cesiumProps";
@@ -148,26 +146,32 @@ function parseLeadingComment(comments) {
       kind = "cesiumEvents";
       return;
     }
-    if (/^@Props/.test(c)) {
+    if (/^@props/.test(c)) {
       kind = "props";
       return;
     }
     if (/^@hidden/.test(c)) {
       hidden = true;
     }
+    const m = c.match(/^@type (.+?)$/);
+    if (m) {
+      type = m[1].trim();
+      return;
+    }
     // normal comment = description
     description.push(c.trim());
   });
+
   return {
     kind,
     description: description.join(" "),
     hidden,
+    type,
   };
 }
 
-function getProp(node, source) {
-  const comment = getTrailingComment(node, source);
-  const leadingComment = getLeadingComment(node);
+function getProp(node) {
+  const comment = parseLeadingComment(getLeadingComment(node));
 
   let optional = false;
   let counter = 0;
@@ -182,14 +186,13 @@ function getProp(node, source) {
     counter++;
   });
 
-  const formattedType = type.replace(/:.+?\/\* (.+) \*\/(,|\))/g, ": $1$2");
-  const parsed = parseLeadingComment(leadingComment);
+  const formattedType = comment.type || type.replace(/:.+?\/\* (.+) \*\/(,|\))/g, ": $1$2");
 
   return {
     name: node.name.escapedText,
-    type: comment ? comment.replace(";").trim() : formattedType,
     required: !optional,
-    ...parsed,
+    ...comment,
+    type: formattedType,
   };
 }
 
@@ -255,7 +258,7 @@ function parsePropTypes(name, source, tsx) {
 
       node.forEachChild(node2 => {
         if (node2.kind === ts.SyntaxKind.PropertySignature) {
-          const p = getProp(node2, source);
+          const p = getProp(node2);
           props[p.kind || key].push(p);
         }
       });

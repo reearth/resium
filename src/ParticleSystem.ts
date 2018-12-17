@@ -4,11 +4,13 @@ import { any } from "prop-types";
 
 export interface ParticleSystemCesiumProps {
   show?: boolean;
-  emitter?: any; // Cesium.ParticleEmitter;
+  // @type Cesium.ParticleEmitter
+  emitter?: any;
   modelMatrix?: Cesium.Matrix4;
   emitterModelMatrix?: Cesium.Matrix4;
   emissionRate?: number;
-  bursts?: any[]; // Cesium.ParticleBurst[];
+  // @type Cesium.ParticleBurst[]
+  bursts?: any[];
   loop?: boolean;
   scale?: number;
   startScale?: number;

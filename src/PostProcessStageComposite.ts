@@ -9,7 +9,8 @@ export interface PostProcessStageCompositeCesiumProps {
 }
 
 export interface PostProcessStageCompositeCesiumReadonlyProps {
-  stages: any[]; // Cesium.PostProcessStage
+  // @type Cesium.PostProcessStage
+  stages: any[];
   inputPreviousStageTexture?: boolean;
   name?: string;
   uniforms?: any;

@@ -17,11 +17,13 @@ export interface ModelCesiumProps {
   scene?: Cesium.Scene;
   distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
   color?: Cesium.Color;
-  colorBlendMode?: any; // Cesium.ColorBlendMode;
+  // @type Cesium.ColorBlendMode
+  colorBlendMode?: any;
   colorBlendAmount?: number;
   silhouetteColor?: Cesium.Color;
   silhouetteSize?: number;
-  clippingPlanes?: any; // Cesium.ClippingPlaneCollection;
+  // @type Cesium.ClippingPlaneCollection
+  clippingPlanes?: any;
   dequantizeInShader?: boolean;
   imageBasedLightingFactor?: Cesium.Cartesian2;
   lightColor?: Cesium.Cartesian3;

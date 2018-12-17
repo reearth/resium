@@ -20,7 +20,8 @@ export interface CorridorGraphicsCesiumProps {
   shadows?: Cesium.Property | boolean;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.ConstantProperty | number;
-  classificationType?: Cesium.Property | any; // Cesium.ClassificationType
+  // @type Cesium.Property | Cesium.ClassificationType
+  classificationType?: Cesium.Property | any;
 }
 
 export interface CorridorCesiumEvents {

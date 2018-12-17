@@ -6,7 +6,8 @@ export interface GlobeCesiumProps {
   atmosphereHueShift?: number;
   atmosphereSaturationShift?: number;
   baseColor?: Cesium.Color;
-  clippingPlanes?: any; // Cesium.ClippingPlaneCollection
+  // @type Cesium.ClippingPlaneCollection
+  clippingPlanes?: any;
   depthTestAgainstTerrain?: boolean;
   ellipsoid?: Cesium.Ellipsoid;
   enableLighting?: boolean;

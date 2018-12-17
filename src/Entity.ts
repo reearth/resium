@@ -34,6 +34,7 @@ export interface EntityCesiumProps {
   orientation?: Cesium.Property | Cesium.Matrix4;
   parent?: Cesium.Entity;
   path?: Cesium.PathGraphics | PathGraphicsCesiumProps;
+  // @type Cesium.PlaneGraphics | PlaneGraphicsCesiumProps
   plane?:
     | {
         plane: Cesium.Property;
@@ -47,13 +48,14 @@ export interface EntityCesiumProps {
         shadows?: Cesium.Property | Cesium.ShadowMode;
         distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
       }
-    | PlaneGraphicsCesiumProps; // | Cesium.PlaneGraphics;
+    | PlaneGraphicsCesiumProps;
   point?: Cesium.PointGraphics | PointGraphicsCesiumProps;
   polygon?: Cesium.PolygonGraphics | PolygonGraphicsCesiumProps;
   polyline?: Cesium.PolylineGraphics | PolylineGraphicsCesiumProps;
   polylineVolume?: Cesium.PolylineVolumeGraphics | PolylineVolumeGraphicsCesiumProps;
   position?: Cesium.PositionProperty | Cesium.Cartesian3;
-  properties?: any; // Cesium.PropertyBag
+  // @type Cesium.PropertyBag
+  properties?: any;
   rectangle?: Cesium.RectangleGraphics | RectangleGraphicsCesiumProps;
   show?: boolean;
   viewFrom?: Cesium.Property | Cesium.Cartesian3;

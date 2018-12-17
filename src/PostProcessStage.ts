@@ -13,9 +13,11 @@ export interface PostProcessStageCesiumReadonlyProps {
   uniforms?: any;
   textureScale?: number;
   forcePowerOfTwo?: boolean;
-  sampleMode?: any; // Cesium.PostProcessStageSampleMode
+  // @type Cesium.PostProcessStageSampleMode
+  sampleMode?: any;
   pixelFormat?: Cesium.PixelFormat;
-  pixelDatatype?: any; // Cesium.PixelDatatype;
+  // @type Cesium.PixelDatatype
+  pixelDatatype?: any;
   clearColor?: Cesium.Color;
   scissorRectangle?: Cesium.BoundingRectangle;
   name?: string;
@@ -160,7 +162,8 @@ export const LensFlareStage = createPostProcessStage<{
 export const NightVisionStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
-  stages?: any[]; // Cesium.PostProcessStage[]
+  // @type Cesium.PostProcessStage[]
+  stages?: any[];
 }>({
   name: "NightVisionStage",
   props: ["color", "length"],
@@ -173,7 +176,8 @@ export const NightVisionStage = createPostProcessStage<{
 export const SilhouetteStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
-  stages?: any[]; // Cesium.PostProcessStage[]
+  // @type Cesium.PostProcessStage[]
+  stages?: any[];
 }>({
   name: "SilhouetteStage",
   props: ["color", "length"],
