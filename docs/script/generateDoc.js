@@ -134,19 +134,19 @@ function parseLeadingComment(comments) {
   let type = undefined;
 
   comments.forEach(c => {
-    if (/^@CesiumProps/.test(c)) {
+    if (/^@CesiumProp/.test(c)) {
       kind = "cesiumProps";
       return;
     }
-    if (/^@CesiumReadonlyProps/.test(c)) {
-      kind = "CesiumReadonlyProps";
+    if (/^@CesiumReadonlyProp/.test(c)) {
+      kind = "cesiumReadonlyProps";
       return;
     }
-    if (/^@CesiumEvents/.test(c)) {
+    if (/^@CesiumEvent/.test(c)) {
       kind = "cesiumEvents";
       return;
     }
-    if (/^@props/.test(c)) {
+    if (/^@prop/.test(c)) {
       kind = "props";
       return;
     }
