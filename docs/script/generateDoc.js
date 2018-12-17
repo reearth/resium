@@ -245,13 +245,13 @@ function parsePropTypes(name, source, tsx) {
   sourceFile.forEachChild(node => {
     if (node.kind === ts.SyntaxKind.InterfaceDeclaration) {
       const name = node.name.escapedText;
-      const key = /CesiumProps$/.test(name)
+      const key = /.+?CesiumProps$/.test(name)
         ? "cesiumProps"
-        : /CesiumReadonlyProps$/.test(name)
+        : /.+?CesiumReadonlyProps$/.test(name)
         ? "cesiumReadonlyProps"
-        : /CesiumEvents$/.test(name)
+        : /.+?CesiumEvents$/.test(name)
         ? "cesiumEvents"
-        : /Props$/.test(name)
+        : /.+?Props$/.test(name)
         ? "props"
         : undefined;
       if (!key) return;
