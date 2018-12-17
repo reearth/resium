@@ -20,8 +20,11 @@ export interface CzmlDataSourceProps
   extends CzmlDataSourceCesiumProps,
     CzmlDataSourceCesiumReadonlyProps,
     CzmlDataSourceCesiumEvents {
+  // @CesiumReadonlyProp
   data?: Cesium.Resource | string | object;
+  // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumProp
   show?: boolean;
   onLoad?: (CzmlDataSouce: Cesium.CzmlDataSource) => void;
 }

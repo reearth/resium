@@ -24,10 +24,13 @@ export interface KmlDataSourceProps
   extends KmlDataSourceCesiumProps,
     KmlDataSourceCesiumReadonlyProps,
     KmlDataSourceCesiumEvents {
+  // @CesiumReadonlyProp
   data?: Cesium.Resource | string | Document | Blob;
+  // @CesiumReadonlyProp
   clampToGround?: boolean;
-  ellipsoid?: Cesium.Ellipsoid;
+  // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumProp
   show?: boolean;
   onLoad?: (kmlDataSouce: Cesium.KmlDataSource) => void;
 }

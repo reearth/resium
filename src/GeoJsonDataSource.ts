@@ -16,15 +16,25 @@ export interface GeoJsonDataSourceCesiumEvents {
 export interface GeoJsonDataSourceProps
   extends GeoJsonDataSourceCesiumProps,
     GeoJsonDataSourceCesiumEvents {
+  // @CesiumReadonlyProp
   data?: Cesium.Resource | string | object;
+  // @CesiumReadonlyProp
   clampToGround?: boolean;
+  // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumProp
   show?: boolean;
+  // @CesiumReadonlyProp
   markerSize?: number;
+  // @CesiumReadonlyProp
   markerSymbol?: string;
+  // @CesiumReadonlyProp
   markerColor?: Cesium.Color;
+  // @CesiumReadonlyProp
   stroke?: Cesium.Color;
+  // @CesiumReadonlyProp
   strokeWidth?: number;
+  // @CesiumReadonlyProp
   fill?: Cesium.Color;
   onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
 }

@@ -39,6 +39,8 @@ export interface ParticleSystemCesiumEvents {
 }
 
 export interface ParticleSystemProps extends ParticleSystemCesiumProps, ParticleSystemCesiumEvents {
+  // @CesiumEvent
+  // Correspond to [ParticleSystem#updateCallback](https://cesiumjs.org/Cesium/Build/Documentation/ParticleSystem.html#updateCallback)
   onUpdate?: (particle: any /* Cesium.Particle */, dt: number) => void;
 }
 
