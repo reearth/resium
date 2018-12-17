@@ -6,3 +6,9 @@
   to = "/index.html"
   status = 200
   force = false
+
+[[redirects]]
+  from = "http://resium.netlify.com/*"
+  to = "http://resium.darwineducation.com/:splat"
+  status = 301
+  force = true
