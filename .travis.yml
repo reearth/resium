@@ -19,6 +19,7 @@ notifications:
     on_failure: never
 before_deploy: yarn build
 deploy:
+  skip_cleanup: true
   provider: npm
   email: info@darwineducation.com
   tag: next
