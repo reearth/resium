@@ -79,15 +79,17 @@ ${type.example
 ${type.scope}
 `
       : ""
-  }${
+  }
+## Properties
+${
     !generalComponent
       ? `
 ### Cesium properties
 
-${renderPropTable(type.cesiumProps)}
-`
+${renderPropTable(type.cesiumProps)}`
       : ""
-  }${
+  }
+${
     !generalComponent
       ? `
 ### Cesium read only properties
@@ -103,8 +105,12 @@ ${renderPropTable(type.cesiumReadonlyProps)}
 ${renderPropTable(type.cesiumEvents)}
 `
       : ""
+  }${
+    generalComponent
+      ? ""
+      : `
+### Other properties`
   }
-### ${generalComponent ? "Properties" : "Other properties"}
 
 ${renderPropTable(type.props)}
 `;
@@ -132,10 +138,11 @@ function getLeadingComment(node) {
 }
 
 function formatComment(comment) {
+  const multiline = /^\/\*/.test(comment);
   const jsdoc = /\/\*\*/.test(comment);
   return comment
     .split("\n")
-    .map(c => c.replace(/^\/\/ ?|^\/\*\*? ?|\*\/$/g, ""))
+    .map(c => (multiline ? c.replace(/^\/\*\*? ?|\*\/$/g, "") : c.replace(/^\/\/ ?/g, "")))
     .map(c => (!jsdoc ? c : c.replace(/^ \* ?/g, "")))
     .filter((c, i, a) => (i !== 0 && i !== a.length - 1) || c.trim().length !== 0)
     .join("\n");
