@@ -1,6 +1,18 @@
 import createCesiumComponent from "./core/CesiumComponent";
 import Cesium from "cesium";
 
+/*
+@summary
+`Fog` can operate the fog of the scene.
+All properties are applied to single fog of the scene.
+*/
+
+/*
+@scope
+Fog is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface FogCesiumProps {
   density?: number;
   enabled?: boolean;

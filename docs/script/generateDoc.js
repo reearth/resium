@@ -3,7 +3,8 @@ const fs = require("fs");
 const path = require("path");
 const ts = require("typescript");
 
-const name = process.argv.slice(2);
+const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
+const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 
 function renderPropTable(types) {
   if (!types || types.length === 0) return "N/A";
@@ -25,7 +26,7 @@ ${types
         .split("\n")
         .map(s => s.trim())
         .join(" ");
-      return `| ${t.name} | ${type} | ${t.description || ""} |`;
+      return `| ${t.name} | ${type} | ${t.required ? "Required. " : ""}${t.description || ""} |`;
     })
     .join("\n")}
 `.trim();
@@ -33,6 +34,10 @@ ${types
 
 function type2doc(type) {
   const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
+  const generalComponent =
+    type.cesiumProps.length === 0 &&
+    type.cesiumReadonlyProps.length === 0 &&
+    type.cesiumEvents.length === 0;
 
   return `
 ---
@@ -52,10 +57,14 @@ ${type.exampleImports ? type.exampleImports + "\n" : ""}`
   }
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
-**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
-    type.name
-  }.html)
 ${
+    type.noCesiumElement
+      ? ""
+      : `**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
+          type.name
+        }.html)
+`
+  }${
     type.example
       ? `
 <Playground>
@@ -76,33 +85,53 @@ ${type.scope}
       : ""
   }
 ## Properties
-
+${
+    !generalComponent
+      ? `
 ### Cesium properties
 
-${renderPropTable(type.cesiumProps)}
-
+${renderPropTable(type.cesiumProps)}`
+      : ""
+  }
+${
+    !generalComponent
+      ? `
 ### Cesium read only properties
 
 ${renderPropTable(type.cesiumReadonlyProps)}
-
+`
+      : ""
+  }${
+    !generalComponent
+      ? `
 ### Cesium events
 
 ${renderPropTable(type.cesiumEvents)}
-
-### Other properties
+`
+      : ""
+  }${
+    generalComponent
+      ? ""
+      : `
+### Other properties`
+  }
 
 ${renderPropTable(type.props)}
-`.trim();
+`;
 }
 
 function getLeadingComment(node) {
   const text = node.getFullText();
+  const nodeStart = node.getStart();
   let comment = [];
   let start = 0;
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const comments = ts.getLeadingCommentRanges(text, start);
     if (comments && comments[0]) {
+      if (comments[0].pos >= nodeStart) {
+        break;
+      }
       comment.push(formatComment(text.slice(comments[0].pos, comments[0].end)));
       start = comments[0].end;
     } else {
@@ -112,19 +141,12 @@ function getLeadingComment(node) {
   return comment;
 }
 
-function getTrailingComment(node, source) {
-  const comments = ts.getTrailingCommentRanges(source, node.getEnd());
-  if (comments && comments[0]) {
-    return formatComment(source.slice(comments[0].pos, comments[0].end));
-  }
-  return undefined;
-}
-
 function formatComment(comment) {
+  const multiline = /^\/\*/.test(comment);
   const jsdoc = /\/\*\*/.test(comment);
   return comment
     .split("\n")
-    .map(c => c.replace(/^\/\/ ?|^\/\*\*? ?|\*\/$/g, ""))
+    .map(c => (multiline ? c.replace(/^\/\*\*? ?|\*\/$/g, "") : c.replace(/^\/\/ ?/g, "")))
     .map(c => (!jsdoc ? c : c.replace(/^ \* ?/g, "")))
     .filter((c, i, a) => (i !== 0 && i !== a.length - 1) || c.trim().length !== 0)
     .join("\n");
@@ -134,39 +156,47 @@ function parseLeadingComment(comments) {
   let kind = undefined;
   let description = [];
   let hidden = false;
+  let type = undefined;
+
   comments.forEach(c => {
-    if (/^@CesiumProps/.test(c)) {
+    if (/^@CesiumProp/.test(c)) {
       kind = "cesiumProps";
       return;
     }
-    if (/^@CesiumReadonlyProps/.test(c)) {
-      kind = "CesiumReadonlyProps";
+    if (/^@CesiumReadonlyProp/.test(c)) {
+      kind = "cesiumReadonlyProps";
       return;
     }
-    if (/^@CesiumEvents/.test(c)) {
+    if (/^@CesiumEvent/.test(c)) {
       kind = "cesiumEvents";
       return;
     }
-    if (/^@Props/.test(c)) {
+    if (/^@prop/.test(c)) {
       kind = "props";
       return;
     }
     if (/^@hidden/.test(c)) {
       hidden = true;
     }
+    const m = c.match(/^@type (.+?)$/);
+    if (m) {
+      type = m[1].trim();
+      return;
+    }
     // normal comment = description
     description.push(c.trim());
   });
+
   return {
     kind,
     description: description.join(" "),
     hidden,
+    type,
   };
 }
 
-function getProp(node, source) {
-  const comment = getTrailingComment(node, source);
-  const leadingComment = getLeadingComment(node);
+function getProp(node) {
+  const comment = parseLeadingComment(getLeadingComment(node));
 
   let optional = false;
   let counter = 0;
@@ -181,14 +211,13 @@ function getProp(node, source) {
     counter++;
   });
 
-  const formattedType = type.replace(/:.+?\/\* (.+) \*\/(,|\))/g, ": $1$2");
-  const parsed = parseLeadingComment(leadingComment);
+  const formattedType = comment.type || type.replace(/:.+?\/\* (.+) \*\/(,|\))/g, ": $1$2");
 
   return {
     name: node.name.escapedText,
-    type: comment ? comment.replace(";").trim() : formattedType,
     required: !optional,
-    ...parsed,
+    ...comment,
+    type: formattedType,
   };
 }
 
@@ -196,6 +225,11 @@ function detectComponentDescription(comments) {
   if (!comments && !comments.length > 0) return;
   return comments
     .map(c => {
+      if (/^ *?@noCesiumElement/.test(c)) {
+        return {
+          noCesiumElement: true,
+        };
+      }
       if (/^ *?@summary/.test(c)) {
         return {
           summary: c.replace(/^ *?@summary/, "").trim(),
@@ -206,9 +240,9 @@ function detectComponentDescription(comments) {
           scope: c.replace(/^ *?@scope/, "").trim(),
         };
       }
-      if (/^ *?@example-imports/.test(c)) {
+      if (/^ *?@exampleImports/.test(c)) {
         return {
-          exampleImports: c.replace(/^ *?@example-imports/, "").trim(),
+          exampleImports: c.replace(/^ *?@exampleImports/, "").trim(),
         };
       }
       if (/^ *?@example/.test(c)) {
@@ -241,20 +275,20 @@ function parsePropTypes(name, source, tsx) {
   sourceFile.forEachChild(node => {
     if (node.kind === ts.SyntaxKind.InterfaceDeclaration) {
       const name = node.name.escapedText;
-      const key = /CesiumProps$/.test(name)
+      const key = /.+?CesiumProps$/.test(name)
         ? "cesiumProps"
-        : /CesiumReadonlyProps$/.test(name)
+        : /.+?CesiumReadonlyProps$/.test(name)
         ? "cesiumReadonlyProps"
-        : /CesiumEvents$/.test(name)
+        : /.+?CesiumEvents$/.test(name)
         ? "cesiumEvents"
-        : /Props$/.test(name)
+        : /.+?Props$/.test(name)
         ? "props"
         : undefined;
       if (!key) return;
 
       node.forEachChild(node2 => {
         if (node2.kind === ts.SyntaxKind.PropertySignature) {
-          const p = getProp(node2, source);
+          const p = getProp(node2);
           props[p.kind || key].push(p);
         }
       });
@@ -311,13 +345,22 @@ if (componentFiles.length > 0) {
   }
 }
 
+const preview = options.includes("--preview");
+
 componentFiles.forEach(cf => {
   const name = cf.replace(/\.tsx?$/, "");
   const code = fs.readFileSync(path.resolve(__dirname, "..", "..", "src", cf), "utf8");
   const props = parsePropTypes(name, code);
+  if (preview) {
+    // eslint-disable-next-line no-console
+    console.log(props);
+    return;
+  }
   const result = type2doc(props);
   fs.writeFileSync(path.resolve(__dirname, "..", "..", "docs", "api", `${name}.mdx`), result);
 });
 
-// eslint-disable-next-line no-console
-console.log(`${componentFiles.length} documents have been genereted!`);
+if (!preview) {
+  // eslint-disable-next-line no-console
+  console.log(`${componentFiles.length} documents have been genereted!`);
+}

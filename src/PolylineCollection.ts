@@ -2,6 +2,21 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 
+/*
+@summary
+`PolylineCollection` is a collection of polyline primitives.
+It can have some `Polyline` components as children.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A PolylineCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
 export interface PolylineCollectionCesiumProps {
   debugShowBoundingVolume?: boolean;
   length?: number;

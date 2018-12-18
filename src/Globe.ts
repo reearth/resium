@@ -1,12 +1,25 @@
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 import Cesium from "cesium";
 
+/*
+@summary
+`Globe` can operate the globe of the scene.
+All properties are applied to single globe of the scene.
+*/
+
+/*
+@scope
+Globe is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface GlobeCesiumProps {
   atmosphereBrightnessShift?: number;
   atmosphereHueShift?: number;
   atmosphereSaturationShift?: number;
   baseColor?: Cesium.Color;
-  clippingPlanes?: any; // Cesium.ClippingPlaneCollection
+  // @type Cesium.ClippingPlaneCollection
+  clippingPlanes?: any;
   depthTestAgainstTerrain?: boolean;
   ellipsoid?: Cesium.Ellipsoid;
   enableLighting?: boolean;
@@ -26,21 +39,21 @@ export interface GlobeCesiumProps {
   tileCacheSize?: number;
 }
 
-export interface GlobeCesiumEventProps {
+export interface GlobeCesiumEvents {
   onImageryLayersUpdate?: () => void;
   onTerrainProviderChange?: (terrainProvider: Cesium.TerrainProvider) => void;
   onTileLoad?: () => void;
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 }
 
-const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof GlobeCesiumEventProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof GlobeCesiumEvents> = {
   imageryLayersUpdatedEvent: "onImageryLayersUpdate",
   terrainProviderChanged: "onTerrainProviderChange",
   tileLoadedEvent: "onTileLoad",
   tileLoadProgressEvent: "onTileLoadProgress",
 };
 
-export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEventProps {}
+export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEvents {}
 
 export interface GlobeContext {
   scene: Cesium.Scene;

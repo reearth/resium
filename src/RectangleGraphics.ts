@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`RectangleGraphics` is a rectangle visualization for the entity.
+*/
+
+/*
+@scope
+RectangleGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface RectangleGraphicsCesiumProps {
   coordinates?: Cesium.Property | Cesium.Rectangle;
   height?: Cesium.Property | number;
@@ -20,12 +31,17 @@ export interface RectangleGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  classificationType?: Cesium.Property | any; // Cesium.ClassificationType
+  // @type Cesium.Property | Cesium.ClassificationType
+  classificationType?: Cesium.Property | any;
 }
 
-export interface RectangleGraphicsProps extends RectangleGraphicsCesiumProps {
+export interface RectangleGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface RectangleGraphicsProps
+  extends RectangleGraphicsCesiumProps,
+    RectangleGraphicsCesiumEvents {}
 
 export interface RectangleGraphicsContext {
   entity?: Cesium.Entity;
@@ -51,7 +67,10 @@ const cesiumProps: Array<keyof RectangleGraphicsCesiumProps> = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.RectangleGraphics, keyof RectangleGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<
+  Cesium.RectangleGraphics,
+  keyof RectangleGraphicsCesiumEvents
+> = {
   definitionChanged: "onDefinitionChange",
 };
 

@@ -2,7 +2,18 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
-export interface TimeDynamicPointCloudCesiunProps {
+/*
+@summary
+`TimeDynamicPointCloud` is a point cloud with dynamic changes with time.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A TimeDynamicPointCloud object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
+export interface TimeDynamicPointCloudCesiumProps {
   clock?: Cesium.Clock;
   intervals: Cesium.TimeIntervalCollection;
   show?: boolean;
@@ -13,7 +24,7 @@ export interface TimeDynamicPointCloudCesiunProps {
   clippingPlanes?: any /* Cesium.ClippingPlaneCollection */;
 }
 
-export interface TimeDynamicPointCloudCesiunReadonlyProps {
+export interface TimeDynamicPointCloudCesiumReadonlyProps {
   shading?: {
     attenuation?: boolean;
     geometricErrorScale?: number;
@@ -25,11 +36,16 @@ export interface TimeDynamicPointCloudCesiunReadonlyProps {
   };
 }
 
-export interface TimeDynamicPointCloudProps
-  extends TimeDynamicPointCloudCesiunProps,
-    TimeDynamicPointCloudCesiunReadonlyProps {
-  onReady?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
+export interface TimeDynamicPointCloudCesiumEvents {
   onFrameChange?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
+}
+
+export interface TimeDynamicPointCloudProps
+  extends TimeDynamicPointCloudCesiumProps,
+    TimeDynamicPointCloudCesiumReadonlyProps,
+    TimeDynamicPointCloudCesiumEvents {
+  // Calls when the point cloud is completely loaded.
+  onReady?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
 }
 
 export interface TimeDynamicPointCloudContext {
@@ -37,7 +53,7 @@ export interface TimeDynamicPointCloudContext {
   cesiumWidget?: Cesium.CesiumWidget;
 }
 
-const cesiumProps: Array<keyof TimeDynamicPointCloudCesiunProps> = [
+const cesiumProps: Array<keyof TimeDynamicPointCloudCesiumProps> = [
   "clippingPlanes",
   "clock",
   "intervals",
@@ -48,9 +64,9 @@ const cesiumProps: Array<keyof TimeDynamicPointCloudCesiunProps> = [
   "style",
 ];
 
-const cesiumReadonlyProps: Array<keyof TimeDynamicPointCloudCesiunReadonlyProps> = ["shading"];
+const cesiumReadonlyProps: Array<keyof TimeDynamicPointCloudCesiumReadonlyProps> = ["shading"];
 
-const cesiumEventProps: EventkeyMap<any, keyof TimeDynamicPointCloudProps> = {
+const cesiumEventProps: EventkeyMap<any, keyof TimeDynamicPointCloudCesiumEvents> = {
   frameChanged: "onFrameChange",
 };
 

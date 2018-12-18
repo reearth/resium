@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`EllipsoidGraphics` is a ellipsoid visualization for the entity.
+*/
+
+/*
+@scope
+EllipsoidGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface EllipsoidGraphicsCesiumProps {
   heightReference?: Cesium.Property | Cesium.HeightReference;
   radii?: Cesium.Property | Cesium.Cartesian3;
@@ -18,9 +29,13 @@ export interface EllipsoidGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface EllipsoidGraphicsProps extends EllipsoidGraphicsCesiumProps {
+export interface EllipsoidGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface EllipsoidGraphicsProps
+  extends EllipsoidGraphicsCesiumProps,
+    EllipsoidGraphicsCesiumEvents {}
 
 export interface EllipsoidGraphicsContext {
   entity?: Cesium.Entity;
@@ -42,7 +57,10 @@ const cesiumProps: Array<keyof EllipsoidGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.EllipsoidGraphics, keyof EllipsoidGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<
+  Cesium.EllipsoidGraphics,
+  keyof EllipsoidGraphicsCesiumEvents
+> = {
   definitionChanged: "onDefinitionChange",
 };
 

@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`BoxGraphics` is a box visualization for the entity.
+*/
+
+/*
+@scope
+BoxGraphic is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface BoxGraphicsCesiumProps {
   heightReference?: Cesium.Property | Cesium.HeightReference;
   dimensions?: Cesium.Property | Cesium.Cartesian3;
@@ -15,9 +26,11 @@ export interface BoxGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface BoxGraphicsProps extends BoxGraphicsCesiumProps {
+export interface BoxGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface BoxGraphicsProps extends BoxGraphicsCesiumProps, BoxGraphicsCesiumEvents {}
 
 export interface BoxGraphicsContext {
   entity?: Cesium.Entity;
@@ -36,7 +49,7 @@ const cesiumProps: Array<keyof BoxGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, keyof BoxGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, keyof BoxGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

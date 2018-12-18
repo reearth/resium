@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PathGraphics` is a path visualization for the entity.
+*/
+
+/*
+@scope
+PathGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PathGraphicsCesiumProps {
   leadTime?: Cesium.Property | number;
   trailTime?: Cesium.Property | number;
@@ -12,9 +23,11 @@ export interface PathGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface PathGraphicsProps extends PathGraphicsCesiumProps {
+export interface PathGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PathGraphicsProps extends PathGraphicsCesiumProps, PathGraphicsCesiumEvents {}
 
 export interface PathGraphicsContext {
   entity?: Cesium.Entity;
@@ -30,7 +43,7 @@ const cesiumProps: Array<keyof PathGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, keyof PathGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, keyof PathGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

@@ -1,6 +1,17 @@
 import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`Cesium3DTileset` is a 3D tile set.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A Cesium3DTileset object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
 export interface Cesium3DTilesetCesiumProps {
   url: Cesium.Resource | string | Promise<Cesium.Resource> | Promise<string>;
   show?: boolean;
@@ -19,8 +30,10 @@ export interface Cesium3DTilesetCesiumProps {
   skipLevels?: number;
   immediatelyLoadDesiredLevelOfDetail?: boolean;
   loadSiblings?: boolean;
-  clippingPlanes?: any; // Cesium.ClippingPlaneCollection;
-  classificationType?: any; // Cesium.ClassificationType
+  // @type Cesium.ClippingPlaneCollection
+  clippingPlanes?: any;
+  // @type Cesium.ClassificationType
+  classificationType?: any;
   ellipsoid?: Cesium.Ellipsoid;
   imageBasedLightingFactor?: Cesium.Cartesian2;
   lightColor?: Cesium.Cartesian3;
@@ -35,7 +48,8 @@ export interface Cesium3DTilesetCesiumProps {
   debugShowMemoryUsage?: boolean;
   debugShowUrl?: boolean;
   colorBlendAmount?: number;
-  colorBlendMode?: any; // Cesium3DTileColorBlendMode
+  // @type Cesium.Cesium3DTileColorBlendMode
+  colorBlendMode?: any;
 }
 
 export interface Cesium3DTilesetCesiumReadonlyProps {
@@ -50,16 +64,21 @@ export interface Cesium3DTilesetCesiumReadonlyProps {
   };
 }
 
-export interface Cesium3DTilesetProps
-  extends Cesium3DTilesetCesiumProps,
-    Cesium3DTilesetCesiumReadonlyProps {
+export interface Cesium3DTilesetCesiumEvents {
   onAllTilesLoad?: () => void;
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: () => void;
-  onTileLoad?: (tile: any /* Cesium.Tileset */) => void;
+  onTileLoad?: (tile: any /* Cesium.3DTileset */) => void;
   onTileUnload?: () => void;
-  onTileVisible?: (tile: any /* Cesium.Tileset */) => void;
+  onTileVisible?: (tile: any /* Cesium.3DTileset */) => void;
+}
+
+export interface Cesium3DTilesetProps
+  extends Cesium3DTilesetCesiumProps,
+    Cesium3DTilesetCesiumReadonlyProps,
+    Cesium3DTilesetCesiumEvents {
+  // Calls when the tile set is completely loaded.
   onReady?: (tileset: any /* Cesium.3DTileset */) => void;
 }
 
@@ -106,7 +125,7 @@ const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
 
 const cesiumReadonlyProps: Array<keyof Cesium3DTilesetCesiumReadonlyProps> = ["pointCloudShading"];
 
-const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetProps> = {
+const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetCesiumEvents> = {
   allTilesLoaded: "onAllTilesLoad",
   initialTilesLoaded: "onInitialTilesLoad",
   loadProgress: "onLoadProgress",

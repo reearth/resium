@@ -14,7 +14,6 @@ export default {
     "Guide",
     {
       name: "Components",
-      menu: ["Viewer"],
     },
     "Advanced",
     "Migration Guide",

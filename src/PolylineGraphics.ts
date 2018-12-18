@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PolylineGraphics` is a polyline visualization for the entity.
+*/
+
+/*
+@scope
+PolylineGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PolylineGraphicsCesiumProps {
   positions?: Cesium.Property | Cesium.Cartesian3[];
   followSurface?: Cesium.Property | boolean;
@@ -16,9 +27,13 @@ export interface PolylineGraphicsCesiumProps {
   zIndex?: Cesium.Property | number;
 }
 
-export interface PolylineGraphicsProps extends PolylineGraphicsCesiumProps {
+export interface PolylineGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PolylineGraphicsProps
+  extends PolylineGraphicsCesiumProps,
+    PolylineGraphicsCesiumEvents {}
 
 export interface PolylineGraphicsContext {
   entity?: Cesium.Entity;
@@ -38,7 +53,7 @@ const cesiumProps: Array<keyof PolylineGraphicsCesiumProps> = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, keyof PolylineGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, keyof PolylineGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

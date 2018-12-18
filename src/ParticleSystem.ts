@@ -1,14 +1,26 @@
 import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
-import { any } from "prop-types";
+
+/*
+@summary
+`ParticleSystem` is 3D particles.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A ParticleSystem object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
 
 export interface ParticleSystemCesiumProps {
   show?: boolean;
-  emitter?: any; // Cesium.ParticleEmitter;
+  // @type Cesium.ParticleEmitter
+  emitter?: any;
   modelMatrix?: Cesium.Matrix4;
   emitterModelMatrix?: Cesium.Matrix4;
   emissionRate?: number;
-  bursts?: any[]; // Cesium.ParticleBurst[];
+  // @type Cesium.ParticleBurst[]
+  bursts?: any[];
   loop?: boolean;
   scale?: number;
   startScale?: number;
@@ -32,8 +44,13 @@ export interface ParticleSystemCesiumProps {
   maximumMass?: number;
 }
 
-export interface ParticleSystemProps extends ParticleSystemCesiumProps {
+export interface ParticleSystemCesiumEvents {
   onComplete?: () => void;
+}
+
+export interface ParticleSystemProps extends ParticleSystemCesiumProps, ParticleSystemCesiumEvents {
+  // @CesiumEvent
+  // Correspond to [ParticleSystem#updateCallback](https://cesiumjs.org/Cesium/Build/Documentation/ParticleSystem.html#updateCallback)
   onUpdate?: (particle: any /* Cesium.Particle */, dt: number) => void;
 }
 
@@ -71,7 +88,7 @@ const cesiumProps: Array<keyof ParticleSystemCesiumProps> = [
   "maximumMass",
 ];
 
-const cesiumEventProps: EventkeyMap<any, keyof ParticleSystemProps> = {
+const cesiumEventProps: EventkeyMap<any, keyof ParticleSystemCesiumEvents> = {
   complete: "onComplete",
 };
 

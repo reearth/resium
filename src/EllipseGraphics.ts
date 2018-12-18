@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`EllipseGraphics` is a ellipse visualization for the entity.
+*/
+
+/*
+@scope
+EllipseGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface EllipseGraphicsCesiumProps {
   semiMajorAxis?: Cesium.Property | number;
   semiMinorAxis?: Cesium.Property | number;
@@ -21,12 +32,17 @@ export interface EllipseGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  classificationType?: Cesium.Property | any; // Cesium.ClassificationType
+  // @type Cesium.ClassificationType
+  classificationType?: Cesium.Property | any;
 }
 
-export interface EllipseGraphicsProps extends EllipseGraphicsCesiumProps {
+export interface EllipseGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface EllipseGraphicsProps
+  extends EllipseGraphicsCesiumProps,
+    EllipseGraphicsCesiumEvents {}
 
 export interface EllipseGraphicsContext {
   entity?: Cesium.Entity;
@@ -54,7 +70,7 @@ const cesiumProps: Array<keyof EllipseGraphicsCesiumProps> = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.EllipseGraphics, keyof EllipseGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.EllipseGraphics, keyof EllipseGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

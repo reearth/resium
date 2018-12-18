@@ -2,6 +2,18 @@ import Cesium, { Scene as CesiumScene, SceneMode } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`Scene` can operate the scene of the Viewer or CesiumWidget.
+All properties are applied to single scene of them.
+*/
+
+/*
+@scope
+Scene is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface SceneCesiumProps {
   backgroundColor?: Cesium.Color;
   completeMorphOnUserInput?: boolean;

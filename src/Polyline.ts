@@ -3,6 +3,20 @@ import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 import EventManager, { EventProps } from "./core/EventManager";
 
+/*
+@summary
+`Polyline` is a polyline primitive in the `PolylineCollection`.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Only inside [PolylineCollection](/components/PolylineCollection) component.
+A polyline object will be attached to the parent PolylineCollection.
+*/
+
 export interface PolylineCesiumProps {
   distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
   id?: any;

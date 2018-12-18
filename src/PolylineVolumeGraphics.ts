@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PolylineVolumeGraphics` is a polyline visualization with volume for the entity.
+*/
+
+/*
+@scope
+PolylineVolumeGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PolylineVolumeGraphicsCesiumProps {
   positions?: Cesium.Property | Cesium.Cartesian3[];
   shape?: Cesium.Property | Cesium.Cartesian2[];
@@ -17,9 +28,13 @@ export interface PolylineVolumeGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface PolylineVolumeGraphicsProps extends PolylineVolumeGraphicsCesiumProps {
+export interface PolylineVolumeGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PolylineVolumeGraphicsProps
+  extends PolylineVolumeGraphicsCesiumProps,
+    PolylineVolumeGraphicsCesiumEvents {}
 
 export interface PolylineVolumeGraphicsContext {
   entity?: Cesium.Entity;
@@ -42,7 +57,7 @@ const cesiumProps: Array<keyof PolylineVolumeGraphicsCesiumProps> = [
 
 const cesiumEventProps: EventkeyMap<
   Cesium.PolylineVolumeGraphics,
-  keyof PolylineVolumeGraphicsProps
+  keyof PolylineVolumeGraphicsCesiumEvents
 > = {
   definitionChanged: "onDefinitionChange",
 };

@@ -2,6 +2,20 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 
+/*
+@summary
+`ImageryLayer` is a imargery layer on the globe.
+
+Note: `imageryProvider` property is read only. See also [guide](/guide#cesium-read-only-properties).
+*/
+
+/*
+@scope
+Either:
+- Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component: the imargery layer will be attached to the ImageryLayerCollection of the Viewer or CesiumWidget.
+- Inside [ImageryLayerCollection](/components/ImageryLayerCollection) component: same as above
+*/
+
 export interface ImageryLayerCesiumProps {
   alpha?:
     | ((

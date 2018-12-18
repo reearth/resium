@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PointGraphics` is a point visualization for the entity.
+*/
+
+/*
+@scope
+PointGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PointGraphicsCesiumProps {
   color?: Cesium.Property | Cesium.Color;
   pixelSize?: Cesium.Property | number;
@@ -15,9 +26,11 @@ export interface PointGraphicsCesiumProps {
   disableDepthTestDistance?: Cesium.Property | number;
 }
 
-export interface PointGraphicsProps extends PointGraphicsCesiumProps {
+export interface PointGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PointGraphicsProps extends PointGraphicsCesiumProps, PointGraphicsCesiumEvents {}
 
 export interface PointGraphicsContext {
   entity?: Cesium.Entity;
@@ -36,7 +49,7 @@ const cesiumProps: Array<keyof PointGraphicsCesiumProps> = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PointGraphics, keyof PointGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PointGraphics, keyof PointGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

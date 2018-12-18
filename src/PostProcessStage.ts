@@ -3,6 +3,60 @@ import Cesium from "cesium";
 import { createPostProcessStage } from "./core/PostProcessStage";
 import createCesiumComponent from "./core/CesiumComponent";
 
+/*
+@summary
+`PostProcessStage` can add a post processing stage to the scene.
+
+Bult-in PostProcessStage components are available with additional Cesium properties:
+
+| Component | Property | Type |
+|---|---|---|
+| BlackAndWhiteStage | gradations | number |
+| | delta | number |
+| | sigma | number |
+| | stepSize | number |
+| BrightnessStage | brightness | number |
+| DepthOfFieldStage | focalDistance | number |
+| | delta | number |
+| | sigma | number |
+| | stepSize | number |
+| EdgeDetectionStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| | length | number |
+| LensFlareStage | dirtTexture | any |
+| | starTexture | any |
+| | intensity | number |
+| | distortion | number |
+| | ghostDispersal | number |
+| | haloWidth | number |
+| | earthRadius | number |
+| | dirtTexture | number |
+| | dirtTexture | number |
+| NightVisionStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| | length | number |
+| | stages | [Cesium.PostProcessStage](https://cesiumjs.org/Cesium/Build/Documentation/PostProcessStage.html)[] |
+| SilhouetteStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| | length | number |
+| | stages | [Cesium.PostProcessStage](https://cesiumjs.org/Cesium/Build/Documentation/PostProcessStage.html)[] |
+| Fxaa | - | - |
+
+Note: `Fxaa` component can not be used multi time, as it refers to the single post process stage of the scene.
+
+They can be imported and used normally:
+
+```jsx
+import { LensFlareStage } from "resium";
+
+<Viewer>
+  <LensFlareStage intensity={5} />
+</Viewer>
+```
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+*/
+
 export interface PostProcessStageCesiumProps {
   enabled?: boolean;
   selected?: any[];
@@ -13,9 +67,11 @@ export interface PostProcessStageCesiumReadonlyProps {
   uniforms?: any;
   textureScale?: number;
   forcePowerOfTwo?: boolean;
-  sampleMode?: any; // Cesium.PostProcessStageSampleMode
+  // @type Cesium.PostProcessStageSampleMode
+  sampleMode?: any;
   pixelFormat?: Cesium.PixelFormat;
-  pixelDatatype?: any; // Cesium.PixelDatatype;
+  // @type Cesium.PixelDatatype
+  pixelDatatype?: any;
   clearColor?: Cesium.Color;
   scissorRectangle?: Cesium.BoundingRectangle;
   name?: string;
@@ -160,7 +216,8 @@ export const LensFlareStage = createPostProcessStage<{
 export const NightVisionStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
-  stages?: any[]; // Cesium.PostProcessStage[]
+  // @type Cesium.PostProcessStage[]
+  stages?: any[];
 }>({
   name: "NightVisionStage",
   props: ["color", "length"],
@@ -173,7 +230,8 @@ export const NightVisionStage = createPostProcessStage<{
 export const SilhouetteStage = createPostProcessStage<{
   color?: Cesium.Color;
   length?: number;
-  stages?: any[]; // Cesium.PostProcessStage[]
+  // @type Cesium.PostProcessStage[]
+  stages?: any[];
 }>({
   name: "SilhouetteStage",
   props: ["color", "length"],

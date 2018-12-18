@@ -1,6 +1,18 @@
 import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 
+/*
+@summary
+`Moon` can operate the moon of the scene.
+All properties are applied to single moon of the scene.
+*/
+
+/*
+@scope
+Moon is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface MoonCesiumProps {
   onlySunLighting?: boolean;
   show?: boolean;

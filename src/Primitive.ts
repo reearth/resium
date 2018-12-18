@@ -3,6 +3,20 @@ import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 import EventManager, { EventProps } from "./core/EventManager";
 
+/*
+@summary
+`Primitive` is a basic primitive in the `PrimitiveCollection`.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
 export interface PrimitiveCesiumProps {
   appearance?: Cesium.Appearance;
   cull?: boolean;

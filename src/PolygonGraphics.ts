@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PolygonGraphics` is a polygon visualization for the entity.
+*/
+
+/*
+@scope
+PolygonGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PolygonGraphicsCesiumProps {
   hierarchy?: Cesium.Property | Cesium.PolygonHierarchy;
   height?: Cesium.Property | number;
@@ -22,12 +33,17 @@ export interface PolygonGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  classificationType?: Cesium.Property | any; // Cesium.ClassificationType
+  // @type Cesium.Property | Cesium.ClassificationType
+  classificationType?: Cesium.Property | any;
 }
 
-export interface PolygonGraphicsProps extends PolygonGraphicsCesiumProps {
+export interface PolygonGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface PolygonGraphicsProps
+  extends PolygonGraphicsCesiumProps,
+    PolygonGraphicsCesiumEvents {}
 
 export interface PolygonGraphicsContext {
   entity?: Cesium.Entity;
@@ -56,7 +72,7 @@ const cesiumProps: Array<keyof PolygonGraphicsCesiumProps> = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, keyof PolygonGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, keyof PolygonGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

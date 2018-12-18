@@ -7,6 +7,21 @@ const { renderToStaticMarkup } = require("react-dom/server.browser");
 import { withCesium } from "./core/context";
 import { Entity } from "cesium";
 
+/*
+@summary
+`EntityDescription` provides a way to render description of the entity with React.
+
+Its children will be rendered with `ReactDOM.renderToStaticMarkup` as HTML string of the description.
+
+Note: This component depends on `react-dom/server.browser` module.
+*/
+
+/*
+@scope
+EntityDescription is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface Props {
   cesium: { entity?: Entity };
 }

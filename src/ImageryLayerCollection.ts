@@ -1,12 +1,27 @@
 import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
-export interface ImageryLayerCollectionProps {
+/*
+@summary
+`ImageryLayerCollection` is a collection of imagery layers of the globe.
+It can have some `ImageryLayer` components as children.
+*/
+
+/*
+@scope
+Available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+This component refers to the single ImageryLayerCollection of them, so can not be used more than once for each Viewer or CesiumWidget.
+*/
+
+export interface ImageryLayerCollectionCesiumEvents {
   onLayerAdd?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerMove?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerRemove?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerShowOrHide?: (layer: Cesium.ImageryLayer, index: number) => void;
 }
+
+// tslint:disable-next-line:no-empty-interface
+export interface ImageryLayerCollectionProps extends ImageryLayerCollectionCesiumEvents {}
 
 export interface ImageryLayerCollectionContext {
   globe: Cesium.Globe;
@@ -14,7 +29,7 @@ export interface ImageryLayerCollectionContext {
 
 const cesiumEventProps: EventkeyMap<
   Cesium.ImageryLayerCollection,
-  keyof ImageryLayerCollectionProps
+  keyof ImageryLayerCollectionCesiumEvents
 > = {
   layerAdded: "onLayerAdd",
   layerMoved: "onLayerMove",

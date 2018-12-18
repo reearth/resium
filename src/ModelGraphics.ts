@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`ModelGraphics` is a 3D model visualization for the entity.
+*/
+
+/*
+@scope
+ModelGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface ModelGraphicsCesiumProps {
   uri?: Cesium.Property | string;
   show?: Cesium.Property | boolean;
@@ -11,23 +22,28 @@ export interface ModelGraphicsCesiumProps {
   incrementallyLoadTextures?: Cesium.Property | boolean;
   runAnimations?: Cesium.Property | boolean;
   clampAnimations?: Cesium.Property | boolean;
-  nodeTransformations?: Cesium.Property; // | { [name: string]: Cesium.TranslationRotationScale };
+  // @type Cesium.Property | { [name: string]: Cesium.TranslationRotationScale }
+  nodeTransformations?: Cesium.Property;
   shadows?: Cesium.Property | Cesium.ShadowMode;
   heightReference?: Cesium.Property | Cesium.HeightReference;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   silhouetteColor?: Cesium.Property | Cesium.Color;
   silhouetteSize?: Cesium.Property | number;
   color?: Cesium.Property | Cesium.Color;
-  colorBlendMode?: Cesium.Property; // | Cesium.ColorBlendMode;
+  // @type Cesium.Property | Cesium.ColorBlendMode
+  colorBlendMode?: Cesium.Property | any;
   colorBlendAmount?: Cesium.Property | number;
-  clippingPlanes?: Cesium.Property; // | Cesium.ClippingPlaneCollection;
+  // @type Cesium.Propert | Cesium.ClippingPlaneCollection
+  clippingPlanes?: Cesium.Property | any;
   imageBasedLightingFactor?: Cesium.Property | Cesium.Cartesian2;
   lightColor?: Cesium.Property | Cesium.Color;
 }
 
-export interface ModelGraphicsProps extends ModelGraphicsCesiumProps {
+export interface ModelGraphicsCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface ModelGraphicsProps extends ModelGraphicsCesiumProps, ModelGraphicsCesiumEvents {}
 
 export interface ModelGraphicsContext {
   entity?: Cesium.Entity;
@@ -56,7 +72,7 @@ const cesiumProps: Array<keyof ModelGraphicsCesiumProps> = [
   "lightColor",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, keyof ModelGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, keyof ModelGraphicsCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

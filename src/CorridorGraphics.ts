@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`CorriderGraphics` is a corrider visualization for the entity.
+*/
+
+/*
+@scope
+CorriderGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface CorridorGraphicsCesiumProps {
   positions?: Cesium.Property | Cesium.Cartesian3[];
   width?: Cesium.Property | number;
@@ -20,12 +31,15 @@ export interface CorridorGraphicsCesiumProps {
   shadows?: Cesium.Property | boolean;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.ConstantProperty | number;
-  classificationType?: Cesium.Property | any; // Cesium.ClassificationType
+  // @type Cesium.Property | Cesium.ClassificationType
+  classificationType?: Cesium.Property | any;
 }
 
-export interface CorridorGraphicsProps extends CorridorGraphicsCesiumProps {
+export interface CorridorCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface CorridorGraphicsProps extends CorridorGraphicsCesiumProps, CorridorCesiumEvents {}
 
 export interface CorridorGraphicsContext {
   entity?: Cesium.Entity;
@@ -52,7 +66,7 @@ const cesiumProps: Array<keyof CorridorGraphicsCesiumProps> = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CorridorGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CorridorCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 

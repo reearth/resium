@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`KmlDataSource` provides the way to load and show KML data into the scene.
+Both KML and KMZ are supported, and can be loaded from a URL, string or raw object.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+*/
+
 export interface KmlDataSourceCesiumProps {
   clustering?: Cesium.EntityCluster;
 }
@@ -24,11 +35,15 @@ export interface KmlDataSourceProps
   extends KmlDataSourceCesiumProps,
     KmlDataSourceCesiumReadonlyProps,
     KmlDataSourceCesiumEvents {
+  // @CesiumReadonlyProp
   data?: Cesium.Resource | string | Document | Blob;
+  // @CesiumReadonlyProp
   clampToGround?: boolean;
-  ellipsoid?: Cesium.Ellipsoid;
+  // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumProp
   show?: boolean;
+  // Calls when the Promise for loading data is fullfilled.
   onLoad?: (kmlDataSouce: Cesium.KmlDataSource) => void;
 }
 

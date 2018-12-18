@@ -3,13 +3,56 @@ import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 import { createPostProcessStage } from "./core/PostProcessStage";
 
+/*
+@summary
+`PostProcessStagComposite` can add a post processing stages to the scene.
+
+Bult-in PostProcessStageComposite components are available with additional Cesium properties:
+
+| Component | Property | Type |
+|---|---|---|
+| AmbientOcclusion | intensity | number |
+| | bias | number |
+| | lengthCap | number |
+| | stepSize | number |
+| | frustumLength | number |
+| | ambientOcclusionOnly | boolean |
+| | delta | number |
+| | sigma | number |
+| Bloom | contrast | number |
+| | brightness | number |
+| | glowOnly | boolean |
+| | delta | number |
+| | sigma | number |
+| | stepSize | number |
+
+Note: Their components can not be used multi time for each components, as it refers to the single post process stage of the scene.
+
+They can be imported and used normally:
+
+```jsx
+import { AmbientOcclusion, Bloom } from "resium";
+
+<Viewer>
+  <AmbientOcclusion />
+  <Bloom />
+</Viewer>
+```
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+*/
+
 export interface PostProcessStageCompositeCesiumProps {
   enabled?: boolean;
   selected?: any[];
 }
 
 export interface PostProcessStageCompositeCesiumReadonlyProps {
-  stages: any[]; // Cesium.PostProcessStage
+  // @type Cesium.PostProcessStage
+  stages: any[];
   inputPreviousStageTexture?: boolean;
   name?: string;
   uniforms?: any;

@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`CylinderGraphics` is a cylinder visualization for the entity.
+*/
+
+/*
+@scope
+CylinderGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface CylinderGraphicsCesiumProps {
   heightReference?: Cesium.Property | Cesium.HeightReference;
   length?: Cesium.Property | number;
@@ -19,9 +30,11 @@ export interface CylinderGraphicsCesiumProps {
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
 }
 
-export interface CylinderGraphicsProps extends CylinderGraphicsCesiumProps {
+export interface CylinderCesiumEvents {
   onDefinitionChange?: () => void;
 }
+
+export interface CylinderGraphicsProps extends CylinderGraphicsCesiumProps, CylinderCesiumEvents {}
 
 export interface CylinderGraphicsContext {
   entity?: Cesium.Entity;
@@ -44,7 +57,7 @@ const cesiumProps: Array<keyof CylinderGraphicsCesiumProps> = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CylinderGraphicsProps> = {
+const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CylinderCesiumEvents> = {
   definitionChanged: "onDefinitionChange",
 };
 
