@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`GeoJsonDataSource` provides the way to load and show GeoJSON data into the scene.
+Both GeoJSON and TopoJSON are supported, and can be loaded from a URL, string or raw object.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+*/
+
 export interface GeoJsonDataSourceCesiumProps {
   clustering?: Cesium.EntityCluster;
   name?: string;
@@ -36,6 +47,7 @@ export interface GeoJsonDataSourceProps
   strokeWidth?: number;
   // @CesiumReadonlyProp
   fill?: Cesium.Color;
+  // Calls when the Promise for loading data is fullfilled.
   onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
 }
 

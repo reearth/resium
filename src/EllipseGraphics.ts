@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`EllipseGraphics` is a ellipse visualization for the entity.
+*/
+
+/*
+@scope
+EllipseGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface EllipseGraphicsCesiumProps {
   semiMajorAxis?: Cesium.Property | number;
   semiMinorAxis?: Cesium.Property | number;

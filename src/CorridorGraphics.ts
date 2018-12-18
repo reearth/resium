@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`CorriderGraphics` is a corrider visualization for the entity.
+*/
+
+/*
+@scope
+CorriderGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface CorridorGraphicsCesiumProps {
   positions?: Cesium.Property | Cesium.Cartesian3[];
   width?: Cesium.Property | number;

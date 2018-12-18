@@ -18,6 +18,66 @@ import { PolylineGraphicsCesiumProps } from "./PolylineGraphics";
 import { PolylineVolumeGraphicsCesiumProps } from "./PolylineVolumeGraphics";
 import { RectangleGraphicsCesiumProps } from "./RectangleGraphics";
 import { WallGraphicsCesiumProps } from "./WallGraphics";
+
+/*
+@summary
+`Entity` is a basic component for geographical data visualization.
+
+Entity can have one each, with the following components as children:
+
+- [`EntityDescription`](/components/EntityDescription): renders description with React
+- [`BillboardGraphics`](/components/BillboardGraphics): a billboard visualization
+- [`BoxGraphics`](/components/BoxGraphics): a box visualization
+- [`CorriderGraphics`](/components/BillboardGraphics): a corrider visualization
+- [`CylinderGraphics`](/components/BillboardGraphics): a cylinder visualization
+- [`EllipseGraphics`](/components/BillboardGraphics): a ellipse visualization
+- [`EllipsoidGraphics`](/components/BillboardGraphics): a ellipsoid visualization
+- [`LabelGraphics`](/components/BillboardGraphics): a label visualization
+- [`ModelGraphics`](/components/BillboardGraphics): a model visualization
+- [`PathGraphics`](/components/BillboardGraphics): a path visualization
+- [`PlaneGraphics`](/components/BillboardGraphics): a plane visualization
+- [`PointGraphics`](/components/BillboardGraphics): a point visualization
+- [`PolygonGraphics`](/components/BillboardGraphics): a polygon visualization
+- [`PolylineGraphics`](/components/BillboardGraphics): a polyline visualization
+- [`PolylineVolumeGraphics`](/components/BillboardGraphics): a polyline visualization with volume
+- [`RectangleGraphics`](/components/BillboardGraphics): a rectangle visualization
+- [`WallGraphics`](/components/BillboardGraphics): a wall visualization
+
+### Graphics components vs graphics properties
+
+Conclusion: `Graphics` components are mostly recommended.
+
+For example, Entity component has `point` property for point visualization. But PointGraphics component is also available. What is the differene?
+
+```jsx
+<Entity point={{ pixelSize: 10 }} />
+
+<Entity>
+  <BillboardGraphics pixelSize={10} />
+</Entity>
+```
+
+That is same. However as changing only `pixelSize` property, situations will change. If you change `point` property, It happens recreating a PointGraphics object. It is equivalent to:
+
+```js
+const entity = new Entity({ point: { pixelSize: 10 } });
+
+// change pixelSize property in point property of Entity
+entity.point = new PointGraphics({ pixelSize: 20 });
+// change pixelSize property of PointGraphics
+entity.point.pixelSize = 20;
+```
+
+Updating pixelSize of PointGraphics is more simple and fast.
+*/
+
+/*
+@scope
+Either:
+- Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component: the entity will be attached to the EntityCollection of the Viewer or CesiumWidget.
+- Inside [CustomDataSource](/components/CustomDataSource) component: the entity will be attached to the EntityCollection of the CustomDataSource.
+*/
+
 export interface EntityCesiumProps {
   availability?: Cesium.TimeIntervalCollection;
   billboard?: Cesium.BillboardGraphics | BillboardGraphicsCesiumProps;

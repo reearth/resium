@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`BoxGraphics` is a box visualization for the entity.
+*/
+
+/*
+@scope
+BoxGraphic is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface BoxGraphicsCesiumProps {
   heightReference?: Cesium.Property | Cesium.HeightReference;
   dimensions?: Cesium.Property | Cesium.Cartesian3;

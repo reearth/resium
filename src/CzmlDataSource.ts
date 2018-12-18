@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`CzmlDataSource` provides the way to load and show CZML data into the scene.
+CZML data can be loaded from a URL, string or raw object.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+*/
+
 export interface CzmlDataSourceCesiumProps {
   clustering?: Cesium.EntityCluster;
 }
@@ -26,6 +37,7 @@ export interface CzmlDataSourceProps
   sourceUri?: string;
   // @CesiumProp
   show?: boolean;
+  // Calls when the Promise for loading data is fullfilled.
   onLoad?: (CzmlDataSouce: Cesium.CzmlDataSource) => void;
 }
 

@@ -3,7 +3,18 @@ import Cesium from "cesium";
 
 import { withCesium } from "./core/context";
 
+/*
+@summary
+`ScreenSpaceEvent` is an event callback for mouse or touch interactions.
+*/
+
+/*
+@scope
+Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
+*/
+
 export interface ScreenSpaceEventProps {
+  // If empty, the event will be removed even if there is the default event.
   action?: (e: { position: Cesium.Cartesian2 }) => void;
   modifier?: number;
   type: number;

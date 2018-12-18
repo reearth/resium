@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PolylineGraphics` is a polyline visualization for the entity.
+*/
+
+/*
+@scope
+PolylineGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PolylineGraphicsCesiumProps {
   positions?: Cesium.Property | Cesium.Cartesian3[];
   followSurface?: Cesium.Property | boolean;

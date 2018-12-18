@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`ModelGraphics` is a 3D model visualization for the entity.
+*/
+
+/*
+@scope
+ModelGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface ModelGraphicsCesiumProps {
   uri?: Cesium.Property | string;
   show?: Cesium.Property | boolean;

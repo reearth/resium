@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`CylinderGraphics` is a cylinder visualization for the entity.
+*/
+
+/*
+@scope
+CylinderGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface CylinderGraphicsCesiumProps {
   heightReference?: Cesium.Property | Cesium.HeightReference;
   length?: Cesium.Property | number;

@@ -2,6 +2,21 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 
+/*
+@summary
+`BillboardCollection` is a collection of billboard primitives.
+It can have some `Billboard` components as children.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+A BillboardColleciton object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
 export interface BillboardCollectionCesiumProps {
   blendOption?: Cesium.BlendOption;
   debugShowBoundingVolume?: boolean;

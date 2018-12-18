@@ -1,6 +1,18 @@
 import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`ImageryLayerCollection` is a collection of imagery layers of the globe.
+It can have some `ImageryLayer` components as children.
+*/
+
+/*
+@scope
+Available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+This component refers to the single ImageryLayerCollection of them, so can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface ImageryLayerCollectionCesiumEvents {
   onLayerAdd?: (layer: Cesium.ImageryLayer, index: number) => void;
   onLayerMove?: (layer: Cesium.ImageryLayer, index: number) => void;

@@ -1,6 +1,16 @@
 import Cesium from "cesium";
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
-import { any } from "prop-types";
+
+/*
+@summary
+`ParticleSystem` is 3D particles.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A ParticleSystem object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
 
 export interface ParticleSystemCesiumProps {
   show?: boolean;

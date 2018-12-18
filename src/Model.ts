@@ -38,6 +38,7 @@ export interface ModelCesiumReadonlyProps {
 }
 
 export interface ModelProps extends ModelCesiumProps, ModelCesiumReadonlyProps {
+  // Calls when the model is completely loaded.
   onReady?: (model: Cesium.Model) => void;
 }
 

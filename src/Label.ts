@@ -3,6 +3,20 @@ import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 import EventManager, { EventProps } from "./core/EventManager";
 
+/*
+@summary
+`Lavbel` is a label primitive in the `LabelCollection`.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Only inside [LabelCollection](/components/LabelCollection) component.
+A label object will be attached to the parent LabelCollection.
+*/
+
 export interface LabelCesiumProps {
   backgroundColor?: Cesium.Color;
   backgroundPadding?: Cesium.Cartesian2;

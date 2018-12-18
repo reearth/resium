@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PolygonGraphics` is a polygon visualization for the entity.
+*/
+
+/*
+@scope
+PolygonGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PolygonGraphicsCesiumProps {
   hierarchy?: Cesium.Property | Cesium.PolygonHierarchy;
   height?: Cesium.Property | number;

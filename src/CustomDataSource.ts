@@ -2,6 +2,18 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`CustomDataSource` is a kind of data sources, but empty.
+It can be thought of as a collection of entities in a sense.
+It can have some Entity components as children.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+*/
+
 export interface CustomDataSourceCesiumProps {
   clustering?: Cesium.EntityCluster;
   name?: string;

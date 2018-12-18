@@ -2,6 +2,21 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 
+/*
+@summary
+`LabelCollection` is a collection of label primitives.
+It can have some `Label` components as children.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A LabelCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
 export interface LabelCollectionCesiumProps {
   blendOption?: Cesium.BlendOption;
   debugShowBoundingVolume?: boolean;

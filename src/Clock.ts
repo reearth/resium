@@ -1,6 +1,18 @@
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 import Cesium, { CesiumWidget } from "cesium";
 
+/*
+@summary
+`Clock` can operate the clock of the Viewer or CesiumWidget.
+All properties are applied to single clock.
+*/
+
+/*
+@scope
+Clock is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Clock can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface ClockCesiumProps {
   canAnimate?: boolean;
   clockRange?: Cesium.ClockRange;

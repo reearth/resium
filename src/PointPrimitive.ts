@@ -3,6 +3,20 @@ import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 import EventManager, { EventProps } from "./core/EventManager";
 
+/*
+@summary
+`PointPrimitive` is a point primitive in the `PointPrimitiveCollection`.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Only inside [PointPrimitiveCollection](/components/PointPrimitiveCollection) component.
+A point object will be attached to the parent PointPrimitiveCollection.
+*/
+
 export interface PointPrimitiveCesiumProps {
   color?: Cesium.Color;
   disableDepthTestDistance?: number;

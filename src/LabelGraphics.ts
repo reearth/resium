@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`LabelGraphics` is a label visualization for the entity.
+*/
+
+/*
+@scope
+LabelGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface LabelGraphicsCesiumProps {
   text?: Cesium.Property | string;
   font?: Cesium.Property | string;

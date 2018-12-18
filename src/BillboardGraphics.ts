@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`BillboardGraphics` is a billboard visualization for the entity.
+*/
+
+/*
+@scope
+BillboardGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface BillboardGraphicsCesiumProps {
   image?: Cesium.Property | ImageData | string | HTMLCanvasElement;
   show?: Cesium.Property | boolean;

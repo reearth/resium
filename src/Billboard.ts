@@ -3,6 +3,20 @@ import Cesium from "cesium";
 import createCesiumComponent from "./core/CesiumComponent";
 import EventManager, { EventProps } from "./core/EventManager";
 
+/*
+@summary
+`Billboard` is a billboard primitive in the `BillboardCollection`.
+
+Primitive is a low layer API for geographical visualization.
+[Entity](/components/entity) is more recommended unless performance issues.
+*/
+
+/*
+@scope
+Only inside [BillboardCollection](/components/BillboardCollection) components.
+A billboard object will be attached to the parent BillboardCollection.
+*/
+
 export interface BillboardCesiumProps {
   alignAxis?: Cesium.Cartesian3;
   color?: Cesium.Color;

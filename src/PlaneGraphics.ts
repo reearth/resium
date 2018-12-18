@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PlaneGraphics` is a plane visualization for the entity.
+*/
+
+/*
+@scope
+PlaneGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PlaneGraphicsCesiumProps {
   plane?: Cesium.Property | any;
   dimensions?: Cesium.Property | Cesium.Cartesian2;

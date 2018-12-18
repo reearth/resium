@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`TimeDynamicPointCloud` is a point cloud with dynamic changes with time.
+*/
+
+/*
+@scope
+Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
+A TimeDynamicPointCloud object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+*/
+
 export interface TimeDynamicPointCloudCesiumProps {
   clock?: Cesium.Clock;
   intervals: Cesium.TimeIntervalCollection;
@@ -33,6 +44,7 @@ export interface TimeDynamicPointCloudProps
   extends TimeDynamicPointCloudCesiumProps,
     TimeDynamicPointCloudCesiumReadonlyProps,
     TimeDynamicPointCloudCesiumEvents {
+  // Calls when the point cloud is completely loaded.
   onReady?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
 }
 

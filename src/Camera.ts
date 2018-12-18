@@ -1,5 +1,17 @@
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`Camera` can operate the camera of the scene.
+All properties are applied to single camera of the scene.
+*/
+
+/*
+@scope
+Camera is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be used more than once for each Viewer or CesiumWidget.
+*/
+
 export interface CameraCesiumProps {
   position?: Cesium.Cartesian3;
   direction?: Cesium.Cartesian3;

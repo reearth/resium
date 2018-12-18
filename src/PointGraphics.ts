@@ -2,6 +2,17 @@ import Cesium from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 
+/*
+@summary
+`PointGraphics` is a point visualization for the entity.
+*/
+
+/*
+@scope
+PointGraphics is only inside [Entity](/components/Entity) components,
+and can not be used more than once for each entity.
+*/
+
 export interface PointGraphicsCesiumProps {
   color?: Cesium.Property | Cesium.Color;
   pixelSize?: Cesium.Property | number;
