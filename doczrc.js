@@ -57,4 +57,15 @@ export default {
       extensions: [...config.resolve.extensions, ".ts", ".tsx"],
     },
   }),
+  themeConfig: {
+    repository: "https://github.com/darwin-education/resium",
+    colors: {
+      primary: "#00A0E8",
+      link: "#00A0E8",
+    },
+    logo: {
+      src: "https://github.com/darwin-education/resium/master/resources/logo-sidebar.png",
+      width: 200,
+    },
+  },
 };
