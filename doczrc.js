@@ -3,7 +3,7 @@ import CopyPlugin from "copy-webpack-plugin";
 
 export default {
   typescript: true,
-  title: "resium",
+  title: "Resium",
   menu: [
     "Home",
     {
