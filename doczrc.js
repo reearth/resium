@@ -64,7 +64,8 @@ export default {
       link: "#00A0E8",
     },
     logo: {
-      src: "https://github.com/darwin-education/resium/master/resources/logo-sidebar.png",
+      src:
+        "https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/logo-sidebar.png",
       width: 200,
     },
   },
