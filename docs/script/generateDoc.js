@@ -263,6 +263,7 @@ function parsePropTypes(name, source, tsx) {
     ts.ScriptTarget.ES6,
     true,
   );
+
   const props = {
     name,
     cesiumProps: [],
@@ -284,14 +285,14 @@ function parsePropTypes(name, source, tsx) {
         : /.+?Props$/.test(name)
         ? "props"
         : undefined;
-      if (!key) return;
-
-      node.forEachChild(node2 => {
-        if (node2.kind === ts.SyntaxKind.PropertySignature) {
-          const p = getProp(node2);
-          props[p.kind || key].push(p);
-        }
-      });
+      if (key) {
+        node.forEachChild(node2 => {
+          if (node2.kind === ts.SyntaxKind.PropertySignature) {
+            const p = getProp(node2);
+            props[p.kind || key].push(p);
+          }
+        });
+      }
     } else if (
       node.kind === ts.SyntaxKind.VariableStatement &&
       node.declarationList.declarations[0] &&
@@ -299,13 +300,12 @@ function parsePropTypes(name, source, tsx) {
     ) {
       node.declarationList.declarations[0].initializer.forEachChild(node2 => {
         if (
-          node2.kind !== ts.SyntaxKind.PropertyAssignment ||
-          !node2.initializer ||
-          !node2.initializer.text
-        )
-          return;
-
-        eventMap.push([node2.initializer.text, node2.name.escapedText]);
+          node2.kind === ts.SyntaxKind.PropertyAssignment &&
+          node2.initializer &&
+          node2.initializer.text
+        ) {
+          eventMap.push([node2.initializer.text, node2.name.escapedText]);
+        }
       });
     }
 
