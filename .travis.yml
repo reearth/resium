@@ -17,6 +17,7 @@ notifications:
   email:
     on_success: never
     on_failure: never
+before_deploy: yarn build
 deploy:
   provider: npm
   email: info@darwineducation.com
