@@ -1,7 +1,8 @@
 node_modules
 *.log
-examples/build
+/dist
 /coverage
+examples/build
 /.cache
 /.rpt2_cache
 /.docz
