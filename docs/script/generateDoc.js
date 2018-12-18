@@ -57,10 +57,14 @@ ${type.exampleImports ? type.exampleImports + "\n" : ""}`
   }
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
-**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
-    type.name
-  }.html)
 ${
+    type.noCesiumElement
+      ? ""
+      : `**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
+          type.name
+        }.html)
+`
+  }${
     type.example
       ? `
 <Playground>
@@ -221,6 +225,11 @@ function detectComponentDescription(comments) {
   if (!comments && !comments.length > 0) return;
   return comments
     .map(c => {
+      if (/^ *?@noCesiumElement/.test(c)) {
+        return {
+          noCesiumElement: true,
+        };
+      }
       if (/^ *?@summary/.test(c)) {
         return {
           summary: c.replace(/^ *?@summary/, "").trim(),
@@ -231,9 +240,9 @@ function detectComponentDescription(comments) {
           scope: c.replace(/^ *?@scope/, "").trim(),
         };
       }
-      if (/^ *?@example-imports/.test(c)) {
+      if (/^ *?@exampleImports/.test(c)) {
         return {
-          exampleImports: c.replace(/^ *?@example-imports/, "").trim(),
+          exampleImports: c.replace(/^ *?@exampleImports/, "").trim(),
         };
       }
       if (/^ *?@example/.test(c)) {
