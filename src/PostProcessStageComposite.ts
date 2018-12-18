@@ -25,8 +25,17 @@ Bult-in PostProcessStageComposite components are available with additional Cesiu
 | | delta | number |
 | | sigma | number |
 | | stepSize | number |
+| DepthOfFieldStage | focalDistance | number |
+| | delta | number |
+| | sigma | number |
+| | stepSize | number |
+| EdgeDetectionStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| | length | number ||
+| NightVisionStage | - | - |
+| SilhouetteStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| | length | number |
 
-Note: Their components can not be used multi time for each components, as it refers to the single post process stage of the scene.
+Note: `AmbientOcclusion` and `Bloom` components can not be used multi time for each components, as it refers to the single post process stage of the scene.
 
 They can be imported and used normally:
 
@@ -149,6 +158,53 @@ export const Bloom = createPostProcessStage<{
   },
   props: ["brightness", "contrast", "delta", "glowOnly", "sigma", "stepSize"],
   noMount: true,
+});
+
+export const BlurStage = createPostProcessStage<{
+  delta?: number;
+  sigma?: number;
+  stepSize?: number;
+}>({
+  name: "BlurStage",
+  props: ["delta", "sigma", "stepSize"],
+  create() {
+    return (Cesium as any).PostProcessStageLibrary.createBlurStage();
+  },
+});
+
+export const DepthOfFieldStage = createPostProcessStage<{
+  focalDistance?: number;
+  delta?: number;
+  sigma?: number;
+  stepSize?: number;
+}>({
+  name: "DepthOfFieldStage",
+  props: ["delta", "focalDistance", "sigma", "stepSize"],
+  create() {
+    return (Cesium as any).PostProcessStageLibrary.createDepthOfFieldStage();
+  },
+});
+
+export const EdgeDetectionStage = createPostProcessStage<{
+  color?: Cesium.Color;
+  length?: number;
+}>({
+  name: "EdgeDetectionStage",
+  props: ["color", "length"],
+  create() {
+    return (Cesium as any).PostProcessStageLibrary.createEdgeDetectionStage();
+  },
+});
+
+export const SilhouetteStage = createPostProcessStage<{
+  color?: Cesium.Color;
+  length?: number;
+}>({
+  name: "SilhouetteStage",
+  props: ["color", "length"],
+  create(props) {
+    return (Cesium as any).PostProcessStageLibrary.createSilhouetteStage();
+  },
 });
 
 export default PostProcessStageComposite;

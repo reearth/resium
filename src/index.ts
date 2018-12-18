@@ -49,16 +49,20 @@ export { default as PolylineVolumeGraphics } from "./PolylineVolumeGraphics";
 export {
   PostProcessStage,
   BlackAndWhiteStage,
-  BlurStage,
   BrightnessStage,
-  DepthOfFieldStage,
-  EdgeDetectionStage,
   LensFlareStage,
   Fxaa,
   NightVisionStage,
-  SilhouetteStage,
 } from "./PostProcessStage";
-export { PostProcessStageComposite, AmbientOcclusion, Bloom } from "./PostProcessStageComposite";
+export {
+  PostProcessStageComposite,
+  AmbientOcclusion,
+  Bloom,
+  BlurStage,
+  DepthOfFieldStage,
+  EdgeDetectionStage,
+  SilhouetteStage,
+} from "./PostProcessStageComposite";
 export { default as Primitive } from "./Primitive";
 export { default as RectangleGraphics } from "./RectangleGraphics";
 export { default as Scene } from "./Scene";

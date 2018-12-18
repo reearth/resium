@@ -16,12 +16,6 @@ Bult-in PostProcessStage components are available with additional Cesium propert
 | | sigma | number |
 | | stepSize | number |
 | BrightnessStage | brightness | number |
-| DepthOfFieldStage | focalDistance | number |
-| | delta | number |
-| | sigma | number |
-| | stepSize | number |
-| EdgeDetectionStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
-| | length | number |
 | LensFlareStage | dirtTexture | any |
 | | starTexture | any |
 | | intensity | number |
@@ -31,12 +25,6 @@ Bult-in PostProcessStage components are available with additional Cesium propert
 | | earthRadius | number |
 | | dirtTexture | number |
 | | dirtTexture | number |
-| NightVisionStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
-| | length | number |
-| | stages | [Cesium.PostProcessStage](https://cesiumjs.org/Cesium/Build/Documentation/PostProcessStage.html)[] |
-| SilhouetteStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
-| | length | number |
-| | stages | [Cesium.PostProcessStage](https://cesiumjs.org/Cesium/Build/Documentation/PostProcessStage.html)[] |
 | Fxaa | - | - |
 
 Note: `Fxaa` component can not be used multi time, as it refers to the single post process stage of the scene.
@@ -143,18 +131,6 @@ export const BlackAndWhiteStage = createPostProcessStage<{
   },
 });
 
-export const BlurStage = createPostProcessStage<{
-  delta?: number;
-  sigma?: number;
-  stepSize?: number;
-}>({
-  name: "BlurStage",
-  props: ["delta", "sigma", "stepSize"],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createBlurStage();
-  },
-});
-
 export const BrightnessStage = createPostProcessStage<{
   brightness?: number;
 }>({
@@ -162,30 +138,6 @@ export const BrightnessStage = createPostProcessStage<{
   props: ["brightness"],
   create() {
     return (Cesium as any).PostProcessStageLibrary.createBrightnessStage();
-  },
-});
-
-export const DepthOfFieldStage = createPostProcessStage<{
-  focalDistance?: number;
-  delta?: number;
-  sigma?: number;
-  stepSize?: number;
-}>({
-  name: "DepthOfFieldStage",
-  props: ["delta", "focalDistance", "sigma", "stepSize"],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createDepthOfFieldStage();
-  },
-});
-
-export const EdgeDetectionStage = createPostProcessStage<{
-  color?: Cesium.Color;
-  length?: number;
-}>({
-  name: "EdgeDetectionStage",
-  props: ["color", "length"],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createEdgeDetectionStage();
   },
 });
 
@@ -213,36 +165,16 @@ export const LensFlareStage = createPostProcessStage<{
   },
 });
 
-export const NightVisionStage = createPostProcessStage<{
-  color?: Cesium.Color;
-  length?: number;
-  // @type Cesium.PostProcessStage[]
-  stages?: any[];
-}>({
+export const NightVisionStage = createPostProcessStage<{}>({
   name: "NightVisionStage",
-  props: ["color", "length"],
-  readonlyProps: ["stages"],
+  props: [],
   create(props) {
-    return (Cesium as any).PostProcessStageLibrary.createNightVisionStage(props.stages);
-  },
-});
-
-export const SilhouetteStage = createPostProcessStage<{
-  color?: Cesium.Color;
-  length?: number;
-  // @type Cesium.PostProcessStage[]
-  stages?: any[];
-}>({
-  name: "SilhouetteStage",
-  props: ["color", "length"],
-  readonlyProps: ["stages"],
-  create(props) {
-    return (Cesium as any).PostProcessStageLibrary.createSilhouetteStage(props.stages);
+    return (Cesium as any).PostProcessStageLibrary.createNightVisionStage();
   },
 });
 
 export const Fxaa = createPostProcessStage<{}>({
-  name: "Bloom",
+  name: "Fxaa",
   create(props, collection) {
     return collection.fxaa;
   },
