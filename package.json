@@ -27,6 +27,10 @@
     "doc": "node docs/script/generateDoc && docz dev",
     "doc:build": "node docs/script/generateDoc && docz build"
   },
+  "files": [
+    "src",
+    "dist"
+  ],
   "engines": {
     "node": ">=8.3.0"
   },
