@@ -11,18 +11,21 @@
 - **Entity:** children is no longer rendered as description. Use `EntityDescription` component insted.
 - **Kml/GeoJson/CzmlDataSource:** `url` and `czml` props have been integrated to `data` prop.
 - Some props have been renamed.
-  - **Entity:** `onSelectedEntityChanged` => `onSelectedEntityChange`
-  - **Entity:** `onTrackedEntityChanged` => `onTrackedEntityChange`
+  - **Entity:** `onSelectedEntityChanged` => `onSelectedEntityChange`, `onTrackedEntityChanged` => `onTrackedEntityChange`
   - **Scene:** `morph` => `morphDuration`
-  - **Camera**: `onChanged` => `onChange`
+  - **Camera, Kml/GeoJson/Czml/CustomDataSource:** `onChanged` => `onChange`
+  - **Viewer:** `selectedEntityChanged` => `selectedEntityChange`, `onTrackedEntityChanged` => `onTrackedEntityChange`
 - Some Cesium props have been become read only.
-  - **CesiumWidget**
+  - **CesiumWidget:** `clock`, `imageryProvider`, `terrainProvider`, `skyBox`, `skyAtmosphere`, `sceneMode`, `scene3DOnly`, `orderIndependentTranslucency`, `mapMode2D`, `mapProjection`, `globe`, `showRenderLoopErrors`, `contextOptions`, `creditContainer`, `creditViewport`, `terrainExaggeration`, `shadows`, `terrainShadows`, `requestRenderMode`, `maximumRenderTimeChange`
+  - **Primitive:** `allowPicking`
+  - **Entity:** `id`
 - Some props have been decrepated.
-  - All: `onMount`, `onUpdate` and `onUnmount`
-  - **GeoJsonDataSource:** `onProgress`
-  - **CzmlDataSource:** `onProgress`
-  - **KmlDataSource:** `onProgress` and `query`
-  - **Camera**: `view` and `viewBoundingSphere`
+  - All: `onMount`, `onUpdate`, `onUnmount`
+  - **GeoJsonDataSource:** `onProgress`, `clock`
+  - **CzmlDataSource:** `onProgress`, `query`, `clock`
+  - **KmlDataSource:** `onProgress`, `proxy`, `query`, `clock`
+  - **Camera:** `view`, `viewBoundingSphere`
+  - **Scene:** `canvas`, `mapProjection`
 
 ### Features
 
@@ -39,7 +42,6 @@
   - EntityDescription
   - Fog
   - Globe
-  - ImageryLayer
   - ImageryLayerCollection
   - Label
   - LabelCollection
@@ -62,12 +64,19 @@
   - Sun
   - TimeDynamicPointColud
 - New properties
-  - **Entity**: `selected` and `tracked` prop
-  - **Entity/Primitive/PointPrimtive**: `onClick`, `onMouseMove`, ... event props
+  - **Viewer:** `allowDataSourcesToSuspendAnimation`, `clockTrackedDataSource`, `resolutionScale`
+  - **CesiumWidget:** `resolutionScale`
+  - **Entity:** `selected`, `tracked`
+  - **Primitive:** `allowPicking`, `vertexCacheOptimize`
+  - **KmlDataSource:** `ellipsoid`
+  - **GeoJsonDataSource:** `describe`
+  - **ImargeryLayer:** `cutoutRectangle`
+  - **Scene:** `onPreUpdate`, `requestRenderMode`, `maximumRenderTimeChange`, `logarithmicDepthBuffer`, `logarithmicDepthFarToNearRatio`
+  - **Entity/Billboard/Label/PointPrimtive/Polyline/Primitive:** `onClick`, `onDoubleClick`, `onMouseDown`, `onMouseUp`, `onMiddleClick`, `onMiddleDown`, `onMiddleUp`, `onMouseMove`, `onPinchEnd`, `onPinchMove`, `onPinchStart`, `onRightClick`, `onRightDown`, `onRightUp`, `onWheel`, `onMouseEnter`, `onMouseLeave`
 
 ### Chore
 
-- Reimplement unit tests with Jest instead of Karma
+- Add unit tests with Jest instead of Karma
 - Upgrade dependencies
 
 ## v1.0.0-rc.3 - 2018/12/18
@@ -84,7 +93,7 @@
 
 ### New features
 
-- **Viewer**: `requestRenderMode`, `maximumRenderTimeChange` prop
+- **Viewer:** `requestRenderMode`, `maximumRenderTimeChange` prop
 
 ### Chore
 
@@ -101,12 +110,12 @@
 
 ### Breaking changes
 
-- **Camera**: remove `continueCameraFlight` prop and add `cancelCameraFlight` prop instead.
+- **Camera:** remove `continueCameraFlight` prop and add `cancelCameraFlight` prop instead.
 
 ### New features
 
-- **Entity**: JSX Children of Entity components are rendered as description
-- **Camera**: `view` and `viewBoundingSphere` prop
+- **Entity:** JSX Children of Entity components are rendered as description
+- **Camera:** `view` and `viewBoundingSphere` prop
 
 ### Fixes
 
