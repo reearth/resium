@@ -69,7 +69,6 @@
   - **Entity:** `selected`, `tracked`
   - **Primitive:** `allowPicking`, `vertexCacheOptimize`
   - **KmlDataSource:** `ellipsoid`
-  - **GeoJsonDataSource:** `describe`
   - **ImargeryLayer:** `cutoutRectangle`
   - **Scene:** `onPreUpdate`, `requestRenderMode`, `maximumRenderTimeChange`, `logarithmicDepthBuffer`, `logarithmicDepthFarToNearRatio`
   - **Entity/Billboard/Label/PointPrimtive/Polyline/Primitive:** `onClick`, `onDoubleClick`, `onMouseDown`, `onMouseUp`, `onMiddleClick`, `onMiddleDown`, `onMiddleUp`, `onMouseMove`, `onPinchEnd`, `onPinchMove`, `onPinchStart`, `onRightClick`, `onRightDown`, `onRightUp`, `onWheel`, `onMouseEnter`, `onMouseLeave`
@@ -104,6 +103,7 @@
 ## v0.2.1 - 2018/02/26
 
 ### Chore
+
 - Fix rollup config
 
 ## v0.2.0 - 2018/02/10
