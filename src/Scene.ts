@@ -68,7 +68,8 @@ export interface SceneCesiumEvents {
 
 export interface SceneProps extends SceneCesiumProps, SceneCesiumEvents {
   children?: React.ReactNode;
-  morph?: number;
+  // If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds).
+  morphDuration?: number;
 }
 
 const cesiumProps: Array<keyof SceneCesiumProps> = [
@@ -148,21 +149,15 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps, SceneContext>({
   create(cprops, props, context) {
     const scene = context.scene;
     if (props.mode) {
-      morph(scene, props.mode, props.morph);
+      morph(scene, props.mode, props.morphDuration);
     }
     return scene;
   },
   update(scene, props, prevProps) {
     if (props.mode !== prevProps.mode && props.mode) {
-      morph(scene, props.mode, props.morph);
+      morph(scene, props.mode, props.morphDuration);
     }
   },
-  // provide(element) {
-  //   return {
-  //     scene: element,
-  //     camera: element.camera,
-  //   };
-  // },
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

@@ -15,7 +15,7 @@ ScreenSpaceEventHandler components with useDefault prop can not be used more tha
 */
 
 export interface ScreenSpaceEventHandlerProps {
-  // If true, use the default ScreenSpaceEventHandler of the CesiumWidget instead of creating a new ScreenSpaceEventHandler object. This property cannot change after mounting.
+  // If true, use the default ScreenSpaceEventHandler of the CesiumWidget instead of creating a new ScreenSpaceEventHandler object. This property cannot be changed after mounting.
   useDefault?: boolean;
   children?: React.ReactNode;
 }

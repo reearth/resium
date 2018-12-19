@@ -3,9 +3,13 @@ import Cesium from "cesium";
 
 import { withCesium } from "./core/context";
 
+// @noCesiumElement
+
 /*
 @summary
 `ScreenSpaceEvent` is an event callback for mouse or touch interactions.
+
+See also: [ScreenSpaceEventHandler#setInputAction](https://cesiumjs.org/Cesium/Build/Documentation/ScreenSpaceEventHandler.html?classFilter=screenspa#setInputAction)
 */
 
 /*
@@ -16,7 +20,9 @@ Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
 export interface ScreenSpaceEventProps {
   // If empty, the event will be removed even if there is the default event.
   action?: (e: { position: Cesium.Cartesian2 }) => void;
+  // @type Cesium.KeyboardEventModifier
   modifier?: number;
+  // @type Cesium.ScreenSpaceEventType
   type: number;
 }
 

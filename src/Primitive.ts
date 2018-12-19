@@ -41,6 +41,7 @@ export interface PrimitiveProps
   extends PrimitiveCesiumProps,
     PrimitiveCesiumReadonlyProps,
     EventProps<Cesium.Primitive> {
+  // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/Primitive.html#readyPromise) is fullfilled
   onReady?: (primitive: Cesium.Primitive) => void;
 }
 
