@@ -33,7 +33,7 @@ ${filteredTypes
 }
 
 function type2doc(type) {
-  const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
+  // const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
   const generalComponent =
     type.cesiumProps.length === 0 &&
     type.cesiumReadonlyProps.length === 0 &&
@@ -46,6 +46,7 @@ route: /components/${type.name}
 menu: Components
 ---
 ${
+    /*
     type.example
       ? `
 import { Playground } from "docz";
@@ -54,6 +55,7 @@ import ${cesiumWidget ? "CesiumWidget" : "Viewer"} from "../components/${
         }";
 ${type.exampleImports ? type.exampleImports + "\n" : ""}`
       : ""
+  */ ""
   }
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
@@ -65,6 +67,7 @@ ${
         }.html)
 `
   }${
+    /*
     type.example
       ? `
 <Playground>
@@ -75,6 +78,7 @@ ${type.example
 </Playground>
 `
       : ""
+*/ ""
   }${
     type.scope
       ? `
