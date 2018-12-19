@@ -7,13 +7,13 @@ const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 
 function renderPropTable(types) {
-  if (!types || types.length === 0) return "N/A";
+  const filteredTypes = types ? types.filter(t => !t.hidden && t.name !== "children") : [];
+  if (filteredTypes.length === 0) return "N/A";
 
   return `
 | Property | Type | Description |
 |--|--|--|
-${types
-    .filter(t => !t.hidden)
+${filteredTypes
     .map(t => {
       const type = t.type
         .replace(
