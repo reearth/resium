@@ -14,7 +14,7 @@ and can not be used more than once for each entity.
 */
 
 export interface PolygonGraphicsCesiumProps {
-  hierarchy?: Cesium.Property | Cesium.PolygonHierarchy;
+  hierarchy?: Cesium.Property | Cesium.PolygonHierarchy | Cesium.Cartesian3[];
   height?: Cesium.Property | number;
   heightReference?: Cesium.Property | Cesium.HeightReference;
   extrudedHeight?: Cesium.Property | number;
