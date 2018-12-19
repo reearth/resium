@@ -8,7 +8,7 @@ const Button = styled(Link)`
   border-radius: 2px;
   border: 2px solid #ccc;
   text-decoration: none;
-  color: #000;
+  color: #ccc;
   width: 200px;
   text-align: center;
   transition: background-color ease-in-out 0.1s;
@@ -19,6 +19,7 @@ const Button = styled(Link)`
 
   &:hover {
     background-color: #ccc;
+    color: #1d2330;
   }
 `;
 

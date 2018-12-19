@@ -61,6 +61,7 @@ export default {
     },
   }),
   themeConfig: {
+    mode: "dark",
     repository: "https://github.com/darwin-education/resium",
     colors: {
       primary: "#00A0E8",
@@ -70,6 +71,25 @@ export default {
       src:
         "https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/logo-sidebar.png",
       width: 200,
+    },
+    styles: {
+      body: {
+        fontFamily: "'Source Sans Pro', Helvetica, sans-serif",
+      },
+      h1: {
+        fontFamily: "'Source Sans Pro', Helvetica, sans-serif",
+        fontSize: "50px",
+      },
+      h2: {
+        fontSize: "28px",
+        color: "#00A0E8",
+      },
+      h3: {
+        color: "#50c0f1",
+      },
+      p: {
+        margin: "10px 0",
+      },
     },
   },
 };
