@@ -87,12 +87,10 @@ export interface EntityCesiumProps {
   description?: Cesium.Property | any;
   ellipse?: Cesium.EllipseGraphics | EllipseGraphicsCesiumProps;
   ellipsoid?: Cesium.EllipsoidGraphics | EllipsoidGraphicsCesiumProps;
-  entityCollection?: Cesium.EntityCollection;
   label?: Cesium.LabelGraphics | LabelGraphicsCesiumProps;
   model?: Cesium.ModelGraphics | ModelGraphicsCesiumProps;
   name?: string;
   orientation?: Cesium.Property | Cesium.Matrix4;
-  parent?: Cesium.Entity;
   path?: Cesium.PathGraphics | PathGraphicsCesiumProps;
   // @type Cesium.PlaneGraphics | PlaneGraphicsCesiumProps
   plane?:
@@ -155,12 +153,10 @@ const cesiumProps: Array<keyof EntityCesiumProps> = [
   "description",
   "ellipse",
   "ellipsoid",
-  "entityCollection",
   "label",
   "model",
   "name",
   "orientation",
-  "parent",
   "path",
   "plane",
   "point",
