@@ -29,6 +29,7 @@ import ModelGraphics from "../ModelGraphics";
 import PathGraphics from "../PathGraphics";
 import PlaneGraphics from "../PlaneGraphics";
 import PointGraphics from "../PointGraphics";
+import PolygonGraphics from "../PolygonGraphics";
 import PolylineGraphics from "../PolylineGraphics";
 import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
 import RectangleGraphics from "../RectangleGraphics";
@@ -230,6 +231,12 @@ export default () => {
           description="PointGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 60.7117244, 100)}>
           <PointGraphics color={Color.BISQUE} pixelSize={10} />
+        </Entity>
+        <Entity name="PolygonGraphics" description="PolygonGraphics!!">
+          <PolygonGraphics
+            hierarchy={Cartesian3.fromDegreesArray([-108.0, 42.0, -100.0, 42.0, -104.0, 40.0])}
+            material={Cesium.Color.GREEN}
+          />
         </Entity>
         <Entity
           name="PolylineGraphics"
