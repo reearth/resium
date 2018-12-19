@@ -23,6 +23,7 @@ export interface SceneCesiumProps {
   debugShowFramesPerSecond?: boolean;
   debugShowFrustumPlanes?: boolean;
   debugShowFrustums?: boolean;
+  debugShowGlobeDepth?: boolean;
   eyeSeparation?: number;
   farToNearRatio?: number;
   focalLength?: number;
@@ -81,6 +82,7 @@ const cesiumProps: Array<keyof SceneCesiumProps> = [
   "debugShowFramesPerSecond",
   "debugShowFrustumPlanes",
   "debugShowFrustums",
+  "debugShowGlobeDepth",
   "eyeSeparation",
   "farToNearRatio",
   "focalLength",

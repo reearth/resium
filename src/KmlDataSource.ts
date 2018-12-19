@@ -15,6 +15,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 
 export interface KmlDataSourceCesiumProps {
   clustering?: Cesium.EntityCluster;
+  name?: string;
 }
 
 export interface KmlDataSourceCesiumReadonlyProps {
@@ -52,7 +53,7 @@ export interface KmlDataSourceContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof KmlDataSourceCesiumProps> = ["clustering"];
+const cesiumProps: Array<keyof KmlDataSourceCesiumProps> = ["clustering", "name"];
 
 const cesiumReadonlyProps: Array<keyof KmlDataSourceCesiumReadonlyProps> = [
   "camera",
@@ -112,6 +113,9 @@ const KmlDataSource = createCesiumComponent<
     }
     if (typeof cprops.show === "boolean") {
       ds.show = cprops.show;
+    }
+    if (typeof cprops.name !== "undefined") {
+      ds.name = cprops.name;
     }
     return ds;
   },

@@ -35,6 +35,7 @@ export interface CesiumWidgetCesiumReadonlyProps {
   sceneMode?: Cesium.SceneMode;
   scene3DOnly?: boolean;
   orderIndependentTranslucency?: boolean;
+  mapMode2D?: Cesium.MapMode2D;
   mapProjection?: Cesium.MapProjection;
   globe?: Cesium.Globe;
   showRenderLoopErrors?: boolean;
@@ -63,6 +64,7 @@ const cesiumReadonlyProps: Array<keyof CesiumWidgetCesiumReadonlyProps> = [
   "sceneMode",
   "scene3DOnly",
   "orderIndependentTranslucency",
+  "mapMode2D",
   "mapProjection",
   "globe",
   "showRenderLoopErrors",

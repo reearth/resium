@@ -18,6 +18,7 @@ export interface CustomDataSourceCesiumProps {
   clustering?: Cesium.EntityCluster;
   name?: string;
   show?: boolean;
+  clock?: Cesium.DataSourceClock;
 }
 
 export interface CustomDataSourceCesiumEvents {
@@ -36,7 +37,12 @@ export interface CustomDataSourceContext {
   dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
-const cesiumProps: Array<keyof CustomDataSourceCesiumProps> = ["clustering", "name", "show"];
+const cesiumProps: Array<keyof CustomDataSourceCesiumProps> = [
+  "clustering",
+  "name",
+  "show",
+  "clock",
+];
 
 const cesiumEventProps: EventkeyMap<Cesium.CustomDataSource, keyof CustomDataSourceCesiumEvents> = {
   changedEvent: "onChange",
@@ -57,6 +63,9 @@ const CustomDataSource = createCesiumComponent<
     }
     if (typeof cprops.show === "boolean") {
       ds.show = cprops.show;
+    }
+    if (typeof cprops.clock !== "undefined") {
+      ds.clock = cprops.clock;
     }
     return ds;
   },

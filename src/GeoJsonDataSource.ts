@@ -47,6 +47,8 @@ export interface GeoJsonDataSourceProps
   strokeWidth?: number;
   // @CesiumReadonlyProp
   fill?: Cesium.Color;
+  // @CesiumReadonlyProp
+  describe?: (properties: { [key: string]: any }, nameProperty: string) => Cesium.Property | string;
   // Calls when the Promise for loading data is fullfilled.
   onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
 }
@@ -91,6 +93,7 @@ const load = ({
   stroke?: Cesium.Color;
   strokeWidth?: number;
   fill?: Cesium.Color;
+  describe?: GeoJsonDataSourceProps["describe"];
 }) => {
   element
     .load(data, {
@@ -102,7 +105,8 @@ const load = ({
       strokeWidth,
       fill,
       sourceUri,
-    })
+      describe,
+    } as any)
     .then(value => {
       if (onLoad) {
         try {
@@ -147,6 +151,7 @@ const GeoJsonDataSource = createCesiumComponent<
           stroke: props.stroke,
           strokeWidth: props.strokeWidth,
           fill: props.fill,
+          describe: props.describe,
         });
       }
     }
@@ -181,6 +186,7 @@ const GeoJsonDataSource = createCesiumComponent<
         stroke: props.stroke,
         strokeWidth: props.strokeWidth,
         fill: props.fill,
+        describe: props.describe,
       });
     }
   },
