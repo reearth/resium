@@ -61,6 +61,7 @@
     "cross-env": "^5.2.0",
     "del-cli": "^1.1.0",
     "docz": "^0.13.4",
+    "docz-theme-default": "^0.13.4",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "eslint": "^5.10.0",
@@ -93,6 +94,6 @@
     "tslint-plugin-prettier": "^2.0.1",
     "tslint-react": "^3.6.0",
     "typescript": "^3.2.2",
-    "webpack": "^4.27.1"
+    "webpack": "^4.28.0"
   }
 }
