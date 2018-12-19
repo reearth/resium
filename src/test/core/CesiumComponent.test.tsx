@@ -4,7 +4,6 @@ import { Event } from "cesium";
 
 import createCesiumComponent, { CesiumElementHolder } from "../../core/CesiumComponent";
 import { Provider } from "../../core/context";
-import { number } from "prop-types";
 
 describe("core/CesiumComponent", () => {
   it("should call create fn when it is initialized", () => {
