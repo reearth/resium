@@ -55,30 +55,17 @@ Now only `EntityDescription` depends on `react-dom`.
 
 PropType is no longer used. TypeScript is recommended.
 
-### Renamed: properties
+### Renamed / Decrepated: properties
 
-The following properties are renamed.
+See [CHANGELOG](https://github.com/darwin-education/resium/tree/master/CHANGELOG.md).
 
-- **Entity**: `onSelectedEntityChanged` => `onSelectedEntityChange`
-- **Entity**: `onTrackedEntityChanged` => `onTrackedEntityChange`
-- **Scene**: `morph` => `morphDuration`
-- **CzmlDataSource**: `czml` => `data` (integrated into data prop)
-- **CzmlDataSource**: `url` => `data` (integrated into data prop)
-- **GeoJsonDataSource**: `url` => `data` (integrated into data prop)
-- **KmlDataSource**: `url` => `data` (integrated into data prop)
-- **Camera**: `onChanged` => `onChange`
+#### `url` or `czml` prop of Kml/Czml/GeoJsonDataSource
 
-### Decrepated: properties
+They have been integrated to `data` prop. Now `data` prop accepts URL string, Cesium.Resouce, and data object.
 
-The following properties are decrepated.
+#### `onMount`, `onUpdate` and `onUnmount` prop
 
-- All: `onMount`, `onUpdate` and `onUnmount`
-- **GeoJsonDataSource**: `onProgress`
-- **CzmlDataSource**: `onProgress`
-- **KmlDataSource**: `onProgress` and `query`
-- **Camera**: `view` and `viewBoundingSphere`
-
-`onMount`, `onUpdate` and `onUnmount` have been deprecated as they violate React's custom. Use `ref` prop instead.
+`onMount`, `onUpdate` and `onUnmount` prop have been deprecated as they violate React's custom. Use `ref` prop instead.
 
 Before:
 
