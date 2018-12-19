@@ -5,6 +5,31 @@ route: /advanced
 
 # Advanced
 
-## Creating a new Cesium component
+## Get Cesium context with your component
 
-(Unfinished)
+`withCesium` HOC (High order component) is available in Resium. The context is passed to `cesium` prop.
+
+```jsx
+import { withCesium } from "resium";
+
+const ExampleComponent => ({ cesium }) => (
+  <p>Cesium Viewer object is{cesium.viewer ? "" : " not"} provided here.</p>
+)
+
+export default withCesium(ExampleComponent);
+```
+
+Structure of the context is as following. It changes according to the location of the component.
+
+```js
+{
+  viewer: Cesium.Viewer,
+  cesiumWidget: Cesium.CesiumWidget,
+  scene: Cesium.Scene
+  // ...
+}
+```
+
+## Define a new Cesium component
+
+`createCesiumComponent` function is available in Resium. For details refer to source codes of components in `src`.
