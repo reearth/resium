@@ -35,9 +35,9 @@
     "node": ">=8.3.0"
   },
   "peerDependencies": {
-    "cesium": "1.x",
-    "react": "16.x",
-    "react-dom": "16.x"
+    "cesium": "^1",
+    "react": "^16.3",
+    "react-dom": "^16.3"
   },
   "devDependencies": {
     "@babel/core": "^7.2.0",
