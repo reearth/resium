@@ -40,7 +40,7 @@ export interface BillboardCesiumProps {
   width?: number;
 }
 
-export interface BillboardProps extends BillboardCesiumProps, EventProps<Cesium.Label> {}
+export interface BillboardProps extends BillboardCesiumProps, EventProps<Cesium.Billboard> {}
 
 export interface BillboardContext {
   billboardCollection?: Cesium.BillboardCollection;
