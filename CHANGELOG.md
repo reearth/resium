@@ -18,7 +18,7 @@
 - Some Cesium props have been become read only.
   - **CesiumWidget**
 - Some props have been decrepated.
-  - **All components:** `onMount`, `onUpdate` and `onUnmount`
+  - All: `onMount`, `onUpdate` and `onUnmount`
   - **GeoJsonDataSource:** `onProgress`
   - **CzmlDataSource:** `onProgress`
   - **KmlDataSource:** `onProgress` and `query`
@@ -62,7 +62,8 @@
   - Sun
   - TimeDynamicPointColud
 - New properties
-  - Entity: `selected`, `tracked`
+  - **Entity**: `selected` and `tracked` prop
+  - **Entity/Primitive/PointPrimtive**: `onClick`, `onMouseMove`, ... event props
 
 ### Chore
 
@@ -83,8 +84,7 @@
 
 ### New features
 
-- New properties
-  - **Viewer**: `requestRenderMode`, `maximumRenderTimeChange`
+- **Viewer**: `requestRenderMode`, `maximumRenderTimeChange` prop
 
 ### Chore
 
@@ -106,8 +106,7 @@
 ### New features
 
 - **Entity**: JSX Children of Entity components are rendered as description
-- New properties
-  - **Camera**: `view` and `viewBoundingSphere`
+- **Camera**: `view` and `viewBoundingSphere` prop
 
 ### Fixes
 
