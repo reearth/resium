@@ -1,2 +1,2 @@
-/src/stories/**/*
-/src/test/**/*
+src/stories/
+src/test/
