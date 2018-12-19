@@ -24,8 +24,9 @@
     "format:js": "prettier-eslint --write '*.js' --write 'src/**/*.js' --write '.storybook/**/*.js'",
     "format:ts": "prettier --write '**/*.ts' --write '**/*.tsx'",
     "storybook": "start-storybook -p 9001",
-    "doc": "node docs/script/generateDoc && docz dev",
-    "doc:build": "node docs/script/generateDoc && docz build"
+    "doc": "node docs/scripts/generateDoc && docz dev",
+    "doc:build": "node docs/scripts/generateDoc && docz build",
+    "doc:generate": "node docs/scripts/generateDoc"
   },
   "files": [
     "src",
