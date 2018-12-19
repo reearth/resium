@@ -25,6 +25,7 @@ export interface CameraCesiumProps {
   constrainedAxis?: Cesium.Cartesian3;
   maximumTranslateFactor?: number;
   maximumZoomFactor?: number;
+  percentageChanged?: number;
 }
 
 export interface CameraCesiumEvents {
@@ -52,6 +53,7 @@ const cesiumProps: Array<keyof CameraCesiumProps> = [
   "constrainedAxis",
   "maximumTranslateFactor",
   "maximumZoomFactor",
+  "percentageChanged",
 ];
 
 const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof CameraCesiumEvents> = {
