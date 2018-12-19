@@ -6,6 +6,26 @@ const ts = require("typescript");
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 
+const eventTypes = t => [
+  { name: "onClick", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onDoubleClick", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMouseDown", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMouseUp", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMiddleClick", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMiddleDown", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMiddleUp", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMouseMove", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onPinchEnd", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onPinchMove", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onPinchStart", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onRightClick", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onRightDown", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onRightUp", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onWheel", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMouseEnter", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+  { name: "onMouseLeave", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
+];
+
 function renderPropTable(types) {
   const filteredTypes = types ? types.filter(t => !t.hidden && t.name !== "children") : [];
   if (filteredTypes.length === 0) return "N/A";
@@ -329,6 +349,11 @@ function parsePropTypes(name, source, tsx) {
       }](https://cesiumjs.org/Cesium/Build/Documentation/${name}.html#${ev[1]})`;
     }
   });
+
+  const eventPropsMatch = source.match(/EventProps<(.*?)>/);
+  if (eventPropsMatch) {
+    props.props = [...props.props, ...eventTypes(eventPropsMatch[1])];
+  }
 
   return props;
 }
