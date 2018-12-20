@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.0.0 - Unreleased
+## v1.0.0 - 2018/12/20
 
 ### Breaking Changes
 
