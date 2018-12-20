@@ -1,6 +1,6 @@
 ![Resium](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/resium.gif)
 
-[![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/cesium-react.svg)](https://badge.fury.io/js/cesium-react)
+[![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium)
 
 React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 
