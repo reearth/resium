@@ -29,8 +29,6 @@ npm install resium
 
 ![Screenshot](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/screenshot.png)
 
-**WARNING:** `master` branch now includes breaking changes for v1 (not yet released). If you want to use beta versions, use `npm i resium@next`.
-
 ## Contribution
 
 See [documentation](https://resium.darwineducation.com/contribution).
