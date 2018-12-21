@@ -8,17 +8,15 @@ const Button = styled(Link)`
   border-radius: 2px;
   border: 2px solid #ccc;
   text-decoration: none;
-  color: #000;
+  color: #ccc;
   width: 200px;
   text-align: center;
   transition: background-color ease-in-out 0.1s;
-
-  & + & {
-    margin-left: 10px;
-  }
+  margin: 5px 5px;
 
   &:hover {
     background-color: #ccc;
+    color: #1d2330;
   }
 `;
 
