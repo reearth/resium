@@ -90,6 +90,10 @@ export default {
       p: {
         margin: "10px 0",
       },
+      code: {
+        background: "#28CCA7",
+        padding: "0 5px",
+      },
     },
   },
 };
