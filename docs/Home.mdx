@@ -7,7 +7,7 @@ import logo from "./resources/resium.gif";
 import screenshot from "./resources/screenshot.png";
 import Button from "./components/Button";
 import Center from "./components/Center";
-import { Feature, FeatureWrapper } from "./components/Feature";
+import { Feature, FeatureWrapper, FeatureDesc } from "./components/Feature";
 import TitleWithImg from "./components/TitleWithImg.tsx";
 
 # Resium
@@ -35,14 +35,14 @@ Resium is library of React components for 🌍[Cesium](https://cesiumjs.org/)
 <FeatureWrapper>
   <Feature>
     <TitleWithImg contents="🌏">Declarative Cesium</TitleWithImg>
-    <p>Let's create a high maintainability Cesium application with React today!</p>
+    <FeatureDesc>Let's create a high maintainability Cesium application with React today!</FeatureDesc>
   </Feature>
   <Feature>
     <TitleWithImg contents="👨🏻‍💻">Blazing Fast Development</TitleWithImg>
-    <p>Resium brings hot module replacement to Cesium, which dramatically improves your development speed!</p>
+    <FeatureDesc>Resium brings hot module replacement to Cesium, which dramatically improves your development speed!</FeatureDesc>
   </Feature>
   <Feature>
     <TitleWithImg contents="💪">Strongly Typed</TitleWithImg>
-    <p>Resium fully supports TypeScript. Type definitions are built-in!</p>
+    <FeatureDesc>Resium fully supports TypeScript. Type definitions are built-in!</FeatureDesc>
   </Feature>
 </FeatureWrapper>

@@ -12,10 +12,7 @@ const Button = styled(Link)`
   width: 200px;
   text-align: center;
   transition: background-color ease-in-out 0.1s;
-
-  & + & {
-    margin-left: 10px;
-  }
+  margin: 5px 5px;
 
   &:hover {
     background-color: #ccc;

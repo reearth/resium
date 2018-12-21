@@ -93,6 +93,9 @@ export default {
       code: {
         background: "#28CCA7",
         padding: "0 5px",
+        overflow: "auto",
+        whiteSpace: "pre-wrap",
+        wordWrap: "break-word",
       },
     },
   },
