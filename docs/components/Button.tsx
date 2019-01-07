@@ -1,6 +1,5 @@
-import React from "react";
 import { Link } from "docz";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 const Button = styled(Link)`
   display: inline-block;
