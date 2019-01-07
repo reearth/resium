@@ -1,5 +1,13 @@
 # Changelog
 
+## v1.1.0 - 2019/01/07
+
+- New properties for Cesium v1.53
+  - **Scene**, **Cesium3DTileset**, **Model**: `specularEnvironmentMaps`, `sphericalHarmonicCoefficients`
+  - **Cesium3DTileset**, **Model**: `luminanceAtZenith`
+- Upgrade dependencies
+- Update documentation
+
 ## v1.0.0 - 2018/12/20
 
 ### Breaking Changes
