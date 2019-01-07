@@ -29,6 +29,10 @@ npm install resium
 
 ![Screenshot](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/screenshot.png)
 
+## When you have a question...
+
+Please don't send question e-mail as possible. Please use [GitHub issues](https://github.com/darwin-education/resium/issues).
+
 ## Contribution
 
 See [documentation](https://resium.darwineducation.com/contribution).
