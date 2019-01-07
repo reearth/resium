@@ -50,6 +50,9 @@ export interface Cesium3DTilesetCesiumProps {
   colorBlendAmount?: number;
   // @type Cesium.Cesium3DTileColorBlendMode
   colorBlendMode?: any;
+  luminanceAtZenith?: number;
+  sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
+  specularEnvironmentMaps?: string;
 }
 
 export interface Cesium3DTilesetCesiumReadonlyProps {
@@ -121,6 +124,9 @@ const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
   "debugShowUrl",
   "colorBlendAmount",
   "colorBlendMode",
+  "luminanceAtZenith",
+  "sphericalHarmonicCoefficients",
+  "specularEnvironmentMaps",
 ];
 
 const cesiumReadonlyProps: Array<keyof Cesium3DTilesetCesiumReadonlyProps> = ["pointCloudShading"];

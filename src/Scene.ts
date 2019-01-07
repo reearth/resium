@@ -49,6 +49,8 @@ export interface SceneCesiumProps {
   shadowMap?: Cesium.ShadowMap;
   skyAtmosphere?: Cesium.SkyAtmosphere;
   skyBox?: Cesium.SkyBox;
+  specularEnvironmentMaps?: string;
+  sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
   sun?: Cesium.Sun;
   sunBloom?: boolean;
   terrainExaggeration?: number;
@@ -108,6 +110,8 @@ const cesiumProps: Array<keyof SceneCesiumProps> = [
   "shadowMap",
   "skyAtmosphere",
   "skyBox",
+  "specularEnvironmentMaps",
+  "sphericalHarmonicCoefficients",
   "sun",
   "sunBloom",
   "terrainExaggeration",

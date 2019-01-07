@@ -27,6 +27,9 @@ export interface ModelCesiumProps {
   dequantizeInShader?: boolean;
   imageBasedLightingFactor?: Cesium.Cartesian2;
   lightColor?: Cesium.Cartesian3;
+  luminanceAtZenith?: number;
+  sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
+  specularEnvironmentMaps?: string;
 }
 
 export interface ModelCesiumReadonlyProps {
@@ -69,6 +72,9 @@ const cesiumProps: Array<keyof ModelCesiumProps> = [
   "show",
   "silhouetteColor",
   "silhouetteSize",
+  "luminanceAtZenith",
+  "sphericalHarmonicCoefficients",
+  "specularEnvironmentMaps",
 ];
 
 const cesiumReadonlyProps: Array<keyof ModelCesiumReadonlyProps> = [
