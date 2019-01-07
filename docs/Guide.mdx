@@ -64,6 +64,40 @@ viewer.dataSources.add(dataSource);
 
 Such cases are also in other components. For details, refer to "Available scope" in the document of each component.
 
+## Component location
+
+Please place each component as close as possible under Viewer or CesiumWidget component to avoid extra rendering. Make component hierarchy shallow as possible.
+
+Exception are:
+
+- `Entity` > `*Graphics`
+- `Entity` > `EntityDescription`
+- `ScreenSpaceEventHandler` > `ScreenSpaceEvent`
+- `xCollection` > `x`
+- `CustomDataSource` > `Entity`
+
+e.g.: `Scene` > `Camera` or `Camera` > `Entity` is not recommended.
+
+```jsx
+// not recomended
+<Viewer>
+  <Scene>
+    <Camera>
+      <Entity />
+    </Camera>
+  </Scene>
+</Viewer>
+```
+
+```jsx
+// recomended
+<Viewer>
+  <Scene />
+  <Camera />
+  <Entity />
+</Viewer>
+```
+
 ## Properties
 
 Each components of resium have 4 kinds of properties as bellow.
