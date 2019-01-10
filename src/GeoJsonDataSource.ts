@@ -80,6 +80,7 @@ const load = ({
   stroke,
   strokeWidth,
   fill,
+  describe,
 }: {
   element: Cesium.GeoJsonDataSource;
   dataSources: Cesium.DataSourceCollection;
