@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.1.1 - 2019/01/10
+
+- fix: GeoJsonDataSource describe error ([#48](https://github.com/darwin-education/resium/issues/48))
+
 ## v1.1.0 - 2019/01/07
 
 - New properties for Cesium v1.53

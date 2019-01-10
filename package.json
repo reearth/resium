@@ -1,6 +1,6 @@
 {
   "name": "resium",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "React components for Cesium",
   "main": "dist/resium.cjs.js",
   "module": "dist/resium.es.js",
