@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.2.0 - 2019/01/15
+
+- Change
+  - **Viewer**: Enable to disable default imagery provider ([#50](https://github.com/darwin-education/resium/issues/50))
+- Decrepated
+  - **Globe**: `ellipsoid`, `imageryLayers` (because they are unchangeable)
+- Upgrade dependencies
+- Update documentation
+
 ## v1.1.1 - 2019/01/10
 
 - fix: GeoJsonDataSource describe error ([#48](https://github.com/darwin-education/resium/issues/48))
