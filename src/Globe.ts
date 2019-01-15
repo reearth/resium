@@ -21,9 +21,7 @@ export interface GlobeCesiumProps {
   // @type Cesium.ClippingPlaneCollection
   clippingPlanes?: any;
   depthTestAgainstTerrain?: boolean;
-  ellipsoid?: Cesium.Ellipsoid;
   enableLighting?: boolean;
-  imageryLayers?: Cesium.ImageryLayerCollection;
   lightingFadeInDistance?: number;
   lightingFadeOutDistance?: number;
   material?: Cesium.Material;
@@ -66,9 +64,7 @@ const cesiumProps: Array<keyof GlobeCesiumProps> = [
   "baseColor",
   "clippingPlanes",
   "depthTestAgainstTerrain",
-  "ellipsoid",
   "enableLighting",
-  "imageryLayers",
   "lightingFadeInDistance",
   "lightingFadeOutDistance",
   "material",
