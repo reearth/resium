@@ -52,7 +52,8 @@ export interface ViewerCesiumReadonlyProps {
   imageryProviderViewModels?: Cesium.ProviderViewModel[];
   selectedTerrainProviderViewModel?: Cesium.ProviderViewModel;
   terrainProviderViewModels?: Cesium.ProviderViewModel[];
-  imageryProvider?: Cesium.ImageryProvider;
+  // If false, the default imagery layer will be removed.
+  imageryProvider?: Cesium.ImageryProvider | false;
   skyBox?: Cesium.SkyBox;
   skyAtmosphere?: Cesium.SkyAtmosphere;
   fullscreenElement?: Element | string;
@@ -177,7 +178,14 @@ const Viewer = createCesiumComponent<
   createRef: true,
   create(cprops, props, context, ref) {
     // ref is not always undefined
-    const v = new CesiumViewer((ref as React.RefObject<HTMLDivElement>).current as any, cprops);
+    const v = new CesiumViewer(
+      (ref as React.RefObject<HTMLDivElement>).current as any,
+      cprops as any,
+    );
+
+    if (cprops.imageryProvider === false) {
+      v.imageryLayers.removeAll();
+    }
 
     if (v && props.extend) {
       if (Array.isArray(props.extend)) {
