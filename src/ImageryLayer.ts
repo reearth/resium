@@ -6,6 +6,26 @@ import createCesiumComponent from "./core/CesiumComponent";
 @summary
 `ImageryLayer` is a imargery layer on the globe.
 
+Layers are added in order of JSX from the top.
+
+```jsx
+// Back layer
+<ImageryLayer imageryProvider={provider1} />
+<ImageryLayer imageryProvider={provider2} />
+<ImageryLayer imageryProvider={provider3} />
+// Front layer
+```
+
+is equivalent to:
+
+```js
+viewer.imageryLayers.add(provider1);
+viewer.imageryLayers.add(provider2);
+viewer.imageryLayers.add(provider3);
+```
+
+As a result, the layer added at the very end is the frontmost when actually displayed.
+
 Note: `imageryProvider` property is read only. See also [guide](/guide#cesium-read-only-properties).
 */
 
@@ -155,6 +175,7 @@ const ImageryLayer = createCesiumComponent<
   mount(element, context) {
     if (context.imageryLayerCollection) {
       context.imageryLayerCollection.add(element);
+      console.log("added", element);
     }
   },
   unmount(element, context) {
