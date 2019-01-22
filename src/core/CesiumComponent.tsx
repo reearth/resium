@@ -100,6 +100,8 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     private _ce?: E;
     // tslint:disable-next-line:variable-name
     private _state: any;
+    // tslint:disable-next-line:variable-name
+    private _provided: Partial<CC> = {}; // to avoid extra rendering
     private mounted: boolean = false;
     private ref?: React.RefObject<R>;
 
@@ -122,15 +124,10 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
         ? opts.render(this._ce, this.props, this.mounted, this.ref)
         : this.props.children || null;
 
+      this.updateProvided();
+
       return !opts.render && !this.mounted ? null : opts.provide ? (
-        <Provider
-          value={Object.assign(
-            {},
-            this.props.cesium,
-            this._ce ? opts.provide(this._ce, this.props, this._state) : {},
-          )}>
-          {render}
-        </Provider>
+        <Provider value={this._provided}>{render}</Provider>
       ) : (
         render
       );
@@ -250,6 +247,22 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       if (opts.update && this._ce) {
         opts.update(this._ce, this.props, prevProps, this.props.cesium);
       }
+    }
+
+    private updateProvided() {
+      if (!opts.provide) {
+        return;
+      }
+      // clear provided object
+      for (const key of Object.keys(this._provided)) {
+        delete this._provided[key as keyof CC];
+      }
+      // update provided object
+      Object.assign(
+        this._provided,
+        this.props.cesium,
+        this._ce ? opts.provide(this._ce, this.props, this._state) : {},
+      );
     }
   }
 
