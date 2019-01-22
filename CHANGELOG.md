@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.2.1 - 2019/01/22
+
+- fix: unexpected rendering ([#46](https://github.com/darwin-education/resium/issues/46))
+
 ## v1.2.0 - 2019/01/15
 
 - Change
