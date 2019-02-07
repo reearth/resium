@@ -4,7 +4,7 @@
 
 React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
 
-[**Documantation**](https://resium.darwineducation.com) | [**Installation**](https://resium.darwineducation.com/installation) | [**Getting Started**](https://resium.darwineducation.com/getting_startef) | [**Guide**](https://resium.darwineducation.com/guide)
+[**Documentation**](https://resium.darwineducation.com) | [**Installation**](https://resium.darwineducation.com/installation) | [**Getting Started**](https://resium.darwineducation.com/getting_started) | [**Guide**](https://resium.darwineducation.com/guide)
 
 ## Features
 
