@@ -11,7 +11,8 @@ export interface CesiumProp<C> {
 export type WithContextProps<P, C> = P & CesiumProp<C>;
 export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
 
-export const { Provider, Consumer } = React.createContext<Context>({});
+export const CesiumContext = React.createContext<Context>({});
+export const { Provider, Consumer } = CesiumContext;
 
 export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
   // supports both functional components and class components
