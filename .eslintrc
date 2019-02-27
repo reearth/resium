@@ -6,21 +6,32 @@
   "extends": [
     "eslint:recommended",
     "plugin:node/recommended",
-    "prettier"
+    "plugin:prettier/recommended"
   ],
   "parserOptions": {
-    "ecmaVersion": 2019
+    "ecmaVersion": 2018
   },
   "plugins": [
-    "node"
+    "node",
+    "prettier"
   ],
   "root": true,
+  "rules": {
+    "prettier/prettier": [
+      "warn",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ]
+  },
   "overrides": [
     {
       "files": [
         "rollup.config.js",
         ".storybook/**/*.js",
-        "doczrc.js"
+        "doczrc.js",
+        "docs/scripts/generateDoc.js"
       ],
       "excludedFiles": [
         ".storybook/webpack.config.js"
