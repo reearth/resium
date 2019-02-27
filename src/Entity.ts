@@ -146,7 +146,7 @@ export interface EntityContext {
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
-const cesiumProps: Array<keyof EntityCesiumProps> = [
+const cesiumProps: (keyof EntityCesiumProps)[] = [
   "availability",
   "billboard",
   "box",
@@ -173,7 +173,7 @@ const cesiumProps: Array<keyof EntityCesiumProps> = [
   "wall",
 ];
 
-const cesiumReadonlyProps: Array<keyof EntityCesiumReadonlyProps> = ["id"];
+const cesiumReadonlyProps: (keyof EntityCesiumReadonlyProps)[] = ["id"];
 
 const cesiumEventProps: EventkeyMap<Cesium.Entity, keyof EntityCesiumEvents> = {
   definitionChanged: "onDefinitionChange",

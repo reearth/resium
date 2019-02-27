@@ -47,7 +47,7 @@ export interface RectangleGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof RectangleGraphicsCesiumProps> = [
+const cesiumProps: (keyof RectangleGraphicsCesiumProps)[] = [
   "coordinates",
   "height",
   "heightReference",

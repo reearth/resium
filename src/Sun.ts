@@ -18,14 +18,14 @@ export interface SunCesiumProps {
   show?: boolean;
 }
 
-/* tslint:disable-next-line no-empty-interface */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SunProps extends SunCesiumProps {}
 
 export interface SunContext {
   scene?: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof SunCesiumProps> = ["glowFactor", "show"];
+const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
 
 const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
   name: "sun",

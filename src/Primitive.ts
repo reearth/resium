@@ -50,7 +50,7 @@ export interface PrimitiveContext {
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
-const cesiumProps: Array<keyof PrimitiveCesiumProps> = [
+const cesiumProps: (keyof PrimitiveCesiumProps)[] = [
   "appearance",
   "cull",
   "debugShowBoundingVolume",
@@ -60,7 +60,7 @@ const cesiumProps: Array<keyof PrimitiveCesiumProps> = [
   "show",
 ];
 
-const cesiumReadonlyProps: Array<keyof PrimitiveCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
   "allowPicking",
   "asynchronous",
   "compressVertices",

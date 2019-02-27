@@ -33,7 +33,7 @@ export interface BillboardCollectionContext {
   scene?: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof BillboardCollectionCesiumProps> = [
+const cesiumProps: (keyof BillboardCollectionCesiumProps)[] = [
   "blendOption",
   "debugShowBoundingVolume",
   "length",

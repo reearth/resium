@@ -39,7 +39,7 @@ export interface PolylineGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof PolylineGraphicsCesiumProps> = [
+const cesiumProps: (keyof PolylineGraphicsCesiumProps)[] = [
   "positions",
   "followSurface",
   "clampToGround",

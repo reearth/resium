@@ -36,7 +36,7 @@ export interface PointGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof PointGraphicsCesiumProps> = [
+const cesiumProps: (keyof PointGraphicsCesiumProps)[] = [
   "color",
   "pixelSize",
   "outlineColor",

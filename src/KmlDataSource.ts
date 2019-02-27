@@ -53,9 +53,9 @@ export interface KmlDataSourceContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof KmlDataSourceCesiumProps> = ["clustering", "name"];
+const cesiumProps: (keyof KmlDataSourceCesiumProps)[] = ["clustering", "name"];
 
-const cesiumReadonlyProps: Array<keyof KmlDataSourceCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof KmlDataSourceCesiumReadonlyProps)[] = [
   "camera",
   "canvas",
   "ellipsoid",

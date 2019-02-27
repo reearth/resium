@@ -115,7 +115,6 @@ describe("core/CesiumComponent", () => {
       },
     });
 
-    // tslint:disable-next-line:no-empty
     const bar = () => {};
 
     mount(<Component foo={10} bar={bar} />);
@@ -139,7 +138,7 @@ describe("core/CesiumComponent", () => {
       setCesiumPropsAfterCreate: true,
     });
 
-    const wrapper = mount(<Component foo={10} />);
+    mount(<Component foo={10} />);
 
     expect(cesiumElement.foo).toBe(10);
   });
@@ -189,13 +188,11 @@ describe("core/CesiumComponent", () => {
       },
     });
 
-    // tslint:disable-next-line:no-empty jsx-no-lambda
     const wrapper = mount(<Component foo={() => {}} hoge={() => {}} />);
 
     expect(cesiumElement.foo.numberOfListeners).toBe(1);
     expect(cesiumElement.bar.numberOfListeners).toBe(0);
 
-    // tslint:disable-next-line:no-empty
     wrapper.setProps({ foo: undefined, bar: () => {}, hoge: () => {} });
 
     expect(cesiumElement.foo.numberOfListeners).toBe(0);
@@ -246,7 +243,7 @@ describe("core/CesiumComponent", () => {
 
     const Component1 = createCesiumComponent<string, { children?: React.ReactNode }, {}>({
       name: "test",
-      create: create1,
+      create: create1 as any,
       provide() {
         return { context: "b" };
       },
@@ -254,7 +251,7 @@ describe("core/CesiumComponent", () => {
 
     const Component2 = createCesiumComponent<string, {}, {}>({
       name: "test2",
-      create: create2,
+      create: create2 as any,
     });
 
     mount(
@@ -348,7 +345,6 @@ describe("core/CesiumComponent", () => {
   it("should set state", () => {
     const provide = jest.fn();
     const unmount = jest.fn();
-    const value = { hoge: 1 };
 
     const Component = createCesiumComponent<string, {}, any>({
       name: "test",

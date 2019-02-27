@@ -34,7 +34,7 @@ export interface PolylineContext {
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
-const cesiumProps: Array<keyof PolylineCesiumProps> = [
+const cesiumProps: (keyof PolylineCesiumProps)[] = [
   "distanceDisplayCondition",
   "id",
   "loop",

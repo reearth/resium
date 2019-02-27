@@ -45,9 +45,9 @@ export interface CzmlDataSourceContext {
   dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
-const cesiumProps: Array<keyof CzmlDataSourceCesiumProps> = ["clustering"];
+const cesiumProps: (keyof CzmlDataSourceCesiumProps)[] = ["clustering"];
 
-const cesiumReadonlyProps: Array<keyof CzmlDataSourceCesiumReadonlyProps> = ["name"];
+const cesiumReadonlyProps: (keyof CzmlDataSourceCesiumReadonlyProps)[] = ["name"];
 
 const cesiumEventProps: EventkeyMap<Cesium.CzmlDataSource, keyof CzmlDataSourceCesiumEvents> = {
   changedEvent: "onChange",

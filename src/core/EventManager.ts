@@ -116,7 +116,7 @@ export default class EventManager {
   private hovered = new Map<any, boolean>();
   private changed = new Map<any, boolean>();
 
-  constructor(scene: Cesium.Scene, canvas: HTMLCanvasElement) {
+  public constructor(scene: Cesium.Scene, canvas: HTMLCanvasElement) {
     this.scene = scene;
     this.sshe = new ScreenSpaceEventHandler(canvas);
   }

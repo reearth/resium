@@ -45,7 +45,7 @@ export interface CorridorGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof CorridorGraphicsCesiumProps> = [
+const cesiumProps: (keyof CorridorGraphicsCesiumProps)[] = [
   "positions",
   "width",
   "cornerType",

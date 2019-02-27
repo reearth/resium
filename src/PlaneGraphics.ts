@@ -36,7 +36,7 @@ export interface PlaneGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof PlaneGraphicsCesiumProps> = [
+const cesiumProps: (keyof PlaneGraphicsCesiumProps)[] = [
   "plane",
   "dimensions",
   "show",

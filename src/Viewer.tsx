@@ -79,7 +79,7 @@ export interface ViewerCesiumEvents {
   onTrackedEntityChange?: () => void;
 }
 
-const cesiumProps: Array<keyof ViewerCesiumProps> = [
+const cesiumProps: (keyof ViewerCesiumProps)[] = [
   "terrainProvider",
   "terrainShadows",
   "clockTrackedDataSource",
@@ -92,7 +92,7 @@ const cesiumProps: Array<keyof ViewerCesiumProps> = [
   "shadows",
 ];
 
-const cesiumReadonlyProps: Array<keyof ViewerCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof ViewerCesiumReadonlyProps)[] = [
   "animation",
   "baseLayerPicker",
   "fullscreenButton",

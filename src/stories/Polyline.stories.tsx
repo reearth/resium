@@ -1,5 +1,5 @@
 import React from "react";
-import { Cartesian3, Color, Transforms } from "cesium";
+import { Cartesian3, Transforms } from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 

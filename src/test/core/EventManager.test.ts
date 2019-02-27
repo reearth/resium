@@ -4,7 +4,6 @@ import EventManager from "../../core/EventManager";
 
 describe("core/EventManager", () => {
   const element = "element";
-  // tslint:disable-next-line:no-empty
   const fn = () => () => {};
 
   it("should attach and dettach event", () => {

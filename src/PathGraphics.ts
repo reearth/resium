@@ -33,7 +33,7 @@ export interface PathGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof PathGraphicsCesiumProps> = [
+const cesiumProps: (keyof PathGraphicsCesiumProps)[] = [
   "leadTime",
   "trailTime",
   "show",

@@ -38,7 +38,7 @@ export interface WallGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof WallGraphicsCesiumProps> = [
+const cesiumProps: (keyof WallGraphicsCesiumProps)[] = [
   "positions",
   "maximumHeights",
   "minimumHeights",

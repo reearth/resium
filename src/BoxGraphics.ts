@@ -36,7 +36,7 @@ export interface BoxGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof BoxGraphicsCesiumProps> = [
+const cesiumProps: (keyof BoxGraphicsCesiumProps)[] = [
   "heightReference",
   "dimensions",
   "show",

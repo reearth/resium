@@ -75,7 +75,7 @@ export interface SceneProps extends SceneCesiumProps, SceneCesiumEvents {
   morphDuration?: number;
 }
 
-const cesiumProps: Array<keyof SceneCesiumProps> = [
+const cesiumProps: (keyof SceneCesiumProps)[] = [
   "backgroundColor",
   "completeMorphOnUserInput",
   "debugCommandFilter",

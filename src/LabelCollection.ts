@@ -32,7 +32,7 @@ export interface LabelCollectionContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof LabelCollectionCesiumProps> = [
+const cesiumProps: (keyof LabelCollectionCesiumProps)[] = [
   "blendOption",
   "debugShowBoundingVolume",
   "modelMatrix",

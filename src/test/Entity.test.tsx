@@ -14,7 +14,6 @@ describe("Entity", () => {
     },
   };
 
-  // tslint:disable-next-line:no-empty
   const fn = () => () => {};
 
   afterEach(() => {

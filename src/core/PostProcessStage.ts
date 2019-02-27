@@ -18,12 +18,12 @@ export interface PostProcessStage {
   destroy(): void;
 }
 
-const cesiumProps: Array<keyof PostProcessStageCesiumProps> = ["enabled", "selected"];
+const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
 
 export const createPostProcessStage = <UniformProps, E extends PostProcessStage = any>(opts: {
   name: string;
-  props: Array<keyof UniformProps>;
-  readonlyProps?: Array<keyof UniformProps>;
+  props: (keyof UniformProps)[];
+  readonlyProps?: (keyof UniformProps)[];
   noMount?: boolean;
   create(
     props: Readonly<UniformProps & PostProcessStageCesiumProps>,

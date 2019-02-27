@@ -58,7 +58,7 @@ export interface ParticleSystemContext {
   primitiveCollection: Cesium.PrimitiveCollection;
 }
 
-const cesiumProps: Array<keyof ParticleSystemCesiumProps> = [
+const cesiumProps: (keyof ParticleSystemCesiumProps)[] = [
   "show",
   "emitter",
   "modelMatrix",

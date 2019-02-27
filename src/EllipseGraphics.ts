@@ -48,7 +48,7 @@ export interface EllipseGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof EllipseGraphicsCesiumProps> = [
+const cesiumProps: (keyof EllipseGraphicsCesiumProps)[] = [
   "semiMajorAxis",
   "semiMinorAxis",
   "height",

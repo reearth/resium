@@ -20,7 +20,7 @@ class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene }
   private minimumSnowImageSize: Cesium.Cartesian2;
   private maximumSnowImageSize: Cesium.Cartesian2;
 
-  constructor(props: { cesium: { scene: Cesium.Scene } }) {
+  public constructor(props: { cesium: { scene: Cesium.Scene } }) {
     super(props);
     const scene = props.cesium.scene;
     this.snowParticleSize = scene.drawingBufferWidth / 100.0;
@@ -32,7 +32,6 @@ class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene }
   }
 
   public render() {
-    const scene = this.props.cesium.scene;
     return (
       <ParticleSystem
         modelMatrix={Cesium.Matrix4.fromTranslation(pos)}

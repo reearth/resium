@@ -40,7 +40,7 @@ export interface PointPrimitiveContext {
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
-const cesiumProps: Array<keyof PointPrimitiveCesiumProps> = [
+const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
   "color",
   "disableDepthTestDistance",
   "distanceDisplayCondition",

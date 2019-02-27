@@ -49,7 +49,7 @@ export interface ModelGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof ModelGraphicsCesiumProps> = [
+const cesiumProps: (keyof ModelGraphicsCesiumProps)[] = [
   "uri",
   "show",
   "scale",

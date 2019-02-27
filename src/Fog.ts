@@ -20,15 +20,14 @@ export interface FogCesiumProps {
   screenSpaceErrorFactor?: number;
 }
 
-/* tslint:disable-next-line: no-empty-interface */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FogProps extends FogCesiumProps {}
 
-/* tslint:disable-next-line: no-empty-interface */
 export interface FogContext {
   scene?: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof FogCesiumProps> = [
+const cesiumProps: (keyof FogCesiumProps)[] = [
   "density",
   "enabled",
   "minimumBrightness",
@@ -37,7 +36,7 @@ const cesiumProps: Array<keyof FogCesiumProps> = [
 
 const Fog = createCesiumComponent<Cesium.Fog, FogProps, FogContext>({
   name: "fog",
-  create(cprops, props, context) {
+  create() {
     return new Cesium.Fog();
   },
   mount(element, context) {

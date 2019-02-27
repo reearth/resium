@@ -31,8 +31,8 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   ) => React.ReactNode;
   update?: (element: E, props: Readonly<P>, prevProps: Readonly<P>, context: Readonly<C>) => void;
   provide?: (element: E, props: Readonly<P>, state: any) => CC;
-  cesiumProps?: Array<keyof P>;
-  cesiumReadonlyProps?: Array<keyof P>;
+  cesiumProps?: (keyof P)[];
+  cesiumReadonlyProps?: (keyof P)[];
   cesiumEventProps?: EventkeyMap<E, keyof P>;
   setCesiumPropsAfterCreate?: boolean;
   noRender?: boolean;
@@ -96,16 +96,13 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       return this._ce;
     }
 
-    // tslint:disable-next-line:variable-name
     private _ce?: E;
-    // tslint:disable-next-line:variable-name
     private _state: any;
-    // tslint:disable-next-line:variable-name
     private _provided: Partial<CC> = {}; // to avoid extra rendering
     private mounted: boolean = false;
     private ref?: React.RefObject<R>;
 
-    constructor(props: WithContextProps<P, C>) {
+    public constructor(props: WithContextProps<P, C>) {
       super(props);
       if (opts.createRef) {
         this.ref = React.createRef();
@@ -161,6 +158,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
       );
       if (shouldUpdateProps.length > 0) {
         if (process.env.NODE_ENV !== "production") {
+          // eslint-disable-next-line no-console
           console.warn(
             `Warning: <${
               opts.name
