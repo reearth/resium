@@ -40,7 +40,7 @@ export interface CameraContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof CameraCesiumProps> = [
+const cesiumProps: (keyof CameraCesiumProps)[] = [
   "position",
   "direction",
   "up",

@@ -46,7 +46,6 @@ describe("core/CameraOperation", () => {
 
     const DummyCameraOperation = createCameraOperation({
       name: "dummy",
-      // tslint:disable-next-line:no-empty
       cameraOperationStart: () => {},
     });
 

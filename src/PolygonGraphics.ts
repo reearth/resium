@@ -49,7 +49,7 @@ export interface PolygonGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof PolygonGraphicsCesiumProps> = [
+const cesiumProps: (keyof PolygonGraphicsCesiumProps)[] = [
   "hierarchy",
   "height",
   "heightReference",

@@ -47,7 +47,7 @@ export interface LabelGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof LabelGraphicsCesiumProps> = [
+const cesiumProps: (keyof LabelGraphicsCesiumProps)[] = [
   "text",
   "font",
   "style",

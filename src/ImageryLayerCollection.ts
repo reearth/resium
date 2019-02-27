@@ -20,7 +20,7 @@ export interface ImageryLayerCollectionCesiumEvents {
   onLayerShowOrHide?: (layer: Cesium.ImageryLayer, index: number) => void;
 }
 
-// tslint:disable-next-line:no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ImageryLayerCollectionProps extends ImageryLayerCollectionCesiumEvents {}
 
 export interface ImageryLayerCollectionContext {

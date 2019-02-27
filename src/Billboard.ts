@@ -47,7 +47,7 @@ export interface BillboardContext {
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
-const cesiumProps: Array<keyof BillboardCesiumProps> = [
+const cesiumProps: (keyof BillboardCesiumProps)[] = [
   "alignAxis",
   "color",
   "disableDepthTestDistance",

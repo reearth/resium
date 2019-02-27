@@ -50,7 +50,7 @@ export interface LabelContext {
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
-const cesiumProps: Array<keyof LabelCesiumProps> = [
+const cesiumProps: (keyof LabelCesiumProps)[] = [
   "backgroundColor",
   "backgroundPadding",
   "disableDepthTestDistance",

@@ -32,7 +32,7 @@ export interface PolylineCollectionContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof PolylineCollectionCesiumProps> = [
+const cesiumProps: (keyof PolylineCollectionCesiumProps)[] = [
   "debugShowBoundingVolume",
   "length",
   "modelMatrix",

@@ -34,21 +34,21 @@ function renderPropTable(types) {
 | Property | Type | Description |
 |--|--|--|
 ${filteredTypes
-    .map(t => {
-      const type = t.type
-        .replace(
-          /Cesium\.(.+?)( |<|>|,|\[|\)|$)/g,
-          "[Cesium.$1](https://cesiumjs.org/Cesium/Build/Documentation/$1.html)$2",
-        )
-        .replace(/\|/g, "&#124;")
-        .replace(/</g, "&lt;")
-        .replace(/>/g, "&gt;")
-        .split("\n")
-        .map(s => s.trim())
-        .join(" ");
-      return `| ${t.name} | ${type} | ${t.required ? "Required. " : ""}${t.description || ""} |`;
-    })
-    .join("\n")}
+  .map(t => {
+    const type = t.type
+      .replace(
+        /Cesium\.(.+?)( |<|>|,|\[|\)|$)/g,
+        "[Cesium.$1](https://cesiumjs.org/Cesium/Build/Documentation/$1.html)$2",
+      )
+      .replace(/\|/g, "&#124;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .split("\n")
+      .map(s => s.trim())
+      .join(" ");
+    return `| ${t.name} | ${type} | ${t.required ? "Required. " : ""}${t.description || ""} |`;
+  })
+  .join("\n")}
 `.trim();
 }
 
@@ -66,7 +66,7 @@ route: /components/${type.name}
 menu: Components
 ---
 ${
-    /*
+  /*
     type.example
       ? `
 import { Playground } from "docz";
@@ -76,17 +76,17 @@ import ${cesiumWidget ? "CesiumWidget" : "Viewer"} from "../components/${
 ${type.exampleImports ? type.exampleImports + "\n" : ""}`
       : ""
   */ ""
-  }
+}
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
 ${
-    type.noCesiumElement
-      ? ""
-      : `**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
-          type.name
-        }.html)
+  type.noCesiumElement
+    ? ""
+    : `**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
+        type.name
+      }.html)
 `
-  }${
+}${
     /*
     type.example
       ? `
@@ -110,22 +110,22 @@ ${type.scope}
   }
 ## Properties
 ${
-    !generalComponent
-      ? `
+  !generalComponent
+    ? `
 ### Cesium properties
 
 ${renderPropTable(type.cesiumProps)}`
-      : ""
-  }
+    : ""
+}
 ${
-    !generalComponent
-      ? `
+  !generalComponent
+    ? `
 ### Cesium read only properties
 
 ${renderPropTable(type.cesiumReadonlyProps)}
 `
-      : ""
-  }${
+    : ""
+}${
     !generalComponent
       ? `
 ### Cesium events

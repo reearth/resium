@@ -49,7 +49,7 @@ export interface ModelContext {
   primitiveCollection: Cesium.PrimitiveCollection;
 }
 
-const cesiumProps: Array<keyof ModelCesiumProps> = [
+const cesiumProps: (keyof ModelCesiumProps)[] = [
   "basePath",
   "clampAnimations",
   "clippingPlanes",
@@ -77,7 +77,7 @@ const cesiumProps: Array<keyof ModelCesiumProps> = [
   "specularEnvironmentMaps",
 ];
 
-const cesiumReadonlyProps: Array<keyof ModelCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
   "allowPicking",
   "asynchronous",
   "gltf",

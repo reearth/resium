@@ -37,12 +37,7 @@ export interface CustomDataSourceContext {
   dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
-const cesiumProps: Array<keyof CustomDataSourceCesiumProps> = [
-  "clustering",
-  "name",
-  "show",
-  "clock",
-];
+const cesiumProps: (keyof CustomDataSourceCesiumProps)[] = ["clustering", "name", "show", "clock"];
 
 const cesiumEventProps: EventkeyMap<Cesium.CustomDataSource, keyof CustomDataSourceCesiumEvents> = {
   changedEvent: "onChange",

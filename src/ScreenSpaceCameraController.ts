@@ -28,7 +28,7 @@ export interface ScreenSpaceCameraControllerCesiumProps {
     | Cesium.CameraEventType
     | Cesium.CameraEventType[]
     | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | Array<{ eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }>;
+    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
   maximumMovementRatio?: number;
   maximumZoomDistance?: number;
   minimumCollisionTerrainHeight?: number;
@@ -39,29 +39,29 @@ export interface ScreenSpaceCameraControllerCesiumProps {
     | Cesium.CameraEventType
     | Cesium.CameraEventType[]
     | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | Array<{ eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }>;
+    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
   tiltEventTypes?:
     | Cesium.CameraEventType
     | Cesium.CameraEventType[]
     | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | Array<{ eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }>;
+    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
   translateEventTypes?:
     | Cesium.CameraEventType
     | Cesium.CameraEventType[]
     | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | Array<{ eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }>;
+    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
   zoomEventTypes?:
     | Cesium.CameraEventType
     | Cesium.CameraEventType[]
     | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | Array<{ eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }>;
+    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
 }
 
 export interface ScreenSpaceCameraControllerContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof ScreenSpaceCameraControllerCesiumProps> = [
+const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
   "bounceAnimationTime",
   "enableCollisionDetection",
   "enableInputs",

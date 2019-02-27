@@ -73,9 +73,9 @@ export interface PostProcessStageContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof PostProcessStageCesiumProps> = ["enabled", "selected"];
+const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
 
-const cesiumReadonlyProps: Array<keyof PostProcessStageCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
   "clearColor",
   "forcePowerOfTwo",
   "fragmentShader",
@@ -94,7 +94,7 @@ export const PostProcessStage = createCesiumComponent<
   PostProcessStageContext
 >({
   name: "PostProcessStage",
-  create(cprops, props, context) {
+  create(cprops) {
     const ps = new (Cesium as any).PostProcessStage(cprops);
     if (typeof cprops.enabled === "boolean") {
       ps.enabled = cprops.enabled;
@@ -168,7 +168,7 @@ export const LensFlareStage = createPostProcessStage<{
 export const NightVisionStage = createPostProcessStage<{}>({
   name: "NightVisionStage",
   props: [],
-  create(props) {
+  create() {
     return (Cesium as any).PostProcessStageLibrary.createNightVisionStage();
   },
 });

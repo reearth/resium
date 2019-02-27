@@ -48,7 +48,7 @@ export interface BillboardGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof BillboardGraphicsCesiumProps> = [
+const cesiumProps: (keyof BillboardGraphicsCesiumProps)[] = [
   "image",
   "show",
   "scale",

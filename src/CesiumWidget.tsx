@@ -49,13 +49,13 @@ export interface CesiumWidgetCesiumReadonlyProps {
   maximumRenderTimeChange?: number;
 }
 
-const cesiumProps: Array<keyof CesiumWidgetCesiumProps> = [
+const cesiumProps: (keyof CesiumWidgetCesiumProps)[] = [
   "resolutionScale",
   "useDefaultRenderLoop",
   "targetFrameRate",
 ];
 
-const cesiumReadonlyProps: Array<keyof CesiumWidgetCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof CesiumWidgetCesiumReadonlyProps)[] = [
   "clock",
   "imageryProvider",
   "terrainProvider",

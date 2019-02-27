@@ -41,7 +41,7 @@ export interface EllipsoidGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof EllipsoidGraphicsCesiumProps> = [
+const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "heightReference",
   "radii",
   "show",

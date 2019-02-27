@@ -40,7 +40,7 @@ export interface PolylineVolumeGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof PolylineVolumeGraphicsCesiumProps> = [
+const cesiumProps: (keyof PolylineVolumeGraphicsCesiumProps)[] = [
   "positions",
   "shape",
   "cornerType",

@@ -16,6 +16,7 @@ export const { Provider, Consumer } = CesiumContext;
 
 export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
   // supports both functional components and class components
+  // eslint-disable-next-line react/display-name
   React.forwardRef<WithContextType<P, C>, P>(
     (props: P & { children?: React.ReactNode }, ref?: React.Ref<WithContextType<P, C>> | null) => (
       <Consumer>

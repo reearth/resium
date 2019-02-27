@@ -89,7 +89,7 @@ export interface Cesium3DTilesetContext {
   primitiveCollection?: Cesium.PrimitiveCollection;
 }
 
-const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
+const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
   "url",
   "show",
   "modelMatrix",
@@ -129,7 +129,7 @@ const cesiumProps: Array<keyof Cesium3DTilesetCesiumProps> = [
   "specularEnvironmentMaps",
 ];
 
-const cesiumReadonlyProps: Array<keyof Cesium3DTilesetCesiumReadonlyProps> = ["pointCloudShading"];
+const cesiumReadonlyProps: (keyof Cesium3DTilesetCesiumReadonlyProps)[] = ["pointCloudShading"];
 
 const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetCesiumEvents> = {
   allTilesLoaded: "onAllTilesLoad",

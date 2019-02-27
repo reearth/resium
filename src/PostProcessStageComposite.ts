@@ -75,9 +75,9 @@ export interface PostProcessStageCompositeContext {
   scene?: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof PostProcessStageCompositeCesiumProps> = ["enabled", "selected"];
+const cesiumProps: (keyof PostProcessStageCompositeCesiumProps)[] = ["enabled", "selected"];
 
-const cesiumReadonlyProps: Array<keyof PostProcessStageCompositeCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[] = [
   "inputPreviousStageTexture",
   "name",
   "stages",
@@ -202,7 +202,7 @@ export const SilhouetteStage = createPostProcessStage<{
 }>({
   name: "SilhouetteStage",
   props: ["color", "length"],
-  create(props) {
+  create() {
     return (Cesium as any).PostProcessStageLibrary.createSilhouetteStage();
   },
 });

@@ -57,7 +57,7 @@ export interface GeoJsonDataSourceContext {
   dataSourceCollection?: Cesium.DataSourceCollection;
 }
 
-const cesiumProps: Array<keyof GeoJsonDataSourceCesiumProps> = ["clustering", "name"];
+const cesiumProps: (keyof GeoJsonDataSourceCesiumProps)[] = ["clustering", "name"];
 
 const cesiumEventProps: EventkeyMap<
   Cesium.GeoJsonDataSource,
@@ -125,7 +125,7 @@ const GeoJsonDataSource = createCesiumComponent<
   GeoJsonDataSourceContext
 >({
   name: "GeoJsonDataSource",
-  create(cprops, props, context) {
+  create(cprops, props) {
     const ds = new Cesium.GeoJsonDataSource(props.name);
     if (cprops.clustering) {
       ds.clustering = cprops.clustering;

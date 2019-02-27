@@ -40,7 +40,7 @@ export interface CylinderGraphicsContext {
   entity?: Cesium.Entity;
 }
 
-const cesiumProps: Array<keyof CylinderGraphicsCesiumProps> = [
+const cesiumProps: (keyof CylinderGraphicsCesiumProps)[] = [
   "heightReference",
   "length",
   "topRadius",

@@ -9,7 +9,6 @@ import Cesium, {
   Plane,
   Rectangle,
   Math,
-  PolylineArrowMaterialProperty,
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";

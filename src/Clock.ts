@@ -40,7 +40,7 @@ export interface ClockContext {
   cesiumWidget: CesiumWidget;
 }
 
-const cesiumProps: Array<keyof ClockCesiumProps> = [
+const cesiumProps: (keyof ClockCesiumProps)[] = [
   "canAnimate",
   "clockRange",
   "clockStep",

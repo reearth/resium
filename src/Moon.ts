@@ -29,13 +29,13 @@ export interface MoonContext {
   scene?: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof MoonCesiumProps> = ["onlySunLighting", "show", "textureUrl"];
+const cesiumProps: (keyof MoonCesiumProps)[] = ["onlySunLighting", "show", "textureUrl"];
 
-const cesiumReadonlyProps: Array<keyof MoonCesiumReadonlyProps> = ["ellipsoid"];
+const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
 
 const Moon = createCesiumComponent<Cesium.Moon, MoonProps, MoonContext>({
   name: "moon",
-  create(cprops, props, context) {
+  create(cprops) {
     return new Cesium.Moon(cprops);
   },
   mount(element, context) {

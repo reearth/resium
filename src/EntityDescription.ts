@@ -1,6 +1,6 @@
 import React from "react";
 import { ConstantProperty } from "cesium";
-// tslint:disable-next-line:no-var-requires
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 

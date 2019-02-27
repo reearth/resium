@@ -122,7 +122,7 @@ export interface ImageryLayerContext {
   imageryLayerCollection?: Cesium.ImageryLayerCollection;
 }
 
-const cesiumProps: Array<keyof ImageryLayerCesiumProps> = [
+const cesiumProps: (keyof ImageryLayerCesiumProps)[] = [
   "alpha",
   "brightness",
   "contrast",
@@ -136,7 +136,7 @@ const cesiumProps: Array<keyof ImageryLayerCesiumProps> = [
   "show",
 ];
 
-const cesiumReadonlyProps: Array<keyof ImageryLayerCesiumReadonlyProps> = [
+const cesiumReadonlyProps: (keyof ImageryLayerCesiumReadonlyProps)[] = [
   "imageryProvider",
   "rectangle",
   "maximumAnisotropy",
@@ -175,6 +175,7 @@ const ImageryLayer = createCesiumComponent<
   mount(element, context) {
     if (context.imageryLayerCollection) {
       context.imageryLayerCollection.add(element);
+      // eslint-disable-next-line no-console
       console.log("added", element);
     }
   },

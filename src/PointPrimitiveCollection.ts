@@ -31,7 +31,7 @@ export interface PointPrimitiveCollectionContext {
   primitiveCollection?: Cesium.PrimitiveCollection;
 }
 
-const cesiumProps: Array<keyof PointPrimitiveCollectionCesiumProps> = [
+const cesiumProps: (keyof PointPrimitiveCollectionCesiumProps)[] = [
   "blendOption",
   "debugShowBoundingVolume",
   "modelMatrix",

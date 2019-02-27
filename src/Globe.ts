@@ -57,7 +57,7 @@ export interface GlobeContext {
   scene: Cesium.Scene;
 }
 
-const cesiumProps: Array<keyof GlobeCesiumProps> = [
+const cesiumProps: (keyof GlobeCesiumProps)[] = [
   "atmosphereBrightnessShift",
   "atmosphereHueShift",
   "atmosphereSaturationShift",
