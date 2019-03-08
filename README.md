@@ -2,19 +2,13 @@
 
 [![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium)
 
-React components for 🌏 [Cesium](https://cesiumjs.org/) (ex- cesium-react)
+React components for 🌏[Cesium](https://cesiumjs.org/)
+
+- **Declarative Cesium** 🌏: high maintainable Cesium app with React
+- **Blazing Fast Development** 👨: HMR works perfectly
+- **Strongly Typed** 💪: TypeScript is fully supported
 
 [**Documentation**](https://resium.darwineducation.com) | [**Installation**](https://resium.darwineducation.com/installation) | [**Getting Started**](https://resium.darwineducation.com/getting_started) | [**Guide**](https://resium.darwineducation.com/guide)
-
-## Features
-
-- **Declarative Cesium**: high maintainable Cesium app with React
-- **Blazing Fast Development**: HMR works perfectly
-- **Strongly Typed**: TypeScript is fully supported
-
-```
-npm install resium
-```
 
 ```jsx
 <Viewer full>
@@ -28,6 +22,8 @@ npm install resium
 ```
 
 ![Screenshot](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/screenshot.png)
+
+![Usage](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/usage.gif)
 
 ## When you have a question...
 
