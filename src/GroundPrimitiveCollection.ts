@@ -2,6 +2,8 @@ import Cesium from "cesium";
 
 import createCesiumComponent from "./core/CesiumComponent";
 
+// @cesiumElement PrimitiveCollection
+
 /*
 @summary
 `GroundPrimitiveCollection` is the collection of ground primitives of the scene.
