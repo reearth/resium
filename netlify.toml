@@ -2,6 +2,12 @@
   publish = "/.docz/dist"
 
 [[redirects]]
+  from = "/examples/"
+  to = "/examples/index.html"
+  status = 200
+  force = false
+
+[[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200

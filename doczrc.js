@@ -17,7 +17,7 @@ export default {
     },
     {
       name: "Examples",
-      href: "https://github.com/darwin-education/resium/tree/master/src/stories",
+      href: "/examples/",
     },
     "Advanced",
     "Migration Guide",
