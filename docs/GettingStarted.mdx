@@ -2,6 +2,7 @@
 name: Getting Started
 route: /getting_started
 ---
+
 import { Playground } from "docz";
 import Viewer from "./components/Viewer";
 
@@ -27,9 +28,7 @@ Just as Cesium's root object is `Viewer`, `<Viewer>` is also a root component in
 import { hot } from "react-hot-loader";
 import { Viewer } from "resium";
 
-const App = () => (
-  <Viewer />
-);
+const App = () => <Viewer />;
 
 export default hot(module)(App);
 ```
@@ -40,10 +39,7 @@ export default hot(module)(App);
 import ReactDOM from "react-dom";
 import App from "./app";
 
-ReactDOM.render(
-  <App />,
-  document.getElementById("wrapper")
-);
+ReactDOM.render(<App />, document.getElementById("wrapper"));
 ```
 
 This is almost equivalent to:
@@ -69,7 +65,7 @@ This is equivalent to:
     top: 0,
     left: 0,
     right: 0,
-    bottom: 0
+    bottom: 0,
   }}
 />
 ```
@@ -95,10 +91,7 @@ const pointGraphics = { pixelSize: 10 };
 
 const App = () => (
   <Viewer full>
-    <Entity
-      position={position}
-      point={pointGraphics}
-    />
+    <Entity position={position} point={pointGraphics} />
   </Viewer>
 );
 ```
@@ -109,7 +102,7 @@ This is equivalent to:
 const viewer = new Cesium.Viewer("wrapper");
 const entity = new Cesium.Entity({
   position: Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100),
-  point: { pixelSize: 10 }
+  point: { pixelSize: 10 },
 });
 viewer.entities.add(entity);
 ```
@@ -145,10 +138,7 @@ const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 const App = () => (
   <Viewer full>
-    <Entity
-      position={position}
-      name="Tokyo"
-      description="Hello, world.">
+    <Entity position={position} name="Tokyo" description="Hello, world.">
       <PointGraphics pixelSize={10} />
     </Entity>
   </Viewer>
@@ -165,9 +155,7 @@ const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 const App = () => (
   <Viewer full>
-    <Entity
-      position={position}
-      name="Tokyo">
+    <Entity position={position} name="Tokyo">
       <PointGraphics pixelSize={10} />
       <EntityDescription>
         <h1>Hello, world.</h1>
@@ -191,9 +179,7 @@ const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 const App = () => (
   <Viewer full terrainProvider={terrainProvider}>
-    <Entity
-      position={position}
-      name="Tokyo">
+    <Entity position={position} name="Tokyo">
       <PointGraphics pixelSize={10} />
       <EntityDescription>
         <h1>Hello, world.</h1>
@@ -251,10 +237,10 @@ const App = () => {
   return (
     <Viewer
       full
-      ref={e => { viewer = e && e.cesiumElement; }}>
-      <Cesium3DTileset
-        url={IonResource.fromAssetId(5714)}
-        onReady={handleReady} />
+      ref={e => {
+        viewer = e && e.cesiumElement;
+      }}>
+      <Cesium3DTileset url={IonResource.fromAssetId(5714)} onReady={handleReady} />
     </Viewer>
   );
 };

@@ -13,8 +13,8 @@ If you find bugs ascribed to resium, please open a issue in [GitHub issues](http
 
 ## When you have a question...
 
-Post your question to [GitHub issues](https://github.com/darwin-education/resium/issues). 
-Please don't send question e-mail as possible. 
+Post your question to [GitHub issues](https://github.com/darwin-education/resium/issues).
+Please don't send question e-mail as possible.
 
 ## Suggesting new features or new components
 
@@ -46,14 +46,14 @@ If `test` is a variable property:
 ```ts
 export interface ViewerCesiumProps {
   // ...
-  test?: string // <=== Add a new property type
+  test?: string; // <=== Add a new property type
 }
 ```
 
 ```ts
 const cesiumProps: Array<keyof ViewerCesiumProps> = [
   // ...
-  "test" // <== Add a new property name
+  "test", // <== Add a new property name
 ];
 ```
 
@@ -62,14 +62,14 @@ If `test` is a read only property:
 ```ts
 export interface ViewerCesiumReadonlyProps {
   // ...
-  test?: string // <=== Add a new property type
+  test?: string; // <=== Add a new property type
 }
 ```
 
 ```ts
 const cesiumReadonlyProps: Array<keyof ViewerCesiumProps> = [
   // ...
-  "test" // <== Add a new property name
+  "test", // <== Add a new property name
 ];
 ```
 
@@ -81,10 +81,9 @@ If `test` is an event property:
 - `progress` => `onProgress`
 
 ```ts
-export interface ViewerProps extends
-  ViewerCesiumProps, ViewerCesiumReadonlyProps {
+export interface ViewerProps extends ViewerCesiumProps, ViewerCesiumReadonlyProps {
   // ...
-  onTest?: () => void // <=== Add a new property type
+  onTest?: () => void; // <=== Add a new property type
 }
 ```
 

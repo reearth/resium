@@ -21,8 +21,8 @@ Then, edit your webpack configuration.
 ## 2. Define Cesium path
 
 ```js
-const cesiumSource = 'node_modules/cesium/Source';
-const cesiumWorkers = '../Build/Cesium/Workers';
+const cesiumSource = "node_modules/cesium/Source";
+const cesiumWorkers = "../Build/Cesium/Workers";
 ```
 
 ## 3. Add aliases
@@ -43,7 +43,7 @@ resolve: {
 Copy only asset files at build time.
 
 ```js
-const CopyWebpackPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```
 
 ```js
@@ -51,18 +51,18 @@ plugins: [
   new CopyWebpackPlugin([
     {
       from: path.join(cesiumSource, cesiumWorkers),
-      to: 'Workers'
+      to: "Workers",
     },
     {
-      from: path.join(cesiumSource, 'Assets'),
-      to: 'Assets'
+      from: path.join(cesiumSource, "Assets"),
+      to: "Assets",
     },
     {
-      from: path.join(cesiumSource, 'Widgets'),
-      to: 'Widgets'
-    }
-  ])
-]
+      from: path.join(cesiumSource, "Widgets"),
+      to: "Widgets",
+    },
+  ]),
+];
 ```
 
 ## 5. Add definition of CESIUM_BASE_URL
@@ -70,16 +70,16 @@ plugins: [
 Cesium refers to `CESIUM_BASE_URL` to find asset files.
 
 ```js
-const webpack = require('webpack');
+const webpack = require("webpack");
 ```
 
 ```js
 plugins: [
   // ...
   new webpack.DefinePlugin({
-    CESIUM_BASE_URL: JSON.stringify('')
-  })
-]
+    CESIUM_BASE_URL: JSON.stringify(""),
+  }),
+];
 ```
 
 ## 6. Set up other settings
@@ -105,29 +105,33 @@ This is optional, but it is recommended for production build.
 
 ```js
 module.exports = (env, argv) => {
-  const prod = argv.mode === 'production';
+  const prod = argv.mode === "production";
 
   return {
     // ...
     module: {
       // ...
-      ...[prod ? {
-        // Strip cesium pragmas
-        test: /\.js$/,
-        enforce: 'pre',
-        include: path.resolve(__dirname, cesiumSource),
-        use: [
-          {
-            loader: 'strip-pragma-loader',
-        		options: {
-              pragmas: {
-                debug: false
-              }
+      ...[
+        prod
+          ? {
+              // Strip cesium pragmas
+              test: /\.js$/,
+              enforce: "pre",
+              include: path.resolve(__dirname, cesiumSource),
+              use: [
+                {
+                  loader: "strip-pragma-loader",
+                  options: {
+                    pragmas: {
+                      debug: false,
+                    },
+                  },
+                },
+              ],
             }
-          }
-        ]
-      } : {}]
-    }
+          : {},
+      ],
+    },
   };
 };
 ```
