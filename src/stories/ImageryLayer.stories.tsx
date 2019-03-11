@@ -5,7 +5,7 @@ import { storiesOf } from "@storybook/react";
 import Viewer from "../Viewer";
 import ImageryLayer from "../ImageryLayer";
 
-storiesOf("ImageryLayer", module).add("default", () => (
+storiesOf("ImageryLayer", module).add("Basic", () => (
   <Viewer full>
     <ImageryLayer
       imageryProvider={

@@ -10,7 +10,7 @@ import PointPrimitiveCollection from "../PointPrimitiveCollection";
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 
 storiesOf("PointPrimitive", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
         <PointPrimitive color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} />

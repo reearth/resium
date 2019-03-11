@@ -11,7 +11,7 @@ const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 import exampleImg from "./assets/example.png";
 
 storiesOf("Billboard", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <BillboardCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
         <Billboard

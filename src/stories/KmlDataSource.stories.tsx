@@ -63,7 +63,7 @@ const onLoad = (k: Cesium.KmlDataSource) => {
   onLoadAction(k);
 };
 
-storiesOf("KmlDataSource", module).add("default", () => (
+storiesOf("KmlDataSource", module).add("Basic", () => (
   <Viewer full>
     <KmlDataSource data={data} onLoad={onLoad} onError={action("onError")} />
   </Viewer>

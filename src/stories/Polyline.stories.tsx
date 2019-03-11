@@ -15,7 +15,7 @@ const positions = [
   new Cartesian3(-125, 135, 0),
 ];
 storiesOf("Polyline", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
         <Polyline positions={positions} width={10} />

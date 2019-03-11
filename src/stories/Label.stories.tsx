@@ -10,7 +10,7 @@ import LabelCollection from "../LabelCollection";
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 
 storiesOf("Label", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <LabelCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
         <Label fillColor={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} text="Cesium" />

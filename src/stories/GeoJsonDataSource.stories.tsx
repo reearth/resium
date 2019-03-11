@@ -27,7 +27,7 @@ const onLoad = (g: Cesium.GeoJsonDataSource) => {
   onLoadAction(g);
 };
 
-storiesOf("GeoJsonDataSource", module).add("default", () => (
+storiesOf("GeoJsonDataSource", module).add("Basic", () => (
   <Viewer full>
     <GeoJsonDataSource
       data={data}

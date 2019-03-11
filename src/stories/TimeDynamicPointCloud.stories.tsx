@@ -36,7 +36,7 @@ const style = new (Cesium as any).Cesium3DTileStyle({
   pointSize: 5,
 });
 
-storiesOf("TimeDynamicPointCloud", module).add("default", () => {
+storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
   const viewer = React.createRef<CesiumElementHolder<Cesium.Viewer>>();
   const onReady = (p: any) => {
     if (viewer.current !== null && viewer.current.cesiumElement) {

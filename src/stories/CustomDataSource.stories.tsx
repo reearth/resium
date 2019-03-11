@@ -7,7 +7,7 @@ import CustomDataSource from "../CustomDataSource";
 import Entity from "../Entity";
 
 storiesOf("CustomDataSource", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <CustomDataSource name="custom">
         <Entity
@@ -33,7 +33,7 @@ storiesOf("CustomDataSource", module)
       />
     </Viewer>
   ))
-  .add("entity clustering", () => (
+  .add("Entity clustering", () => (
     <Viewer full>
       <CustomDataSource
         clustering={

@@ -5,7 +5,7 @@ import Viewer from "../Viewer";
 import Fog from "../Fog";
 
 storiesOf("Fog", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <Fog />
     </Viewer>

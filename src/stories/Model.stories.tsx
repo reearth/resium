@@ -13,7 +13,7 @@ const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
 const cameraDest = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 210000);
 const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
 
-storiesOf("Model", module).add("default", () => (
+storiesOf("Model", module).add("Basic", () => (
   <Viewer full>
     <CameraFlyTo destination={cameraDest} duration={0} />
     <Model

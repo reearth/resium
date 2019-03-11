@@ -38,7 +38,7 @@ import billboardImage from "./assets/example.png";
 import glb from "./assets/Cesium_Air.glb";
 
 storiesOf("Entity", module)
-  .add("default", () => (
+  .add("Basic", () => (
     <Viewer full>
       <Entity
         name="test"

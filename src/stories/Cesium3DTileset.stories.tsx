@@ -6,7 +6,7 @@ import Cesium from "cesium";
 import Viewer from "../Viewer";
 import Cesium3DTileset from "../Cesium3DTileset";
 
-storiesOf("Cesium3DTileset", module).add("default", () => {
+storiesOf("Cesium3DTileset", module).add("Basic", () => {
   let viewer: Cesium.Viewer | undefined;
   const onReady = (tileset: any) => {
     if (viewer) {

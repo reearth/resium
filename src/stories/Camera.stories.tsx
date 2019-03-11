@@ -7,7 +7,7 @@ import Viewer from "../Viewer";
 import CameraFlyTo from "../CameraFlyTo";
 import Camera from "../Camera";
 
-storiesOf("Camera", module).add("default", () => (
+storiesOf("Camera", module).add("Basic", () => (
   <Viewer full>
     <Camera
       onMoveEnd={action("onMoveEnd")}
