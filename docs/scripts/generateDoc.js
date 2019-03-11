@@ -82,9 +82,9 @@ ${type.summary ? `\n${type.summary}\n` : ""}
 ${
   type.noCesiumElement
     ? ""
-    : `**Cesium element**: [${type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${
-        type.name
-      }.html)
+    : `**Cesium element**: [${type.cesiumElement ||
+        type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement ||
+        type.name}.html)
 `
 }${
     /*
@@ -252,6 +252,11 @@ function detectComponentDescription(comments) {
       if (/^ *?@noCesiumElement/.test(c)) {
         return {
           noCesiumElement: true,
+        };
+      }
+      if (/^ *?@cesiumElement/.test(c)) {
+        return {
+          cesiumElement: c.replace(/^ *?@cesiumElement/, "").trim(),
         };
       }
       if (/^ *?@summary/.test(c)) {
