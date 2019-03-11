@@ -12,7 +12,7 @@ Resium brings React's component lifecycle to Cesium. The relationship between Ce
 1. `constructor`: The Cesium element is initialized (the Cesium element of some components are initialized at mount time).
 2. `render`: Nothing is rendered, because the object passed to children via React's context API does not exist in this time.
 3. `componentDidMount`: The Cesium element is mounted. After this, `forceUpdate` is called and re-render children.
-4. `render`: Children of the component are rendered. DOM never be rendered except root components (Viewer and CesiumWidget). 
+4. `render`: Children of the component are rendered. DOM never be rendered except root components (Viewer and CesiumWidget).
 5. `componentDidUpdate`: Changed properties of the Cesium element are updated. If "Cesium read only properties" are changed, the Cesium element will be reinitialized.
 6. `componentWillUnmount`: The Cesium element is unmounted and destroyed.
 
@@ -75,6 +75,7 @@ Exception are:
 - `ScreenSpaceEventHandler` > `ScreenSpaceEvent`
 - `xCollection` > `x`
 - `CustomDataSource` > `Entity`
+- `GroundPrimitiveCollection` > `GroundPrimitive`
 
 e.g.: `Scene` > `Camera` or `Camera` > `Entity` is not recommended.
 
@@ -182,14 +183,17 @@ const ExampleComponent = () => {
   let viewer; // Cesium.Viewer
 
   return (
-    <Viewer ref={e => { viewer = !!e ? e.cesiumElement : undefined; }} />
+    <Viewer
+      ref={e => {
+        viewer = !!e ? e.cesiumElement : undefined;
+      }}
+    />
   );
-}
+};
 ```
 
 ```jsx
 class ExampleComponent extends React.PureComponent {
-
   entity = React.createRef(); // entity.current = Cesium.Entity
 
   render() {
@@ -211,4 +215,4 @@ class ExampleComponent extends React.PureComponent {
 ## Limitations
 
 - Server side rendering is not supported. Cesium is rendered in web browsers.
-- Resium runs only with `react-dom`. because Cesium depends on APIs of web browsers (DOM, WebGL, Web Worker and so on). React Native is not supported. 
+- Resium runs only with `react-dom`. because Cesium depends on APIs of web browsers (DOM, WebGL, Web Worker and so on). React Native is not supported.
