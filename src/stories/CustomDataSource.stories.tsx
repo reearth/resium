@@ -1,13 +1,13 @@
 import React from "react";
-import { Cartesian3, Color } from "cesium";
+import { Cartesian3, Color, EntityCluster } from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
 import CustomDataSource from "../CustomDataSource";
 import Entity from "../Entity";
 
-export default () => {
-  storiesOf("CustomDataSource", module).add("default", () => (
+storiesOf("CustomDataSource", module)
+  .add("Basic", () => (
     <Viewer full>
       <CustomDataSource name="custom">
         <Entity
@@ -32,5 +32,29 @@ export default () => {
         point={{ pixelSize: 10 }}
       />
     </Viewer>
+  ))
+  .add("Entity clustering", () => (
+    <Viewer full>
+      <CustomDataSource
+        clustering={
+          new EntityCluster({
+            enabled: true,
+            pixelRange: 50,
+            minimumClusterSize: 3,
+            clusterPoints: true,
+          })
+        }>
+        {new Array(100).fill(0).map((_, i) => (
+          <Entity
+            key={i}
+            position={Cartesian3.fromDegrees(
+              Math.random() * 180 - 90,
+              Math.random() * 360 - 180,
+              100,
+            )}
+            point={{ pixelSize: 10, color: Color.RED }}
+          />
+        ))}
+      </CustomDataSource>
+    </Viewer>
   ));
-};

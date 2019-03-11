@@ -4,10 +4,8 @@ import { storiesOf } from "@storybook/react";
 import Viewer from "../Viewer";
 import Sun from "../Sun";
 
-export default () => {
-  storiesOf("Sun", module).add("default", () => (
-    <Viewer full>
-      <Sun glowFactor={2.0} />
-    </Viewer>
-  ));
-};
+storiesOf("Sun", module).add("Basic", () => (
+  <Viewer full>
+    <Sun glowFactor={2.0} />
+  </Viewer>
+));

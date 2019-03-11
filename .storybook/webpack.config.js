@@ -19,6 +19,14 @@ module.exports = ({ config, mode }) => ({
         use: "ts-loader",
       },
       {
+        test: /\.stories\.tsx?$/,
+        use: {
+          loader: "@storybook/addon-storysource/loader",
+          options: { parser: "typescript" },
+        },
+        enforce: "pre",
+      },
+      {
         test: /.(glb|pnts)$/,
         use: "file-loader",
       },

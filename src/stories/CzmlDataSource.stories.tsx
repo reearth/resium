@@ -44,10 +44,8 @@ const onLoad = (g: Cesium.GeoJsonDataSource) => {
   onLoadAction(g);
 };
 
-export default () => {
-  storiesOf("CzmlDataSource", module).add("default", () => (
-    <Viewer full>
-      <CzmlDataSource data={czml} onLoad={onLoad} onError={action("onError")} />
-    </Viewer>
-  ));
-};
+storiesOf("CzmlDataSource", module).add("Basic", () => (
+  <Viewer full>
+    <CzmlDataSource data={czml} onLoad={onLoad} onError={action("onError")} />
+  </Viewer>
+));

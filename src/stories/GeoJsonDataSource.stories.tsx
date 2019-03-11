@@ -27,15 +27,13 @@ const onLoad = (g: Cesium.GeoJsonDataSource) => {
   onLoadAction(g);
 };
 
-export default () => {
-  storiesOf("GeoJsonDataSource", module).add("default", () => (
-    <Viewer full>
-      <GeoJsonDataSource
-        data={data}
-        markerColor={Color.RED}
-        onLoad={onLoad}
-        onError={action("onError")}
-      />
-    </Viewer>
-  ));
-};
+storiesOf("GeoJsonDataSource", module).add("Basic", () => (
+  <Viewer full>
+    <GeoJsonDataSource
+      data={data}
+      markerColor={Color.RED}
+      onLoad={onLoad}
+      onError={action("onError")}
+    />
+  </Viewer>
+));
