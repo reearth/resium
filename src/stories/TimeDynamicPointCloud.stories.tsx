@@ -36,24 +36,22 @@ const style = new (Cesium as any).Cesium3DTileStyle({
   pointSize: 5,
 });
 
-export default () => {
-  storiesOf("TimeDynamicPointCloud", module).add("default", () => {
-    const viewer = React.createRef<CesiumElementHolder<Cesium.Viewer>>();
-    const onReady = (p: any) => {
-      if (viewer.current !== null && viewer.current.cesiumElement) {
-        viewer.current.cesiumElement.zoomTo(p, new Cesium.HeadingPitchRange(0.0, -0.5, 50.0));
-      }
-    };
-    return (
-      <Viewer full shouldAnimate ref={viewer}>
-        <Clock
-          startTime={start}
-          currentTime={start}
-          stopTime={stop}
-          clockRange={Cesium.ClockRange.LOOP_STOP}
-        />
-        <TimeDynamicPointCloud intervals={intervals} style={style} onReady={onReady} />
-      </Viewer>
-    );
-  });
-};
+storiesOf("TimeDynamicPointCloud", module).add("default", () => {
+  const viewer = React.createRef<CesiumElementHolder<Cesium.Viewer>>();
+  const onReady = (p: any) => {
+    if (viewer.current !== null && viewer.current.cesiumElement) {
+      viewer.current.cesiumElement.zoomTo(p, new Cesium.HeadingPitchRange(0.0, -0.5, 50.0));
+    }
+  };
+  return (
+    <Viewer full shouldAnimate ref={viewer}>
+      <Clock
+        startTime={start}
+        currentTime={start}
+        stopTime={stop}
+        clockRange={Cesium.ClockRange.LOOP_STOP}
+      />
+      <TimeDynamicPointCloud intervals={intervals} style={style} onReady={onReady} />
+    </Viewer>
+  );
+});

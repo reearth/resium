@@ -3,6 +3,4 @@ import { storiesOf } from "@storybook/react";
 
 import CesiumWidget from "../CesiumWidget";
 
-export default () => {
-  storiesOf("CesiumWidget", module).add("default", () => <CesiumWidget full />);
-};
+storiesOf("CesiumWidget", module).add("default", () => <CesiumWidget full />);

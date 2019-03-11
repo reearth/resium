@@ -29,31 +29,29 @@ void main(void)
 }
 `;
 
-export default () => {
-  storiesOf("PostProcessStage", module)
-    .add("Mosaic", () => (
-      <Viewer full>
-        <postProcessStage.PostProcessStage fragmentShader={shader} />
-      </Viewer>
-    ))
-    .add("Lens flare", () => (
-      <Viewer full>
-        <postProcessStage.LensFlareStage intensity={5} />
-      </Viewer>
-    ))
-    .add("Night vison", () => (
-      <Viewer full>
-        <postProcessStage.NightVisionStage />
-      </Viewer>
-    ))
-    .add("Bloom", () => (
-      <Viewer full>
-        <postProcessStageComposite.Bloom />
-        <Entity
-          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-          model={{ uri: model }}
-          tracked
-        />
-      </Viewer>
-    ));
-};
+storiesOf("PostProcessStage", module)
+  .add("Mosaic", () => (
+    <Viewer full>
+      <postProcessStage.PostProcessStage fragmentShader={shader} />
+    </Viewer>
+  ))
+  .add("Lens flare", () => (
+    <Viewer full>
+      <postProcessStage.LensFlareStage intensity={5} />
+    </Viewer>
+  ))
+  .add("Night vison", () => (
+    <Viewer full>
+      <postProcessStage.NightVisionStage />
+    </Viewer>
+  ))
+  .add("Bloom", () => (
+    <Viewer full>
+      <postProcessStageComposite.Bloom />
+      <Entity
+        position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
+        model={{ uri: model }}
+        tracked
+      />
+    </Viewer>
+  ));

@@ -29,36 +29,34 @@ const appearance = new EllipsoidSurfaceAppearance({
   material: Material.fromType("Checkerboard"),
 });
 
-export default () => {
-  storiesOf("Primitive", module)
-    .add("default", () => (
-      <Viewer full>
-        <Primitive geometryInstances={geometry} appearance={appearance} />
-      </Viewer>
-    ))
-    .add("Events", () => (
-      <Viewer full>
-        <Primitive
-          geometryInstances={geometry}
-          appearance={appearance}
-          onClick={action("onClick")}
-          onDoubleClick={action("onDoubleClick")}
-          onMouseDown={action("onMouseDown")}
-          onMouseUp={action("onMouseUp")}
-          onMiddleClick={action("onMiddleClick")}
-          onMiddleDown={action("onMiddleDown")}
-          onMiddleUp={action("onMiddleUp")}
-          onMouseMove={action("onMouseMove")}
-          onPinchEnd={action("onPinchEnd")}
-          onPinchMove={action("onPinchMove")}
-          onPinchStart={action("onPinchStart")}
-          onRightClick={action("onRightClick")}
-          onRightDown={action("onRightDown")}
-          onRightUp={action("onRightUp")}
-          onWheel={action("onWheel")}
-          onMouseEnter={action("onMouseEnter")}
-          onMouseLeave={action("onMouseLeave")}
-        />
-      </Viewer>
-    ));
-};
+storiesOf("Primitive", module)
+  .add("default", () => (
+    <Viewer full>
+      <Primitive geometryInstances={geometry} appearance={appearance} />
+    </Viewer>
+  ))
+  .add("Events", () => (
+    <Viewer full>
+      <Primitive
+        geometryInstances={geometry}
+        appearance={appearance}
+        onClick={action("onClick")}
+        onDoubleClick={action("onDoubleClick")}
+        onMouseDown={action("onMouseDown")}
+        onMouseUp={action("onMouseUp")}
+        onMiddleClick={action("onMiddleClick")}
+        onMiddleDown={action("onMiddleDown")}
+        onMiddleUp={action("onMiddleUp")}
+        onMouseMove={action("onMouseMove")}
+        onPinchEnd={action("onPinchEnd")}
+        onPinchMove={action("onPinchMove")}
+        onPinchStart={action("onPinchStart")}
+        onRightClick={action("onRightClick")}
+        onRightDown={action("onRightDown")}
+        onRightUp={action("onRightUp")}
+        onWheel={action("onWheel")}
+        onMouseEnter={action("onMouseEnter")}
+        onMouseLeave={action("onMouseLeave")}
+      />
+    </Viewer>
+  ));

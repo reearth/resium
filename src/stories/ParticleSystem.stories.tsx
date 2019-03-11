@@ -81,18 +81,16 @@ class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene }
 
 const WrappedSnowParticle = withCesium<{}, { scene: Cesium.Scene }>(SnowParticle);
 
-export default () => {
-  storiesOf("ParticleSystem", module).add("default", () => (
-    <Viewer full shouldAnimate terrainProvider={Cesium.createWorldTerrain({})}>
-      <CameraFlyTo
-        duration={0}
-        destination={pos}
-        orientation={{
-          heading: 4.731089976107251,
-          pitch: -0.32003481981370063,
-        }}
-      />
-      <WrappedSnowParticle />
-    </Viewer>
-  ));
-};
+storiesOf("ParticleSystem", module).add("default", () => (
+  <Viewer full shouldAnimate terrainProvider={Cesium.createWorldTerrain({})}>
+    <CameraFlyTo
+      duration={0}
+      destination={pos}
+      orientation={{
+        heading: 4.731089976107251,
+        pitch: -0.32003481981370063,
+      }}
+    />
+    <WrappedSnowParticle />
+  </Viewer>
+));
