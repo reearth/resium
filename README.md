@@ -8,7 +8,7 @@ React components for 🌏[Cesium](https://cesiumjs.org/)
 - **Blazing Fast Development** 👨: HMR works perfectly
 - **Strongly Typed** 💪: TypeScript is fully supported
 
-[**Documentation**](https://resium.darwineducation.com) | [**Installation**](https://resium.darwineducation.com/installation) | [**Getting Started**](https://resium.darwineducation.com/getting_started) | [**Guide**](https://resium.darwineducation.com/guide)
+[**Documentation**](https://resium.darwineducation.com) | [**Installation**](https://resium.darwineducation.com/installation) | [**Getting Started**](https://resium.darwineducation.com/getting_started) | [**Guide**](https://resium.darwineducation.com/guide) | [**Examples**](https://resium.darwineducation.com/examples/)
 
 ```jsx
 <Viewer full>
