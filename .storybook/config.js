@@ -3,7 +3,7 @@ import { themes } from "@storybook/theming";
 
 addParameters({
   options: {
-    name: "resium",
+    name: "Resium",
     theme: themes.dark,
   },
 });
