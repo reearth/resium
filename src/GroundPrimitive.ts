@@ -15,7 +15,7 @@ Primitive is a low layer API for geographical visualization.
 @scope
 Inside [Viewer](/components/Viewer), [CesiumWidget](/components/CesiumWidget), or [GroundPrimitiveCollection](/components/GroundPrimitiveCollection) component.
 If this component is inside GroundPrimitiveCollection component, a ground primitive object will be attached to the ground primitive collection of the scene.
-Else, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
+Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
 export interface GroundPrimitiveCesiumProps {
