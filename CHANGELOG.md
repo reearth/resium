@@ -5,11 +5,11 @@
 - Add
   - `GroundPrimitive` and `GroundPrimitiveCollection` component ([#67](https://github.com/darwin-education/resium/pull/67))
 - Doc
-  - [Example page](https://resium.darwineeducation.com/examples/) is available! ([#65](https://github.com/darwin-education/resium/pull/65))
+  - [Example page](https://resium.darwineducation.com/examples/) is available! ([#65](https://github.com/darwin-education/resium/pull/65))
   - Add link of [craco-cesium](https://github.com/darwin-education/craco-cesium) in installation page
+  - Show source code in storybook ([#66](https://github.com/darwin-education/resium/pull/66))
 - Chore
   - Export cesium context ([#62](https://github.com/darwin-education/resium/pull/62))
-  - Show source code in storybook ([#66](https://github.com/darwin-education/resium/pull/66))
   - Introduce typescript-eslint instead of tslint ([#63](https://github.com/darwin-education/resium/pull/63))
   - Upgrade dependencies
 
