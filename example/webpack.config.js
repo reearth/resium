@@ -52,5 +52,10 @@ module.exports = (env, args) => {
       }),
       ...(prod ? [] : [new webpack.HotModuleReplacementPlugin()]),
     ],
+    resolve: {
+      alias: prod ? {} : {
+        "react-dom": "@hot-loader/react-dom"
+      },
+    }
   };
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { hot } from "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import { Cartesian3 } from "cesium";
 import { Viewer, Entity } from "resium";
 
@@ -14,4 +14,4 @@ const App = () => (
   </Viewer>
 );
 
-export default hot(module)(App);
+export default hot(App);
