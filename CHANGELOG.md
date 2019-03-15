@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.3.1 - 2019/03/15
+
+- Fix error on unmount ([#70](https://github.com/darwin-education/resium/pull/70))
+
 ## v1.3.0 - 2019/03/11
 
 - Add
