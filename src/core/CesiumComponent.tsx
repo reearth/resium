@@ -220,7 +220,11 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
         opts.unmount(this._ce, this.props.cesium, this.props, this.ref, this._state);
       }
 
-      if (this._ce) {
+      if (
+        this._ce &&
+        // If element is already destroyed, skip detaching events. (#70)
+        (typeof (this._ce as any).isDestroyed !== "function" || !(this._ce as any).isDestroyed())
+      ) {
         detachEvents(this._ce, CesiumComponent.getCesiumEventMap(this.props));
       }
 
