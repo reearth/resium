@@ -12,9 +12,9 @@ route: /advanced
 ```jsx
 import { withCesium } from "resium";
 
-const ExampleComponent => ({ cesium }) => (
+const ExampleComponent = ({ cesium }) => (
   <p>Cesium Viewer object is{cesium.viewer ? "" : " not"} provided here.</p>
-)
+);
 
 export default withCesium(ExampleComponent);
 ```
@@ -28,6 +28,18 @@ Structure of the context is as following. It changes according to the location o
   scene: Cesium.Scene
   // ...
 }
+```
+
+Another way is using React Hooks since React v16.8:
+
+```js
+import { CesiumContext } from "resium";
+
+const ExampleComponent = () => {
+  const cesium = React.useContext(CesiumContext);
+
+  return <p>Cesium Viewer object is{cesium.viewer ? "" : " not"} provided here.</p>;
+};
 ```
 
 ## Define a new Cesium component

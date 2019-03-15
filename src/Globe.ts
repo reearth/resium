@@ -5,6 +5,33 @@ import Cesium from "cesium";
 @summary
 `Globe` can operate the globe of the scene.
 All properties are applied to single globe of the scene.
+
+**Note**: Following code is not recommended as occur extra rendering steps:
+
+```
+<Viewer>
+  <Scene>
+    <Globe>
+      <Camera>
+        <Entity />
+      </Camera>
+    </Globe>
+  </Scene>
+</Viewer>
+```
+
+`Globe` component's role is just changing fields of `Viewer#scene#globe`, so following code is recommended.
+
+```
+<Viewer>
+  <Scene />
+  <Globe />
+  <Camera />
+  <Entity />
+</Viewer>
+```
+
+For details, refer to "Component location" chapter in [Guide](/guide).
 */
 
 /*

@@ -6,6 +6,33 @@ import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 @summary
 `Scene` can operate the scene of the Viewer or CesiumWidget.
 All properties are applied to single scene of them.
+
+**Note**: Following code is not recommended as occur extra rendering steps:
+
+```
+<Viewer>
+  <Scene>
+    <Globe>
+      <Camera>
+        <Entity />
+      </Camera>
+    </Globe>
+  </Scene>
+</Viewer>
+```
+
+`Scene` component's role is just changing fields of `Viewer#scene`, so following code is recommended.
+
+```
+<Viewer>
+  <Scene />
+  <Globe />
+  <Camera />
+  <Entity />
+</Viewer>
+```
+
+For details, refer to "Component location" chapter in [Guide](/guide).
 */
 
 /*

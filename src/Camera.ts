@@ -4,6 +4,33 @@ import createCesiumComponent, { EventkeyMap } from "./core/CesiumComponent";
 @summary
 `Camera` can operate the camera of the scene.
 All properties are applied to single camera of the scene.
+
+**Note**: Following code is not recommended as occur extra rendering steps:
+
+```
+<Viewer>
+  <Scene>
+    <Globe>
+      <Camera>
+        <Entity />
+      </Camera>
+    </Globe>
+  </Scene>
+</Viewer>
+```
+
+`Camera` component's role is just changing fields of `Viewer#scene#camera`, so following code is recommended.
+
+```
+<Viewer>
+  <Scene />
+  <Globe />
+  <Camera />
+  <Entity />
+</Viewer>
+```
+
+For details, refer to "Component location" chapter in [Guide](/guide).
 */
 
 /*

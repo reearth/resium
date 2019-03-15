@@ -212,6 +212,20 @@ class ExampleComponent extends React.PureComponent {
 }
 ```
 
+```jsx
+const ExampleComponent = () => {
+  const viewer = React.useRef();
+
+  React.useEffect(() => {
+    if (viewer.current && viewer.current.cesiumElement) {
+      // viewer.current.cesiumElement is Viewer
+    }
+  }, []);
+
+  return <Viewer ref={viewer} />;
+};
+```
+
 ## Limitations
 
 - Server side rendering is not supported. Cesium is rendered in web browsers.

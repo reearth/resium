@@ -25,12 +25,12 @@ Just as Cesium's root object is `Viewer`, `<Viewer>` is also a root component in
 `app.js`:
 
 ```jsx
-import { hot } from "react-hot-loader";
+import { hot } from "react-hot-loader/root";
 import { Viewer } from "resium";
 
 const App = () => <Viewer />;
 
-export default hot(module)(App);
+export default hot(App);
 ```
 
 `index.js`:
