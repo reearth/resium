@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.4.0 - 2019/03/25
+
+- change: type of CesiumComponent's ref and CesiumComponent.getCesiumEventMap
+- fix: remove console.log
+- chore: upgrade dependencies
+
 ## v1.3.1 - 2019/03/15
 
 - Fix error on unmount ([#70](https://github.com/darwin-education/resium/pull/70))
