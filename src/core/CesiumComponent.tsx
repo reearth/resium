@@ -75,7 +75,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
             : {}),
         }),
         {},
-      );
+      ) as any;
     }
 
     private static getCesiumProps(
