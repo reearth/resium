@@ -2,7 +2,7 @@ import React from "react";
 import { mount } from "enzyme";
 import { Event } from "cesium";
 
-import createCesiumComponent, { CesiumElementHolder } from "../../core/CesiumComponent";
+import createCesiumComponent, { CesiumInsideComponentType } from "../../core/CesiumComponent";
 import { Provider } from "../../core/context";
 
 describe("core/CesiumComponent", () => {
@@ -81,7 +81,7 @@ describe("core/CesiumComponent", () => {
     });
 
     class TestComponent extends React.PureComponent {
-      public ref: React.RefObject<CesiumElementHolder<string>> = React.createRef();
+      public ref: React.RefObject<CesiumInsideComponentType<string, {}>> = React.createRef();
 
       public render() {
         return <Component ref={this.ref} />;

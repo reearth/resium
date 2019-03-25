@@ -4,7 +4,7 @@ import Cesium from "cesium";
 
 import Viewer from "../Viewer";
 import TimeDynamicPointCloud from "../TimeDynamicPointCloud";
-import { CesiumElementHolder } from "../core/CesiumComponent";
+import { CesiumInsideComponentType } from "../core/CesiumComponent";
 import Clock from "../Clock";
 
 import point0 from "./assets/0.pnts";
@@ -37,7 +37,7 @@ const style = new (Cesium as any).Cesium3DTileStyle({
 });
 
 storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
-  const viewer = React.createRef<CesiumElementHolder<Cesium.Viewer>>();
+  const viewer = React.createRef<CesiumInsideComponentType<Cesium.Viewer>>();
   const onReady = (p: any) => {
     if (viewer.current !== null && viewer.current.cesiumElement) {
       viewer.current.cesiumElement.zoomTo(p, new Cesium.HeadingPitchRange(0.0, -0.5, 50.0));

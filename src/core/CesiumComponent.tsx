@@ -40,17 +40,19 @@ export interface CesiumComponentOption<E, P, C, CC = {}, R = {}> {
   defaultProps?: Partial<P>;
 }
 
-export interface CesiumElementHolder<E> {
-  readonly cesiumElement: E | undefined;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CesiumInsideComponentType<E, P = any>
+  extends React.PureComponent<WithContextProps<P, any>> {
+  cesiumElement: E;
 }
 
-export type CesiumComponentType<E, P> = React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<P> & React.RefAttributes<CesiumElementHolder<E>>
+export type CesiumComponentType<E, P, C> = React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<P> & React.RefAttributes<CesiumInsideComponentType<E, P>>
 >;
 
 const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
   opts: CesiumComponentOption<E, P, C, CC, R>,
-): CesiumComponentType<E, P> => {
+): CesiumComponentType<E, P, C> => {
   class CesiumComponent extends React.PureComponent<WithContextProps<P, C>> {
     public static displayName = opts.name;
 
