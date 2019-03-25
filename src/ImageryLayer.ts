@@ -175,8 +175,6 @@ const ImageryLayer = createCesiumComponent<
   mount(element, context) {
     if (context.imageryLayerCollection) {
       context.imageryLayerCollection.add(element);
-      // eslint-disable-next-line no-console
-      console.log("added", element);
     }
   },
   unmount(element, context) {
