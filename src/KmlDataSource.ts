@@ -28,7 +28,7 @@ export interface KmlDataSourceCesiumEvents {
   onChange?: (kmlDataSource: Cesium.KmlDataSource) => void;
   onError?: (kmlDataSource: Cesium.KmlDataSource, error: any) => void;
   onLoading?: (kmlDataSource: Cesium.KmlDataSource, isLoaded: boolean) => void;
-  onReferesh?: (kmlDataSource: Cesium.KmlDataSource, urlComponent: string) => void;
+  onRefresh?: (kmlDataSource: Cesium.KmlDataSource, urlComponent: string) => void;
   onUnsupportedNode?: (kmlDataSource: Cesium.KmlDataSource) => void;
 }
 
@@ -65,7 +65,7 @@ const cesiumEventProps: EventkeyMap<Cesium.KmlDataSource, keyof KmlDataSourceCes
   changedEvent: "onChange",
   errorEvent: "onError",
   loadingEvent: "onLoading",
-  refreshEvent: "onReferesh",
+  refreshEvent: "onRefresh",
   unsupportedNodeEvent: "onUnsupportedNode",
 };
 
