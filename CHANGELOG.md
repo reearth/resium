@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.4.1 - 2019/03/26
+
+- fix: typo ([#74](https://github.com/darwin-education/resium/pull/74))
+- fix: dependencies
+
 ## v1.4.0 - 2019/03/25
 
 - change: type of CesiumComponent's ref and CesiumComponent.getCesiumEventMap
