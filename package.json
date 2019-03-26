@@ -39,7 +39,6 @@
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",
-    "@emotion/cache": "^10.0.9",
     "@emotion/core": "^10.0.10",
     "@emotion/styled": "^10.0.10",
     "@storybook/addon-actions": "^5.0.5",
