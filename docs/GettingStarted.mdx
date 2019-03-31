@@ -83,7 +83,7 @@ Next, let's display an entity on Cesium. Entity component is available in resium
 Entity has many way to visualize geograohical data. Here let's try to use PointGraphics.
 
 ```jsx
-import { Viewe, Entity } from "resium";
+import { Viewer, Entity } from "resium";
 import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
@@ -112,7 +112,7 @@ If HMR is enabled, it fully works in resium, so entity is updated without reload
 The following is also the same. It uses `PointGraphics` component. This enables updating graphic properties with minimal cost.
 
 ```jsx
-import { Viewe, Entity, PointGraphics } from "resium";
+import { Viewer, Entity, PointGraphics } from "resium";
 import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
@@ -131,7 +131,7 @@ const App = () => (
 The following example is displaying a simple name and description of the entity.
 
 ```jsx
-import { Viewe, Entity, PointGraphics } from "resium";
+import { Viewer, Entity, PointGraphics } from "resium";
 import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
@@ -148,7 +148,7 @@ const App = () => (
 If you want to render rich description, `EntityDescription` component is the best. It enables using JSX in the description of entities!
 
 ```jsx
-import { Viewe, Entity, PointGraphics, EntityDescription } from "resium";
+import { Viewer, Entity, PointGraphics, EntityDescription } from "resium";
 import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
@@ -171,7 +171,7 @@ const App = () => (
 `terrainProvider` prop of `Viewer` is available.
 
 ```jsx
-import { Viewe, Entity, PointGraphics, EntityDescription } from "resium";
+import { Viewer, Entity, PointGraphics, EntityDescription } from "resium";
 import { Cartesian3, createWorldTerrain } from "cesium";
 
 const terrainProvider = createWorldTerrain();
@@ -195,7 +195,7 @@ const App = () => (
 Cesium and resium support KML, GeoJSON, TopoJSON, and CZML. Let's load and display your own data!
 
 ```jsx
-import { Viewe, GeoJsonDataSource, KmlDataSource } from "resium";
+import { Viewer, GeoJsonDataSource, KmlDataSource } from "resium";
 
 const data = {
   type: "Feature",
@@ -222,7 +222,7 @@ const App = () => (
 3D tile is also available.
 
 ```jsx
-import { Viewe, Cesium3DTileset } from "resium";
+import { Viewer, Cesium3DTileset } from "resium";
 import { IonResource } from "cesium";
 
 const App = () => {
