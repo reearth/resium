@@ -6,11 +6,8 @@ cache:
   yarn: true
   directories:
   - node_modules
-before_install:
-- export CHROME_BIN=/usr/bin/google-chrome
-- export DISPLAY=:99.0
-- sh -e /etc/init.d/xvfb start
 script:
+- yarn run type
 - yarn run lint
 - yarn test
 notifications:
