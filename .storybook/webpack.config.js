@@ -16,7 +16,13 @@ module.exports = ({ config, mode }) => ({
       {
         test: /\.tsx?$/,
         exclude: /node_modules/,
-        use: "ts-loader",
+        use: {
+          loader: "ts-loader",
+          options: {
+            // Workaround of https://github.com/TypeStrong/ts-loader/issues/919
+            reportFiles: ["../src/**/*.{ts,tsx}", "!../src/*.test.{ts,tsx}"],
+          },
+        },
       },
       {
         test: /\.stories\.tsx?$/,
