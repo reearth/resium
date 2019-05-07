@@ -1,10 +1,12 @@
 import { configure, addParameters } from "@storybook/react";
-import { themes } from "@storybook/theming";
+import { create } from "@storybook/theming";
 
 addParameters({
   options: {
-    name: "Resium",
-    theme: themes.dark,
+    theme: create({
+      base: "dark",
+      brandTitle: "Resium",
+    }),
   },
 });
 
