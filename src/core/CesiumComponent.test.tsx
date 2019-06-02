@@ -2,8 +2,8 @@ import React from "react";
 import { mount } from "enzyme";
 import { Event } from "cesium";
 
-import createCesiumComponent, { CesiumInsideComponentType } from "../../core/CesiumComponent";
-import { Provider } from "../../core/context";
+import createCesiumComponent, { CesiumInsideComponentType } from "./CesiumComponent";
+import { Provider } from "./context";
 
 describe("core/CesiumComponent", () => {
   it("should call create fn when it is initialized", () => {

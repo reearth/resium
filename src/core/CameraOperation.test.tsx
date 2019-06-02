@@ -1,8 +1,8 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import { Provider } from "../../core/context";
-import createCameraOperation from "../../core/CameraOperation";
+import { Provider } from "./context";
+import createCameraOperation from "./CameraOperation";
 
 describe("core/CameraOperation", () => {
   it("should call proper methods", () => {

@@ -3,7 +3,7 @@ import * as Cesium from "cesium";
 import { mount } from "enzyme";
 
 import { Provider } from "../core/context";
-import Entity, { EntityProps } from "../Entity";
+import Entity, { EntityProps } from "./Entity";
 import { reset } from "../../__mocks__/cesium/Entity";
 
 describe("Entity", () => {

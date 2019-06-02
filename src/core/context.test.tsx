@@ -1,8 +1,8 @@
 import React from "react";
 import { mount } from "enzyme";
 
-import { withCesium } from "../../core/context";
-import { Provider } from "../../core/context";
+import { withCesium } from "./context";
+import { Provider } from "./context";
 
 describe("core/context", () => {
   it("should inject context to cesium prop", () => {

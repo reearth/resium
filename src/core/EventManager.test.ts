@@ -1,6 +1,6 @@
 import { ScreenSpaceEventType } from "cesium";
 
-import EventManager from "../../core/EventManager";
+import EventManager from "./EventManager";
 
 describe("core/EventManager", () => {
   const element = "element";

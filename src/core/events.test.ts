@@ -1,5 +1,5 @@
 import { Event } from "cesium";
-import { attachEvents, detachEvents, updateEvents, getEventProps, Events } from "../../core/events";
+import { attachEvents, detachEvents, updateEvents, getEventProps, Events } from "./events";
 
 describe("core/events", () => {
   it("should attach events", () => {
