@@ -14,7 +14,7 @@ addParameters({
   },
 });
 
-const req = require.context("../src", true, /\.?stories\.(?:j|t)sx?$/);
+const req = require.context("../src", true, /(.?stories|story)\.(?:j|t)sx?$/);
 
 configure(() => {
   req.keys().forEach(filename => req(filename));

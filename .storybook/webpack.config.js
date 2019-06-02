@@ -25,7 +25,7 @@ module.exports = ({ config, mode }) => ({
         },
       },
       {
-        test: /\.stories\.tsx?$/,
+        test: /(.?stories|story)\.tsx?$/,
         use: {
           loader: "@storybook/addon-storysource/loader",
           options: { parser: "typescript" },
