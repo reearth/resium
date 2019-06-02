@@ -2,7 +2,7 @@
 
 const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
-
+const path = require("path");
 module.exports = ({ config, mode }) => ({
   ...config,
   externals: {
@@ -56,6 +56,10 @@ module.exports = ({ config, mode }) => ({
   ],
   resolve: {
     ...config.resolve,
+    alias: {
+      ...config.alias,
+      assets: path.resolve(__dirname, "./assets"),
+    },
     extensions: [...config.resolve.extensions, ".ts", ".tsx"],
   },
 });
