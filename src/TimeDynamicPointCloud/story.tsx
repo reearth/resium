@@ -3,15 +3,15 @@ import { storiesOf } from "@storybook/react";
 import Cesium from "cesium";
 
 import Viewer from "../Viewer";
-import TimeDynamicPointCloud from "../TimeDynamicPointCloud";
+import TimeDynamicPointCloud from "./TimeDynamicPointCloud";
 import { CesiumInsideComponentType } from "../core/CesiumComponent";
 import Clock from "../Clock";
 
-import point0 from "./assets/0.pnts";
-import point1 from "./assets/1.pnts";
-import point2 from "./assets/2.pnts";
-import point3 from "./assets/3.pnts";
-import point4 from "./assets/4.pnts";
+import point0 from "assets/0.pnts";
+import point1 from "assets/1.pnts";
+import point2 from "assets/2.pnts";
+import point3 from "assets/3.pnts";
+import point4 from "assets/4.pnts";
 
 const uris = [point0, point1, point2, point3, point4];
 const dates = [

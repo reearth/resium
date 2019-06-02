@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import Cesium from "cesium";
 
 import Viewer from "../Viewer";
-import Moon from "../Moon";
+import Moon from "./Moon";
 
 const radius = Cesium.Math.LUNAR_RADIUS * 10;
 

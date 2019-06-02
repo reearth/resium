@@ -4,11 +4,11 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import Billboard from "../Billboard";
+import Billboard from "./Billboard";
 import BillboardCollection from "../BillboardCollection";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
-import exampleImg from "./assets/example.png";
+import exampleImg from "assets/example.png";
 
 storiesOf("Billboard", module)
   .add("Basic", () => (
@@ -70,3 +70,4 @@ storiesOf("Billboard", module)
       </BillboardCollection>
     </Viewer>
   ));
+

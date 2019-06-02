@@ -3,7 +3,7 @@ import { Cartesian3, Color, EntityCluster } from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
-import CustomDataSource from "../CustomDataSource";
+import CustomDataSource from "./CustomDataSource";
 import Entity from "../Entity";
 
 storiesOf("CustomDataSource", module)

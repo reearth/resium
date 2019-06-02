@@ -6,7 +6,7 @@ import { action } from "@storybook/addon-actions";
 import Viewer from "../Viewer";
 import Entity from "../Entity";
 import ScreenSpaceEvent from "../ScreenSpaceEvent";
-import ScreenSpaceEventHandler from "../ScreenSpaceEventHandler";
+import ScreenSpaceEventHandler from "./ScreenSpaceEventHandler";
 
 storiesOf("ScreenSpaceEventHandler", module)
   .add("Basic", () => (

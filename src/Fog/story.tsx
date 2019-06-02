@@ -2,7 +2,7 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
-import Fog from "../Fog";
+import Fog from "./Fog";
 
 storiesOf("Fog", module)
   .add("Basic", () => (

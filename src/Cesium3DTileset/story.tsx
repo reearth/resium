@@ -4,7 +4,7 @@ import { action } from "@storybook/addon-actions";
 import Cesium from "cesium";
 
 import Viewer from "../Viewer";
-import Cesium3DTileset from "../Cesium3DTileset";
+import Cesium3DTileset from "./Cesium3DTileset";
 
 storiesOf("Cesium3DTileset", module).add("Basic", () => {
   let viewer: Cesium.Viewer | undefined;

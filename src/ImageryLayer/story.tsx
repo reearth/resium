@@ -3,7 +3,7 @@ import { ArcGisMapServerImageryProvider, IonImageryProvider } from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
-import ImageryLayer from "../ImageryLayer";
+import ImageryLayer from "./ImageryLayer";
 
 storiesOf("ImageryLayer", module).add("Basic", () => (
   <Viewer full>

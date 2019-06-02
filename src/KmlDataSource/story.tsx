@@ -4,7 +4,7 @@ import { action } from "@storybook/addon-actions";
 import { Color } from "cesium";
 
 import Viewer from "../Viewer";
-import KmlDataSource from "../KmlDataSource";
+import KmlDataSource from "./KmlDataSource";
 
 const data = new DOMParser().parseFromString(
   `

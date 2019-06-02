@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 
 import Cesium from "cesium";
 import Viewer from "../Viewer";
-import Clock from "../Clock";
+import Clock from "./Clock";
 import Globe from "../Globe";
 
 storiesOf("Clock", module).add("Basic", () => (

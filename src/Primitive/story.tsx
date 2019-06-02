@@ -12,7 +12,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import Primitive from "../Primitive";
+import Primitive from "./Primitive";
 
 const geometry = new GeometryInstance({
   geometry: new EllipseGeometry({

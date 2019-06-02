@@ -4,9 +4,9 @@ import { Cartesian3 } from "cesium";
 
 import Viewer from "../Viewer";
 import Entity from "../Entity";
-import * as postProcessStage from "../PostProcessStage";
+import * as postProcessStage from "./PostProcessStage";
 import * as postProcessStageComposite from "../PostProcessStageComposite";
-import model from "./assets/Cesium_Air.glb";
+import model from "assets/Cesium_Air.glb";
 
 const shader = `
 uniform sampler2D colorTexture;

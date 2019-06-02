@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { Color } from "cesium";
 
 import Viewer from "../Viewer";
-import GeoJsonDataSource from "../GeoJsonDataSource";
+import GeoJsonDataSource from "./GeoJsonDataSource";
 import { action } from "@storybook/addon-actions";
 
 const data = {

@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import Globe from "../Globe";
+import Globe from "./Globe";
 
 storiesOf("Globe", module).add("Basic", () => (
   <Viewer full>

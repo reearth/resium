@@ -3,11 +3,11 @@ import React from "react";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
-import ParticleSystem from "../ParticleSystem";
+import ParticleSystem from "./ParticleSystem";
 import { withCesium } from "../core/context";
 import CameraFlyTo from "../CameraFlyTo";
 
-import snowImg from "./assets/circular_particle.png";
+import snowImg from "assets/circular_particle.png";
 
 const pos = new Cesium.Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
 

@@ -13,29 +13,29 @@ import Cesium, {
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import Viewer from "../Viewer";
+import Viewer from "../../Viewer";
 import Entity from "../Entity";
-import EntityDescription from "../EntityDescription";
+import EntityDescription from "../../EntityDescription";
 import CanvasEntity from "./CanvasEntity";
-import BillboardGraphics from "../BillboardGraphics";
-import BoxGraphics from "../BoxGraphics";
-import CorridorGraphics from "../CorridorGraphics";
-import CylinderGraphics from "../CylinderGraphics";
-import EllipseGraphics from "../EllipseGraphics";
-import EllipsoidGraphics from "../EllipsoidGraphics";
-import LabelGraphics from "../LabelGraphics";
-import ModelGraphics from "../ModelGraphics";
-import PathGraphics from "../PathGraphics";
-import PlaneGraphics from "../PlaneGraphics";
-import PointGraphics from "../PointGraphics";
-import PolygonGraphics from "../PolygonGraphics";
-import PolylineGraphics from "../PolylineGraphics";
-import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
-import RectangleGraphics from "../RectangleGraphics";
-import WallGraphics from "../WallGraphics";
+import BillboardGraphics from "../../BillboardGraphics";
+import BoxGraphics from "../../BoxGraphics";
+import CorridorGraphics from "../../CorridorGraphics";
+import CylinderGraphics from "../../CylinderGraphics";
+import EllipseGraphics from "../../EllipseGraphics";
+import EllipsoidGraphics from "../../EllipsoidGraphics";
+import LabelGraphics from "../../LabelGraphics";
+import ModelGraphics from "../../ModelGraphics";
+import PathGraphics from "../../PathGraphics";
+import PlaneGraphics from "../../PlaneGraphics";
+import PointGraphics from "../../PointGraphics";
+import PolygonGraphics from "../../PolygonGraphics";
+import PolylineGraphics from "../../PolylineGraphics";
+import PolylineVolumeGraphics from "../../PolylineVolumeGraphics";
+import RectangleGraphics from "../../RectangleGraphics";
+import WallGraphics from "../../WallGraphics";
 
-import billboardImage from "./assets/example.png";
-import glb from "./assets/Cesium_Air.glb";
+import billboardImage from "assets/example.png";
+import glb from "assets/Cesium_Air.glb";
 
 storiesOf("Entity", module)
   .add("Basic", () => (

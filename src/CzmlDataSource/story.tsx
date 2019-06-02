@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import CzmlDataSource from "../CzmlDataSource";
+import CzmlDataSource from "./CzmlDataSource";
 
 const czml = [
   {

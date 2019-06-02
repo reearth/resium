@@ -5,7 +5,7 @@ import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import CameraFlyTo from "../CameraFlyTo";
-import Camera from "../Camera";
+import Camera from "./Camera";
 
 storiesOf("Camera", module).add("Basic", () => (
   <Viewer full>
