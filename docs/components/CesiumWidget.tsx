@@ -1,5 +1,5 @@
 import React from "react";
-import CesiumWidget, { CesiumWidgetProps } from "../../src/CesiumWidget";
+import CesiumWidget, { CesiumWidgetProps } from "../../src/CesiumWidget/CesiumWidget";
 
 const CesiumWidgetForPlayground: React.SFC<CesiumWidgetProps> = props => (
   <div style={{ minHeight: "300px" }}>
