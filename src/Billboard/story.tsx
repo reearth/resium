@@ -70,4 +70,3 @@ storiesOf("Billboard", module)
       </BillboardCollection>
     </Viewer>
   ));
-
