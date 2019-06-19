@@ -2,6 +2,7 @@
 const fs = require("fs");
 const path = require("path");
 const ts = require("typescript");
+const globby = require("globby");
 
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
@@ -366,9 +367,15 @@ function parsePropTypes(name, source, tsx) {
 // eslint-disable-next-line no-console
 console.log(`Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}`);
 
-const componentFiles = fs
-  .readdirSync(path.resolve(__dirname, "..", "..", "src"))
-  .filter(cf => /\.tsx?$/.test(cf) && !/index\.tsx?$/.test(cf))
+const componentFiles = globby
+  .sync([
+    "src/*/*.ts{,x}",
+    "!src/*/index.ts{,x}",
+    "!src/*/story.ts{,x}",
+    "!src/*/test.ts{,x}",
+    "!src/*/*.test.ts{,x}",
+    "!src/core/**/*",
+  ])
   .filter(cf => name.length === 0 || name.includes(cf.replace(/\.tsx?$/, "")));
 
 if (componentFiles.length > 0) {
@@ -382,8 +389,8 @@ if (componentFiles.length > 0) {
 const preview = options.includes("--preview");
 
 componentFiles.forEach(cf => {
-  const name = cf.replace(/\.tsx?$/, "");
-  const code = fs.readFileSync(path.resolve(__dirname, "..", "..", "src", cf), "utf8");
+  const name = path.parse(cf).name;
+  const code = fs.readFileSync(cf, "utf8");
   const props = parsePropTypes(name, code);
   if (preview) {
     // eslint-disable-next-line no-console
