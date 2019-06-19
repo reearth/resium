@@ -14,7 +14,8 @@
     "target": "es5",
     "baseUrl": ".",
     "paths": {
-      "*": ["src/types/*"]
+      "*": ["src/types/*"],
+      "assets": [".storybook/assets/*"]
     }
   }
 }
