@@ -80,7 +80,6 @@ export interface SceneCesiumProps {
   sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
   sun?: Cesium.Sun;
   sunBloom?: boolean;
-  terrainExaggeration?: number;
   terrainProvider?: Cesium.TerrainProvider;
   useDepthPicking?: boolean;
   useWebVR?: boolean;
@@ -141,7 +140,6 @@ const cesiumProps: (keyof SceneCesiumProps)[] = [
   "sphericalHarmonicCoefficients",
   "sun",
   "sunBloom",
-  "terrainExaggeration",
   "terrainProvider",
   "useDepthPicking",
   "useWebVR",
