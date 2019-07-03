@@ -46,7 +46,7 @@ export interface LabelCesiumProps {
 export interface LabelProps extends LabelCesiumProps, EventProps<Cesium.Label> {}
 
 export interface LabelContext {
-  labelCollection?: Cesium.LabelCollection;
+  labelCollection: Cesium.LabelCollection;
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
@@ -79,14 +79,11 @@ const cesiumProps: (keyof LabelCesiumProps)[] = [
 const Label = createCesiumComponent<Cesium.Label, LabelProps, LabelContext>({
   name: "Label",
   create(cprops, props, context) {
-    return new (Cesium.Label as any)(cprops, context.labelCollection);
+    return context.labelCollection.add(cprops);
   },
   mount(element, context, props) {
     if (context.__RESIUM_EVENT_MANAGER) {
       context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-    if (context.labelCollection) {
-      context.labelCollection.add(element);
     }
   },
   unmount(element, context) {
