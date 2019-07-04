@@ -8,25 +8,25 @@
     "build": "webpack --mode production"
   },
   "devDependencies": {
-    "@babel/core": "^7.4.4",
-    "@babel/preset-env": "^7.4.4",
+    "@babel/core": "^7.4.5",
+    "@babel/preset-env": "^7.4.5",
     "@babel/preset-react": "^7.0.0",
-    "@hot-loader/react-dom": "^16.8.4",
-    "babel-loader": "^8.0.5",
+    "@hot-loader/react-dom": "^16.8.6",
+    "babel-loader": "^8.0.6",
     "copy-webpack-plugin": "^5.0.3",
-    "eslint": "^5.15.1",
-    "eslint-plugin-react": "^7.13.0",
+    "eslint": "^6.0.1",
+    "eslint-plugin-react": "^7.14.2",
     "html-webpack-include-assets-plugin": "^2.0.0",
     "html-webpack-plugin": "^3.2.0",
-    "webpack": "^4.29.4",
-    "webpack-cli": "^3.2.3",
-    "webpack-dev-server": "^3.2.1"
+    "webpack": "^4.35.2",
+    "webpack-cli": "^3.3.5",
+    "webpack-dev-server": "^3.7.2"
   },
   "dependencies": {
-    "cesium": "^1.57.0",
-    "react": "^16.8.4",
-    "react-dom": "^16.8.4",
-    "react-hot-loader": "^4.8.0",
-    "resium": "^1.4.1"
+    "cesium": "^1.59.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-hot-loader": "^4.12.2",
+    "resium": "^1.5.0"
   }
 }
