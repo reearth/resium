@@ -34,7 +34,7 @@ const cesiumProps: (keyof MoonCesiumProps)[] = ["onlySunLighting", "show", "text
 const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
 
 const Moon = createCesiumComponent<Cesium.Moon, MoonProps, MoonContext>({
-  name: "moon",
+  name: "Moon",
   create(cprops) {
     return new Cesium.Moon(cprops);
   },
