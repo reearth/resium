@@ -8,6 +8,5 @@
   ],
   "parserOptions": {
     "ecmaVersion": 2019
-  },
-  "root": true
+  }
 }
