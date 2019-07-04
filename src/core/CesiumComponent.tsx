@@ -70,7 +70,7 @@ const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
           ...a,
           ...(eventProp
             ? {
-                [cesiumEventName]: (props as any)[eventProp],
+                [cesiumEventName]: (props as any)[eventProp as any],
               }
             : {}),
         }),
