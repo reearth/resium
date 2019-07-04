@@ -90,7 +90,7 @@ const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof CameraCesiumEvents> = {
 };
 
 const Camera = createCesiumComponent<Cesium.Camera, CameraProps, CameraContext>({
-  name: "camera",
+  name: "Camera",
   create(cprops, props, context) {
     return context.scene.camera;
   },

@@ -28,7 +28,7 @@ export interface SunContext {
 const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
 
 const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
-  name: "sun",
+  name: "Sun",
   create() {
     return new Cesium.Sun();
   },

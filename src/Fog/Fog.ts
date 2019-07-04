@@ -35,7 +35,7 @@ const cesiumProps: (keyof FogCesiumProps)[] = [
 ];
 
 const Fog = createCesiumComponent<Cesium.Fog, FogProps, FogContext>({
-  name: "fog",
+  name: "Fog",
   create() {
     return new Cesium.Fog();
   },

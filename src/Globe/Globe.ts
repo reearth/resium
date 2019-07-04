@@ -108,7 +108,7 @@ const cesiumProps: (keyof GlobeCesiumProps)[] = [
 ];
 
 const Globe = createCesiumComponent<Cesium.Globe, GlobeProps, GlobeContext>({
-  name: "globe",
+  name: "Globe",
   create(cprops, props, context) {
     return context.scene.globe;
   },

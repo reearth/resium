@@ -52,7 +52,7 @@ const cesiumProps: (keyof ClockCesiumProps)[] = [
 ];
 
 const Clock = createCesiumComponent<Cesium.Clock, ClockProps, ClockContext>({
-  name: "clock",
+  name: "Clock",
   create(cprops, props, context) {
     return context.cesiumWidget.clock;
   },
