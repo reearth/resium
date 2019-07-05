@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.5.0 - 2019/07/04
+
+- fix
+  - cannot update properties of Label component ([#92](https://github.com/darwin-education/resium/issues/92))
+  - fix component names
+- remove: terrainExaggeration property from Scene component
+- refactor: change folder structure ([#87](https://github.com/darwin-education/resium/pull/87) by [@imvan32](https://github.com/imvan32))
+- chore: upgrade deps
+
 ## v1.4.1 - 2019/03/26
 
 - fix: typo ([#74](https://github.com/darwin-education/resium/pull/74))
