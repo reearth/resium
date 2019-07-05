@@ -1,6 +1,6 @@
 # Changelog
 
-## v1.5.0 - 2019/07/04
+## v1.5.0 - 2019/07/05
 
 - fix
   - cannot update properties of Label component ([#92](https://github.com/darwin-education/resium/issues/92))
