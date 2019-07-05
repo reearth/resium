@@ -13,7 +13,6 @@ A Cesium3DTileset object will be attached to the PrimitiveCollection of the View
 */
 
 export interface Cesium3DTilesetCesiumProps {
-  url: Cesium.Resource | string | Promise<Cesium.Resource> | Promise<string>;
   show?: boolean;
   modelMatrix?: Cesium.Matrix4;
   shadows?: Cesium.ShadowMode;
@@ -56,6 +55,7 @@ export interface Cesium3DTilesetCesiumProps {
 }
 
 export interface Cesium3DTilesetCesiumReadonlyProps {
+  url: Cesium.Resource | string | Promise<Cesium.Resource> | Promise<string>;
   pointCloudShading?: {
     attenuation?: boolean;
     geometricErrorScale?: number;
@@ -90,7 +90,6 @@ export interface Cesium3DTilesetContext {
 }
 
 const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
-  "url",
   "show",
   "modelMatrix",
   "shadows",
@@ -129,7 +128,10 @@ const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
   "specularEnvironmentMaps",
 ];
 
-const cesiumReadonlyProps: (keyof Cesium3DTilesetCesiumReadonlyProps)[] = ["pointCloudShading"];
+const cesiumReadonlyProps: (keyof Cesium3DTilesetCesiumReadonlyProps)[] = [
+  "url",
+  "pointCloudShading",
+];
 
 const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetCesiumEvents> = {
   allTilesLoaded: "onAllTilesLoad",
