@@ -14,9 +14,10 @@ module.exports = (env, args) => {
     devServer: {
       hot: true,
       port: 3000,
+      open: true,
     },
     devtool: !prod ? void 0 : "eval-source-map",
-    entry: "./src/index.js",
+    entry: "./src",
     externals: {
       cesium: "Cesium",
     },
