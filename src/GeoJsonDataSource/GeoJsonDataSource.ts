@@ -110,11 +110,7 @@ const load = ({
     } as any)
     .then(value => {
       if (onLoad) {
-        try {
-          onLoad(value);
-        } catch (e) {
-          throw e;
-        }
+        onLoad(value);
       }
     });
 };

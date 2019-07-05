@@ -6,7 +6,6 @@ import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import cleanup from "rollup-plugin-cleanup";
 
-// eslint-disable-next-line import/extensions
 import pkg from "./package.json";
 
 const env = process.env.NODE_ENV;

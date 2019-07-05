@@ -73,11 +73,7 @@ const load = ({
     })
     .then(value => {
       if (onLoad) {
-        try {
-          onLoad(value);
-        } catch (e) {
-          throw e;
-        }
+        onLoad(value);
       }
     });
 };
