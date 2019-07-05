@@ -23,8 +23,10 @@ Then, edit your webpack configuration.
 Cesium will be loaded in HTML. Notify it to webpack.
 
 ```js
-externals: {
-  cesium: "Cesium";
+{
+  externals: {
+    cesium: "Cesium"
+  }
 }
 ```
 
@@ -39,14 +41,16 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```
 
 ```js
-plugins: [
-  new CopyWebpackPlugin([
-    {
-      from: "node_modules/cesium/Build/Cesium",
-      to: "cesium",
-    },
-  ]),
-];
+{
+  plugins: [
+    new CopyWebpackPlugin([
+      {
+        from: "node_modules/cesium/Build/Cesium",
+        to: "cesium",
+      },
+    ]),
+  ]
+}
 ```
 
 `node_modules/cesium/Build/Cesium` is already minified. If you want to debug, use unminified version: `node_modules/cesium/Build/CesiumUnminified`.
@@ -70,10 +74,10 @@ module.exports = (env, argv) => {
       new HtmlWebpackIncludeAssetsPlugin({
         append: false,
         assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
-      }),
-    ],
-  };
-};
+      })
+    ]
+  }
+}
 ```
 
 ## 4. Add html-webpack-plugin and html-webpack-include-assets-plugin
@@ -86,14 +90,16 @@ const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plug
 ```
 
 ```js
-plugins: [
-  // ...
-  new HtmlWebpackPlugin(),
-  new HtmlWebpackIncludeAssetsPlugin({
-    append: false,
-    assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
-  }),
-];
+{
+  plugins: [
+    // ...
+    new HtmlWebpackPlugin(),
+    new HtmlWebpackIncludeAssetsPlugin({
+      append: false,
+      assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
+    })
+  ]
+}
 ```
 
 ## 5. Add definition of CESIUM_BASE_URL
@@ -105,13 +111,16 @@ const webpack = require("webpack");
 ```
 
 ```js
-plugins: [
-  // ...
-  new webpack.DefinePlugin({
-    CESIUM_BASE_URL: JSON.stringify("cesium"),
-  }),
-];
+{
+  plugins: [
+    new webpack.DefinePlugin({
+      CESIUM_BASE_URL: JSON.stringify("/cesium"),
+    }),
+  ]
+}
 ```
+
+Note: If `publicPath` in webpack config is changed, CESIUM_BASE_URL may have to be changed also.
 
 ## Ready!
 
