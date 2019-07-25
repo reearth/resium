@@ -36,7 +36,7 @@ export interface PointPrimitiveProps
     EventProps<Cesium.PointPrimitive> {}
 
 export interface PointPrimitiveContext {
-  pointPrimitiveCollection?: Cesium.PointPrimitiveCollection;
+  pointPrimitiveCollection: Cesium.PointPrimitiveCollection;
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
@@ -60,15 +60,12 @@ const PointPrimitive = createCesiumComponent<
   PointPrimitiveContext
 >({
   name: "PointPrimitive",
-  create() {
-    return new Cesium.PointPrimitive();
+  create(cprops, props, context) {
+    return context.pointPrimitiveCollection.add(cprops);
   },
   mount(element, context, props) {
     if (context.__RESIUM_EVENT_MANAGER) {
       context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-    if (context.pointPrimitiveCollection) {
-      context.pointPrimitiveCollection.add(element);
     }
   },
   update(element, props, prevProps, context) {
@@ -85,7 +82,6 @@ const PointPrimitive = createCesiumComponent<
     }
   },
   cesiumProps,
-  setCesiumPropsAfterCreate: true,
 });
 
 export default PointPrimitive;

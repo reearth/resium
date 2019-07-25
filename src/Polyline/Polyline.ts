@@ -30,7 +30,7 @@ export interface PolylineCesiumProps {
 export interface PolylineProps extends PolylineCesiumProps, EventProps<Cesium.Polyline> {}
 
 export interface PolylineContext {
-  polylineCollection?: Cesium.PolylineCollection;
+  polylineCollection: Cesium.PolylineCollection;
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
@@ -47,11 +47,11 @@ const cesiumProps: (keyof PolylineCesiumProps)[] = [
 const Polyline = createCesiumComponent<Cesium.Polyline, PolylineProps, PolylineContext>({
   name: "Polyline",
   create(cprops, props, context) {
-    return new (Cesium.Polyline as any)(cprops, context.polylineCollection);
+    return context.polylineCollection.add(cprops);
   },
-  mount(element, context) {
-    if (context.polylineCollection) {
-      context.polylineCollection.add(element);
+  mount(element, context, props) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
     }
   },
   unmount(element, context) {

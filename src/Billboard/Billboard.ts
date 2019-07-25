@@ -43,7 +43,7 @@ export interface BillboardCesiumProps {
 export interface BillboardProps extends BillboardCesiumProps, EventProps<Cesium.Billboard> {}
 
 export interface BillboardContext {
-  billboardCollection?: Cesium.BillboardCollection;
+  billboardCollection: Cesium.BillboardCollection;
   __RESIUM_EVENT_MANAGER?: EventManager;
 }
 
@@ -73,11 +73,11 @@ const cesiumProps: (keyof BillboardCesiumProps)[] = [
 const Billboard = createCesiumComponent<Cesium.Billboard, BillboardProps, BillboardContext>({
   name: "Billboard",
   create(cprops, props, context) {
-    return new (Cesium.Billboard as any)(cprops, context.billboardCollection);
+    return context.billboardCollection.add(cprops);
   },
-  mount(element, context) {
-    if (context.billboardCollection) {
-      context.billboardCollection.add(element);
+  mount(element, context, props) {
+    if (context.__RESIUM_EVENT_MANAGER) {
+      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
     }
   },
   unmount(element, context) {
@@ -94,7 +94,6 @@ const Billboard = createCesiumComponent<Cesium.Billboard, BillboardProps, Billbo
     }
   },
   cesiumProps,
-  setCesiumPropsAfterCreate: true,
 });
 
 export default Billboard;
