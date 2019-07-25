@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.6.0 - 2019/07/25
+
+- add
+  - `SkyAtmosphere` component
+- change
+  - export types in core: e.g. `CesiumInsideComponentType` ([#103](https://github.com/darwin-education/resium/issues/103))
+- fix
+  - make `url` prop of `Cesium3DTileset` component read only
+  - fix Billboard, PointPrimitive, Polyline components cannot be update ([#99](https://github.com/darwin-education/resium/issues/99), [#101](https://github.com/darwin-education/resium/issues/101))
+- doc
+  - update installation guide
+  - add and update webpack config to example
+- chore: upgrade deps
+
 ## v1.5.0 - 2019/07/05
 
 - fix
