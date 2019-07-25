@@ -50,7 +50,7 @@ export type CesiumComponentType<E, P, C> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<CesiumInsideComponentType<E, P>>
 >;
 
-const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
+export const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
   opts: CesiumComponentOption<E, P, C, CC, R>,
 ): CesiumComponentType<E, P, C> => {
   class CesiumComponent extends React.PureComponent<WithContextProps<P, C>> {

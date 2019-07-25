@@ -1,5 +1,5 @@
-export { default as createCesiumComponent } from "./core/CesiumComponent";
-export { default as CameraOperation } from "./core/CameraOperation";
+export * from "./core/CesiumComponent";
+export * from "./core/CameraOperation";
 export * from "./core/context";
 export * from "./core/events";
 export * from "./core/EventManager";

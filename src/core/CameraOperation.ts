@@ -6,7 +6,7 @@ export interface CameraOperationProps {
   cancelCameraFlight?: boolean;
 }
 
-const createCameraOperation = <P>(opts: {
+export const createCameraOperation = <P>(opts: {
   name: string;
   cameraOperationStart: (camera: Camera, props: Readonly<P>, prevProps?: Readonly<P>) => void;
 }) =>
