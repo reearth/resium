@@ -1,5 +1,15 @@
 # Changelog
 
+## v1.7.0 - 2019/08/07
+
+- add
+  - `SkyBox` component ([#109](https://github.com/darwin-education/resium/issues/109))
+- fix
+  - expose `GroundPrimitive` and `GroundPrimitiveCollection` ([#110](https://github.com/darwin-education/resium/issues/110))
+  - typo: SkyAtmosphereContext
+- chore
+  - upgrade deps
+
 ## v1.6.0 - 2019/07/25
 
 - add
