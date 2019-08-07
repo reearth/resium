@@ -72,6 +72,7 @@ export { default as ScreenSpaceCameraController } from "./ScreenSpaceCameraContr
 export { default as ScreenSpaceEvent } from "./ScreenSpaceEvent";
 export { default as ScreenSpaceEventHandler } from "./ScreenSpaceEventHandler";
 export { default as SkyAtmosphere } from "./SkyAtmosphere";
+export { default as SkyBox } from "./SkyBox";
 export { default as Sun } from "./Sun";
 export { default as TimeDynamicPointCloud } from "./TimeDynamicPointCloud";
 export { default as Viewer } from "./Viewer";
