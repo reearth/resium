@@ -23,7 +23,7 @@ export interface SkyAtmosphereCesiumProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SkyAtmosphereProps extends SkyAtmosphereCesiumProps {}
 
-export interface SunContext {
+export interface SkyAtmosphereContext {
   scene: Cesium.Scene;
 }
 
@@ -34,7 +34,11 @@ const cesiumProps: (keyof SkyAtmosphereCesiumProps)[] = [
   "show",
 ];
 
-const SkyAtmosphere = createCesiumComponent<Cesium.SkyAtmosphere, SkyAtmosphereProps, SunContext>({
+const SkyAtmosphere = createCesiumComponent<
+  Cesium.SkyAtmosphere,
+  SkyAtmosphereProps,
+  SkyAtmosphereContext
+>({
   name: "SkyAtmosphere",
   create(cprops, props, context) {
     return context.scene.skyAtmosphere as Cesium.SkyAtmosphere;
