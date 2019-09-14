@@ -24,7 +24,8 @@
     "storybook:build": "build-storybook -o .docz/dist/examples",
     "doc": "node docs/scripts/generateDoc && docz dev",
     "doc:build": "node docs/scripts/generateDoc && docz build && build-storybook -o .docz/dist/examples",
-    "doc:generate": "node docs/scripts/generateDoc"
+    "doc:generate": "node docs/scripts/generateDoc",
+    "postinstall": "opencollective-postinstall || true"
   },
   "files": [
     "src",
@@ -93,5 +94,12 @@
     "ts-loader": "^6.0.4",
     "typescript": "^3.5.3",
     "webpack": "^4.39.1"
+  },
+  "dependencies": {
+    "opencollective-postinstall": "^2.0.2"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/resium"
   }
 }
