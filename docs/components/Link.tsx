@@ -6,6 +6,7 @@ const Link: React.FC<{
   return (
     <a
       href={href}
+      style={{ color: "#00A0E8", textDecoration: "none" }}
       onClick={e => {
         e.stopPropagation();
       }}>
