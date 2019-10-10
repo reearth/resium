@@ -3,18 +3,11 @@
     "es6": true,
     "node": true
   },
-  "extends": [
-    "eslint:recommended",
-    "plugin:node/recommended",
-    "plugin:prettier/recommended"
-  ],
+  "extends": ["eslint:recommended", "plugin:prettier/recommended"],
   "parserOptions": {
     "ecmaVersion": 2018
   },
-  "plugins": [
-    "node",
-    "prettier"
-  ],
+  "plugins": ["prettier"],
   "root": true,
   "rules": {
     "prettier/prettier": [
@@ -33,9 +26,9 @@
         "doczrc.js",
         "docs/scripts/generateDoc.js"
       ],
-      "excludedFiles": [
-        ".storybook/webpack.config.js"
-      ],
+      "extends": ["plugin:node/recommended"],
+      "plugins": ["node"],
+      "excludedFiles": [".storybook/webpack.config.js"],
       "env": {
         "commonjs": true
       },
@@ -46,9 +39,7 @@
         "node/no-unsupported-features/es-syntax": [
           2,
           {
-            "ignores": [
-              "modules"
-            ]
+            "ignores": ["modules"]
           }
         ]
       }
