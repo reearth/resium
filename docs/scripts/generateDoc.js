@@ -66,6 +66,8 @@ route: /components/${type.name}
 menu: Components
 ---
 
+import { Link } from "../components/Link";
+
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
 ${
@@ -75,9 +77,9 @@ ${
         type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement ||
         type.name}.html)
 `
-}- **Example**: <a href="/examples/?path=/story/${type.name.toLowerCase()}--basic" target="_blank" rel="noopener noreferrer">${
+}- **Example**: <Link href="/examples/?path=/story/${type.name.toLowerCase()}--basic">${
     type.name
-  }</a>
+  }</Link>
 ${
   type.scope
     ? `
