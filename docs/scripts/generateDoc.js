@@ -54,7 +54,6 @@ ${filteredTypes
 }
 
 function type2doc(type) {
-  // const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
   const generalComponent =
     type.cesiumProps.length === 0 &&
     type.cesiumReadonlyProps.length === 0 &&
@@ -66,18 +65,7 @@ name: ${type.name}
 route: /components/${type.name}
 menu: Components
 ---
-${
-  /*
-    type.example
-      ? `
-import { Playground } from "docz";
-import ${cesiumWidget ? "CesiumWidget" : "Viewer"} from "../components/${
-          cesiumWidget ? "CesiumWidget" : "Viewer"
-        }";
-${type.exampleImports ? type.exampleImports + "\n" : ""}`
-      : ""
-  */ ""
-}
+
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
 ${
@@ -89,27 +77,14 @@ ${
 `
 }- **Example**: [${type.name}](/examples/?path=/story/${type.name.toLowerCase()}--basic)
 ${
-  /*
-    type.example
-      ? `
-<Playground>
-${type.example
-          .split("\n")
-          .map(s => "  " + s)
-          .join("\n")}
-</Playground>
-`
-      : ""
-*/ ""
-}${
-    type.scope
-      ? `
+  type.scope
+    ? `
 ## Available scope
 
 ${type.scope}
 `
-      : ""
-  }
+    : ""
+}
 ## Properties
 ${
   !generalComponent
@@ -269,16 +244,6 @@ function detectComponentDescription(comments) {
       if (/^ *?@scope/.test(c)) {
         return {
           scope: c.replace(/^ *?@scope/, "").trim(),
-        };
-      }
-      if (/^ *?@exampleImports/.test(c)) {
-        return {
-          exampleImports: c.replace(/^ *?@exampleImports/, "").trim(),
-        };
-      }
-      if (/^ *?@example/.test(c)) {
-        return {
-          example: c.replace(/^ *?@example/, "").trim(),
         };
       }
       return undefined;
