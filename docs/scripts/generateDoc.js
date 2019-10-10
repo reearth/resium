@@ -83,12 +83,13 @@ ${type.summary ? `\n${type.summary}\n` : ""}
 ${
   type.noCesiumElement
     ? ""
-    : `**Cesium element**: [${type.cesiumElement ||
+    : `- **Cesium element**: [${type.cesiumElement ||
         type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement ||
         type.name}.html)
 `
-}${
-    /*
+}- **Example**: [${type.name}](/examples/?path=/story/${type.name.toLowerCase()}--basic)
+${
+  /*
     type.example
       ? `
 <Playground>
@@ -100,7 +101,7 @@ ${type.example
 `
       : ""
 */ ""
-  }${
+}${
     type.scope
       ? `
 ## Available scope
