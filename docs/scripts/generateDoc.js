@@ -66,7 +66,7 @@ route: /components/${type.name}
 menu: Components
 ---
 
-import { Link } from "../components/Link";
+import Link from "../components/Link";
 
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
