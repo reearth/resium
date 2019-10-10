@@ -38,6 +38,7 @@ export interface ModelCesiumReadonlyProps {
   gltf?: object | ArrayBuffer | Uint8Array;
   incrementallyLoadTextures?: boolean;
   url?: Cesium.Resource | string;
+  credit?: Cesium.Credit | string;
 }
 
 export interface ModelProps extends ModelCesiumProps, ModelCesiumReadonlyProps {
@@ -83,6 +84,7 @@ const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
   "gltf",
   "incrementallyLoadTextures",
   "url",
+  "credit",
 ];
 
 const Model = createCesiumElement<Cesium.Model, ModelProps, ModelContext>({

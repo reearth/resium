@@ -42,6 +42,8 @@ export interface KmlDataSourceProps
   clampToGround?: boolean;
   // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumReadonlyProp
+  credit?: Cesium.Credit | string;
   // @CesiumProp
   show?: boolean;
   // Calls when the Promise for loading data is fullfilled.
@@ -76,6 +78,7 @@ const load = ({
   clampToGround,
   ellipsoid,
   sourceUri,
+  credit,
 }: {
   element: Cesium.KmlDataSource;
   dataSources: Cesium.DataSourceCollection;
@@ -84,8 +87,9 @@ const load = ({
   clampToGround?: boolean;
   ellipsoid?: Cesium.Ellipsoid;
   sourceUri?: string;
+  credit?: Cesium.Credit | string;
 }) => {
-  element.load(data, { clampToGround, ellipsoid, sourceUri }).then(value => {
+  element.load(data, { clampToGround, ellipsoid, sourceUri, credit } as any).then(value => {
     if (onLoad) {
       onLoad(value);
     }
@@ -127,6 +131,7 @@ const KmlDataSource = createCesiumComponent<
           clampToGround: props.clampToGround,
           ellipsoid: props.ellipsoid,
           sourceUri: props.sourceUri,
+          credit: props.credit,
         });
       }
     }
@@ -141,7 +146,8 @@ const KmlDataSource = createCesiumComponent<
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
         prevProps.ellipsoid !== props.ellipsoid ||
-        prevProps.sourceUri !== props.sourceUri)
+        prevProps.sourceUri !== props.sourceUri ||
+        prevProps.credit !== prevProps.credit)
     ) {
       load({
         element,
@@ -151,6 +157,7 @@ const KmlDataSource = createCesiumComponent<
         clampToGround: props.clampToGround,
         ellipsoid: props.ellipsoid,
         sourceUri: props.sourceUri,
+        credit: props.credit,
       });
     }
   },

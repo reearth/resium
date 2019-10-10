@@ -18,7 +18,12 @@ export interface EllipsoidGraphicsCesiumProps {
   radii?: Cesium.Property | Cesium.Cartesian3;
   show?: Cesium.Property | boolean;
   fill?: Cesium.Property | boolean;
+  innerRadii?: Cesium.Property | Cesium.Cartesian3;
   material?: Cesium.MaterialProperty | Cesium.Color | string;
+  maximumClock?: Cesium.Property | number;
+  maximumCone?: Cesium.Property | number;
+  minimumClock?: Cesium.Property | number;
+  minimumCone?: Cesium.Property | number;
   outline?: Cesium.Property | boolean;
   outlineColor?: Cesium.Property | Cesium.Color;
   outlineWidth?: Cesium.Property | number;
@@ -46,7 +51,12 @@ const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "radii",
   "show",
   "fill",
+  "innerRadii",
   "material",
+  "maximumClock",
+  "maximumCone",
+  "minimumClock",
+  "minimumCone",
   "outline",
   "outlineColor",
   "outlineWidth",

@@ -18,6 +18,17 @@ export interface Cesium3DTilesetCesiumProps {
   shadows?: Cesium.ShadowMode;
   maximumScreenSpaceError?: number;
   maximumMemoryUsage?: number;
+  cullRequestsWhileMoving?: boolean;
+  cullRequestsWhileMovingMultiplier?: number;
+  preloadWhenHidden?: boolean;
+  preloadFlightDestinations?: boolean;
+  preferLeaves?: boolean;
+  progressiveResolutionHeightFraction?: number;
+  foveatedScreenSpaceError?: boolean;
+  foveatedConeSize?: number;
+  foveatedMinimumScreenSpaceErrorRelaxation?: number;
+  foveatedInterpolationCallback?: (p: number, q: number, time: number) => void;
+  foveatedTimeDelay?: boolean;
   cullWithChildrenBounds?: boolean;
   dynamicScreenSpaceError?: boolean;
   dynamicScreenSpaceErrorDensity?: number;
@@ -95,6 +106,17 @@ const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
   "shadows",
   "maximumScreenSpaceError",
   "maximumMemoryUsage",
+  "cullRequestsWhileMoving",
+  "cullRequestsWhileMovingMultiplier",
+  "preloadWhenHidden",
+  "preloadFlightDestinations",
+  "preferLeaves",
+  "progressiveResolutionHeightFraction",
+  "foveatedScreenSpaceError",
+  "foveatedConeSize",
+  "foveatedMinimumScreenSpaceErrorRelaxation",
+  "foveatedInterpolationCallback",
+  "foveatedTimeDelay",
   "cullWithChildrenBounds",
   "dynamicScreenSpaceError",
   "dynamicScreenSpaceErrorDensity",

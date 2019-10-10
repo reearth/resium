@@ -33,6 +33,8 @@ export interface GeoJsonDataSourceProps
   clampToGround?: boolean;
   // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumReadonlyProp
+  credit?: Cesium.Credit | string;
   // @CesiumProp
   show?: boolean;
   // @CesiumReadonlyProp
@@ -74,6 +76,7 @@ const load = ({
   onLoad,
   clampToGround,
   sourceUri,
+  credit,
   markerSize,
   markerSymbol,
   markerColor,
@@ -88,6 +91,7 @@ const load = ({
   onLoad?: (GeoJsonDataSource: Cesium.GeoJsonDataSource) => void;
   clampToGround?: boolean;
   sourceUri?: string;
+  credit?: Cesium.Credit | string;
   markerSize?: number;
   markerSymbol?: string;
   markerColor?: Cesium.Color;
@@ -107,6 +111,7 @@ const load = ({
       fill,
       sourceUri,
       describe,
+      credit,
     } as any)
     .then(value => {
       if (onLoad) {
@@ -149,6 +154,7 @@ const GeoJsonDataSource = createCesiumComponent<
           strokeWidth: props.strokeWidth,
           fill: props.fill,
           describe: props.describe,
+          credit: props.credit,
         });
       }
     }
@@ -163,6 +169,7 @@ const GeoJsonDataSource = createCesiumComponent<
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
         prevProps.sourceUri !== props.sourceUri ||
+        prevProps.credit !== props.credit ||
         prevProps.markerSize !== props.markerSize ||
         prevProps.markerSymbol !== props.markerSymbol ||
         prevProps.markerColor !== props.markerColor ||
@@ -177,6 +184,7 @@ const GeoJsonDataSource = createCesiumComponent<
         onLoad: props.onLoad,
         clampToGround: props.clampToGround,
         sourceUri: props.sourceUri,
+        credit: props.credit,
         markerSize: props.markerSize,
         markerSymbol: props.markerSymbol,
         markerColor: props.markerColor,

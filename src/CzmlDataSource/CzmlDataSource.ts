@@ -35,6 +35,8 @@ export interface CzmlDataSourceProps
   data?: Cesium.Resource | string | object;
   // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumReadonlyProp
+  credit?: Cesium.Credit | string;
   // @CesiumProp
   show?: boolean;
   // Calls when the Promise for loading data is fullfilled.
@@ -60,17 +62,20 @@ const load = ({
   data,
   onLoad,
   sourceUri,
+  credit,
 }: {
   element: Cesium.CzmlDataSource;
   dataSources: Cesium.DataSourceCollection;
   data: Cesium.Resource | string | object;
   onLoad?: (CzmlDataSource: Cesium.CzmlDataSource) => void;
   sourceUri?: string;
+  credit?: Cesium.Credit | string;
 }) => {
   element
     .load(data, {
       sourceUri,
-    })
+      credit,
+    } as any)
     .then(value => {
       if (onLoad) {
         onLoad(value);
@@ -104,6 +109,7 @@ const CzmlDataSource = createCesiumComponent<
           data: props.data,
           onLoad: props.onLoad,
           sourceUri: props.sourceUri,
+          credit: props.credit,
         });
       }
     }
@@ -115,7 +121,9 @@ const CzmlDataSource = createCesiumComponent<
     if (
       context.dataSourceCollection &&
       props.data &&
-      (prevProps.data !== props.data || prevProps.sourceUri !== props.sourceUri)
+      (prevProps.data !== props.data ||
+        prevProps.sourceUri !== props.sourceUri ||
+        prevProps.credit !== props.credit)
     ) {
       load({
         element,
@@ -123,6 +131,7 @@ const CzmlDataSource = createCesiumComponent<
         data: props.data,
         onLoad: props.onLoad,
         sourceUri: props.sourceUri,
+        credit: props.credit,
       });
     }
   },

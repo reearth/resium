@@ -30,6 +30,7 @@ export interface ViewerCesiumProps {
   trackedEntity?: Cesium.Entity;
   selectedEntity?: Cesium.Entity;
   shadows?: boolean;
+  useBrowserRecommendedResolution?: boolean;
 }
 
 export interface ViewerCesiumReadonlyProps {
@@ -90,6 +91,7 @@ const cesiumProps: (keyof ViewerCesiumProps)[] = [
   "trackedEntity",
   "selectedEntity",
   "shadows",
+  "useBrowserRecommendedResolution",
 ];
 
 const cesiumReadonlyProps: (keyof ViewerCesiumReadonlyProps)[] = [
