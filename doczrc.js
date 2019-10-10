@@ -41,7 +41,7 @@ export default {
       }),
       new CopyPlugin([
         {
-          from: "node_modules/cesium/Build/CesiumUnminified",
+          from: "node_modules/cesium/Build/Cesium",
           to: "cesium",
         },
       ]),
