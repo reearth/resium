@@ -12,7 +12,7 @@
     "test": "jest --coverage",
     "clean": "del dist coverage examples/build",
     "clean:build": "del dist",
-    "type": "tsc --noEmit --skipLibCheck",
+    "type": "tsc --noEmit",
     "lint": "eslint --ext '.js,.ts,.tsx' .",
     "build": "run-s clean:build build:es build:cjs build:umd build:umd:min",
     "build:es": "cross-env NODE_ENV=es rollup -c",

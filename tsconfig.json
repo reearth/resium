@@ -12,6 +12,7 @@
     "sourceMap": true,
     "strict": true,
     "target": "es5",
+    "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
       "*": ["src/types/*"],
