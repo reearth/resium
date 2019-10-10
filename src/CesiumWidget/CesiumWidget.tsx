@@ -24,6 +24,7 @@ export interface CesiumWidgetCesiumProps {
   resolutionScale?: number;
   useDefaultRenderLoop?: boolean;
   targetFrameRate?: number;
+  useBrowserRecommendedResolution?: boolean;
 }
 
 export interface CesiumWidgetCesiumReadonlyProps {
@@ -53,6 +54,7 @@ const cesiumProps: (keyof CesiumWidgetCesiumProps)[] = [
   "resolutionScale",
   "useDefaultRenderLoop",
   "targetFrameRate",
+  "useBrowserRecommendedResolution",
 ];
 
 const cesiumReadonlyProps: (keyof CesiumWidgetCesiumReadonlyProps)[] = [
