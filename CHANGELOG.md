@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.8.0 - 2019/10/10
+
+- add
+  - **EllipsoidGraphics**: `innerRadii`, `maximumClock`, `maximumCone`, `minimumClock`, `minimumCone` properties
+  - **KmlDataSource**, **GeoJsonDataSource**, **CzmlDataSource**, **Model**: `credit` property
+  - **Cesium3DTileset**: `cullRequestsWhileMoving`, `cullRequestsWhileMovingMultiplier`, `preloadWhenHidden`, `preloadFlightDestinations`, `preferLeaves`, `progressiveResolutionHeightFraction`, `foveatedScreenSpaceError`, `foveatedConeSize`, `foveatedMinimumScreenSpaceErrorRelaxation`, `foveatedInterpolationCallback`, `foveatedTimeDelay` properties
+  - **Viewer**, **CesiumWidget**: `useBrowserRecommendedResolution` property
+- doc
+  - Optimize some assets
+  - Add example links to each component page
+- chore
+  - Upgrade deps
+
 ## v1.7.0 - 2019/08/07
 
 - add
