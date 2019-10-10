@@ -75,7 +75,7 @@ ${
         type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement ||
         type.name}.html)
 `
-}- **Example**: [${type.name}](/examples/?path=/story/${type.name.toLowerCase()}--basic)
+}- **Example**: <a href="/examples/?path=/story/${type.name.toLowerCase()}--basic">${type.name}</a>
 ${
   type.scope
     ? `
