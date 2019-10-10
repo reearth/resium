@@ -101,7 +101,7 @@ export const createCesiumComponent = <E, P, C, CC = {}, R = {}>(
     private _ce?: E;
     private _state: any;
     private _provided: Partial<CC> = {}; // to avoid extra rendering
-    private mounted: boolean = false;
+    private mounted = false;
     private ref?: React.RefObject<R>;
 
     public constructor(props: WithContextProps<P, C>) {
