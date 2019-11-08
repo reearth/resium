@@ -20,7 +20,7 @@
   },
   "overrides": [
     {
-      "files": [".storybook/**/*.ts{,x}", "src/**/*.ts{,x}"],
+      "files": [".storybook/**/*.ts{,x}", "src/**/*.ts{,x}", "__mocks__/**/*.ts{,x}"],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "sourceType": "module"
