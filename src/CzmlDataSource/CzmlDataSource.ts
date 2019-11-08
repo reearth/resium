@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -90,7 +90,7 @@ const CzmlDataSource = createCesiumComponent<
 >({
   name: "CzmlDataSource",
   create(cprops, props) {
-    const ds = new Cesium.CzmlDataSource(props.name);
+    const ds = new CesiumCzmlDataSource(props.name);
     if (cprops.clustering) {
       ds.clustering = cprops.clustering;
     }

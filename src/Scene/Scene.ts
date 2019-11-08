@@ -1,4 +1,4 @@
-import Cesium, { Scene as CesiumScene, SceneMode } from "cesium";
+import { Scene as CesiumScene, SceneMode } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 

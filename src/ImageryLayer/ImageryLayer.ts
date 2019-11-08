@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { ImageryLayer as CesiumImageryLayer } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 
@@ -151,26 +151,23 @@ const ImageryLayer = createCesiumComponent<
 >({
   name: "ImageryLayer",
   create(cprops) {
-    return new Cesium.ImageryLayer(
-      cprops.imageryProvider,
-      {
-        rectangle: cprops.rectangle,
-        alpha: cprops.alpha,
-        brightness: cprops.brightness,
-        contrast: cprops.contrast,
-        hue: cprops.hue,
-        saturation: cprops.saturation,
-        gamma: cprops.gamma,
-        splitDirection: cprops.splitDirection,
-        minificationFilter: cprops.minificationFilter,
-        magnificationFilter: cprops.magnificationFilter,
-        show: cprops.show,
-        maximumAnisotropy: cprops.maximumAnisotropy,
-        minimumTerrainLevel: cprops.minimumTerrainLevel,
-        maximumTerrainLevel: cprops.maximumTerrainLevel,
-        cutoutRectangle: cprops.cutoutRectangle,
-      } as any /* workaround for splitDirection */,
-    );
+    return new CesiumImageryLayer(cprops.imageryProvider, {
+      rectangle: cprops.rectangle,
+      alpha: cprops.alpha,
+      brightness: cprops.brightness,
+      contrast: cprops.contrast,
+      hue: cprops.hue,
+      saturation: cprops.saturation,
+      gamma: cprops.gamma,
+      splitDirection: cprops.splitDirection,
+      minificationFilter: cprops.minificationFilter,
+      magnificationFilter: cprops.magnificationFilter,
+      show: cprops.show,
+      maximumAnisotropy: cprops.maximumAnisotropy,
+      minimumTerrainLevel: cprops.minimumTerrainLevel,
+      maximumTerrainLevel: cprops.maximumTerrainLevel,
+      cutoutRectangle: cprops.cutoutRectangle,
+    } as any);
   },
   mount(element, context) {
     if (context.imageryLayerCollection) {

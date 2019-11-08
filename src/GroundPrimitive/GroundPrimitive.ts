@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 import EventManager, { EventProps } from "../core/EventManager";
@@ -77,7 +77,7 @@ const GroundPrimitive = createCesiumComponent<
 >({
   name: "GroundPrimitive",
   create(cprops, props) {
-    const primitive = new (Cesium as any).GroundPrimitive(cprops);
+    const primitive = new CesiumGroundPrimitive(cprops);
     if (props.onReady) {
       primitive.readyPromise.then(props.onReady);
     }

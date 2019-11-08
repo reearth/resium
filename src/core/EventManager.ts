@@ -1,4 +1,4 @@
-import Cesium, { ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
+import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 
 import { pickedObjectEquals } from "./util";
 
@@ -267,7 +267,7 @@ export default class EventManager {
     const picked = this.scene.pick(pos);
     if (picked) {
       // Entity
-      if (picked.id instanceof Cesium.Entity) {
+      if (picked.id instanceof Entity) {
         return picked.id;
       }
       // Other

@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 
@@ -44,7 +44,7 @@ const PointPrimitiveCollection = createCesiumComponent<
 >({
   name: "PointPrimitveCollection",
   create(cprops) {
-    return new Cesium.PointPrimitiveCollection(cprops);
+    return new CesiumPointPrimitiveCollection(cprops);
   },
   mount(element, context) {
     if (context.primitiveCollection) {

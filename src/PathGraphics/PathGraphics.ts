@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { PathGraphics as CesiumPathGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -54,7 +54,7 @@ const PathGraphics = createCesiumComponent<
 >({
   name: "PathGraphics",
   create(cprops) {
-    return new Cesium.PathGraphics(cprops as any);
+    return new CesiumPathGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

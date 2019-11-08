@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { CorridorGraphics as CesiumCorridorGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -77,7 +77,7 @@ const CorridorGraphics = createCesiumComponent<
 >({
   name: "CorridorGraphics",
   create(cprops) {
-    const cg = new Cesium.CorridorGraphics(cprops as any);
+    const cg = new CesiumCorridorGraphics(cprops as any);
     if (cprops.classificationType) {
       (cg as any).classificationType = cprops.classificationType;
     }

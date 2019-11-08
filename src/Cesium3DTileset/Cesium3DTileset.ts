@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { Cesium3DTileset as CesiumCesium3DTileset } from "cesium";
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
 /*
@@ -169,11 +169,11 @@ const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetCesiumEvents> = {
 const Cesium3DTileset = createCesiumComponent<any, Cesium3DTilesetProps, Cesium3DTilesetContext>({
   name: "Cesium3DTileset",
   create(cprops, props) {
-    const c3ts = new (Cesium as any).Cesium3DTileset(cprops);
-    c3ts.colorBlendAmount = cprops.colorBlendAmount;
-    c3ts.colorBlendMode = cprops.colorBlendMode;
+    const c3ts = new CesiumCesium3DTileset(cprops as any);
+    (c3ts as any).colorBlendAmount = cprops.colorBlendAmount;
+    (c3ts as any).colorBlendMode = cprops.colorBlendMode;
     if (props.onReady) {
-      c3ts.readyPromise.then(props.onReady);
+      (c3ts as any).readyPromise.then(props.onReady);
     }
     return c3ts;
   },

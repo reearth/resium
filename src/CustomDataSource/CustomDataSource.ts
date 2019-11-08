@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -52,7 +52,7 @@ const CustomDataSource = createCesiumComponent<
 >({
   name: "CustomDataSource",
   create(cprops) {
-    const ds = new Cesium.CustomDataSource(cprops.name);
+    const ds = new CesiumCustomDataSource(cprops.name);
     if (cprops.clustering) {
       ds.clustering = cprops.clustering;
     }

@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -103,7 +103,7 @@ const KmlDataSource = createCesiumComponent<
 >({
   name: "KmlDataSource",
   create(cprops, props, context) {
-    const ds = new Cesium.KmlDataSource({
+    const ds = new CesiumKmlDataSource({
       camera: cprops.camera || context.scene.camera,
       canvas: cprops.canvas || (context.scene.canvas as HTMLCanvasElement),
       ellipsoid: cprops.ellipsoid,

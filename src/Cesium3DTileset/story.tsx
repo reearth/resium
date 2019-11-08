@@ -1,7 +1,7 @@
 import React from "react";
+import { IonResource } from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import Cesium from "cesium";
 
 import Viewer from "../Viewer";
 import Cesium3DTileset from "./Cesium3DTileset";
@@ -24,7 +24,7 @@ storiesOf("Cesium3DTileset", module).add("Basic", () => {
         }
       }}>
       <Cesium3DTileset
-        url={(Cesium as any).IonResource.fromAssetId(5714)}
+        url={IonResource.fromAssetId(5714)}
         onAllTilesLoad={action("onAllTilesLoad")}
         onInitialTilesLoad={action("onInitialTilesLoad")}
         onTileFailed={action("onTileFailed")}

@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { ParticleSystem as CesiumParticleSystem } from "cesium";
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
 /*
@@ -99,7 +99,7 @@ const ParticleSystem = createCesiumComponent<
 >({
   name: "ParticleSystem",
   create(cprops, props) {
-    return new (Cesium as any).ParticleSystem({ ...cprops, updateCallback: props.onUpdate });
+    return new CesiumParticleSystem({ ...cprops, updateCallback: props.onUpdate });
   },
   update(element, props, prevProps) {
     if (props.onUpdate !== prevProps.onUpdate) {

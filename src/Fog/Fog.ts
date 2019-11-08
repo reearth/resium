@@ -1,5 +1,5 @@
 import createCesiumComponent from "../core/CesiumComponent";
-import Cesium from "cesium";
+import { Fog as CesiumFog } from "cesium";
 
 /*
 @summary
@@ -37,7 +37,7 @@ const cesiumProps: (keyof FogCesiumProps)[] = [
 const Fog = createCesiumComponent<Cesium.Fog, FogProps, FogContext>({
   name: "Fog",
   create() {
-    return new Cesium.Fog();
+    return new CesiumFog();
   },
   mount(element, context) {
     if (context.scene) {
@@ -46,7 +46,7 @@ const Fog = createCesiumComponent<Cesium.Fog, FogProps, FogContext>({
   },
   unmount(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.fog = new Cesium.Fog();
+      context.scene.fog = new CesiumFog();
     }
   },
   cesiumProps,

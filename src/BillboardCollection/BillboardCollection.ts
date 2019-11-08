@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { BillboardCollection as CesiumBillboardCollection } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 
@@ -47,7 +47,7 @@ const BillboardCollection = createCesiumComponent<
 >({
   name: "BillboardCollection",
   create(cprops, props, context) {
-    return new Cesium.BillboardCollection({
+    return new CesiumBillboardCollection({
       modelMatrix: cprops.modelMatrix,
       debugShowBoundingVolume: cprops.debugShowBoundingVolume,
       scene: context.scene,

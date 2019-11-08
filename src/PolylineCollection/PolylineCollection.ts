@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { PolylineCollection as CesiumPolylineCollection } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 
@@ -45,7 +45,7 @@ const PolylineCollection = createCesiumComponent<
 >({
   name: "PolylineCollection",
   create(cprops, props, context) {
-    return new Cesium.PolylineCollection({
+    return new CesiumPolylineCollection({
       modelMatrix: cprops.modelMatrix,
       debugShowBoundingVolume: cprops.debugShowBoundingVolume,
       length: cprops.length,

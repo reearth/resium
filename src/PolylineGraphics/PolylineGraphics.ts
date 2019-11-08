@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -64,7 +64,7 @@ const PolylineGraphics = createCesiumComponent<
 >({
   name: "PolylineGraphics",
   create(cprops) {
-    return new Cesium.PolylineGraphics(cprops as any);
+    return new CesiumPolylineGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

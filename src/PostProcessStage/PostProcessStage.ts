@@ -1,5 +1,7 @@
-import Cesium from "cesium";
-
+import {
+  PostProcessStage as CesiumPostProcessStage,
+  PostProcessStageLibrary as CesiumPostProcessStageLibrary,
+} from "cesium";
 import { createPostProcessStage } from "../core/PostProcessStage";
 import createCesiumComponent from "../core/CesiumComponent";
 
@@ -95,7 +97,7 @@ export const PostProcessStage = createCesiumComponent<
 >({
   name: "PostProcessStage",
   create(cprops) {
-    const ps = new (Cesium as any).PostProcessStage(cprops);
+    const ps = new CesiumPostProcessStage(cprops);
     if (typeof cprops.enabled === "boolean") {
       ps.enabled = cprops.enabled;
     }
@@ -127,7 +129,7 @@ export const BlackAndWhiteStage = createPostProcessStage<{
   name: "BlackAndWhiteStage",
   props: ["gradations"],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createBlackAndWhiteStage();
+    return CesiumPostProcessStageLibrary.createBlackAndWhiteStage();
   },
 });
 
@@ -137,7 +139,7 @@ export const BrightnessStage = createPostProcessStage<{
   name: "BrightnessStage",
   props: ["brightness"],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createBrightnessStage();
+    return CesiumPostProcessStageLibrary.createBrightnessStage();
   },
 });
 
@@ -161,7 +163,7 @@ export const LensFlareStage = createPostProcessStage<{
     "earthRadius",
   ],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createLensFlareStage();
+    return CesiumPostProcessStageLibrary.createLensFlareStage();
   },
 });
 
@@ -169,7 +171,7 @@ export const NightVisionStage = createPostProcessStage<{}>({
   name: "NightVisionStage",
   props: [],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createNightVisionStage();
+    return CesiumPostProcessStageLibrary.createNightVisionStage();
   },
 });
 

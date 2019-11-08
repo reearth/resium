@@ -1,5 +1,4 @@
-import Cesium from "cesium";
-
+import { LabelCollection as CesiumLabelCollection } from "cesium";
 import createCesiumComponent from "../core/CesiumComponent";
 
 /*
@@ -45,7 +44,7 @@ const LabelCollection = createCesiumComponent<
 >({
   name: "LabelCollection",
   create(cprops, props, context) {
-    return new Cesium.LabelCollection({
+    return new CesiumLabelCollection({
       scene: context.scene,
       modelMatrix: cprops.modelMatrix,
       blendOption: cprops.blendOption,

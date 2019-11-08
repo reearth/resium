@@ -1,5 +1,4 @@
 import React from "react";
-import Cesium from "cesium";
 
 import { withCesium } from "../core/context";
 

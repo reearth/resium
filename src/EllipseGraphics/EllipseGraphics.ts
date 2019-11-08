@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { EllipseGraphics as CesiumEllipseGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -81,7 +81,7 @@ const EllipseGraphics = createCesiumComponent<
 >({
   name: "EllipseGraphics",
   create(cprops) {
-    const eg = new Cesium.EllipseGraphics(cprops as any);
+    const eg = new CesiumEllipseGraphics(cprops as any);
     if (cprops.classificationType) {
       (eg as any).classificationType = cprops.classificationType;
     }

@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 
@@ -34,7 +34,7 @@ const ScreenSpaceEventHandler = createCesiumComponent<
   create(cprops, props, context) {
     return props.useDefault
       ? context.cesiumWidget.screenSpaceEventHandler
-      : new Cesium.ScreenSpaceEventHandler(context.scene.canvas as HTMLCanvasElement);
+      : new CesiumScreenSpaceEventHandler(context.scene.canvas as HTMLCanvasElement);
   },
   unmount(element) {
     if (!element.isDestroyed()) {

@@ -1,5 +1,5 @@
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
-import Cesium, { CesiumWidget } from "cesium";
+import { CesiumWidget } from "cesium";
 
 /*
 @summary

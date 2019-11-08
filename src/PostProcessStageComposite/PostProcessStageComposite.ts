@@ -1,4 +1,7 @@
-import Cesium from "cesium";
+import {
+  PostProcessStageComposite as CesiumPostProcessStageComposite,
+  PostProcessStageLibrary as CesiumPostProcessStageLibrary,
+} from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 import { createPostProcessStage } from "../core/PostProcessStage";
@@ -91,7 +94,7 @@ export const PostProcessStageComposite = createCesiumComponent<
 >({
   name: "PostProcessStageComposite",
   create(cprops) {
-    const ps = new (Cesium as any).PostProcessStageComposite(cprops);
+    const ps = new CesiumPostProcessStageComposite(cprops);
     if (typeof cprops.enabled === "boolean") {
       ps.enabled = cprops.enabled;
     }
@@ -168,7 +171,7 @@ export const BlurStage = createPostProcessStage<{
   name: "BlurStage",
   props: ["delta", "sigma", "stepSize"],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createBlurStage();
+    return CesiumPostProcessStageLibrary.createBlurStage();
   },
 });
 
@@ -181,7 +184,7 @@ export const DepthOfFieldStage = createPostProcessStage<{
   name: "DepthOfFieldStage",
   props: ["delta", "focalDistance", "sigma", "stepSize"],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createDepthOfFieldStage();
+    return CesiumPostProcessStageLibrary.createDepthOfFieldStage();
   },
 });
 
@@ -192,7 +195,7 @@ export const EdgeDetectionStage = createPostProcessStage<{
   name: "EdgeDetectionStage",
   props: ["color", "length"],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createEdgeDetectionStage();
+    return CesiumPostProcessStageLibrary.createEdgeDetectionStage();
   },
 });
 
@@ -203,7 +206,7 @@ export const SilhouetteStage = createPostProcessStage<{
   name: "SilhouetteStage",
   props: ["color", "length"],
   create() {
-    return (Cesium as any).PostProcessStageLibrary.createSilhouetteStage();
+    return CesiumPostProcessStageLibrary.createSilhouetteStage();
   },
 });
 

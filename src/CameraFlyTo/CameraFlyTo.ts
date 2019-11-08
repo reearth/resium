@@ -1,5 +1,3 @@
-import Cesium from "cesium";
-
 import createCameraOperation from "../core/CameraOperation";
 
 // @noCesiumElement

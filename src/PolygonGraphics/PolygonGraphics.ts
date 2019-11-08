@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -83,7 +83,7 @@ const PolygonGraphics = createCesiumComponent<
 >({
   name: "PolygonGraphics",
   create(cprops) {
-    const pg = new Cesium.PolygonGraphics(cprops as any);
+    const pg = new CesiumPolygonGraphics(cprops as any);
     if (cprops.classificationType) {
       (pg as any).classificationType = cprops.classificationType;
     }

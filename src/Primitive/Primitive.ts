@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { Primitive as CesiumPrimitive } from "cesium";
 
 import createCesiumComponent from "../core/CesiumComponent";
 import EventManager, { EventProps } from "../core/EventManager";
@@ -73,7 +73,7 @@ const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
 const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, PrimitiveContext>({
   name: "Primitive",
   create(cprops, props) {
-    const primitive = new Cesium.Primitive(cprops);
+    const primitive = new CesiumPrimitive(cprops);
     if (props.onReady) {
       primitive.readyPromise.then(props.onReady);
     }

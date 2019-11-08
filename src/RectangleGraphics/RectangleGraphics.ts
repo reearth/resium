@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { RectangleGraphics as CesiumRectangleGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -81,7 +81,7 @@ const RectangleGraphics = createCesiumComponent<
 >({
   name: "RectangleGraphics",
   create(cprops) {
-    return new Cesium.RectangleGraphics(cprops as any);
+    return new CesiumRectangleGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {
