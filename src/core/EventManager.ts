@@ -45,7 +45,7 @@ type EventMap<T> = { [k in EventType]: T };
 
 export interface CesiumMovementEvent {
   position?: Cesium.Cartesian2;
-  startPositon?: Cesium.Cartesian2;
+  startPosition?: Cesium.Cartesian2;
   endPosition?: Cesium.Cartesian2;
 }
 
