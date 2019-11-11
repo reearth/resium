@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { Model as CesiumModel } from "cesium";
 
 import createCesiumElement from "../core/CesiumComponent";
 
@@ -91,9 +91,7 @@ const Model = createCesiumElement<Cesium.Model, ModelProps, ModelContext>({
   name: "Model",
   create(cprops, props) {
     // Workaround: basePath?: Cesium.Resource | string;
-    const model = props.url
-      ? Cesium.Model.fromGltf(cprops as any)
-      : new Cesium.Model(cprops as any);
+    const model = props.url ? CesiumModel.fromGltf(cprops as any) : new CesiumModel(cprops as any);
 
     if (props.onReady) {
       model.readyPromise.then(props.onReady);

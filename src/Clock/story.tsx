@@ -1,7 +1,6 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
 
-import Cesium from "cesium";
 import Viewer from "../Viewer";
 import Clock from "./Clock";
 import Globe from "../Globe";

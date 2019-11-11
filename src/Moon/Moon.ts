@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { Moon as CesiumMoon } from "cesium";
 import createCesiumComponent from "../core/CesiumComponent";
 
 /*
@@ -36,7 +36,7 @@ const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
 const Moon = createCesiumComponent<Cesium.Moon, MoonProps, MoonContext>({
   name: "Moon",
   create(cprops) {
-    return new Cesium.Moon(cprops);
+    return new CesiumMoon(cprops);
   },
   mount(element, context) {
     if (context.scene) {
@@ -45,7 +45,7 @@ const Moon = createCesiumComponent<Cesium.Moon, MoonProps, MoonContext>({
   },
   unmount(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.moon = new Cesium.Moon();
+      context.scene.moon = new CesiumMoon();
     }
     // if (!element.isDestroyed()) {
     //   element.destroy();

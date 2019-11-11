@@ -1,4 +1,4 @@
-import Cesium, { ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
+import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 
 import { pickedObjectEquals } from "./util";
 
@@ -45,7 +45,7 @@ type EventMap<T> = { [k in EventType]: T };
 
 export interface CesiumMovementEvent {
   position?: Cesium.Cartesian2;
-  startPositon?: Cesium.Cartesian2;
+  startPosition?: Cesium.Cartesian2;
   endPosition?: Cesium.Cartesian2;
 }
 
@@ -267,7 +267,7 @@ export default class EventManager {
     const picked = this.scene.pick(pos);
     if (picked) {
       // Entity
-      if (picked.id instanceof Cesium.Entity) {
+      if (picked.id instanceof Entity) {
         return picked.id;
       }
       // Other

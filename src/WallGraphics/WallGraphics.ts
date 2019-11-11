@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { WallGraphics as CesiumWallGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -64,7 +64,7 @@ const WallGraphics = createCesiumComponent<
 >({
   name: "WallGraphics",
   create(cprops) {
-    return new Cesium.WallGraphics(cprops as any);
+    return new CesiumWallGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

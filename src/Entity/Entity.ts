@@ -1,4 +1,4 @@
-import Cesium, { Entity as CesiumEntity } from "cesium";
+import { Entity as CesiumEntity } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 import EventManager, { EventProps } from "../core/EventManager";

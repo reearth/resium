@@ -1,5 +1,5 @@
-import Cesium from "cesium";
 import React from "react";
+import { Cartesian3, Cartesian2, SphereEmitter } from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
@@ -9,13 +9,13 @@ import CameraFlyTo from "../CameraFlyTo";
 
 import snowImg from "assets/circular_particle.png";
 
-const pos = new Cesium.Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
+const pos = new Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
 
 class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene } }> {
   private static snowRadius = 100000.0;
   private static snowAlpha = 1.0;
 
-  private snowGravityScratch = new Cesium.Cartesian3();
+  private snowGravityScratch = new Cartesian3();
   private snowParticleSize: number;
   private minimumSnowImageSize: Cesium.Cartesian2;
   private maximumSnowImageSize: Cesium.Cartesian2;
@@ -24,8 +24,8 @@ class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene }
     super(props);
     const scene = props.cesium.scene;
     this.snowParticleSize = scene.drawingBufferWidth / 100.0;
-    this.minimumSnowImageSize = new Cesium.Cartesian2(this.snowParticleSize, this.snowParticleSize);
-    this.maximumSnowImageSize = new Cesium.Cartesian2(
+    this.minimumSnowImageSize = new Cartesian2(this.snowParticleSize, this.snowParticleSize);
+    this.maximumSnowImageSize = new Cartesian2(
       this.snowParticleSize * 2.0,
       this.snowParticleSize * 2.0,
     );
@@ -38,7 +38,7 @@ class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene }
         minimumSpeed={-1.0}
         maximumSpeed={0.0}
         lifetime={15.0}
-        emitter={new (Cesium as any).SphereEmitter(SnowParticle.snowRadius)}
+        emitter={new SphereEmitter(SnowParticle.snowRadius)}
         startScale={0.5}
         endScale={1.0}
         image={snowImg}

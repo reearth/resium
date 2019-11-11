@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { Sun as CesiumSun } from "cesium";
 import createCesiumComponent from "../core/CesiumComponent";
 
 /*
@@ -30,7 +30,7 @@ const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
 const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
   name: "Sun",
   create() {
-    return new Cesium.Sun();
+    return new CesiumSun();
   },
   mount(element, context) {
     if (context.scene) {
@@ -39,7 +39,7 @@ const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
   },
   unmount(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.sun = new Cesium.Sun();
+      context.scene.sun = new CesiumSun();
     }
     // if (!element.isDestroyed()) {
     //   element.destroy();

@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { EllipsoidGraphics as CesiumEllipsoidGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -81,7 +81,7 @@ const EllipsoidGraphics = createCesiumComponent<
 >({
   name: "EllipsoidGraphics",
   create(cprops) {
-    return new Cesium.EllipsoidGraphics(cprops as any);
+    return new CesiumEllipsoidGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

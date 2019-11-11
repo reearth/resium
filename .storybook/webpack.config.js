@@ -3,6 +3,7 @@
 const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 const path = require("path");
+
 module.exports = ({ config, mode }) => ({
   ...config,
   externals: {
@@ -20,14 +21,14 @@ module.exports = ({ config, mode }) => ({
           loader: "ts-loader",
           options: {
             // Workaround of https://github.com/TypeStrong/ts-loader/issues/919
-            reportFiles: ["../src/**/*.{ts,tsx}", "!../src/*.test.{ts,tsx}"],
+            reportFiles: ["../src/**/*.ts{,x}", "!../src/*.test.ts{,x}"],
           },
         },
       },
       {
         test: /(\.?stories|story)\.tsx?$/,
         use: {
-          loader: "@storybook/addon-storysource/loader",
+          loader: "@storybook/source-loader",
           options: { parser: "typescript" },
         },
         enforce: "pre",
@@ -48,7 +49,7 @@ module.exports = ({ config, mode }) => ({
       : [
           new CopyPlugin([
             {
-              from: "node_modules/cesium/Build/CesiumUnminified",
+              from: "node_modules/cesium/Build/Cesium",
               to: "cesium",
             },
           ]),

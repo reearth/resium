@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -127,7 +127,7 @@ const GeoJsonDataSource = createCesiumComponent<
 >({
   name: "GeoJsonDataSource",
   create(cprops, props) {
-    const ds = new Cesium.GeoJsonDataSource(props.name);
+    const ds = new CesiumGeoJsonDataSource(props.name);
     if (cprops.clustering) {
       ds.clustering = cprops.clustering;
     }

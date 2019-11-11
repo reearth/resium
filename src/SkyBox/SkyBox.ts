@@ -1,4 +1,3 @@
-import Cesium from "cesium";
 import createCesiumComponent from "../core/CesiumComponent";
 
 /*

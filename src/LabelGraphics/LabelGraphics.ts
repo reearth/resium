@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { LabelGraphics as CesiumLabelGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -82,7 +82,7 @@ const LabelGraphics = createCesiumComponent<
 >({
   name: "LabelGraphics",
   create(cprops) {
-    return new Cesium.LabelGraphics(cprops as any);
+    return new CesiumLabelGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

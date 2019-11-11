@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { BoxGraphics as CesiumBoxGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -57,7 +57,7 @@ const BoxGraphics = createCesiumComponent<Cesium.BoxGraphics, BoxGraphicsProps, 
   {
     name: "BoxGraphics",
     create(cprops) {
-      return new Cesium.BoxGraphics(cprops as any);
+      return new CesiumBoxGraphics(cprops as any);
     },
     mount(element, context) {
       if (context.entity) {

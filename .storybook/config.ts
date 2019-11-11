@@ -1,8 +1,8 @@
-import Cesium from "cesium";
+import { Ion } from "cesium";
 import { configure, addParameters } from "@storybook/react";
 import { create } from "@storybook/theming";
 
-Cesium.Ion.defaultAccessToken =
+Ion.defaultAccessToken =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJjMmMxODRjYy1mYzFiLTQ5MTUtODE1MS02NGNkMzAyNTIyODciLCJpZCI6MTA2OTgsInNjb3BlcyI6WyJhc3IiLCJnYyJdLCJhc3NldHMiOlsyLDMsNCwxXSwiaWF0IjoxNTU3MjA1NTM1fQ.5TYPEJKj_JzGX4r_a6GQjwSu7TIW2BIzeaIW8gFLUec";
 
 addParameters({

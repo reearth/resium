@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { PlaneGraphics as CesiumPlaneGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -61,7 +61,7 @@ const PlaneGraphics = createCesiumComponent<
 >({
   name: "PlaneGraphics",
   create(cprops) {
-    return new (Cesium as any).PlaneGraphics(cprops as any);
+    return new CesiumPlaneGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

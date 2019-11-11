@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { TimeDynamicPointCloud as CesiumTimeDynamicPointCloud } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -77,7 +77,7 @@ const TimeDynamicPointCloud = createCesiumComponent<
 >({
   name: "TimeDynamicPointCloud",
   create(cprops, props, context) {
-    const tdpc = new (Cesium as any).TimeDynamicPointCloud({
+    const tdpc = new CesiumTimeDynamicPointCloud({
       ...cprops,
       clock: cprops.clock || (context.cesiumWidget && context.cesiumWidget.clock),
     });

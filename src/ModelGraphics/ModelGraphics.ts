@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { ModelGraphics as CesiumModelGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -83,7 +83,7 @@ const ModelGraphics = createCesiumComponent<
 >({
   name: "ModelGraphics",
   create(cprops) {
-    return new Cesium.ModelGraphics(cprops as any);
+    return new CesiumModelGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

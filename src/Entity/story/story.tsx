@@ -9,6 +9,7 @@ import Cesium, {
   Plane,
   Rectangle,
   Math,
+  PolylineDashMaterialProperty,
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -244,7 +245,7 @@ storiesOf("Entity", module)
           positions={Cartesian3.fromDegreesArrayHeights([-75, 45, 500000, -125, 45, 500000])}
           width={4}
           material={
-            new (Cesium as any).PolylineDashMaterialProperty({
+            new PolylineDashMaterialProperty({
               color: Color.CYAN,
             } as any)
           }

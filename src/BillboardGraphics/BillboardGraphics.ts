@@ -1,4 +1,4 @@
-import Cesium from "cesium";
+import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
 
 import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 
@@ -86,7 +86,7 @@ const BillboardGraphics = createCesiumComponent<
   name: "BillboardGraphics",
   create(cprops) {
     // workaround: type of "image" prop
-    return new Cesium.BillboardGraphics(cprops as any);
+    return new CesiumBillboardGraphics(cprops as any);
   },
   mount(element, context) {
     if (context.entity) {

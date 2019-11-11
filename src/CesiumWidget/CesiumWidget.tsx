@@ -1,7 +1,7 @@
 import React from "react";
 
 import createCesiumComponent from "../core/CesiumComponent";
-import Cesium, { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import { CesiumWidget as CesiumCesiumWidget, ScreenSpaceEventHandler } from "cesium";
 
 /*
 @summary
@@ -128,7 +128,7 @@ const CesiumWidget = createCesiumComponent<
     // common ScreenSpaceEventHandler for events of Entity and Primitives
     let state: any;
     if (v) {
-      state = new Cesium.ScreenSpaceEventHandler(v.canvas);
+      state = new ScreenSpaceEventHandler(v.canvas);
     }
 
     return [v, state];

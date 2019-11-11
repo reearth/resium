@@ -1,5 +1,3 @@
-import Cesium from "cesium";
-
 import createCesiumComponent from "./CesiumComponent";
 
 export interface PostProcessStageCesiumProps {
