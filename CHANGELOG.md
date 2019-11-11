@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.8.1 - 2019/11/11
+
+- fix
+  - Support Cesium v1.63 ([#126](https://github.com/darwin-education/resium/issues/126))
+  - typo: startPosition of CesiumMovementEvent ([#122](https://github.com/darwin-education/resium/issues/122))
+
 ## v1.8.0 - 2019/10/10
 
 - add

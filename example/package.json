@@ -33,6 +33,6 @@
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-hot-loader": "^4.12.16",
-    "resium": "^1.8.0"
+    "resium": "^1.8.1"
   }
 }
