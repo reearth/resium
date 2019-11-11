@@ -8,6 +8,7 @@
   "repository": "https://github.com/darwin-education/resium.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
+  "sideEffects": false,
   "scripts": {
     "test": "jest --coverage",
     "clean": "del dist coverage examples/build",
