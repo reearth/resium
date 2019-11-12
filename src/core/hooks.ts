@@ -1,5 +1,6 @@
 import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "react";
 import { useCesiumContext } from "./context";
+import EventManager, { eventManagerContextKey } from "./EventManager";
 
 export type EventKeys<T> = { [P in keyof T]: T[P] extends Cesium.Event ? P : never }[keyof T];
 export type EventkeyMap<T, P> = { [K in keyof P]?: EventKeys<T> };
@@ -13,6 +14,7 @@ export interface Options<Element, Props, Context> {
   cesiumReadonlyProps?: (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
   setCesiumPropsAfterCreate?: boolean;
+  useCommonEvent?: boolean;
 }
 
 export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
@@ -25,6 +27,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
     cesiumReadonlyProps,
     cesiumEventProps,
     setCesiumPropsAfterCreate,
+    useCommonEvent,
   }: Options<Element, Props, Context>,
   props: Props,
   ref: any,
@@ -41,8 +44,9 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
   const [remount, setRemount] = useState(0);
-  const ctx = useCesiumContext<Context>();
+  const ctx = useCesiumContext<Context & { [eventManagerContextKey]?: EventManager }>();
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const eventManager = ctx[eventManagerContextKey];
 
   // Update properties
   const updateProperties = useCallback(
@@ -85,6 +89,10 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
         }
       }
 
+      if (useCommonEvent && eventManager && element.current) {
+        eventManager.setEvents(element.current, props);
+      }
+
       prevProps.current = props;
       initialProps.current = props;
 
@@ -102,7 +110,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
         setRemount(i => i + 1);
       }
     },
-    [cesiumEventProps, cesiumProps, cesiumReadonlyProps, name],
+    [cesiumEventProps, cesiumProps, cesiumReadonlyProps, eventManager, name, useCommonEvent],
   );
 
   useEffect(() => {
@@ -131,6 +139,10 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
       prevProps.current = initialProps.current;
     }
 
+    if (useCommonEvent && eventManager && element.current) {
+      eventManager.setEvents(element.current, initialProps.current);
+    }
+
     if (provide && element.current) {
       provided.current = { ...ctx, ...provide(element.current, ctx) };
     }
@@ -142,6 +154,10 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
       // Destroy cesium element
       if (element.current && destroy) {
         destroy(element.current, ctx, wrapperDiv);
+      }
+
+      if (useCommonEvent && eventManager && element.current) {
+        eventManager.clearEvents(element.current);
       }
 
       // Detach all events
@@ -165,10 +181,12 @@ export const useCesium = <Element, Props, Context, ProvidedContext = {}>(
     create,
     ctx,
     destroy,
+    eventManager,
     provide,
     remount,
     setCesiumPropsAfterCreate,
     updateProperties,
+    useCommonEvent,
   ]);
 
   // Update properties of cesium element

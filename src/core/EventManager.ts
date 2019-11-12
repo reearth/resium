@@ -2,6 +2,8 @@ import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 
 import { pickedObjectEquals } from "./util";
 
+export const eventManagerContextKey = "__RESIUM_EVENT_MANAGER";
+
 export type EventType =
   | "onClick"
   | "onDoubleClick"
@@ -139,12 +141,12 @@ export default class EventManager {
     this.events[type].delete(element);
   }
 
-  public setEvents(element: any, props: object) {
+  public setEvents(element: any, props: any) {
     Object.entries(props).forEach(([k, v]) => {
       const et = k as EventType;
       if (eventNames.includes(et)) {
         if (v) {
-          this.on(element, et, v);
+          this.on(element, et, v as any);
         } else {
           this.off(element, et);
         }
