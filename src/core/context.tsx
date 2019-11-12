@@ -1,8 +1,4 @@
-import React from "react";
-
-export interface Context {
-  [key: string]: unknown | undefined;
-}
+import React, { createContext } from "react";
 
 export interface CesiumProp<C> {
   cesium: C;
@@ -11,7 +7,7 @@ export interface CesiumProp<C> {
 export type WithContextProps<P, C> = P & CesiumProp<C>;
 export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
 
-export const CesiumContext = React.createContext<Context>({});
+export const CesiumContext = createContext<any>({});
 export const { Provider, Consumer } = CesiumContext;
 
 export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
