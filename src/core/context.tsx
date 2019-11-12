@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 
 export interface CesiumProp<C> {
   cesium: C;
@@ -20,3 +20,5 @@ export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
       </Consumer>
     ),
   );
+
+export const useCesiumContext = <T extends any>() => useContext(CesiumContext) as T;
