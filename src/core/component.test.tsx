@@ -44,7 +44,7 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(destroy).toBeCalledWith("foobar", value, null);
+    expect(destroy).toBeCalledWith("foobar", value, null, undefined);
     expect(destroy).toBeCalledTimes(1);
   });
 
@@ -171,18 +171,23 @@ describe("core/component", () => {
   });
 
   it("should provide context", () => {
-    const create1 = jest.fn(() => () => "test");
-    const create2 = jest.fn(() => () => "test");
+    const create1 = jest.fn(() => "test");
+    const create2 = jest.fn(() => "test");
 
-    const Component1 = createCesiumComponent<string, { children?: React.ReactNode }, {}>({
+    const Component1 = createCesiumComponent<
+      string,
+      { children?: React.ReactNode },
+      {},
+      { context: string }
+    >({
       name: "test",
-      create: create1 as any,
+      create: create1,
       provide: () => ({ context: "b" }),
     });
 
     const Component2 = createCesiumComponent<string, {}, {}>({
       name: "test2",
-      create: create2 as any,
+      create: create2,
     });
 
     mount(
@@ -199,17 +204,17 @@ describe("core/component", () => {
 
   it("should render container", () => {
     const createFn = jest.fn(() => "foobar");
-    const value = { hoge: 1 };
 
-    const Component = createCesiumComponent<string, { test: number }, {}>({
+    const Component = createCesiumComponent<string, { className?: string }, {}>({
       name: "test",
       create: createFn,
       renderContainer: true,
+      containerProps: ["className"],
     });
 
     const wrapper = mount(
-      <Provider value={value}>
-        <Component test={1} />
+      <Provider value={{}}>
+        <Component className="hoge" />
       </Provider>,
     );
 
@@ -219,6 +224,35 @@ describe("core/component", () => {
       expect.any(HTMLDivElement),
     );
     expect(wrapper.find("div").length).toBe(1);
+    expect(
+      wrapper
+        .find("div")
+        .at(0)
+        .prop("className"),
+    ).toBe("hoge");
+  });
+
+  it("should keep state", () => {
+    const provideFn = jest.fn();
+    const destroyFn = jest.fn();
+
+    const state = {};
+
+    const Component = createCesiumComponent<string, {}, {}, {}, {}>({
+      name: "test",
+      create: () => ["foobar", state],
+      provide: provideFn,
+      destroy: destroyFn,
+    });
+
+    mount(
+      <Provider value={{}}>
+        <Component />
+      </Provider>,
+    ).unmount();
+
+    expect(provideFn).toBeCalledWith(expect.anything(), expect.anything(), state);
+    expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
   });
 
   it("should not render when noChildren is true", () => {

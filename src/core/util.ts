@@ -24,3 +24,12 @@ export const pickedObjectEquals = (picked: any, element: any) =>
       (picked.primitive === element ||
         (!!picked.primitive.equals && picked.primitive.equals(element)) ||
         polylineEquals(picked.primitive, element))));
+
+export function pick<T, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
+  if (!keys) return {} as Pick<T, K>;
+  return Object.entries(obj).reduce((a, [k, v]) => {
+    if (!keys.includes(k as K)) return a;
+    a[k as K] = v;
+    return a;
+  }, {} as Pick<T, K>);
+}

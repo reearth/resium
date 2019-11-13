@@ -2,13 +2,20 @@ import React, { forwardRef } from "react";
 
 import { useCesium, Options, EventkeyMap } from "./hooks";
 import { CesiumContext } from "./context";
+import { pick } from "./util";
 
 export { EventkeyMap };
 
-export interface CesiumComponentOptions<Element, Props, Context>
-  extends Options<Element, Props, Context> {
+export interface CesiumComponentOptions<
+  Element,
+  Props,
+  Context,
+  ProvidecContext = any,
+  State = any
+> extends Options<Element, Props, Context, ProvidecContext, State> {
   renderContainer?: boolean;
   noChildren?: boolean;
+  containerProps?: (keyof Props)[];
 }
 
 export interface CesiumComponentRef<Element> {
@@ -19,11 +26,15 @@ export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponen
   React.PropsWithoutRef<Props> & React.RefAttributes<CesiumComponentRef<Element>>
 >;
 
-export const createCesiumComponent = <Element, Props, Context>({
+export const createCesiumComponent = <Element, Props, Context, ProvidecContext = any, State = any>({
   renderContainer,
   noChildren,
+  containerProps,
   ...options
-}: CesiumComponentOptions<Element, Props, Context>): CesiumComponentType<Element, Props> => {
+}: CesiumComponentOptions<Element, Props, Context, ProvidecContext, State>): CesiumComponentType<
+  Element,
+  Props
+> => {
   const component: React.FC<Props> = (props, ref) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [provided, mounted, wrapperRef] = useCesium(options, props, ref);
@@ -32,7 +43,9 @@ export const createCesiumComponent = <Element, Props, Context>({
 
     const children: React.ReactElement | null = mounted ? <>{props.children}</> : null;
     const wrappedChildren: React.ReactElement | null = renderContainer ? (
-      <div ref={wrapperRef}>{children}</div>
+      <div ref={wrapperRef} {...pick(props, containerProps)}>
+        {children}
+      </div>
     ) : (
       children
     );
