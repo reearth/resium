@@ -15,7 +15,11 @@ export interface CesiumComponentOptions<
 > extends Options<Element, Props, Context, ProvidecContext, State> {
   renderContainer?: boolean;
   noChildren?: boolean;
-  containerProps?: (keyof Props)[];
+  containerProps?:
+    | (keyof Props)[]
+    | ((
+        props: Props,
+      ) => Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>);
   defaultProps?: Partial<Props>;
 }
 
@@ -45,7 +49,11 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
 
     const children: React.ReactElement | null = mounted ? <>{props.children}</> : null;
     const wrappedChildren: React.ReactElement | null = renderContainer ? (
-      <div ref={wrapperRef} {...pick(props, containerProps)}>
+      <div
+        ref={wrapperRef}
+        {...(typeof containerProps === "function"
+          ? containerProps(props)
+          : pick(props, containerProps))}>
         {children}
       </div>
     ) : (
