@@ -1,10 +1,6 @@
-import {
-  PostProcessStageComposite as CesiumPostProcessStageComposite,
-  PostProcessStageLibrary as CesiumPostProcessStageLibrary,
-} from "cesium";
+import { PostProcessStageComposite as CesiumPostProcessStageComposite } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
-import { createPostProcessStage } from "../core/PostProcessStage";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -74,10 +70,6 @@ export interface PostProcessStageCompositeProps
   extends PostProcessStageCompositeCesiumProps,
     PostProcessStageCompositeCesiumReadonlyProps {}
 
-export interface PostProcessStageCompositeContext {
-  scene?: Cesium.Scene;
-}
-
 const cesiumProps: (keyof PostProcessStageCompositeCesiumProps)[] = ["enabled", "selected"];
 
 const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[] = [
@@ -90,25 +82,24 @@ const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[
 export const PostProcessStageComposite = createCesiumComponent<
   any /* Cesium.PostProcessStageComposite */,
   PostProcessStageCompositeProps,
-  PostProcessStageCompositeContext
+  {
+    scene?: Cesium.Scene;
+  }
 >({
   name: "PostProcessStageComposite",
-  create(cprops) {
-    const ps = new CesiumPostProcessStageComposite(cprops);
-    if (typeof cprops.enabled === "boolean") {
-      ps.enabled = cprops.enabled;
+  create(context, props) {
+    if (!context.scene) return;
+    const element = new CesiumPostProcessStageComposite(props);
+    if (typeof props.enabled === "boolean") {
+      element.enabled = props.enabled;
     }
-    if (cprops.selected) {
-      ps.selected = cprops.selected;
+    if (props.selected) {
+      element.selected = props.selected;
     }
-    return ps;
+    context.scene.postProcessStages.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.scene && !context.scene.isDestroyed()) {
-      (context.scene as any).postProcessStages.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       (context.scene as any).postProcessStages.remove(element);
     }
@@ -118,96 +109,6 @@ export const PostProcessStageComposite = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
-});
-
-export const AmbientOcclusion = createPostProcessStage<{
-  intensity?: number;
-  bias?: number;
-  lengthCap?: number;
-  stepSize?: number;
-  frustumLength?: number;
-  ambientOcclusionOnly?: boolean;
-  delta?: number;
-  sigma?: number;
-}>({
-  name: "AmbientOcclusion",
-  create(props, collection) {
-    return collection.ambientOcclusion;
-  },
-  props: [
-    "ambientOcclusionOnly",
-    "bias",
-    "delta",
-    "frustumLength",
-    "intensity",
-    "lengthCap",
-    "sigma",
-    "stepSize",
-  ],
-  noMount: true,
-});
-
-export const Bloom = createPostProcessStage<{
-  contrast?: number;
-  brightness?: number;
-  glowOnly?: boolean;
-  delta?: number;
-  sigma?: number;
-  stepSize?: number;
-}>({
-  name: "Bloom",
-  create(props, collection) {
-    return collection.bloom;
-  },
-  props: ["brightness", "contrast", "delta", "glowOnly", "sigma", "stepSize"],
-  noMount: true,
-});
-
-export const BlurStage = createPostProcessStage<{
-  delta?: number;
-  sigma?: number;
-  stepSize?: number;
-}>({
-  name: "BlurStage",
-  props: ["delta", "sigma", "stepSize"],
-  create() {
-    return CesiumPostProcessStageLibrary.createBlurStage();
-  },
-});
-
-export const DepthOfFieldStage = createPostProcessStage<{
-  focalDistance?: number;
-  delta?: number;
-  sigma?: number;
-  stepSize?: number;
-}>({
-  name: "DepthOfFieldStage",
-  props: ["delta", "focalDistance", "sigma", "stepSize"],
-  create() {
-    return CesiumPostProcessStageLibrary.createDepthOfFieldStage();
-  },
-});
-
-export const EdgeDetectionStage = createPostProcessStage<{
-  color?: Cesium.Color;
-  length?: number;
-}>({
-  name: "EdgeDetectionStage",
-  props: ["color", "length"],
-  create() {
-    return CesiumPostProcessStageLibrary.createEdgeDetectionStage();
-  },
-});
-
-export const SilhouetteStage = createPostProcessStage<{
-  color?: Cesium.Color;
-  length?: number;
-}>({
-  name: "SilhouetteStage",
-  props: ["color", "length"],
-  create() {
-    return CesiumPostProcessStageLibrary.createSilhouetteStage();
-  },
 });
 
 export default PostProcessStageComposite;
