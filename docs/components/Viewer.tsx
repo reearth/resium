@@ -1,7 +1,7 @@
 import React from "react";
 import Viewer, { ViewerProps } from "../../src/Viewer/Viewer";
 
-const ViewerForPlayground: React.SFC<ViewerProps> = props => (
+const ViewerForPlayground: React.FC<ViewerProps> = props => (
   <div style={{ minHeight: "300px" }}>
     <Viewer {...props} />
   </div>

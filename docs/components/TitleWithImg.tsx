@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "@emotion/styled";
 
-const TitleWithImg: React.SFC<{ contents: string; children: React.ReactNode }> = ({
+const TitleWithImg: React.FC<{ contents: string; children: React.ReactNode }> = ({
   contents,
   children,
 }) => {
