@@ -1,48 +1,40 @@
-import React from "react";
-import { Camera } from "cesium";
-import { withCesium } from "./context";
+import { useEffect, useRef } from "react";
+import { useCesiumContext } from "./context";
 
 export interface CameraOperationProps {
-  cancelCameraFlight?: boolean;
+  cancelCameraFlightOnUnmount?: boolean;
 }
 
-export const createCameraOperation = <P>(opts: {
-  name: string;
-  cameraOperationStart: (camera: Camera, props: Readonly<P>, prevProps?: Readonly<P>) => void;
-}) =>
-  withCesium<P & CameraOperationProps, { camera?: Cesium.Camera }>(
-    class CameraOperation extends React.PureComponent<
-      CameraOperationProps & { cesium: { camera?: Cesium.Camera } } & P
-    > {
-      public static displayName = name;
+export const createCameraOperation = <P>(
+  name: string,
+  cameraOperationStart: (camera: Cesium.Camera, props: P, prevProps?: P) => void,
+) => {
+  /* eslint-disable react-hooks/rules-of-hooks */
+  const component: React.FC<P & CameraOperationProps> = props => {
+    const ctx = useCesiumContext<{ camera?: Cesium.Camera }>();
+    const prevProps = useRef<P>();
 
-      public componentDidMount() {
-        if (this.props.cesium.camera) {
-          opts.cameraOperationStart(this.props.cesium.camera, this.props);
+    useEffect(() => {
+      return () => {
+        if (ctx.camera && props.cancelCameraFlightOnUnmount) {
+          ctx.camera.cancelFlight();
         }
-      }
+      };
+    }, [ctx.camera, props.cancelCameraFlightOnUnmount]);
 
-      public componentDidUpdate(prevProps: Readonly<P>) {
-        if (this.props.cesium.camera) {
-          this.props.cesium.camera.cancelFlight();
-          opts.cameraOperationStart(this.props.cesium.camera, this.props, prevProps);
-        }
+    useEffect(() => {
+      if (ctx.camera) {
+        ctx.camera.cancelFlight();
+        cameraOperationStart(ctx.camera, props, prevProps.current);
       }
+      prevProps.current = props;
+    });
 
-      public componentWillUnmount() {
-        const {
-          cancelCameraFlight,
-          cesium: { camera },
-        } = this.props;
-        if (cancelCameraFlight && camera) {
-          camera.cancelFlight();
-        }
-      }
+    return null;
+  };
+  /* eslint-enable react-hooks/rules-of-hooks */
 
-      public render() {
-        return null;
-      }
-    },
-  );
+  component.displayName = name;
 
-export default createCameraOperation;
+  return component;
+};

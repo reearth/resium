@@ -1,4 +1,4 @@
-import createCameraOperation from "../core/CameraOperation";
+import { createCameraOperation } from "../core/CameraOperation";
 
 // @noCesiumElement
 
@@ -31,40 +31,15 @@ export interface CameraFlyToProps {
   flyOverLongitudeWeight?: number;
   easingFunction?: Cesium.EasingFunction;
   // If true, cancel camera flight if this component is unmounted. Default value is false.
-  cancelCameraFlight?: boolean;
+  cancelCameraFlightOnUnmount?: boolean;
 }
 
-const CameraFlyTo = createCameraOperation({
-  name: "CameraFlyTo",
-  cameraOperationStart(camera: Cesium.Camera, props: CameraFlyToProps) {
-    const {
-      destination,
-      orientation,
-      duration,
-      onComplete,
-      onCancel,
-      endTransform,
-      maximumHeight,
-      pitchAdjustHeight,
-      flyOverLongitude,
-      flyOverLongitudeWeight,
-      easingFunction,
-    } = props;
-
-    camera.flyTo({
-      destination,
-      orientation,
-      duration,
-      complete: onComplete,
-      cancel: onCancel,
-      endTransform,
-      maximumHeight,
-      pitchAdjustHeight,
-      flyOverLongitude,
-      flyOverLongitudeWeight,
-      easingFunction,
-    });
+const CameraFlyTo = createCameraOperation<CameraFlyToProps>(
+  "CameraFlyTo",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (camera, { cancelCameraFlightOnUnmount, ...props }) => {
+    camera.flyTo(props);
   },
-});
+);
 
 export default CameraFlyTo;
