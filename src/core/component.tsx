@@ -16,6 +16,7 @@ export interface CesiumComponentOptions<
   renderContainer?: boolean;
   noChildren?: boolean;
   containerProps?: (keyof Props)[];
+  defaultProps?: Partial<Props>;
 }
 
 export interface CesiumComponentRef<Element> {
@@ -30,6 +31,7 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
   renderContainer,
   noChildren,
   containerProps,
+  defaultProps,
   ...options
 }: CesiumComponentOptions<Element, Props, Context, ProvidecContext, State>): CesiumComponentType<
   Element,
@@ -57,6 +59,10 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
   };
 
   component.displayName = options.name;
+
+  if (defaultProps) {
+    component.defaultProps = defaultProps;
+  }
 
   return forwardRef<CesiumComponentRef<Element>, Props>(component);
 };
