@@ -18,6 +18,7 @@ export interface Options<Element, Props, Context, ProvidedContext = never, State
     state?: State,
   ) => void;
   provide?: (element: Element, ctx: Context, state?: State) => ProvidedContext;
+  update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
   cesiumProps?: (keyof Props)[];
   cesiumReadonlyProps?: (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
@@ -31,6 +32,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
     create,
     destroy,
     provide,
+    update,
     cesiumProps,
     cesiumReadonlyProps,
     cesiumEventProps,
@@ -102,6 +104,8 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
         eventManager.setEvents(element.current, props);
       }
 
+      update?.(element.current, props, prevProps.current, ctx);
+
       prevProps.current = props;
       initialProps.current = props;
 
@@ -119,7 +123,16 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
         setRemount(i => i + 1);
       }
     },
-    [cesiumEventProps, cesiumProps, cesiumReadonlyProps, eventManager, name, useCommonEvent],
+    [
+      cesiumEventProps,
+      cesiumProps,
+      cesiumReadonlyProps,
+      ctx,
+      eventManager,
+      name,
+      update,
+      useCommonEvent,
+    ],
   );
 
   useEffect(() => {
