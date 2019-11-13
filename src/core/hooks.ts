@@ -2,8 +2,7 @@ import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "r
 import { useCesiumContext } from "./context";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 
-export type EventKeys<T> = { [P in keyof T]: T[P] extends Cesium.Event ? P : never }[keyof T];
-export type EventkeyMap<T, P> = { [K in keyof P]?: EventKeys<T> };
+export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
 export interface Options<Element, Props, Context> {
   name: string;
