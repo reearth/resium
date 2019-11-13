@@ -1,7 +1,7 @@
 import { Entity as CesiumEntity } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { EventProps } from "../core/EventManager";
 import { BillboardGraphicsCesiumProps } from "../BillboardGraphics/BillboardGraphics";
 import { BoxGraphicsCesiumProps } from "../BoxGraphics/BoxGraphics";
 import { CorridorGraphicsCesiumProps } from "../CorridorGraphics/CorridorGraphics";
@@ -140,12 +140,6 @@ export interface EntityProps
   tracked?: boolean;
 }
 
-export interface EntityContext {
-  entityCollection?: Cesium.EntityCollection;
-  viewer?: Cesium.Viewer;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof EntityCesiumProps)[] = [
   "availability",
   "billboard",
@@ -175,42 +169,37 @@ const cesiumProps: (keyof EntityCesiumProps)[] = [
 
 const cesiumReadonlyProps: (keyof EntityCesiumReadonlyProps)[] = ["id"];
 
-const cesiumEventProps: EventkeyMap<Cesium.Entity, keyof EntityCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.Entity, EntityCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
-const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>({
+const Entity = createCesiumComponent<
+  Cesium.Entity,
+  EntityProps,
+  {
+    entityCollection?: Cesium.EntityCollection;
+    viewer?: Cesium.Viewer;
+  }
+>({
   name: "Entity",
-  create(cprops) {
-    return new CesiumEntity(cprops as any);
-  },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-    if (context.entityCollection) {
-      context.entityCollection.add(element);
-    }
+  create(context, props) {
+    if (!context.entityCollection) return;
+    const element = new CesiumEntity(props as any);
     if (context.viewer && props.selected) {
       context.viewer.selectedEntity = element;
     }
     if (context.viewer && props.tracked) {
       context.viewer.trackedEntity = element;
     }
+    context.entityCollection.add(element);
+    return element;
   },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  destroy(element, context) {
     if (context.entityCollection) {
       context.entityCollection.remove(element);
     }
   },
   update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-
     if (context.viewer) {
       if (props.selected !== prevProps.selected) {
         if (props.selected) {
@@ -237,6 +226,7 @@ const Entity = createCesiumComponent<Cesium.Entity, EntityProps, EntityContext>(
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  useCommonEvent: true,
 });
 
 export default Entity;

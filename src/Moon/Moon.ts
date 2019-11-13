@@ -1,5 +1,5 @@
 import { Moon as CesiumMoon } from "cesium";
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -25,25 +25,25 @@ export interface MoonCesiumReadonlyProps {
 
 export interface MoonProps extends MoonCesiumProps, MoonCesiumReadonlyProps {}
 
-export interface MoonContext {
-  scene?: Cesium.Scene;
-}
-
 const cesiumProps: (keyof MoonCesiumProps)[] = ["onlySunLighting", "show", "textureUrl"];
 
 const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
 
-const Moon = createCesiumComponent<Cesium.Moon, MoonProps, MoonContext>({
+const Moon = createCesiumComponent<
+  Cesium.Moon,
+  MoonProps,
+  {
+    scene?: Cesium.Scene;
+  }
+>({
   name: "Moon",
-  create(cprops) {
-    return new CesiumMoon(cprops);
+  create(context, props) {
+    if (!context.scene) return;
+    const element = new CesiumMoon(props);
+    context.scene.moon = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.scene) {
-      context.scene.moon = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.moon = new CesiumMoon();
     }

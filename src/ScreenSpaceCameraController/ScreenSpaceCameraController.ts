@@ -1,4 +1,4 @@
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -57,10 +57,6 @@ export interface ScreenSpaceCameraControllerCesiumProps {
     | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
 }
 
-export interface ScreenSpaceCameraControllerContext {
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
   "bounceAnimationTime",
   "enableCollisionDetection",
@@ -89,12 +85,12 @@ const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
 const ScreenSpaceCameraController = createCesiumComponent<
   Cesium.ScreenSpaceCameraController,
   ScreenSpaceCameraControllerCesiumProps,
-  ScreenSpaceCameraControllerContext
+  {
+    scene?: Cesium.Scene;
+  }
 >({
   name: "ScreenSpaceCameraController",
-  create(cprops, props, context) {
-    return context.scene.screenSpaceCameraController;
-  },
+  create: context => context.scene?.screenSpaceCameraController,
   cesiumProps,
   setCesiumPropsAfterCreate: true,
 });

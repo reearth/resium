@@ -1,6 +1,6 @@
 import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -43,18 +43,14 @@ export interface CzmlDataSourceProps
   onLoad?: (CzmlDataSouce: Cesium.CzmlDataSource) => void;
 }
 
-export interface CzmlDataSourceContext {
-  dataSourceCollection?: Cesium.DataSourceCollection;
-}
-
 const cesiumProps: (keyof CzmlDataSourceCesiumProps)[] = ["clustering"];
 
 const cesiumReadonlyProps: (keyof CzmlDataSourceCesiumReadonlyProps)[] = ["name"];
 
-const cesiumEventProps: EventkeyMap<Cesium.CzmlDataSource, keyof CzmlDataSourceCesiumEvents> = {
-  changedEvent: "onChange",
-  errorEvent: "onError",
-  loadingEvent: "onLoading",
+const cesiumEventProps: EventkeyMap<Cesium.CzmlDataSource, CzmlDataSourceCesiumEvents> = {
+  onChange: "changedEvent",
+  onError: "ErrorEvent" as any,
+  onLoading: "loadingEvent",
 };
 
 const load = ({
@@ -86,33 +82,32 @@ const load = ({
 const CzmlDataSource = createCesiumComponent<
   Cesium.CzmlDataSource,
   CzmlDataSourceProps,
-  CzmlDataSourceContext
+  {
+    dataSourceCollection?: Cesium.DataSourceCollection;
+  }
 >({
   name: "CzmlDataSource",
-  create(cprops, props) {
-    const ds = new CesiumCzmlDataSource(props.name);
-    if (cprops.clustering) {
-      ds.clustering = cprops.clustering;
+  create(context, props) {
+    if (!context.dataSourceCollection) return;
+    const element = new CesiumCzmlDataSource(props.name);
+    if (props.clustering) {
+      element.clustering = props.clustering;
     }
-    if (typeof cprops.show === "boolean") {
-      ds.show = cprops.show;
+    if (typeof props.show === "boolean") {
+      element.show = props.show;
     }
-    return ds;
-  },
-  mount(element, context, props) {
-    if (context.dataSourceCollection) {
-      context.dataSourceCollection.add(element);
-      if (props.data) {
-        load({
-          element,
-          dataSources: context.dataSourceCollection,
-          data: props.data,
-          onLoad: props.onLoad,
-          sourceUri: props.sourceUri,
-          credit: props.credit,
-        });
-      }
+    context.dataSourceCollection.add(element);
+    if (props.data) {
+      load({
+        element,
+        dataSources: context.dataSourceCollection,
+        data: props.data,
+        onLoad: props.onLoad,
+        sourceUri: props.sourceUri,
+        credit: props.credit,
+      });
     }
+    return element;
   },
   update(element, props, prevProps, context) {
     if (prevProps.show !== props.show || !props.data) {
@@ -135,7 +130,7 @@ const CzmlDataSource = createCesiumComponent<
       });
     }
   },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
       context.dataSourceCollection.remove(element);
     }

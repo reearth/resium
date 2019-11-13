@@ -1,6 +1,6 @@
 import { PointGraphics as CesiumPointGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -32,10 +32,6 @@ export interface PointGraphicsCesiumEvents {
 
 export interface PointGraphicsProps extends PointGraphicsCesiumProps, PointGraphicsCesiumEvents {}
 
-export interface PointGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof PointGraphicsCesiumProps)[] = [
   "color",
   "pixelSize",
@@ -49,25 +45,25 @@ const cesiumProps: (keyof PointGraphicsCesiumProps)[] = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PointGraphics, keyof PointGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.PointGraphics, PointGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const PointGraphics = createCesiumComponent<
   Cesium.PointGraphics,
   PointGraphicsProps,
-  PointGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "PointGraphics",
-  create(cprops) {
-    return new CesiumPointGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumPointGraphics(props as any);
+    context.entity.point = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.point = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.point = undefined as any;
     }

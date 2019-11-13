@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useRef } from "react";
 import { HeadingPitchRange, Cesium3DTileStyle } from "cesium";
 import { storiesOf } from "@storybook/react";
 
+import { CesiumComponentRef } from "../core/component";
 import Viewer from "../Viewer";
-import TimeDynamicPointCloud from "./TimeDynamicPointCloud";
-import { CesiumInsideComponentType } from "../core/CesiumComponent";
 import Clock from "../Clock";
+import TimeDynamicPointCloud from "./TimeDynamicPointCloud";
 
 import point0 from "assets/0.pnts";
 import point1 from "assets/1.pnts";
@@ -37,21 +37,22 @@ const style = new Cesium3DTileStyle({
 });
 
 storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
-  const viewer = React.createRef<CesiumInsideComponentType<Cesium.Viewer>>();
-  const onReady = (p: any) => {
-    if (viewer.current !== null && viewer.current.cesiumElement) {
-      viewer.current.cesiumElement.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
-    }
-  };
+  const ref = useRef<CesiumComponentRef<Cesium.Viewer>>(null);
   return (
-    <Viewer full shouldAnimate ref={viewer}>
+    <Viewer full shouldAnimate ref={ref}>
       <Clock
         startTime={start}
         currentTime={start}
         stopTime={stop}
         clockRange={Cesium.ClockRange.LOOP_STOP}
       />
-      <TimeDynamicPointCloud intervals={intervals} style={style} onReady={onReady} />
+      <TimeDynamicPointCloud
+        intervals={intervals}
+        style={style}
+        onReady={p => {
+          ref.current?.cesiumElement?.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
+        }}
+      />
     </Viewer>
   );
 });

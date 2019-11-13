@@ -1,6 +1,6 @@
 import { LabelGraphics as CesiumLabelGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -43,10 +43,6 @@ export interface LabelGraphicsCesiumEvents {
 
 export interface LabelGraphicsProps extends LabelGraphicsCesiumProps, LabelGraphicsCesiumEvents {}
 
-export interface LabelGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof LabelGraphicsCesiumProps)[] = [
   "text",
   "font",
@@ -71,25 +67,25 @@ const cesiumProps: (keyof LabelGraphicsCesiumProps)[] = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.LabelGraphics, keyof LabelGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.LabelGraphics, LabelGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const LabelGraphics = createCesiumComponent<
   Cesium.LabelGraphics,
   LabelGraphicsProps,
-  LabelGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "LabelGraphics",
-  create(cprops) {
-    return new CesiumLabelGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumLabelGraphics(props as any);
+    context.entity.label = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.label = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.label = undefined as any;
     }

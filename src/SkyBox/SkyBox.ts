@@ -1,4 +1,4 @@
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -27,17 +27,17 @@ export interface SkyBoxCesiumProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SkyBoxProps extends SkyBoxCesiumProps {}
 
-export interface SkyBoxContext {
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof SkyBoxCesiumProps)[] = ["sources", "show"];
 
-const SkyBox = createCesiumComponent<Cesium.SkyBox, SkyBoxProps, SkyBoxContext>({
+const SkyBox = createCesiumComponent<
+  Cesium.SkyBox,
+  SkyBoxProps,
+  {
+    scene?: Cesium.Scene;
+  }
+>({
   name: "SkyBox",
-  create(cprops, props, context) {
-    return context.scene.skyBox as Cesium.SkyBox;
-  },
+  create: context => context.scene?.skyBox,
   cesiumProps,
   setCesiumPropsAfterCreate: true,
 });

@@ -1,4 +1,4 @@
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -39,6 +39,13 @@ Globe is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compon
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
+export interface ResiumGlobe extends Cesium.Globe {
+  imageryLayersUpdatedEvent: Cesium.Event<[]>;
+  terrainProviderChanged: Cesium.Event<[Cesium.TerrainProvider]>;
+  tileLoadedEvent: Cesium.Event<[]>;
+  tileLoadProgressEvent: Cesium.Event<[number]>;
+}
+
 export interface GlobeCesiumProps {
   atmosphereBrightnessShift?: number;
   atmosphereHueShift?: number;
@@ -70,18 +77,14 @@ export interface GlobeCesiumEvents {
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 }
 
-const cesiumEventProps: EventkeyMap<Cesium.Globe, keyof GlobeCesiumEvents> = {
-  imageryLayersUpdatedEvent: "onImageryLayersUpdate",
-  terrainProviderChanged: "onTerrainProviderChange",
-  tileLoadedEvent: "onTileLoad",
-  tileLoadProgressEvent: "onTileLoadProgress",
+const cesiumEventProps: EventkeyMap<ResiumGlobe, GlobeCesiumEvents> = {
+  onImageryLayersUpdate: "imageryLayersUpdatedEvent",
+  onTerrainProviderChange: "terrainProviderChanged",
+  onTileLoad: "tileLoadedEvent",
+  onTileLoadProgress: "tileLoadProgressEvent",
 };
 
 export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEvents {}
-
-export interface GlobeContext {
-  scene: Cesium.Scene;
-}
 
 const cesiumProps: (keyof GlobeCesiumProps)[] = [
   "atmosphereBrightnessShift",
@@ -106,11 +109,15 @@ const cesiumProps: (keyof GlobeCesiumProps)[] = [
   "tileCacheSize",
 ];
 
-const Globe = createCesiumComponent<Cesium.Globe, GlobeProps, GlobeContext>({
+const Globe = createCesiumComponent<
+  ResiumGlobe,
+  GlobeProps,
+  {
+    scene?: Cesium.Scene;
+  }
+>({
   name: "Globe",
-  create(cprops, props, context) {
-    return context.scene.globe;
-  },
+  create: context => context.scene?.globe as ResiumGlobe | undefined,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

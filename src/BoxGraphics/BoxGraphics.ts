@@ -1,6 +1,6 @@
 import { BoxGraphics as CesiumBoxGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -32,10 +32,6 @@ export interface BoxGraphicsCesiumEvents {
 
 export interface BoxGraphicsProps extends BoxGraphicsCesiumProps, BoxGraphicsCesiumEvents {}
 
-export interface BoxGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof BoxGraphicsCesiumProps)[] = [
   "heightReference",
   "dimensions",
@@ -49,29 +45,42 @@ const cesiumProps: (keyof BoxGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, keyof BoxGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, BoxGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
-const BoxGraphics = createCesiumComponent<Cesium.BoxGraphics, BoxGraphicsProps, BoxGraphicsContext>(
+const BoxGraphics = createCesiumComponent<
+  Cesium.BoxGraphics,
+  BoxGraphicsProps,
   {
-    name: "BoxGraphics",
-    create(cprops) {
-      return new CesiumBoxGraphics(cprops as any);
-    },
-    mount(element, context) {
-      if (context.entity) {
-        context.entity.box = element;
-      }
-    },
-    unmount(element, context) {
-      if (context.entity) {
-        context.entity.box = undefined as any;
-      }
-    },
-    cesiumProps,
-    cesiumEventProps,
+    entity?: Cesium.Entity;
+  }
+>({
+  name: "BoxGraphics",
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumBoxGraphics({
+      heightReference: props.heightReference, //
+      dimensions: props.dimensions,
+      show: props.show,
+      fill: props.fill,
+      material: props.material,
+      outline: props.outline,
+      outlineColor: props.outlineColor,
+      outlineWidth: props.outlineWidth,
+      shadows: props.shadows,
+      distanceDisplayCondition: props.distanceDisplayCondition,
+    } as any);
+    context.entity.box = element;
+    return element;
   },
-);
+  destroy(element, context) {
+    if (context.entity) {
+      context.entity.box = undefined as any;
+    }
+  },
+  cesiumProps,
+  cesiumEventProps,
+});
 
 export default BoxGraphics;

@@ -1,7 +1,7 @@
-export * from "./core/CesiumComponent";
-export * from "./core/CameraOperation";
+export * from "./core/component";
+export * from "./core/hooks";
 export * from "./core/context";
-export * from "./core/events";
+export * from "./core/CameraOperation";
 export * from "./core/EventManager";
 export * from "./core/withCesium";
 

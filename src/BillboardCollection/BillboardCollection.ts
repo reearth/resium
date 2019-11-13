@@ -1,6 +1,6 @@
 import { BillboardCollection as CesiumBillboardCollection } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -28,11 +28,6 @@ export interface BillboardCollectionProps extends BillboardCollectionCesiumProps
   children?: React.ReactNode;
 }
 
-export interface BillboardCollectionContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-  scene?: Cesium.Scene;
-}
-
 const cesiumProps: (keyof BillboardCollectionCesiumProps)[] = [
   "blendOption",
   "debugShowBoundingVolume",
@@ -43,23 +38,24 @@ const cesiumProps: (keyof BillboardCollectionCesiumProps)[] = [
 const BillboardCollection = createCesiumComponent<
   Cesium.BillboardCollection,
   BillboardCollectionProps,
-  BillboardCollectionContext
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+    scene?: Cesium.Scene;
+  }
 >({
   name: "BillboardCollection",
-  create(cprops, props, context) {
-    return new CesiumBillboardCollection({
-      modelMatrix: cprops.modelMatrix,
-      debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumBillboardCollection({
+      modelMatrix: props.modelMatrix,
+      debugShowBoundingVolume: props.debugShowBoundingVolume,
       scene: context.scene,
-      blendOption: cprops.blendOption,
-    } as any);
+      blendOption: props.blendOption,
+    });
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }

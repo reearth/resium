@@ -1,7 +1,9 @@
 import React from "react";
+import { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
-import { CesiumWidget as CesiumCesiumWidget, ScreenSpaceEventHandler } from "cesium";
+import { createCesiumComponent } from "../core/component";
+import EventManager, { eventManagerContextKey } from "../core/EventManager";
+import { pick } from "../core/util";
 
 /*
 @summary
@@ -96,81 +98,46 @@ export interface CesiumWidgetProps
   children?: React.ReactNode;
 }
 
-export interface CesiumWidgetContext {
-  cesiumWidget: Cesium.CesiumWidget;
-  dataSourceCollection: Cesium.DataSourceCollection;
-  entityCollection: Cesium.EntityCollection;
-  scene: Cesium.Scene;
-  globe: Cesium.Globe;
-  camera: Cesium.Camera;
-}
-
 const CesiumWidget = createCesiumComponent<
   Cesium.CesiumWidget,
   CesiumWidgetProps,
   {},
-  CesiumWidgetContext | {},
-  HTMLDivElement
+  {
+    cesiumWidget: Cesium.CesiumWidget;
+    scene: Cesium.Scene;
+    globe: Cesium.Globe;
+    camera: Cesium.Camera;
+    [eventManagerContextKey]?: EventManager;
+  },
+  EventManager
 >({
-  name: "Viewer",
-  createRef: true,
-  create(cprops, props, context, ref) {
-    // ref is not always undefined
+  name: "CesiumWidget",
+  create(context, props, container) {
+    if (!container) return;
     const v = new CesiumCesiumWidget(
-      (ref as React.RefObject<HTMLDivElement>).current as any,
-      cprops,
+      container,
+      pick(props, [...cesiumProps, ...cesiumReadonlyProps]),
     );
+    if (!v) return;
 
-    if (v && typeof props.resolutionScale === "number") {
+    if (typeof props.resolutionScale === "number") {
       v.resolutionScale = props.resolutionScale;
     }
 
-    // common ScreenSpaceEventHandler for events of Entity and Primitives
-    let state: any;
-    if (v) {
-      state = new ScreenSpaceEventHandler(v.canvas);
-    }
+    // common event manager for managing events of Entity and Primitives
+    const eventManager = new EventManager(v.scene, v.canvas);
 
-    return [v, state];
+    return [v, eventManager];
   },
-  render(element, props, mounted, ref) {
-    return (
-      <div
-        className={props.className}
-        id={props.id}
-        ref={ref}
-        style={{
-          ...(props.full
-            ? {
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                right: "0",
-                top: "0",
-              }
-            : {}),
-          ...props.style,
-        }}
-        {...props.containerProps}>
-        {element ? props.children : null}
-      </div>
-    );
-  },
-  unmount(element, cprops, props, ref, state) {
-    if (element && state) {
-      const sshe = state as Cesium.ScreenSpaceEventHandler;
-      if (!sshe.isDestroyed()) {
-        sshe.destroy();
-      }
+  destroy(element, context, ref, state) {
+    if (state && !state.isDestroyed()) {
+      state.destroy();
     }
-    if (element && !element.isDestroyed()) {
+    if (!element.isDestroyed()) {
       element.destroy();
     }
   },
   provide(element, props, state) {
-    if (!element) {
-      return {};
-    }
     return {
       cesiumWidget: element,
       scene: element.scene,
@@ -178,11 +145,29 @@ const CesiumWidget = createCesiumComponent<
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
       globe: element.scene.globe,
-      __RESIUM_SSEH: state, // ScreenSpaceEventHandler
+      [eventManagerContextKey]: state,
     };
   },
+  containerProps: ({ id, className, style, full, containerProps }) => ({
+    className,
+    id,
+    style: {
+      ...(full
+        ? {
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            top: "0",
+          }
+        : {}),
+      ...style,
+    },
+    ...containerProps,
+  }),
   cesiumProps,
   cesiumReadonlyProps,
+  renderContainer: true,
 });
 
 export default CesiumWidget;

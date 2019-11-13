@@ -1,6 +1,6 @@
 import { Scene as CesiumScene, SceneMode } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -145,19 +145,15 @@ const cesiumProps: (keyof SceneCesiumProps)[] = [
   "useWebVR",
 ];
 
-const cesiumEventProps: EventkeyMap<CesiumScene, keyof SceneCesiumEvents> = {
-  morphComplete: "onMorphComplete",
-  morphStart: "onMorphStart",
-  postRender: "onPostRender",
-  preRender: "onPreRender",
-  preUpdate: "onPreUpdate",
-  renderError: "onRenderError",
-  terrainProviderChanged: "onTerrainProviderChange",
+const cesiumEventProps: EventkeyMap<CesiumScene, SceneCesiumEvents> = {
+  onMorphComplete: "morphComplete",
+  onMorphStart: "morphStart",
+  onPostRender: "postRender",
+  onPreRender: "preRender",
+  onPreUpdate: "preUpdate",
+  onRenderError: "renderError",
+  onTerrainProviderChange: "terrainProviderChanged",
 };
-
-export interface SceneContext {
-  scene: CesiumScene;
-}
 
 const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   switch (mode) {
@@ -175,14 +171,19 @@ const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   }
 };
 
-const Scene = createCesiumComponent<CesiumScene, SceneProps, SceneContext>({
+const Scene = createCesiumComponent<
+  CesiumScene,
+  SceneProps,
+  {
+    scene?: CesiumScene;
+  }
+>({
   name: "Scene",
-  create(cprops, props, context) {
-    const scene = context.scene;
-    if (props.mode) {
-      morph(scene, props.mode, props.morphDuration);
+  create(context, props) {
+    if (context.scene && props.mode) {
+      morph(context.scene, props.mode, props.morphDuration);
     }
-    return scene;
+    return context.scene;
   },
   update(scene, props, prevProps) {
     if (props.mode !== prevProps.mode && props.mode) {

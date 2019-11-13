@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 
-import { withCesium } from "../core/context";
+import { useCesiumContext } from "../core/context";
 
 // @noCesiumElement
 
@@ -25,64 +25,24 @@ export interface ScreenSpaceEventProps {
   type: number;
 }
 
-interface ScreenSpaceEventContext {
-  screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler;
-}
+const ScreenSpaceEvent: React.FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
+  const ctx = useCesiumContext<{ screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler }>();
 
-class ScreenSpaceEvent extends React.PureComponent<
-  ScreenSpaceEventProps & { cesium: ScreenSpaceEventContext }
-> {
-  public componentDidMount() {
-    this.setEvent();
-  }
-
-  public componentDidUpdate(prevProps: ScreenSpaceEventProps) {
-    if (
-      prevProps.type !== this.props.type ||
-      prevProps.modifier !== this.props.modifier ||
-      prevProps.action !== this.props.action
-    ) {
-      const { screenSpaceEventHandler } = this.props.cesium;
-      if (screenSpaceEventHandler) {
-        screenSpaceEventHandler.removeInputAction(prevProps.type, prevProps.modifier);
-      }
-      this.setEvent();
-    }
-  }
-
-  public componentWillUnmount() {
-    const {
-      action,
-      cesium: { screenSpaceEventHandler },
-      modifier,
-      type,
-    } = this.props;
-    if (screenSpaceEventHandler && !screenSpaceEventHandler.isDestroyed() && action) {
-      screenSpaceEventHandler.removeInputAction(type, modifier);
-    }
-  }
-
-  public render() {
-    return null;
-  }
-
-  private setEvent() {
-    const {
-      action,
-      cesium: { screenSpaceEventHandler },
-      modifier,
-      type,
-    } = this.props;
-    if (!screenSpaceEventHandler) {
-      return;
-    }
+  useEffect(() => {
+    if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;
     if (action) {
-      screenSpaceEventHandler.setInputAction(action as () => void, type, modifier);
+      ctx.screenSpaceEventHandler.setInputAction(action as () => void, type, modifier);
+      return () => {
+        if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;
+        ctx.screenSpaceEventHandler.removeInputAction(type, modifier);
+      };
     } else {
-      // just remove default events
-      screenSpaceEventHandler.removeInputAction(type, modifier);
+      ctx.screenSpaceEventHandler.removeInputAction(type, modifier);
     }
-  }
-}
+    return undefined;
+  }, [action, ctx.screenSpaceEventHandler, modifier, type]);
 
-export default withCesium<ScreenSpaceEventProps, ScreenSpaceEventContext>(ScreenSpaceEvent);
+  return null;
+};
+
+export default ScreenSpaceEvent;
