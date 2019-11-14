@@ -42,7 +42,6 @@ It can not be used more than once for each Viewer or CesiumWidget.
 export interface ResiumGlobe extends Cesium.Globe {
   imageryLayersUpdatedEvent: Cesium.Event<[]>;
   terrainProviderChanged: Cesium.Event<[Cesium.TerrainProvider]>;
-  tileLoadedEvent: Cesium.Event<[]>;
   tileLoadProgressEvent: Cesium.Event<[number]>;
 }
 
@@ -73,14 +72,12 @@ export interface GlobeCesiumProps {
 export interface GlobeCesiumEvents {
   onImageryLayersUpdate?: () => void;
   onTerrainProviderChange?: (terrainProvider: Cesium.TerrainProvider) => void;
-  onTileLoad?: () => void;
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 }
 
 const cesiumEventProps: EventkeyMap<ResiumGlobe, GlobeCesiumEvents> = {
   onImageryLayersUpdate: "imageryLayersUpdatedEvent",
   onTerrainProviderChange: "terrainProviderChanged",
-  onTileLoad: "tileLoadedEvent",
   onTileLoadProgress: "tileLoadProgressEvent",
 };
 
