@@ -1,6 +1,6 @@
 import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 
-import { pickedObjectEquals } from "./util";
+import { pickedObjectEquals, entries, includes } from "./util";
 
 export const eventManagerContextKey = "__RESIUM_EVENT_MANAGER";
 
@@ -142,9 +142,9 @@ export default class EventManager {
   }
 
   public setEvents(element: any, props: any) {
-    Object.entries(props).forEach(([k, v]) => {
+    entries(props).forEach(([k, v]) => {
       const et = k as EventType;
-      if (eventNames.includes(et)) {
+      if (includes(eventNames, et)) {
         if (v) {
           this.on(element, et, v as any);
         } else {
@@ -180,7 +180,7 @@ export default class EventManager {
       }
     }
 
-    Object.entries(this.events).forEach(([et, m]) => {
+    entries(this.events).forEach(([et, m]) => {
       const eventType = et as EventType;
 
       m.forEach((v, k) => {

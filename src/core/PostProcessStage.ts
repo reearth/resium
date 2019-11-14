@@ -1,4 +1,5 @@
 import { createCesiumComponent } from "./component";
+import { includes } from "./util";
 
 export interface PostProcessStageCesiumProps {
   enabled?: boolean;
@@ -35,10 +36,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
         element.selected = props.selected;
       }
       opts.props.forEach(k => {
-        if (
-          (!opts.readonlyProps || !opts.readonlyProps.includes(k)) &&
-          typeof props[k] !== "undefined"
-        ) {
+        if (!includes(opts.readonlyProps, k) && typeof props[k] !== "undefined") {
           (element.uniforms as any)[k] = props[k];
         }
       });
@@ -61,7 +59,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
     },
     update(element, props, prevProps) {
       opts.props.forEach(k => {
-        if ((!opts.readonlyProps || !opts.readonlyProps.includes(k)) && props[k] !== prevProps[k]) {
+        if (!includes(opts.readonlyProps, k) && props[k] !== prevProps[k]) {
           (element.uniforms as any)[k] = props[k];
         }
       });

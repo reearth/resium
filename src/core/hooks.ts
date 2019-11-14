@@ -1,6 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "react";
 import { useCesiumContext } from "./context";
 import EventManager, { eventManagerContextKey } from "./EventManager";
+import { includes } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
@@ -76,11 +77,11 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
 
       const updatedReadonlyProps: (keyof Props)[] = [];
       for (const [k, prevValue, newValue] of propDiff) {
-        if (cesiumProps?.includes(k)) {
+        if (includes(cesiumProps, k)) {
           target[k] = newValue;
-        } else if (cesiumReadonlyProps?.includes(k)) {
+        } else if (includes(cesiumReadonlyProps, k)) {
           updatedReadonlyProps.push(k);
-        } else if (eventKeys.includes(k)) {
+        } else if (includes(eventKeys, k)) {
           const cesiumKey = cesiumEventProps?.[k] as keyof Element;
           const eventHandler: Cesium.Event = target[cesiumKey];
 
