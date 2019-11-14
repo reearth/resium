@@ -11,7 +11,6 @@ storiesOf("Globe", module).add("Basic", () => (
       enableLighting
       onImageryLayersUpdate={action("onImageryLayersUpdate")}
       onTerrainProviderChange={action("onTerrainProviderChange")}
-      onTileLoad={action("onTileLoad")}
     />
   </Viewer>
 ));
