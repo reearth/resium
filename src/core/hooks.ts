@@ -1,4 +1,6 @@
 import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "react";
+import { Event as CesiumEvent } from "cesium";
+
 import { useCesiumContext } from "./context";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 import { includes, shallowEquals } from "./util";
@@ -83,20 +85,21 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
           updatedReadonlyProps.push(k);
         } else if (includes(eventKeys, k)) {
           const cesiumKey = cesiumEventProps?.[k] as keyof Element;
-          const eventHandler: Cesium.Event = target[cesiumKey];
-
-          if (typeof prevValue === "undefined") {
-            // added
-            eventHandler.addEventListener(newValue);
-            attachedEvents.current[cesiumKey] = newValue;
-          } else if (typeof newValue === "undefined") {
-            // deleted
-            eventHandler.removeEventListener(prevValue);
-            delete attachedEvents.current[cesiumKey];
-          } else {
-            // updated
-            eventHandler.removeEventListener(prevValue);
-            eventHandler.addEventListener(newValue);
+          const eventHandler = target[cesiumKey];
+          if (eventHandler instanceof CesiumEvent) {
+            if (typeof prevValue === "undefined") {
+              // added
+              eventHandler.addEventListener(newValue);
+              attachedEvents.current[cesiumKey] = newValue;
+            } else if (typeof newValue === "undefined") {
+              // deleted
+              eventHandler.removeEventListener(prevValue);
+              delete attachedEvents.current[cesiumKey];
+            } else {
+              // updated
+              eventHandler.removeEventListener(prevValue);
+              eventHandler.addEventListener(newValue);
+            }
           }
         }
       }
@@ -159,9 +162,10 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
         for (const key of Object.keys(initialProps.current) as (keyof Props)[]) {
           const eventKey = cesiumEventProps[key];
           if (eventKey) {
-            const e = initialProps.current[key];
-            if (e) {
-              target[eventKey].addEventListener(e);
+            const e: any = initialProps.current[key];
+            const eventHandler = target[eventKey];
+            if (e && eventHandler instanceof CesiumEvent) {
+              eventHandler.addEventListener(e);
             }
           }
         }
