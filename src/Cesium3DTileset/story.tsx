@@ -1,36 +1,25 @@
-import React from "react";
-import { IonResource } from "cesium";
+import React, { useRef } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
+import { CesiumComponentRef } from "../core/component";
 import Viewer from "../Viewer";
 import Cesium3DTileset from "./Cesium3DTileset";
 
 storiesOf("Cesium3DTileset", module).add("Basic", () => {
-  let viewer: Cesium.Viewer | undefined;
-  const onReady = (tileset: any) => {
-    if (viewer) {
-      viewer.zoomTo(tileset);
-    }
-  };
+  const ref = useRef<CesiumComponentRef<Cesium.Viewer>>(null);
   return (
-    <Viewer
-      full
-      ref={e => {
-        if (e !== null && e.cesiumElement) {
-          viewer = e.cesiumElement;
-        } else {
-          viewer = undefined;
-        }
-      }}>
+    <Viewer full ref={ref}>
       <Cesium3DTileset
-        url={IonResource.fromAssetId(5714)}
+        url="./tileset/tileset.json"
         onAllTilesLoad={action("onAllTilesLoad")}
         onInitialTilesLoad={action("onInitialTilesLoad")}
         onTileFailed={action("onTileFailed")}
         onTileLoad={action("onTileLoad")}
         onTileUnload={action("onTileUnload")}
-        onReady={onReady}
+        onReady={tileset => {
+          ref.current?.cesiumElement?.zoomTo(tileset as any);
+        }}
       />
     </Viewer>
   );
