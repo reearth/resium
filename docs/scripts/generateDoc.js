@@ -320,9 +320,7 @@ function parsePropTypes(name, source, tsx) {
   eventMap.forEach(ev => {
     const ev2 = props.cesiumEvents.find(e => e.name === ev[0]);
     if (ev2 && (!ev2.description || ev2.description === "")) {
-      ev2.description = `Correspond to [${name}#${
-        ev[1]
-      }](https://cesiumjs.org/Cesium/Build/Documentation/${name}.html#${ev[1]})`;
+      ev2.description = `Correspond to [${name}#${ev[1]}](https://cesiumjs.org/Cesium/Build/Documentation/${name}.html#${ev[1]})`;
     }
   });
 

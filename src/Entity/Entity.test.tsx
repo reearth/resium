@@ -37,7 +37,7 @@ describe("Entity", () => {
   it("should update", () => {
     const entity = new CesiumEntity();
 
-    const Component: React.SFC<EntityProps> = props => (
+    const Component: React.FC<EntityProps> = props => (
       <Provider value={context}>
         <Entity {...props} />
       </Provider>

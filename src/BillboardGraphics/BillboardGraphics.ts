@@ -1,6 +1,6 @@
 import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -44,10 +44,6 @@ export interface BillboardGraphicsProps
   extends BillboardGraphicsCesiumProps,
     BillboardGraphicsCesiumEvents {}
 
-export interface BillboardGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof BillboardGraphicsCesiumProps)[] = [
   "image",
   "show",
@@ -71,29 +67,46 @@ const cesiumProps: (keyof BillboardGraphicsCesiumProps)[] = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<
-  Cesium.BillboardGraphics,
-  keyof BillboardGraphicsCesiumEvents
-> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.BillboardGraphics, BillboardGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const BillboardGraphics = createCesiumComponent<
   Cesium.BillboardGraphics,
   BillboardGraphicsProps,
-  BillboardGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "BillboardGraphics",
-  create(cprops) {
-    // workaround: type of "image" prop
-    return new CesiumBillboardGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumBillboardGraphics({
+      image: props.image,
+      show: props.show,
+      scale: props.scale,
+      horizontalOrigin: props.horizontalOrigin,
+      verticalOrigin: props.verticalOrigin,
+      eyeOffset: props.eyeOffset,
+      pixelOffset: props.pixelOffset,
+      rotation: props.rotation,
+      alignedAxis: props.alignedAxis,
+      width: props.width,
+      height: props.height,
+      color: props.color,
+      scaleByDistance: props.scaleByDistance,
+      translucencyByDistance: props.translucencyByDistance,
+      pixelOffsetScaleByDistance: props.pixelOffsetScaleByDistance,
+      imageSubRegion: props.imageSubRegion,
+      sizeInMeters: props.sizeInMeters, //
+      heightReference: props.heightReference,
+      distanceDisplayCondition: props.distanceDisplayCondition,
+      disableDepthTestDistance: props.disableDepthTestDistance,
+    } as any);
+    context.entity.billboard = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.billboard = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.billboard = undefined as any;
     }

@@ -1,4 +1,4 @@
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 import { Fog as CesiumFog } from "cesium";
 
 /*
@@ -23,10 +23,6 @@ export interface FogCesiumProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface FogProps extends FogCesiumProps {}
 
-export interface FogContext {
-  scene?: Cesium.Scene;
-}
-
 const cesiumProps: (keyof FogCesiumProps)[] = [
   "density",
   "enabled",
@@ -34,17 +30,21 @@ const cesiumProps: (keyof FogCesiumProps)[] = [
   "screenSpaceErrorFactor",
 ];
 
-const Fog = createCesiumComponent<Cesium.Fog, FogProps, FogContext>({
+const Fog = createCesiumComponent<
+  Cesium.Fog,
+  FogProps,
+  {
+    scene?: Cesium.Scene;
+  }
+>({
   name: "Fog",
-  create() {
-    return new CesiumFog();
+  create(context) {
+    if (!context.scene) return;
+    const element = new CesiumFog();
+    context.scene.fog = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.scene) {
-      context.scene.fog = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.fog = new CesiumFog();
     }

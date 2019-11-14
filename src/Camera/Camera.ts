@@ -1,4 +1,4 @@
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -63,10 +63,6 @@ export interface CameraCesiumEvents {
 
 export interface CameraProps extends CameraCesiumProps, CameraCesiumEvents {}
 
-export interface CameraContext {
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof CameraCesiumProps)[] = [
   "position",
   "direction",
@@ -83,17 +79,21 @@ const cesiumProps: (keyof CameraCesiumProps)[] = [
   "percentageChanged",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.Camera, keyof CameraCesiumEvents> = {
-  changed: "onChange",
-  moveEnd: "onMoveEnd",
-  moveStart: "onMoveStart",
+const cesiumEventProps: EventkeyMap<Cesium.Camera, CameraCesiumEvents> = {
+  onChange: "changed",
+  onMoveEnd: "moveEnd",
+  onMoveStart: "moveStart",
 };
 
-const Camera = createCesiumComponent<Cesium.Camera, CameraProps, CameraContext>({
+const Camera = createCesiumComponent<
+  Cesium.Camera,
+  CameraProps,
+  {
+    scene?: Cesium.Scene;
+  }
+>({
   name: "Camera",
-  create(cprops, props, context) {
-    return context.scene.camera;
-  },
+  create: context => context.scene?.camera,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

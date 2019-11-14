@@ -1,6 +1,6 @@
 import { Model as CesiumModel } from "cesium";
 
-import createCesiumElement from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 export interface ModelCesiumProps {
   basePath?: Cesium.Resource | string;
@@ -46,10 +46,6 @@ export interface ModelProps extends ModelCesiumProps, ModelCesiumReadonlyProps {
   onReady?: (model: Cesium.Model) => void;
 }
 
-export interface ModelContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
-}
-
 const cesiumProps: (keyof ModelCesiumProps)[] = [
   "basePath",
   "clampAnimations",
@@ -87,23 +83,30 @@ const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
   "credit",
 ];
 
-const Model = createCesiumElement<Cesium.Model, ModelProps, ModelContext>({
+const Model = createCesiumComponent<
+  Cesium.Model,
+  ModelProps,
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
+>({
   name: "Model",
-  create(cprops, props) {
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+
     // Workaround: basePath?: Cesium.Resource | string;
-    const model = props.url ? CesiumModel.fromGltf(cprops as any) : new CesiumModel(cprops as any);
+    const element = props.url ? CesiumModel.fromGltf(props as any) : new CesiumModel(props as any);
 
     if (props.onReady) {
-      model.readyPromise.then(props.onReady);
+      element.readyPromise.then(props.onReady);
     }
 
-    return model;
-  },
-  mount(element, context) {
     context.primitiveCollection.add(element);
+
+    return element;
   },
-  unmount(element, context) {
-    context.primitiveCollection.remove(element);
+  destroy(element, context) {
+    context.primitiveCollection?.remove(element);
     if (!element.isDestroyed()) {
       element.destroy();
     }

@@ -1,5 +1,5 @@
 import { Cesium3DTileset as CesiumCesium3DTileset } from "cesium";
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -11,6 +11,20 @@ import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) component.
 A Cesium3DTileset object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
+
+// Workaround
+export interface ResiumCesium3DTileset extends Cesium.Cesium3DTileset {
+  colorBlendAmount: number | undefined;
+  colorBlendMode: any /* Cesium.Cesium3DTileColorBlendMode */ | undefined;
+  readyPromise: Promise<ResiumCesium3DTileset>;
+  allTilesLoaded?: Cesium.Event<[]>;
+  initialTilesLoaded?: Cesium.Event<[]>;
+  loadProgress?: Cesium.Event<[number, number]>;
+  tileFailed?: Cesium.Event<[]>;
+  tileLoad?: Cesium.Event<[ResiumCesium3DTileset]>;
+  tileUnload?: Cesium.Event<[]>;
+  tileVisible?: Cesium.Event<[ResiumCesium3DTileset]>;
+}
 
 export interface Cesium3DTilesetCesiumProps {
   show?: boolean;
@@ -83,9 +97,9 @@ export interface Cesium3DTilesetCesiumEvents {
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: () => void;
-  onTileLoad?: (tile: any /* Cesium.3DTileset */) => void;
+  onTileLoad?: (tile: ResiumCesium3DTileset /* Cesium.3DTileset */) => void;
   onTileUnload?: () => void;
-  onTileVisible?: (tile: any /* Cesium.3DTileset */) => void;
+  onTileVisible?: (tile: ResiumCesium3DTileset /* Cesium.3DTileset */) => void;
 }
 
 export interface Cesium3DTilesetProps
@@ -93,11 +107,7 @@ export interface Cesium3DTilesetProps
     Cesium3DTilesetCesiumReadonlyProps,
     Cesium3DTilesetCesiumEvents {
   // Calls when the tile set is completely loaded.
-  onReady?: (tileset: any /* Cesium.3DTileset */) => void;
-}
-
-export interface Cesium3DTilesetContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
+  onReady?: (tileset: ResiumCesium3DTileset /* Cesium.Cesium3DTileset */) => void;
 }
 
 const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
@@ -155,39 +165,42 @@ const cesiumReadonlyProps: (keyof Cesium3DTilesetCesiumReadonlyProps)[] = [
   "pointCloudShading",
 ];
 
-const cesiumEventProps: EventkeyMap<any, keyof Cesium3DTilesetCesiumEvents> = {
-  allTilesLoaded: "onAllTilesLoad",
-  initialTilesLoaded: "onInitialTilesLoad",
-  loadProgress: "onLoadProgress",
-  tileFailed: "onTileFailed",
-  tileLoad: "onTileLoad",
-  tileUnload: "onTileUnload",
-  tileVisible: "onTileVisible",
+const cesiumEventProps: EventkeyMap<ResiumCesium3DTileset, Cesium3DTilesetCesiumEvents> = {
+  onAllTilesLoad: "allTilesLoaded",
+  onInitialTilesLoad: "initialTilesLoaded",
+  onLoadProgress: "loadProgress",
+  onTileFailed: "tileFailed",
+  onTileLoad: "tileLoad",
+  onTileUnload: "tileUnload",
+  onTileVisible: "tileVisible",
 };
 
 // workaround: any => Cesium.3DTileset
-const Cesium3DTileset = createCesiumComponent<any, Cesium3DTilesetProps, Cesium3DTilesetContext>({
+const Cesium3DTileset = createCesiumComponent<
+  ResiumCesium3DTileset,
+  Cesium3DTilesetProps,
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
+>({
   name: "Cesium3DTileset",
-  create(cprops, props) {
-    const c3ts = new CesiumCesium3DTileset(cprops as any);
-    (c3ts as any).colorBlendAmount = cprops.colorBlendAmount;
-    (c3ts as any).colorBlendMode = cprops.colorBlendMode;
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumCesium3DTileset(props as any) as ResiumCesium3DTileset;
+    element.colorBlendAmount = props.colorBlendAmount;
+    element.colorBlendMode = props.colorBlendMode;
     if (props.onReady) {
-      (c3ts as any).readyPromise.then(props.onReady);
+      element.readyPromise.then(props.onReady);
     }
-    return c3ts;
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
-    if (!element.isDestroyed()) {
-      element.destroy();
+    if (!(element as any).isDestroyed()) {
+      (element as any).destroy();
     }
   },
   cesiumProps,

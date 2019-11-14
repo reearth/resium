@@ -1,6 +1,6 @@
 import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -36,10 +36,6 @@ export interface PolylineVolumeGraphicsProps
   extends PolylineVolumeGraphicsCesiumProps,
     PolylineVolumeGraphicsCesiumEvents {}
 
-export interface PolylineVolumeGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof PolylineVolumeGraphicsCesiumProps)[] = [
   "positions",
   "shape",
@@ -57,26 +53,26 @@ const cesiumProps: (keyof PolylineVolumeGraphicsCesiumProps)[] = [
 
 const cesiumEventProps: EventkeyMap<
   Cesium.PolylineVolumeGraphics,
-  keyof PolylineVolumeGraphicsCesiumEvents
+  PolylineVolumeGraphicsCesiumEvents
 > = {
-  definitionChanged: "onDefinitionChange",
+  onDefinitionChange: "definitionChanged",
 };
 
 const PolylineVolumeGraphics = createCesiumComponent<
   Cesium.PolylineVolumeGraphics,
   PolylineVolumeGraphicsProps,
-  PolylineVolumeGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "PolylineVolumeGraphics",
-  create(cprops) {
-    return new CesiumPolylineVolumeGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumPolylineVolumeGraphics(props as any);
+    context.entity.polylineVolume = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.polylineVolume = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(contextelement, context) {
     if (context.entity) {
       context.entity.polylineVolume = undefined as any;
     }

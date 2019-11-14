@@ -1,6 +1,6 @@
 import { EllipsoidGraphics as CesiumEllipsoidGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -42,10 +42,6 @@ export interface EllipsoidGraphicsProps
   extends EllipsoidGraphicsCesiumProps,
     EllipsoidGraphicsCesiumEvents {}
 
-export interface EllipsoidGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "heightReference",
   "radii",
@@ -67,28 +63,25 @@ const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<
-  Cesium.EllipsoidGraphics,
-  keyof EllipsoidGraphicsCesiumEvents
-> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.EllipsoidGraphics, EllipsoidGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const EllipsoidGraphics = createCesiumComponent<
   Cesium.EllipsoidGraphics,
   EllipsoidGraphicsProps,
-  EllipsoidGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "EllipsoidGraphics",
-  create(cprops) {
-    return new CesiumEllipsoidGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumEllipsoidGraphics(props as any);
+    context.entity.ellipsoid = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.ellipsoid = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.ellipsoid = undefined as any;
     }

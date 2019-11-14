@@ -1,12 +1,8 @@
 import React from "react";
 import { storiesOf } from "@storybook/react";
-import { Cartesian3 } from "cesium";
 
 import Viewer from "../Viewer";
-import Entity from "../Entity";
-import * as postProcessStage from "./PostProcessStage";
-import * as postProcessStageComposite from "../PostProcessStageComposite";
-import model from "assets/Cesium_Air.glb";
+import { PostProcessStage, LensFlareStage, NightVisionStage } from ".";
 
 const shader = `
 uniform sampler2D colorTexture;
@@ -32,26 +28,16 @@ void main(void)
 storiesOf("PostProcessStage", module)
   .add("Mosaic", () => (
     <Viewer full>
-      <postProcessStage.PostProcessStage fragmentShader={shader} />
+      <PostProcessStage fragmentShader={shader} />
     </Viewer>
   ))
   .add("Lens flare", () => (
     <Viewer full>
-      <postProcessStage.LensFlareStage intensity={5} />
+      <LensFlareStage intensity={5} />
     </Viewer>
   ))
   .add("Night vison", () => (
     <Viewer full>
-      <postProcessStage.NightVisionStage />
-    </Viewer>
-  ))
-  .add("Bloom", () => (
-    <Viewer full>
-      <postProcessStageComposite.Bloom />
-      <Entity
-        position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-        model={{ uri: model }}
-        tracked
-      />
+      <NightVisionStage />
     </Viewer>
   ));

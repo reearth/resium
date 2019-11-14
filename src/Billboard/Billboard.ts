@@ -1,5 +1,5 @@
-import createCesiumComponent from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -40,11 +40,6 @@ export interface BillboardCesiumProps {
 
 export interface BillboardProps extends BillboardCesiumProps, EventProps<Cesium.Billboard> {}
 
-export interface BillboardContext {
-  billboardCollection: Cesium.BillboardCollection;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof BillboardCesiumProps)[] = [
   "alignAxis",
   "color",
@@ -68,30 +63,24 @@ const cesiumProps: (keyof BillboardCesiumProps)[] = [
   "width",
 ];
 
-const Billboard = createCesiumComponent<Cesium.Billboard, BillboardProps, BillboardContext>({
+const Billboard = createCesiumComponent<
+  Cesium.Billboard,
+  BillboardProps,
+  {
+    billboardCollection?: Cesium.BillboardCollection;
+  }
+>({
   name: "Billboard",
-  create(cprops, props, context) {
-    return context.billboardCollection.add(cprops);
+  create(context, props) {
+    return context.billboardCollection?.add(props);
   },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  destroy(element, context) {
     if (context.billboardCollection && !context.billboardCollection.isDestroyed()) {
       context.billboardCollection.remove(element);
     }
   },
-  update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
   cesiumProps,
+  useCommonEvent: true,
 });
 
 export default Billboard;

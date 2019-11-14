@@ -1,0 +1,291 @@
+import React, { createRef } from "react";
+import { mount } from "enzyme";
+import { Event } from "cesium";
+
+import { createCesiumComponent, CesiumComponentRef } from "./component";
+import { Provider } from "./context";
+
+describe("core/component", () => {
+  it("should create and expose cesium element correctly on initialized", () => {
+    const create = jest.fn(() => "foobar");
+    const value = { hoge: 1 };
+
+    const Component = createCesiumComponent<string, { test: number }, {}>({
+      name: "test",
+      create,
+    });
+
+    const ref = createRef<CesiumComponentRef<string>>();
+
+    mount(
+      <Provider value={value}>
+        <Component test={1} ref={ref} />
+      </Provider>,
+    );
+
+    expect(create).toBeCalledWith(value, { test: 1 }, null);
+    expect(create).toBeCalledTimes(1);
+    expect(ref.current?.cesiumElement).toBe("foobar");
+  });
+
+  it("should call destroy fn on unmounted", () => {
+    const destroy = jest.fn();
+    const value = { hoge: 1 };
+
+    const Component = createCesiumComponent<string, { test: number }, {}>({
+      name: "test",
+      create: () => "foobar",
+      destroy,
+    });
+
+    mount(
+      <Provider value={value}>
+        <Component test={1} />
+      </Provider>,
+    ).unmount();
+
+    expect(destroy).toBeCalledWith("foobar", value, null, undefined);
+    expect(destroy).toBeCalledTimes(1);
+  });
+
+  it("should set cesium events after created", () => {
+    const cesiumElement = {
+      hoge: new Event(),
+    };
+
+    const Component = createCesiumComponent<typeof cesiumElement, { bar?: () => void }, {}>({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumEventProps: { bar: "hoge" },
+    });
+
+    const bar = () => {};
+
+    mount(<Component bar={bar} />);
+
+    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+    expect(cesiumElement.hoge.addEventListener).toBeCalledWith(bar);
+  });
+
+  it("should set cesium props after created", () => {
+    const cesiumElement = {
+      foo: 0,
+    };
+
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }, {}>({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumProps: ["foo"],
+      setCesiumPropsAfterCreate: true,
+    });
+
+    mount(<Component foo={10} />);
+
+    expect(cesiumElement.foo).toBe(10);
+  });
+
+  it("should update cesium props", () => {
+    const cesiumElement = {
+      foo: 0,
+    };
+
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }, {}>({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumProps: ["foo"],
+    });
+
+    const wrapper = mount(<Component />);
+
+    expect(cesiumElement.foo).toBe(0);
+
+    wrapper.setProps({ foo: 1 });
+
+    expect(cesiumElement.foo).toBe(1);
+  });
+
+  it("should update cesium events", () => {
+    const cesiumElement = {
+      foo: new Event(),
+      bar: new Event(),
+      hoge: new Event(),
+    };
+
+    const Component = createCesiumComponent<
+      typeof cesiumElement,
+      { foo?: () => void; bar?: () => void; hoge?: () => void },
+      {}
+    >({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumEventProps: {
+        foo: "foo",
+        bar: "bar",
+        hoge: "hoge",
+      },
+    });
+
+    const wrapper = mount(<Component foo={() => {}} hoge={() => {}} />);
+
+    expect(cesiumElement.foo.numberOfListeners).toBe(1);
+    expect(cesiumElement.bar.numberOfListeners).toBe(0);
+
+    wrapper.setProps({ foo: undefined, bar: () => {}, hoge: () => {} });
+
+    expect(cesiumElement.foo.numberOfListeners).toBe(0);
+    expect(cesiumElement.bar.numberOfListeners).toBe(1);
+    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+  });
+
+  it("should remount when cesium read only props are updated", () => {
+    const cesiumElement = {
+      foo: 0,
+    };
+
+    const createFn = jest.fn((ctx, props: { foo?: number }) => {
+      if (typeof props.foo === "number") {
+        cesiumElement.foo = props.foo;
+      }
+      return cesiumElement;
+    });
+    const destroyFn = jest.fn();
+
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }, {}>({
+      name: "test",
+      create: createFn,
+      destroy: destroyFn,
+      cesiumReadonlyProps: ["foo"],
+    });
+
+    const wrapper = mount(<Component foo={1} />);
+
+    expect(createFn).toBeCalledTimes(1);
+    expect(destroyFn).toBeCalledTimes(0);
+    expect(cesiumElement.foo).toBe(1);
+
+    wrapper.setProps({ foo: 2 });
+
+    expect(createFn).toBeCalledTimes(2);
+    expect(destroyFn).toBeCalledTimes(1);
+    expect(cesiumElement.foo).toBe(2);
+  });
+
+  it("should call update", () => {
+    const updateFn = jest.fn();
+
+    const Component = createCesiumComponent<"hoge", { foo?: number }, {}>({
+      name: "test",
+      create: () => "hoge",
+      update: updateFn,
+    });
+
+    const wrapper = mount(<Component />);
+
+    expect(updateFn).toBeCalledTimes(0);
+
+    wrapper.setProps({ foo: 1 });
+
+    expect(updateFn).toBeCalledTimes(1);
+    expect(updateFn).toBeCalledWith("hoge", { foo: 1 }, {}, {});
+  });
+
+  it("should provide context", () => {
+    const create1 = jest.fn(() => "test");
+    const create2 = jest.fn(() => "test");
+
+    const Component1 = createCesiumComponent<
+      string,
+      { children?: React.ReactNode },
+      {},
+      { context: string }
+    >({
+      name: "test",
+      create: create1,
+      provide: () => ({ context: "b" }),
+    });
+
+    const Component2 = createCesiumComponent<string, {}, {}>({
+      name: "test2",
+      create: create2,
+    });
+
+    mount(
+      <Provider value={{ context: "a", context2: "foo" }}>
+        <Component1>
+          <Component2 />
+        </Component1>
+      </Provider>,
+    );
+
+    expect(create1).toBeCalledWith({ context: "a", context2: "foo" }, expect.anything(), null);
+    expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
+  });
+
+  it("should render container", () => {
+    const createFn = jest.fn(() => "foobar");
+
+    const Component = createCesiumComponent<string, { className?: string }, {}>({
+      name: "test",
+      create: createFn,
+      renderContainer: true,
+      containerProps: ["className"],
+    });
+
+    const wrapper = mount(
+      <Provider value={{}}>
+        <Component className="hoge" />
+      </Provider>,
+    );
+
+    expect(createFn).toBeCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.any(HTMLDivElement),
+    );
+    expect(wrapper.find("div").length).toBe(1);
+    expect(
+      wrapper
+        .find("div")
+        .at(0)
+        .prop("className"),
+    ).toBe("hoge");
+  });
+
+  it("should keep state", () => {
+    const provideFn = jest.fn();
+    const destroyFn = jest.fn();
+
+    const state = {};
+
+    const Component = createCesiumComponent<string, {}, {}, {}, {}>({
+      name: "test",
+      create: () => ["foobar", state],
+      provide: provideFn,
+      destroy: destroyFn,
+    });
+
+    mount(
+      <Provider value={{}}>
+        <Component />
+      </Provider>,
+    ).unmount();
+
+    expect(provideFn).toBeCalledWith(expect.anything(), expect.anything(), state);
+    expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
+  });
+
+  it("should not render when noChildren is true", () => {
+    const Component = createCesiumComponent<string, { children?: React.ReactNode }, {}>({
+      name: "test",
+      noChildren: true,
+    });
+
+    const wrapper = mount(
+      <Component>
+        <div />
+      </Component>,
+    );
+
+    expect(wrapper.find("div").length).toBe(0);
+  });
+});

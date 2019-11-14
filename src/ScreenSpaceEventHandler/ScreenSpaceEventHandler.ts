@@ -1,6 +1,6 @@
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -20,23 +20,23 @@ export interface ScreenSpaceEventHandlerProps {
   children?: React.ReactNode;
 }
 
-export interface ScreenSpaceEventHandlerContext {
-  scene: Cesium.Scene;
-  cesiumWidget: Cesium.CesiumWidget;
-}
-
 const ScreenSpaceEventHandler = createCesiumComponent<
   Cesium.ScreenSpaceEventHandler,
   ScreenSpaceEventHandlerProps,
-  ScreenSpaceEventHandlerContext
+  {
+    scene?: Cesium.Scene;
+    cesiumWidget?: Cesium.CesiumWidget;
+  }
 >({
   name: "ScreenSpaceEventHandler",
-  create(cprops, props, context) {
+  create(context, props) {
     return props.useDefault
-      ? context.cesiumWidget.screenSpaceEventHandler
-      : new CesiumScreenSpaceEventHandler(context.scene.canvas as HTMLCanvasElement);
+      ? context.cesiumWidget?.screenSpaceEventHandler
+      : context.scene
+      ? new CesiumScreenSpaceEventHandler(context.scene.canvas as HTMLCanvasElement)
+      : undefined;
   },
-  unmount(element) {
+  destroy(element) {
     if (!element.isDestroyed()) {
       element.destroy();
     }

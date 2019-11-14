@@ -1,6 +1,6 @@
 import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -27,10 +27,6 @@ export interface PointPrimitiveCollectionProps extends PointPrimitiveCollectionC
   children?: React.ReactNode;
 }
 
-export interface PointPrimitiveCollectionContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-}
-
 const cesiumProps: (keyof PointPrimitiveCollectionCesiumProps)[] = [
   "blendOption",
   "debugShowBoundingVolume",
@@ -40,18 +36,18 @@ const cesiumProps: (keyof PointPrimitiveCollectionCesiumProps)[] = [
 const PointPrimitiveCollection = createCesiumComponent<
   Cesium.PointPrimitiveCollection,
   PointPrimitiveCollectionProps,
-  PointPrimitiveCollectionContext
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
 >({
   name: "PointPrimitveCollection",
-  create(cprops) {
-    return new CesiumPointPrimitiveCollection(cprops);
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumPointPrimitiveCollection(props);
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }

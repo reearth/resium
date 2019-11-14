@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ConstantProperty } from "cesium";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
-import { withCesium } from "../core/context";
+import { useCesiumContext } from "../core/context";
 import { Entity } from "cesium";
 
 // @noCesiumElement
@@ -24,37 +24,19 @@ EntityDescription is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface Props {
-  cesium: { entity?: Entity };
-}
+const EntityDescription: React.FC = ({ children }) => {
+  const entity = useCesiumContext<{ entity?: Entity }>().entity;
 
-class EntityDescription extends React.PureComponent<Props> {
-  public constructor(props: Readonly<Props> & { children?: React.ReactNode }) {
-    super(props);
-    this.update(props);
-  }
+  useEffect(() => {
+    if (!entity || !children) return;
+    entity.description = new ConstantProperty(renderToStaticMarkup(children));
+    return () => {
+      if (!entity) return;
+      (entity.description as Cesium.Property | undefined) = undefined;
+    };
+  }, [children, entity]);
 
-  public componentDidMount() {
-    this.update();
-  }
+  return null;
+};
 
-  public componentDidUpdate(prevProps: Readonly<Props> & { children?: React.ReactNode }) {
-    if (this.props.children !== prevProps.children) {
-      this.update();
-    }
-  }
-
-  public render() {
-    return null;
-  }
-
-  private update(props: Readonly<Props> & { children?: React.ReactNode } = this.props) {
-    if (props.cesium && props.cesium.entity && props.children) {
-      props.cesium.entity.description = new ConstantProperty(
-        renderToStaticMarkup(props.children as React.ReactElement<any>),
-      );
-    }
-  }
-}
-
-export default withCesium<{ children?: React.ReactNode }, { entity?: Entity }>(EntityDescription);
+export default EntityDescription;

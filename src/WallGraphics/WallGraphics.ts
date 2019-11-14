@@ -1,6 +1,6 @@
 import { WallGraphics as CesiumWallGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -34,10 +34,6 @@ export interface WallGraphicsCesiumEvents {
 
 export interface WallGraphicsProps extends WallGraphicsCesiumProps, WallGraphicsCesiumEvents {}
 
-export interface WallGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof WallGraphicsCesiumProps)[] = [
   "positions",
   "maximumHeights",
@@ -53,25 +49,25 @@ const cesiumProps: (keyof WallGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.WallGraphics, keyof WallGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.WallGraphics, WallGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const WallGraphics = createCesiumComponent<
   Cesium.WallGraphics,
   WallGraphicsProps,
-  WallGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "WallGraphics",
-  create(cprops) {
-    return new CesiumWallGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumWallGraphics(props as any);
+    context.entity.wall = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.wall = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.wall = undefined as any;
     }

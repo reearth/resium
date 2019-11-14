@@ -1,6 +1,6 @@
 import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -55,19 +55,12 @@ export interface GeoJsonDataSourceProps
   onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
 }
 
-export interface GeoJsonDataSourceContext {
-  dataSourceCollection?: Cesium.DataSourceCollection;
-}
-
 const cesiumProps: (keyof GeoJsonDataSourceCesiumProps)[] = ["clustering", "name"];
 
-const cesiumEventProps: EventkeyMap<
-  Cesium.GeoJsonDataSource,
-  keyof GeoJsonDataSourceCesiumEvents
-> = {
-  changedEvent: "onChange",
-  errorEvent: "onError",
-  loadingEvent: "onLoading",
+const cesiumEventProps: EventkeyMap<Cesium.GeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
+  onChange: "changedEvent",
+  onError: "ErrorEvent" as any,
+  onLoading: "loadingEvent",
 };
 
 const load = ({
@@ -123,41 +116,40 @@ const load = ({
 const GeoJsonDataSource = createCesiumComponent<
   Cesium.GeoJsonDataSource,
   GeoJsonDataSourceProps,
-  GeoJsonDataSourceContext
+  {
+    dataSourceCollection?: Cesium.DataSourceCollection;
+  }
 >({
   name: "GeoJsonDataSource",
-  create(cprops, props) {
-    const ds = new CesiumGeoJsonDataSource(props.name);
-    if (cprops.clustering) {
-      ds.clustering = cprops.clustering;
+  create(context, props) {
+    if (!context.dataSourceCollection) return;
+    const element = new CesiumGeoJsonDataSource(props.name);
+    if (props.clustering) {
+      element.clustering = props.clustering;
     }
-    if (typeof cprops.show === "boolean") {
-      ds.show = cprops.show;
+    if (typeof props.show === "boolean") {
+      element.show = props.show;
     }
-    return ds;
-  },
-  mount(element, context, props) {
-    if (context.dataSourceCollection) {
-      context.dataSourceCollection.add(element);
-      if (props.data) {
-        load({
-          element,
-          dataSources: context.dataSourceCollection,
-          data: props.data,
-          onLoad: props.onLoad,
-          clampToGround: props.clampToGround,
-          sourceUri: props.sourceUri,
-          markerSize: props.markerSize,
-          markerSymbol: props.markerSymbol,
-          markerColor: props.markerColor,
-          stroke: props.stroke,
-          strokeWidth: props.strokeWidth,
-          fill: props.fill,
-          describe: props.describe,
-          credit: props.credit,
-        });
-      }
+    context.dataSourceCollection.add(element);
+    if (props.data) {
+      load({
+        element,
+        dataSources: context.dataSourceCollection,
+        data: props.data,
+        onLoad: props.onLoad,
+        clampToGround: props.clampToGround,
+        sourceUri: props.sourceUri,
+        markerSize: props.markerSize,
+        markerSymbol: props.markerSymbol,
+        markerColor: props.markerColor,
+        stroke: props.stroke,
+        strokeWidth: props.strokeWidth,
+        fill: props.fill,
+        describe: props.describe,
+        credit: props.credit,
+      });
     }
+    return element;
   },
   update(element, props, prevProps, context) {
     if (prevProps.show !== props.show || !props.data) {
@@ -195,7 +187,7 @@ const GeoJsonDataSource = createCesiumComponent<
       });
     }
   },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
       context.dataSourceCollection.remove(element);
     }

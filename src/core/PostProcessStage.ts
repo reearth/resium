@@ -1,63 +1,51 @@
-import createCesiumComponent from "./CesiumComponent";
+import { createCesiumComponent } from "./component";
+import { includes } from "./util";
 
 export interface PostProcessStageCesiumProps {
   enabled?: boolean;
   selected?: any[];
 }
 
-export interface PostProcessStageContext {
-  scene: Cesium.Scene;
-}
-
-export interface PostProcessStage {
-  enabled: boolean;
-  uniforms: any;
-  isDestroyed(): boolean;
-  destroy(): void;
-}
-
 const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
 
-export const createPostProcessStage = <UniformProps, E extends PostProcessStage = any>(opts: {
+export const createPostProcessStage = <UniformProps>(opts: {
   name: string;
   props: (keyof UniformProps)[];
   readonlyProps?: (keyof UniformProps)[];
   noMount?: boolean;
   create(
     props: Readonly<UniformProps & PostProcessStageCesiumProps>,
-    postProcessStages: any /* Cesium.PostProcessStageCollection */,
-  ): any;
+    postProcessStages: Cesium.PostProcessStageCollection,
+  ): Cesium.PostProcessStage;
 }) =>
   createCesiumComponent<
-    E,
+    Cesium.PostProcessStage,
     PostProcessStageCesiumProps & UniformProps & { stages?: any[] },
-    PostProcessStageContext
+    {
+      scene?: Cesium.Scene;
+    }
   >({
     name,
-    create(cprops, props, context) {
-      const ps = opts.create(cprops, (context.scene as any).postProcessStages);
-      if (typeof cprops.enabled === "boolean") {
-        ps.enabled = cprops.enabled;
+    create(context, props) {
+      if (!context.scene) return;
+      const element = opts.create(props, context.scene.postProcessStages);
+      if (typeof props.enabled === "boolean") {
+        element.enabled = props.enabled;
       }
-      if (cprops.selected) {
-        ps.selected = cprops.selected;
+      if (props.selected) {
+        element.selected = props.selected;
       }
       opts.props.forEach(k => {
-        if (
-          (!opts.readonlyProps || !opts.readonlyProps.includes(k)) &&
-          typeof props[k] !== "undefined"
-        ) {
-          ps.uniforms[k] = props[k];
+        if (!includes(opts.readonlyProps, k) && typeof props[k] !== "undefined") {
+          (element.uniforms as any)[k] = props[k];
         }
       });
-      return ps;
-    },
-    mount(element, context) {
       if (!opts.noMount && context.scene && !context.scene.isDestroyed()) {
         (context.scene as any).postProcessStages.add(element);
       }
+      return element;
     },
-    unmount(element, context) {
+    destroy(element, context) {
       if (!opts.noMount) {
         if (context.scene && !context.scene.isDestroyed()) {
           (context.scene as any).postProcessStages.remove(element);
@@ -71,8 +59,8 @@ export const createPostProcessStage = <UniformProps, E extends PostProcessStage 
     },
     update(element, props, prevProps) {
       opts.props.forEach(k => {
-        if ((!opts.readonlyProps || !opts.readonlyProps.includes(k)) && props[k] !== prevProps[k]) {
-          element.uniforms[k] = props[k];
+        if (!includes(opts.readonlyProps, k) && props[k] !== prevProps[k]) {
+          (element.uniforms as any)[k] = props[k];
         }
       });
     },
