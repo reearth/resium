@@ -47,8 +47,8 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
 
     if (noChildren) return null;
 
-    const children: React.ReactElement | null = mounted ? <>{props.children}</> : null;
-    const wrappedChildren: React.ReactElement | null = renderContainer ? (
+    const children = mounted ? (props.children as React.ReactElement) : null;
+    const wrappedChildren = renderContainer ? (
       <div
         ref={wrapperRef}
         {...(typeof containerProps === "function"

@@ -170,6 +170,25 @@ describe("core/component", () => {
     expect(cesiumElement.foo).toBe(2);
   });
 
+  it("should call update", () => {
+    const updateFn = jest.fn();
+
+    const Component = createCesiumComponent<"hoge", { foo?: number }, {}>({
+      name: "test",
+      create: () => "hoge",
+      update: updateFn,
+    });
+
+    const wrapper = mount(<Component />);
+
+    expect(updateFn).toBeCalledTimes(0);
+
+    wrapper.setProps({ foo: 1 });
+
+    expect(updateFn).toBeCalledTimes(1);
+    expect(updateFn).toBeCalledWith("hoge", { foo: 1 }, {}, {});
+  });
+
   it("should provide context", () => {
     const create1 = jest.fn(() => "test");
     const create2 = jest.fn(() => "test");

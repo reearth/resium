@@ -104,7 +104,9 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
         eventManager.setEvents(element.current, props);
       }
 
-      update?.(element.current, props, prevProps.current, ctx);
+      if (update && mountedRef.current) {
+        update(element.current, props, prevProps.current, ctx);
+      }
 
       prevProps.current = props;
       initialProps.current = props;
@@ -124,14 +126,14 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
       }
     },
     [
-      cesiumEventProps,
-      cesiumProps,
-      cesiumReadonlyProps,
-      ctx,
-      eventManager,
-      name,
-      update,
-      useCommonEvent,
+      cesiumEventProps, // static
+      cesiumProps, // static
+      cesiumReadonlyProps, // static
+      ctx, // static
+      eventManager, // static
+      name, // static
+      update, // static
+      useCommonEvent, // static
     ],
   );
 
@@ -175,9 +177,6 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
       provided.current = { ...ctx, ...provide(element.current, ctx, stateRef.current) };
     }
 
-    setMounted(true);
-    mountedRef.current = true;
-
     return () => {
       // Destroy cesium element
       if (element.current && destroy) {
@@ -206,27 +205,32 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
       mountedRef.current = false;
     };
   }, [
-    cesiumEventProps,
-    create,
-    ctx,
-    destroy,
-    eventManager,
-    provide,
+    cesiumEventProps, // static
+    create, // static
+    ctx, // static
+    destroy, // static
+    eventManager, // static
+    provide, // static
     remount,
-    setCesiumPropsAfterCreate,
-    updateProperties,
-    useCommonEvent,
+    setCesiumPropsAfterCreate, // static
+    updateProperties, // static
+    useCommonEvent, // static
   ]);
 
   // Update properties of cesium element
   useEffect(() => {
     if (mounted) {
-      updateProperties(props);
+      if (props !== prevProps.current) {
+        updateProperties(props);
+      }
     } else {
+      // first time
       prevProps.current = props;
       initialProps.current = props;
+      setMounted(true);
+      mountedRef.current = true;
     }
-  });
+  }, [mounted, props, updateProperties]);
 
   // Expose cesium element
   useImperativeHandle(ref, () => ({
