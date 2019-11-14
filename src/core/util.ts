@@ -39,5 +39,13 @@ export function entries<T>(obj: T): [keyof T, T[keyof T]][] {
 }
 
 export function includes<T>(array: T[] | null | undefined, value: T) {
-  return array ? array.indexOf(value) !== -1 : false;
+  return !!array && array.indexOf(value) !== -1;
+}
+
+export function shallowEquals<T>(a1: T | null | undefined, a2: T | null | undefined) {
+  return (
+    !!a1 &&
+    !!a2 &&
+    [...Object.keys(a1), ...Object.keys(a2)].every(k => a1[k as keyof T] === a2[k as keyof T])
+  );
 }

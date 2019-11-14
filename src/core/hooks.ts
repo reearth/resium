@@ -1,7 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "react";
 import { useCesiumContext } from "./context";
 import EventManager, { eventManagerContextKey } from "./EventManager";
-import { includes } from "./util";
+import { includes, shallowEquals } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
@@ -221,7 +221,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
   // Update properties of cesium element
   useEffect(() => {
     if (mounted) {
-      if (props !== prevProps.current) {
+      if (!shallowEquals(props, prevProps.current)) {
         updateProperties(props);
       }
     } else {

@@ -42,18 +42,22 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
   Props
 > => {
   const component: React.FC<Props> = (props, ref) => {
+    const mergedProps = {
+      ...defaultProps,
+      ...props,
+    };
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesium(options, props, ref);
+    const [provided, mounted, wrapperRef] = useCesium(options, mergedProps, ref);
 
     if (noChildren) return null;
 
-    const children = mounted ? (props.children as React.ReactElement) : null;
+    const children = mounted ? (mergedProps.children as React.ReactElement) : null;
     const wrappedChildren = renderContainer ? (
       <div
         ref={wrapperRef}
         {...(typeof containerProps === "function"
-          ? containerProps(props)
-          : pick(props, containerProps))}>
+          ? containerProps(mergedProps)
+          : pick(mergedProps, containerProps))}>
         {children}
       </div>
     ) : (
@@ -67,10 +71,6 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
   };
 
   component.displayName = options.name;
-
-  if (defaultProps) {
-    component.defaultProps = defaultProps;
-  }
 
   return forwardRef<CesiumComponentRef<Element>, Props>(component);
 };
