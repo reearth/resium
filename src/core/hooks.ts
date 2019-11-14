@@ -42,9 +42,10 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
   }: Options<Element, Props, Context, ProvidedContext, State>,
   props: Props,
   ref: any,
-): [ProvidedContext | undefined, boolean, React.RefObject<HTMLDivElement>] => {
+): [ProvidedContext | {} | undefined, boolean, React.RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
-  const provided = useRef<Context & ProvidedContext>();
+  const ctx = useCesiumContext<Context & { [eventManagerContextKey]?: EventManager }>();
+  const provided = useRef<ProvidedContext | {} | undefined>(provide ? {} : undefined);
   const attachedEvents = useRef<
     {
       [key in keyof Element]?: any;
@@ -55,7 +56,6 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
   const [remount, setRemount] = useState(0);
-  const ctx = useCesiumContext<Context & { [eventManagerContextKey]?: EventManager }>();
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State>();
   const eventManager = ctx[eventManagerContextKey];
