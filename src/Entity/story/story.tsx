@@ -1,6 +1,6 @@
 import React from "react";
 
-import Cesium, {
+import {
   Cartesian2,
   Cartesian3,
   Color,
