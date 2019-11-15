@@ -110,8 +110,10 @@ const CzmlDataSource = createCesiumComponent<
     return element;
   },
   update(element, props, prevProps, context) {
-    if (prevProps.show !== props.show || !props.data) {
-      element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
+    if (!props.data) {
+      element.show = false;
+    } else if (prevProps.show !== props.show) {
+      element.show = typeof props.show === "boolean" ? props.show : true;
     }
     if (
       context.dataSourceCollection &&
