@@ -72,6 +72,7 @@ export { default as Scene } from "./Scene";
 export { default as ScreenSpaceCameraController } from "./ScreenSpaceCameraController";
 export { default as ScreenSpaceEvent } from "./ScreenSpaceEvent";
 export { default as ScreenSpaceEventHandler } from "./ScreenSpaceEventHandler";
+export { default as ShadowMap } from "./ShadowMap";
 export { default as SkyAtmosphere } from "./SkyAtmosphere";
 export { default as SkyBox } from "./SkyBox";
 export { default as Sun } from "./Sun";
