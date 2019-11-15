@@ -3,6 +3,7 @@ import { useCesiumContext } from "./context";
 
 export interface CameraOperationProps {
   cancelCameraFlightOnUnmount?: boolean;
+  once?: boolean;
 }
 
 export const createCameraOperation = <P>(
@@ -13,6 +14,7 @@ export const createCameraOperation = <P>(
   const component: React.FC<P & CameraOperationProps> = props => {
     const ctx = useCesiumContext<{ camera?: Cesium.Camera }>();
     const prevProps = useRef<P>();
+    const first = useRef(false);
 
     useEffect(() => {
       return () => {
@@ -24,8 +26,11 @@ export const createCameraOperation = <P>(
 
     useEffect(() => {
       if (ctx.camera) {
-        ctx.camera.cancelFlight();
-        cameraOperationStart(ctx.camera, props, prevProps.current);
+        if (!props.once || !first.current) {
+          ctx.camera.cancelFlight();
+          cameraOperationStart(ctx.camera, props, prevProps.current);
+          first.current = true;
+        }
       }
       prevProps.current = props;
     });
