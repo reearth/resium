@@ -1,6 +1,7 @@
 import { Model as CesiumModel } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 export interface ModelCesiumProps {
   basePath?: Cesium.Resource | string;
@@ -41,7 +42,15 @@ export interface ModelCesiumReadonlyProps {
   credit?: Cesium.Credit | string;
 }
 
-export interface ModelProps extends ModelCesiumProps, ModelCesiumReadonlyProps {
+export interface ModelProps
+  extends ModelCesiumProps,
+    ModelCesiumReadonlyProps,
+    EventProps<{
+      id?: string;
+      mesh: Cesium.ModelMesh;
+      node: Cesium.ModelNode;
+      primitive: Cesium.Primitive;
+    }> {
   // Calls when the model is completely loaded.
   onReady?: (model: Cesium.Model) => void;
 }
@@ -113,6 +122,7 @@ const Model = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  useCommonEvent: true,
 });
 
 export default Model;

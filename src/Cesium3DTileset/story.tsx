@@ -20,6 +20,7 @@ storiesOf("Cesium3DTileset", module).add("Basic", () => {
         onReady={tileset => {
           ref.current?.cesiumElement?.zoomTo(tileset as any);
         }}
+        onClick={action("onClick")}
       />
     </Viewer>
   );

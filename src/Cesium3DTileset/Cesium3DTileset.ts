@@ -1,5 +1,6 @@
 import { Cesium3DTileset as CesiumCesium3DTileset } from "cesium";
 import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -105,7 +106,8 @@ export interface Cesium3DTilesetCesiumEvents {
 export interface Cesium3DTilesetProps
   extends Cesium3DTilesetCesiumProps,
     Cesium3DTilesetCesiumReadonlyProps,
-    Cesium3DTilesetCesiumEvents {
+    Cesium3DTilesetCesiumEvents,
+    EventProps<any /* Cesium.Cesium3DTileFeature */> {
   // Calls when the tile set is completely loaded.
   onReady?: (tileset: ResiumCesium3DTileset /* Cesium.Cesium3DTileset */) => void;
 }
@@ -206,6 +208,7 @@ const Cesium3DTileset = createCesiumComponent<
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  useCommonEvent: true,
 });
 
 export default Cesium3DTileset;

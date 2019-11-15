@@ -21,6 +21,7 @@ storiesOf("Model", module).add("Basic", () => (
       minimumPixelSize={128}
       maximumScale={20000}
       onReady={action("onReady")}
+      onClick={action("onClick")}
     />
   </Viewer>
 ));
