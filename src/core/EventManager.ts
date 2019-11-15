@@ -105,7 +105,7 @@ export default class EventManager {
 
   public constructor(scene: Cesium.Scene) {
     this.scene = scene;
-    this.sshe = new ScreenSpaceEventHandler(scene.canvas as HTMLCanvasElement);
+    this.sshe = new ScreenSpaceEventHandler(scene?.canvas as HTMLCanvasElement);
   }
 
   public destroy() {
