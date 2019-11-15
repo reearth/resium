@@ -45,7 +45,6 @@ storiesOf("Label", module)
           onRightClick={action("onRightClick")}
           onRightDown={action("onRightDown")}
           onRightUp={action("onRightUp")}
-          onWheel={action("onWheel")}
           onMouseEnter={action("onMouseEnter")}
           onMouseLeave={action("onMouseLeave")}
         />
