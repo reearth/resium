@@ -22,10 +22,11 @@ const eventTypes = t => [
   { name: "onRightClick", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onRightDown", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onRightUp", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
-  { name: "onWheel", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onMouseEnter", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onMouseLeave", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
 ];
+
+const rootEventType = [...eventTypes("any"), { name: "onWheel", type: `(delta: number) => void` }];
 
 function renderPropTable(types) {
   const filteredTypes = types ? types.filter(t => !t.hidden && t.name !== "children") : [];
@@ -324,9 +325,14 @@ function parsePropTypes(name, source, tsx) {
     }
   });
 
-  const eventPropsMatch = source.match(/EventProps<(.*?)>/);
-  if (eventPropsMatch) {
-    props.props = [...props.props, ...eventTypes(eventPropsMatch[1])];
+  const rootEventPropsMatch = source.match(/RootEventProps/);
+  if (rootEventPropsMatch) {
+    props.props = [...props.props, ...rootEventType];
+  } else {
+    const eventPropsMatch = source.match(/EventProps<(.*?)>/);
+    if (eventPropsMatch) {
+      props.props = [...props.props, ...eventTypes(eventPropsMatch[1])];
+    }
   }
 
   return props;
