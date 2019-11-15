@@ -258,6 +258,10 @@ function detectComponentDescription(comments) {
 }
 
 function parsePropTypes(name, source, tsx) {
+  if (/\/\/ @ignore/.test(source)) {
+    return undefined;
+  }
+
   const sourceFile = ts.createSourceFile(
     name + ".ts" + (tsx ? "x" : ""),
     source,
@@ -371,8 +375,10 @@ componentFiles.forEach(cf => {
     console.log(props);
     return;
   }
-  const result = type2doc(props);
-  fs.writeFileSync(path.resolve(__dirname, "..", "..", "docs", "api", `${name}.mdx`), result);
+  if (props) {
+    const result = type2doc(props);
+    fs.writeFileSync(path.resolve(__dirname, "..", "..", "docs", "api", `${name}.mdx`), result);
+  }
 });
 
 if (!preview) {

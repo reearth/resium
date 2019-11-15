@@ -1,3 +1,4 @@
+// @ignore
 import { createPostProcessStage } from "../core/PostProcessStage";
 
 export const AmbientOcclusion = createPostProcessStage<{

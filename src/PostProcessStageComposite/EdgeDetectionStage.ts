@@ -1,3 +1,4 @@
+// @ignore
 import { PostProcessStageLibrary } from "cesium";
 
 import { createPostProcessStage } from "../core/PostProcessStage";
