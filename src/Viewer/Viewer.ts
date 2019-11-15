@@ -2,8 +2,7 @@ import React from "react";
 import { Viewer as CesiumViewer } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
-import { eventManagerContextKey } from "../core/EventManager";
-import EventManager from "../core/EventManager";
+import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -144,7 +143,8 @@ const cesiumEventProps: EventkeyMap<CesiumViewer, ViewerCesiumEvents> = {
 export interface ViewerProps
   extends ViewerCesiumProps,
     ViewerCesiumReadonlyProps,
-    ViewerCesiumEvents {
+    ViewerCesiumEvents,
+    RootEventProps {
   // Applied to outer `div` element
   className?: string;
   // Applied to outer `div` element
@@ -197,7 +197,7 @@ const Viewer = createCesiumComponent<
     }
 
     // common event manager for managing events of Entity and Primitives
-    const state = new EventManager(v.scene, v.canvas);
+    const state = new EventManager(v.scene);
 
     return [v, state];
   },
@@ -244,6 +244,8 @@ const Viewer = createCesiumComponent<
   cesiumReadonlyProps,
   cesiumEventProps,
   renderContainer: true,
+  useCommonEvent: true,
+  useRootEvent: true,
 });
 
 export default Viewer;

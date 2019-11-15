@@ -2,7 +2,7 @@ import React from "react";
 import { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
-import EventManager, { eventManagerContextKey } from "../core/EventManager";
+import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
 import { pick } from "../core/util";
 
 /*
@@ -84,7 +84,8 @@ const cesiumReadonlyProps: (keyof CesiumWidgetCesiumReadonlyProps)[] = [
 
 export interface CesiumWidgetProps
   extends CesiumWidgetCesiumProps,
-    CesiumWidgetCesiumReadonlyProps {
+    CesiumWidgetCesiumReadonlyProps,
+    RootEventProps {
   // Applied to outer `div` element
   className?: string;
   // Applied to outer `div` element
@@ -125,7 +126,7 @@ const CesiumWidget = createCesiumComponent<
     }
 
     // common event manager for managing events of Entity and Primitives
-    const eventManager = new EventManager(v.scene, v.canvas);
+    const eventManager = new EventManager(v.scene);
 
     return [v, eventManager];
   },
@@ -168,6 +169,8 @@ const CesiumWidget = createCesiumComponent<
   cesiumProps,
   cesiumReadonlyProps,
   renderContainer: true,
+  useCommonEvent: true,
+  useRootEvent: true,
 });
 
 export default CesiumWidget;

@@ -27,6 +27,7 @@ export interface Options<Element, Props, Context, ProvidedContext = never, State
   cesiumEventProps?: EventkeyMap<Element, Props>;
   setCesiumPropsAfterCreate?: boolean;
   useCommonEvent?: boolean;
+  useRootEvent?: boolean;
 }
 
 export const useCesium = <Element, Props, Context, ProvidedContext = any, State = any>(
@@ -41,6 +42,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
     cesiumEventProps,
     setCesiumPropsAfterCreate,
     useCommonEvent,
+    useRootEvent,
   }: Options<Element, Props, Context, ProvidedContext, State>,
   props: Props,
   ref: any,
@@ -104,8 +106,12 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
         }
       }
 
-      if (useCommonEvent && eventManager && element.current) {
-        eventManager.setEvents(element.current, props);
+      const em = useRootEvent
+        ? provided.current &&
+          ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+        : eventManager;
+      if (useCommonEvent && em && element.current) {
+        em.setEvents(useRootEvent ? null : element.current, props);
       }
 
       if (update && mountedRef.current) {
@@ -138,6 +144,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
       name, // static
       update, // static
       useCommonEvent, // static
+      useRootEvent, // static
     ],
   );
 
@@ -174,12 +181,16 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
       prevProps.current = initialProps.current;
     }
 
-    if (useCommonEvent && eventManager && element.current) {
-      eventManager.setEvents(element.current, initialProps.current);
-    }
-
     if (provide && element.current) {
       provided.current = { ...ctx, ...provide(element.current, ctx, stateRef.current) };
+    }
+
+    const em = useRootEvent
+      ? provided.current &&
+        ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+      : eventManager;
+    if (useCommonEvent && em && element.current) {
+      em.setEvents(useRootEvent ? null : element.current, initialProps.current);
     }
 
     return () => {
@@ -188,8 +199,12 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
         destroy(element.current, ctx, wrapperDiv, stateRef.current);
       }
 
-      if (useCommonEvent && eventManager && element.current) {
-        eventManager.clearEvents(element.current);
+      const em = useRootEvent
+        ? provided.current &&
+          ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+        : eventManager;
+      if (useCommonEvent && em && element.current) {
+        em.clearEvents(useRootEvent ? null : element.current);
       }
 
       // Detach all events
@@ -220,6 +235,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
     setCesiumPropsAfterCreate, // static
     updateProperties, // static
     useCommonEvent, // static
+    useRootEvent, // static
   ]);
 
   // Update properties of cesium element
