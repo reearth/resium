@@ -61,6 +61,7 @@ const CustomDataSource = createCesiumComponent<
     if (typeof props.clock !== "undefined") {
       element.clock = props.clock;
     }
+    context.dataSourceCollection.add(element);
     return element;
   },
   destroy(element, context) {
