@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { RectangleGraphics as CesiumRectangleGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -43,10 +43,6 @@ export interface RectangleGraphicsProps
   extends RectangleGraphicsCesiumProps,
     RectangleGraphicsCesiumEvents {}
 
-export interface RectangleGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof RectangleGraphicsCesiumProps)[] = [
   "coordinates",
   "height",
@@ -67,28 +63,25 @@ const cesiumProps: (keyof RectangleGraphicsCesiumProps)[] = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<
-  Cesium.RectangleGraphics,
-  keyof RectangleGraphicsCesiumEvents
-> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.RectangleGraphics, RectangleGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const RectangleGraphics = createCesiumComponent<
   Cesium.RectangleGraphics,
   RectangleGraphicsProps,
-  RectangleGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "RectangleGraphics",
-  create(cprops) {
-    return new Cesium.RectangleGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumRectangleGraphics(props as any);
+    context.entity.rectangle = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.rectangle = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.rectangle = undefined as any;
     }

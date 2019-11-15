@@ -22,10 +22,11 @@ const eventTypes = t => [
   { name: "onRightClick", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onRightDown", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onRightUp", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
-  { name: "onWheel", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onMouseEnter", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
   { name: "onMouseLeave", type: `(movement: CesiumMovementEvent, target: ${t}) => void` },
 ];
+
+const rootEventType = [...eventTypes("any"), { name: "onWheel", type: `(delta: number) => void` }];
 
 function renderPropTable(types) {
   const filteredTypes = types ? types.filter(t => !t.hidden && t.name !== "children") : [];
@@ -54,7 +55,6 @@ ${filteredTypes
 }
 
 function type2doc(type) {
-  // const cesiumWidget = type.example && /<CesiumWidget/.test(type.example);
   const generalComponent =
     type.cesiumProps.length === 0 &&
     type.cesiumReadonlyProps.length === 0 &&
@@ -66,49 +66,30 @@ name: ${type.name}
 route: /components/${type.name}
 menu: Components
 ---
-${
-  /*
-    type.example
-      ? `
-import { Playground } from "docz";
-import ${cesiumWidget ? "CesiumWidget" : "Viewer"} from "../components/${
-          cesiumWidget ? "CesiumWidget" : "Viewer"
-        }";
-${type.exampleImports ? type.exampleImports + "\n" : ""}`
-      : ""
-  */ ""
-}
+
+import Link from "../components/Link";
+
 # ${type.name}
 ${type.summary ? `\n${type.summary}\n` : ""}
 ${
   type.noCesiumElement
     ? ""
-    : `**Cesium element**: [${type.cesiumElement ||
+    : `- **Cesium element**: [${type.cesiumElement ||
         type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement ||
         type.name}.html)
 `
-}${
-    /*
-    type.example
-      ? `
-<Playground>
-${type.example
-          .split("\n")
-          .map(s => "  " + s)
-          .join("\n")}
-</Playground>
-`
-      : ""
-*/ ""
-  }${
-    type.scope
-      ? `
+}- **Example**: <Link href="/examples/?path=/story/${type.name.toLowerCase()}--basic">${
+    type.name
+  }</Link>
+${
+  type.scope
+    ? `
 ## Available scope
 
 ${type.scope}
 `
-      : ""
-  }
+    : ""
+}
 ## Properties
 ${
   !generalComponent
@@ -270,16 +251,6 @@ function detectComponentDescription(comments) {
           scope: c.replace(/^ *?@scope/, "").trim(),
         };
       }
-      if (/^ *?@exampleImports/.test(c)) {
-        return {
-          exampleImports: c.replace(/^ *?@exampleImports/, "").trim(),
-        };
-      }
-      if (/^ *?@example/.test(c)) {
-        return {
-          example: c.replace(/^ *?@example/, "").trim(),
-        };
-      }
       return undefined;
     })
     .filter(c => !!c)
@@ -350,15 +321,18 @@ function parsePropTypes(name, source, tsx) {
   eventMap.forEach(ev => {
     const ev2 = props.cesiumEvents.find(e => e.name === ev[0]);
     if (ev2 && (!ev2.description || ev2.description === "")) {
-      ev2.description = `Correspond to [${name}#${
-        ev[1]
-      }](https://cesiumjs.org/Cesium/Build/Documentation/${name}.html#${ev[1]})`;
+      ev2.description = `Correspond to [${name}#${ev[1]}](https://cesiumjs.org/Cesium/Build/Documentation/${name}.html#${ev[1]})`;
     }
   });
 
-  const eventPropsMatch = source.match(/EventProps<(.*?)>/);
-  if (eventPropsMatch) {
-    props.props = [...props.props, ...eventTypes(eventPropsMatch[1])];
+  const rootEventPropsMatch = source.match(/RootEventProps/);
+  if (rootEventPropsMatch) {
+    props.props = [...props.props, ...rootEventType];
+  } else {
+    const eventPropsMatch = source.match(/EventProps<(.*?)>/);
+    if (eventPropsMatch) {
+      props.props = [...props.props, ...eventTypes(eventPropsMatch[1])];
+    }
   }
 
   return props;

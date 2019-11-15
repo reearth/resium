@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -42,15 +42,12 @@ export interface KmlDataSourceProps
   clampToGround?: boolean;
   // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumReadonlyProp
+  credit?: Cesium.Credit | string;
   // @CesiumProp
   show?: boolean;
   // Calls when the Promise for loading data is fullfilled.
   onLoad?: (kmlDataSouce: Cesium.KmlDataSource) => void;
-}
-
-export interface KmlDataSourceContext {
-  dataSourceCollection?: Cesium.DataSourceCollection;
-  scene: Cesium.Scene;
 }
 
 const cesiumProps: (keyof KmlDataSourceCesiumProps)[] = ["clustering", "name"];
@@ -61,12 +58,12 @@ const cesiumReadonlyProps: (keyof KmlDataSourceCesiumReadonlyProps)[] = [
   "ellipsoid",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.KmlDataSource, keyof KmlDataSourceCesiumEvents> = {
-  changedEvent: "onChange",
-  errorEvent: "onError",
-  loadingEvent: "onLoading",
-  refreshEvent: "onRefresh",
-  unsupportedNodeEvent: "onUnsupportedNode",
+const cesiumEventProps: EventkeyMap<Cesium.KmlDataSource, KmlDataSourceCesiumEvents> = {
+  onChange: "changedEvent",
+  onError: "ErrorEvent" as any,
+  onLoading: "loadingEvent",
+  onRefresh: "refreshEvent",
+  onUnsupportedNode: "unsupportedNodeEvent",
 };
 
 const load = ({
@@ -76,6 +73,7 @@ const load = ({
   clampToGround,
   ellipsoid,
   sourceUri,
+  credit,
 }: {
   element: Cesium.KmlDataSource;
   dataSources: Cesium.DataSourceCollection;
@@ -84,8 +82,9 @@ const load = ({
   clampToGround?: boolean;
   ellipsoid?: Cesium.Ellipsoid;
   sourceUri?: string;
+  credit?: Cesium.Credit | string;
 }) => {
-  element.load(data, { clampToGround, ellipsoid, sourceUri }).then(value => {
+  element.load(data, { clampToGround, ellipsoid, sourceUri, credit } as any).then(value => {
     if (onLoad) {
       onLoad(value);
     }
@@ -95,45 +94,48 @@ const load = ({
 const KmlDataSource = createCesiumComponent<
   Cesium.KmlDataSource,
   KmlDataSourceProps,
-  KmlDataSourceContext
+  {
+    dataSourceCollection?: Cesium.DataSourceCollection;
+    scene?: Cesium.Scene;
+  }
 >({
   name: "KmlDataSource",
-  create(cprops, props, context) {
-    const ds = new Cesium.KmlDataSource({
-      camera: cprops.camera || context.scene.camera,
-      canvas: cprops.canvas || (context.scene.canvas as HTMLCanvasElement),
-      ellipsoid: cprops.ellipsoid,
+  create(context, props) {
+    if (!context.scene || !context.dataSourceCollection) return;
+    const element = new CesiumKmlDataSource({
+      camera: props.camera || context.scene.camera,
+      canvas: props.canvas || (context.scene.canvas as HTMLCanvasElement),
+      ellipsoid: props.ellipsoid,
     });
-    if (cprops.clustering) {
-      ds.clustering = cprops.clustering;
+    if (props.clustering) {
+      element.clustering = props.clustering;
     }
-    if (typeof cprops.show === "boolean") {
-      ds.show = cprops.show;
+    if (typeof props.show === "boolean") {
+      element.show = props.show;
     }
-    if (typeof cprops.name !== "undefined") {
-      ds.name = cprops.name;
+    if (typeof props.name !== "undefined") {
+      element.name = props.name;
     }
-    return ds;
-  },
-  mount(element, context, props) {
-    if (context.dataSourceCollection) {
-      context.dataSourceCollection.add(element);
-      if (props.data) {
-        load({
-          element,
-          dataSources: context.dataSourceCollection,
-          data: props.data,
-          onLoad: props.onLoad,
-          clampToGround: props.clampToGround,
-          ellipsoid: props.ellipsoid,
-          sourceUri: props.sourceUri,
-        });
-      }
+    context.dataSourceCollection.add(element);
+    if (props.data) {
+      load({
+        element,
+        dataSources: context.dataSourceCollection,
+        data: props.data,
+        onLoad: props.onLoad,
+        clampToGround: props.clampToGround,
+        ellipsoid: props.ellipsoid,
+        sourceUri: props.sourceUri,
+        credit: props.credit,
+      });
     }
+    return element;
   },
   update(element, props, prevProps, context) {
-    if (prevProps.show !== props.show || !props.data) {
-      element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
+    if (!props.data) {
+      element.show = false;
+    } else if (prevProps.show !== props.show) {
+      element.show = typeof props.show === "boolean" ? props.show : true;
     }
     if (
       context.dataSourceCollection &&
@@ -141,7 +143,8 @@ const KmlDataSource = createCesiumComponent<
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
         prevProps.ellipsoid !== props.ellipsoid ||
-        prevProps.sourceUri !== props.sourceUri)
+        prevProps.sourceUri !== props.sourceUri ||
+        prevProps.credit !== prevProps.credit)
     ) {
       load({
         element,
@@ -151,10 +154,11 @@ const KmlDataSource = createCesiumComponent<
         clampToGround: props.clampToGround,
         ellipsoid: props.ellipsoid,
         sourceUri: props.sourceUri,
+        credit: props.credit,
       });
     }
   },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
       context.dataSourceCollection.remove(element);
     }

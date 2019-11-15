@@ -1,7 +1,5 @@
-import Cesium from "cesium";
-
-import createCesiumComponent from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -45,11 +43,6 @@ export interface LabelCesiumProps {
 
 export interface LabelProps extends LabelCesiumProps, EventProps<Cesium.Label> {}
 
-export interface LabelContext {
-  labelCollection: Cesium.LabelCollection;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof LabelCesiumProps)[] = [
   "backgroundColor",
   "backgroundPadding",
@@ -76,30 +69,22 @@ const cesiumProps: (keyof LabelCesiumProps)[] = [
   "verticalOrigin",
 ];
 
-const Label = createCesiumComponent<Cesium.Label, LabelProps, LabelContext>({
+const Label = createCesiumComponent<
+  Cesium.Label,
+  LabelProps,
+  {
+    labelCollection?: Cesium.LabelCollection;
+  }
+>({
   name: "Label",
-  create(cprops, props, context) {
-    return context.labelCollection.add(cprops);
-  },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  create: (context, props) => context.labelCollection?.add(props),
+  destroy(element, context) {
     if (context.labelCollection && !context.labelCollection.isDestroyed()) {
       context.labelCollection.remove(element);
     }
   },
-  update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
   cesiumProps,
+  useCommonEvent: true,
 });
 
 export default Label;

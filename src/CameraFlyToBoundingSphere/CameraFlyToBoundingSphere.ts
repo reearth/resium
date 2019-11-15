@@ -1,6 +1,4 @@
-import Cesium from "cesium";
-
-import createCameraOperation from "../core/CameraOperation";
+import { createCameraOperation } from "../core/CameraOperation";
 
 // @noCesiumElement
 
@@ -33,39 +31,17 @@ export interface CameraFlyToBoundingSphereProps {
   flyOverLongitudeWeight?: number;
   easingFunction?: Cesium.EasingFunction;
   // If true, cancel camera flight if this component is unmounted. Default value is false.
-  cancelCameraFlight?: boolean;
+  cancelCameraFlightOnUnmount?: boolean;
+  // If true, camera flight will be executed only once time.
+  once?: boolean;
 }
 
-const CameraFlyToBoundingSphere = createCameraOperation({
-  name: "CameraFlyToBoundingSphere",
-  cameraOperationStart(camera: Cesium.Camera, props: CameraFlyToBoundingSphereProps) {
-    const {
-      boundingSphere,
-      offset,
-      duration,
-      onComplete,
-      onCancel,
-      endTransform,
-      maximumHeight,
-      pitchAdjustHeight,
-      flyOverLongitude,
-      flyOverLongitudeWeight,
-      easingFunction,
-    } = props;
-
-    camera.flyToBoundingSphere(boundingSphere, {
-      offset,
-      duration,
-      complete: onComplete,
-      cancel: onCancel,
-      endTransform,
-      maximumHeight,
-      pitchAdjustHeight,
-      flyOverLongitude,
-      flyOverLongitudeWeight,
-      easingFunction,
-    });
+const CameraFlyToBoundingSphere = createCameraOperation<CameraFlyToBoundingSphereProps>(
+  "CameraFlyToBoundingSphere",
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (camera, { cancelCameraFlightOnUnmount, boundingSphere, ...props }) => {
+    camera.flyToBoundingSphere(boundingSphere, props);
   },
-});
+);
 
 export default CameraFlyToBoundingSphere;

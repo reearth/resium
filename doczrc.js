@@ -25,16 +25,7 @@ export default {
   ],
   htmlContext: {
     head: {
-      links: [
-        {
-          rel: "stylesheet",
-          href: "/cesium/Widgets/widgets.css",
-        },
-      ],
       raw: ["<style>img{max-width:100%;}</style>"],
-    },
-    body: {
-      scripts: [{ src: "/cesium/Cesium.js" }],
     },
   },
   modifyBundlerConfig: config => ({
@@ -50,7 +41,7 @@ export default {
       }),
       new CopyPlugin([
         {
-          from: "node_modules/cesium/Build/CesiumUnminified",
+          from: "node_modules/cesium/Build/Cesium",
           to: "cesium",
         },
       ]),

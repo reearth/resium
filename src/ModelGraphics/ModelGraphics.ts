@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { ModelGraphics as CesiumModelGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -45,10 +45,6 @@ export interface ModelGraphicsCesiumEvents {
 
 export interface ModelGraphicsProps extends ModelGraphicsCesiumProps, ModelGraphicsCesiumEvents {}
 
-export interface ModelGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof ModelGraphicsCesiumProps)[] = [
   "uri",
   "show",
@@ -72,25 +68,25 @@ const cesiumProps: (keyof ModelGraphicsCesiumProps)[] = [
   "lightColor",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, keyof ModelGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, ModelGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const ModelGraphics = createCesiumComponent<
   Cesium.ModelGraphics,
   ModelGraphicsProps,
-  ModelGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "ModelGraphics",
-  create(cprops) {
-    return new Cesium.ModelGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumModelGraphics(props as any);
+    context.entity.model = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.model = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.model = undefined as any;
     }

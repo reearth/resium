@@ -1,7 +1,7 @@
-import Cesium from "cesium";
+import { Primitive as CesiumPrimitive } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -45,11 +45,6 @@ export interface PrimitiveProps
   onReady?: (primitive: Cesium.Primitive) => void;
 }
 
-export interface PrimitiveContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof PrimitiveCesiumProps)[] = [
   "appearance",
   "cull",
@@ -70,32 +65,24 @@ const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
   "vertexCacheOptimize",
 ];
 
-const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, PrimitiveContext>({
+const Primitive = createCesiumComponent<
+  Cesium.Primitive,
+  PrimitiveProps,
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
+>({
   name: "Primitive",
-  create(cprops, props) {
-    const primitive = new Cesium.Primitive(cprops);
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumPrimitive(props);
     if (props.onReady) {
-      primitive.readyPromise.then(props.onReady);
+      element.readyPromise.then(props.onReady);
     }
-    return primitive;
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
@@ -105,6 +92,7 @@ const Primitive = createCesiumComponent<Cesium.Primitive, PrimitiveProps, Primit
   },
   cesiumProps,
   cesiumReadonlyProps,
+  useCommonEvent: true,
 });
 
 export default Primitive;

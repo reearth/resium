@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { CorridorGraphics as CesiumCorridorGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -41,10 +41,6 @@ export interface CorridorCesiumEvents {
 
 export interface CorridorGraphicsProps extends CorridorGraphicsCesiumProps, CorridorCesiumEvents {}
 
-export interface CorridorGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof CorridorGraphicsCesiumProps)[] = [
   "positions",
   "width",
@@ -66,29 +62,28 @@ const cesiumProps: (keyof CorridorGraphicsCesiumProps)[] = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CorridorCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, CorridorCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const CorridorGraphics = createCesiumComponent<
   Cesium.CorridorGraphics,
   CorridorGraphicsProps,
-  CorridorGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "CorridorGraphics",
-  create(cprops) {
-    const cg = new Cesium.CorridorGraphics(cprops as any);
-    if (cprops.classificationType) {
-      (cg as any).classificationType = cprops.classificationType;
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumCorridorGraphics(props as any);
+    if (props.classificationType) {
+      (element as any).classificationType = props.classificationType;
     }
-    return cg;
+    context.entity.corridor = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.corridor = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.corridor = undefined as any;
     }

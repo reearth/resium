@@ -1,25 +1,10 @@
-import Cesium, { ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
+import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
 
-import { pickedObjectEquals } from "./util";
+import { pickedObjectEquals, entries, includes } from "./util";
 
-export type EventType =
-  | "onClick"
-  | "onDoubleClick"
-  | "onMouseDown"
-  | "onMouseUp"
-  | "onMiddleClick"
-  | "onMiddleDown"
-  | "onMiddleUp"
-  | "onMouseMove"
-  | "onPinchEnd"
-  | "onPinchMove"
-  | "onPinchStart"
-  | "onRightClick"
-  | "onRightDown"
-  | "onRightUp"
-  | "onWheel"
-  | "onMouseEnter"
-  | "onMouseLeave";
+export const eventManagerContextKey = "__RESIUM_EVENT_MANAGER";
+
+type EventType = keyof RootEventProps;
 
 export interface EventProps<T> {
   onClick?: (movement: CesiumMovementEvent, target: T) => void;
@@ -36,16 +21,19 @@ export interface EventProps<T> {
   onRightClick?: (movement: CesiumMovementEvent, target: T) => void;
   onRightDown?: (movement: CesiumMovementEvent, target: T) => void;
   onRightUp?: (movement: CesiumMovementEvent, target: T) => void;
-  onWheel?: (movement: CesiumMovementEvent, target: T) => void;
   onMouseEnter?: (movement: CesiumMovementEvent, target: T) => void;
   onMouseLeave?: (movement: CesiumMovementEvent, target: T) => void;
+}
+
+export interface RootEventProps extends EventProps<any> {
+  onWheel?: (delta: number) => void;
 }
 
 type EventMap<T> = { [k in EventType]: T };
 
 export interface CesiumMovementEvent {
   position?: Cesium.Cartesian2;
-  startPositon?: Cesium.Cartesian2;
+  startPosition?: Cesium.Cartesian2;
   endPosition?: Cesium.Cartesian2;
 }
 
@@ -113,15 +101,15 @@ export default class EventManager {
     onMouseEnter: new Map(),
     onMouseLeave: new Map(),
   };
-  private hovered = new Map<any, boolean>();
-  private changed = new Map<any, boolean>();
+  private hovered: any = undefined;
 
-  public constructor(scene: Cesium.Scene, canvas: HTMLCanvasElement) {
+  public constructor(scene: Cesium.Scene) {
     this.scene = scene;
-    this.sshe = new ScreenSpaceEventHandler(canvas);
+    this.sshe = new ScreenSpaceEventHandler(scene.canvas as HTMLCanvasElement);
   }
 
   public destroy() {
+    this.hovered = undefined;
     if (!this.sshe.isDestroyed()) {
       this.sshe.destroy();
     }
@@ -132,19 +120,23 @@ export default class EventManager {
   }
 
   public on(element: any, type: EventType, cb: Callback) {
+    if (element && type === "onWheel") return;
     this.events[type].set(element, cb);
   }
 
   public off(element: any, type: EventType) {
     this.events[type].delete(element);
+    if (this.hovered === element) {
+      this.hovered = undefined;
+    }
   }
 
-  public setEvents(element: any, props: object) {
-    Object.entries(props).forEach(([k, v]) => {
+  public setEvents(element: any, props: any) {
+    entries(props).forEach(([k, v]) => {
       const et = k as EventType;
-      if (eventNames.includes(et)) {
+      if (includes(eventNames, et)) {
         if (v) {
-          this.on(element, et, v);
+          this.on(element, et, v as any);
         } else {
           this.off(element, et);
         }
@@ -154,6 +146,7 @@ export default class EventManager {
   }
 
   public clearEvents(element: any) {
+    this.hovered = undefined;
     eventNames.forEach(et => {
       this.off(element, et);
     });
@@ -163,8 +156,6 @@ export default class EventManager {
   public commit() {
     const sshe = this.sshe;
     const destroyed = this.sshe.isDestroyed();
-    const elements = new Set(this.hovered.keys());
-    const elements2 = new Set<any>();
 
     if (!destroyed) {
       if (
@@ -178,34 +169,19 @@ export default class EventManager {
       }
     }
 
-    Object.entries(this.events).forEach(([et, m]) => {
-      const eventType = et as EventType;
-
-      m.forEach((v, k) => {
-        if (!this.hovered.has(k)) {
-          this.hovered.set(k, false);
-        }
-        elements2.add(k);
-      });
-
+    entries(this.events).forEach(([et, m]) => {
       if (et === "onMouseEnter" || et === "onMouseLeave" || et === "onMouseMove") {
         return;
       }
 
-      const cesiumEventType = EventManager.eventTypeMap[eventType];
+      const cesiumEventType = EventManager.eventTypeMap[et];
 
       if (!destroyed) {
         if (m.size === 0) {
           sshe.removeInputAction(cesiumEventType);
         } else if (!sshe.getInputAction(cesiumEventType)) {
-          sshe.setInputAction(this.eventCallback(eventType) as any, cesiumEventType);
+          sshe.setInputAction(this.eventCallback(et) as any, cesiumEventType);
         }
-      }
-    });
-
-    elements.forEach(e => {
-      if (!elements2.has(e)) {
-        this.hovered.delete(e);
       }
     });
   }
@@ -216,48 +192,60 @@ export default class EventManager {
 
   private onMouseMove = (e: CesiumMovementEvent) => {
     const picked = this.pick(e.endPosition);
-    this.changed.clear();
 
-    this.hovered.forEach((h, element) => {
-      const p = pickedObjectEquals(picked, element);
-      this.hovered.set(element, p);
-      if (p !== h) {
-        this.changed.set(element, p);
-      }
-    });
-
-    if (picked) {
-      this.events.onMouseMove.forEach((cb, element) => {
-        if (this.hovered.get(element)) {
-          cb(e, element);
+    if (this.hovered !== picked) {
+      if (this.hovered) {
+        const onMouseLeave = this.events.onMouseLeave.get(this.hovered);
+        if (onMouseLeave) {
+          onMouseLeave(e, this.hovered);
         }
-      });
+        const onRootMouseLeave = this.events.onMouseLeave.get(null);
+        if (onRootMouseLeave) {
+          onRootMouseLeave(e, this.hovered);
+        }
+      }
+      if (picked) {
+        const onMouseEnter = this.events.onMouseEnter.get(picked);
+        if (onMouseEnter) {
+          onMouseEnter(e, picked);
+        }
+        const onRootMouseEnter = this.events.onMouseEnter.get(null);
+        if (onRootMouseEnter) {
+          onRootMouseEnter(e, picked);
+        }
+      }
     }
 
-    this.changed.forEach((hovered, element) => {
-      if (hovered) {
-        const onMouseEnter = this.events.onMouseEnter.get(element);
-        if (onMouseEnter) {
-          onMouseEnter(e, element);
-        }
-      } else {
-        const onMouseLeave = this.events.onMouseLeave.get(element);
-        if (onMouseLeave) {
-          onMouseLeave(e, element);
-        }
+    if (picked) {
+      const onMouseMove = this.events.onMouseMove.get(picked);
+      if (onMouseMove) {
+        onMouseMove(e, picked);
       }
-    });
+    }
+    const onRootMouseMove = this.events.onMouseMove.get(null);
+    if (onRootMouseMove) {
+      onRootMouseMove(e, picked);
+    }
+
+    this.hovered = picked;
   };
 
-  private eventCallback = (et: EventType) => (e: CesiumMovementEvent) => {
-    const picked = this.pick(e.position);
-    if (picked) {
-      this.events[et].forEach((cb, element) => {
-        if (pickedObjectEquals(picked, element)) {
-          cb(e, element);
-        }
-      });
-    }
+  private eventCallback = (et: EventType) => {
+    const em = this.events[et];
+    return (e: any) => {
+      const picked = this.pick(e?.position);
+      if (picked) {
+        em.forEach((cb, element) => {
+          if (pickedObjectEquals(picked, element)) {
+            cb(e, picked);
+          }
+        });
+      }
+      const rootEvent = em.get(null);
+      if (rootEvent) {
+        rootEvent(e, picked);
+      }
+    };
   };
 
   private pick(pos?: Cesium.Cartesian2): any | undefined {
@@ -267,7 +255,7 @@ export default class EventManager {
     const picked = this.scene.pick(pos);
     if (picked) {
       // Entity
-      if (picked.id instanceof Cesium.Entity) {
+      if (picked.id instanceof Entity) {
         return picked.id;
       }
       // Other

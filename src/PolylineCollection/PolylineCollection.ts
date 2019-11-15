@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { PolylineCollection as CesiumPolylineCollection } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -27,11 +27,6 @@ export interface PolylineCollectionProps extends PolylineCollectionCesiumProps {
   children?: React.ReactNode;
 }
 
-export interface PolylineCollectionContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof PolylineCollectionCesiumProps)[] = [
   "debugShowBoundingVolume",
   "length",
@@ -41,23 +36,24 @@ const cesiumProps: (keyof PolylineCollectionCesiumProps)[] = [
 const PolylineCollection = createCesiumComponent<
   Cesium.PolylineCollection,
   PolylineCollectionProps,
-  PolylineCollectionContext
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+    scene?: Cesium.Scene;
+  }
 >({
   name: "PolylineCollection",
-  create(cprops, props, context) {
-    return new Cesium.PolylineCollection({
-      modelMatrix: cprops.modelMatrix,
-      debugShowBoundingVolume: cprops.debugShowBoundingVolume,
-      length: cprops.length,
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumPolylineCollection({
+      modelMatrix: props.modelMatrix,
+      debugShowBoundingVolume: props.debugShowBoundingVolume,
+      length: props.length, //
       scene: context.scene,
     } as any);
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }

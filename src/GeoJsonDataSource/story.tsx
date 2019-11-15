@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { storiesOf } from "@storybook/react";
 import { Color } from "cesium";
+import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import GeoJsonDataSource from "./GeoJsonDataSource";
-import { action } from "@storybook/addon-actions";
 
 const data = {
   type: "Feature",
@@ -21,19 +21,31 @@ const data = {
 
 const onLoadAction = action("onLoad");
 
-const onLoad = (g: Cesium.GeoJsonDataSource) => {
-  // You can process the data source here
-  g.entities.values[0].name = "Coors Field!";
-  onLoadAction(g);
-};
-
-storiesOf("GeoJsonDataSource", module).add("Basic", () => (
-  <Viewer full>
-    <GeoJsonDataSource
-      data={data}
-      markerColor={Color.RED}
-      onLoad={onLoad}
-      onError={action("onError")}
-    />
-  </Viewer>
-));
+storiesOf("GeoJsonDataSource", module)
+  .add("Basic", () => (
+    <Viewer full>
+      <GeoJsonDataSource
+        data={data}
+        markerColor={Color.RED}
+        onLoad={g => {
+          // You can process the data source here
+          g.entities.values[0].name = "Coors Field!";
+          onLoadAction(g);
+        }}
+        onError={action("onError")}
+      />
+    </Viewer>
+  ))
+  .add("Show", () => {
+    const [show, setShow] = useState(true);
+    return (
+      <Viewer full>
+        <button
+          style={{ position: "absolute", top: "0", left: "0" }}
+          onClick={() => setShow(s => !s)}>
+          Toggle
+        </button>
+        <GeoJsonDataSource data={data} markerColor={Color.RED} show={show} />
+      </Viewer>
+    );
+  });

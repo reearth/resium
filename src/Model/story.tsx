@@ -1,4 +1,3 @@
-import Cesium from "cesium";
 import React from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -22,6 +21,7 @@ storiesOf("Model", module).add("Basic", () => (
       minimumPixelSize={128}
       maximumScale={20000}
       onReady={action("onReady")}
+      onClick={action("onClick")}
     />
   </Viewer>
 ));

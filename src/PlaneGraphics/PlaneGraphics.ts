@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { PlaneGraphics as CesiumPlaneGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -32,10 +32,6 @@ export interface PlaneGraphicsCesiumEvents {
 
 export interface PlaneGraphicsProps extends PlaneGraphicsCesiumProps, PlaneGraphicsCesiumEvents {}
 
-export interface PlaneGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof PlaneGraphicsCesiumProps)[] = [
   "plane",
   "dimensions",
@@ -50,25 +46,25 @@ const cesiumProps: (keyof PlaneGraphicsCesiumProps)[] = [
 ];
 
 // Cesium.PlaneGraphics
-const cesiumEventProps: EventkeyMap<any, keyof PlaneGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<any, PlaneGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const PlaneGraphics = createCesiumComponent<
   any, // Cesium.PlaneGraphics
   PlaneGraphicsProps,
-  PlaneGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "PlaneGraphics",
-  create(cprops) {
-    return new (Cesium as any).PlaneGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumPlaneGraphics(props as any);
+    context.entity.plane = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.plane = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.plane = undefined as any;
     }

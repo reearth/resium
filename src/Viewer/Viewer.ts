@@ -1,8 +1,8 @@
 import React from "react";
-import Cesium, { Viewer as CesiumViewer } from "cesium";
+import { Viewer as CesiumViewer } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
-import EventManager from "../core/EventManager";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
+import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -30,6 +30,7 @@ export interface ViewerCesiumProps {
   trackedEntity?: Cesium.Entity;
   selectedEntity?: Cesium.Entity;
   shadows?: boolean;
+  useBrowserRecommendedResolution?: boolean;
 }
 
 export interface ViewerCesiumReadonlyProps {
@@ -90,6 +91,7 @@ const cesiumProps: (keyof ViewerCesiumProps)[] = [
   "trackedEntity",
   "selectedEntity",
   "shadows",
+  "useBrowserRecommendedResolution",
 ];
 
 const cesiumReadonlyProps: (keyof ViewerCesiumReadonlyProps)[] = [
@@ -133,15 +135,16 @@ const cesiumReadonlyProps: (keyof ViewerCesiumReadonlyProps)[] = [
   "maximumRenderTimeChange",
 ];
 
-const cesiumEventProps: EventkeyMap<CesiumViewer, keyof ViewerCesiumEvents> = {
-  selectedEntityChanged: "onSelectedEntityChange",
-  trackedEntityChanged: "onTrackedEntityChange",
+const cesiumEventProps: EventkeyMap<CesiumViewer, ViewerCesiumEvents> = {
+  onSelectedEntityChange: "selectedEntityChanged",
+  onTrackedEntityChange: "trackedEntityChanged",
 };
 
 export interface ViewerProps
   extends ViewerCesiumProps,
     ViewerCesiumReadonlyProps,
-    ViewerCesiumEvents {
+    ViewerCesiumEvents,
+    RootEventProps {
   // Applied to outer `div` element
   className?: string;
   // Applied to outer `div` element
@@ -157,33 +160,29 @@ export interface ViewerProps
   children?: React.ReactNode;
 }
 
-export interface ViewerContext {
-  viewer: CesiumViewer;
-  cesiumWidget: Cesium.CesiumWidget;
-  dataSourceCollection: Cesium.DataSourceCollection;
-  entityCollection: Cesium.EntityCollection;
-  scene: Cesium.Scene;
-  globe: Cesium.Globe;
-  camera: Cesium.Camera;
-}
-
 const Viewer = createCesiumComponent<
   CesiumViewer,
   ViewerProps,
   {},
-  ViewerContext | {},
-  HTMLDivElement
+  {
+    viewer: CesiumViewer;
+    cesiumWidget: Cesium.CesiumWidget;
+    dataSourceCollection: Cesium.DataSourceCollection;
+    entityCollection: Cesium.EntityCollection;
+    scene: Cesium.Scene;
+    globe: Cesium.Globe;
+    camera: Cesium.Camera;
+    [eventManagerContextKey]?: EventManager;
+  },
+  EventManager
 >({
   name: "Viewer",
-  createRef: true,
-  create(cprops, props, context, ref) {
-    // ref is not always undefined
-    const v = new CesiumViewer(
-      (ref as React.RefObject<HTMLDivElement>).current as any,
-      cprops as any,
-    );
+  create(context, props, wrapper) {
+    if (!wrapper) return;
+    const v = new CesiumViewer(wrapper, props as any);
+    if (!v) return;
 
-    if (cprops.imageryProvider === false) {
+    if (props.imageryProvider === false) {
       v.imageryLayers.removeAll();
     }
 
@@ -198,51 +197,19 @@ const Viewer = createCesiumComponent<
     }
 
     // common event manager for managing events of Entity and Primitives
-    let state: any;
-    if (v) {
-      state = new EventManager(v.scene, v.canvas);
-    }
+    const state = new EventManager(v.scene);
 
     return [v, state];
   },
-  render(element, props, mounted, ref) {
-    return (
-      <div
-        className={props.className}
-        id={props.id}
-        ref={ref}
-        style={{
-          ...(props.full
-            ? {
-                position: "absolute",
-                bottom: "0",
-                left: "0",
-                right: "0",
-                top: "0",
-              }
-            : {}),
-          ...props.style,
-        }}
-        {...props.containerProps}>
-        {element ? props.children : null}
-      </div>
-    );
-  },
-  unmount(element, cprops, props, ref, state) {
-    if (element && state) {
-      const em = state as EventManager;
-      if (!em.isDestroyed()) {
-        em.destroy();
-      }
+  destroy(element, context, ref, state) {
+    if (state && !state.isDestroyed()) {
+      state.destroy();
     }
-    if (element && !element.isDestroyed()) {
+    if (!element.isDestroyed()) {
       element.destroy();
     }
   },
   provide(element, props, state) {
-    if (!element) {
-      return {};
-    }
     return {
       viewer: element,
       cesiumWidget: element.cesiumWidget,
@@ -253,12 +220,32 @@ const Viewer = createCesiumComponent<
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
       globe: element.scene.globe,
-      __RESIUM_EVENT_MANAGER: state, // EventManager
+      [eventManagerContextKey]: state,
     };
   },
+  containerProps: ({ id, className, style, full, containerProps }) => ({
+    className,
+    id,
+    style: {
+      ...(full
+        ? {
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            top: "0",
+          }
+        : {}),
+      ...style,
+    },
+    ...containerProps,
+  }),
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  renderContainer: true,
+  useCommonEvent: true,
+  useRootEvent: true,
 });
 
 export default Viewer;

@@ -1,6 +1,5 @@
-import React from "react";
-
-import Cesium, {
+import React, { useState, useEffect, useRef, useMemo } from "react";
+import {
   Cartesian2,
   Cartesian3,
   Color,
@@ -8,34 +7,77 @@ import Cesium, {
   LabelStyle,
   Plane,
   Rectangle,
-  Math,
+  Math as CesiumMath,
+  PolylineDashMaterialProperty,
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
-import Viewer from "../../Viewer";
-import Entity from "../Entity";
-import EntityDescription from "../../EntityDescription";
-import CanvasEntity from "./CanvasEntity";
-import BillboardGraphics from "../../BillboardGraphics";
-import BoxGraphics from "../../BoxGraphics";
-import CorridorGraphics from "../../CorridorGraphics";
-import CylinderGraphics from "../../CylinderGraphics";
-import EllipseGraphics from "../../EllipseGraphics";
-import EllipsoidGraphics from "../../EllipsoidGraphics";
-import LabelGraphics from "../../LabelGraphics";
-import ModelGraphics from "../../ModelGraphics";
-import PathGraphics from "../../PathGraphics";
-import PlaneGraphics from "../../PlaneGraphics";
-import PointGraphics from "../../PointGraphics";
-import PolygonGraphics from "../../PolygonGraphics";
-import PolylineGraphics from "../../PolylineGraphics";
-import PolylineVolumeGraphics from "../../PolylineVolumeGraphics";
-import RectangleGraphics from "../../RectangleGraphics";
-import WallGraphics from "../../WallGraphics";
+import Viewer from "../Viewer";
+import Entity, { EntityProps } from "./Entity";
+import EntityDescription from "../EntityDescription";
+import BillboardGraphics from "../BillboardGraphics";
+import BoxGraphics from "../BoxGraphics";
+import CorridorGraphics from "../CorridorGraphics";
+import CylinderGraphics from "../CylinderGraphics";
+import EllipseGraphics from "../EllipseGraphics";
+import EllipsoidGraphics from "../EllipsoidGraphics";
+import LabelGraphics from "../LabelGraphics";
+import ModelGraphics from "../ModelGraphics";
+import PathGraphics from "../PathGraphics";
+import PlaneGraphics from "../PlaneGraphics";
+import PointGraphics from "../PointGraphics";
+import PolygonGraphics from "../PolygonGraphics";
+import PolylineGraphics from "../PolylineGraphics";
+import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
+import RectangleGraphics from "../RectangleGraphics";
+import WallGraphics from "../WallGraphics";
 
 import billboardImage from "assets/example.png";
 import glb from "assets/Cesium_Air.glb";
+
+const initCanvas = () => {
+  const can = document.createElement("canvas");
+  can.width = 100;
+  can.height = 100;
+  return can;
+};
+
+const renderCanvas = (can: HTMLCanvasElement, p: number) => {
+  const c = can.getContext("2d");
+  if (!c) return;
+  c.clearRect(0, 0, can.width, can.height);
+  c.fillStyle = "rgba(100,0,0,0.8)";
+  c.beginPath();
+  c.arc(can.width / 2, can.height / 2, (p * can.width) / 2, 0, Math.PI * 2, false);
+  c.fill();
+};
+
+const CanvasEntity: React.FC<EntityProps> = props => {
+  const c1 = useMemo<HTMLCanvasElement>(initCanvas, []);
+  const c2 = useMemo<HTMLCanvasElement>(initCanvas, []);
+  const [image, setImage] = useState<HTMLCanvasElement>();
+  const progress = useRef(0);
+
+  useEffect(() => {
+    const i = window.setInterval(() => {
+      progress.current = Math.min(progress.current + 0.01, 1);
+      setImage(image => {
+        const canvas = image === c1 ? c2 : c1;
+        if (canvas) {
+          renderCanvas(canvas, progress.current);
+        }
+        return canvas;
+      });
+      if (progress.current >= 1) {
+        clearInterval(i);
+      }
+    }, 10);
+    return () => window.clearInterval(i);
+  }, [c1, c2]);
+
+  return <Entity {...props} billboard={{ image }} />;
+};
 
 storiesOf("Entity", module)
   .add("Basic", () => (
@@ -103,7 +145,6 @@ storiesOf("Entity", module)
         onRightClick={action("onRightClick")}
         onRightDown={action("onRightDown")}
         onRightUp={action("onRightUp")}
-        onWheel={action("onWheel")}
         onMouseEnter={action("onMouseEnter")}
         onMouseLeave={action("onMouseLeave")}
       />
@@ -244,7 +285,7 @@ storiesOf("Entity", module)
           positions={Cartesian3.fromDegreesArrayHeights([-75, 45, 500000, -125, 45, 500000])}
           width={4}
           material={
-            new (Cesium as any).PolylineDashMaterialProperty({
+            new PolylineDashMaterialProperty({
               color: Color.CYAN,
             } as any)
           }
@@ -285,7 +326,7 @@ storiesOf("Entity", module)
         <RectangleGraphics
           coordinates={Rectangle.fromDegrees(-140.0, 30.0, -100.0, 40.0)}
           material={Color.PEACHPUFF.withAlpha(0.5)}
-          rotation={Math.toRadians(45)}
+          rotation={CesiumMath.toRadians(45)}
           extrudedHeight={300000.0}
           height={100000.0}
           outline // height must be set for outline to display

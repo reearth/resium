@@ -1,5 +1,5 @@
-import Cesium from "cesium";
-import createCesiumComponent from "../core/CesiumComponent";
+import { Sun as CesiumSun } from "cesium";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -21,25 +21,25 @@ export interface SunCesiumProps {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SunProps extends SunCesiumProps {}
 
-export interface SunContext {
-  scene?: Cesium.Scene;
-}
-
 const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
 
-const Sun = createCesiumComponent<Cesium.Sun, SunProps, SunContext>({
+const Sun = createCesiumComponent<
+  Cesium.Sun,
+  SunProps,
+  {
+    scene?: Cesium.Scene;
+  }
+>({
   name: "Sun",
-  create() {
-    return new Cesium.Sun();
+  create(context) {
+    if (!context.scene) return;
+    const element = new CesiumSun();
+    context.scene.sun = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.scene) {
-      context.scene.sun = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.sun = new Cesium.Sun();
+      context.scene.sun = new CesiumSun();
     }
     // if (!element.isDestroyed()) {
     //   element.destroy();

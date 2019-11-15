@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -35,10 +35,6 @@ export interface PolylineGraphicsProps
   extends PolylineGraphicsCesiumProps,
     PolylineGraphicsCesiumEvents {}
 
-export interface PolylineGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof PolylineGraphicsCesiumProps)[] = [
   "positions",
   "followSurface",
@@ -53,25 +49,25 @@ const cesiumProps: (keyof PolylineGraphicsCesiumProps)[] = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, keyof PolylineGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, PolylineGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const PolylineGraphics = createCesiumComponent<
   Cesium.PolylineGraphics,
   PolylineGraphicsProps,
-  PolylineGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "PolylineGraphics",
-  create(cprops) {
-    return new Cesium.PolylineGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumPolylineGraphics(props as any);
+    context.entity.polyline = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.polyline = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.polyline = undefined as any;
     }

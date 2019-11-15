@@ -1,6 +1,4 @@
-import Cesium from "cesium";
-
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 // @cesiumElement PrimitiveCollection
 
@@ -24,26 +22,21 @@ export interface GroundPrimitiveCollectionProps extends GroundPrimitiveCollectio
   children?: React.ReactNode;
 }
 
-export interface GroundPrimitiveCollectionContext {
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof GroundPrimitiveCollectionCesiumProps)[] = ["show"];
 
 const GroundPrimitiveCollection = createCesiumComponent<
   Cesium.PrimitiveCollection,
   GroundPrimitiveCollectionProps,
-  GroundPrimitiveCollectionContext
+  {
+    scene?: Cesium.Scene;
+  },
+  { primitiveCollection: Cesium.PrimitiveCollection }
 >({
   name: "GroundPrimitiveCollection",
-  create(cprops, props, context) {
-    return context.scene.groundPrimitives;
-  },
-  provide(element) {
-    return {
-      primitiveCollection: element,
-    };
-  },
+  create: context => context.scene?.groundPrimitives,
+  provide: element => ({
+    primitiveCollection: element,
+  }),
   cesiumProps,
   setCesiumPropsAfterCreate: true,
 });

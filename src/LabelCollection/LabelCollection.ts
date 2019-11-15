@@ -1,6 +1,5 @@
-import Cesium from "cesium";
-
-import createCesiumComponent from "../core/CesiumComponent";
+import { LabelCollection as CesiumLabelCollection } from "cesium";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -27,11 +26,6 @@ export interface LabelCollectionProps extends LabelCollectionCesiumProps {
   children?: React.ReactNode;
 }
 
-export interface LabelCollectionContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof LabelCollectionCesiumProps)[] = [
   "blendOption",
   "debugShowBoundingVolume",
@@ -41,23 +35,24 @@ const cesiumProps: (keyof LabelCollectionCesiumProps)[] = [
 const LabelCollection = createCesiumComponent<
   Cesium.LabelCollection,
   LabelCollectionProps,
-  LabelCollectionContext
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+    scene?: Cesium.Scene;
+  }
 >({
   name: "LabelCollection",
-  create(cprops, props, context) {
-    return new Cesium.LabelCollection({
-      scene: context.scene,
-      modelMatrix: cprops.modelMatrix,
-      blendOption: cprops.blendOption,
-      debugShowBoundingVolume: cprops.debugShowBoundingVolume,
+  create(context, props) {
+    if (!context.scene || !context.primitiveCollection) return;
+    const element = new CesiumLabelCollection({
+      scene: context.scene, //
+      modelMatrix: props.modelMatrix,
+      blendOption: props.blendOption,
+      debugShowBoundingVolume: props.debugShowBoundingVolume,
     } as any);
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }

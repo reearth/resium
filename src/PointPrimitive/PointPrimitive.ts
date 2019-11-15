@@ -1,7 +1,5 @@
-import Cesium from "cesium";
-
-import createCesiumComponent from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -35,11 +33,6 @@ export interface PointPrimitiveProps
   extends PointPrimitiveCesiumProps,
     EventProps<Cesium.PointPrimitive> {}
 
-export interface PointPrimitiveContext {
-  pointPrimitiveCollection: Cesium.PointPrimitiveCollection;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
   "color",
   "disableDepthTestDistance",
@@ -57,31 +50,19 @@ const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
 const PointPrimitive = createCesiumComponent<
   Cesium.PointPrimitive,
   PointPrimitiveProps,
-  PointPrimitiveContext
+  {
+    pointPrimitiveCollection?: Cesium.PointPrimitiveCollection;
+  }
 >({
   name: "PointPrimitive",
-  create(cprops, props, context) {
-    return context.pointPrimitiveCollection.add(cprops);
-  },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  create: (context, props) => context.pointPrimitiveCollection?.add(props),
+  destroy(element, context) {
     if (context.pointPrimitiveCollection && !context.pointPrimitiveCollection.isDestroyed()) {
       context.pointPrimitiveCollection.remove(element);
     }
   },
   cesiumProps,
+  useCommonEvent: true,
 });
 
 export default PointPrimitive;

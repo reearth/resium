@@ -1,8 +1,9 @@
-export * from "./core/CesiumComponent";
-export * from "./core/CameraOperation";
+export * from "./core/component";
+export * from "./core/hooks";
 export * from "./core/context";
-export * from "./core/events";
+export * from "./core/CameraOperation";
 export * from "./core/EventManager";
+export * from "./core/withCesium";
 
 export { default as Billboard } from "./Billboard";
 export { default as BillboardCollection } from "./BillboardCollection";
@@ -71,6 +72,7 @@ export { default as Scene } from "./Scene";
 export { default as ScreenSpaceCameraController } from "./ScreenSpaceCameraController";
 export { default as ScreenSpaceEvent } from "./ScreenSpaceEvent";
 export { default as ScreenSpaceEventHandler } from "./ScreenSpaceEventHandler";
+export { default as ShadowMap } from "./ShadowMap";
 export { default as SkyAtmosphere } from "./SkyAtmosphere";
 export { default as SkyBox } from "./SkyBox";
 export { default as Sun } from "./Sun";

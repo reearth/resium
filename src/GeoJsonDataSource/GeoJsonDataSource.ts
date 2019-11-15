@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -33,6 +33,8 @@ export interface GeoJsonDataSourceProps
   clampToGround?: boolean;
   // @CesiumReadonlyProp
   sourceUri?: string;
+  // @CesiumReadonlyProp
+  credit?: Cesium.Credit | string;
   // @CesiumProp
   show?: boolean;
   // @CesiumReadonlyProp
@@ -53,19 +55,12 @@ export interface GeoJsonDataSourceProps
   onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
 }
 
-export interface GeoJsonDataSourceContext {
-  dataSourceCollection?: Cesium.DataSourceCollection;
-}
-
 const cesiumProps: (keyof GeoJsonDataSourceCesiumProps)[] = ["clustering", "name"];
 
-const cesiumEventProps: EventkeyMap<
-  Cesium.GeoJsonDataSource,
-  keyof GeoJsonDataSourceCesiumEvents
-> = {
-  changedEvent: "onChange",
-  errorEvent: "onError",
-  loadingEvent: "onLoading",
+const cesiumEventProps: EventkeyMap<Cesium.GeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
+  onChange: "changedEvent",
+  onError: "ErrorEvent" as any,
+  onLoading: "loadingEvent",
 };
 
 const load = ({
@@ -74,6 +69,7 @@ const load = ({
   onLoad,
   clampToGround,
   sourceUri,
+  credit,
   markerSize,
   markerSymbol,
   markerColor,
@@ -88,6 +84,7 @@ const load = ({
   onLoad?: (GeoJsonDataSource: Cesium.GeoJsonDataSource) => void;
   clampToGround?: boolean;
   sourceUri?: string;
+  credit?: Cesium.Credit | string;
   markerSize?: number;
   markerSymbol?: string;
   markerColor?: Cesium.Color;
@@ -107,6 +104,7 @@ const load = ({
       fill,
       sourceUri,
       describe,
+      credit,
     } as any)
     .then(value => {
       if (onLoad) {
@@ -118,58 +116,22 @@ const load = ({
 const GeoJsonDataSource = createCesiumComponent<
   Cesium.GeoJsonDataSource,
   GeoJsonDataSourceProps,
-  GeoJsonDataSourceContext
+  {
+    dataSourceCollection?: Cesium.DataSourceCollection;
+  }
 >({
   name: "GeoJsonDataSource",
-  create(cprops, props) {
-    const ds = new Cesium.GeoJsonDataSource(props.name);
-    if (cprops.clustering) {
-      ds.clustering = cprops.clustering;
+  create(context, props) {
+    if (!context.dataSourceCollection) return;
+    const element = new CesiumGeoJsonDataSource(props.name);
+    if (props.clustering) {
+      element.clustering = props.clustering;
     }
-    if (typeof cprops.show === "boolean") {
-      ds.show = cprops.show;
+    if (typeof props.show === "boolean") {
+      element.show = props.show;
     }
-    return ds;
-  },
-  mount(element, context, props) {
-    if (context.dataSourceCollection) {
-      context.dataSourceCollection.add(element);
-      if (props.data) {
-        load({
-          element,
-          dataSources: context.dataSourceCollection,
-          data: props.data,
-          onLoad: props.onLoad,
-          clampToGround: props.clampToGround,
-          sourceUri: props.sourceUri,
-          markerSize: props.markerSize,
-          markerSymbol: props.markerSymbol,
-          markerColor: props.markerColor,
-          stroke: props.stroke,
-          strokeWidth: props.strokeWidth,
-          fill: props.fill,
-          describe: props.describe,
-        });
-      }
-    }
-  },
-  update(element, props, prevProps, context) {
-    if (prevProps.show !== props.show || !props.data) {
-      element.show = !!props.data && (typeof props.show === "boolean" ? props.show : true);
-    }
-    if (
-      context.dataSourceCollection &&
-      props.data &&
-      (prevProps.data !== props.data ||
-        prevProps.clampToGround !== props.clampToGround ||
-        prevProps.sourceUri !== props.sourceUri ||
-        prevProps.markerSize !== props.markerSize ||
-        prevProps.markerSymbol !== props.markerSymbol ||
-        prevProps.markerColor !== props.markerColor ||
-        prevProps.stroke !== props.stroke ||
-        prevProps.strokeWidth !== props.strokeWidth ||
-        prevProps.fill !== props.fill)
-    ) {
+    context.dataSourceCollection.add(element);
+    if (props.data) {
       load({
         element,
         dataSources: context.dataSourceCollection,
@@ -184,10 +146,50 @@ const GeoJsonDataSource = createCesiumComponent<
         strokeWidth: props.strokeWidth,
         fill: props.fill,
         describe: props.describe,
+        credit: props.credit,
+      });
+    }
+    return element;
+  },
+  update(element, props, prevProps, context) {
+    if (!props.data) {
+      element.show = false;
+    } else if (prevProps.show !== props.show) {
+      element.show = typeof props.show === "boolean" ? props.show : true;
+    }
+    if (
+      context.dataSourceCollection &&
+      props.data &&
+      (prevProps.data !== props.data ||
+        prevProps.clampToGround !== props.clampToGround ||
+        prevProps.sourceUri !== props.sourceUri ||
+        prevProps.credit !== props.credit ||
+        prevProps.markerSize !== props.markerSize ||
+        prevProps.markerSymbol !== props.markerSymbol ||
+        prevProps.markerColor !== props.markerColor ||
+        prevProps.stroke !== props.stroke ||
+        prevProps.strokeWidth !== props.strokeWidth ||
+        prevProps.fill !== props.fill)
+    ) {
+      load({
+        element,
+        dataSources: context.dataSourceCollection,
+        data: props.data,
+        onLoad: props.onLoad,
+        clampToGround: props.clampToGround,
+        sourceUri: props.sourceUri,
+        credit: props.credit,
+        markerSize: props.markerSize,
+        markerSymbol: props.markerSymbol,
+        markerColor: props.markerColor,
+        stroke: props.stroke,
+        strokeWidth: props.strokeWidth,
+        fill: props.fill,
+        describe: props.describe,
       });
     }
   },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
       context.dataSourceCollection.remove(element);
     }

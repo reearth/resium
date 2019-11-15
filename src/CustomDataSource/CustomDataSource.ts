@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -33,43 +33,38 @@ export interface CustomDataSourceProps
   children?: React.ReactNode;
 }
 
-export interface CustomDataSourceContext {
-  dataSourceCollection?: Cesium.DataSourceCollection;
-}
-
 const cesiumProps: (keyof CustomDataSourceCesiumProps)[] = ["clustering", "name", "show", "clock"];
 
-const cesiumEventProps: EventkeyMap<Cesium.CustomDataSource, keyof CustomDataSourceCesiumEvents> = {
-  changedEvent: "onChange",
-  errorEvent: "onError",
-  loadingEvent: "onLoading",
+const cesiumEventProps: EventkeyMap<Cesium.CustomDataSource, CustomDataSourceCesiumEvents> = {
+  onChange: "changedEvent",
+  onError: "ErrorEvent" as any,
+  onLoading: "loadingEvent",
 };
 
 const CustomDataSource = createCesiumComponent<
   Cesium.CustomDataSource,
   CustomDataSourceProps,
-  CustomDataSourceContext
+  {
+    dataSourceCollection?: Cesium.DataSourceCollection;
+  }
 >({
   name: "CustomDataSource",
-  create(cprops) {
-    const ds = new Cesium.CustomDataSource(cprops.name);
-    if (cprops.clustering) {
-      ds.clustering = cprops.clustering;
+  create(context, props) {
+    if (!context.dataSourceCollection) return;
+    const element = new CesiumCustomDataSource(props.name);
+    if (props.clustering) {
+      element.clustering = props.clustering;
     }
-    if (typeof cprops.show === "boolean") {
-      ds.show = cprops.show;
+    if (typeof props.show === "boolean") {
+      element.show = props.show;
     }
-    if (typeof cprops.clock !== "undefined") {
-      ds.clock = cprops.clock;
+    if (typeof props.clock !== "undefined") {
+      element.clock = props.clock;
     }
-    return ds;
+    context.dataSourceCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.dataSourceCollection) {
-      context.dataSourceCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
       context.dataSourceCollection.remove(element);
     }

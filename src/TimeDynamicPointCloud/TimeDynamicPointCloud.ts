@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { TimeDynamicPointCloud as CesiumTimeDynamicPointCloud } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -48,11 +48,6 @@ export interface TimeDynamicPointCloudProps
   onReady?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
 }
 
-export interface TimeDynamicPointCloudContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-  cesiumWidget?: Cesium.CesiumWidget;
-}
-
 const cesiumProps: (keyof TimeDynamicPointCloudCesiumProps)[] = [
   "clippingPlanes",
   "clock",
@@ -66,32 +61,33 @@ const cesiumProps: (keyof TimeDynamicPointCloudCesiumProps)[] = [
 
 const cesiumReadonlyProps: (keyof TimeDynamicPointCloudCesiumReadonlyProps)[] = ["shading"];
 
-const cesiumEventProps: EventkeyMap<any, keyof TimeDynamicPointCloudCesiumEvents> = {
-  frameChanged: "onFrameChange",
+// Cesium.TimeDynamicPointCloud
+const cesiumEventProps: EventkeyMap<any, TimeDynamicPointCloudCesiumEvents> = {
+  onFrameChange: "frameChanged",
 };
 
 const TimeDynamicPointCloud = createCesiumComponent<
   any /* Cesium.TimeDynamicPointCloud */,
   TimeDynamicPointCloudProps,
-  TimeDynamicPointCloudContext
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+    cesiumWidget?: Cesium.CesiumWidget;
+  }
 >({
   name: "TimeDynamicPointCloud",
-  create(cprops, props, context) {
-    const tdpc = new (Cesium as any).TimeDynamicPointCloud({
-      ...cprops,
-      clock: cprops.clock || (context.cesiumWidget && context.cesiumWidget.clock),
+  create(context, props) {
+    if (!context.cesiumWidget || !context.primitiveCollection) return;
+    const element = new CesiumTimeDynamicPointCloud({
+      ...props,
+      clock: props.clock ?? context.cesiumWidget?.clock,
     });
     if (props.onReady) {
-      tdpc.readyPromise.then(props.onReady);
+      element.readyPromise.then(props.onReady);
     }
-    return tdpc;
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }

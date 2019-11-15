@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { ImageryLayer as CesiumImageryLayer } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -118,10 +118,6 @@ export interface ImageryLayerProps
   extends ImageryLayerCesiumProps,
     ImageryLayerCesiumReadonlyProps {}
 
-export interface ImageryLayerContext {
-  imageryLayerCollection?: Cesium.ImageryLayerCollection;
-}
-
 const cesiumProps: (keyof ImageryLayerCesiumProps)[] = [
   "alpha",
   "brightness",
@@ -147,37 +143,34 @@ const cesiumReadonlyProps: (keyof ImageryLayerCesiumReadonlyProps)[] = [
 const ImageryLayer = createCesiumComponent<
   Cesium.ImageryLayer,
   ImageryLayerProps,
-  ImageryLayerContext
+  {
+    imageryLayerCollection?: Cesium.ImageryLayerCollection;
+  }
 >({
   name: "ImageryLayer",
-  create(cprops) {
-    return new Cesium.ImageryLayer(
-      cprops.imageryProvider,
-      {
-        rectangle: cprops.rectangle,
-        alpha: cprops.alpha,
-        brightness: cprops.brightness,
-        contrast: cprops.contrast,
-        hue: cprops.hue,
-        saturation: cprops.saturation,
-        gamma: cprops.gamma,
-        splitDirection: cprops.splitDirection,
-        minificationFilter: cprops.minificationFilter,
-        magnificationFilter: cprops.magnificationFilter,
-        show: cprops.show,
-        maximumAnisotropy: cprops.maximumAnisotropy,
-        minimumTerrainLevel: cprops.minimumTerrainLevel,
-        maximumTerrainLevel: cprops.maximumTerrainLevel,
-        cutoutRectangle: cprops.cutoutRectangle,
-      } as any /* workaround for splitDirection */,
-    );
+  create(context, props) {
+    if (!context.imageryLayerCollection) return;
+    const element = new CesiumImageryLayer(props.imageryProvider, {
+      rectangle: props.rectangle,
+      alpha: props.alpha,
+      brightness: props.brightness,
+      contrast: props.contrast,
+      hue: props.hue,
+      saturation: props.saturation,
+      gamma: props.gamma,
+      splitDirection: props.splitDirection, //
+      minificationFilter: props.minificationFilter,
+      magnificationFilter: props.magnificationFilter,
+      show: props.show,
+      maximumAnisotropy: props.maximumAnisotropy,
+      minimumTerrainLevel: props.minimumTerrainLevel,
+      maximumTerrainLevel: props.maximumTerrainLevel,
+      cutoutRectangle: props.cutoutRectangle,
+    } as any);
+    context.imageryLayerCollection.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.imageryLayerCollection) {
-      context.imageryLayerCollection.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.imageryLayerCollection) {
       context.imageryLayerCollection.remove(element);
     }

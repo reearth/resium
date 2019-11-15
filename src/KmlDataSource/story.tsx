@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Color } from "cesium";
@@ -63,8 +63,22 @@ const onLoad = (k: Cesium.KmlDataSource) => {
   onLoadAction(k);
 };
 
-storiesOf("KmlDataSource", module).add("Basic", () => (
-  <Viewer full>
-    <KmlDataSource data={data} onLoad={onLoad} onError={action("onError")} />
-  </Viewer>
-));
+storiesOf("KmlDataSource", module)
+  .add("Basic", () => (
+    <Viewer full>
+      <KmlDataSource data={data} onLoad={onLoad} onError={action("onError")} />
+    </Viewer>
+  ))
+  .add("Show", () => {
+    const [show, setShow] = useState(true);
+    return (
+      <Viewer full>
+        <button
+          style={{ position: "absolute", top: "0", left: "0" }}
+          onClick={() => setShow(s => !s)}>
+          Toggle
+        </button>
+        <KmlDataSource data={data} show={show} />
+      </Viewer>
+    );
+  });

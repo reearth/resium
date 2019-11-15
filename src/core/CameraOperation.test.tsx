@@ -2,41 +2,38 @@ import React from "react";
 import { mount } from "enzyme";
 
 import { Provider } from "./context";
-import createCameraOperation from "./CameraOperation";
+import { createCameraOperation } from "./CameraOperation";
 
-describe("core/CameraOperation", () => {
+describe("core/cameraop", () => {
   it("should call proper methods", () => {
     const camera = {
       cancelFlight: jest.fn(),
     };
-
     const cameraOperationStart = jest.fn();
-
-    const DummyCameraOperation = createCameraOperation<{ test: number }>({
-      name: "dummy",
+    const DummyCameraOperation = createCameraOperation<{ test: number }>(
+      "dummy",
       cameraOperationStart,
-    });
+    );
 
-    const TestComponent: React.SFC<{ test: number }> = ({ test }) => (
+    const Test: React.FC<{ test: number }> = ({ test }) => (
       <Provider value={{ camera }}>
         <DummyCameraOperation test={test} />
       </Provider>
     );
-
-    const wrapper = mount(<TestComponent test={0} />);
+    const wrapper = mount(<Test test={0} />);
 
     expect(cameraOperationStart).toHaveBeenCalledTimes(1);
-    expect(camera.cancelFlight).toHaveBeenCalledTimes(0);
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
 
     wrapper.update();
 
     expect(cameraOperationStart).toHaveBeenCalledTimes(1);
-    expect(camera.cancelFlight).toHaveBeenCalledTimes(0);
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
 
     wrapper.setProps({ test: 1 });
 
     expect(cameraOperationStart).toHaveBeenCalledTimes(2);
-    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(2);
   });
 
   it("should call cancelFlight", () => {
@@ -44,19 +41,18 @@ describe("core/CameraOperation", () => {
       cancelFlight: jest.fn(),
     };
 
-    const DummyCameraOperation = createCameraOperation({
-      name: "dummy",
-      cameraOperationStart: () => {},
-    });
+    const DummyCameraOperation = createCameraOperation("dummy", () => {});
 
     const wrapper = mount(
       <Provider value={{ camera }}>
-        <DummyCameraOperation cancelCameraFlight />
+        <DummyCameraOperation cancelCameraFlightOnUnmount />
       </Provider>,
     );
 
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
+
     wrapper.unmount();
 
-    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
+    expect(camera.cancelFlight).toHaveBeenCalledTimes(2);
   });
 });

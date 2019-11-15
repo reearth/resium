@@ -1,7 +1,6 @@
-import Cesium from "cesium";
+import { PostProcessStage as CesiumPostProcessStage } from "cesium";
 
-import { createPostProcessStage } from "../core/PostProcessStage";
-import createCesiumComponent from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
 
 /*
 @summary
@@ -69,10 +68,6 @@ export interface PostProcessStageProps
   extends PostProcessStageCesiumProps,
     PostProcessStageCesiumReadonlyProps {}
 
-export interface PostProcessStageContext {
-  scene: Cesium.Scene;
-}
-
 const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
 
 const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
@@ -91,25 +86,24 @@ const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
 export const PostProcessStage = createCesiumComponent<
   any /* PostProcessStage */,
   PostProcessStageProps,
-  PostProcessStageContext
+  {
+    scene?: Cesium.Scene;
+  }
 >({
   name: "PostProcessStage",
-  create(cprops) {
-    const ps = new (Cesium as any).PostProcessStage(cprops);
-    if (typeof cprops.enabled === "boolean") {
-      ps.enabled = cprops.enabled;
+  create(context, props) {
+    if (!context.scene) return;
+    const element = new CesiumPostProcessStage(props);
+    if (typeof props.enabled === "boolean") {
+      element.enabled = props.enabled;
     }
-    if (cprops.selected) {
-      ps.selected = cprops.selected;
+    if (props.selected) {
+      element.selected = props.selected;
     }
-    return ps;
+    context.scene.postProcessStages.add(element);
+    return element;
   },
-  mount(element, context) {
-    if (context.scene && !context.scene.isDestroyed()) {
-      (context.scene as any).postProcessStages.add(element);
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       (context.scene as any).postProcessStages.remove(element);
     }
@@ -119,66 +113,6 @@ export const PostProcessStage = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
-});
-
-export const BlackAndWhiteStage = createPostProcessStage<{
-  gradations?: number;
-}>({
-  name: "BlackAndWhiteStage",
-  props: ["gradations"],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createBlackAndWhiteStage();
-  },
-});
-
-export const BrightnessStage = createPostProcessStage<{
-  brightness?: number;
-}>({
-  name: "BrightnessStage",
-  props: ["brightness"],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createBrightnessStage();
-  },
-});
-
-export const LensFlareStage = createPostProcessStage<{
-  dirtTexture?: any;
-  starTexture?: any;
-  intensity?: number;
-  distortion?: number;
-  ghostDispersal?: number;
-  haloWidth?: number;
-  earthRadius?: number;
-}>({
-  name: "LensFlareStage",
-  props: [
-    "dirtTexture",
-    "starTexture",
-    "intensity",
-    "distortion",
-    "ghostDispersal",
-    "haloWidth",
-    "earthRadius",
-  ],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createLensFlareStage();
-  },
-});
-
-export const NightVisionStage = createPostProcessStage<{}>({
-  name: "NightVisionStage",
-  props: [],
-  create() {
-    return (Cesium as any).PostProcessStageLibrary.createNightVisionStage();
-  },
-});
-
-export const Fxaa = createPostProcessStage<{}>({
-  name: "Fxaa",
-  create(props, collection) {
-    return collection.fxaa;
-  },
-  props: [],
 });
 
 export default PostProcessStage;

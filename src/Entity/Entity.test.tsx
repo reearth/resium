@@ -1,5 +1,5 @@
 import React from "react";
-import * as Cesium from "cesium";
+import { Entity as CesiumEntity } from "cesium";
 import { mount } from "enzyme";
 
 import { Provider } from "../core/context";
@@ -21,7 +21,7 @@ describe("Entity", () => {
   });
 
   it("should mount", () => {
-    const entity = new Cesium.Entity();
+    const entity = new CesiumEntity();
 
     mount(
       <Provider value={context}>
@@ -35,9 +35,9 @@ describe("Entity", () => {
   });
 
   it("should update", () => {
-    const entity = new Cesium.Entity();
+    const entity = new CesiumEntity();
 
-    const Component: React.SFC<EntityProps> = props => (
+    const Component: React.FC<EntityProps> = props => (
       <Provider value={context}>
         <Entity {...props} />
       </Provider>
@@ -50,7 +50,7 @@ describe("Entity", () => {
   });
 
   it("should unmount", () => {
-    const entity = new Cesium.Entity();
+    const entity = new CesiumEntity();
 
     mount(
       <Provider value={context}>

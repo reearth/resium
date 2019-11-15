@@ -1,6 +1,7 @@
-import Cesium from "cesium";
+import { Model as CesiumModel } from "cesium";
 
-import createCesiumElement from "../core/CesiumComponent";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 export interface ModelCesiumProps {
   basePath?: Cesium.Resource | string;
@@ -38,15 +39,20 @@ export interface ModelCesiumReadonlyProps {
   gltf?: object | ArrayBuffer | Uint8Array;
   incrementallyLoadTextures?: boolean;
   url?: Cesium.Resource | string;
+  credit?: Cesium.Credit | string;
 }
 
-export interface ModelProps extends ModelCesiumProps, ModelCesiumReadonlyProps {
+export interface ModelProps
+  extends ModelCesiumProps,
+    ModelCesiumReadonlyProps,
+    EventProps<{
+      id?: string;
+      mesh: Cesium.ModelMesh;
+      node: Cesium.ModelNode;
+      primitive: Cesium.Primitive;
+    }> {
   // Calls when the model is completely loaded.
   onReady?: (model: Cesium.Model) => void;
-}
-
-export interface ModelContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
 }
 
 const cesiumProps: (keyof ModelCesiumProps)[] = [
@@ -83,33 +89,40 @@ const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
   "gltf",
   "incrementallyLoadTextures",
   "url",
+  "credit",
 ];
 
-const Model = createCesiumElement<Cesium.Model, ModelProps, ModelContext>({
+const Model = createCesiumComponent<
+  Cesium.Model,
+  ModelProps,
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
+>({
   name: "Model",
-  create(cprops, props) {
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+
     // Workaround: basePath?: Cesium.Resource | string;
-    const model = props.url
-      ? Cesium.Model.fromGltf(cprops as any)
-      : new Cesium.Model(cprops as any);
+    const element = props.url ? CesiumModel.fromGltf(props as any) : new CesiumModel(props as any);
 
     if (props.onReady) {
-      model.readyPromise.then(props.onReady);
+      element.readyPromise.then(props.onReady);
     }
 
-    return model;
-  },
-  mount(element, context) {
     context.primitiveCollection.add(element);
+
+    return element;
   },
-  unmount(element, context) {
-    context.primitiveCollection.remove(element);
+  destroy(element, context) {
+    context.primitiveCollection?.remove(element);
     if (!element.isDestroyed()) {
       element.destroy();
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
+  useCommonEvent: true,
 });
 
 export default Model;

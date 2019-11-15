@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { EllipsoidGraphics as CesiumEllipsoidGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -18,7 +18,12 @@ export interface EllipsoidGraphicsCesiumProps {
   radii?: Cesium.Property | Cesium.Cartesian3;
   show?: Cesium.Property | boolean;
   fill?: Cesium.Property | boolean;
+  innerRadii?: Cesium.Property | Cesium.Cartesian3;
   material?: Cesium.MaterialProperty | Cesium.Color | string;
+  maximumClock?: Cesium.Property | number;
+  maximumCone?: Cesium.Property | number;
+  minimumClock?: Cesium.Property | number;
+  minimumCone?: Cesium.Property | number;
   outline?: Cesium.Property | boolean;
   outlineColor?: Cesium.Property | Cesium.Color;
   outlineWidth?: Cesium.Property | number;
@@ -37,16 +42,17 @@ export interface EllipsoidGraphicsProps
   extends EllipsoidGraphicsCesiumProps,
     EllipsoidGraphicsCesiumEvents {}
 
-export interface EllipsoidGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "heightReference",
   "radii",
   "show",
   "fill",
+  "innerRadii",
   "material",
+  "maximumClock",
+  "maximumCone",
+  "minimumClock",
+  "minimumCone",
   "outline",
   "outlineColor",
   "outlineWidth",
@@ -57,28 +63,25 @@ const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<
-  Cesium.EllipsoidGraphics,
-  keyof EllipsoidGraphicsCesiumEvents
-> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.EllipsoidGraphics, EllipsoidGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const EllipsoidGraphics = createCesiumComponent<
   Cesium.EllipsoidGraphics,
   EllipsoidGraphicsProps,
-  EllipsoidGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "EllipsoidGraphics",
-  create(cprops) {
-    return new Cesium.EllipsoidGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumEllipsoidGraphics(props as any);
+    context.entity.ellipsoid = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.ellipsoid = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.ellipsoid = undefined as any;
     }

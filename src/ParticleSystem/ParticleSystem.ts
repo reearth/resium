@@ -1,5 +1,5 @@
-import Cesium from "cesium";
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { ParticleSystem as CesiumParticleSystem } from "cesium";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -54,10 +54,6 @@ export interface ParticleSystemProps extends ParticleSystemCesiumProps, Particle
   onUpdate?: (particle: any /* Cesium.Particle */, dt: number) => void;
 }
 
-export interface ParticleSystemContext {
-  primitiveCollection: Cesium.PrimitiveCollection;
-}
-
 const cesiumProps: (keyof ParticleSystemCesiumProps)[] = [
   "show",
   "emitter",
@@ -88,29 +84,32 @@ const cesiumProps: (keyof ParticleSystemCesiumProps)[] = [
   "maximumMass",
 ];
 
-const cesiumEventProps: EventkeyMap<any, keyof ParticleSystemCesiumEvents> = {
-  complete: "onComplete",
+// Cesium.ParticleSystem
+const cesiumEventProps: EventkeyMap<any, ParticleSystemCesiumEvents> = {
+  onComplete: "complete",
 };
 
 const ParticleSystem = createCesiumComponent<
-  any,
+  any /* Cesium.ParticleSystem */,
   ParticleSystemProps,
-  ParticleSystemContext /* Cesium.ParticleSystem */
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
 >({
   name: "ParticleSystem",
-  create(cprops, props) {
-    return new (Cesium as any).ParticleSystem({ ...cprops, updateCallback: props.onUpdate });
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumParticleSystem({ ...props, updateCallback: props.onUpdate });
+    context.primitiveCollection.add(element);
+    return element;
   },
   update(element, props, prevProps) {
     if (props.onUpdate !== prevProps.onUpdate) {
       element.updateCallback = props.onUpdate;
     }
   },
-  mount(element, context) {
-    context.primitiveCollection.add(element);
-  },
-  unmount(element, context) {
-    if (!context.primitiveCollection.isDestroyed) {
+  destroy(element, context) {
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed) {
       context.primitiveCollection.remove(element);
     }
   },

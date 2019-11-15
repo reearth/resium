@@ -1,10 +1,7 @@
-export {
-  PostProcessStageComposite,
-  AmbientOcclusion,
-  Bloom,
-  BlurStage,
-  DepthOfFieldStage,
-  EdgeDetectionStage,
-  SilhouetteStage,
-} from "./PostProcessStageComposite";
-export { default } from "./PostProcessStageComposite";
+export { PostProcessStageComposite, default } from "./PostProcessStageComposite";
+export { AmbientOcclusion } from "./AmbientOcclusion";
+export { Bloom } from "./Bloom";
+export { BlurStage } from "./BlurStage";
+export { DepthOfFieldStage } from "./DepthOfFieldStage";
+export { EdgeDetectionStage } from "./EdgeDetectionStage";
+export { SilhouetteStage } from "./SilhouetteStage";

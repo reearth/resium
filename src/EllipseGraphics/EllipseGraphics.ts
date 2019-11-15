@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { EllipseGraphics as CesiumEllipseGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -44,10 +44,6 @@ export interface EllipseGraphicsProps
   extends EllipseGraphicsCesiumProps,
     EllipseGraphicsCesiumEvents {}
 
-export interface EllipseGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof EllipseGraphicsCesiumProps)[] = [
   "semiMajorAxis",
   "semiMinorAxis",
@@ -70,29 +66,28 @@ const cesiumProps: (keyof EllipseGraphicsCesiumProps)[] = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.EllipseGraphics, keyof EllipseGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.EllipseGraphics, EllipseGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const EllipseGraphics = createCesiumComponent<
   Cesium.EllipseGraphics,
   EllipseGraphicsProps,
-  EllipseGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "EllipseGraphics",
-  create(cprops) {
-    const eg = new Cesium.EllipseGraphics(cprops as any);
-    if (cprops.classificationType) {
-      (eg as any).classificationType = cprops.classificationType;
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumEllipseGraphics(props as any);
+    if (props.classificationType) {
+      (element as any).classificationType = props.classificationType;
     }
-    return eg;
+    context.entity.ellipse = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.ellipse = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.ellipse = undefined as any;
     }

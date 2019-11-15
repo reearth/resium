@@ -1,85 +1,79 @@
-import Cesium from "cesium";
-import React from "react";
+import React, { useMemo, useRef, useCallback } from "react";
+import { Cartesian3, Cartesian2, SphereEmitter } from "cesium";
 import { storiesOf } from "@storybook/react";
 
+import { useCesiumContext } from "../core/context";
 import Viewer from "../Viewer";
 import ParticleSystem from "./ParticleSystem";
-import { withCesium } from "../core/context";
 import CameraFlyTo from "../CameraFlyTo";
 
 import snowImg from "assets/circular_particle.png";
 
-const pos = new Cesium.Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
+const pos = new Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
+const snowAlpha = 1.0;
+const snowRadius = 100000.0;
 
-class SnowParticle extends React.PureComponent<{ cesium: { scene: Cesium.Scene } }> {
-  private static snowRadius = 100000.0;
-  private static snowAlpha = 1.0;
+const SnowParticle: React.FC = () => {
+  const scene = useCesiumContext<{ scene?: Cesium.Scene }>().scene;
+  const snowGravityScratch = useRef(new Cartesian3());
+  const snowParticleSize = scene ? scene.drawingBufferWidth / 100.0 : 0;
+  const minimumSnowImageSize = useMemo(() => new Cartesian2(snowParticleSize, snowParticleSize), [
+    snowParticleSize,
+  ]);
+  const maximumSnowImageSize = useMemo(
+    () => new Cartesian2(snowParticleSize * 2.0, snowParticleSize * 2.0),
+    [snowParticleSize],
+  );
+  const emitter = useMemo(() => new SphereEmitter(snowRadius), []);
 
-  private snowGravityScratch = new Cesium.Cartesian3();
-  private snowParticleSize: number;
-  private minimumSnowImageSize: Cesium.Cartesian2;
-  private maximumSnowImageSize: Cesium.Cartesian2;
+  const onUpdate = useCallback(
+    (particle: any) => {
+      if (!scene) return;
 
-  public constructor(props: { cesium: { scene: Cesium.Scene } }) {
-    super(props);
-    const scene = props.cesium.scene;
-    this.snowParticleSize = scene.drawingBufferWidth / 100.0;
-    this.minimumSnowImageSize = new Cesium.Cartesian2(this.snowParticleSize, this.snowParticleSize);
-    this.maximumSnowImageSize = new Cesium.Cartesian2(
-      this.snowParticleSize * 2.0,
-      this.snowParticleSize * 2.0,
-    );
-  }
+      snowGravityScratch.current = Cesium.Cartesian3.normalize(
+        particle.position,
+        snowGravityScratch.current,
+      );
+      Cesium.Cartesian3.multiplyByScalar(
+        snowGravityScratch.current,
+        (Cesium.Math as any).randomBetween(-30.0, -300.0),
+        snowGravityScratch.current,
+      );
+      particle.velocity = Cesium.Cartesian3.add(
+        particle.velocity,
+        snowGravityScratch.current,
+        particle.velocity,
+      );
 
-  public render() {
-    return (
-      <ParticleSystem
-        modelMatrix={Cesium.Matrix4.fromTranslation(pos)}
-        minimumSpeed={-1.0}
-        maximumSpeed={0.0}
-        lifetime={15.0}
-        emitter={new (Cesium as any).SphereEmitter(SnowParticle.snowRadius)}
-        startScale={0.5}
-        endScale={1.0}
-        image={snowImg}
-        emissionRate={7000.0}
-        startColor={Cesium.Color.WHITE.withAlpha(0.0)}
-        endColor={Cesium.Color.WHITE.withAlpha(SnowParticle.snowAlpha)}
-        minimumImageSize={this.minimumSnowImageSize}
-        maximumImageSize={this.maximumSnowImageSize}
-        onUpdate={this.onUpdate}
-      />
-    );
-  }
+      const distance = Cesium.Cartesian3.distance(scene.camera.position, particle.position);
+      if (distance > snowRadius) {
+        particle.endColor.alpha = 0.0;
+      } else {
+        particle.endColor.alpha = snowAlpha / (distance / snowRadius + 0.1);
+      }
+    },
+    [scene],
+  );
 
-  private onUpdate = (particle: any) => {
-    const scene = this.props.cesium.scene;
-
-    this.snowGravityScratch = Cesium.Cartesian3.normalize(
-      particle.position,
-      this.snowGravityScratch,
-    );
-    Cesium.Cartesian3.multiplyByScalar(
-      this.snowGravityScratch,
-      (Cesium.Math as any).randomBetween(-30.0, -300.0),
-      this.snowGravityScratch,
-    );
-    particle.velocity = Cesium.Cartesian3.add(
-      particle.velocity,
-      this.snowGravityScratch,
-      particle.velocity,
-    );
-
-    const distance = Cesium.Cartesian3.distance(scene.camera.position, particle.position);
-    if (distance > SnowParticle.snowRadius) {
-      particle.endColor.alpha = 0.0;
-    } else {
-      particle.endColor.alpha = SnowParticle.snowAlpha / (distance / SnowParticle.snowRadius + 0.1);
-    }
-  };
-}
-
-const WrappedSnowParticle = withCesium<{}, { scene: Cesium.Scene }>(SnowParticle);
+  return (
+    <ParticleSystem
+      modelMatrix={Cesium.Matrix4.fromTranslation(pos)}
+      minimumSpeed={-1.0}
+      maximumSpeed={0.0}
+      lifetime={15.0}
+      emitter={emitter}
+      startScale={0.5}
+      endScale={1.0}
+      image={snowImg}
+      emissionRate={7000.0}
+      startColor={Cesium.Color.WHITE.withAlpha(0.0)}
+      endColor={Cesium.Color.WHITE.withAlpha(snowAlpha)}
+      minimumImageSize={minimumSnowImageSize}
+      maximumImageSize={maximumSnowImageSize}
+      onUpdate={onUpdate}
+    />
+  );
+};
 
 storiesOf("ParticleSystem", module).add("Basic", () => (
   <Viewer full shouldAnimate terrainProvider={Cesium.createWorldTerrain({})}>
@@ -91,6 +85,6 @@ storiesOf("ParticleSystem", module).add("Basic", () => (
         pitch: -0.32003481981370063,
       }}
     />
-    <WrappedSnowParticle />
+    <SnowParticle />
   </Viewer>
 ));

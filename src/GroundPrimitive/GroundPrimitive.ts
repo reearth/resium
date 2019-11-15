@@ -1,7 +1,7 @@
-import Cesium from "cesium";
+import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
 
-import createCesiumComponent from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -46,11 +46,6 @@ export interface GroundPrimitiveProps
   onReady?: (primitive: any /* Cesium.GroundPrimitive */) => void;
 }
 
-export interface GroundPrimitiveContext {
-  primitiveCollection?: Cesium.PrimitiveCollection;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof GroundPrimitiveCesiumProps)[] = [
   "appearance",
   "classificationType",
@@ -73,33 +68,21 @@ const cesiumReadonlyProps: (keyof GroundPrimitiveCesiumReadonlyProps)[] = [
 const GroundPrimitive = createCesiumComponent<
   any /* Cesium.GroundPrimitive */,
   GroundPrimitiveProps,
-  GroundPrimitiveContext
+  {
+    primitiveCollection?: Cesium.PrimitiveCollection;
+  }
 >({
   name: "GroundPrimitive",
-  create(cprops, props) {
-    const primitive = new (Cesium as any).GroundPrimitive(cprops);
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumGroundPrimitive(props);
     if (props.onReady) {
-      primitive.readyPromise.then(props.onReady);
+      element.readyPromise.then(props.onReady);
     }
-    return primitive;
+    context.primitiveCollection.add(element);
+    return element;
   },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-    if (context.primitiveCollection) {
-      context.primitiveCollection.add(element);
-    }
-  },
-  update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
@@ -109,6 +92,7 @@ const GroundPrimitive = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  useCommonEvent: true,
 });
 
 export default GroundPrimitive;

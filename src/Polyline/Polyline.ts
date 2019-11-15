@@ -1,7 +1,5 @@
-import Cesium from "cesium";
-
-import createCesiumComponent from "../core/CesiumComponent";
-import EventManager, { EventProps } from "../core/EventManager";
+import { createCesiumComponent } from "../core/component";
+import { EventProps } from "../core/EventManager";
 
 /*
 @summary
@@ -29,11 +27,6 @@ export interface PolylineCesiumProps {
 
 export interface PolylineProps extends PolylineCesiumProps, EventProps<Cesium.Polyline> {}
 
-export interface PolylineContext {
-  polylineCollection: Cesium.PolylineCollection;
-  __RESIUM_EVENT_MANAGER?: EventManager;
-}
-
 const cesiumProps: (keyof PolylineCesiumProps)[] = [
   "distanceDisplayCondition",
   "id",
@@ -44,30 +37,22 @@ const cesiumProps: (keyof PolylineCesiumProps)[] = [
   "width",
 ];
 
-const Polyline = createCesiumComponent<Cesium.Polyline, PolylineProps, PolylineContext>({
+const Polyline = createCesiumComponent<
+  Cesium.Polyline,
+  PolylineProps,
+  {
+    polylineCollection?: Cesium.PolylineCollection;
+  }
+>({
   name: "Polyline",
-  create(cprops, props, context) {
-    return context.polylineCollection.add(cprops);
-  },
-  mount(element, context, props) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
-  unmount(element, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.clearEvents(element);
-    }
+  create: (context, props) => context.polylineCollection?.add(props),
+  destroy(element, context) {
     if (context.polylineCollection && !context.polylineCollection.isDestroyed()) {
       context.polylineCollection.remove(element);
     }
   },
-  update(element, props, prevProps, context) {
-    if (context.__RESIUM_EVENT_MANAGER) {
-      context.__RESIUM_EVENT_MANAGER.setEvents(element, props);
-    }
-  },
   cesiumProps,
+  useCommonEvent: true,
 });
 
 export default Polyline;

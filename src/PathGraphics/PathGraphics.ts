@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { PathGraphics as CesiumPathGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -29,10 +29,6 @@ export interface PathGraphicsCesiumEvents {
 
 export interface PathGraphicsProps extends PathGraphicsCesiumProps, PathGraphicsCesiumEvents {}
 
-export interface PathGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof PathGraphicsCesiumProps)[] = [
   "leadTime",
   "trailTime",
@@ -43,25 +39,25 @@ const cesiumProps: (keyof PathGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, keyof PathGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, PathGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const PathGraphics = createCesiumComponent<
   Cesium.PathGraphics,
   PathGraphicsProps,
-  PathGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "PathGraphics",
-  create(cprops) {
-    return new Cesium.PathGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumPathGraphics(props as any);
+    context.entity.path = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.path = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.path = undefined as any;
     }

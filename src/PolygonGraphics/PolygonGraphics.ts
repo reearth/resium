@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -45,10 +45,6 @@ export interface PolygonGraphicsProps
   extends PolygonGraphicsCesiumProps,
     PolygonGraphicsCesiumEvents {}
 
-export interface PolygonGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof PolygonGraphicsCesiumProps)[] = [
   "hierarchy",
   "height",
@@ -72,29 +68,25 @@ const cesiumProps: (keyof PolygonGraphicsCesiumProps)[] = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, keyof PolygonGraphicsCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, PolygonGraphicsCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const PolygonGraphics = createCesiumComponent<
   Cesium.PolygonGraphics,
   PolygonGraphicsProps,
-  PolygonGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "PolygonGraphics",
-  create(cprops) {
-    const pg = new Cesium.PolygonGraphics(cprops as any);
-    if (cprops.classificationType) {
-      (pg as any).classificationType = cprops.classificationType;
-    }
-    return pg;
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumPolygonGraphics(props as any);
+    context.entity.polygon = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.polygon = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.polygon = undefined as any;
     }

@@ -1,6 +1,6 @@
-import Cesium from "cesium";
+import { CylinderGraphics as CesiumCylinderGraphics } from "cesium";
 
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -36,10 +36,6 @@ export interface CylinderCesiumEvents {
 
 export interface CylinderGraphicsProps extends CylinderGraphicsCesiumProps, CylinderCesiumEvents {}
 
-export interface CylinderGraphicsContext {
-  entity?: Cesium.Entity;
-}
-
 const cesiumProps: (keyof CylinderGraphicsCesiumProps)[] = [
   "heightReference",
   "length",
@@ -57,25 +53,25 @@ const cesiumProps: (keyof CylinderGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, keyof CylinderCesiumEvents> = {
-  definitionChanged: "onDefinitionChange",
+const cesiumEventProps: EventkeyMap<Cesium.CylinderGraphics, CylinderCesiumEvents> = {
+  onDefinitionChange: "definitionChanged",
 };
 
 const CylinderGraphics = createCesiumComponent<
   Cesium.CylinderGraphics,
   CylinderGraphicsProps,
-  CylinderGraphicsContext
+  {
+    entity?: Cesium.Entity;
+  }
 >({
   name: "CylinderGraphics",
-  create(cprops) {
-    return new Cesium.CylinderGraphics(cprops as any);
+  create(context, props) {
+    if (!context.entity) return;
+    const element = new CesiumCylinderGraphics(props as any);
+    context.entity.cylinder = element;
+    return element;
   },
-  mount(element, context) {
-    if (context.entity) {
-      context.entity.cylinder = element;
-    }
-  },
-  unmount(element, context) {
+  destroy(element, context) {
     if (context.entity) {
       context.entity.cylinder = undefined as any;
     }

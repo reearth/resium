@@ -1,5 +1,4 @@
-import Cesium from "cesium";
-import createCesiumComponent, { EventkeyMap } from "../core/CesiumComponent";
+import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
 @summary
@@ -23,29 +22,25 @@ export interface ImageryLayerCollectionCesiumEvents {
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ImageryLayerCollectionProps extends ImageryLayerCollectionCesiumEvents {}
 
-export interface ImageryLayerCollectionContext {
-  globe: Cesium.Globe;
-}
-
 const cesiumEventProps: EventkeyMap<
   Cesium.ImageryLayerCollection,
-  keyof ImageryLayerCollectionCesiumEvents
+  ImageryLayerCollectionCesiumEvents
 > = {
-  layerAdded: "onLayerAdd",
-  layerMoved: "onLayerMove",
-  layerRemoved: "onLayerRemove",
-  layerShownOrHidden: "onLayerShowOrHide",
+  onLayerAdd: "layerAdded",
+  onLayerMove: "layerMoved",
+  onLayerRemove: "layerRemoved",
+  onLayerShowOrHide: "layerShownOrHidden",
 };
 
 const ImageryLayerCollection = createCesiumComponent<
   Cesium.ImageryLayerCollection,
   ImageryLayerCollectionProps,
-  ImageryLayerCollectionContext
+  {
+    globe?: Cesium.Globe;
+  }
 >({
   name: "ImageryLayerCollection",
-  create(cprops, props, context) {
-    return context.globe.imageryLayers;
-  },
+  create: context => context.globe?.imageryLayers,
   cesiumEventProps,
 });
 
