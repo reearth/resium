@@ -60,13 +60,6 @@ module.exports = (env, args) => {
     },
     output: {
       path: path.join(__dirname, "build"),
-      sourcePrefix: "",
-    },
-    amd: {
-      toUrlUndefined: true,
-    },
-    node: {
-      fs: "empty",
     },
     plugins: [
       new webpack.DefinePlugin({
