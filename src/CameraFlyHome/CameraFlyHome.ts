@@ -22,7 +22,7 @@ export interface CameraFlyHomeProps {
   // Duration of camera flight (second)
   duration: number;
   // If true, cancel camera flight if this component is unmounted. Default value is false.
-  cancelCameraFlightOnUnmount?: boolean;
+  cancelFlightOnUnmount?: boolean;
   // If true, camera flight will be executed only once time.
   once?: boolean;
 }
@@ -30,7 +30,7 @@ export interface CameraFlyHomeProps {
 const CameraFlyHome = createCameraOperation<CameraFlyHomeProps>(
   "CameraFlyHome",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { cancelCameraFlightOnUnmount, duration }) => {
+  (camera, { cancelFlightOnUnmount, duration }) => {
     camera.flyHome(duration);
   },
 );

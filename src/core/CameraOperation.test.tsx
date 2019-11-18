@@ -45,7 +45,7 @@ describe("core/cameraop", () => {
 
     const wrapper = mount(
       <Provider value={{ camera }}>
-        <DummyCameraOperation cancelCameraFlightOnUnmount />
+        <DummyCameraOperation cancelFlightOnUnmount />
       </Provider>,
     );
 

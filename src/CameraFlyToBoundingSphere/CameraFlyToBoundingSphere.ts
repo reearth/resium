@@ -31,7 +31,7 @@ export interface CameraFlyToBoundingSphereProps {
   flyOverLongitudeWeight?: number;
   easingFunction?: Cesium.EasingFunction;
   // If true, cancel camera flight if this component is unmounted. Default value is false.
-  cancelCameraFlightOnUnmount?: boolean;
+  cancelFlightOnUnmount?: boolean;
   // If true, camera flight will be executed only once time.
   once?: boolean;
 }
@@ -39,7 +39,7 @@ export interface CameraFlyToBoundingSphereProps {
 const CameraFlyToBoundingSphere = createCameraOperation<CameraFlyToBoundingSphereProps>(
   "CameraFlyToBoundingSphere",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { cancelCameraFlightOnUnmount, boundingSphere, ...props }) => {
+  (camera, { cancelFlightOnUnmount, boundingSphere, ...props }) => {
     camera.flyToBoundingSphere(boundingSphere, props);
   },
 );

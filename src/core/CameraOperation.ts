@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { useCesiumContext } from "./context";
 
 export interface CameraOperationProps {
-  cancelCameraFlightOnUnmount?: boolean;
+  cancelFlightOnUnmount?: boolean;
   once?: boolean;
 }
 
@@ -18,11 +18,11 @@ export const createCameraOperation = <P>(
 
     useEffect(() => {
       return () => {
-        if (ctx.camera && props.cancelCameraFlightOnUnmount) {
+        if (ctx.camera && props.cancelFlightOnUnmount) {
           ctx.camera.cancelFlight();
         }
       };
-    }, [ctx.camera, props.cancelCameraFlightOnUnmount]);
+    }, [ctx.camera, props.cancelFlightOnUnmount]);
 
     useEffect(() => {
       if (ctx.camera) {
