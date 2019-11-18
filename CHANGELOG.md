@@ -1,5 +1,28 @@
 # Changelog
 
+## v1.9.0 - 2019/11/18
+
+- **Breaking Changes**:
+  - Drop support for React <= v16.7
+  - Internal code is implemented with React Hooks
+  - Some exported types are changed (TypeScript)
+- Add API:
+  - `useCesium` hooks
+  - `ShadowMap` component
+- Add props:
+  - **Viewer, CesiumWidget**: `onClick`, `onDoubleClick`, `onMouseDown`, `onMouseUp`, `onMiddleClick`, `onMiddleDown`, `onMiddleUp`, `onMouseMove`, `onPinchEnd`, `onPinchMove`, `onPinchStart`, `onRightClick`, `onRightDown`, `onRightUp`, `onWheel`, `onMouseEnter`, `onMouseLeave`
+  - **Cesium3DTileset, Model**: `onClick`, `onDoubleClick`, `onMouseDown`, `onMouseUp`, `onMiddleClick`, `onMiddleDown`, `onMiddleUp`, `onMouseMove`, `onPinchEnd`, `onPinchMove`, `onPinchStart`, `onRightClick`, `onRightDown`, `onRightUp`, `onMouseEnter`, `onMouseLeave`
+  - **CameraFlyHome, CameraFlyTo, CameraFlyToBoundingSphere**: `once`
+- Rename props:
+  - **CameraFlyHome, CameraFlyTo, CameraFlyToBoundingSphere**: `cancelCameraFlight` -> `cancelFlightOnUnmount`
+- Remove props:
+  - **Globe**: `onTileLoad` (because its event is removed from Cesium's Globe object)
+  - **Entity, Primitive, GroundPrimitive, Label, Polyline, PointPrimitive, Billboard**: `onWheel` (because it did not work well from the beginning)
+- Others:
+  - Reorgranize PostProcessStage/Composite components
+  - Fix some bugs
+  - Upgrade deps
+
 ## v1.8.1 - 2019/11/11
 
 - fix
