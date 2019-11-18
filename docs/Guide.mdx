@@ -9,12 +9,11 @@ route: /guide
 
 Resium brings React's component lifecycle to Cesium. The relationship between Cesium elements and React's lifecycle is as follows.
 
-1. `constructor`: The Cesium element is initialized (the Cesium element of some components are initialized at mount time).
-2. `render`: Nothing is rendered, because the object passed to children via React's context API does not exist in this time.
-3. `componentDidMount`: The Cesium element is mounted. After this, `forceUpdate` is called and re-render children.
-4. `render`: Children of the component are rendered. DOM never be rendered except root components (Viewer and CesiumWidget).
-5. `componentDidUpdate`: Changed properties of the Cesium element are updated. If "Cesium read only properties" are changed, the Cesium element will be reinitialized.
-6. `componentWillUnmount`: The Cesium element is unmounted and destroyed.
+1. Render: Nothing is rendered, as a cesium element is not initialized yet.
+2. Initalize Cesium element: An Cesium element is initialized, and it is added to its parent if the parent exists.
+3. Re-render: After Cesium element's initalization, children of the component are rendered. DOM never be rendered except root components (Viewer and CesiumWidget).
+5. Update: Changed properties of the Cesium element are updated. If "Cesium read-only properties" are changed, the Cesium element will be reinitialized.
+6. Unmount: The Cesium element is destroyed.
 
 ## Context
 
@@ -107,13 +106,13 @@ Each components of resium have 4 kinds of properties as bellow.
 
 "Cesium property" is a property derived from Cesium. Each properties are correspond to a property of the cesium element. All "cesium properties" are variable, so when they are updated in React component, the corresponding properties will be updated seamlessly.
 
-### Cesium Read Only Properties
+### Cesium Read-only Properties
 
-"Cesium read only property" is also a property derived from Cesium, but it is immutable. They are available only when initializing the element.
+"Cesium read-only property" is also a property derived from Cesium, but it is immutable. They are available only when initializing the element.
 
-**If "Cesium read only props" are changed in React component, the Cesium element will be destroyed and reinitialized.** It can be a cause of performance deterioration. Please use carefully to avoid changing as much as possible.
+**If "Cesium read-only props" are changed in React component, the Cesium element will be destroyed and reinitialized.** It can be a cause of performance deterioration. Please use carefully to avoid changing as much as possible.
 
-For example, `imageryProvider` property of `ImageryLayer` component is a "Cesium read only property". So in the following code, ImageryLayer is reinitialized in every rendering time!
+For example, `imageryProvider` property of `ImageryLayer` component is a "Cesium read-only property". So in the following code, ImageryLayer is reinitialized in every rendering time!
 
 ```jsx
 const Example = () => (
@@ -132,6 +131,7 @@ const Example = () => (
 If `imageryProvider` property is constant, The following is recommended.
 
 ```jsx
+import React from "react";
 import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
 
@@ -146,20 +146,24 @@ const ExampleComponent = () => (
 );
 ```
 
-If `imageryProvider` property is variable, Using [memoize-one](https://github.com/alexreardon/memoize-one) module is one idea.
+If `imageryProvider` property is variable, use `useMemo` hooks:
 
 ```jsx
+import React, { useMemo } from "react";
 import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
-import memoize from "memoize-one";
 
-const imageryProvider = memoize(url => new ArcGisMapServerImageryProvider({ url }));
-
-const ExampleComponent = ({ url }) => (
-  <Viewer>
-    <ImageryLayer imageryProvider={imageryProvider(url)} />
-  </Viewer>
-);
+const ExampleComponent = ({ url }) => {
+  const imageryProvider = useMemo(
+    () => new ArcGisMapServerImageryProvider({ url }),
+    [url]
+  );
+  return (
+    <Viewer>
+      <ImageryLayer imageryProvider={imageryProvider} />
+    </Viewer>
+  );
+};
 ```
 
 ### Cesium events
@@ -172,61 +176,57 @@ They are renamed according to React's custom. For example, `Viewer#trackedEntity
 
 Some components have convenient properties that do not exist in the Cesium element. They can be used in the same way as normal React component properties.
 
-## Accessing to a Cesium element
+## Accessing to a raw Cesium's element
 
-If you want to access a Cesium element, use `ref` prop. It can be get by `cesiumElement` property of the component object that can be get by `ref`.
+If you want to access a raw Cesium's element, use `ref` prop in components and `useRef` hooks. It can be get by `cesiumElement` property of the component object that can be get by them.
 
 To know what is a Cesium element of each component, refer to "Cesium element" in the document of each component.
 
+Note: `cesiumElement` property in the ref object also may be `undefined`. Please check if it's not `undefined` when using `cesiumElement`.
+
 ```jsx
+import React, { useEffect, useRef } from "react";
+import { Viewer } from "resium";
+
 const ExampleComponent = () => {
-  let viewer; // Cesium.Viewer
+  const ref = useRef(null);
+  
+  useEffect(() => {
+    if (ref.current && ref.current.cesiumElement) {
+      // ref.current.cesiumElement is Cesium.Viewer
+      // DO SOMETHING
+    }
+  }, []);
 
   return (
-    <Viewer
-      ref={e => {
-        viewer = !!e ? e.cesiumElement : undefined;
-      }}
-    />
+    <Viewer ref={ref} />
   );
 };
 ```
 
-```jsx
-class ExampleComponent extends React.PureComponent {
-  entity = React.createRef(); // entity.current = Cesium.Entity
+In TypeScript:
 
-  render() {
-    return (
-      <Viewer>
-        <Entity
-          name="test"
-          description="test!!"
-          position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-          point={{ pixelSize: 10 }}
-          ref={entity}
-        />
-      </Viewer>
-    );
-  }
-}
-```
+```tsx
+import React, { useEffect, useRef } from "react";
+import { Viewer, CesiumComponentRef } from "resium";
 
-```jsx
 const ExampleComponent = () => {
-  const viewer = React.useRef();
-
-  React.useEffect(() => {
-    if (viewer.current && viewer.current.cesiumElement) {
-      // viewer.current.cesiumElement is Viewer
+  const ref = useRef<CesiumComponentRef<Cesium.Viewer>>(null);
+  
+  useEffect(() => {
+    if (ref.current?.cesiumElement) {
+      // ref.current.cesiumElement is Cesium.Viewer
+      // DO SOMETHING
     }
   }, []);
 
-  return <Viewer ref={viewer} />;
+  return (
+    <Viewer ref={ref} />
+  );
 };
 ```
 
 ## Limitations
 
-- Server side rendering is not supported. Cesium is rendered in web browsers.
-- Resium runs only with `react-dom`. because Cesium depends on APIs of web browsers (DOM, WebGL, Web Worker and so on). React Native is not supported.
+- Server side rendering is not supported. Cesium is only rendered in web browsers.
+- Resium runs only with `react-dom`, as Cesium depends on APIs of web browsers (DOM, WebGL, Web Worker and so on). React Native is not supported.

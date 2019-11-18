@@ -16,6 +16,12 @@ See also: [example project](https://github.com/darwin-education/resium/tree/mast
 npm install --save-dev copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin
 ```
 
+or
+
+```
+yarn add copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin
+```
+
 Then, edit your webpack configuration.
 
 ## 2. Add `cesium` to externals
@@ -126,7 +132,7 @@ Note: If `publicPath` in webpack config is changed, CESIUM_BASE_URL may have to 
 
 Everything is ready! Advance to [Getting Started](/getting_started).
 
-You can load Cesium directly:
+You can import Cesium directly:
 
 ```js
 import { Cartesian3 } from "cesium";

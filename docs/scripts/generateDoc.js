@@ -102,7 +102,7 @@ ${renderPropTable(type.cesiumProps)}`
 ${
   !generalComponent
     ? `
-### Cesium read only properties
+### Cesium read-only properties
 
 ${renderPropTable(type.cesiumReadonlyProps)}
 `

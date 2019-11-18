@@ -7,39 +7,45 @@ route: /advanced
 
 ## Get Cesium context with your component
 
-`withCesium` HOC (High order component) is available in Resium. The context is passed to `cesium` prop.
+`useCesium` hooks is available with Resium:
 
 ```jsx
-import { withCesium } from "resium";
+import { useCesium } from "resium";
 
-const ExampleComponent = ({ cesium }) => (
-  <p>Cesium Viewer object is{cesium.viewer ? "" : " not"} provided here.</p>
-);
+const ExampleComponent = () => {
+  const context = useCesium();
+  return (
+    <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>
+  );
+};
 
-export default withCesium(ExampleComponent);
+export default ExampleComponent;
+```
+
+In TypeScript:
+
+```tsx
+import { useCesium } from "resium";
+
+const ExampleComponent = () => {
+  const context = useCesium<{ viewer?: Cesium.Viewer }>();
+  return (
+    <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>
+  );
+};
+
+export default ExampleComponent;
 ```
 
 Structure of the context is as following. It changes according to the location of the component.
 
 ```js
 {
-  viewer: Cesium.Viewer,
-  cesiumWidget: Cesium.CesiumWidget,
-  scene: Cesium.Scene
+  viewer: Cesium.Viewer | undefined,
+  cesiumWidget: Cesium.CesiumWidget | undefined,
+  scene: Cesium.Scene | undefined
   // ...
 }
-```
-
-Another way is using React Hooks since React v16.8:
-
-```js
-import { CesiumContext } from "resium";
-
-const ExampleComponent = () => {
-  const cesium = React.useContext(CesiumContext);
-
-  return <p>Cesium Viewer object is{cesium.viewer ? "" : " not"} provided here.</p>;
-};
 ```
 
 ## Define a new Cesium component

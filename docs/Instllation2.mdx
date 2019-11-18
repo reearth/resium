@@ -8,12 +8,20 @@ menu: Installation
 
 Copy only asset files and load Cesium partially.
 
-See also: [example project](https://github.com/darwin-education/resium/tree/master/example/webpack.config.2.js) and [CesiumJS and Webpack](https://cesium.com/docs/tutorials/cesium-and-webpack/)
+In this way, imported and used Cesium's source codes are bundled to your app's source code with webpack.
+
+See also: [example project](https://github.com/darwin-education/resium/tree/master/example/webpack.config.2.js) and [Cesium's official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
 
 ## 1. Install webpack plugins and loaders
 
 ```
 npm install --save-dev copy-webpack-plugin css-loader style-loader url-loader strip-pragma-loader
+```
+
+or
+
+```
+yarn add --dev copy-webpack-plugin css-loader style-loader url-loader strip-pragma-loader
 ```
 
 Then, edit your webpack configuration.
@@ -84,7 +92,7 @@ const webpack = require("webpack");
   plugins: [
     // ...
     new webpack.DefinePlugin({
-      CESIUM_BASE_URL: JSON.stringify("/"),
+      CESIUM_BASE_URL: JSON.stringify(""),
     }),
   ];
 }
@@ -123,26 +131,7 @@ In your entry JS (e.g. index.js):
 import "cesium/Widgets/widgets.css";
 ```
 
-## 7. Set up other settings
-
-```js
-{
-  output: {
-    // Needed to compile multiline strings in Cesium
-    sourcePrefix: ''
-  },
-  amd: {
-    // Enable webpack-friendly use of require in Cesium
-    toUrlUndefined: true
-  },
-  node: {
-    // Resolve node module use of fs
-    fs: 'empty'
-  }
-}
-```
-
-## 8. Remove extra code in production build
+## 7. Remove extra code in production build
 
 This is optional, but it is recommended for production build.
 
@@ -184,14 +173,10 @@ module.exports = (env, argv) => {
 
 Everything is ready! Advance to [Getting Started](/getting_started).
 
-You can load Cesium directly:
+You can import Cesium directly:
 
 ```js
 import { Cartesian3 } from "cesium";
 ```
 
-or
-
-```js
-import Cartesian3 from "cesium/Core/Cartesian3";
-```
+Note: `import Cesium from "cesium";` may be cause an error, as default is not exported from Cesium.
