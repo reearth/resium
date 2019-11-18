@@ -2,7 +2,7 @@ import React, { useMemo, useRef, useCallback } from "react";
 import { Cartesian3, Cartesian2, SphereEmitter } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import { useCesiumContext } from "../core/context";
+import { useCesium } from "../core/context";
 import Viewer from "../Viewer";
 import ParticleSystem from "./ParticleSystem";
 import CameraFlyTo from "../CameraFlyTo";
@@ -14,7 +14,7 @@ const snowAlpha = 1.0;
 const snowRadius = 100000.0;
 
 const SnowParticle: React.FC = () => {
-  const scene = useCesiumContext<{ scene?: Cesium.Scene }>().scene;
+  const scene = useCesium<{ scene?: Cesium.Scene }>().scene;
   const snowGravityScratch = useRef(new Cartesian3());
   const snowParticleSize = scene ? scene.drawingBufferWidth / 100.0 : 0;
   const minimumSnowImageSize = useMemo(() => new Cartesian2(snowParticleSize, snowParticleSize), [

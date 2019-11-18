@@ -1,6 +1,6 @@
 import React, { forwardRef } from "react";
 
-import { useCesium, Options, EventkeyMap } from "./hooks";
+import { useCesiumComponent, Options, EventkeyMap } from "./hooks";
 import { CesiumContext } from "./context";
 import { pick } from "./util";
 
@@ -47,7 +47,7 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
       ...props,
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesium(options, mergedProps, ref);
+    const [provided, mounted, wrapperRef] = useCesiumComponent(options, mergedProps, ref);
 
     if (noChildren) return null;
 

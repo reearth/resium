@@ -4,7 +4,7 @@ import { ConstantProperty } from "cesium";
 const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
-import { useCesiumContext } from "../core/context";
+import { useCesium } from "../core/context";
 import { Entity } from "cesium";
 
 // @noCesiumElement
@@ -25,7 +25,7 @@ and can not be used more than once for each entity.
 */
 
 const EntityDescription: React.FC = ({ children }) => {
-  const entity = useCesiumContext<{ entity?: Entity }>().entity;
+  const entity = useCesium<{ entity?: Entity }>().entity;
 
   useEffect(() => {
     if (!entity || !children) return;

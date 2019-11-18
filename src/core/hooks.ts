@@ -1,7 +1,7 @@
 import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "react";
 import { Event as CesiumEvent } from "cesium";
 
-import { useCesiumContext } from "./context";
+import { useCesium } from "./context";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 import { includes, shallowEquals } from "./util";
 
@@ -30,7 +30,7 @@ export interface Options<Element, Props, Context, ProvidedContext = never, State
   useRootEvent?: boolean;
 }
 
-export const useCesium = <Element, Props, Context, ProvidedContext = any, State = any>(
+export const useCesiumComponent = <Element, Props, Context, ProvidedContext = any, State = any>(
   {
     name,
     create,
@@ -48,7 +48,7 @@ export const useCesium = <Element, Props, Context, ProvidedContext = any, State 
   ref: any,
 ): [ProvidedContext | {} | undefined, boolean, React.RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
-  const ctx = useCesiumContext<Context & { [eventManagerContextKey]?: EventManager }>();
+  const ctx = useCesium<Context & { [eventManagerContextKey]?: EventManager }>();
   const provided = useRef<ProvidedContext | {} | undefined>(provide ? {} : undefined);
   const attachedEvents = useRef<
     {

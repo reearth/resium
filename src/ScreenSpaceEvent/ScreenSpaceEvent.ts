@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { useCesiumContext } from "../core/context";
+import { useCesium } from "../core/context";
 
 // @noCesiumElement
 
@@ -26,7 +26,7 @@ export interface ScreenSpaceEventProps {
 }
 
 const ScreenSpaceEvent: React.FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
-  const ctx = useCesiumContext<{ screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler }>();
+  const ctx = useCesium<{ screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler }>();
 
   useEffect(() => {
     if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;
