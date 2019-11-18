@@ -10,6 +10,10 @@ export interface CesiumInsideComponentType<E, P = any>
   cesiumElement: E;
 }
 
+export type CesiumComponentType<E, P, C> = React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<P> & React.RefAttributes<CesiumInsideComponentType<E, P>>
+>;
+
 export type WithContextProps<P, C> = P & CesiumProp<C>;
 export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
 
