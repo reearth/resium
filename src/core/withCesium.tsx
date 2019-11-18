@@ -5,6 +5,11 @@ export interface CesiumProp<C> {
   cesium: C;
 }
 
+export interface CesiumInsideComponentType<E, P = any>
+  extends React.PureComponent<WithContextProps<P, any>> {
+  cesiumElement: E;
+}
+
 export type WithContextProps<P, C> = P & CesiumProp<C>;
 export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
 
