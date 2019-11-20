@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.9.1 - 2019/11/20
+
+- Fix: expose cesiumElement in ref correctly when component is mounted
+
 ## v1.9.0 - 2019/11/18
 
 - **Breaking Changes**:
