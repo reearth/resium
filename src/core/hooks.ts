@@ -1,4 +1,11 @@
-import { useEffect, useRef, useImperativeHandle, useState, useCallback } from "react";
+import {
+  useEffect,
+  useRef,
+  useImperativeHandle,
+  useState,
+  useCallback,
+  useLayoutEffect,
+} from "react";
 import { Event as CesiumEvent } from "cesium";
 
 import { useCesium } from "./context";
@@ -148,7 +155,7 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
     ],
   );
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const wrapperDiv = wrapperRef.current;
 
     // Initialize cesium element
