@@ -62,7 +62,7 @@
     "copy-webpack-plugin": "^5.0.5",
     "cross-env": "^6.0.3",
     "del-cli": "^3.0.0",
-    "docz": "^2.1.1",
+    "docz": "^1.2.0",
     "docz-theme-default": "^1.2.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
