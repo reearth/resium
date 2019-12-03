@@ -1,6 +1,6 @@
 ![Resium](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/resium.gif)
 
-[![Financial Contributors on Open Collective](https://opencollective.com/resium/all/badge.svg?label=financial+contributors)](https://opencollective.com/resium) [![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium)
+[![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium) [![Financial Contributors on Open Collective](https://opencollective.com/resium/all/badge.svg?label=financial+contributors)](https://opencollective.com/resium)
 
 React components for 🌏[Cesium](https://cesiumjs.org/)
 
@@ -25,15 +25,9 @@ React components for 🌏[Cesium](https://cesiumjs.org/)
 
 ![Usage](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/usage.gif)
 
-## When you have a question...
-
-Please don't send question e-mail as possible. Please use [GitHub issues](https://github.com/darwin-education/resium/issues).
-
-## Contribution
-
-See [documentation](https://resium.darwineducation.com/contribution).
-
 ## Contributors
+
+If you want to contribute, see [documentation](https://resium.darwineducation.com/contribution).
 
 ### Code Contributors
 
@@ -46,22 +40,22 @@ Become a financial contributor and help us sustain our community. [[Contribute](
 
 #### Individuals
 
-<a href="https://opencollective.com/resium"><img src="https://opencollective.com/resium/individuals.svg?width=890"></a>
+<a href="https://opencollective.com/resium"><img src="https://opencollective.com/resium/individuals.svg?width=890" /></a>
 
 #### Organizations
 
 Support this project with your organization. Your logo will show up here with a link to your website. [[Contribute](https://opencollective.com/resium/contribute)]
 
-<a href="https://opencollective.com/resium/organization/0/website"><img src="https://opencollective.com/resium/organization/0/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/1/website"><img src="https://opencollective.com/resium/organization/1/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/2/website"><img src="https://opencollective.com/resium/organization/2/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/3/website"><img src="https://opencollective.com/resium/organization/3/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/4/website"><img src="https://opencollective.com/resium/organization/4/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/5/website"><img src="https://opencollective.com/resium/organization/5/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/6/website"><img src="https://opencollective.com/resium/organization/6/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/7/website"><img src="https://opencollective.com/resium/organization/7/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/8/website"><img src="https://opencollective.com/resium/organization/8/avatar.svg"></a>
-<a href="https://opencollective.com/resium/organization/9/website"><img src="https://opencollective.com/resium/organization/9/avatar.svg"></a>
+<a href="https://opencollective.com/resium/organization/0/website"><img src="https://opencollective.com/resium/organization/0/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/1/website"><img src="https://opencollective.com/resium/organization/1/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/2/website"><img src="https://opencollective.com/resium/organization/2/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/3/website"><img src="https://opencollective.com/resium/organization/3/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/4/website"><img src="https://opencollective.com/resium/organization/4/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/5/website"><img src="https://opencollective.com/resium/organization/5/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/6/website"><img src="https://opencollective.com/resium/organization/6/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/7/website"><img src="https://opencollective.com/resium/organization/7/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/8/website"><img src="https://opencollective.com/resium/organization/8/avatar.svg" /></a>
+<a href="https://opencollective.com/resium/organization/9/website"><img src="https://opencollective.com/resium/organization/9/avatar.svg" /></a>
 
 ## License
 
