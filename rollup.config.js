@@ -22,6 +22,7 @@ export default {
         : `dist/resium${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
+      "react-dom": "ReactDOM",
       "react-dom/server.browser": "ReactDOMServer",
       cesium: "Cesium",
     },
@@ -65,5 +66,5 @@ export default {
         ]
       : [],
   ),
-  external: ["react", "react-dom/server.browser", "cesium"],
+  external: ["react", "react-dom", "react-dom/server.browser", "cesium"],
 };
