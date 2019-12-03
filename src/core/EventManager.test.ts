@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { ScreenSpaceEventType } from "cesium";
 
 import EventManager from "./EventManager";

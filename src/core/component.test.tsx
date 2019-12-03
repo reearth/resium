@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createRef } from "react";
 import { mount } from "enzyme";
 import { Event } from "cesium";
