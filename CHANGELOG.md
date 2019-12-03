@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.10.0 - 2019/12/03
+
+- change: `EntityDescription` is reimplemented with React Portal (enable to use any event or dynamic state in children)
+- add: `EntityStaticDescription` component that behaves like a conventional EntityDescription component
+- Upgrade deps
+
 ## v1.9.1 - 2019/11/20
 
 - Fix: expose cesiumElement in ref correctly when component is mounted
