@@ -178,11 +178,15 @@ Some components have convenient properties that do not exist in the Cesium eleme
 
 ## Accessing to a raw Cesium's element
 
-If you want to access a raw Cesium's element, use `ref` prop in components and `useRef` hooks. It can be get by `cesiumElement` property of the component object that can be get by them.
+If you want to access a raw Cesium's element, you cab use `ref` prop of components. It can be get by `cesiumElement` property of the component object that can be get by them.
 
 To know what is a Cesium element of each component, refer to "Cesium element" in the document of each component.
 
 Note: `cesiumElement` property in the ref object also may be `undefined`, for example when an error happened. Please check if it's not `undefined` when using `cesiumElement`.
+
+### Way 1: useRef hooks (function component)
+
+Function component:
 
 ```jsx
 import React, { useEffect, useRef } from "react";
@@ -204,7 +208,7 @@ const ExampleComponent = () => {
 };
 ```
 
-In TypeScript:
+Function component in TypeScript:
 
 ```tsx
 import React, { useEffect, useRef } from "react";
@@ -223,6 +227,113 @@ const ExampleComponent = () => {
   return (
     <Viewer ref={ref} />
   );
+};
+```
+
+### Way 2: use a function (class component)
+
+Class component:
+
+```jsx
+import React, { Component } from "react";
+import { Viewer } from "resium";
+
+class ExampleComponent extends Component {
+  componentDidMount() {
+    if (this.viewer) {
+      // this.viewer is Cesium.Viewer
+      // DO SOMETHING
+    }
+  }
+
+  render() {
+    return (
+      <Viewer
+        ref={e => {
+          this.viewer = e ? e.cesiumElement : undefined;
+        }} />
+    );
+  }
+};
+```
+
+Class component in TypeScript:
+
+```tsx
+import React, { Component } from "react";
+import { Viewer } from "resium";
+
+class ExampleComponent extends Component {
+  private viewer: Cesium.Viewer | undefined;
+
+  componentDidMount() {
+    if (this.viewer) {
+      // this.viewer is Cesium.Viewer
+      // DO SOMETHING
+    }
+  }
+
+  render() {
+    return (
+      <Viewer
+        ref={e => {
+          this.viewer = e ? e.cesiumElement : undefined;
+        }} />
+    );
+  }
+};
+```
+
+### Way 3: use createRef (class component)
+
+Class component:
+
+```jsx
+import React, { Component, createRef } from "react";
+import { Viewer } from "resium";
+
+class ExampleComponent extends Component {
+  constructor(props) {
+    super(props);
+    this.ref = createRef();
+  }
+
+  componentDidMount() {
+    if (this.ref.current && this.ref.current.cesiumElement) {
+      // this.ref.current.cesiumElement is Cesium.Viewer
+      // DO SOMETHING
+    }
+  }
+
+  render() {
+    return (
+      <Viewer ref={this.ref} />
+    );
+  }
+};
+```
+
+Class component in TypeScript:
+
+```tsx
+import React, { Component, createRef } from "react";
+import { Viewer } from "resium";
+
+class ExampleComponent extends Component {
+  private ref = createRef<Cesium.Viewer | undefined>();
+
+  componentDidMount() {
+    if (this.ref.current?.cesiumElement) {
+      // this.ref.current.cesiumElement is Cesium.Viewer
+      // DO SOMETHING
+    }
+  }
+
+  render() {
+    return (
+      <Viewer ref={this.ref} />
+    );
+  }
 };
 ```
 
