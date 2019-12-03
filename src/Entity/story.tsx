@@ -15,7 +15,7 @@ import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import Entity, { EntityProps } from "./Entity";
-import EntityDescription from "../EntityDescription";
+import EntityDescription, { EntityStaticDescription } from "../EntityDescription";
 import BillboardGraphics from "../BillboardGraphics";
 import BoxGraphics from "../BoxGraphics";
 import CorridorGraphics from "../CorridorGraphics";
@@ -90,19 +90,38 @@ storiesOf("Entity", module)
       />
     </Viewer>
   ))
-  .add("Children with JSX", () => (
-    <Viewer full>
-      <Entity
-        name="test"
-        position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-        point={{ pixelSize: 10 }}>
-        <EntityDescription>
-          <h1>Hello!</h1>
-          <p>This is description. It can be described with JSX!</p>
-        </EntityDescription>
-      </Entity>
-    </Viewer>
-  ))
+  .add("Description", () => {
+    const [count, setCount] = useState(0);
+    return (
+      <Viewer full>
+        <Entity
+          name="test1"
+          position={Cartesian3.fromDegrees(-74, 40, 100)}
+          point={{ pixelSize: 15, color: Color.YELLOW }}
+          description="Normal Description"
+        />
+        <Entity
+          name="test2"
+          position={Cartesian3.fromDegrees(-74, 30, 100)}
+          point={{ pixelSize: 15, color: Color.BLUE }}>
+          <EntityStaticDescription>
+            <h1>Hello!</h1>
+            <p>This is description. It can be described with static JSX!</p>
+          </EntityStaticDescription>
+        </Entity>
+        <Entity
+          name="test3"
+          position={Cartesian3.fromDegrees(-74, 20, 100)}
+          point={{ pixelSize: 15, color: Color.RED }}>
+          <EntityDescription>
+            <h1>Hello!</h1>
+            <p>This is description. It can be described with React!</p>
+            <button onClick={() => setCount(i => i + 1)}>counter: {count}</button>
+          </EntityDescription>
+        </Entity>
+      </Viewer>
+    );
+  })
   .add("Selected and tracked", () => (
     <Viewer full>
       <Entity

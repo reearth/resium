@@ -1,8 +1,5 @@
-import React, { useEffect } from "react";
-import { ConstantProperty } from "cesium";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { renderToStaticMarkup } = require("react-dom/server.browser");
-// WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
+import React, { useEffect, useState, useMemo } from "react";
+import { createPortal } from "react-dom";
 
 import { useCesium } from "../core/context";
 import { Entity } from "cesium";
@@ -13,30 +10,64 @@ import { Entity } from "cesium";
 @summary
 `EntityDescription` provides a way to render description of the entity with React.
 
-Its children will be rendered with `ReactDOM.renderToStaticMarkup` as HTML string of the description.
-
-Note: This component depends on `react-dom/server.browser` module.
+Its children will be rendered to the container element specified by container prop (by default, rendered to the info box of the viewer) with React Portal. So you can use any event or dynamic state inside children of this component.
 */
 
 /*
 @scope
-EntityDescription is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+EntityDescription is available only inside [Entity](/components/Entity) components,
+and can not be used more than once or together with EntityStaticDescription component for each entity.
 */
 
-const EntityDescription: React.FC = ({ children }) => {
-  const entity = useCesium<{ entity?: Entity }>().entity;
+export interface EntityDescriptionProps {
+  container?: Element;
+  resizeInfoBox?: boolean;
+}
 
+const EntityDescription: React.FC<EntityDescriptionProps> = ({
+  children,
+  container,
+  resizeInfoBox = true,
+}) => {
+  const { viewer, entity } = useCesium<{ viewer?: Cesium.Viewer; entity?: Entity }>();
+  const [selected, setSelected] = useState(false);
+  const c = useMemo(
+    () => container ?? viewer?.infoBox.frame.contentDocument?.createElement("div"),
+    [container, viewer],
+  );
+
+  // Update selected state
   useEffect(() => {
-    if (!entity || !children) return;
-    entity.description = new ConstantProperty(renderToStaticMarkup(children));
-    return () => {
-      if (!entity) return;
-      (entity.description as Cesium.Property | undefined) = undefined;
+    if (!viewer || !entity) return;
+    const ev = (e?: Entity) => {
+      setSelected(!!e && e.id === entity.id);
     };
-  }, [children, entity]);
+    viewer.selectedEntityChanged.addEventListener(ev);
+    return () => {
+      viewer.selectedEntityChanged.removeEventListener(ev);
+    };
+  }, [entity, viewer]);
 
-  return null;
+  // Render content to info box
+  useEffect(() => {
+    if (container || !c || !viewer) return;
+    const frame = viewer.infoBox?.frame;
+    const parent = frame?.contentDocument?.querySelector(".cesium-infoBox-description");
+    if (!frame || !parent) return;
+    if (selected) {
+      parent.appendChild(c);
+      if (resizeInfoBox) {
+        // auto resize
+        frame.style.display = "block";
+        frame.style.height = parent.getBoundingClientRect().height + "px";
+        delete frame.style.display;
+      }
+    } else if (c.parentElement === parent) {
+      parent.removeChild(c);
+    }
+  }, [c, container, resizeInfoBox, selected, viewer]);
+
+  return c ? createPortal(!container || selected ? children : null, c) : null;
 };
 
 export default EntityDescription;

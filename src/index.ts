@@ -23,7 +23,7 @@ export { default as CzmlDataSource } from "./CzmlDataSource";
 export { default as EllipseGraphics } from "./EllipseGraphics";
 export { default as EllipsoidGraphics } from "./EllipsoidGraphics";
 export { default as Entity } from "./Entity";
-export { default as EntityDescription } from "./EntityDescription";
+export { default as EntityDescription, EntityStaticDescription } from "./EntityDescription";
 export { default as Fog } from "./Fog";
 export { default as GeoJsonDataSource } from "./GeoJsonDataSource";
 export { default as Globe } from "./Globe";
