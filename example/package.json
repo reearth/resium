@@ -29,7 +29,7 @@
     "webpack-dev-server": "^3.9.0"
   },
   "dependencies": {
-    "cesium": "^1.63.1",
+    "cesium": "^1.64.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-hot-loader": "^4.12.18",
