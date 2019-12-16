@@ -1,20 +1,23 @@
 sudo: false
 language: node_js
 node_js:
-- '12'
+  - '12'
 cache:
   yarn: true
   directories:
-  - node_modules
+    - node_modules
 script:
-- yarn run type
-- yarn run lint
-- yarn test
+  - yarn run type
+  - yarn run lint
+  - yarn test
 notifications:
   email:
     on_success: never
     on_failure: never
 before_deploy: yarn build
+branches:
+  only:
+    - master
 deploy:
   skip_cleanup: true
   provider: npm
