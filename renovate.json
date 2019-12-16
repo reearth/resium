@@ -3,9 +3,9 @@
     "config:base",
     ":semanticCommits"
   ],
+  "timezone": "Asia/Tokyo",
   "schedule": [
-    "after 1pm on every weekday",
-    "every weekend"
+    "before 1pm on every weekday"
   ],
   "packageRules": [
     {
@@ -15,7 +15,8 @@
         "pin",
         "digest"
       ],
-      "automerge": true
+      "automerge": true,
+      "groupName": "all"
     }
   ],
   "vulnerabilityAlerts": {
