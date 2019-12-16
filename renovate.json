@@ -1,33 +1,16 @@
 {
   "extends": [
     "config:base",
-    ":semanticCommits"
+    ":timezone(Asia/Tokyo)",
+    ":semanticCommits",
+    ":automergeMinor"
   ],
-  "timezone": "Asia/Tokyo",
   "schedule": [
     "before 1pm on every weekday"
-  ],
-  "packageRules": [
-    {
-      "updateTypes": [
-        "minor",
-        "patch",
-        "pin",
-        "digest"
-      ],
-      "automerge": true,
-      "groupName": "all"
-    }
   ],
   "vulnerabilityAlerts": {
     "labels": [
       "security"
-    ],
-    "assignees": [
-      "@rot1024"
     ]
-  },
-  "lockFileMaintenance": {
-    "enabled": true
   }
 }
