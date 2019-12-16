@@ -2,5 +2,31 @@
   "extends": [
     "config:base",
     ":semanticCommits"
-  ]
+  ],
+  "schedule": [
+    "after 1pm on every weekday",
+    "every weekend"
+  ],
+  "packageRules": [
+    {
+      "updateTypes": [
+        "minor",
+        "patch",
+        "pin",
+        "digest"
+      ],
+      "automerge": true
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "labels": [
+      "security"
+    ],
+    "assignees": [
+      "@rot1024"
+    ]
+  },
+  "lockFileMaintenance": {
+    "enabled": true
+  }
 }
