@@ -3,14 +3,10 @@
     "config:base",
     ":timezone(Asia/Tokyo)",
     ":semanticCommits",
-    ":automergeMinor"
-  ],
-  "schedule": [
-    "before 1pm on every weekday"
-  ],
-  "vulnerabilityAlerts": {
-    "labels": [
-      "security"
-    ]
-  }
+    ":semanticCommitScopeDisabled",
+    ":automergeMinor",
+    ":automergeBranch",
+    ":maintainLockFilesWeekly",
+    ":enableVulnerabilityAlertsWithLabel(security)"
+  ]
 }
