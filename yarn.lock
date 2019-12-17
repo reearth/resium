@@ -1949,10 +1949,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cesium@1.59.3":
-  version "1.59.3"
-  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.59.3.tgz#1afa3371ef5510bf375e046cccde5dcf6d6fdb48"
-  integrity sha512-EV2++3U13kzGwR4amuvdDY0+U81Kp4PMDnEZsj7C/bt7OiV42gX1iAxM+RMbqKt32p76UnoTOhXJP+QhpVZFMw==
+"@types/cesium@1.59.4":
+  version "1.59.4"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.59.4.tgz#77f3660e5427a551d27fafe7374c834d4df6f8a2"
+  integrity sha512-1oa0Mh6NuaUA56OpC/23jcALvw7kWAdqon9dcNTdguBblMZliOnkea7kL/uqqGxv/vJ6KsOQiDrwHGiNXFClxA==
 
 "@types/cheerio@*":
   version "0.22.15"
