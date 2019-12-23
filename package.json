@@ -43,7 +43,7 @@
     "@babel/core": "7.7.7",
     "@emotion/core": "10.0.22",
     "@emotion/styled": "10.0.23",
-    "@rollup/plugin-replace": "2.2.1",
+    "@rollup/plugin-replace": "2.3.0",
     "@storybook/addon-actions": "5.2.8",
     "@storybook/addon-storysource": "5.2.8",
     "@storybook/react": "5.2.8",
