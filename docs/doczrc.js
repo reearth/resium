@@ -14,7 +14,7 @@ export default {
     },
     {
       name: "Examples",
-      route: "/examples/",
+      href: "/examples/",
     },
     "Advanced",
     "Migration Guide",
