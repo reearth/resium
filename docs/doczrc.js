@@ -32,11 +32,6 @@ export default {
       primary: "#00A0E8",
       link: "#00A0E8",
     },
-    logo: {
-      src:
-        "https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/logo-sidebar.png",
-      width: 200,
-    },
     styles: {
       body: {
         fontFamily: "'Source Sans Pro', Helvetica, sans-serif",
