@@ -73,7 +73,7 @@
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-react-hooks": "2.3.0",
     "file-loader": "5.0.2",
-    "globby": "10.0.1",
+    "globby": "10.0.2",
     "jasmine-core": "3.5.0",
     "jest": "24.9.0",
     "lodash.omit": "4.5.0",
