@@ -23,9 +23,9 @@
     "format": "eslint --ext '.js,.ts,.tsx' --quiet --fix .",
     "storybook": "start-storybook -s .storybook/public -p 9001",
     "storybook:build": "build-storybook -s .storybook/public -o .docz/dist/examples",
-    "doc": "node docs/scripts/generateDoc && docz dev",
-    "doc:build": "node docs/scripts/generateDoc && docz build && build-storybook -o .docz/dist/examples",
-    "doc:generate": "node docs/scripts/generateDoc"
+    "doc": "yarn --cwd docs dev",
+    "doc:build": "yarn --cwd docs build && build-storybook -o .docz/dist/examples",
+    "doc:generate": "yarn --cwd docs generate"
   },
   "files": [
     "src",
@@ -62,7 +62,6 @@
     "copy-webpack-plugin": "5.1.1",
     "cross-env": "6.0.3",
     "del-cli": "3.0.0",
-    "docz": "2.2.0",
     "enzyme": "3.11.0",
     "enzyme-adapter-react-16": "1.15.2",
     "eslint": "6.8.0",
@@ -73,9 +72,6 @@
     "eslint-plugin-react": "7.17.0",
     "eslint-plugin-react-hooks": "2.3.0",
     "file-loader": "5.0.2",
-    "gatsby": "2.18.17",
-    "gatsby-plugin-emotion": "4.1.18",
-    "gatsby-theme-docz": "2.2.0",
     "globby": "10.0.1",
     "jasmine-core": "3.5.0",
     "jest": "24.9.0",
