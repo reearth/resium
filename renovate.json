@@ -8,5 +8,8 @@
     ":automergeBranch",
     ":maintainLockFilesWeekly",
     ":enableVulnerabilityAlertsWithLabel(security)"
+  ],
+  "schedule": [
+    "every weekend"
   ]
 }
