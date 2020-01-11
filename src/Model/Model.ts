@@ -115,7 +115,9 @@ const Model = createCesiumComponent<
     return element;
   },
   destroy(element, context) {
-    context.primitiveCollection?.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element);
+    }
     if (!element.isDestroyed()) {
       element.destroy();
     }
