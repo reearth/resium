@@ -1,5 +1,5 @@
 [build]
-  publish = "/.docz/dist"
+  publish = "/docs/.docz/dist"
 
 [[redirects]]
   from = "/examples/"
