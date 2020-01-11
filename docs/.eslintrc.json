@@ -20,8 +20,7 @@
   },
   "overrides": [
     {
-      "files": [".storybook/**/*.ts{,x}", "src/**/*.ts{,x}", "__mocks__/**/*.ts{,x}"],
-      "parser": "@typescript-eslint/parser",
+      "files": ["src/**/*.js"],
       "parserOptions": {
         "sourceType": "module"
       },
@@ -30,17 +29,9 @@
         "commonjs": true,
         "node": false
       },
-      "plugins": ["react", "@typescript-eslint", "react-hooks"],
-      "extends": [
-        "prettier/react",
-        "plugin:react/recommended",
-        "plugin:@typescript-eslint/recommended",
-        "prettier/@typescript-eslint"
-      ],
+      "plugins": ["react", "react-hooks"],
+      "extends": ["prettier/react", "plugin:react/recommended"],
       "rules": {
-        "@typescript-eslint/explicit-function-return-type": "off",
-        "@typescript-eslint/no-explicit-any": "off",
-        "@typescript-eslint/no-use-before-define": "off",
         "no-undef": "off",
         "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error",
@@ -53,10 +44,9 @@
       }
     },
     {
-      "files": ["rollup.config.js", ".storybook/**/*.js"],
+      "files": ["doczrc.js", "docs/scripts/generateDoc.js"],
       "extends": ["plugin:node/recommended"],
       "plugins": ["node"],
-      "excludedFiles": [".storybook/webpack.config.js"],
       "env": {
         "commonjs": true
       },

@@ -31,7 +31,6 @@ export const NavGroup = ({ item, sidebarRef }) => {
 
   return (
     <div sx={styles.wrapper} data-testid="nav-group">
-      {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
       <div sx={styles.title} onClick={toggleSubheadings}>
         {item.name}
         <ChevronDown sx={styles.chevron({ active: subheadingsVisible })} />
