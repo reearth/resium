@@ -27,6 +27,7 @@
     "gatsby": "2.18.18",
     "gatsby-plugin-emotion": "4.1.18",
     "gatsby-theme-docz": "2.2.0",
+    "globby": "^11.0.0",
     "react": "16.12.0",
     "react-dom": "16.12.0",
     "typescript": "3.7.4"
