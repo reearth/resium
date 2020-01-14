@@ -60,8 +60,7 @@ function type2doc(type) {
     type.cesiumReadonlyProps.length === 0 &&
     type.cesiumEvents.length === 0;
 
-  return `
----
+  return `---
 name: ${type.name}
 route: /components/${type.name}
 menu: Components
