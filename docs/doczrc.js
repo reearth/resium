@@ -50,13 +50,6 @@ export default {
       p: {
         margin: "10px 0",
       },
-      code: {
-        background: "#1bad8b",
-        padding: "0 5px",
-        overflow: "auto",
-        whiteSpace: "pre-wrap",
-        wordWrap: "break-word",
-      },
     },
   },
 };
