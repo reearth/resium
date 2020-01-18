@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.10.1 - 2020/01/18
+
+- fix: error on destorying model ([#189](https://github.com/darwin-education/resium/issues/189))
+- build: fix rollup config
+- Introduce Renovate
+
 ## v1.10.0 - 2019/12/03
 
 - change: `EntityDescription` is reimplemented with React Portal (enable to use any event or dynamic state in children)
