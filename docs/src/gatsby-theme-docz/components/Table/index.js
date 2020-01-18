@@ -1,5 +1,7 @@
 // Ref: https://github.com/doczjs/docz/blob/v1.2.0/core/docz-theme-default/src/components/ui/Table.tsx
 import * as React from "react";
+import { useConfig } from "docz";
+import { useColorMode } from "theme-ui";
 import styled from "@emotion/styled";
 
 import { mq } from "../../styles/responsive";
@@ -18,14 +20,13 @@ const Wrapper = styled.div`
 const TableStyled = styled.table`
   padding: 0;
   table-layout: auto;
-  box-shadow: 0 0 0 1px #2d3747;
+  box-shadow: 0 0 0 1px ${({ border }) => border};
   background-color: transparent;
   border-spacing: 0;
   border-collapse: collapse;
   border-style: hidden;
   border-radius: 2px;
   font-size: 14px;
-  color: #f5f6f7;
 
   ${mq({
     overflowX: ["initial", "initial", "initial", "hidden"],
@@ -33,8 +34,8 @@ const TableStyled = styled.table`
   })}
 
   & thead {
-    color: #7d899c;
-    background: #2d3747;
+    color: ${({ text }) => text};
+    background: ${({ border }) => border};
   }
 
   & thead th {
@@ -80,7 +81,7 @@ const TableStyled = styled.table`
 
   & tbody > tr {
     display: table-row;
-    border-top: 1px solid #2d3747;
+    border-top: 1px solid ${({ border }) => border};
   }
 
   overflow-y: hidden;
@@ -91,8 +92,17 @@ const TableStyled = styled.table`
   display: block;
 `;
 
-export const Table = props => (
-  <Wrapper>
-    <TableStyled {...props} />
-  </Wrapper>
-);
+export const Table = props => {
+  const {
+    themeConfig: { colors },
+  } = useConfig();
+  const [colorMode] = useColorMode();
+  const text = colorMode === "dark" ? colors.grayLight : colors.grayDark;
+  const border = colorMode === "dark" ? colors.grayDark : colors.grayLight;
+  const tableProps = { text, border, ...props };
+  return (
+    <Wrapper>
+      <TableStyled {...tableProps} />
+    </Wrapper>
+  );
+};
