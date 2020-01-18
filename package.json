@@ -50,7 +50,7 @@
     "@storybook/theming": "5.2.8",
     "@types/cesium": "1.59.6",
     "@types/enzyme": "3.10.4",
-    "@types/jest": "24.0.25",
+    "@types/jest": "24.9.0",
     "@types/lodash.omit": "4.5.6",
     "@types/lodash.pick": "4.4.6",
     "@types/react": "16.9.17",
