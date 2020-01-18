@@ -9,7 +9,7 @@
   "scripts": {
     "build": "node scripts/generateDoc && docz build",
     "dev": "node scripts/generateDoc && docz dev",
-    "format": "eslint --ext '.js,.ts,.tsx' --quiet --fix .",
+    "format": "eslint --ext '.js,.ts,.tsx' --fix .",
     "generate": "node scripts/generateDoc",
     "lint": "eslint --ext '.js,.ts,.tsx' .",
     "type": "tsc --noEmit"
