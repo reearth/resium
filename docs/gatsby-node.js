@@ -17,7 +17,7 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
       new CopyPlugin([
         {
           from: path.resolve(__dirname, "../node_modules/cesium/Build/Cesium"),
-          to: path.resolve(__dirname, "dist/cesium"),
+          to: path.resolve(__dirname, "public/cesium"),
         },
       ]),
     ],

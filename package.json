@@ -22,15 +22,12 @@
     "build:umd:min": "cross-env NODE_ENV=production rollup -c",
     "format": "eslint --ext '.js,.ts,.tsx' --fix . && yarn --cwd docs format",
     "storybook": "start-storybook -s .storybook/public -p 9001",
-    "storybook:build": "build-storybook -s .storybook/public -o docs/.docz/dist/examples",
+    "storybook:build": "build-storybook -s .storybook/public -o docs/.docz/public/examples",
     "doc": "yarn --cwd docs dev",
-    "doc:build": "yarn --cwd docs build && build-storybook -o docs/.docz/dist/examples",
+    "doc:build": "yarn --cwd docs build && build-storybook -o docs/.docz/public/examples",
     "doc:generate": "yarn --cwd docs generate"
   },
-  "files": [
-    "src",
-    "dist"
-  ],
+  "files": ["src"],
   "engines": {
     "node": ">=8.3.0"
   },
