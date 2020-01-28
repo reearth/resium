@@ -1,9 +1,9 @@
-const path = require('path');
-const webpack = require('webpack');
-const CopyPlugin = require('copy-webpack-plugin');
+const path = require("path");
+const webpack = require("webpack");
+const CopyPlugin = require("copy-webpack-plugin");
 
 exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
-  const config = getConfig()
+  const config = getConfig();
   actions.replaceWebpackConfig({
     ...config,
     // for storybook
@@ -25,5 +25,5 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
       ...config.resolve,
       extensions: [...config.resolve.extensions, ".ts", ".tsx"],
     },
-  })
-}
+  });
+};
