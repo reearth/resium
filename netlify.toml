@@ -1,5 +1,7 @@
 [build]
-  publish = "/docs/.docz/public"
+  base = "docs"
+  command = "yarn run build"
+  publish = "docs/.docz/public"
 
 [[redirects]]
   from = "/examples/"
