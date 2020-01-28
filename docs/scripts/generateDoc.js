@@ -60,8 +60,7 @@ function type2doc(type) {
     type.cesiumReadonlyProps.length === 0 &&
     type.cesiumEvents.length === 0;
 
-  return `
----
+  return `---
 name: ${type.name}
 route: /components/${type.name}
 menu: Components
@@ -347,12 +346,12 @@ console.log(`Generating documents...${name.length > 0 ? `: ${name.join(", ")}` :
 
 const componentFiles = globby
   .sync([
-    "src/*/*.ts{,x}",
-    "!src/*/index.ts{,x}",
-    "!src/*/story.ts{,x}",
-    "!src/*/test.ts{,x}",
-    "!src/*/*.test.ts{,x}",
-    "!src/core/**/*",
+    "../src/*/*.ts{,x}",
+    "!../src/*/index.ts{,x}",
+    "!../src/*/story.ts{,x}",
+    "!../src/*/test.ts{,x}",
+    "!../src/*/*.test.ts{,x}",
+    "!../src/core/**/*",
   ])
   .filter(cf => name.length === 0 || name.includes(cf.replace(/\.tsx?$/, "")));
 

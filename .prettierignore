@@ -1,1 +1,2 @@
-docs/*.mdx
+node_modules
+docs

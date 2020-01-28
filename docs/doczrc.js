@@ -1,6 +1,3 @@
-import webpack from "webpack";
-import CopyPlugin from "copy-webpack-plugin";
-
 export default {
   typescript: true,
   title: "Resium",
@@ -28,42 +25,12 @@ export default {
       raw: ["<style>img{max-width:100%;}</style>"],
     },
   },
-  modifyBundlerConfig: config => ({
-    ...config,
-    // for storybook
-    externals: {
-      ...config.externals,
-      cesium: "Cesium",
-    },
-    // for storybook
-    plugins: [
-      ...config.plugins,
-      new webpack.DefinePlugin({
-        CESIUM_BASE_URL: JSON.stringify("/cesium"),
-      }),
-      new CopyPlugin([
-        {
-          from: "node_modules/cesium/Build/Cesium",
-          to: "cesium",
-        },
-      ]),
-    ],
-    resolve: {
-      ...config.resolve,
-      extensions: [...config.resolve.extensions, ".ts", ".tsx"],
-    },
-  }),
   themeConfig: {
-    mode: "dark",
+    initialColorMode: "dark",
     repository: "https://github.com/darwin-education/resium",
     colors: {
       primary: "#00A0E8",
       link: "#00A0E8",
-    },
-    logo: {
-      src:
-        "https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/logo-sidebar.png",
-      width: 200,
     },
     styles: {
       body: {
@@ -82,13 +49,6 @@ export default {
       },
       p: {
         margin: "10px 0",
-      },
-      code: {
-        background: "#1bad8b",
-        padding: "0 5px",
-        overflow: "auto",
-        whiteSpace: "pre-wrap",
-        wordWrap: "break-word",
       },
     },
   },

@@ -6,7 +6,9 @@ cache:
   yarn: true
   directories:
     - node_modules
+    - docs/node_modules
 script:
+  - (cd docs && yarn install)
   - yarn run type
   - yarn run lint
   - yarn test

@@ -13,11 +13,6 @@
     "strict": true,
     "target": "es5",
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": ["src/types/*"],
-      "assets": [".storybook/assets/*"]
-    }
-  },
-  "exclude": ["docs"]
+    "baseUrl": "."
+  }
 }

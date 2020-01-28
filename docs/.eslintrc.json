@@ -20,7 +20,7 @@
   },
   "overrides": [
     {
-      "files": [".storybook/**/*.ts{,x}", "src/**/*.ts{,x}", "__mocks__/**/*.ts{,x}"],
+      "files": ["components/**/*.tsx"],
       "parser": "@typescript-eslint/parser",
       "parserOptions": {
         "sourceType": "module"
@@ -30,7 +30,7 @@
         "commonjs": true,
         "node": false
       },
-      "plugins": ["react", "@typescript-eslint", "react-hooks"],
+      "plugins": ["react", "@typescript-eslint"],
       "extends": [
         "prettier/react",
         "plugin:react/recommended",
@@ -42,6 +42,29 @@
         "@typescript-eslint/no-explicit-any": "off",
         "@typescript-eslint/no-use-before-define": "off",
         "no-undef": "off",
+        "react/prop-types": "off"
+      },
+      "settings": {
+        "react": {
+          "version": "detect"
+        }
+      }
+    },
+    {
+      "files": ["src/**/*.js"],
+      "parserOptions": {
+        "sourceType": "module"
+      },
+      "env": {
+        "browser": true,
+        "commonjs": true,
+        "node": false
+      },
+      "plugins": ["react", "react-hooks"],
+      "extends": ["prettier/react", "plugin:react/recommended"],
+      "rules": {
+        "no-undef": "off",
+        "no-unused-vars": ["error", { "argsIgnorePattern": "^_" }],
         "react/prop-types": "off",
         "react-hooks/rules-of-hooks": "error",
         "react-hooks/exhaustive-deps": "error"
@@ -53,10 +76,9 @@
       }
     },
     {
-      "files": ["rollup.config.js", ".storybook/**/*.js"],
+      "files": ["doczrc.js", "docs/scripts/generateDoc.js"],
       "extends": ["plugin:node/recommended"],
       "plugins": ["node"],
-      "excludedFiles": [".storybook/webpack.config.js"],
       "env": {
         "commonjs": true
       },

@@ -4,7 +4,7 @@ node_modules
 /coverage
 /.cache
 /.rpt2_cache
-/.docz
+/docs/.docz
 /docs/api
 /examples/build
 /example/package-lock.json

@@ -1,0 +1,49 @@
+{
+  "name": "resium-docs",
+  "version": "1.10.0",
+  "description": "Docs for Resium",
+  "main": "index.js",
+  "author": "rot1024 <aayhrot@gmail.com>",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "node scripts/generateDoc && docz build",
+    "dev": "node scripts/generateDoc && docz dev",
+    "format": "eslint --ext '.js,.ts,.tsx' --fix .",
+    "generate": "node scripts/generateDoc",
+    "lint": "eslint --ext '.js,.ts,.tsx' .",
+    "type": "tsc --noEmit"
+  },
+  "engines": {
+    "node": ">=8.3.0"
+  },
+  "dependencies": {
+    "@babel/core": "7.7.7",
+    "@emotion/core": "10.0.27",
+    "@emotion/styled": "10.0.27",
+    "cesium": "1.65.0",
+    "docz": "2.2.0",
+    "eslint": "6.8.0",
+    "eslint-loader": "3.0.3",
+    "gatsby": "2.18.18",
+    "gatsby-plugin-emotion": "4.1.18",
+    "gatsby-theme-docz": "2.2.0",
+    "globby": "11.0.0",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "typescript": "3.7.4"
+  },
+  "devDependencies": {
+    "@types/react": "16.9.17",
+    "@typescript-eslint/eslint-plugin": "2.15.0",
+    "@typescript-eslint/parser": "2.15.0",
+    "copy-webpack-plugin": "5.1.1",
+    "eslint-config-prettier": "6.9.0",
+    "eslint-plugin-node": "11.0.0",
+    "eslint-plugin-prettier": "3.1.2",
+    "eslint-plugin-react": "7.17.0",
+    "eslint-plugin-react-hooks": "2.3.0",
+    "prettier": "1.19.1",
+    "webpack": "4.41.5"
+  }
+}
