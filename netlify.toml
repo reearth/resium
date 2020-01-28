@@ -1,6 +1,5 @@
 [build]
-  base = "docs"
-  command = "yarn run build"
+  command = "(cd docs && yarn) && yarn run doc:build"
   publish = "docs/.docz/public"
 
 [[redirects]]
