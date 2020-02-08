@@ -26,7 +26,7 @@
     "url-loader": "3.0.0",
     "webpack": "4.41.5",
     "webpack-cli": "3.3.10",
-    "webpack-dev-server": "3.10.1"
+    "webpack-dev-server": "3.10.3"
   },
   "dependencies": {
     "cesium": "1.65.0",
