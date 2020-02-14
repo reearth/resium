@@ -49,7 +49,7 @@
     "@storybook/react": "5.3.12",
     "@storybook/theming": "5.3.12",
     "@types/cesium": "1.59.6",
-    "@types/enzyme": "3.10.4",
+    "@types/enzyme": "3.10.5",
     "@types/jest": "25.1.2",
     "@types/lodash.omit": "4.5.6",
     "@types/lodash.pick": "4.4.6",
