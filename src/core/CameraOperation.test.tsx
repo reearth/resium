@@ -10,6 +10,10 @@ describe("core/cameraop", () => {
     const camera = {
       cancelFlight: jest.fn(),
     };
+    const scene = {
+      isDestroyed: () => false,
+    };
+
     const cameraOperationStart = jest.fn();
     const DummyCameraOperation = createCameraOperation<{ test: number }>(
       "dummy",
@@ -17,7 +21,7 @@ describe("core/cameraop", () => {
     );
 
     const Test: React.FC<{ test: number }> = ({ test }) => (
-      <Provider value={{ camera }}>
+      <Provider value={{ camera, scene }}>
         <DummyCameraOperation test={test} />
       </Provider>
     );
@@ -41,11 +45,14 @@ describe("core/cameraop", () => {
     const camera = {
       cancelFlight: jest.fn(),
     };
+    const scene = {
+      isDestroyed: () => false,
+    };
 
     const DummyCameraOperation = createCameraOperation("dummy", () => {});
 
     const wrapper = mount(
-      <Provider value={{ camera }}>
+      <Provider value={{ camera, scene }}>
         <DummyCameraOperation cancelFlightOnUnmount />
       </Provider>,
     );
