@@ -61,6 +61,7 @@ export interface SceneCesiumProps {
   imagerySplitPosition?: number;
   invertClassification?: boolean;
   invertClassificationColor?: Cesium.Color;
+  light?: Cesium.Light;
   logarithmicDepthBuffer?: number;
   logarithmicDepthFarToNearRatio?: number;
   mapMode2D?: boolean;
@@ -121,6 +122,7 @@ const cesiumProps: (keyof SceneCesiumProps)[] = [
   "imagerySplitPosition",
   "invertClassification",
   "invertClassificationColor",
+  "light",
   "logarithmicDepthBuffer",
   "logarithmicDepthFarToNearRatio",
   "mapMode2D",

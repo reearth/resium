@@ -49,6 +49,7 @@ export interface GlobeCesiumProps {
   atmosphereBrightnessShift?: number;
   atmosphereHueShift?: number;
   atmosphereSaturationShift?: number;
+  backFaceCulling?: boolean;
   baseColor?: Cesium.Color;
   // @type Cesium.ClippingPlaneCollection
   clippingPlanes?: any;
@@ -87,6 +88,7 @@ const cesiumProps: (keyof GlobeCesiumProps)[] = [
   "atmosphereBrightnessShift",
   "atmosphereHueShift",
   "atmosphereSaturationShift",
+  "backFaceCulling",
   "baseColor",
   "clippingPlanes",
   "depthTestAgainstTerrain",
