@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.11.0 - 2020/02/17
+
+- Add props:
+  - **Globe**: `backFaceCulling` prop
+  - **Scene**: `light` prop
+- Fix
+  - types
+  - error on destroying camera operators ([#248](https://github.com/darwin-education/resium/issues/248))
+  - prevent reset when contents hot reloaded ([#232](https://github.com/darwin-education/resium/issues/232))
+- Upgrade deps
+
 ## v1.10.1 - 2020/01/18
 
 - fix: error on destorying model ([#189](https://github.com/darwin-education/resium/issues/189))
