@@ -2848,10 +2848,10 @@ ccount@^1.0.0, ccount@^1.0.3:
   resolved "https://registry.yarnpkg.com/ccount/-/ccount-1.0.4.tgz#9cf2de494ca84060a2a8d2854edd6dfb0445f386"
   integrity sha512-fpZ81yYfzentuieinmGnphk0pLkOTMm6MZdVqwd77ROvhko6iujLNGrHH5E7utq3ygWklwfmwuG+A7P+NpqT6w==
 
-cesium@1.65.0:
-  version "1.65.0"
-  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.65.0.tgz#4a54986d1346bc3431bd151c8d9827b5fbb69259"
-  integrity sha512-TvxZuparbi96vcSPVVF4aNet2uaeo3ncc4KuK1lAR1v00ILTJF2vpyQM+izDRFhyUqYUyQcQEEVaz5OPJBeqIQ==
+cesium@1.66.0:
+  version "1.66.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.66.0.tgz#ac8a9858329740eb22304936076ea6f8e6faad82"
+  integrity sha512-IcM+NpG5Gm4BbW9NLWkuL9SJ59tTQh8SsN8x6KYd4B1N36Y0kBtNKJPWpGe7H5thaaKm2QLKzJdjqmWyGNCTNA==
   dependencies:
     esm "^3.2.25"
 

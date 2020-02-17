@@ -22,7 +22,7 @@
   "dependencies": {
     "@emotion/core": "10.0.27",
     "@emotion/styled": "10.0.27",
-    "cesium": "1.65.0",
+    "cesium": "1.66.0",
     "docz": "2.2.0",
     "facepaint": "^1.2.1",
     "gatsby": "2.19.12",
