@@ -66,7 +66,6 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
   const prevProps = useRef<Props>({} as Props);
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
-  const [remount, setRemount] = useState(0);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State>();
   const eventManager = ctx[eventManagerContextKey];
@@ -139,27 +138,16 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
           );
         }
 
-        setRemount(i => i + 1);
+        unmount();
+        mount();
       }
     },
-    [
-      cesiumEventProps, // static
-      cesiumProps, // static
-      cesiumReadonlyProps, // static
-      ctx, // static
-      eventManager, // static
-      name, // static
-      update, // static
-      useCommonEvent, // static
-      useRootEvent, // static
-    ],
+    [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  useLayoutEffect(() => {
-    const wrapperDiv = wrapperRef.current;
-
+  const mount = useCallback(() => {
     // Initialize cesium element
-    const result = create?.(ctx, initialProps.current, wrapperDiv);
+    const result = create?.(ctx, initialProps.current, wrapperRef.current);
     if (Array.isArray(result)) {
       element.current = result[0];
       stateRef.current = result[1];
@@ -199,51 +187,45 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
     if (useCommonEvent && em && element.current) {
       em.setEvents(useRootEvent ? null : element.current, initialProps.current);
     }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-    return () => {
-      // Destroy cesium element
-      if (element.current && destroy) {
-        destroy(element.current, ctx, wrapperDiv, stateRef.current);
+  const unmount = useCallback(() => {
+    // Destroy cesium element
+    if (element.current && destroy) {
+      destroy(element.current, ctx, wrapperRef.current, stateRef.current);
+    }
+
+    const em = useRootEvent
+      ? provided.current &&
+        ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+      : eventManager;
+    if (useCommonEvent && em && element.current) {
+      em.clearEvents(useRootEvent ? null : element.current);
+    }
+
+    // Detach all events
+    if (element.current && !isDestroyed(element.current)) {
+      const attachedEventKeys = Object.keys(attachedEvents.current) as (keyof Element)[];
+      for (const k of attachedEventKeys) {
+        const eventHandler: any = element.current[k];
+        eventHandler?.removeEventListener?.(attachedEvents.current[k]);
       }
+    }
 
-      const em = useRootEvent
-        ? provided.current &&
-          ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
-        : eventManager;
-      if (useCommonEvent && em && element.current) {
-        em.clearEvents(useRootEvent ? null : element.current);
-      }
+    attachedEvents.current = {};
+    provided.current = undefined;
+    stateRef.current = undefined;
+    element.current = undefined;
 
-      // Detach all events
-      if (element.current && !isDestroyed(element.current)) {
-        const attachedEventKeys = Object.keys(attachedEvents.current) as (keyof Element)[];
-        for (const k of attachedEventKeys) {
-          const eventHandler: any = element.current[k];
-          eventHandler?.removeEventListener?.(attachedEvents.current[k]);
-        }
-      }
+    setMounted(false);
+    mountedRef.current = false;
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-      attachedEvents.current = {};
-      provided.current = undefined;
-      stateRef.current = undefined;
-      element.current = undefined;
-
-      setMounted(false);
-      mountedRef.current = false;
-    };
-  }, [
-    cesiumEventProps, // static
-    create, // static
-    ctx, // static
-    destroy, // static
-    eventManager, // static
-    provide, // static
-    remount,
-    setCesiumPropsAfterCreate, // static
-    updateProperties, // static
-    useCommonEvent, // static
-    useRootEvent, // static
-  ]);
+  // To prevent re-execution by hot loader, execute only once
+  useLayoutEffect(() => {
+    mount();
+    return () => unmount();
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update properties of cesium element
   useEffect(() => {
