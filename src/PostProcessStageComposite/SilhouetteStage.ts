@@ -9,7 +9,8 @@ export const SilhouetteStage = createPostProcessStage<{
 }>({
   name: "SilhouetteStage",
   props: ["color", "length"],
-  create: () => PostProcessStageLibrary.createSilhouetteStage(),
+  // WORKAROUND: Cesium.PostProcessStageLibrary must have createSilhouetteStage
+  create: () => (PostProcessStageLibrary as any).createSilhouetteStage(),
 });
 
 export default SilhouetteStage;

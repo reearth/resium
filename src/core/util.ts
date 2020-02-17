@@ -12,8 +12,8 @@ export const polylineEquals = (a: any, b: any) =>
   a.positions === b.positions &&
   a.id === b.id &&
   DistanceDisplayCondition.equals(
-    (a as any).distanceDisplayCondition,
-    (b as any).distanceDisplayCondition,
+    (a as any).distanceDisplayCondition, // WORKAROUND
+    (b as any).distanceDisplayCondition, // WORKAROUND
   );
 
 export const pickedObjectEquals = (picked: any, element: any) =>

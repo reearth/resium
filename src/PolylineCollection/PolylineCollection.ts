@@ -47,7 +47,7 @@ const PolylineCollection = createCesiumComponent<
     const element = new CesiumPolylineCollection({
       modelMatrix: props.modelMatrix,
       debugShowBoundingVolume: props.debugShowBoundingVolume,
-      length: props.length, //
+      length: props.length, // WORKAROUND
       scene: context.scene,
     } as any);
     context.primitiveCollection.add(element);

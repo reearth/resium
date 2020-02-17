@@ -51,8 +51,7 @@ export interface GlobeCesiumProps {
   atmosphereSaturationShift?: number;
   backFaceCulling?: boolean;
   baseColor?: Cesium.Color;
-  // @type Cesium.ClippingPlaneCollection
-  clippingPlanes?: any;
+  clippingPlanes?: Cesium.ClippingPlaneCollection;
   depthTestAgainstTerrain?: boolean;
   enableLighting?: boolean;
   lightingFadeInDistance?: number;

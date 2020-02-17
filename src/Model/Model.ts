@@ -23,8 +23,7 @@ export interface ModelCesiumProps {
   colorBlendAmount?: number;
   silhouetteColor?: Cesium.Color;
   silhouetteSize?: number;
-  // @type Cesium.ClippingPlaneCollection
-  clippingPlanes?: any;
+  clippingPlanes?: Cesium.ClippingPlaneCollection;
   dequantizeInShader?: boolean;
   imageBasedLightingFactor?: Cesium.Cartesian2;
   lightColor?: Cesium.Cartesian3;
@@ -103,7 +102,7 @@ const Model = createCesiumComponent<
   create(context, props) {
     if (!context.primitiveCollection) return;
 
-    // Workaround: basePath?: Cesium.Resource | string;
+    // WORKAROUND: url and basePath field types are wrong
     const element = props.url ? CesiumModel.fromGltf(props as any) : new CesiumModel(props as any);
 
     if (props.onReady) {

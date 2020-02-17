@@ -43,7 +43,7 @@ export interface GroundPrimitiveProps
     EventProps<any> {
   // Cesium.GroundPrimitive
   // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPrimitive.html#readyPromise) is fullfilled
-  onReady?: (primitive: any /* Cesium.GroundPrimitive */) => void;
+  onReady?: (primitive: Cesium.GroundPrimitive) => void;
 }
 
 const cesiumProps: (keyof GroundPrimitiveCesiumProps)[] = [
@@ -66,7 +66,7 @@ const cesiumReadonlyProps: (keyof GroundPrimitiveCesiumReadonlyProps)[] = [
 ];
 
 const GroundPrimitive = createCesiumComponent<
-  any /* Cesium.GroundPrimitive */,
+  Cesium.GroundPrimitive,
   GroundPrimitiveProps,
   {
     primitiveCollection?: Cesium.PrimitiveCollection;

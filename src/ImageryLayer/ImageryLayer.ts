@@ -100,8 +100,8 @@ export interface ImageryLayerCesiumProps {
         level: number,
       ) => any)
     | any /* Cesium.SplitDirection */;
-  minificationFilter?: any /* Cesium.TextureMinificationFilter */;
-  magnificationFilter?: any /* Cesium.TextureMagnificationFilter */;
+  minificationFilter?: Cesium.TextureMinificationFilter;
+  magnificationFilter?: Cesium.TextureMagnificationFilter;
   cutoutRectangle?: Cesium.Rectangle;
   show?: boolean;
 }
@@ -158,7 +158,7 @@ const ImageryLayer = createCesiumComponent<
       hue: props.hue,
       saturation: props.saturation,
       gamma: props.gamma,
-      splitDirection: props.splitDirection, //
+      splitDirection: props.splitDirection, // WORKAROUND
       minificationFilter: props.minificationFilter,
       magnificationFilter: props.magnificationFilter,
       show: props.show,

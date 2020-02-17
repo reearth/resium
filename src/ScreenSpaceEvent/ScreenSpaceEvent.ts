@@ -19,10 +19,8 @@ Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
 export interface ScreenSpaceEventProps {
   // If empty, the event will be removed even if there is the default event.
   action?: (e: { position: Cesium.Cartesian2 }) => void;
-  // @type Cesium.KeyboardEventModifier
-  modifier?: number;
-  // @type Cesium.ScreenSpaceEventType
-  type: number;
+  modifier?: Cesium.KeyboardEventModifier;
+  type: Cesium.ScreenSpaceEventType;
 }
 
 const ScreenSpaceEvent: React.FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {

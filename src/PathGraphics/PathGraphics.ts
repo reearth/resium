@@ -53,7 +53,7 @@ const PathGraphics = createCesiumComponent<
   name: "PathGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPathGraphics(props as any);
+    const element = new CesiumPathGraphics(props as any); // WORKAROUND
     context.entity.path = element;
     return element;
   },

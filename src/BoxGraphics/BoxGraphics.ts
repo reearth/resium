@@ -60,7 +60,7 @@ const BoxGraphics = createCesiumComponent<
   create(context, props) {
     if (!context.entity) return;
     const element = new CesiumBoxGraphics({
-      heightReference: props.heightReference, //
+      heightReference: props.heightReference, // WORKAROUND
       dimensions: props.dimensions,
       show: props.show,
       fill: props.fill,
@@ -76,7 +76,7 @@ const BoxGraphics = createCesiumComponent<
   },
   destroy(element, context) {
     if (context.entity) {
-      context.entity.box = undefined as any;
+      context.entity.box = undefined as any; // WORKAROUND
     }
   },
   cesiumProps,

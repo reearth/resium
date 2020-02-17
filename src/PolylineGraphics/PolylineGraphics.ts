@@ -63,7 +63,7 @@ const PolylineGraphics = createCesiumComponent<
   name: "PolylineGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolylineGraphics(props as any);
+    const element = new CesiumPolylineGraphics(props as any); // WORKAROUND
     context.entity.polyline = element;
     return element;
   },

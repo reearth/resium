@@ -59,8 +59,7 @@ export interface PostProcessStageCompositeCesiumProps {
 }
 
 export interface PostProcessStageCompositeCesiumReadonlyProps {
-  // @type Cesium.PostProcessStage
-  stages: any[];
+  stages: Cesium.PostProcessStage[];
   inputPreviousStageTexture?: boolean;
   name?: string;
   uniforms?: any;
@@ -80,7 +79,7 @@ const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[
 ];
 
 export const PostProcessStageComposite = createCesiumComponent<
-  any /* Cesium.PostProcessStageComposite */,
+  Cesium.PostProcessStageComposite,
   PostProcessStageCompositeProps,
   {
     scene?: Cesium.Scene;
@@ -89,19 +88,22 @@ export const PostProcessStageComposite = createCesiumComponent<
   name: "PostProcessStageComposite",
   create(context, props) {
     if (!context.scene) return;
-    const element = new CesiumPostProcessStageComposite(props);
+    // WORKAROUND: Cesium.PostProcessStageComposite constructor arg type is wrong
+    const element = new CesiumPostProcessStageComposite(props as any);
     if (typeof props.enabled === "boolean") {
       element.enabled = props.enabled;
     }
     if (props.selected) {
-      element.selected = props.selected;
+      // WORKAROUND: Cesium.PostProcessStageComposite must have selected field
+      (element as any).selected = props.selected;
     }
-    context.scene.postProcessStages.add(element);
+    context.scene.postProcessStages.add(element as any);
     return element;
   },
   destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      (context.scene as any).postProcessStages.remove(element);
+      // WORKAROUND: add method must be accept Cesium.PostProcessStage | Cesium.PostProcessStageComposite
+      context.scene.postProcessStages.remove(element as any);
     }
     if (!element.isDestroyed()) {
       element.destroy();

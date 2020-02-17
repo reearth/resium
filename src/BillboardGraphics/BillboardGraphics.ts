@@ -98,7 +98,7 @@ const BillboardGraphics = createCesiumComponent<
       translucencyByDistance: props.translucencyByDistance,
       pixelOffsetScaleByDistance: props.pixelOffsetScaleByDistance,
       imageSubRegion: props.imageSubRegion,
-      sizeInMeters: props.sizeInMeters, //
+      sizeInMeters: props.sizeInMeters, // WORKAROUND
       heightReference: props.heightReference,
       distanceDisplayCondition: props.distanceDisplayCondition,
       disableDepthTestDistance: props.disableDepthTestDistance,
@@ -108,7 +108,7 @@ const BillboardGraphics = createCesiumComponent<
   },
   destroy(element, context) {
     if (context.entity) {
-      context.entity.billboard = undefined as any;
+      context.entity.billboard = undefined as any; // WORKAROUND
     }
   },
   cesiumProps,

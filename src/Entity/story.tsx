@@ -306,7 +306,7 @@ storiesOf("Entity", module)
           material={
             new PolylineDashMaterialProperty({
               color: Color.CYAN,
-            } as any)
+            })
           }
         />
       </Entity>

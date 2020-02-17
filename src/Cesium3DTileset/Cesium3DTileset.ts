@@ -13,19 +13,10 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A Cesium3DTileset object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-// Workaround
-export interface ResiumCesium3DTileset extends Cesium.Cesium3DTileset {
-  colorBlendAmount: number | undefined;
-  colorBlendMode: any /* Cesium.Cesium3DTileColorBlendMode */ | undefined;
-  readyPromise: Promise<ResiumCesium3DTileset>;
-  allTilesLoaded?: Cesium.Event<[]>;
-  initialTilesLoaded?: Cesium.Event<[]>;
-  loadProgress?: Cesium.Event<[number, number]>;
-  tileFailed?: Cesium.Event<[]>;
-  tileLoad?: Cesium.Event<[ResiumCesium3DTileset]>;
+// WORKAROUND: tileUnload event is missing in Cesium3DTileset type
+type ResiumCesium3DTileset = Cesium.Cesium3DTileset & {
   tileUnload?: Cesium.Event<[]>;
-  tileVisible?: Cesium.Event<[ResiumCesium3DTileset]>;
-}
+};
 
 export interface Cesium3DTilesetCesiumProps {
   show?: boolean;
@@ -55,10 +46,8 @@ export interface Cesium3DTilesetCesiumProps {
   skipLevels?: number;
   immediatelyLoadDesiredLevelOfDetail?: boolean;
   loadSiblings?: boolean;
-  // @type Cesium.ClippingPlaneCollection
-  clippingPlanes?: any;
-  // @type Cesium.ClassificationType
-  classificationType?: any;
+  clippingPlanes?: Cesium.ClippingPlaneCollection;
+  classificationType?: Cesium.ClassificationType;
   ellipsoid?: Cesium.Ellipsoid;
   imageBasedLightingFactor?: Cesium.Cartesian2;
   lightColor?: Cesium.Cartesian3;
@@ -73,8 +62,7 @@ export interface Cesium3DTilesetCesiumProps {
   debugShowMemoryUsage?: boolean;
   debugShowUrl?: boolean;
   colorBlendAmount?: number;
-  // @type Cesium.Cesium3DTileColorBlendMode
-  colorBlendMode?: any;
+  colorBlendMode?: Cesium.Cesium3DTileColorBlendMode;
   luminanceAtZenith?: number;
   sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
   specularEnvironmentMaps?: string;
@@ -98,18 +86,18 @@ export interface Cesium3DTilesetCesiumEvents {
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: () => void;
-  onTileLoad?: (tile: ResiumCesium3DTileset /* Cesium.3DTileset */) => void;
+  onTileLoad?: (tile: Cesium.Cesium3DTileset) => void;
   onTileUnload?: () => void;
-  onTileVisible?: (tile: ResiumCesium3DTileset /* Cesium.3DTileset */) => void;
+  onTileVisible?: (tile: Cesium.Cesium3DTileset) => void;
 }
 
 export interface Cesium3DTilesetProps
   extends Cesium3DTilesetCesiumProps,
     Cesium3DTilesetCesiumReadonlyProps,
     Cesium3DTilesetCesiumEvents,
-    EventProps<any /* Cesium.Cesium3DTileFeature */> {
+    EventProps<Cesium.Cesium3DTileFeature> {
   // Calls when the tile set is completely loaded.
-  onReady?: (tileset: ResiumCesium3DTileset /* Cesium.Cesium3DTileset */) => void;
+  onReady?: (tileset: Cesium.Cesium3DTileset) => void;
 }
 
 const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
@@ -177,7 +165,6 @@ const cesiumEventProps: EventkeyMap<ResiumCesium3DTileset, Cesium3DTilesetCesium
   onTileVisible: "tileVisible",
 };
 
-// workaround: any => Cesium.3DTileset
 const Cesium3DTileset = createCesiumComponent<
   ResiumCesium3DTileset,
   Cesium3DTilesetProps,
@@ -188,9 +175,14 @@ const Cesium3DTileset = createCesiumComponent<
   name: "Cesium3DTileset",
   create(context, props) {
     if (!context.primitiveCollection) return;
+    // WORKAROUND: foveatedInterpolationCallback is missing in constructor argument
     const element = new CesiumCesium3DTileset(props as any) as ResiumCesium3DTileset;
-    element.colorBlendAmount = props.colorBlendAmount;
-    element.colorBlendMode = props.colorBlendMode;
+    if (props.colorBlendAmount) {
+      element.colorBlendAmount = props.colorBlendAmount;
+    }
+    if (props.colorBlendMode) {
+      element.colorBlendMode = props.colorBlendMode;
+    }
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
     }
@@ -201,8 +193,8 @@ const Cesium3DTileset = createCesiumComponent<
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
-    if (!(element as any).isDestroyed()) {
-      (element as any).destroy();
+    if (!element.isDestroyed()) {
+      element.destroy();
     }
   },
   cesiumProps,

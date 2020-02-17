@@ -77,7 +77,7 @@ const EllipsoidGraphics = createCesiumComponent<
   name: "EllipsoidGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumEllipsoidGraphics(props as any);
+    const element = new CesiumEllipsoidGraphics(props as any); // WORKAROUND
     context.entity.ellipsoid = element;
     return element;
   },

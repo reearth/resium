@@ -23,7 +23,7 @@ export interface ModelGraphicsCesiumProps {
   runAnimations?: Cesium.Property | boolean;
   clampAnimations?: Cesium.Property | boolean;
   // @type Cesium.Property | { [name: string]: Cesium.TranslationRotationScale }
-  nodeTransformations?: Cesium.Property;
+  nodeTransformations?: Cesium.Property | any;
   shadows?: Cesium.Property | Cesium.ShadowMode;
   heightReference?: Cesium.Property | Cesium.HeightReference;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
@@ -33,8 +33,7 @@ export interface ModelGraphicsCesiumProps {
   // @type Cesium.Property | Cesium.ColorBlendMode
   colorBlendMode?: Cesium.Property | any;
   colorBlendAmount?: Cesium.Property | number;
-  // @type Cesium.Propert | Cesium.ClippingPlaneCollection
-  clippingPlanes?: Cesium.Property | any;
+  clippingPlanes?: Cesium.Property | Cesium.ClippingPlaneCollection;
   imageBasedLightingFactor?: Cesium.Property | Cesium.Cartesian2;
   lightColor?: Cesium.Property | Cesium.Color;
 }
@@ -82,7 +81,7 @@ const ModelGraphics = createCesiumComponent<
   name: "ModelGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumModelGraphics(props as any);
+    const element = new CesiumModelGraphics(props as any); // WORKAROUND
     context.entity.model = element;
     return element;
   },

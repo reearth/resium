@@ -84,7 +84,7 @@ const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
 ];
 
 export const PostProcessStage = createCesiumComponent<
-  any /* PostProcessStage */,
+  Cesium.PostProcessStage,
   PostProcessStageProps,
   {
     scene?: Cesium.Scene;
@@ -105,7 +105,7 @@ export const PostProcessStage = createCesiumComponent<
   },
   destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      (context.scene as any).postProcessStages.remove(element);
+      context.scene.postProcessStages.remove(element);
     }
     if (!element.isDestroyed()) {
       element.destroy();

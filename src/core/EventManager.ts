@@ -136,7 +136,7 @@ export default class EventManager {
       const et = k as EventType;
       if (includes(eventNames, et)) {
         if (v) {
-          this.on(element, et, v as any);
+          this.on(element, et, v);
         } else {
           this.off(element, et);
         }

@@ -44,11 +44,11 @@ const LabelCollection = createCesiumComponent<
   create(context, props) {
     if (!context.scene || !context.primitiveCollection) return;
     const element = new CesiumLabelCollection({
-      scene: context.scene, //
+      scene: context.scene,
       modelMatrix: props.modelMatrix,
       blendOption: props.blendOption,
       debugShowBoundingVolume: props.debugShowBoundingVolume,
-    } as any);
+    });
     context.primitiveCollection.add(element);
     return element;
   },

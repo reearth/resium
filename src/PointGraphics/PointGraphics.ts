@@ -59,7 +59,7 @@ const PointGraphics = createCesiumComponent<
   name: "PointGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPointGraphics(props as any);
+    const element = new CesiumPointGraphics(props as any); // WORKAROUND
     context.entity.point = element;
     return element;
   },

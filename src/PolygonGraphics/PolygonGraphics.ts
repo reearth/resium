@@ -33,8 +33,7 @@ export interface PolygonGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  // @type Cesium.Property | Cesium.ClassificationType
-  classificationType?: Cesium.Property | any;
+  classificationType?: Cesium.Property | Cesium.ClassificationType;
 }
 
 export interface PolygonGraphicsCesiumEvents {
@@ -82,7 +81,7 @@ const PolygonGraphics = createCesiumComponent<
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolygonGraphics(props as any);
+    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND
     context.entity.polygon = element;
     return element;
   },

@@ -84,6 +84,7 @@ const load = ({
   sourceUri?: string;
   credit?: Cesium.Credit | string;
 }) => {
+  // WORKAROUND: credit is missing
   element.load(data, { clampToGround, ellipsoid, sourceUri, credit } as any).then(value => {
     if (onLoad) {
       onLoad(value);

@@ -20,8 +20,8 @@ export interface TimeDynamicPointCloudCesiumProps {
   modelMatrix?: Cesium.Matrix4;
   shadows?: Cesium.ShadowMode;
   maximumMemoryUsage?: number;
-  style?: any /* Cesium.Cesium3DTileStyle */;
-  clippingPlanes?: any /* Cesium.ClippingPlaneCollection */;
+  style?: Cesium.Cesium3DTileStyle;
+  clippingPlanes?: Cesium.ClippingPlaneCollection;
 }
 
 export interface TimeDynamicPointCloudCesiumReadonlyProps {

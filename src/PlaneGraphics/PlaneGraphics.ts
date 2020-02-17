@@ -60,7 +60,7 @@ const PlaneGraphics = createCesiumComponent<
   name: "PlaneGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPlaneGraphics(props as any);
+    const element = new CesiumPlaneGraphics(props as any); // WORKAROUND
     context.entity.plane = element;
     return element;
   },

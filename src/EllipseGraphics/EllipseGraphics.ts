@@ -32,8 +32,7 @@ export interface EllipseGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  // @type Cesium.ClassificationType
-  classificationType?: Cesium.Property | any;
+  classificationType?: Cesium.Property | Cesium.ClassificationType;
 }
 
 export interface EllipseGraphicsCesiumEvents {
@@ -80,8 +79,10 @@ const EllipseGraphics = createCesiumComponent<
   name: "EllipseGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumEllipseGraphics(props as any);
+    // WORKAROUND
+    const element = new CesiumEllipseGraphics(props as any); // WORKAROUND
     if (props.classificationType) {
+      // WORKAROUND: classificationType field is missing
       (element as any).classificationType = props.classificationType;
     }
     context.entity.ellipse = element;

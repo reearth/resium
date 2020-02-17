@@ -179,7 +179,7 @@ const Viewer = createCesiumComponent<
   name: "Viewer",
   create(context, props, wrapper) {
     if (!wrapper) return;
-    const v = new CesiumViewer(wrapper, props as any);
+    const v = new CesiumViewer(wrapper, props);
     if (!v) return;
 
     if (props.imageryProvider === false) {

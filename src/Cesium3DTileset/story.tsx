@@ -18,7 +18,7 @@ storiesOf("Cesium3DTileset", module).add("Basic", () => {
         onTileLoad={action("onTileLoad")}
         onTileUnload={action("onTileUnload")}
         onReady={tileset => {
-          ref.current?.cesiumElement?.zoomTo(tileset as any);
+          ref.current?.cesiumElement?.zoomTo(tileset as any); // WORKAROUND
         }}
         onClick={action("onClick")}
       />

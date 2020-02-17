@@ -71,7 +71,7 @@ const load = ({
     .load(data, {
       sourceUri,
       credit,
-    } as any)
+    } as any) // WORKAROUND: credit field is missing
     .then(value => {
       if (onLoad) {
         onLoad(value);

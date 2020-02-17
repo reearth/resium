@@ -31,8 +31,7 @@ export interface RectangleGraphicsCesiumProps {
   shadows?: Cesium.Property | Cesium.ShadowMode;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.Property | number;
-  // @type Cesium.Property | Cesium.ClassificationType
-  classificationType?: Cesium.Property | any;
+  classificationType?: Cesium.Property | Cesium.ClassificationType;
 }
 
 export interface RectangleGraphicsCesiumEvents {

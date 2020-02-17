@@ -103,7 +103,7 @@ const load = ({
       strokeWidth,
       fill,
       sourceUri,
-      describe,
+      describe, // WORKAROUND
       credit,
     } as any)
     .then(value => {

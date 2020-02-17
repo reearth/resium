@@ -31,8 +31,7 @@ export interface CorridorGraphicsCesiumProps {
   shadows?: Cesium.Property | boolean;
   distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
   zIndex?: Cesium.ConstantProperty | number;
-  // @type Cesium.Property | Cesium.ClassificationType
-  classificationType?: Cesium.Property | any;
+  classificationType?: Cesium.Property | Cesium.ClassificationType;
 }
 
 export interface CorridorCesiumEvents {
@@ -76,9 +75,9 @@ const CorridorGraphics = createCesiumComponent<
   name: "CorridorGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumCorridorGraphics(props as any);
+    const element = new CesiumCorridorGraphics(props as any); // WORKAROUND
     if (props.classificationType) {
-      (element as any).classificationType = props.classificationType;
+      (element as any).classificationType = props.classificationType; // WORKAROUND
     }
     context.entity.corridor = element;
     return element;

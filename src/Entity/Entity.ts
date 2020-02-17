@@ -184,7 +184,7 @@ const Entity = createCesiumComponent<
   name: "Entity",
   create(context, props) {
     if (!context.entityCollection) return;
-    const element = new CesiumEntity(props as any);
+    const element = new CesiumEntity(props as any); // WORKAROUND: orientation
     if (context.viewer && props.selected) {
       context.viewer.selectedEntity = element;
     }
@@ -205,7 +205,7 @@ const Entity = createCesiumComponent<
         if (props.selected) {
           context.viewer.selectedEntity = element;
         } else if (context.viewer.selectedEntity === element) {
-          (context.viewer as any).selectedEntity = undefined;
+          (context.viewer as any).selectedEntity = undefined; // WORKAROUND
         }
       }
 
@@ -213,7 +213,7 @@ const Entity = createCesiumComponent<
         if (props.tracked) {
           context.viewer.trackedEntity = element;
         } else if (context.viewer.trackedEntity === element) {
-          (context.viewer as any).trackedEntity = undefined;
+          (context.viewer as any).trackedEntity = undefined; // WORKAROUND
         }
       }
     }

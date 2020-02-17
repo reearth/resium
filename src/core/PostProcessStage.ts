@@ -16,10 +16,10 @@ export const createPostProcessStage = <UniformProps>(opts: {
   create(
     props: Readonly<UniformProps & PostProcessStageCesiumProps>,
     postProcessStages: Cesium.PostProcessStageCollection,
-  ): Cesium.PostProcessStage;
+  ): Cesium.PostProcessStage | Cesium.PostProcessStageComposite;
 }) =>
   createCesiumComponent<
-    Cesium.PostProcessStage,
+    Cesium.PostProcessStage | Cesium.PostProcessStageComposite,
     PostProcessStageCesiumProps & UniformProps & { stages?: any[] },
     {
       scene?: Cesium.Scene;
@@ -32,23 +32,24 @@ export const createPostProcessStage = <UniformProps>(opts: {
       if (typeof props.enabled === "boolean") {
         element.enabled = props.enabled;
       }
-      if (props.selected) {
+      if (props.selected && "selected" in element) {
         element.selected = props.selected;
       }
       opts.props.forEach(k => {
         if (!includes(opts.readonlyProps, k) && typeof props[k] !== "undefined") {
-          (element.uniforms as any)[k] = props[k];
+          element.uniforms[k] = props[k];
         }
       });
       if (!opts.noMount && context.scene && !context.scene.isDestroyed()) {
-        (context.scene as any).postProcessStages.add(element);
+        // WORKAROUND: add method must be accept Cesium.PostProcessStage | Cesium.PostProcessStageComposite
+        context.scene.postProcessStages.add(element as Cesium.PostProcessStage);
       }
       return element;
     },
     destroy(element, context) {
       if (!opts.noMount) {
         if (context.scene && !context.scene.isDestroyed()) {
-          (context.scene as any).postProcessStages.remove(element);
+          context.scene.postProcessStages.remove(element as any); // WORKAROUND
         }
         if (!element.isDestroyed()) {
           element.destroy();
@@ -60,7 +61,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
     update(element, props, prevProps) {
       opts.props.forEach(k => {
         if (!includes(opts.readonlyProps, k) && props[k] !== prevProps[k]) {
-          (element.uniforms as any)[k] = props[k];
+          element.uniforms[k] = props[k];
         }
       });
     },

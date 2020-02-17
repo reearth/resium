@@ -81,7 +81,7 @@ const LabelGraphics = createCesiumComponent<
   name: "LabelGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumLabelGraphics(props as any);
+    const element = new CesiumLabelGraphics(props as any); // WORKAROUND
     context.entity.label = element;
     return element;
   },
