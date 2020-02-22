@@ -1713,10 +1713,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cesium@1.66.0":
-  version "1.66.0"
-  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.66.0.tgz#fdbf4102e5b67b7b956c7a6b0250e55585fcdee3"
-  integrity sha512-9PXcJ9fGWl+PQrVOghni2KEov1s64RNou64udSevGSRrEiftR94zNOHF3fHFE+WUJ2dtaOYcD5daRJSH3qMkKQ==
+"@types/cesium@1.66.1":
+  version "1.66.1"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.66.1.tgz#ce61ad869889901c2b270afb6540f141b4086218"
+  integrity sha512-o6VxVa/7oVCLmviiokZFN7yMneK4X7BM/eQOkV8CfT+XYkoZ3+jBGKsmsS7JUcmlupMmk2/wopzfRKqxVBQ/Qg==
 
 "@types/cheerio@*":
   version "0.22.16"
