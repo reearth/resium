@@ -1818,10 +1818,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cesium@1.66.3":
-  version "1.66.3"
-  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.66.3.tgz#dacee963e7906bc2776a139c106c3609f345b594"
-  integrity sha512-92oDpzarzTAhWscMPjJOVKeebCCpq7a5xud9QOp7LqTYQEDJi1G7G9EKRRNgrOM77kqkvs3BBTvpm55exhXm8g==
+"@types/cesium@1.66.5":
+  version "1.66.5"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.66.5.tgz#dc579b8ae69291abd81a56d0690a5d2f1fe988ee"
+  integrity sha512-Q9xMLkgGQzXv8K7p2CW3swBm+X/87k+PVWmuVC0aeBM0M94nSVc/AD1G5FgW8ss5zL2OUZhCzXGELqgaR+dBgA==
 
 "@types/cheerio@*":
   version "0.22.16"
@@ -3422,10 +3422,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cesium@1.66.0:
-  version "1.66.0"
-  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.66.0.tgz#ac8a9858329740eb22304936076ea6f8e6faad82"
-  integrity sha512-IcM+NpG5Gm4BbW9NLWkuL9SJ59tTQh8SsN8x6KYd4B1N36Y0kBtNKJPWpGe7H5thaaKm2QLKzJdjqmWyGNCTNA==
+cesium@1.67.0:
+  version "1.67.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.67.0.tgz#da12638513f3a0678e2b52466cd65330e339e2f2"
+  integrity sha512-vu/InLNtw1pV2FavfAB1c/BQGogg7LAx5GPu2hnGlSoSfb+hUyCh0YlW0kKyL/appAYgt1OtMCRaND2S7RqygQ==
   dependencies:
     esm "^3.2.25"
 
