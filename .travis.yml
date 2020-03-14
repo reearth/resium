@@ -14,6 +14,7 @@ script:
   - yarn run lint
   - (cd docs && yarn lint)
   - yarn test
+  - yarn build:es
 notifications:
   email:
     on_success: never
