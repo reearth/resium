@@ -1826,10 +1826,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cesium@1.66.5":
-  version "1.66.5"
-  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.66.5.tgz#dc579b8ae69291abd81a56d0690a5d2f1fe988ee"
-  integrity sha512-Q9xMLkgGQzXv8K7p2CW3swBm+X/87k+PVWmuVC0aeBM0M94nSVc/AD1G5FgW8ss5zL2OUZhCzXGELqgaR+dBgA==
+"@types/cesium@1.66.7":
+  version "1.66.7"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.66.7.tgz#149c2298cf34f6ac819d43532b30c8b3148693f0"
+  integrity sha512-9byT0M3liz0XhU/vMuqp+0SCU900lD8LHG7q9EV7F9X83/EJVXublZb2Ipck44o7eHckSIyA4f+aMjlTkZ96lg==
 
 "@types/cheerio@*":
   version "0.22.16"
