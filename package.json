@@ -40,7 +40,7 @@
     "react-dom": ">=16.8"
   },
   "devDependencies": {
-    "@babel/core": "7.8.7",
+    "@babel/core": "7.9.0",
     "@emotion/core": "10.0.28",
     "@emotion/styled": "10.0.27",
     "@rollup/plugin-replace": "2.3.1",
@@ -58,7 +58,7 @@
     "@types/react-dom": "16.9.5",
     "@typescript-eslint/eslint-plugin": "2.23.0",
     "@typescript-eslint/parser": "2.23.0",
-    "babel-loader": "8.0.6",
+    "babel-loader": "8.1.0",
     "cesium": "1.67.0",
     "copy-webpack-plugin": "5.1.1",
     "cross-env": "7.0.2",
