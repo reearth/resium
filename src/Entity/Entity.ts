@@ -28,7 +28,7 @@ Entity can have one each, with the following components as children:
 - [`EntityDescription`](/components/EntityDescription): renders description with React
 - [`BillboardGraphics`](/components/BillboardGraphics): a billboard visualization
 - [`BoxGraphics`](/components/BoxGraphics): a box visualization
-- [`CorriderGraphics`](/components/CorriderGraphics): a corrider visualization
+- [`CorridorGraphics`](/components/CorridorGraphics): a corridor visualization
 - [`CylinderGraphics`](/components/CylinderGraphics): a cylinder visualization
 - [`EllipseGraphics`](/components/EllipseGraphics): a ellipse visualization
 - [`EllipsoidGraphics`](/components/EllipsoidGraphics): a ellipsoid visualization
