@@ -1887,10 +1887,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cesium@1.67.2":
-  version "1.67.2"
-  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.67.2.tgz#189209dd6bf25b299bd371359810a52686ab1b5f"
-  integrity sha512-wTJ4Rwv61XaJV73yY62GuQ6P2fh68MOqTKqBttH7NPCr4YVkRcVjeMtXvOjD/nzdlAmvWnrnOrUqQAXBu3AWSw==
+"@types/cesium@1.67.3":
+  version "1.67.3"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.67.3.tgz#e2c497ee9eecf3b24508cadc4fa425e9ad49f6d3"
+  integrity sha512-+Gpl34EnoekcFAg2+4zstpkQhB8KGzuyg4l/VZy2ocvkWdNRE5OhWcZoRkRlyAVG4PGzg8g9nEDWRZGd0E1v1A==
 
 "@types/cheerio@*":
   version "0.22.16"
@@ -3647,12 +3647,10 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cesium@1.67.0:
-  version "1.67.0"
-  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.67.0.tgz#da12638513f3a0678e2b52466cd65330e339e2f2"
-  integrity sha512-vu/InLNtw1pV2FavfAB1c/BQGogg7LAx5GPu2hnGlSoSfb+hUyCh0YlW0kKyL/appAYgt1OtMCRaND2S7RqygQ==
-  dependencies:
-    esm "^3.2.25"
+cesium@1.68.0:
+  version "1.68.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.68.0.tgz#2089185555d18e969f76b45bd0463d0357671a2e"
+  integrity sha512-YsMqLQZ2jPYx39vN1lqYE+ctHU4QwHPHL1XLvwp2Tfv8RjnLdLY5RwizeD1fvd2iCaBbnvjMo01LjpPkjRaDYw==
 
 chalk@2.4.2, chalk@^2.0.0, chalk@^2.1.0, chalk@^2.3.0, chalk@^2.4.1, chalk@^2.4.2:
   version "2.4.2"
@@ -5095,11 +5093,6 @@ eslint@6.8.0:
     table "^5.2.3"
     text-table "^0.2.0"
     v8-compile-cache "^2.0.3"
-
-esm@^3.2.25:
-  version "3.2.25"
-  resolved "https://registry.yarnpkg.com/esm/-/esm-3.2.25.tgz#342c18c29d56157688ba5ce31f8431fbb795cc10"
-  integrity sha512-U1suiZ2oDVWv4zPO56S0NcR5QriEahGtdN2OR6FiOG4WJvcjBVFB0qI4+eKoWFH483PKGuLuu6V8Z4T5g63UVA==
 
 espree@^6.1.2:
   version "6.1.2"
