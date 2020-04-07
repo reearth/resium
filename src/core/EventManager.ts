@@ -258,6 +258,10 @@ export default class EventManager {
       if (picked.id instanceof Entity) {
         return picked.id;
       }
+      // Primitive
+      if (picked.primitive) {
+        return picked.primitive;
+      }
       // Other
       return picked;
     }
