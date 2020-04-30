@@ -28,20 +28,20 @@ Entity can have one each, with the following components as children:
 - [`EntityDescription`](/components/EntityDescription): renders description with React
 - [`BillboardGraphics`](/components/BillboardGraphics): a billboard visualization
 - [`BoxGraphics`](/components/BoxGraphics): a box visualization
-- [`CorriderGraphics`](/components/BillboardGraphics): a corrider visualization
-- [`CylinderGraphics`](/components/BillboardGraphics): a cylinder visualization
-- [`EllipseGraphics`](/components/BillboardGraphics): a ellipse visualization
-- [`EllipsoidGraphics`](/components/BillboardGraphics): a ellipsoid visualization
-- [`LabelGraphics`](/components/BillboardGraphics): a label visualization
-- [`ModelGraphics`](/components/BillboardGraphics): a model visualization
-- [`PathGraphics`](/components/BillboardGraphics): a path visualization
-- [`PlaneGraphics`](/components/BillboardGraphics): a plane visualization
-- [`PointGraphics`](/components/BillboardGraphics): a point visualization
-- [`PolygonGraphics`](/components/BillboardGraphics): a polygon visualization
-- [`PolylineGraphics`](/components/BillboardGraphics): a polyline visualization
-- [`PolylineVolumeGraphics`](/components/BillboardGraphics): a polyline visualization with volume
-- [`RectangleGraphics`](/components/BillboardGraphics): a rectangle visualization
-- [`WallGraphics`](/components/BillboardGraphics): a wall visualization
+- [`CorridorGraphics`](/components/CorridorGraphics): a corridor visualization
+- [`CylinderGraphics`](/components/CylinderGraphics): a cylinder visualization
+- [`EllipseGraphics`](/components/EllipseGraphics): a ellipse visualization
+- [`EllipsoidGraphics`](/components/EllipsoidGraphics): a ellipsoid visualization
+- [`LabelGraphics`](/components/LabelGraphics): a label visualization
+- [`ModelGraphics`](/components/ModelGraphics): a model visualization
+- [`PathGraphics`](/components/PathGraphics): a path visualization
+- [`PlaneGraphics`](/components/PlaneGraphics): a plane visualization
+- [`PointGraphics`](/components/PointGraphics): a point visualization
+- [`PolygonGraphics`](/components/PolygonGraphics): a polygon visualization
+- [`PolylineGraphics`](/components/PolylineGraphics): a polyline visualization
+- [`PolylineVolumeGraphics`](/components/PolylineVolumeGraphics): a polyline visualization with volume
+- [`RectangleGraphics`](/components/RectangleGraphics): a rectangle visualization
+- [`WallGraphics`](/components/WallGraphics): a wall visualization
 
 ### Graphics components vs graphics properties
 
