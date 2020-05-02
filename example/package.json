@@ -24,7 +24,7 @@
     "strip-pragma-loader": "1.0.0",
     "style-loader": "1.2.1",
     "url-loader": "3.0.0",
-    "webpack": "4.42.1",
+    "webpack": "4.43.0",
     "webpack-cli": "3.3.11",
     "webpack-dev-server": "3.10.3"
   },
