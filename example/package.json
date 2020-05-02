@@ -10,8 +10,8 @@
     "build2": "webpack --config webpack.config.2.js --mode production"
   },
   "devDependencies": {
-    "@babel/core": "7.9.0",
-    "@babel/preset-env": "7.9.5",
+    "@babel/core": "7.9.6",
+    "@babel/preset-env": "7.9.6",
     "@babel/preset-react": "7.9.4",
     "@hot-loader/react-dom": "16.13.0",
     "babel-loader": "8.1.0",
