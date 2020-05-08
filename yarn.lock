@@ -1951,10 +1951,10 @@
   dependencies:
     "@babel/types" "^7.3.0"
 
-"@types/cesium@1.67.3":
-  version "1.67.3"
-  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.67.3.tgz#e2c497ee9eecf3b24508cadc4fa425e9ad49f6d3"
-  integrity sha512-+Gpl34EnoekcFAg2+4zstpkQhB8KGzuyg4l/VZy2ocvkWdNRE5OhWcZoRkRlyAVG4PGzg8g9nEDWRZGd0E1v1A==
+"@types/cesium@1.67.4":
+  version "1.67.4"
+  resolved "https://registry.yarnpkg.com/@types/cesium/-/cesium-1.67.4.tgz#2f05d40300c08520c0f77eb80ea0362ddcafde37"
+  integrity sha512-mdeRS+23W4+UYAZ5J9hnVaQOzf1Nx1K3AIe3fhIfjAsgiJky5rxG0HenRQWoA104Yt2ROIaADKdGWQmWuTJHWg==
 
 "@types/cheerio@*":
   version "0.22.16"
