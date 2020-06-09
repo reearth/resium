@@ -4,7 +4,6 @@ import {
   Color,
   Cartesian2,
   PrimitiveCollection,
-  Particle,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";

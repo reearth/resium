@@ -51,7 +51,7 @@ export interface ModelCesiumProps {
 export interface ModelCesiumReadonlyProps {
   allowPicking?: boolean;
   asynchronous?: boolean;
-  gltf?: object | ArrayBuffer | Uint8Array;
+  gltf?: any | ArrayBuffer | Uint8Array;
   incrementallyLoadTextures?: boolean;
   url?: Resource | string;
   credit?: Credit | string;
@@ -117,17 +117,13 @@ const Model = createCesiumComponent<
   name: "Model",
   create(context, props) {
     if (!context.primitiveCollection) return;
-
     const element = props.url
       ? CesiumModel.fromGltf(props as ModelProps & { url: string | Resource })
       : new CesiumModel(props);
-
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
     }
-
     context.primitiveCollection.add(element);
-
     return element;
   },
   destroy(element, context) {
