@@ -73,9 +73,9 @@ ${type.summary ? `\n${type.summary}\n` : ""}
 ${
   type.noCesiumElement
     ? ""
-    : `- **Cesium element**: [${type.cesiumElement ||
-        type.name}](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement ||
-        type.name}.html)
+    : `- **Cesium element**: [${
+        type.cesiumElement || type.name
+      }](https://cesiumjs.org/Cesium/Build/Documentation/${type.cesiumElement || type.name}.html)
 `
 }- **Example**: <Link href="/examples/?path=/story/${type.name.toLowerCase()}--basic">${
     type.name
