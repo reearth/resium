@@ -9,7 +9,7 @@ export { EventkeyMap };
 export interface CesiumComponentOptions<
   Element,
   Props,
-  Context,
+  Context = any,
   ProvidecContext = any,
   State = any
 > extends Options<Element, Props, Context, ProvidecContext, State> {
@@ -31,7 +31,13 @@ export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponen
   React.PropsWithoutRef<Props> & React.RefAttributes<CesiumComponentRef<Element>>
 >;
 
-export const createCesiumComponent = <Element, Props, Context, ProvidecContext = any, State = any>({
+export const createCesiumComponent = <
+  Element,
+  Props,
+  Context = any,
+  ProvidecContext = any,
+  State = any
+>({
   renderContainer,
   noChildren,
   containerProps,

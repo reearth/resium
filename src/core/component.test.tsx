@@ -142,7 +142,7 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const createFn = jest.fn((ctx, props: { foo?: number }) => {
+    const createFn = jest.fn((_ctx, props: { foo?: number }) => {
       if (typeof props.foo === "number") {
         cesiumElement.foo = props.foo;
       }
@@ -203,7 +203,7 @@ describe("core/component", () => {
       provide: () => ({ context: "b" }),
     });
 
-    const Component2 = createCesiumComponent<string>({
+    const Component2 = createCesiumComponent<string, unknown>({
       name: "test2",
       create: create2,
     });
@@ -251,7 +251,7 @@ describe("core/component", () => {
 
     const state = {};
 
-    const Component = createCesiumComponent<string>({
+    const Component = createCesiumComponent<string, unknown>({
       name: "test",
       create: () => ["foobar", state],
       provide: provideFn,

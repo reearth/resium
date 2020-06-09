@@ -14,7 +14,7 @@ import { includes, shallowEquals } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-export interface Options<Element, Props, Context, ProvidedContext = never, State = never> {
+export interface Options<Element, Props, Context = any, ProvidedContext = any, State = any> {
   name: string;
   create?: (
     ctx: Context,
