@@ -1,3 +1,5 @@
+import { Scene, SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -30,10 +32,10 @@ const cesiumProps: (keyof SkyAtmosphereCesiumProps)[] = [
 ];
 
 const SkyAtmosphere = createCesiumComponent<
-  Cesium.SkyAtmosphere,
+  CesiumSkyAtmosphere,
   SkyAtmosphereProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "SkyAtmosphere",

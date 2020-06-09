@@ -1,4 +1,14 @@
-import { ModelGraphics as CesiumModelGraphics } from "cesium";
+import {
+  ModelGraphics as CesiumModelGraphics,
+  Entity,
+  Property,
+  Color,
+  Cartesian2,
+  ClippingPlaneCollection,
+  DistanceDisplayCondition,
+  HeightReference,
+  ShadowMode,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,28 +24,28 @@ and can not be used more than once for each entity.
 */
 
 export interface ModelGraphicsCesiumProps {
-  uri?: Cesium.Property | string;
-  show?: Cesium.Property | boolean;
-  scale?: Cesium.Property | number;
-  minimumPixelSize?: Cesium.Property | number;
-  maximumScale?: Cesium.Property | number;
-  incrementallyLoadTextures?: Cesium.Property | boolean;
-  runAnimations?: Cesium.Property | boolean;
-  clampAnimations?: Cesium.Property | boolean;
-  // @type Cesium.Property | { [name: string]: Cesium.TranslationRotationScale }
-  nodeTransformations?: Cesium.Property | any;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-  silhouetteColor?: Cesium.Property | Cesium.Color;
-  silhouetteSize?: Cesium.Property | number;
-  color?: Cesium.Property | Cesium.Color;
-  // @type Cesium.Property | Cesium.ColorBlendMode
-  colorBlendMode?: Cesium.Property | any;
-  colorBlendAmount?: Cesium.Property | number;
-  clippingPlanes?: Cesium.Property | Cesium.ClippingPlaneCollection;
-  imageBasedLightingFactor?: Cesium.Property | Cesium.Cartesian2;
-  lightColor?: Cesium.Property | Cesium.Color;
+  uri?: Property | string;
+  show?: Property | boolean;
+  scale?: Property | number;
+  minimumPixelSize?: Property | number;
+  maximumScale?: Property | number;
+  incrementallyLoadTextures?: Property | boolean;
+  runAnimations?: Property | boolean;
+  clampAnimations?: Property | boolean;
+  // @type Property | { [name: string]: TranslationRotationScale }
+  nodeTransformations?: Property | any;
+  shadows?: Property | ShadowMode;
+  heightReference?: Property | HeightReference;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
+  silhouetteColor?: Property | Color;
+  silhouetteSize?: Property | number;
+  color?: Property | Color;
+  // @type Property | ColorBlendMode
+  colorBlendMode?: Property | any;
+  colorBlendAmount?: Property | number;
+  clippingPlanes?: Property | ClippingPlaneCollection;
+  imageBasedLightingFactor?: Property | Cartesian2;
+  lightColor?: Property | Color;
 }
 
 export interface ModelGraphicsCesiumEvents {
@@ -67,15 +77,15 @@ const cesiumProps: (keyof ModelGraphicsCesiumProps)[] = [
   "lightColor",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.ModelGraphics, ModelGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumModelGraphics, ModelGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const ModelGraphics = createCesiumComponent<
-  Cesium.ModelGraphics,
+  CesiumModelGraphics,
   ModelGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "ModelGraphics",

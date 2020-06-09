@@ -1,3 +1,11 @@
+import {
+  Material,
+  Cartesian3,
+  DistanceDisplayCondition,
+  Polyline as CesiumPolyline,
+  PolylineCollection,
+} from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
 
@@ -16,16 +24,16 @@ A polyline object will be attached to the parent PolylineCollection.
 */
 
 export interface PolylineCesiumProps {
-  distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
+  distanceDisplayCondition?: DistanceDisplayCondition;
   id?: any;
   loop?: boolean;
-  material?: Cesium.Material;
-  positions?: Cesium.Cartesian3[];
+  material?: Material;
+  positions?: Cartesian3[];
   show?: boolean;
   width?: number;
 }
 
-export interface PolylineProps extends PolylineCesiumProps, EventProps<Cesium.Polyline> {}
+export interface PolylineProps extends PolylineCesiumProps, EventProps<CesiumPolyline> {}
 
 const cesiumProps: (keyof PolylineCesiumProps)[] = [
   "distanceDisplayCondition",
@@ -38,10 +46,10 @@ const cesiumProps: (keyof PolylineCesiumProps)[] = [
 ];
 
 const Polyline = createCesiumComponent<
-  Cesium.Polyline,
+  CesiumPolyline,
   PolylineProps,
   {
-    polylineCollection?: Cesium.PolylineCollection;
+    polylineCollection?: PolylineCollection;
   }
 >({
   name: "Polyline",

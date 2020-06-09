@@ -37,7 +37,13 @@ export interface Options<Element, Props, Context, ProvidedContext = never, State
   useRootEvent?: boolean;
 }
 
-export const useCesiumComponent = <Element, Props, Context, ProvidedContext = any, State = any>(
+export const useCesiumComponent = <
+  Element,
+  Props,
+  Context,
+  ProvidedContext extends { [key in string]?: unknown } = { [key in string]?: unknown },
+  State = any
+>(
   {
     name,
     create,
@@ -53,10 +59,10 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
   }: Options<Element, Props, Context, ProvidedContext, State>,
   props: Props,
   ref: any,
-): [ProvidedContext | {} | undefined, boolean, React.RefObject<HTMLDivElement>] => {
+): [ProvidedContext | undefined, boolean, React.RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
   const ctx = useCesium<Context & { [eventManagerContextKey]?: EventManager }>();
-  const provided = useRef<ProvidedContext | {} | undefined>(provide ? {} : undefined);
+  const provided = useRef<ProvidedContext | undefined>(undefined);
   const attachedEvents = useRef<
     {
       [key in keyof Element]?: any;
@@ -113,8 +119,7 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
       }
 
       const em = useRootEvent
-        ? provided.current &&
-          ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+        ? (provided.current?.[eventManagerContextKey] as EventManager | undefined)
         : eventManager;
       if (useCommonEvent && em && element.current) {
         em.setEvents(useRootEvent ? null : element.current, props);
@@ -181,8 +186,7 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
     }
 
     const em = useRootEvent
-      ? provided.current &&
-        ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+      ? (provided.current?.[eventManagerContextKey] as EventManager | undefined)
       : eventManager;
     if (useCommonEvent && em && element.current) {
       em.setEvents(useRootEvent ? null : element.current, initialProps.current);
@@ -196,8 +200,7 @@ export const useCesiumComponent = <Element, Props, Context, ProvidedContext = an
     }
 
     const em = useRootEvent
-      ? provided.current &&
-        ((provided.current as any)[eventManagerContextKey] as EventManager | undefined)
+      ? (provided.current?.[eventManagerContextKey] as EventManager | undefined)
       : eventManager;
     if (useCommonEvent && em && element.current) {
       em.clearEvents(useRootEvent ? null : element.current);

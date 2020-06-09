@@ -1,5 +1,25 @@
 import React from "react";
-import { Viewer as CesiumViewer } from "cesium";
+import {
+  Viewer as CesiumViewer,
+  Globe,
+  Camera,
+  Scene,
+  EntityCollection,
+  CesiumWidget,
+  DataSourceCollection,
+  ImageryProvider,
+  MapProjection,
+  SceneMode,
+  SkyAtmosphere,
+  SkyBox,
+  MapMode2D,
+  ProviderViewModel,
+  ClockViewModel,
+  Entity,
+  ShadowMode,
+  DataSource,
+  TerrainProvider,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
@@ -20,15 +40,15 @@ Everywhere. `Viewer` is a root component.
 */
 
 export interface ViewerCesiumProps {
-  terrainProvider?: Cesium.TerrainProvider;
-  terrainShadows?: Cesium.ShadowMode;
-  clockTrackedDataSource?: Cesium.DataSource;
+  terrainProvider?: TerrainProvider;
+  terrainShadows?: ShadowMode;
+  clockTrackedDataSource?: DataSource;
   targetFrameRate?: number;
   useDefaultRenderLoop?: boolean;
   resolutionScale?: number;
   allowDataSourcesToSuspendAnimation?: boolean;
-  trackedEntity?: Cesium.Entity;
-  selectedEntity?: Cesium.Entity;
+  trackedEntity?: Entity;
+  selectedEntity?: Entity;
   shadows?: boolean;
   useBrowserRecommendedResolution?: boolean;
 }
@@ -48,28 +68,28 @@ export interface ViewerCesiumReadonlyProps {
   navigationInstructionsInitiallyVisible?: boolean;
   scene3DOnly?: boolean;
   shouldAnimate?: boolean;
-  clockViewModel?: Cesium.ClockViewModel;
-  selectedImageryProviderViewModel?: Cesium.ProviderViewModel;
-  imageryProviderViewModels?: Cesium.ProviderViewModel[];
-  selectedTerrainProviderViewModel?: Cesium.ProviderViewModel;
-  terrainProviderViewModels?: Cesium.ProviderViewModel[];
+  clockViewModel?: ClockViewModel;
+  selectedImageryProviderViewModel?: ProviderViewModel;
+  imageryProviderViewModels?: ProviderViewModel[];
+  selectedTerrainProviderViewModel?: ProviderViewModel;
+  terrainProviderViewModels?: ProviderViewModel[];
   // If false, the default imagery layer will be removed.
-  imageryProvider?: Cesium.ImageryProvider | false;
-  skyBox?: Cesium.SkyBox;
-  skyAtmosphere?: Cesium.SkyAtmosphere;
+  imageryProvider?: ImageryProvider | false;
+  skyBox?: SkyBox;
+  skyAtmosphere?: SkyAtmosphere;
   fullscreenElement?: Element | string;
   showRenderLoopErrors?: boolean;
   automaticallyTrackDataSourceClocks?: boolean;
   contextOptions?: any;
-  sceneMode?: Cesium.SceneMode;
-  mapProjection?: Cesium.MapProjection;
-  globe?: Cesium.Globe;
+  sceneMode?: SceneMode;
+  mapProjection?: MapProjection;
+  globe?: Globe;
   orderIndependentTranslucency?: boolean;
   creditContainer?: Element | string;
   creditViewport?: Element | string;
-  dataSources?: Cesium.DataSourceCollection;
+  dataSources?: DataSourceCollection;
   terrainExaggeration?: number;
-  mapMode2D?: Cesium.MapMode2D;
+  mapMode2D?: MapMode2D;
   projectionPicker?: boolean;
   requestRenderMode?: boolean;
   maximumRenderTimeChange?: number;
@@ -163,15 +183,15 @@ export interface ViewerProps
 const Viewer = createCesiumComponent<
   CesiumViewer,
   ViewerProps,
-  {},
+  undefined,
   {
     viewer: CesiumViewer;
-    cesiumWidget: Cesium.CesiumWidget;
-    dataSourceCollection: Cesium.DataSourceCollection;
-    entityCollection: Cesium.EntityCollection;
-    scene: Cesium.Scene;
-    globe: Cesium.Globe;
-    camera: Cesium.Camera;
+    cesiumWidget: CesiumWidget;
+    dataSourceCollection: DataSourceCollection;
+    entityCollection: EntityCollection;
+    scene: Scene;
+    globe: Globe;
+    camera: Camera;
     [eventManagerContextKey]?: EventManager;
   },
   EventManager
@@ -179,7 +199,7 @@ const Viewer = createCesiumComponent<
   name: "Viewer",
   create(context, props, wrapper) {
     if (!wrapper) return;
-    const v = new CesiumViewer(wrapper, props);
+    const v = new CesiumViewer(wrapper, props as any);
     if (!v) return;
 
     if (props.imageryProvider === false) {

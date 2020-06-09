@@ -1,4 +1,18 @@
-import { Scene as CesiumScene, SceneMode } from "cesium";
+import {
+  Scene as CesiumScene,
+  SceneMode,
+  SkyBox,
+  Sun,
+  TerrainProvider,
+  Cartesian3,
+  SkyAtmosphere,
+  ShadowMap,
+  Moon,
+  Light,
+  Color,
+  Globe,
+  Fog,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -42,7 +56,7 @@ It can not be used more than once for each Viewer or CesiumWidget.
 */
 
 export interface SceneCesiumProps {
-  backgroundColor?: Cesium.Color;
+  backgroundColor?: Color;
   completeMorphOnUserInput?: boolean;
   debugCommandFilter?: (command: any) => boolean;
   debugShowCommands?: boolean;
@@ -54,34 +68,34 @@ export interface SceneCesiumProps {
   eyeSeparation?: number;
   farToNearRatio?: number;
   focalLength?: number;
-  fog?: Cesium.Fog;
+  fog?: Fog;
   fxaa?: boolean;
-  globe?: Cesium.Globe;
+  globe?: Globe;
   highDynamicRange?: boolean;
   imagerySplitPosition?: number;
   invertClassification?: boolean;
-  invertClassificationColor?: Cesium.Color;
-  light?: Cesium.Light;
+  invertClassificationColor?: Color;
+  light?: Light;
   logarithmicDepthBuffer?: number;
   logarithmicDepthFarToNearRatio?: number;
   mapMode2D?: boolean;
   maximumRenderTimeChange?: number;
   minimumDisableDepthTestDistance?: number;
-  mode?: Cesium.SceneMode;
-  moon?: Cesium.Moon;
+  mode?: SceneMode;
+  moon?: Moon;
   morphTime?: number;
   nearToFarDistance2D?: number;
   pickTranslucentDepth?: boolean;
   requestRenderMode?: boolean;
   rethrowRenderErrors?: boolean;
-  shadowMap?: Cesium.ShadowMap;
-  skyAtmosphere?: Cesium.SkyAtmosphere;
-  skyBox?: Cesium.SkyBox;
+  shadowMap?: ShadowMap;
+  skyAtmosphere?: SkyAtmosphere;
+  skyBox?: SkyBox;
   specularEnvironmentMaps?: string;
-  sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
-  sun?: Cesium.Sun;
+  sphericalHarmonicCoefficients?: Cartesian3[];
+  sun?: Sun;
   sunBloom?: boolean;
-  terrainProvider?: Cesium.TerrainProvider;
+  terrainProvider?: TerrainProvider;
   useDepthPicking?: boolean;
   useWebVR?: boolean;
 }

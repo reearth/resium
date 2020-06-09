@@ -1,5 +1,5 @@
 import { createCesiumComponent } from "../core/component";
-import { Fog as CesiumFog } from "cesium";
+import { Fog as CesiumFog, Scene } from "cesium";
 
 /*
 @summary
@@ -31,10 +31,10 @@ const cesiumProps: (keyof FogCesiumProps)[] = [
 ];
 
 const Fog = createCesiumComponent<
-  Cesium.Fog,
+  CesiumFog,
   FogProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "Fog",

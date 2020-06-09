@@ -20,7 +20,8 @@ export const pickedObjectEquals = (picked: any, element: any) =>
   !!picked &&
   (picked === element ||
     (!!picked.id && picked.id === element) ||
-    picked.equals?.(element) || polylineEquals(picked, element));
+    picked.equals?.(element) ||
+    polylineEquals(picked, element));
 
 export function pick<T, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
   if (!keys) return {} as Pick<T, K>;

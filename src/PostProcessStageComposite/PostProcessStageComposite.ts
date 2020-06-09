@@ -1,4 +1,8 @@
-import { PostProcessStageComposite as CesiumPostProcessStageComposite } from "cesium";
+import {
+  PostProcessStageComposite as CesiumPostProcessStageComposite,
+  Scene,
+  PostProcessStage,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -28,10 +32,10 @@ Bult-in PostProcessStageComposite components are available with additional Cesiu
 | | delta | number |
 | | sigma | number |
 | | stepSize | number |
-| EdgeDetectionStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| EdgeDetectionStage | color | [Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
 | | length | number ||
 | NightVisionStage | - | - |
-| SilhouetteStage | color | [Cesium.Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| SilhouetteStage | color | [Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
 | | length | number |
 
 Note: `AmbientOcclusion` and `Bloom` components can not be used multi time for each components, as it refers to the single post process stage of the scene.
@@ -59,7 +63,7 @@ export interface PostProcessStageCompositeCesiumProps {
 }
 
 export interface PostProcessStageCompositeCesiumReadonlyProps {
-  stages: Cesium.PostProcessStage[];
+  stages: PostProcessStage[];
   inputPreviousStageTexture?: boolean;
   name?: string;
   uniforms?: any;
@@ -79,30 +83,30 @@ const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[
 ];
 
 export const PostProcessStageComposite = createCesiumComponent<
-  Cesium.PostProcessStageComposite,
+  CesiumPostProcessStageComposite,
   PostProcessStageCompositeProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "PostProcessStageComposite",
   create(context, props) {
     if (!context.scene) return;
-    // WORKAROUND: Cesium.PostProcessStageComposite constructor arg type is wrong
+    // WORKAROUND: PostProcessStageComposite constructor arg type is wrong
     const element = new CesiumPostProcessStageComposite(props as any);
     if (typeof props.enabled === "boolean") {
       element.enabled = props.enabled;
     }
     if (props.selected) {
-      // WORKAROUND: Cesium.PostProcessStageComposite must have selected field
-      (element as any).selected = props.selected;
+      // WORKAROUND: PostProcessStageComposite must have selected field
+      element.selected = props.selected;
     }
-    context.scene.postProcessStages.add(element as any);
+    context.scene.postProcessStages.add(element);
     return element;
   },
   destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      // WORKAROUND: add method must be accept Cesium.PostProcessStage | Cesium.PostProcessStageComposite
+      // WORKAROUND: add method must be accept PostProcessStage | PostProcessStageComposite
       context.scene.postProcessStages.remove(element as any);
     }
     if (!element.isDestroyed()) {

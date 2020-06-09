@@ -1,4 +1,9 @@
-import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
+import {
+  PointPrimitiveCollection as CesiumPointPrimitiveCollection,
+  Matrix4,
+  BlendOption,
+  PrimitiveCollection,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -18,9 +23,9 @@ A PointPrimitiveCollection object will be attached to the PrimitiveCollection of
 */
 
 export interface PointPrimitiveCollectionCesiumProps {
-  blendOption?: Cesium.BlendOption;
+  blendOption?: BlendOption;
   debugShowBoundingVolume?: boolean;
-  modelMatrix?: Cesium.Matrix4;
+  modelMatrix?: Matrix4;
 }
 
 export interface PointPrimitiveCollectionProps extends PointPrimitiveCollectionCesiumProps {
@@ -34,10 +39,10 @@ const cesiumProps: (keyof PointPrimitiveCollectionCesiumProps)[] = [
 ];
 
 const PointPrimitiveCollection = createCesiumComponent<
-  Cesium.PointPrimitiveCollection,
+  CesiumPointPrimitiveCollection,
   PointPrimitiveCollectionProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
+    primitiveCollection?: PrimitiveCollection;
   }
 >({
   name: "PointPrimitveCollection",

@@ -1,4 +1,12 @@
-import { ImageryLayer as CesiumImageryLayer } from "cesium";
+import {
+  ImageryLayer as CesiumImageryLayer,
+  ImageryProvider,
+  Rectangle,
+  TextureMagnificationFilter,
+  TextureMinificationFilter,
+  ImageryLayerCollection,
+  ImagerySplitDirection,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -39,8 +47,8 @@ Either:
 export interface ImageryLayerCesiumProps {
   alpha?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
@@ -48,8 +56,8 @@ export interface ImageryLayerCesiumProps {
     | number;
   brightness?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
@@ -57,8 +65,8 @@ export interface ImageryLayerCesiumProps {
     | number;
   contrast?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
@@ -66,8 +74,8 @@ export interface ImageryLayerCesiumProps {
     | number;
   hue?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
@@ -75,8 +83,8 @@ export interface ImageryLayerCesiumProps {
     | number;
   saturation?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
@@ -84,8 +92,8 @@ export interface ImageryLayerCesiumProps {
     | number;
   gamma?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
@@ -93,22 +101,22 @@ export interface ImageryLayerCesiumProps {
     | number;
   splitDirection?:
     | ((
-        frameState: any /* Cesium.FrameState */,
-        layer: Cesium.ImageryLayer,
+        frameState: any /* FrameState */,
+        layer: CesiumImageryLayer,
         x: number,
         y: number,
         level: number,
       ) => any)
-    | any /* Cesium.SplitDirection */;
-  minificationFilter?: Cesium.TextureMinificationFilter;
-  magnificationFilter?: Cesium.TextureMagnificationFilter;
-  cutoutRectangle?: Cesium.Rectangle;
+    | ImagerySplitDirection;
+  minificationFilter?: TextureMinificationFilter;
+  magnificationFilter?: TextureMagnificationFilter;
+  cutoutRectangle?: Rectangle;
   show?: boolean;
 }
 
 export interface ImageryLayerCesiumReadonlyProps {
-  imageryProvider: Cesium.ImageryProvider;
-  rectangle?: Cesium.Rectangle;
+  imageryProvider: ImageryProvider;
+  rectangle?: Rectangle;
   maximumAnisotropy?: number;
   minimumTerrainLevel?: number;
   maximumTerrainLevel?: number;
@@ -141,10 +149,10 @@ const cesiumReadonlyProps: (keyof ImageryLayerCesiumReadonlyProps)[] = [
 ];
 
 const ImageryLayer = createCesiumComponent<
-  Cesium.ImageryLayer,
+  CesiumImageryLayer,
   ImageryLayerProps,
   {
-    imageryLayerCollection?: Cesium.ImageryLayerCollection;
+    imageryLayerCollection?: ImageryLayerCollection;
   }
 >({
   name: "ImageryLayer",
@@ -158,7 +166,7 @@ const ImageryLayer = createCesiumComponent<
       hue: props.hue,
       saturation: props.saturation,
       gamma: props.gamma,
-      splitDirection: props.splitDirection, // WORKAROUND
+      splitDirection: props.splitDirection,
       minificationFilter: props.minificationFilter,
       magnificationFilter: props.magnificationFilter,
       show: props.show,
@@ -166,7 +174,7 @@ const ImageryLayer = createCesiumComponent<
       minimumTerrainLevel: props.minimumTerrainLevel,
       maximumTerrainLevel: props.maximumTerrainLevel,
       cutoutRectangle: props.cutoutRectangle,
-    } as any);
+    });
     context.imageryLayerCollection.add(element);
     return element;
   },

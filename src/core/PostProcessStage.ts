@@ -1,3 +1,10 @@
+import {
+  PostProcessStageCollection,
+  PostProcessStage,
+  PostProcessStageComposite,
+  Scene,
+} from "cesium";
+
 import { createCesiumComponent } from "./component";
 import { includes } from "./util";
 
@@ -15,14 +22,14 @@ export const createPostProcessStage = <UniformProps>(opts: {
   noMount?: boolean;
   create(
     props: Readonly<UniformProps & PostProcessStageCesiumProps>,
-    postProcessStages: Cesium.PostProcessStageCollection,
-  ): Cesium.PostProcessStage | Cesium.PostProcessStageComposite;
+    postProcessStages: PostProcessStageCollection,
+  ): PostProcessStage | PostProcessStageComposite;
 }) =>
   createCesiumComponent<
-    Cesium.PostProcessStage | Cesium.PostProcessStageComposite,
+    PostProcessStage | PostProcessStageComposite,
     PostProcessStageCesiumProps & UniformProps & { stages?: any[] },
     {
-      scene?: Cesium.Scene;
+      scene?: Scene;
     }
   >({
     name,
@@ -41,8 +48,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
         }
       });
       if (!opts.noMount && context.scene && !context.scene.isDestroyed()) {
-        // WORKAROUND: add method must be accept Cesium.PostProcessStage | Cesium.PostProcessStageComposite
-        context.scene.postProcessStages.add(element as Cesium.PostProcessStage);
+        context.scene.postProcessStages.add(element);
       }
       return element;
     },

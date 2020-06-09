@@ -1,3 +1,10 @@
+import {
+  ScreenSpaceCameraController as CesiumScreenSpaceCameraController,
+  CameraEventType,
+  KeyboardEventModifier,
+  Scene,
+} from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -25,10 +32,10 @@ export interface ScreenSpaceCameraControllerCesiumProps {
   inertiaTranslate?: number;
   inertiaZoom?: number;
   lookEventTypes?:
-    | Cesium.CameraEventType
-    | Cesium.CameraEventType[]
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
+    | CameraEventType
+    | CameraEventType[]
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
   maximumMovementRatio?: number;
   maximumZoomDistance?: number;
   minimumCollisionTerrainHeight?: number;
@@ -36,25 +43,25 @@ export interface ScreenSpaceCameraControllerCesiumProps {
   minimumTrackBallHeight?: number;
   minimumZoomDistance?: number;
   rotateEventTypes?:
-    | Cesium.CameraEventType
-    | Cesium.CameraEventType[]
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
+    | CameraEventType
+    | CameraEventType[]
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
   tiltEventTypes?:
-    | Cesium.CameraEventType
-    | Cesium.CameraEventType[]
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
+    | CameraEventType
+    | CameraEventType[]
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
   translateEventTypes?:
-    | Cesium.CameraEventType
-    | Cesium.CameraEventType[]
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
+    | CameraEventType
+    | CameraEventType[]
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
   zoomEventTypes?:
-    | Cesium.CameraEventType
-    | Cesium.CameraEventType[]
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }
-    | { eventType: Cesium.CameraEventType; modifier: Cesium.KeyboardEventModifier }[];
+    | CameraEventType
+    | CameraEventType[]
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
+    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
 }
 
 const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
@@ -83,10 +90,10 @@ const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
 ];
 
 const ScreenSpaceCameraController = createCesiumComponent<
-  Cesium.ScreenSpaceCameraController,
+  CesiumScreenSpaceCameraController,
   ScreenSpaceCameraControllerCesiumProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "ScreenSpaceCameraController",

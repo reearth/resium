@@ -1,34 +1,50 @@
-import { Model as CesiumModel } from "cesium";
+import {
+  Model as CesiumModel,
+  ModelMesh,
+  Primitive,
+  ModelNode,
+  Cartesian3,
+  ClippingPlaneCollection,
+  Cartesian2,
+  Color,
+  DistanceDisplayCondition,
+  Matrix4,
+  Resource,
+  ShadowMode,
+  Scene,
+  Credit,
+  PrimitiveCollection,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
 
 export interface ModelCesiumProps {
-  basePath?: Cesium.Resource | string;
+  basePath?: Resource | string;
   show?: boolean;
-  modelMatrix?: Cesium.Matrix4;
+  modelMatrix?: Matrix4;
   scale?: number;
   minimumPixelSize?: number;
   maximumScale?: number;
   id?: any;
   clampAnimations?: boolean;
-  shadows?: Cesium.ShadowMode;
+  shadows?: ShadowMode;
   debugShowBoundingVolume?: boolean;
   debugWireframe?: boolean;
-  scene?: Cesium.Scene;
-  distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
-  color?: Cesium.Color;
-  // @type Cesium.ColorBlendMode
+  scene?: Scene;
+  distanceDisplayCondition?: DistanceDisplayCondition;
+  color?: Color;
+  // @type ColorBlendMode
   colorBlendMode?: any;
   colorBlendAmount?: number;
-  silhouetteColor?: Cesium.Color;
+  silhouetteColor?: Color;
   silhouetteSize?: number;
-  clippingPlanes?: Cesium.ClippingPlaneCollection;
+  clippingPlanes?: ClippingPlaneCollection;
   dequantizeInShader?: boolean;
-  imageBasedLightingFactor?: Cesium.Cartesian2;
-  lightColor?: Cesium.Cartesian3;
+  imageBasedLightingFactor?: Cartesian2;
+  lightColor?: Cartesian3;
   luminanceAtZenith?: number;
-  sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
+  sphericalHarmonicCoefficients?: Cartesian3[];
   specularEnvironmentMaps?: string;
 }
 
@@ -37,8 +53,8 @@ export interface ModelCesiumReadonlyProps {
   asynchronous?: boolean;
   gltf?: object | ArrayBuffer | Uint8Array;
   incrementallyLoadTextures?: boolean;
-  url?: Cesium.Resource | string;
-  credit?: Cesium.Credit | string;
+  url?: Resource | string;
+  credit?: Credit | string;
 }
 
 export interface ModelProps
@@ -46,12 +62,12 @@ export interface ModelProps
     ModelCesiumReadonlyProps,
     EventProps<{
       id?: string;
-      mesh: Cesium.ModelMesh;
-      node: Cesium.ModelNode;
-      primitive: Cesium.Primitive;
+      mesh: ModelMesh;
+      node: ModelNode;
+      primitive: Primitive;
     }> {
   // Calls when the model is completely loaded.
-  onReady?: (model: Cesium.Model) => void;
+  onReady?: (model: CesiumModel) => void;
 }
 
 const cesiumProps: (keyof ModelCesiumProps)[] = [
@@ -92,10 +108,10 @@ const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
 ];
 
 const Model = createCesiumComponent<
-  Cesium.Model,
+  CesiumModel,
   ModelProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
+    primitiveCollection?: PrimitiveCollection;
   }
 >({
   name: "Model",

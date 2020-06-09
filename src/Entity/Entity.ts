@@ -1,24 +1,34 @@
-import { Entity as CesiumEntity } from "cesium";
+import {
+  Entity as CesiumEntity,
+  TimeIntervalCollection,
+  BillboardGraphics,
+  BoxGraphics,
+  CorridorGraphics,
+  CylinderGraphics,
+  Property,
+  EllipseGraphics,
+  EllipsoidGraphics,
+  LabelGraphics,
+  ModelGraphics,
+  Matrix4,
+  PathGraphics,
+  PlaneGraphics,
+  PropertyBag,
+  Cartesian3,
+  PositionProperty,
+  PolylineVolumeGraphics,
+  PolylineGraphics,
+  PolygonGraphics,
+  PointGraphics,
+  RectangleGraphics,
+  WallGraphics,
+  Viewer,
+  EntityCollection,
+  Cesium3DTilesetGraphics,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 import { EventProps } from "../core/EventManager";
-import { BillboardGraphicsCesiumProps } from "../BillboardGraphics/BillboardGraphics";
-import { BoxGraphicsCesiumProps } from "../BoxGraphics/BoxGraphics";
-import { CorridorGraphicsCesiumProps } from "../CorridorGraphics/CorridorGraphics";
-import { CylinderGraphicsCesiumProps } from "../CylinderGraphics/CylinderGraphics";
-import { EllipseGraphicsCesiumProps } from "../EllipseGraphics/EllipseGraphics";
-import { EllipsoidGraphicsCesiumProps } from "../EllipsoidGraphics/EllipsoidGraphics";
-import { LabelGraphicsCesiumProps } from "../LabelGraphics/LabelGraphics";
-import { ModelGraphicsCesiumProps } from "../ModelGraphics/ModelGraphics";
-import { PathGraphicsCesiumProps } from "../PathGraphics/PathGraphics";
-import { PlaneGraphicsCesiumProps } from "../PlaneGraphics/PlaneGraphics";
-import { PointGraphicsCesiumProps } from "../PointGraphics/PointGraphics";
-import { PolygonGraphicsCesiumProps } from "../PolygonGraphics/PolygonGraphics";
-import { PolylineGraphicsCesiumProps } from "../PolylineGraphics/PolylineGraphics";
-import { PolylineVolumeGraphicsCesiumProps } from "../PolylineVolumeGraphics/PolylineVolumeGraphics";
-import { RectangleGraphicsCesiumProps } from "../RectangleGraphics/RectangleGraphics";
-import { WallGraphicsCesiumProps } from "../WallGraphics/WallGraphics";
-
 /*
 @summary
 `Entity` is a basic component for geographical data visualization.
@@ -79,45 +89,36 @@ Either:
 */
 
 export interface EntityCesiumProps {
-  availability?: Cesium.TimeIntervalCollection;
-  billboard?: Cesium.BillboardGraphics | BillboardGraphicsCesiumProps;
-  box?: Cesium.BoxGraphics | BoxGraphicsCesiumProps;
-  corridor?: Cesium.CorridorGraphics | CorridorGraphicsCesiumProps;
-  cylinder?: Cesium.CylinderGraphics | CylinderGraphicsCesiumProps;
-  description?: Cesium.Property | any;
-  ellipse?: Cesium.EllipseGraphics | EllipseGraphicsCesiumProps;
-  ellipsoid?: Cesium.EllipsoidGraphics | EllipsoidGraphicsCesiumProps;
-  label?: Cesium.LabelGraphics | LabelGraphicsCesiumProps;
-  model?: Cesium.ModelGraphics | ModelGraphicsCesiumProps;
   name?: string;
-  orientation?: Cesium.Property | Cesium.Matrix4;
-  path?: Cesium.PathGraphics | PathGraphicsCesiumProps;
-  // @type Cesium.PlaneGraphics | PlaneGraphicsCesiumProps
-  plane?:
-    | {
-        plane: Cesium.Property;
-        dimensions: Cesium.Property | Cesium.Cartesian2;
-        show: Cesium.Property | boolean;
-        fill: Cesium.Property | boolean;
-        material: Cesium.MaterialProperty | Cesium.Color | string;
-        outline: Cesium.Property | boolean;
-        outlineColor?: Cesium.Property | Cesium.Color;
-        outlineWidth?: Cesium.Property | number;
-        shadows?: Cesium.Property | Cesium.ShadowMode;
-        distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-      }
-    | PlaneGraphicsCesiumProps;
-  point?: Cesium.PointGraphics | PointGraphicsCesiumProps;
-  polygon?: Cesium.PolygonGraphics | PolygonGraphicsCesiumProps;
-  polyline?: Cesium.PolylineGraphics | PolylineGraphicsCesiumProps;
-  polylineVolume?: Cesium.PolylineVolumeGraphics | PolylineVolumeGraphicsCesiumProps;
-  position?: Cesium.PositionProperty | Cesium.Cartesian3;
-  // @type Cesium.PropertyBag
-  properties?: any;
-  rectangle?: Cesium.RectangleGraphics | RectangleGraphicsCesiumProps;
+  availability?: TimeIntervalCollection;
   show?: boolean;
-  viewFrom?: Cesium.Property | Cesium.Cartesian3;
-  wall?: Cesium.WallGraphics | WallGraphicsCesiumProps;
+  description?: Property | string;
+  position?: PositionProperty | Cartesian3;
+  orientation?: Property | Matrix4;
+  viewFrom?: Property;
+  parent?: CesiumEntity;
+  billboard?: BillboardGraphics | BillboardGraphics.ConstructorOptions;
+  box?: BoxGraphics | BoxGraphics.ConstructorOptions;
+  corridor?: CorridorGraphics | CorridorGraphics.ConstructorOptions;
+  cylinder?: CylinderGraphics | CylinderGraphics.ConstructorOptions;
+  ellipse?: EllipseGraphics | EllipseGraphics.ConstructorOptions;
+  ellipsoid?: EllipsoidGraphics | EllipsoidGraphics.ConstructorOptions;
+  label?: LabelGraphics | LabelGraphics.ConstructorOptions;
+  model?: ModelGraphics | ModelGraphics.ConstructorOptions;
+  tileset?: Cesium3DTilesetGraphics | Cesium3DTilesetGraphics.ConstructorOptions;
+  path?: PathGraphics | PathGraphics.ConstructorOptions;
+  plane?: PlaneGraphics | PlaneGraphics.ConstructorOptions;
+  point?: PointGraphics | PointGraphics.ConstructorOptions;
+  polygon?: PolygonGraphics | PolygonGraphics.ConstructorOptions;
+  polyline?: PolylineGraphics | PolylineGraphics.ConstructorOptions;
+  properties?:
+    | PropertyBag
+    | {
+        [key: string]: any;
+      };
+  polylineVolume?: PolylineVolumeGraphics | PolylineVolumeGraphics.ConstructorOptions;
+  rectangle?: RectangleGraphics | RectangleGraphics.ConstructorOptions;
+  wall?: WallGraphics | WallGraphics.ConstructorOptions;
 }
 
 export interface EntityCesiumReadonlyProps {
@@ -132,7 +133,7 @@ export interface EntityProps
   extends EntityCesiumProps,
     EntityCesiumReadonlyProps,
     EntityCesiumEvents,
-    EventProps<Cesium.Entity> {
+    EventProps<CesiumEntity> {
   children?: React.ReactNode;
   // If true, the entity will be selected. It works only inside Viewer not CesiumWidget.
   selected?: boolean;
@@ -169,22 +170,22 @@ const cesiumProps: (keyof EntityCesiumProps)[] = [
 
 const cesiumReadonlyProps: (keyof EntityCesiumReadonlyProps)[] = ["id"];
 
-const cesiumEventProps: EventkeyMap<Cesium.Entity, EntityCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumEntity, EntityCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const Entity = createCesiumComponent<
-  Cesium.Entity,
+  CesiumEntity,
   EntityProps,
   {
-    entityCollection?: Cesium.EntityCollection;
-    viewer?: Cesium.Viewer;
+    entityCollection?: EntityCollection;
+    viewer?: Viewer;
   }
 >({
   name: "Entity",
   create(context, props) {
     if (!context.entityCollection) return;
-    const element = new CesiumEntity(props as any); // WORKAROUND: orientation
+    const element = new CesiumEntity(props as any); // TODO: orientation prop type
     if (context.viewer && props.selected) {
       context.viewer.selectedEntity = element;
     }
@@ -205,7 +206,7 @@ const Entity = createCesiumComponent<
         if (props.selected) {
           context.viewer.selectedEntity = element;
         } else if (context.viewer.selectedEntity === element) {
-          (context.viewer as any).selectedEntity = undefined; // WORKAROUND
+          context.viewer.selectedEntity = undefined;
         }
       }
 
@@ -213,7 +214,7 @@ const Entity = createCesiumComponent<
         if (props.tracked) {
           context.viewer.trackedEntity = element;
         } else if (context.viewer.trackedEntity === element) {
-          (context.viewer as any).trackedEntity = undefined; // WORKAROUND
+          context.viewer.trackedEntity = undefined;
         }
       }
     }

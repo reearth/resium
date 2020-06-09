@@ -1,4 +1,4 @@
-import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler } from "cesium";
+import { Entity, ScreenSpaceEventType, ScreenSpaceEventHandler, Scene, Cartesian2 } from "cesium";
 
 import { pickedObjectEquals, entries, includes } from "./util";
 
@@ -32,9 +32,9 @@ export interface RootEventProps extends EventProps<any> {
 type EventMap<T> = { [k in EventType]: T };
 
 export interface CesiumMovementEvent {
-  position?: Cesium.Cartesian2;
-  startPosition?: Cesium.Cartesian2;
-  endPosition?: Cesium.Cartesian2;
+  position?: Cartesian2;
+  startPosition?: Cartesian2;
+  endPosition?: Cartesian2;
 }
 
 export type Callback<T = any> = (e: CesiumMovementEvent, source: T) => void;
@@ -80,7 +80,7 @@ export default class EventManager {
     onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
   };
 
-  private scene: Cesium.Scene;
+  private scene: Scene;
   private sshe: ScreenSpaceEventHandler;
   private events: EventMap<Map<any, Callback>> = {
     onClick: new Map(),
@@ -103,7 +103,7 @@ export default class EventManager {
   };
   private hovered: any = undefined;
 
-  public constructor(scene: Cesium.Scene) {
+  public constructor(scene: Scene) {
     this.scene = scene;
     this.sshe = new ScreenSpaceEventHandler(scene?.canvas as HTMLCanvasElement);
   }
@@ -164,7 +164,8 @@ export default class EventManager {
         this.events.onMouseMove.size === 0
       ) {
         this.sshe.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
-      } else if (!this.sshe.getInputAction(ScreenSpaceEventType.MOUSE_MOVE)) {
+      } else if (!(this.sshe.getInputAction(ScreenSpaceEventType.MOUSE_MOVE) as any)) {
+        // TODO: getInputAction is wrong type
         this.sshe.setInputAction(this.onMouseMove as any, ScreenSpaceEventType.MOUSE_MOVE);
       }
     }
@@ -179,7 +180,8 @@ export default class EventManager {
       if (!destroyed) {
         if (m.size === 0) {
           sshe.removeInputAction(cesiumEventType);
-        } else if (!sshe.getInputAction(cesiumEventType)) {
+        } else if (!(sshe.getInputAction(cesiumEventType) as any)) {
+          // TODO: getInputAction is wrong type
           sshe.setInputAction(this.eventCallback(et) as any, cesiumEventType);
         }
       }
@@ -248,7 +250,7 @@ export default class EventManager {
     };
   };
 
-  private pick(pos?: Cesium.Cartesian2): any | undefined {
+  private pick(pos?: Cartesian2): any | undefined {
     if (!pos) {
       return undefined;
     }

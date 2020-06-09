@@ -1,5 +1,5 @@
 import React from "react";
-import { ArcGisMapServerImageryProvider, IonImageryProvider } from "cesium";
+import { ArcGisMapServerImageryProvider, IonImageryProvider, ImageryProvider } from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import Viewer from "../Viewer";
@@ -9,11 +9,14 @@ storiesOf("ImageryLayer", module).add("Basic", () => (
   <Viewer full>
     <ImageryLayer
       imageryProvider={
-        new ArcGisMapServerImageryProvider({
+        (new ArcGisMapServerImageryProvider({
           url: "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
-        })
+        }) as unknown) as ImageryProvider
       }
     />
-    <ImageryLayer alpha={0.5} imageryProvider={new IonImageryProvider({ assetId: 3812 })} />
+    <ImageryLayer
+      alpha={0.5}
+      imageryProvider={(new IonImageryProvider({ assetId: 3812 }) as unknown) as ImageryProvider}
+    />
   </Viewer>
 ));

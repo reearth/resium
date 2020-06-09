@@ -1,4 +1,8 @@
-import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
+import {
+  ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler,
+  Scene,
+  CesiumWidget,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -21,11 +25,11 @@ export interface ScreenSpaceEventHandlerProps {
 }
 
 const ScreenSpaceEventHandler = createCesiumComponent<
-  Cesium.ScreenSpaceEventHandler,
+  CesiumScreenSpaceEventHandler,
   ScreenSpaceEventHandlerProps,
   {
-    scene?: Cesium.Scene;
-    cesiumWidget?: Cesium.CesiumWidget;
+    scene?: Scene;
+    cesiumWidget?: CesiumWidget;
   }
 >({
   name: "ScreenSpaceEventHandler",

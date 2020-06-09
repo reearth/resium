@@ -1,4 +1,15 @@
-import { RectangleGraphics as CesiumRectangleGraphics } from "cesium";
+import {
+  RectangleGraphics as CesiumRectangleGraphics,
+  Property,
+  ClassificationType,
+  DistanceDisplayCondition,
+  ShadowMode,
+  Color,
+  MaterialProperty,
+  HeightReference,
+  Rectangle,
+  Entity,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,24 +25,24 @@ and can not be used more than once for each entity.
 */
 
 export interface RectangleGraphicsCesiumProps {
-  coordinates?: Cesium.Property | Cesium.Rectangle;
-  height?: Cesium.Property | number;
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  extrudedHeight?: Cesium.Property | number;
-  extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  rotation?: Cesium.Property | number;
-  stRotation?: Cesium.Property | number;
-  granularity?: Cesium.Property | number;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-  zIndex?: Cesium.Property | number;
-  classificationType?: Cesium.Property | Cesium.ClassificationType;
+  coordinates?: Property | Rectangle;
+  height?: Property | number;
+  heightReference?: Property | HeightReference;
+  extrudedHeight?: Property | number;
+  extrudedHeightReference?: Property | HeightReference;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  rotation?: Property | number;
+  stRotation?: Property | number;
+  granularity?: Property | number;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
+  zIndex?: Property | number;
+  classificationType?: Property | ClassificationType;
 }
 
 export interface RectangleGraphicsCesiumEvents {
@@ -62,15 +73,15 @@ const cesiumProps: (keyof RectangleGraphicsCesiumProps)[] = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.RectangleGraphics, RectangleGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumRectangleGraphics, RectangleGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const RectangleGraphics = createCesiumComponent<
-  Cesium.RectangleGraphics,
+  CesiumRectangleGraphics,
   RectangleGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "RectangleGraphics",

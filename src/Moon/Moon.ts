@@ -1,4 +1,4 @@
-import { Moon as CesiumMoon } from "cesium";
+import { Moon as CesiumMoon, Scene, Ellipsoid } from "cesium";
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -20,7 +20,7 @@ export interface MoonCesiumProps {
 }
 
 export interface MoonCesiumReadonlyProps {
-  ellipsoid?: Cesium.Ellipsoid;
+  ellipsoid?: Ellipsoid;
 }
 
 export interface MoonProps extends MoonCesiumProps, MoonCesiumReadonlyProps {}
@@ -30,10 +30,10 @@ const cesiumProps: (keyof MoonCesiumProps)[] = ["onlySunLighting", "show", "text
 const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
 
 const Moon = createCesiumComponent<
-  Cesium.Moon,
+  CesiumMoon,
   MoonProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "Moon",

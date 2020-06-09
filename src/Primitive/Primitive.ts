@@ -1,4 +1,11 @@
-import { Primitive as CesiumPrimitive } from "cesium";
+import {
+  Primitive as CesiumPrimitive,
+  Appearance,
+  ShadowMode,
+  Matrix4,
+  GeometryInstance,
+  PrimitiveCollection,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
@@ -18,12 +25,12 @@ A primitive object will be attached to the PrimitiveCollection of the Viewer or 
 */
 
 export interface PrimitiveCesiumProps {
-  appearance?: Cesium.Appearance;
+  appearance?: Appearance;
   cull?: boolean;
   debugShowBoundingVolume?: boolean;
-  depthFailAppearance?: Cesium.Appearance;
-  modelMatrix?: Cesium.Matrix4;
-  shadows?: Cesium.ShadowMode;
+  depthFailAppearance?: Appearance;
+  modelMatrix?: Matrix4;
+  shadows?: ShadowMode;
   show?: boolean;
 }
 
@@ -31,7 +38,7 @@ export interface PrimitiveCesiumReadonlyProps {
   allowPicking?: boolean;
   asynchronous?: boolean;
   compressVertices?: boolean;
-  geometryInstances?: Cesium.GeometryInstance[] | Cesium.GeometryInstance;
+  geometryInstances?: GeometryInstance[] | GeometryInstance;
   interleave?: boolean;
   releaseGeometryInstances?: boolean;
   vertexCacheOptimize?: boolean;
@@ -40,9 +47,9 @@ export interface PrimitiveCesiumReadonlyProps {
 export interface PrimitiveProps
   extends PrimitiveCesiumProps,
     PrimitiveCesiumReadonlyProps,
-    EventProps<Cesium.Primitive> {
+    EventProps<CesiumPrimitive> {
   // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/Primitive.html#readyPromise) is fullfilled
-  onReady?: (primitive: Cesium.Primitive) => void;
+  onReady?: (primitive: CesiumPrimitive) => void;
 }
 
 const cesiumProps: (keyof PrimitiveCesiumProps)[] = [
@@ -66,10 +73,10 @@ const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
 ];
 
 const Primitive = createCesiumComponent<
-  Cesium.Primitive,
+  CesiumPrimitive,
   PrimitiveProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
+    primitiveCollection?: PrimitiveCollection;
   }
 >({
   name: "Primitive",

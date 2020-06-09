@@ -1,5 +1,19 @@
 import React from "react";
-import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import {
+  CesiumWidget as CesiumCesiumWidget,
+  ImageryProvider,
+  TerrainProvider,
+  Clock,
+  SkyBox,
+  SkyAtmosphere,
+  SceneMode,
+  MapMode2D,
+  MapProjection,
+  ShadowMode,
+  Globe,
+  Camera,
+  Scene,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
@@ -30,24 +44,24 @@ export interface CesiumWidgetCesiumProps {
 }
 
 export interface CesiumWidgetCesiumReadonlyProps {
-  clock?: Cesium.Clock;
-  imageryProvider?: Cesium.ImageryProvider;
-  terrainProvider?: Cesium.TerrainProvider;
-  skyBox?: Cesium.SkyBox;
-  skyAtmosphere?: Cesium.SkyAtmosphere;
-  sceneMode?: Cesium.SceneMode;
+  clock?: Clock;
+  imageryProvider?: ImageryProvider;
+  terrainProvider?: TerrainProvider;
+  skyBox?: SkyBox;
+  skyAtmosphere?: SkyAtmosphere;
+  sceneMode?: SceneMode;
   scene3DOnly?: boolean;
   orderIndependentTranslucency?: boolean;
-  mapMode2D?: Cesium.MapMode2D;
-  mapProjection?: Cesium.MapProjection;
-  globe?: Cesium.Globe;
+  mapMode2D?: MapMode2D;
+  mapProjection?: MapProjection;
+  globe?: Globe;
   showRenderLoopErrors?: boolean;
   contextOptions?: WebGLContextAttributes;
   creditContainer?: Element | string;
   creditViewport?: Element | string;
   terrainExaggeration?: number;
   shadows?: boolean;
-  terrainShadows?: Cesium.ShadowMode;
+  terrainShadows?: ShadowMode;
   requestRenderMode?: boolean;
   maximumRenderTimeChange?: number;
 }
@@ -100,14 +114,14 @@ export interface CesiumWidgetProps
 }
 
 const CesiumWidget = createCesiumComponent<
-  Cesium.CesiumWidget,
+  CesiumCesiumWidget,
   CesiumWidgetProps,
-  {},
+  undefined,
   {
-    cesiumWidget: Cesium.CesiumWidget;
-    scene: Cesium.Scene;
-    globe: Cesium.Globe;
-    camera: Cesium.Camera;
+    cesiumWidget: CesiumCesiumWidget;
+    scene: Scene;
+    globe: Globe;
+    camera: Camera;
     [eventManagerContextKey]?: EventManager;
   },
   EventManager

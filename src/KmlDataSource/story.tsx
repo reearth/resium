@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
-import { Color } from "cesium";
+import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
 
 import Viewer from "../Viewer";
 import KmlDataSource from "./KmlDataSource";
@@ -57,9 +57,12 @@ const data = new DOMParser().parseFromString(
 
 const onLoadAction = action("onLoad");
 
-const onLoad = (k: Cesium.KmlDataSource) => {
+const onLoad = (k: CesiumKmlDataSource) => {
   // You can process the data source here
-  k.entities.values[4].polygon.material = Color.RED;
+  const p = k.entities.values[4].polygon;
+  if (p) {
+    p.material = Color.RED as any;
+  }
   onLoadAction(k);
 };
 

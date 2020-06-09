@@ -41,7 +41,10 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
   Element,
   Props
 > => {
-  const component: React.FC<Props> = (props, ref) => {
+  const component: React.ForwardRefRenderFunction<CesiumComponentRef<Element>, Props> = (
+    props,
+    ref,
+  ) => {
     const mergedProps = {
       ...defaultProps,
       ...props,
@@ -72,5 +75,5 @@ export const createCesiumComponent = <Element, Props, Context, ProvidecContext =
 
   component.displayName = options.name;
 
-  return forwardRef<CesiumComponentRef<Element>, Props>(component);
+  return forwardRef(component);
 };

@@ -1,4 +1,16 @@
-import { CorridorGraphics as CesiumCorridorGraphics } from "cesium";
+import {
+  CorridorGraphics as CesiumCorridorGraphics,
+  Property,
+  Cartesian3,
+  CornerType,
+  HeightReference,
+  MaterialProperty,
+  Color,
+  DistanceDisplayCondition,
+  ClassificationType,
+  ConstantProperty,
+  Entity,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,24 +26,24 @@ and can not be used more than once for each entity.
 */
 
 export interface CorridorGraphicsCesiumProps {
-  positions?: Cesium.Property | Cesium.Cartesian3[];
-  width?: Cesium.Property | number;
-  cornerType?: Cesium.Property | Cesium.CornerType;
-  height?: Cesium.Property | number;
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  extrudedHeight?: Cesium.Property | number;
-  extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  granularity?: Cesium.Property | number;
-  shadows?: Cesium.Property | boolean;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-  zIndex?: Cesium.ConstantProperty | number;
-  classificationType?: Cesium.Property | Cesium.ClassificationType;
+  positions?: Property | Cartesian3[];
+  width?: Property | number;
+  cornerType?: Property | CornerType;
+  height?: Property | number;
+  heightReference?: Property | HeightReference;
+  extrudedHeight?: Property | number;
+  extrudedHeightReference?: Property | HeightReference;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  granularity?: Property | number;
+  shadows?: Property | boolean;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
+  zIndex?: ConstantProperty | number;
+  classificationType?: Property | ClassificationType;
 }
 
 export interface CorridorCesiumEvents {
@@ -61,30 +73,30 @@ const cesiumProps: (keyof CorridorGraphicsCesiumProps)[] = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CorridorGraphics, CorridorCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumCorridorGraphics, CorridorCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const CorridorGraphics = createCesiumComponent<
-  Cesium.CorridorGraphics,
+  CesiumCorridorGraphics,
   CorridorGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "CorridorGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumCorridorGraphics(props as any); // WORKAROUND
+    const element = new CesiumCorridorGraphics(props as any);
     if (props.classificationType) {
-      (element as any).classificationType = props.classificationType; // WORKAROUND
+      element.classificationType = props.classificationType as any;
     }
     context.entity.corridor = element;
     return element;
   },
   destroy(element, context) {
     if (context.entity) {
-      context.entity.corridor = undefined as any;
+      context.entity.corridor = undefined;
     }
   },
   cesiumProps,

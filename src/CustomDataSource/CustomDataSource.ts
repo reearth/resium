@@ -1,4 +1,9 @@
-import { CustomDataSource as CesiumCustomDataSource } from "cesium";
+import {
+  CustomDataSource as CesiumCustomDataSource,
+  DataSourceClock,
+  EntityCluster,
+  DataSourceCollection,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -15,16 +20,16 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export interface CustomDataSourceCesiumProps {
-  clustering?: Cesium.EntityCluster;
+  clustering?: EntityCluster;
   name?: string;
   show?: boolean;
-  clock?: Cesium.DataSourceClock;
+  clock?: DataSourceClock;
 }
 
 export interface CustomDataSourceCesiumEvents {
-  onChange?: (customDataSource: Cesium.CustomDataSource) => void;
-  onError?: (customDataSource: Cesium.CustomDataSource, error: any) => void;
-  onLoading?: (customDataSource: Cesium.CustomDataSource, isLoaded: boolean) => void;
+  onChange?: (customDataSource: CesiumCustomDataSource) => void;
+  onError?: (customDataSource: CesiumCustomDataSource, error: any) => void;
+  onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
 }
 
 export interface CustomDataSourceProps
@@ -35,17 +40,17 @@ export interface CustomDataSourceProps
 
 const cesiumProps: (keyof CustomDataSourceCesiumProps)[] = ["clustering", "name", "show", "clock"];
 
-const cesiumEventProps: EventkeyMap<Cesium.CustomDataSource, CustomDataSourceCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumCustomDataSource, CustomDataSourceCesiumEvents> = {
   onChange: "changedEvent",
   onError: "ErrorEvent" as any,
   onLoading: "loadingEvent",
 };
 
 const CustomDataSource = createCesiumComponent<
-  Cesium.CustomDataSource,
+  CesiumCustomDataSource,
   CustomDataSourceProps,
   {
-    dataSourceCollection?: Cesium.DataSourceCollection;
+    dataSourceCollection?: DataSourceCollection;
   }
 >({
   name: "CustomDataSource",

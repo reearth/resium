@@ -1,4 +1,11 @@
-import { PathGraphics as CesiumPathGraphics } from "cesium";
+import {
+  PathGraphics as CesiumPathGraphics,
+  Entity,
+  Property,
+  DistanceDisplayCondition,
+  Color,
+  MaterialProperty,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,13 +21,13 @@ and can not be used more than once for each entity.
 */
 
 export interface PathGraphicsCesiumProps {
-  leadTime?: Cesium.Property | number;
-  trailTime?: Cesium.Property | number;
-  show?: Cesium.Property | boolean;
-  width?: Cesium.Property | number;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  resolution?: Cesium.Property | number;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
+  leadTime?: Property | number;
+  trailTime?: Property | number;
+  show?: Property | boolean;
+  width?: Property | number;
+  material?: MaterialProperty | Color | string;
+  resolution?: Property | number;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
 }
 
 export interface PathGraphicsCesiumEvents {
@@ -39,15 +46,15 @@ const cesiumProps: (keyof PathGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PathGraphics, PathGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumPathGraphics, PathGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const PathGraphics = createCesiumComponent<
-  Cesium.PathGraphics,
+  CesiumPathGraphics,
   PathGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "PathGraphics",

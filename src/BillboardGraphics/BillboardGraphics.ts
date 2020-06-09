@@ -1,4 +1,17 @@
-import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
+import {
+  BillboardGraphics as CesiumBillboardGraphics,
+  VerticalOrigin,
+  HorizontalOrigin,
+  Cartesian3,
+  Property,
+  Cartesian2,
+  Color,
+  NearFarScalar,
+  BoundingRectangle,
+  HeightReference,
+  DistanceDisplayCondition,
+  Entity,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,26 +27,26 @@ and can not be used more than once for each entity.
 */
 
 export interface BillboardGraphicsCesiumProps {
-  image?: Cesium.Property | ImageData | string | HTMLCanvasElement;
-  show?: Cesium.Property | boolean;
-  scale?: Cesium.Property | number;
-  horizontalOrigin?: Cesium.Property | Cesium.HorizontalOrigin;
-  verticalOrigin?: Cesium.Property | Cesium.VerticalOrigin;
-  eyeOffset?: Cesium.Property | Cesium.Cartesian3;
-  pixelOffset?: Cesium.Property | Cesium.Cartesian2;
-  rotation?: Cesium.Property | number;
-  alignedAxis?: Cesium.Property | Cesium.Cartesian3;
-  width?: Cesium.Property | number;
-  height?: Cesium.Property | number;
-  color?: Cesium.Property | Cesium.Color;
-  scaleByDistance?: Cesium.Property | Cesium.NearFarScalar;
-  translucencyByDistance?: Cesium.Property | Cesium.NearFarScalar;
-  pixelOffsetScaleByDistance?: Cesium.Property | Cesium.NearFarScalar;
-  imageSubRegion?: Cesium.Property | Cesium.BoundingRectangle;
-  sizeInMeters?: Cesium.Property | boolean;
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-  disableDepthTestDistance?: Cesium.Property | number;
+  image?: Property | ImageData | string | HTMLCanvasElement;
+  show?: Property | boolean;
+  scale?: Property | number;
+  horizontalOrigin?: Property | HorizontalOrigin;
+  verticalOrigin?: Property | VerticalOrigin;
+  eyeOffset?: Property | Cartesian3;
+  pixelOffset?: Property | Cartesian2;
+  rotation?: Property | number;
+  alignedAxis?: Property | Cartesian3;
+  width?: Property | number;
+  height?: Property | number;
+  color?: Property | Color;
+  scaleByDistance?: Property | NearFarScalar;
+  translucencyByDistance?: Property | NearFarScalar;
+  pixelOffsetScaleByDistance?: Property | NearFarScalar;
+  imageSubRegion?: Property | BoundingRectangle;
+  sizeInMeters?: Property | boolean;
+  heightReference?: Property | HeightReference;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
+  disableDepthTestDistance?: Property | number;
 }
 
 export interface BillboardGraphicsCesiumEvents {
@@ -67,15 +80,15 @@ const cesiumProps: (keyof BillboardGraphicsCesiumProps)[] = [
   "disableDepthTestDistance",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BillboardGraphics, BillboardGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumBillboardGraphics, BillboardGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const BillboardGraphics = createCesiumComponent<
-  Cesium.BillboardGraphics,
+  CesiumBillboardGraphics,
   BillboardGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "BillboardGraphics",

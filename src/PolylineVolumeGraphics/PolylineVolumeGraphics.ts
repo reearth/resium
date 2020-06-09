@@ -1,4 +1,15 @@
-import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
+import {
+  PolylineVolumeGraphics as CesiumPolylineVolumeGraphics,
+  Entity,
+  Property,
+  CornerType,
+  Cartesian2,
+  Cartesian3,
+  MaterialProperty,
+  Color,
+  ShadowMode,
+  DistanceDisplayCondition,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,18 +25,18 @@ and can not be used more than once for each entity.
 */
 
 export interface PolylineVolumeGraphicsCesiumProps {
-  positions?: Cesium.Property | Cesium.Cartesian3[];
-  shape?: Cesium.Property | Cesium.Cartesian2[];
-  cornerType?: Cesium.Property | Cesium.CornerType;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  granularity?: Cesium.Property | number;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
+  positions?: Property | Cartesian3[];
+  shape?: Property | Cartesian2[];
+  cornerType?: Property | CornerType;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  granularity?: Property | number;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
 }
 
 export interface PolylineVolumeGraphicsCesiumEvents {
@@ -52,17 +63,17 @@ const cesiumProps: (keyof PolylineVolumeGraphicsCesiumProps)[] = [
 ];
 
 const cesiumEventProps: EventkeyMap<
-  Cesium.PolylineVolumeGraphics,
+  CesiumPolylineVolumeGraphics,
   PolylineVolumeGraphicsCesiumEvents
 > = {
   onDefinitionChange: "definitionChanged",
 };
 
 const PolylineVolumeGraphics = createCesiumComponent<
-  Cesium.PolylineVolumeGraphics,
+  CesiumPolylineVolumeGraphics,
   PolylineVolumeGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "PolylineVolumeGraphics",

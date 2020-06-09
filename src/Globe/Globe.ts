@@ -1,4 +1,13 @@
 import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  Globe as CesiumGlobe,
+  Color,
+  ClippingPlaneCollection,
+  Material,
+  ShadowMode,
+  TerrainProvider,
+  Scene,
+} from "cesium";
 
 /*
 @summary
@@ -39,43 +48,37 @@ Globe is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compon
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface ResiumGlobe extends Cesium.Globe {
-  imageryLayersUpdatedEvent: Cesium.Event<[]>;
-  terrainProviderChanged: Cesium.Event<[Cesium.TerrainProvider]>;
-  tileLoadProgressEvent: Cesium.Event<[number]>;
-}
-
 export interface GlobeCesiumProps {
   atmosphereBrightnessShift?: number;
   atmosphereHueShift?: number;
   atmosphereSaturationShift?: number;
   backFaceCulling?: boolean;
-  baseColor?: Cesium.Color;
-  clippingPlanes?: Cesium.ClippingPlaneCollection;
+  baseColor?: Color;
+  clippingPlanes?: ClippingPlaneCollection;
   depthTestAgainstTerrain?: boolean;
   enableLighting?: boolean;
   lightingFadeInDistance?: number;
   lightingFadeOutDistance?: number;
-  material?: Cesium.Material;
+  material?: Material;
   maximumScreenSpaceError?: number;
   nightFadeInDistance?: number;
   nightFadeOutDistance?: number;
   oceanNormalMapUrl?: string;
-  shadows?: Cesium.ShadowMode;
+  shadows?: ShadowMode;
   show?: boolean;
   showGroundAtmosphere?: boolean;
   showWaterEffect?: boolean;
-  terrainProvider?: Cesium.TerrainProvider;
+  terrainProvider?: TerrainProvider;
   tileCacheSize?: number;
 }
 
 export interface GlobeCesiumEvents {
   onImageryLayersUpdate?: () => void;
-  onTerrainProviderChange?: (terrainProvider: Cesium.TerrainProvider) => void;
+  onTerrainProviderChange?: (terrainProvider: TerrainProvider) => void;
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 }
 
-const cesiumEventProps: EventkeyMap<ResiumGlobe, GlobeCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumGlobe, GlobeCesiumEvents> = {
   onImageryLayersUpdate: "imageryLayersUpdatedEvent",
   onTerrainProviderChange: "terrainProviderChanged",
   onTileLoadProgress: "tileLoadProgressEvent",
@@ -108,14 +111,14 @@ const cesiumProps: (keyof GlobeCesiumProps)[] = [
 ];
 
 const Globe = createCesiumComponent<
-  ResiumGlobe,
+  CesiumGlobe,
   GlobeProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "Globe",
-  create: context => context.scene?.globe as ResiumGlobe | undefined,
+  create: context => context.scene?.globe,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

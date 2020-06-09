@@ -1,3 +1,17 @@
+import {
+  Color,
+  Cartesian2,
+  DistanceDisplayCondition,
+  Cartesian3,
+  HeightReference,
+  HorizontalOrigin,
+  NearFarScalar,
+  LabelStyle,
+  VerticalOrigin,
+  Label as CesiumLabel,
+  LabelCollection,
+} from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
 
@@ -16,32 +30,32 @@ A label object will be attached to the parent LabelCollection.
 */
 
 export interface LabelCesiumProps {
-  backgroundColor?: Cesium.Color;
-  backgroundPadding?: Cesium.Cartesian2;
+  backgroundColor?: Color;
+  backgroundPadding?: Cartesian2;
   disableDepthTestDistance?: number;
-  distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
-  eyeOffset?: Cesium.Cartesian3;
-  fillColor?: Cesium.Color;
+  distanceDisplayCondition?: DistanceDisplayCondition;
+  eyeOffset?: Cartesian3;
+  fillColor?: Color;
   font?: string;
-  heightReference?: Cesium.HeightReference;
-  horizontalOrigin?: Cesium.HorizontalOrigin;
+  heightReference?: HeightReference;
+  horizontalOrigin?: HorizontalOrigin;
   id?: any;
-  outlineColor?: Cesium.Color;
+  outlineColor?: Color;
   outlineWidth?: number;
-  pixelOffset?: Cesium.Cartesian2;
-  pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
-  position?: Cesium.Cartesian3;
+  pixelOffset?: Cartesian2;
+  pixelOffsetScaleByDistance?: NearFarScalar;
+  position?: Cartesian3;
   scale?: number;
-  scaleByDistance?: Cesium.NearFarScalar;
+  scaleByDistance?: NearFarScalar;
   show?: boolean;
   showBackground?: boolean;
-  style?: Cesium.LabelStyle;
+  style?: LabelStyle;
   text?: string;
-  translucencyByDistance?: Cesium.NearFarScalar;
-  verticalOrigin?: Cesium.VerticalOrigin;
+  translucencyByDistance?: NearFarScalar;
+  verticalOrigin?: VerticalOrigin;
 }
 
-export interface LabelProps extends LabelCesiumProps, EventProps<Cesium.Label> {}
+export interface LabelProps extends LabelCesiumProps, EventProps<CesiumLabel> {}
 
 const cesiumProps: (keyof LabelCesiumProps)[] = [
   "backgroundColor",
@@ -70,10 +84,10 @@ const cesiumProps: (keyof LabelCesiumProps)[] = [
 ];
 
 const Label = createCesiumComponent<
-  Cesium.Label,
+  CesiumLabel,
   LabelProps,
   {
-    labelCollection?: Cesium.LabelCollection;
+    labelCollection?: LabelCollection;
   }
 >({
   name: "Label",
