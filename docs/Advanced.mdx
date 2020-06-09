@@ -25,10 +25,11 @@ export default ExampleComponent;
 In TypeScript:
 
 ```tsx
+import { Viewer } from "cesium";
 import { useCesium } from "resium";
 
 const ExampleComponent = () => {
-  const context = useCesium<{ viewer?: Cesium.Viewer }>();
+  const context = useCesium<{ viewer?: Viewer }>();
   return (
     <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>
   );
@@ -41,9 +42,9 @@ Structure of the context is as following. It changes according to the location o
 
 ```js
 {
-  viewer: Cesium.Viewer | undefined,
-  cesiumWidget: Cesium.CesiumWidget | undefined,
-  scene: Cesium.Scene | undefined
+  viewer: Viewer | undefined,
+  cesiumWidget: CesiumWidget | undefined,
+  scene: Scene | undefined
   // ...
 }
 ```
