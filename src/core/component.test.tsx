@@ -11,7 +11,7 @@ describe("core/component", () => {
     const create = jest.fn(() => "foobar");
     const value = { hoge: 1 };
 
-    const Component = createCesiumComponent<string, { test: number }, {}>({
+    const Component = createCesiumComponent<string, { test: number }>({
       name: "test",
       create,
     });
@@ -33,7 +33,7 @@ describe("core/component", () => {
     const destroy = jest.fn();
     const value = { hoge: 1 };
 
-    const Component = createCesiumComponent<string, { test: number }, {}>({
+    const Component = createCesiumComponent<string, { test: number }>({
       name: "test",
       create: () => "foobar",
       destroy,
@@ -54,7 +54,7 @@ describe("core/component", () => {
       hoge: new Event(),
     };
 
-    const Component = createCesiumComponent<typeof cesiumElement, { bar?: () => void }, {}>({
+    const Component = createCesiumComponent<typeof cesiumElement, { bar?: () => void }>({
       name: "test",
       create: () => cesiumElement,
       cesiumEventProps: { bar: "hoge" },
@@ -73,7 +73,7 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }, {}>({
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
       name: "test",
       create: () => cesiumElement,
       cesiumProps: ["foo"],
@@ -90,7 +90,7 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }, {}>({
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
       name: "test",
       create: () => cesiumElement,
       cesiumProps: ["foo"],
@@ -114,8 +114,7 @@ describe("core/component", () => {
 
     const Component = createCesiumComponent<
       typeof cesiumElement,
-      { foo?: () => void; bar?: () => void; hoge?: () => void },
-      {}
+      { foo?: () => void; bar?: () => void; hoge?: () => void }
     >({
       name: "test",
       create: () => cesiumElement,
@@ -151,7 +150,7 @@ describe("core/component", () => {
     });
     const destroyFn = jest.fn();
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }, {}>({
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
       name: "test",
       create: createFn,
       destroy: destroyFn,
@@ -174,7 +173,7 @@ describe("core/component", () => {
   it("should call update", () => {
     const updateFn = jest.fn();
 
-    const Component = createCesiumComponent<"hoge", { foo?: number }, {}>({
+    const Component = createCesiumComponent<"hoge", { foo?: number }>({
       name: "test",
       create: () => "hoge",
       update: updateFn,
@@ -197,7 +196,6 @@ describe("core/component", () => {
     const Component1 = createCesiumComponent<
       string,
       { children?: React.ReactNode },
-      {},
       { context: string }
     >({
       name: "test",
@@ -205,7 +203,7 @@ describe("core/component", () => {
       provide: () => ({ context: "b" }),
     });
 
-    const Component2 = createCesiumComponent<string, {}, {}>({
+    const Component2 = createCesiumComponent<string>({
       name: "test2",
       create: create2,
     });
@@ -225,7 +223,7 @@ describe("core/component", () => {
   it("should render container", () => {
     const createFn = jest.fn(() => "foobar");
 
-    const Component = createCesiumComponent<string, { className?: string }, {}>({
+    const Component = createCesiumComponent<string, { className?: string }>({
       name: "test",
       create: createFn,
       renderContainer: true,
@@ -244,12 +242,7 @@ describe("core/component", () => {
       expect.any(HTMLDivElement),
     );
     expect(wrapper.find("div").length).toBe(1);
-    expect(
-      wrapper
-        .find("div")
-        .at(0)
-        .prop("className"),
-    ).toBe("hoge");
+    expect(wrapper.find("div").at(0).prop("className")).toBe("hoge");
   });
 
   it("should keep state", () => {
@@ -258,7 +251,7 @@ describe("core/component", () => {
 
     const state = {};
 
-    const Component = createCesiumComponent<string, {}, {}, {}, {}>({
+    const Component = createCesiumComponent<string>({
       name: "test",
       create: () => ["foobar", state],
       provide: provideFn,
@@ -276,7 +269,7 @@ describe("core/component", () => {
   });
 
   it("should not render when noChildren is true", () => {
-    const Component = createCesiumComponent<string, { children?: React.ReactNode }, {}>({
+    const Component = createCesiumComponent<string, { children?: React.ReactNode }>({
       name: "test",
       noChildren: true,
     });

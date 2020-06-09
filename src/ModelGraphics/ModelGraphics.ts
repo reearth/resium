@@ -91,13 +91,13 @@ const ModelGraphics = createCesiumComponent<
   name: "ModelGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumModelGraphics(props as any); // WORKAROUND
+    const element = new CesiumModelGraphics(props);
     context.entity.model = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.model = undefined as any;
+      context.entity.model = undefined;
     }
   },
   cesiumProps,

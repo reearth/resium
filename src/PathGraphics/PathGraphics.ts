@@ -60,13 +60,13 @@ const PathGraphics = createCesiumComponent<
   name: "PathGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPathGraphics(props as any); // WORKAROUND
+    const element = new CesiumPathGraphics(props as any); // WORKAROUND: material
     context.entity.path = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.path = undefined as any;
+      context.entity.path = undefined;
     }
   },
   cesiumProps,

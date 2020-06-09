@@ -79,13 +79,13 @@ const PolylineVolumeGraphics = createCesiumComponent<
   name: "PolylineVolumeGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolylineVolumeGraphics(props as any); // WORKAROUND
+    const element = new CesiumPolylineVolumeGraphics(props as any); // WORKAROUND: material
     context.entity.polylineVolume = element;
     return element;
   },
-  destroy(contextelement, context) {
+  destroy(_contextelement, context) {
     if (context.entity) {
-      context.entity.polylineVolume = undefined as any;
+      context.entity.polylineVolume = undefined;
     }
   },
   cesiumProps,

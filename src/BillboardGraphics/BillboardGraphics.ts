@@ -95,7 +95,7 @@ const BillboardGraphics = createCesiumComponent<
   create(context, props) {
     if (!context.entity) return;
     const element = new CesiumBillboardGraphics({
-      image: props.image,
+      image: props.image as any, // WORKAROUND: ImageData type missing
       show: props.show,
       scale: props.scale,
       horizontalOrigin: props.horizontalOrigin,
@@ -111,17 +111,17 @@ const BillboardGraphics = createCesiumComponent<
       translucencyByDistance: props.translucencyByDistance,
       pixelOffsetScaleByDistance: props.pixelOffsetScaleByDistance,
       imageSubRegion: props.imageSubRegion,
-      sizeInMeters: props.sizeInMeters, // WORKAROUND
+      sizeInMeters: props.sizeInMeters,
       heightReference: props.heightReference,
       distanceDisplayCondition: props.distanceDisplayCondition,
       disableDepthTestDistance: props.disableDepthTestDistance,
-    } as any);
+    });
     context.entity.billboard = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.billboard = undefined as any; // WORKAROUND
+      context.entity.billboard = undefined;
     }
   },
   cesiumProps,

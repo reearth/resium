@@ -144,7 +144,7 @@ const CesiumWidget = createCesiumComponent<
 
     return [v, eventManager];
   },
-  destroy(element, context, ref, state) {
+  destroy(element, _context, _ref, state) {
     if (state && !state.isDestroyed()) {
       state.destroy();
     }
@@ -152,7 +152,7 @@ const CesiumWidget = createCesiumComponent<
       element.destroy();
     }
   },
-  provide(element, props, state) {
+  provide(element, _props, state) {
     return {
       cesiumWidget: element,
       scene: element.scene,

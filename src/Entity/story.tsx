@@ -263,7 +263,6 @@ storiesOf("Entity", module)
         name="PathGraphics"
         description="PathGraphics!!"
         position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-        {/* TODO: add loop function */}
         <PathGraphics
           material={Color.RED}
           width={8}
@@ -277,7 +276,7 @@ storiesOf("Entity", module)
         description="PlaneGraphics!!"
         position={Cartesian3.fromDegrees(-74.0707383, 50.7117244, 100)}>
         <PlaneGraphics
-          plane={new Plane(Cartesian3.UNIT_Z, 0.0) as any} // Plane
+          plane={new Plane(Cartesian3.UNIT_Z, 0.0)}
           dimensions={new Cartesian2(400000.0, 300000.0)}
           fill={false}
           outline
@@ -305,7 +304,7 @@ storiesOf("Entity", module)
           width={4}
           material={
             new PolylineDashMaterialProperty({
-              color: Color.CYAN as any,
+              color: Color.CYAN as any, // Color
             })
           }
         />

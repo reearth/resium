@@ -93,13 +93,13 @@ const PolygonGraphics = createCesiumComponent<
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND
+    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND: hierarchy type mismatched
     context.entity.polygon = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.polygon = undefined as any;
+      context.entity.polygon = undefined;
     }
   },
   cesiumProps,

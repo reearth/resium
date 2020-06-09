@@ -44,7 +44,7 @@ const Fog = createCesiumComponent<
     context.scene.fog = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.fog = new CesiumFog();
     }

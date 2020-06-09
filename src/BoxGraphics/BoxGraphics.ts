@@ -30,7 +30,7 @@ export interface BoxGraphicsCesiumProps {
   fill?: Property | boolean;
   material?: MaterialProperty | Color | string;
   outline?: Property | boolean;
-  outlineColor?: Property | number;
+  outlineColor?: Property | Color;
   outlineWidth?: Property | number;
   shadows?: Property | ShadowMode;
   distanceDisplayCondition?: Property | DistanceDisplayCondition;
@@ -74,9 +74,9 @@ const BoxGraphics = createCesiumComponent<
       dimensions: props.dimensions,
       show: props.show,
       fill: props.fill,
-      material: props.material as any,
+      material: props.material as any, // WORKAROUND: string type missing
       outline: props.outline,
-      outlineColor: props.outlineColor as any,
+      outlineColor: props.outlineColor,
       outlineWidth: props.outlineWidth,
       shadows: props.shadows,
       distanceDisplayCondition: props.distanceDisplayCondition,
@@ -84,7 +84,7 @@ const BoxGraphics = createCesiumComponent<
     context.entity.box = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
       context.entity.box = undefined;
     }

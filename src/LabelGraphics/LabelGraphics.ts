@@ -36,7 +36,7 @@ export interface LabelGraphicsCesiumProps {
   show?: Property | boolean;
   showBackground?: Property | boolean;
   backgroundColor?: Property | Color;
-  backgroundPadding?: Property | number;
+  backgroundPadding?: Property | Cartesian2;
   scale?: Property | number;
   horizontalOrigin?: Property | HorizontalOrigin;
   verticalOrigin?: Property | VerticalOrigin;
@@ -94,13 +94,13 @@ const LabelGraphics = createCesiumComponent<
   name: "LabelGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumLabelGraphics(props as any); // WORKAROUND
+    const element = new CesiumLabelGraphics(props);
     context.entity.label = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.label = undefined as any;
+      context.entity.label = undefined;
     }
   },
   cesiumProps,

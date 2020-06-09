@@ -55,7 +55,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
     destroy(element, context) {
       if (!opts.noMount) {
         if (context.scene && !context.scene.isDestroyed()) {
-          context.scene.postProcessStages.remove(element as any); // WORKAROUND
+          context.scene.postProcessStages.remove(element);
         }
         if (!element.isDestroyed()) {
           element.destroy();

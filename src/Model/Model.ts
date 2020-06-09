@@ -118,8 +118,9 @@ const Model = createCesiumComponent<
   create(context, props) {
     if (!context.primitiveCollection) return;
 
-    // WORKAROUND: url and basePath field types are wrong
-    const element = props.url ? CesiumModel.fromGltf(props as any) : new CesiumModel(props as any);
+    const element = props.url
+      ? CesiumModel.fromGltf(props as ModelProps & { url: string | Resource })
+      : new CesiumModel(props);
 
     if (props.onReady) {
       element.readyPromise.then(props.onReady);

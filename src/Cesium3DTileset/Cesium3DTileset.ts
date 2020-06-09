@@ -41,8 +41,8 @@ export interface Cesium3DTilesetCesiumProps {
   foveatedScreenSpaceError?: boolean;
   foveatedConeSize?: number;
   foveatedMinimumScreenSpaceErrorRelaxation?: number;
-  foveatedInterpolationCallback?: (p: number, q: number, time: number) => void;
-  foveatedTimeDelay?: boolean;
+  foveatedInterpolationCallback?: CesiumCesium3DTileset.foveatedInterpolationCallback;
+  foveatedTimeDelay?: number;
   cullWithChildrenBounds?: boolean;
   dynamicScreenSpaceError?: boolean;
   dynamicScreenSpaceErrorDensity?: number;
@@ -183,8 +183,7 @@ const Cesium3DTileset = createCesiumComponent<
   name: "Cesium3DTileset",
   create(context, props) {
     if (!context.primitiveCollection) return;
-    // WORKAROUND: foveatedInterpolationCallback is missing in constructor argument
-    const element = new CesiumCesium3DTileset(props as any);
+    const element = new CesiumCesium3DTileset(props);
     if (props.colorBlendAmount) {
       element.colorBlendAmount = props.colorBlendAmount;
     }

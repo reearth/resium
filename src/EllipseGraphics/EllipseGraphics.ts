@@ -89,18 +89,17 @@ const EllipseGraphics = createCesiumComponent<
   name: "EllipseGraphics",
   create(context, props) {
     if (!context.entity) return;
-    // WORKAROUND
-    const element = new CesiumEllipseGraphics(props as any); // WORKAROUND
+    const element = new CesiumEllipseGraphics(props as any); // WORKAROUND: material
     if (props.classificationType) {
-      // WORKAROUND: classificationType field is missing
+      // WORKAROUND: classificationType field type is mismatched
       (element as any).classificationType = props.classificationType;
     }
     context.entity.ellipse = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.ellipse = undefined as any;
+      context.entity.ellipse = undefined;
     }
   },
   cesiumProps,

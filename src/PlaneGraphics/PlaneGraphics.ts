@@ -69,13 +69,13 @@ const PlaneGraphics = createCesiumComponent<
   name: "PlaneGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPlaneGraphics(props as any); // WORKAROUND
+    const element = new CesiumPlaneGraphics(props as any); // WORKAROUND: material
     context.entity.plane = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.plane = undefined as any;
+      context.entity.plane = undefined;
     }
   },
   cesiumProps,

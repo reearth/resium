@@ -72,13 +72,13 @@ const WallGraphics = createCesiumComponent<
   name: "WallGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumWallGraphics(props as any);
+    const element = new CesiumWallGraphics(props as any); // WORKAROUND: material
     context.entity.wall = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.wall = undefined as any;
+      context.entity.wall = undefined;
     }
   },
   cesiumProps,

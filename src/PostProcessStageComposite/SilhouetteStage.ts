@@ -9,8 +9,7 @@ export const SilhouetteStage = createPostProcessStage<{
 }>({
   name: "SilhouetteStage",
   props: ["color", "length"],
-  // WORKAROUND: PostProcessStageLibrary must have createSilhouetteStage
-  create: () => (PostProcessStageLibrary as any).createSilhouetteStage(),
+  create: () => PostProcessStageLibrary.createSilhouetteStage(),
 });
 
 export default SilhouetteStage;

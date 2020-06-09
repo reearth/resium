@@ -185,7 +185,7 @@ const Entity = createCesiumComponent<
   name: "Entity",
   create(context, props) {
     if (!context.entityCollection) return;
-    const element = new CesiumEntity(props as any); // TODO: orientation prop type
+    const element = new CesiumEntity(props as any); // WORKAROUND: orientation
     if (context.viewer && props.selected) {
       context.viewer.selectedEntity = element;
     }

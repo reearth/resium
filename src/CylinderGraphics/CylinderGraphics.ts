@@ -76,13 +76,13 @@ const CylinderGraphics = createCesiumComponent<
   name: "CylinderGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumCylinderGraphics(props as any); // WORKAROUND
+    const element = new CesiumCylinderGraphics(props as any); // WORKAROUND: material
     context.entity.cylinder = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.cylinder = undefined as any;
+      context.entity.cylinder = undefined;
     }
   },
   cesiumProps,

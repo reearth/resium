@@ -67,13 +67,12 @@ const PointGraphics = createCesiumComponent<
   name: "PointGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPointGraphics(props as any); // WORKAROUND
-    context.entity.point = element;
+    const element = new CesiumPointGraphics(props);
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.point = undefined as any;
+      context.entity.point = undefined;
     }
   },
   cesiumProps,

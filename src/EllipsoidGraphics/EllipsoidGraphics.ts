@@ -87,13 +87,13 @@ const EllipsoidGraphics = createCesiumComponent<
   name: "EllipsoidGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumEllipsoidGraphics(props as any); // WORKAROUND
+    const element = new CesiumEllipsoidGraphics(props as any); // WORKAROUND: material
     context.entity.ellipsoid = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.ellipsoid = undefined as any;
+      context.entity.ellipsoid = undefined;
     }
   },
   cesiumProps,

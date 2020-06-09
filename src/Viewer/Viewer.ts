@@ -197,9 +197,9 @@ const Viewer = createCesiumComponent<
   EventManager
 >({
   name: "Viewer",
-  create(context, props, wrapper) {
+  create(_context, props, wrapper) {
     if (!wrapper) return;
-    const v = new CesiumViewer(wrapper, props as any);
+    const v = new CesiumViewer(wrapper, props as any); // WORKAROUND: imageryProvider
     if (!v) return;
 
     if (props.imageryProvider === false) {
@@ -221,7 +221,7 @@ const Viewer = createCesiumComponent<
 
     return [v, state];
   },
-  destroy(element, context, ref, state) {
+  destroy(element, _context, _ref, state) {
     if (state && !state.isDestroyed()) {
       state.destroy();
     }
@@ -229,7 +229,7 @@ const Viewer = createCesiumComponent<
       element.destroy();
     }
   },
-  provide(element, props, state) {
+  provide(element, _props, state) {
     return {
       viewer: element,
       cesiumWidget: element.cesiumWidget,

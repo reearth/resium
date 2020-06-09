@@ -59,7 +59,7 @@ export interface ParticleSystemCesiumEvents {
 export interface ParticleSystemProps extends ParticleSystemCesiumProps, ParticleSystemCesiumEvents {
   // @CesiumEvent
   // Correspond to [ParticleSystem#updateCallback](https://cesiumjs.org/Cesium/Build/Documentation/ParticleSystem.html#updateCallback)
-  onUpdate?: (particle: Particle, dt: number) => void;
+  onUpdate?: CesiumParticleSystem.updateCallback;
 }
 
 const cesiumProps: (keyof ParticleSystemCesiumProps)[] = [
@@ -113,7 +113,7 @@ const ParticleSystem = createCesiumComponent<
   },
   update(element, props, prevProps) {
     if (props.onUpdate !== prevProps.onUpdate) {
-      element.updateCallback = props.onUpdate as any;
+      (element.updateCallback as any) = props.onUpdate; // WORKAROUND: updateCallback
     }
   },
   destroy(element, context) {

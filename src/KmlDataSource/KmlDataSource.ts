@@ -69,7 +69,7 @@ const cesiumReadonlyProps: (keyof KmlDataSourceCesiumReadonlyProps)[] = [
 
 const cesiumEventProps: EventkeyMap<CesiumKmlDataSource, KmlDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
   onRefresh: "refreshEvent",
   onUnsupportedNode: "unsupportedNodeEvent",

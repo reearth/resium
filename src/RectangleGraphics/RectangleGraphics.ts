@@ -87,13 +87,13 @@ const RectangleGraphics = createCesiumComponent<
   name: "RectangleGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumRectangleGraphics(props as any);
+    const element = new CesiumRectangleGraphics(props as any); // WORKAROUND: material
     context.entity.rectangle = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.rectangle = undefined as any;
+      context.entity.rectangle = undefined;
     }
   },
   cesiumProps,

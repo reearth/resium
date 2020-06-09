@@ -80,7 +80,7 @@ export default class EventManager {
     onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
   };
 
-  private scene: Scene;
+  private scene: Scene | undefined;
   private sshe: ScreenSpaceEventHandler;
   private events: EventMap<Map<any, Callback>> = {
     onClick: new Map(),
@@ -103,9 +103,9 @@ export default class EventManager {
   };
   private hovered: any = undefined;
 
-  public constructor(scene: Scene) {
+  public constructor(scene?: Scene) {
     this.scene = scene;
-    this.sshe = new ScreenSpaceEventHandler(scene?.canvas as HTMLCanvasElement);
+    this.sshe = new ScreenSpaceEventHandler(scene?.canvas);
   }
 
   public destroy() {
@@ -166,7 +166,7 @@ export default class EventManager {
         this.sshe.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
       } else if (!(this.sshe.getInputAction(ScreenSpaceEventType.MOUSE_MOVE) as any)) {
         // TODO: getInputAction is wrong type
-        this.sshe.setInputAction(this.onMouseMove as any, ScreenSpaceEventType.MOUSE_MOVE);
+        this.sshe.setInputAction(this.onMouseMove, ScreenSpaceEventType.MOUSE_MOVE);
       }
     }
 
@@ -251,7 +251,7 @@ export default class EventManager {
   };
 
   private pick(pos?: Cartesian2): any | undefined {
-    if (!pos) {
+    if (!pos || !this.scene) {
       return undefined;
     }
     const picked = this.scene.pick(pos);

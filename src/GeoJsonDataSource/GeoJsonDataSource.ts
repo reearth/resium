@@ -36,7 +36,7 @@ export interface GeoJsonDataSourceProps
   extends GeoJsonDataSourceCesiumProps,
     GeoJsonDataSourceCesiumEvents {
   // @CesiumReadonlyProp
-  data?: Resource | string | object;
+  data?: Resource | string | any;
   // @CesiumReadonlyProp
   clampToGround?: boolean;
   // @CesiumReadonlyProp
@@ -67,7 +67,7 @@ const cesiumProps: (keyof GeoJsonDataSourceCesiumProps)[] = ["clustering", "name
 
 const cesiumEventProps: EventkeyMap<CesiumGeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
 };
 
@@ -88,7 +88,7 @@ const load = ({
 }: {
   element: CesiumGeoJsonDataSource;
   dataSources: DataSourceCollection;
-  data: Resource | string | object;
+  data: Resource | string | any;
   onLoad?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
   clampToGround?: boolean;
   sourceUri?: string;
@@ -111,9 +111,9 @@ const load = ({
       strokeWidth,
       fill,
       sourceUri,
-      describe, // WORKAROUND
+      describe,
       credit,
-    } as any)
+    })
     .then(value => {
       if (onLoad) {
         onLoad(value);

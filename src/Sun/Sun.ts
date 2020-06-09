@@ -37,7 +37,7 @@ const Sun = createCesiumComponent<
     context.scene.sun = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.sun = new CesiumSun();
     }

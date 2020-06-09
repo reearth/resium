@@ -42,7 +42,7 @@ const cesiumProps: (keyof CustomDataSourceCesiumProps)[] = ["clustering", "name"
 
 const cesiumEventProps: EventkeyMap<CesiumCustomDataSource, CustomDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
 };
 

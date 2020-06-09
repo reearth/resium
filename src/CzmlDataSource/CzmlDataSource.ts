@@ -38,7 +38,7 @@ export interface CzmlDataSourceProps
     CzmlDataSourceCesiumReadonlyProps,
     CzmlDataSourceCesiumEvents {
   // @CesiumReadonlyProp
-  data?: Resource | string | object;
+  data?: Resource | string | any;
   // @CesiumReadonlyProp
   sourceUri?: string;
   // @CesiumReadonlyProp
@@ -55,7 +55,7 @@ const cesiumReadonlyProps: (keyof CzmlDataSourceCesiumReadonlyProps)[] = ["name"
 
 const cesiumEventProps: EventkeyMap<CesiumCzmlDataSource, CzmlDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
 };
 
@@ -68,7 +68,7 @@ const load = ({
 }: {
   element: CesiumCzmlDataSource;
   dataSources: DataSourceCollection;
-  data: Resource | string | object;
+  data: Resource | string | any;
   onLoad?: (CzmlDataSource: CesiumCzmlDataSource) => void;
   sourceUri?: string;
   credit?: Credit | string;
@@ -77,7 +77,7 @@ const load = ({
     .load(data, {
       sourceUri,
       credit,
-    } as any) // WORKAROUND: credit field is missing
+    })
     .then(value => {
       if (onLoad) {
         onLoad(value);

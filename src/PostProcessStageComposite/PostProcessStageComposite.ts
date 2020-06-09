@@ -92,13 +92,11 @@ export const PostProcessStageComposite = createCesiumComponent<
   name: "PostProcessStageComposite",
   create(context, props) {
     if (!context.scene) return;
-    // WORKAROUND: PostProcessStageComposite constructor arg type is wrong
-    const element = new CesiumPostProcessStageComposite(props as any);
+    const element = new CesiumPostProcessStageComposite(props);
     if (typeof props.enabled === "boolean") {
       element.enabled = props.enabled;
     }
     if (props.selected) {
-      // WORKAROUND: PostProcessStageComposite must have selected field
       element.selected = props.selected;
     }
     context.scene.postProcessStages.add(element);
@@ -106,8 +104,7 @@ export const PostProcessStageComposite = createCesiumComponent<
   },
   destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      // WORKAROUND: add method must be accept PostProcessStage | PostProcessStageComposite
-      context.scene.postProcessStages.remove(element as any);
+      context.scene.postProcessStages.remove(element);
     }
     if (!element.isDestroyed()) {
       element.destroy();

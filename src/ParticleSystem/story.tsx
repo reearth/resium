@@ -7,6 +7,7 @@ import {
   Color,
   createWorldTerrain,
   Scene,
+  Math as CesiumMath,
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
@@ -44,7 +45,7 @@ const SnowParticle: React.FC = () => {
       );
       Cartesian3.multiplyByScalar(
         snowGravityScratch.current,
-        (Math as any).randomBetween(-30.0, -300.0),
+        CesiumMath.randomBetween(-30.0, -300.0),
         snowGravityScratch.current,
       );
       particle.velocity = Cartesian3.add(

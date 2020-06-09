@@ -87,14 +87,14 @@ const CorridorGraphics = createCesiumComponent<
   name: "CorridorGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumCorridorGraphics(props as any);
+    const element = new CesiumCorridorGraphics(props as any); // positions type mismatched
     if (props.classificationType) {
-      element.classificationType = props.classificationType as any;
+      element.classificationType = props.classificationType as any; // ClassificationType type missing
     }
     context.entity.corridor = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
       context.entity.corridor = undefined;
     }
