@@ -1,4 +1,5 @@
 import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { ClockRange, ClockStep, JulianDate, Clock as CesiumClock, CesiumWidget } from "cesium";
 
 /*
 @summary
@@ -12,29 +13,23 @@ Clock is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compon
 Clock can not be used more than once for each Viewer or CesiumWidget.
 */
 
-// Workaround
-export interface ResiumClock extends Cesium.Clock {
-  onTick: Cesium.Event<[ResiumClock]>;
-  onStop: Cesium.Event<[ResiumClock]>;
-}
-
 export interface ClockCesiumProps {
   canAnimate?: boolean;
-  clockRange?: Cesium.ClockRange;
-  clockStep?: Cesium.ClockStep;
-  currentTime?: Cesium.JulianDate;
+  clockRange?: ClockRange;
+  clockStep?: ClockStep;
+  currentTime?: JulianDate;
   multiplier?: number;
   shouldAnimate?: boolean;
-  startTime?: Cesium.JulianDate;
-  stopTime?: Cesium.JulianDate;
+  startTime?: JulianDate;
+  stopTime?: JulianDate;
 }
 
 export interface ClockCesiumEvents {
-  onStop?: (clock: ResiumClock) => void;
-  onTick?: (clock: ResiumClock) => void;
+  onStop?: (clock: CesiumClock) => void;
+  onTick?: (clock: CesiumClock) => void;
 }
 
-const cesiumEventProps: EventkeyMap<ResiumClock, ClockCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumClock, ClockCesiumEvents> = {
   onStop: "onStop",
   onTick: "onTick",
 };
@@ -53,14 +48,14 @@ const cesiumProps: (keyof ClockCesiumProps)[] = [
 ];
 
 const Clock = createCesiumComponent<
-  ResiumClock,
+  CesiumClock,
   ClockProps,
   {
-    cesiumWidget?: Cesium.CesiumWidget;
+    cesiumWidget?: CesiumWidget;
   }
 >({
   name: "Clock",
-  create: ctx => ctx.cesiumWidget?.clock as ResiumClock | undefined,
+  create: ctx => ctx.cesiumWidget?.clock,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

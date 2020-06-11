@@ -1,16 +1,15 @@
 // @ignore
-import { PostProcessStageLibrary } from "cesium";
+import { PostProcessStageLibrary, Color } from "cesium";
 
 import { createPostProcessStage } from "../core/PostProcessStage";
 
 export const SilhouetteStage = createPostProcessStage<{
-  color?: Cesium.Color;
+  color?: Color;
   length?: number;
 }>({
   name: "SilhouetteStage",
   props: ["color", "length"],
-  // WORKAROUND: Cesium.PostProcessStageLibrary must have createSilhouetteStage
-  create: () => (PostProcessStageLibrary as any).createSilhouetteStage(),
+  create: () => PostProcessStageLibrary.createSilhouetteStage(),
 });
 
 export default SilhouetteStage;

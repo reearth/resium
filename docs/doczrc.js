@@ -1,6 +1,8 @@
 export default {
-  typescript: true,
   title: "Resium",
+  description: "React component library for Cesium",
+  typescript: true,
+  propsParser: false,
   menu: [
     "Home",
     {
@@ -9,9 +11,7 @@ export default {
     },
     "Getting Started",
     "Guide",
-    {
-      name: "Components",
-    },
+    "Components",
     {
       name: "Examples",
       href: "/examples/",
@@ -20,14 +20,8 @@ export default {
     "Migration Guide",
     "Contribution",
   ],
-  htmlContext: {
-    head: {
-      raw: ["<style>img{max-width:100%;}</style>"],
-    },
-  },
   themeConfig: {
     initialColorMode: "dark",
-    repository: "https://github.com/darwin-education/resium",
     colors: {
       primary: "#00A0E8",
       link: "#00A0E8",

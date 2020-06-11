@@ -1,4 +1,5 @@
 import { createCameraOperation } from "../core/CameraOperation";
+import { EasingFunction, Camera, Matrix4, Rectangle, Cartesian3 } from "cesium";
 
 // @noCesiumElement
 
@@ -19,17 +20,17 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export interface CameraFlyToProps {
-  destination: Cesium.Cartesian3 | Cesium.Rectangle;
+  destination: Cartesian3 | Rectangle;
   orientation?: any;
   duration?: number;
-  onComplete?: Cesium.Camera.FlightCompleteCallback;
-  onCancel?: Cesium.Camera.FlightCancelledCallback;
-  endTransform?: Cesium.Matrix4;
+  onComplete?: Camera.FlightCompleteCallback;
+  onCancel?: Camera.FlightCancelledCallback;
+  endTransform?: Matrix4;
   maximumHeight?: number;
   pitchAdjustHeight?: number;
   flyOverLongitude?: number;
   flyOverLongitudeWeight?: number;
-  easingFunction?: Cesium.EasingFunction;
+  easingFunction?: EasingFunction.Callback;
   // If true, cancel camera flight if this component is unmounted. Default value is false.
   cancelFlightOnUnmount?: boolean;
   // If true, camera flight will be executed only once time.

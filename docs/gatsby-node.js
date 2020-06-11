@@ -14,16 +14,14 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
       new webpack.DefinePlugin({
         CESIUM_BASE_URL: JSON.stringify("/cesium"),
       }),
-      new CopyPlugin([
-        {
-          from: path.resolve(__dirname, "../node_modules/cesium/Build/Cesium"),
-          to: path.resolve(__dirname, "public/cesium"),
-        },
-      ]),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.resolve(__dirname, "../../node_modules/cesium/Build/Cesium"),
+            to: "cesium",
+          },
+        ],
+      }),
     ],
-    resolve: {
-      ...config.resolve,
-      extensions: [...config.resolve.extensions, ".ts", ".tsx"],
-    },
   });
 };

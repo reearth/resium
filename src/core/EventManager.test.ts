@@ -8,7 +8,7 @@ describe("core/EventManager", () => {
   const fn = () => () => {};
 
   it("should attach and dettach event", () => {
-    const em: EventManager = new (EventManager as any)();
+    const em = new EventManager();
     const sseh = em.getScreenSpaceEventHandler();
 
     expect(sseh.getInputAction(ScreenSpaceEventType.LEFT_CLICK)).toBe(undefined);
@@ -30,7 +30,7 @@ describe("core/EventManager", () => {
   });
 
   it("should update events", () => {
-    const em: EventManager = new (EventManager as any)();
+    const em = new EventManager();
     const sseh = em.getScreenSpaceEventHandler();
 
     em.setEvents(element, { onClick: fn() });
@@ -40,7 +40,7 @@ describe("core/EventManager", () => {
   });
 
   it("should clear events", () => {
-    const em: EventManager = new (EventManager as any)();
+    const em = new EventManager();
     const sseh = em.getScreenSpaceEventHandler();
 
     em.setEvents(element, { onClick: fn() });
@@ -50,7 +50,7 @@ describe("core/EventManager", () => {
   });
 
   it("should destroy", () => {
-    const em: EventManager = new (EventManager as any)();
+    const em = new EventManager();
     const sseh = em.getScreenSpaceEventHandler();
 
     expect(em.isDestroyed()).toBe(false);

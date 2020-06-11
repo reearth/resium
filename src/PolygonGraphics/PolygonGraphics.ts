@@ -1,4 +1,16 @@
-import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
+import {
+  PolygonGraphics as CesiumPolygonGraphics,
+  Entity,
+  Property,
+  HeightReference,
+  PolygonHierarchy,
+  Cartesian3,
+  Color,
+  MaterialProperty,
+  ShadowMode,
+  DistanceDisplayCondition,
+  ClassificationType,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,26 +26,26 @@ and can not be used more than once for each entity.
 */
 
 export interface PolygonGraphicsCesiumProps {
-  hierarchy?: Cesium.Property | Cesium.PolygonHierarchy | Cesium.Cartesian3[];
-  height?: Cesium.Property | number;
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  extrudedHeight?: Cesium.Property | number;
-  extrudedHeightReference?: Cesium.Property | Cesium.HeightReference;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  stRotation?: Cesium.Property | number;
-  granularity?: Cesium.Property | number;
-  perPositionHeight?: Cesium.Property | boolean;
+  hierarchy?: Property | PolygonHierarchy | Cartesian3[];
+  height?: Property | number;
+  heightReference?: Property | HeightReference;
+  extrudedHeight?: Property | number;
+  extrudedHeightReference?: Property | HeightReference;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  stRotation?: Property | number;
+  granularity?: Property | number;
+  perPositionHeight?: Property | boolean;
   closeTop?: boolean;
   closeBottom?: boolean;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-  zIndex?: Cesium.Property | number;
-  classificationType?: Cesium.Property | Cesium.ClassificationType;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
+  zIndex?: Property | number;
+  classificationType?: Property | ClassificationType;
 }
 
 export interface PolygonGraphicsCesiumEvents {
@@ -67,27 +79,27 @@ const cesiumProps: (keyof PolygonGraphicsCesiumProps)[] = [
   "classificationType",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolygonGraphics, PolygonGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumPolygonGraphics, PolygonGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const PolygonGraphics = createCesiumComponent<
-  Cesium.PolygonGraphics,
+  CesiumPolygonGraphics,
   PolygonGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND
+    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND: hierarchy type mismatched
     context.entity.polygon = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.polygon = undefined as any;
+      context.entity.polygon = undefined;
     }
   },
   cesiumProps,

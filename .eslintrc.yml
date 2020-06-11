@@ -1,0 +1,79 @@
+env:
+  es6: true
+  node: true
+extends:
+  - eslint:recommended
+  - plugin:prettier/recommended
+parserOptions:
+  ecmaVersion: 2020
+plugins:
+  - prettier
+root: true
+rules:
+  prettier/prettier: ['warn', {}, { usePrettierrc: true }]
+overrides:
+  - files:
+      - docs/**/*.js
+    parserOptions:
+      sourceType: module
+  - files:
+      - docs2/src/**/*.js
+    parserOptions:
+      sourceType: module
+      ecmaFeatures:
+        jsx: true
+    plugins:
+      - react
+    extends:
+      - prettier/react
+      - plugin:react/recommended
+    rules:
+      react/prop-types: 'off'
+      react-hooks/rules-of-hooks: error
+      react-hooks/exhaustive-deps: error
+  - files:
+      - '{src,__mocks__,.storybook}/**/*.ts{,x}'
+      - 'docs/{src,components}/**/*'
+    parser: '@typescript-eslint/parser'
+    parserOptions:
+      sourceType: module
+    env:
+      browser: true
+      commonjs: true
+      node: false
+    plugins:
+      - react
+      - '@typescript-eslint'
+      - react-hooks
+    extends:
+      - prettier/react
+      - plugin:react/recommended
+      - plugin:@typescript-eslint/recommended
+      - prettier/@typescript-eslint
+    rules:
+      '@typescript-eslint/explicit-function-return-type': 'off'
+      '@typescript-eslint/explicit-module-boundary-types': 'off'
+      '@typescript-eslint/no-explicit-any': 'off'
+      '@typescript-eslint/no-use-before-define': 'off'
+      no-undef: 'off'
+      react/prop-types: 'off'
+      react-hooks/rules-of-hooks: error
+      react-hooks/exhaustive-deps: error
+    settings:
+      react:
+        version: detect
+  - files:
+      - rollup.config.js
+      - .storybook/**/*.js
+    extends:
+      - plugin:node/recommended
+    plugins:
+      - node
+    excludedFiles:
+      - .storybook/webpack.config.js
+    env:
+      commonjs: true
+    parserOptions:
+      sourceType: module
+    rules:
+      node/no-unsupported-features/es-syntax: [2, { ignores: ['modules'] }]

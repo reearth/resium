@@ -1,4 +1,13 @@
-import { WallGraphics as CesiumWallGraphics } from "cesium";
+import {
+  WallGraphics as CesiumWallGraphics,
+  Entity,
+  Property,
+  Cartesian3,
+  MaterialProperty,
+  Color,
+  ShadowMode,
+  DistanceDisplayCondition,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,18 +23,18 @@ and can not be used more than once for each entity.
 */
 
 export interface WallGraphicsCesiumProps {
-  positions?: Cesium.Property | Cesium.Cartesian3[];
-  maximumHeights?: Cesium.Property | number[];
-  minimumHeights?: Cesium.Property | number[];
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  granularity?: Cesium.Property | number;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
+  positions?: Property | Cartesian3[];
+  maximumHeights?: Property | number[];
+  minimumHeights?: Property | number[];
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  granularity?: Property | number;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
 }
 
 export interface WallGraphicsCesiumEvents {
@@ -49,28 +58,27 @@ const cesiumProps: (keyof WallGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.WallGraphics, WallGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumWallGraphics, WallGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const WallGraphics = createCesiumComponent<
-  Cesium.WallGraphics,
+  CesiumWallGraphics,
   WallGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "WallGraphics",
   create(context, props) {
     if (!context.entity) return;
-    // WORKAROUND
-    const element = new CesiumWallGraphics(props as any);
+    const element = new CesiumWallGraphics(props as any); // WORKAROUND: material
     context.entity.wall = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.wall = undefined as any;
+      context.entity.wall = undefined;
     }
   },
   cesiumProps,

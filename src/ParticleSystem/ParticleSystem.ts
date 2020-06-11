@@ -1,4 +1,11 @@
-import { ParticleSystem as CesiumParticleSystem } from "cesium";
+import {
+  ParticleSystem as CesiumParticleSystem,
+  Matrix4,
+  Color,
+  Cartesian2,
+  PrimitiveCollection,
+} from "cesium";
+
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
@@ -14,24 +21,24 @@ A ParticleSystem object will be attached to the PrimitiveCollection of the Viewe
 
 export interface ParticleSystemCesiumProps {
   show?: boolean;
-  // @type Cesium.ParticleEmitter
+  // @type ParticleEmitter
   emitter?: any;
-  modelMatrix?: Cesium.Matrix4;
-  emitterModelMatrix?: Cesium.Matrix4;
+  modelMatrix?: Matrix4;
+  emitterModelMatrix?: Matrix4;
   emissionRate?: number;
-  // @type Cesium.ParticleBurst[]
+  // @type ParticleBurst[]
   bursts?: any[];
   loop?: boolean;
   scale?: number;
   startScale?: number;
   endScale?: number;
-  color?: Cesium.Color;
-  startColor?: Cesium.Color;
-  endColor?: Cesium.Color;
+  color?: Color;
+  startColor?: Color;
+  endColor?: Color;
   image?: string | ImageData | HTMLImageElement | HTMLCanvasElement;
-  imageSize?: Cesium.Cartesian2;
-  minimumImageSize?: Cesium.Cartesian2;
-  maximumImageSize?: Cesium.Cartesian2;
+  imageSize?: Cartesian2;
+  minimumImageSize?: Cartesian2;
+  maximumImageSize?: Cartesian2;
   speed?: number;
   minimumSpeed?: number;
   maximumSpeed?: number;
@@ -51,7 +58,7 @@ export interface ParticleSystemCesiumEvents {
 export interface ParticleSystemProps extends ParticleSystemCesiumProps, ParticleSystemCesiumEvents {
   // @CesiumEvent
   // Correspond to [ParticleSystem#updateCallback](https://cesiumjs.org/Cesium/Build/Documentation/ParticleSystem.html#updateCallback)
-  onUpdate?: (particle: any /* Cesium.Particle */, dt: number) => void;
+  onUpdate?: CesiumParticleSystem.updateCallback;
 }
 
 const cesiumProps: (keyof ParticleSystemCesiumProps)[] = [
@@ -84,16 +91,16 @@ const cesiumProps: (keyof ParticleSystemCesiumProps)[] = [
   "maximumMass",
 ];
 
-// Cesium.ParticleSystem
+// ParticleSystem
 const cesiumEventProps: EventkeyMap<any, ParticleSystemCesiumEvents> = {
   onComplete: "complete",
 };
 
 const ParticleSystem = createCesiumComponent<
-  any /* Cesium.ParticleSystem */,
+  CesiumParticleSystem,
   ParticleSystemProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
+    primitiveCollection?: PrimitiveCollection;
   }
 >({
   name: "ParticleSystem",
@@ -105,7 +112,7 @@ const ParticleSystem = createCesiumComponent<
   },
   update(element, props, prevProps) {
     if (props.onUpdate !== prevProps.onUpdate) {
-      element.updateCallback = props.onUpdate;
+      (element.updateCallback as any) = props.onUpdate; // WORKAROUND: updateCallback
     }
   },
   destroy(element, context) {

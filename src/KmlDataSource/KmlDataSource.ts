@@ -1,4 +1,13 @@
-import { KmlDataSource as CesiumKmlDataSource } from "cesium";
+import {
+  KmlDataSource as CesiumKmlDataSource,
+  Credit,
+  Ellipsoid,
+  DataSourceCollection,
+  Resource,
+  EntityCluster,
+  Camera,
+  Scene,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,22 +23,22 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export interface KmlDataSourceCesiumProps {
-  clustering?: Cesium.EntityCluster;
+  clustering?: EntityCluster;
   name?: string;
 }
 
 export interface KmlDataSourceCesiumReadonlyProps {
-  camera?: Cesium.Camera;
+  camera?: Camera;
   canvas?: HTMLCanvasElement;
-  ellipsoid?: Cesium.Ellipsoid;
+  ellipsoid?: Ellipsoid;
 }
 
 export interface KmlDataSourceCesiumEvents {
-  onChange?: (kmlDataSource: Cesium.KmlDataSource) => void;
-  onError?: (kmlDataSource: Cesium.KmlDataSource, error: any) => void;
-  onLoading?: (kmlDataSource: Cesium.KmlDataSource, isLoaded: boolean) => void;
-  onRefresh?: (kmlDataSource: Cesium.KmlDataSource, urlComponent: string) => void;
-  onUnsupportedNode?: (kmlDataSource: Cesium.KmlDataSource) => void;
+  onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
+  onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void;
+  onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void;
+  onRefresh?: (kmlDataSource: CesiumKmlDataSource, urlComponent: string) => void;
+  onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
 }
 
 export interface KmlDataSourceProps
@@ -37,17 +46,17 @@ export interface KmlDataSourceProps
     KmlDataSourceCesiumReadonlyProps,
     KmlDataSourceCesiumEvents {
   // @CesiumReadonlyProp
-  data?: Cesium.Resource | string | Document | Blob;
+  data?: Resource | string | Document | Blob;
   // @CesiumReadonlyProp
   clampToGround?: boolean;
   // @CesiumReadonlyProp
   sourceUri?: string;
   // @CesiumReadonlyProp
-  credit?: Cesium.Credit | string;
+  credit?: Credit | string;
   // @CesiumProp
   show?: boolean;
   // Calls when the Promise for loading data is fullfilled.
-  onLoad?: (kmlDataSouce: Cesium.KmlDataSource) => void;
+  onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
 }
 
 const cesiumProps: (keyof KmlDataSourceCesiumProps)[] = ["clustering", "name"];
@@ -58,9 +67,9 @@ const cesiumReadonlyProps: (keyof KmlDataSourceCesiumReadonlyProps)[] = [
   "ellipsoid",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.KmlDataSource, KmlDataSourceCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumKmlDataSource, KmlDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
   onRefresh: "refreshEvent",
   onUnsupportedNode: "unsupportedNodeEvent",
@@ -75,14 +84,14 @@ const load = ({
   sourceUri,
   credit,
 }: {
-  element: Cesium.KmlDataSource;
-  dataSources: Cesium.DataSourceCollection;
-  data: Cesium.Resource | string | Document | Blob;
-  onLoad?: (kmlDataSource: Cesium.KmlDataSource) => void;
+  element: CesiumKmlDataSource;
+  dataSources: DataSourceCollection;
+  data: Resource | string | Document | Blob;
+  onLoad?: (kmlDataSource: CesiumKmlDataSource) => void;
   clampToGround?: boolean;
-  ellipsoid?: Cesium.Ellipsoid;
+  ellipsoid?: Ellipsoid;
   sourceUri?: string;
-  credit?: Cesium.Credit | string;
+  credit?: Credit | string;
 }) => {
   // WORKAROUND: credit is missing
   element.load(data, { clampToGround, ellipsoid, sourceUri, credit } as any).then(value => {
@@ -93,11 +102,11 @@ const load = ({
 };
 
 const KmlDataSource = createCesiumComponent<
-  Cesium.KmlDataSource,
+  CesiumKmlDataSource,
   KmlDataSourceProps,
   {
-    dataSourceCollection?: Cesium.DataSourceCollection;
-    scene?: Cesium.Scene;
+    dataSourceCollection?: DataSourceCollection;
+    scene?: Scene;
   }
 >({
   name: "KmlDataSource",

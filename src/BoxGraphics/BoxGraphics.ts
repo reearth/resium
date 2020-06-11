@@ -1,4 +1,14 @@
-import { BoxGraphics as CesiumBoxGraphics } from "cesium";
+import {
+  BoxGraphics as CesiumBoxGraphics,
+  Entity,
+  Property,
+  HeightReference,
+  Cartesian3,
+  Color,
+  MaterialProperty,
+  ShadowMode,
+  DistanceDisplayCondition,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,16 +24,16 @@ and can not be used more than once for each entity.
 */
 
 export interface BoxGraphicsCesiumProps {
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  dimensions?: Cesium.Property | Cesium.Cartesian3;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | number;
-  outlineWidth?: Cesium.Property | number;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
+  heightReference?: Property | HeightReference;
+  dimensions?: Property | Cartesian3;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
 }
 
 export interface BoxGraphicsCesiumEvents {
@@ -45,38 +55,38 @@ const cesiumProps: (keyof BoxGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.BoxGraphics, BoxGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumBoxGraphics, BoxGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const BoxGraphics = createCesiumComponent<
-  Cesium.BoxGraphics,
+  CesiumBoxGraphics,
   BoxGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "BoxGraphics",
   create(context, props) {
     if (!context.entity) return;
     const element = new CesiumBoxGraphics({
-      heightReference: props.heightReference, // WORKAROUND
+      heightReference: props.heightReference,
       dimensions: props.dimensions,
       show: props.show,
       fill: props.fill,
-      material: props.material,
+      material: props.material as any, // WORKAROUND: string type missing
       outline: props.outline,
       outlineColor: props.outlineColor,
       outlineWidth: props.outlineWidth,
       shadows: props.shadows,
       distanceDisplayCondition: props.distanceDisplayCondition,
-    } as any);
+    });
     context.entity.box = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.box = undefined as any; // WORKAROUND
+      context.entity.box = undefined;
     }
   },
   cesiumProps,

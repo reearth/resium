@@ -1,3 +1,12 @@
+import {
+  DistanceDisplayCondition,
+  Cartesian3,
+  Color,
+  NearFarScalar,
+  PointPrimitive as CesiumPointPrimitive,
+  PointPrimitiveCollection,
+} from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
 
@@ -16,22 +25,22 @@ A point object will be attached to the parent PointPrimitiveCollection.
 */
 
 export interface PointPrimitiveCesiumProps {
-  color?: Cesium.Color;
+  color?: Color;
   disableDepthTestDistance?: number;
-  distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
+  distanceDisplayCondition?: DistanceDisplayCondition;
   id?: any;
-  outlineColor?: Cesium.Color;
+  outlineColor?: Color;
   outlineWidth?: number;
   pixelSize?: number;
-  position?: Cesium.Cartesian3;
-  scaleByDistance?: Cesium.NearFarScalar;
+  position?: Cartesian3;
+  scaleByDistance?: NearFarScalar;
   show?: boolean;
-  translucencyByDistance?: Cesium.NearFarScalar;
+  translucencyByDistance?: NearFarScalar;
 }
 
 export interface PointPrimitiveProps
   extends PointPrimitiveCesiumProps,
-    EventProps<Cesium.PointPrimitive> {}
+    EventProps<CesiumPointPrimitive> {}
 
 const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
   "color",
@@ -48,10 +57,10 @@ const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
 ];
 
 const PointPrimitive = createCesiumComponent<
-  Cesium.PointPrimitive,
+  CesiumPointPrimitive,
   PointPrimitiveProps,
   {
-    pointPrimitiveCollection?: Cesium.PointPrimitiveCollection;
+    pointPrimitiveCollection?: PointPrimitiveCollection;
   }
 >({
   name: "PointPrimitive",

@@ -1,4 +1,9 @@
-import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
+import {
+  GroundPrimitive as CesiumGroundPrimitive,
+  PrimitiveCollection,
+  Appearance,
+  GeometryInstance,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
@@ -19,11 +24,11 @@ Otherwise, a primitive object will be attached to the PrimitiveCollection of the
 */
 
 export interface GroundPrimitiveCesiumProps {
-  appearance?: Cesium.Appearance;
+  appearance?: Appearance;
   debugShowBoundingVolume?: boolean;
   debugShowShadowVolume?: boolean;
-  classificationType?: any; // Cesium.ClassificationType
-  depthFailAppearance?: Cesium.Appearance;
+  classificationType?: any; // ClassificationType
+  depthFailAppearance?: Appearance;
   show?: boolean;
 }
 
@@ -31,7 +36,7 @@ export interface GroundPrimitiveCesiumReadonlyProps {
   allowPicking?: boolean;
   asynchronous?: boolean;
   compressVertices?: boolean;
-  geometryInstances?: Cesium.GeometryInstance[] | Cesium.GeometryInstance;
+  geometryInstances?: GeometryInstance[] | GeometryInstance;
   interleave?: boolean;
   releaseGeometryInstances?: boolean;
   vertexCacheOptimize?: boolean;
@@ -41,9 +46,9 @@ export interface GroundPrimitiveProps
   extends GroundPrimitiveCesiumProps,
     GroundPrimitiveCesiumReadonlyProps,
     EventProps<any> {
-  // Cesium.GroundPrimitive
+  // GroundPrimitive
   // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPrimitive.html#readyPromise) is fullfilled
-  onReady?: (primitive: Cesium.GroundPrimitive) => void;
+  onReady?: (primitive: CesiumGroundPrimitive) => void;
 }
 
 const cesiumProps: (keyof GroundPrimitiveCesiumProps)[] = [
@@ -66,10 +71,10 @@ const cesiumReadonlyProps: (keyof GroundPrimitiveCesiumReadonlyProps)[] = [
 ];
 
 const GroundPrimitive = createCesiumComponent<
-  Cesium.GroundPrimitive,
+  CesiumGroundPrimitive,
   GroundPrimitiveProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
+    primitiveCollection?: PrimitiveCollection;
   }
 >({
   name: "GroundPrimitive",

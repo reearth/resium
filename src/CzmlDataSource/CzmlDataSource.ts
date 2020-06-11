@@ -1,4 +1,10 @@
-import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
+import {
+  CzmlDataSource as CesiumCzmlDataSource,
+  EntityCluster,
+  Resource,
+  Credit,
+  DataSourceCollection,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,7 +20,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export interface CzmlDataSourceCesiumProps {
-  clustering?: Cesium.EntityCluster;
+  clustering?: EntityCluster;
 }
 
 export interface CzmlDataSourceCesiumReadonlyProps {
@@ -22,9 +28,9 @@ export interface CzmlDataSourceCesiumReadonlyProps {
 }
 
 export interface CzmlDataSourceCesiumEvents {
-  onChange?: (CzmlDataSource: Cesium.CzmlDataSource) => void;
-  onError?: (CzmlDataSource: Cesium.CzmlDataSource, error: any) => void;
-  onLoading?: (CzmlDataSource: Cesium.CzmlDataSource, isLoaded: boolean) => void;
+  onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
+  onError?: (CzmlDataSource: CesiumCzmlDataSource, error: any) => void;
+  onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
 }
 
 export interface CzmlDataSourceProps
@@ -32,24 +38,24 @@ export interface CzmlDataSourceProps
     CzmlDataSourceCesiumReadonlyProps,
     CzmlDataSourceCesiumEvents {
   // @CesiumReadonlyProp
-  data?: Cesium.Resource | string | object;
+  data?: Resource | string | any;
   // @CesiumReadonlyProp
   sourceUri?: string;
   // @CesiumReadonlyProp
-  credit?: Cesium.Credit | string;
+  credit?: Credit | string;
   // @CesiumProp
   show?: boolean;
   // Calls when the Promise for loading data is fullfilled.
-  onLoad?: (CzmlDataSouce: Cesium.CzmlDataSource) => void;
+  onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
 }
 
 const cesiumProps: (keyof CzmlDataSourceCesiumProps)[] = ["clustering"];
 
 const cesiumReadonlyProps: (keyof CzmlDataSourceCesiumReadonlyProps)[] = ["name"];
 
-const cesiumEventProps: EventkeyMap<Cesium.CzmlDataSource, CzmlDataSourceCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumCzmlDataSource, CzmlDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
 };
 
@@ -60,18 +66,18 @@ const load = ({
   sourceUri,
   credit,
 }: {
-  element: Cesium.CzmlDataSource;
-  dataSources: Cesium.DataSourceCollection;
-  data: Cesium.Resource | string | object;
-  onLoad?: (CzmlDataSource: Cesium.CzmlDataSource) => void;
+  element: CesiumCzmlDataSource;
+  dataSources: DataSourceCollection;
+  data: Resource | string | any;
+  onLoad?: (CzmlDataSource: CesiumCzmlDataSource) => void;
   sourceUri?: string;
-  credit?: Cesium.Credit | string;
+  credit?: Credit | string;
 }) => {
   element
     .load(data, {
       sourceUri,
       credit,
-    } as any) // WORKAROUND: credit field is missing
+    })
     .then(value => {
       if (onLoad) {
         onLoad(value);
@@ -80,10 +86,10 @@ const load = ({
 };
 
 const CzmlDataSource = createCesiumComponent<
-  Cesium.CzmlDataSource,
+  CesiumCzmlDataSource,
   CzmlDataSourceProps,
   {
-    dataSourceCollection?: Cesium.DataSourceCollection;
+    dataSourceCollection?: DataSourceCollection;
   }
 >({
   name: "CzmlDataSource",

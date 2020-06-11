@@ -1,4 +1,4 @@
-import { Sun as CesiumSun } from "cesium";
+import { Sun as CesiumSun, Scene } from "cesium";
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -24,10 +24,10 @@ export interface SunProps extends SunCesiumProps {}
 const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
 
 const Sun = createCesiumComponent<
-  Cesium.Sun,
+  CesiumSun,
   SunProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "Sun",
@@ -37,13 +37,10 @@ const Sun = createCesiumComponent<
     context.scene.sun = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.sun = new CesiumSun();
     }
-    // if (!element.isDestroyed()) {
-    //   element.destroy();
-    // }
   },
   cesiumProps,
   setCesiumPropsAfterCreate: true,

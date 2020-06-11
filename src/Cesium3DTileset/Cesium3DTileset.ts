@@ -1,4 +1,17 @@
-import { Cesium3DTileset as CesiumCesium3DTileset } from "cesium";
+import {
+  Cesium3DTileset as CesiumCesium3DTileset,
+  PrimitiveCollection,
+  Matrix4,
+  ShadowMode,
+  ClippingPlaneCollection,
+  ClassificationType,
+  Ellipsoid,
+  Cartesian3,
+  Cartesian2,
+  Cesium3DTileColorBlendMode,
+  Resource,
+  Cesium3DTileFeature,
+} from "cesium";
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 import { EventProps } from "../core/EventManager";
 
@@ -13,15 +26,10 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A Cesium3DTileset object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-// WORKAROUND: tileUnload event is missing in Cesium3DTileset type
-type ResiumCesium3DTileset = Cesium.Cesium3DTileset & {
-  tileUnload?: Cesium.Event<[]>;
-};
-
 export interface Cesium3DTilesetCesiumProps {
   show?: boolean;
-  modelMatrix?: Cesium.Matrix4;
-  shadows?: Cesium.ShadowMode;
+  modelMatrix?: Matrix4;
+  shadows?: ShadowMode;
   maximumScreenSpaceError?: number;
   maximumMemoryUsage?: number;
   cullRequestsWhileMoving?: boolean;
@@ -33,8 +41,8 @@ export interface Cesium3DTilesetCesiumProps {
   foveatedScreenSpaceError?: boolean;
   foveatedConeSize?: number;
   foveatedMinimumScreenSpaceErrorRelaxation?: number;
-  foveatedInterpolationCallback?: (p: number, q: number, time: number) => void;
-  foveatedTimeDelay?: boolean;
+  foveatedInterpolationCallback?: CesiumCesium3DTileset.foveatedInterpolationCallback;
+  foveatedTimeDelay?: number;
   cullWithChildrenBounds?: boolean;
   dynamicScreenSpaceError?: boolean;
   dynamicScreenSpaceErrorDensity?: number;
@@ -46,11 +54,11 @@ export interface Cesium3DTilesetCesiumProps {
   skipLevels?: number;
   immediatelyLoadDesiredLevelOfDetail?: boolean;
   loadSiblings?: boolean;
-  clippingPlanes?: Cesium.ClippingPlaneCollection;
-  classificationType?: Cesium.ClassificationType;
-  ellipsoid?: Cesium.Ellipsoid;
-  imageBasedLightingFactor?: Cesium.Cartesian2;
-  lightColor?: Cesium.Cartesian3;
+  clippingPlanes?: ClippingPlaneCollection;
+  classificationType?: ClassificationType;
+  ellipsoid?: Ellipsoid;
+  imageBasedLightingFactor?: Cartesian2;
+  lightColor?: Cartesian3;
   debugFreezeFrame?: boolean;
   debugColorizeTiles?: boolean;
   debugWireframe?: boolean;
@@ -62,14 +70,14 @@ export interface Cesium3DTilesetCesiumProps {
   debugShowMemoryUsage?: boolean;
   debugShowUrl?: boolean;
   colorBlendAmount?: number;
-  colorBlendMode?: Cesium.Cesium3DTileColorBlendMode;
+  colorBlendMode?: Cesium3DTileColorBlendMode;
   luminanceAtZenith?: number;
-  sphericalHarmonicCoefficients?: Cesium.Cartesian3[];
+  sphericalHarmonicCoefficients?: Cartesian3[];
   specularEnvironmentMaps?: string;
 }
 
 export interface Cesium3DTilesetCesiumReadonlyProps {
-  url: Cesium.Resource | string | Promise<Cesium.Resource> | Promise<string>;
+  url: Resource | string | Promise<Resource> | Promise<string>;
   pointCloudShading?: {
     attenuation?: boolean;
     geometricErrorScale?: number;
@@ -86,18 +94,18 @@ export interface Cesium3DTilesetCesiumEvents {
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: () => void;
-  onTileLoad?: (tile: Cesium.Cesium3DTileset) => void;
+  onTileLoad?: (tile: CesiumCesium3DTileset) => void;
   onTileUnload?: () => void;
-  onTileVisible?: (tile: Cesium.Cesium3DTileset) => void;
+  onTileVisible?: (tile: CesiumCesium3DTileset) => void;
 }
 
 export interface Cesium3DTilesetProps
   extends Cesium3DTilesetCesiumProps,
     Cesium3DTilesetCesiumReadonlyProps,
     Cesium3DTilesetCesiumEvents,
-    EventProps<Cesium.Cesium3DTileFeature> {
+    EventProps<Cesium3DTileFeature> {
   // Calls when the tile set is completely loaded.
-  onReady?: (tileset: Cesium.Cesium3DTileset) => void;
+  onReady?: (tileset: CesiumCesium3DTileset) => void;
 }
 
 const cesiumProps: (keyof Cesium3DTilesetCesiumProps)[] = [
@@ -155,7 +163,7 @@ const cesiumReadonlyProps: (keyof Cesium3DTilesetCesiumReadonlyProps)[] = [
   "pointCloudShading",
 ];
 
-const cesiumEventProps: EventkeyMap<ResiumCesium3DTileset, Cesium3DTilesetCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumCesium3DTileset, Cesium3DTilesetCesiumEvents> = {
   onAllTilesLoad: "allTilesLoaded",
   onInitialTilesLoad: "initialTilesLoaded",
   onLoadProgress: "loadProgress",
@@ -166,17 +174,16 @@ const cesiumEventProps: EventkeyMap<ResiumCesium3DTileset, Cesium3DTilesetCesium
 };
 
 const Cesium3DTileset = createCesiumComponent<
-  ResiumCesium3DTileset,
+  CesiumCesium3DTileset,
   Cesium3DTilesetProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
+    primitiveCollection?: PrimitiveCollection;
   }
 >({
   name: "Cesium3DTileset",
   create(context, props) {
     if (!context.primitiveCollection) return;
-    // WORKAROUND: foveatedInterpolationCallback is missing in constructor argument
-    const element = new CesiumCesium3DTileset(props as any) as ResiumCesium3DTileset;
+    const element = new CesiumCesium3DTileset(props);
     if (props.colorBlendAmount) {
       element.colorBlendAmount = props.colorBlendAmount;
     }

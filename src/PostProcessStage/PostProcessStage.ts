@@ -1,4 +1,10 @@
-import { PostProcessStage as CesiumPostProcessStage } from "cesium";
+import {
+  PostProcessStage as CesiumPostProcessStage,
+  BoundingRectangle,
+  Color,
+  PixelFormat,
+  Scene,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -54,13 +60,13 @@ export interface PostProcessStageCesiumReadonlyProps {
   uniforms?: any;
   textureScale?: number;
   forcePowerOfTwo?: boolean;
-  // @type Cesium.PostProcessStageSampleMode
+  // @type PostProcessStageSampleMode
   sampleMode?: any;
-  pixelFormat?: Cesium.PixelFormat;
-  // @type Cesium.PixelDatatype
+  pixelFormat?: PixelFormat;
+  // @type PixelDatatype
   pixelDatatype?: any;
-  clearColor?: Cesium.Color;
-  scissorRectangle?: Cesium.BoundingRectangle;
+  clearColor?: Color;
+  scissorRectangle?: BoundingRectangle;
   name?: string;
 }
 
@@ -84,10 +90,10 @@ const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
 ];
 
 export const PostProcessStage = createCesiumComponent<
-  Cesium.PostProcessStage,
+  CesiumPostProcessStage,
   PostProcessStageProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "PostProcessStage",

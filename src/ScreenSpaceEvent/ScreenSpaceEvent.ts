@@ -1,4 +1,10 @@
 import React, { useEffect } from "react";
+import {
+  ScreenSpaceEventType,
+  KeyboardEventModifier,
+  Cartesian2,
+  ScreenSpaceEventHandler,
+} from "cesium";
 
 import { useCesium } from "../core/context";
 
@@ -18,13 +24,13 @@ Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
 
 export interface ScreenSpaceEventProps {
   // If empty, the event will be removed even if there is the default event.
-  action?: (e: { position: Cesium.Cartesian2 }) => void;
-  modifier?: Cesium.KeyboardEventModifier;
-  type: Cesium.ScreenSpaceEventType;
+  action?: (e: { position: Cartesian2 }) => void;
+  modifier?: KeyboardEventModifier;
+  type: ScreenSpaceEventType;
 }
 
 const ScreenSpaceEvent: React.FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
-  const ctx = useCesium<{ screenSpaceEventHandler?: Cesium.ScreenSpaceEventHandler }>();
+  const ctx = useCesium<{ screenSpaceEventHandler?: ScreenSpaceEventHandler }>();
 
   useEffect(() => {
     if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;

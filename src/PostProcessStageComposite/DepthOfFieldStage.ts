@@ -11,8 +11,7 @@ export const DepthOfFieldStage = createPostProcessStage<{
 }>({
   name: "DepthOfFieldStage",
   props: ["delta", "focalDistance", "sigma", "stepSize"],
-  // WORKAROUND: Cesium.PostProcessStageLibrary must have createDepthOfFieldStage
-  create: () => (PostProcessStageLibrary as any).createDepthOfFieldStage(),
+  create: () => PostProcessStageLibrary.createDepthOfFieldStage(),
 });
 
 export default DepthOfFieldStage;

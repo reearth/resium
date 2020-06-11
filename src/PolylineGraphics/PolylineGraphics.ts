@@ -1,4 +1,13 @@
-import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
+import {
+  PolylineGraphics as CesiumPolylineGraphics,
+  Entity,
+  MaterialProperty,
+  Color,
+  ShadowMode,
+  Property,
+  DistanceDisplayCondition,
+  Cartesian3,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,17 +23,17 @@ and can not be used more than once for each entity.
 */
 
 export interface PolylineGraphicsCesiumProps {
-  positions?: Cesium.Property | Cesium.Cartesian3[];
-  followSurface?: Cesium.Property | boolean;
-  clampToGround?: Cesium.Property | boolean;
-  width?: Cesium.Property | number;
-  show?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  depthFailMaterial?: Cesium.MaterialProperty | Cesium.Color | string;
-  granularity?: Cesium.Property | number;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
-  zIndex?: Cesium.Property | number;
+  positions?: Property | Cartesian3[];
+  followSurface?: Property | boolean;
+  clampToGround?: Property | boolean;
+  width?: Property | number;
+  show?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  depthFailMaterial?: MaterialProperty | Color | string;
+  granularity?: Property | number;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
+  zIndex?: Property | number;
 }
 
 export interface PolylineGraphicsCesiumEvents {
@@ -49,27 +58,27 @@ const cesiumProps: (keyof PolylineGraphicsCesiumProps)[] = [
   "zIndex",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.PolylineGraphics, PolylineGraphicsCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumPolylineGraphics, PolylineGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const PolylineGraphics = createCesiumComponent<
-  Cesium.PolylineGraphics,
+  CesiumPolylineGraphics,
   PolylineGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "PolylineGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolylineGraphics(props as any); // WORKAROUND
+    const element = new CesiumPolylineGraphics(props as any); // WORKAROUND: material
     context.entity.polyline = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.polyline = undefined as any;
+      context.entity.polyline = undefined;
     }
   },
   cesiumProps,

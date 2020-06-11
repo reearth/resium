@@ -1,3 +1,16 @@
+import {
+  Cartesian3,
+  DistanceDisplayCondition,
+  Color,
+  HeightReference,
+  HorizontalOrigin,
+  Cartesian2,
+  NearFarScalar,
+  VerticalOrigin,
+  Billboard as CesiumBillboard,
+  BillboardCollection,
+} from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
 
@@ -16,29 +29,29 @@ A billboard object will be attached to the parent BillboardCollection.
 */
 
 export interface BillboardCesiumProps {
-  alignAxis?: Cesium.Cartesian3;
-  color?: Cesium.Color;
+  alignAxis?: Cartesian3;
+  color?: Color;
   disableDepthTestDistance?: number;
-  distanceDisplayCondition?: Cesium.DistanceDisplayCondition;
+  distanceDisplayCondition?: DistanceDisplayCondition;
   height?: number;
-  heightReference?: Cesium.HeightReference;
-  horizontalOrigin?: Cesium.HorizontalOrigin;
+  heightReference?: HeightReference;
+  horizontalOrigin?: HorizontalOrigin;
   id?: any;
   image?: string;
-  pixelOffset?: Cesium.Cartesian2;
-  pixelOffsetScaleByDistance?: Cesium.NearFarScalar;
-  position?: Cesium.Cartesian3;
+  pixelOffset?: Cartesian2;
+  pixelOffsetScaleByDistance?: NearFarScalar;
+  position?: Cartesian3;
   rotation?: number;
   scale?: number;
-  scaleByDistance?: Cesium.NearFarScalar;
+  scaleByDistance?: NearFarScalar;
   show?: boolean;
   sizeInMeters?: boolean;
-  translucencyByDistance?: Cesium.NearFarScalar;
-  verticalOrigin?: Cesium.VerticalOrigin;
+  translucencyByDistance?: NearFarScalar;
+  verticalOrigin?: VerticalOrigin;
   width?: number;
 }
 
-export interface BillboardProps extends BillboardCesiumProps, EventProps<Cesium.Billboard> {}
+export interface BillboardProps extends BillboardCesiumProps, EventProps<CesiumBillboard> {}
 
 const cesiumProps: (keyof BillboardCesiumProps)[] = [
   "alignAxis",
@@ -64,10 +77,10 @@ const cesiumProps: (keyof BillboardCesiumProps)[] = [
 ];
 
 const Billboard = createCesiumComponent<
-  Cesium.Billboard,
+  CesiumBillboard,
   BillboardProps,
   {
-    billboardCollection?: Cesium.BillboardCollection;
+    billboardCollection?: BillboardCollection;
   }
 >({
   name: "Billboard",
