@@ -181,8 +181,8 @@ export default class EventManager {
         if (m.size === 0) {
           sshe.removeInputAction(cesiumEventType);
         } else if (!(sshe.getInputAction(cesiumEventType) as any)) {
-          // TODO: getInputAction is wrong type
-          sshe.setInputAction(this.eventCallback(et) as any, cesiumEventType);
+          // TODO: ↑ getInputAction is wrong type
+          sshe.setInputAction(this.eventCallback(et), cesiumEventType);
         }
       }
     });
