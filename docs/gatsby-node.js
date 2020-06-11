@@ -17,15 +17,11 @@ exports.onCreateWebpackConfig = ({ actions, getConfig }) => {
       new CopyPlugin({
         patterns: [
           {
-            from: path.resolve(__dirname, "../node_modules/cesium/Build/Cesium"),
-            to: path.resolve(__dirname, "public/cesium"),
+            from: path.resolve(__dirname, "../../node_modules/cesium/Build/Cesium"),
+            to: "cesium",
           },
         ],
       }),
     ],
-    resolve: {
-      ...config.resolve,
-      extensions: [...config.resolve.extensions, ".ts", ".tsx"],
-    },
   });
 };

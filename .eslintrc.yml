@@ -13,9 +13,26 @@ rules:
   prettier/prettier: ['warn', {}, { usePrettierrc: true }]
 overrides:
   - files:
-      - '.storybook/**/*.ts{,x}'
-      - 'src/**/*.ts{,x}'
-      - '__mocks__/**/*.ts{,x}'
+      - docs/**/*.js
+    parserOptions:
+      sourceType: module
+  - files:
+      - docs2/src/**/*.js
+    parserOptions:
+      sourceType: module
+      ecmaFeatures:
+        jsx: true
+    plugins:
+      - react
+    extends:
+      - prettier/react
+      - plugin:react/recommended
+    rules:
+      react/prop-types: 'off'
+      react-hooks/rules-of-hooks: error
+      react-hooks/exhaustive-deps: error
+  - files:
+      - '{src,__mocks__,.storybook,docs}/**/*.ts{,x}'
     parser: '@typescript-eslint/parser'
     parserOptions:
       sourceType: module

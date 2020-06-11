@@ -10,6 +10,7 @@ import defaultComponents from "gatsby-theme-docz/src/components";
 import { InlineCode } from "./components/InlineCode";
 import { Table } from "./components/Table";
 
+// eslint-disable-next-line no-unused-vars
 const withNoClassName = Component => ({ className: _, ...props }) => <Component {...props} />;
 
 const components = {
@@ -25,7 +26,7 @@ const Theme = ({ children }) => {
   const config = useConfig();
   return (
     <ThemeProvider theme={config.themeConfig}>
-      <ComponentsProvider components={{ ...components, table: Table }}>
+      <ComponentsProvider components={components}>
         <Styled.root>{children}</Styled.root>
       </ComponentsProvider>
     </ThemeProvider>
