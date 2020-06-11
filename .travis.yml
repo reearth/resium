@@ -10,9 +10,7 @@ cache:
 script:
   - (cd docs && yarn install)
   - yarn run type
-  - (cd docs && yarn type)
   - yarn run lint
-  - (cd docs && yarn lint)
   - yarn test
   - yarn build:es
 notifications:
