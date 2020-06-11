@@ -32,7 +32,8 @@ overrides:
       react-hooks/rules-of-hooks: error
       react-hooks/exhaustive-deps: error
   - files:
-      - '{src,__mocks__,.storybook,docs}/**/*.ts{,x}'
+      - '{src,__mocks__,.storybook}/**/*.ts{,x}'
+      - 'docs/{src,components}/**/*'
     parser: '@typescript-eslint/parser'
     parserOptions:
       sourceType: module
