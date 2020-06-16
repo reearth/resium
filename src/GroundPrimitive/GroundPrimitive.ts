@@ -45,7 +45,7 @@ export interface GroundPrimitiveCesiumReadonlyProps {
 export interface GroundPrimitiveProps
   extends GroundPrimitiveCesiumProps,
     GroundPrimitiveCesiumReadonlyProps,
-    EventProps<any> {
+    EventProps<CesiumGroundPrimitive> {
   // GroundPrimitive
   // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPrimitive.html#readyPromise) is fullfilled
   onReady?: (primitive: CesiumGroundPrimitive) => void;
