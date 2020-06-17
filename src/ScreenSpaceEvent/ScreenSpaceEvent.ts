@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  ScreenSpaceEventType,
-  KeyboardEventModifier,
-  Cartesian2,
-  ScreenSpaceEventHandler,
-} from "cesium";
+import { ScreenSpaceEventType, KeyboardEventModifier, Cartesian2 } from "cesium";
 
 import { useCesium } from "../core";
 
@@ -30,7 +25,7 @@ export interface ScreenSpaceEventProps {
 }
 
 const ScreenSpaceEvent: React.FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
-  const ctx = useCesium<{ screenSpaceEventHandler?: ScreenSpaceEventHandler }>();
+  const ctx = useCesium();
 
   useEffect(() => {
     if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;

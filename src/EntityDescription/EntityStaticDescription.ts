@@ -5,7 +5,6 @@ const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
 import { useCesium } from "../core";
-import { Entity } from "cesium";
 
 // @noCesiumElement
 
@@ -26,7 +25,7 @@ and can not be used more than once or together with EntityDescription component 
 */
 
 const EntityStaticDescription: React.FC = ({ children }) => {
-  const entity = useCesium<{ entity?: Entity }>().entity;
+  const entity = useCesium().entity;
 
   useEffect(() => {
     if (!entity || !children) return;

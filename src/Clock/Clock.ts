@@ -1,4 +1,4 @@
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { createCesiumComponent, EventkeyMap } from "../core";
 import { ClockRange, ClockStep, JulianDate, Clock as CesiumClock } from "cesium";
 
 /*

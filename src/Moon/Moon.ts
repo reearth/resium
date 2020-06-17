@@ -1,5 +1,5 @@
 import { Moon as CesiumMoon, Ellipsoid } from "cesium";
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary
@@ -37,7 +37,7 @@ const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
     context.scene.moon = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.moon = new CesiumMoon();
     }

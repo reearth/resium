@@ -1,5 +1,5 @@
 import { Sun as CesiumSun } from "cesium";
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

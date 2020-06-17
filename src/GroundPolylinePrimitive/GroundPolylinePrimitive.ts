@@ -1,8 +1,8 @@
 import {
   GroundPolylinePrimitive as CesiumGroundPolylinePrimitive,
-  GeometryInstance,
-  Appearance,
   ClassificationType,
+  Appearance,
+  GeometryInstance,
 } from "cesium";
 
 import { EventProps, createCesiumComponent } from "../core";
@@ -42,7 +42,7 @@ export interface GroundPolylinePrimitiveCesiumReadonlyProps {
 export interface GroundPolylinePrimitiveProps
   extends GroundPolylinePrimitiveCesiumProps,
     GroundPolylinePrimitiveCesiumReadonlyProps,
-    EventProps<any> {
+    EventProps<CesiumGroundPolylinePrimitive> {
   // Cesium.GroundPolylinePrimitive
   // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPolylinePrimitive.html#readyPromise) is fullfilled
   onReady?: (primitive: CesiumGroundPolylinePrimitive) => void;

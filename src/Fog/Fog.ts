@@ -1,4 +1,4 @@
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 import { Fog as CesiumFog } from "cesium";
 
 /*
