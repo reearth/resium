@@ -44,3 +44,16 @@ export function shallowEquals<T>(a1: T | null | undefined, a2: T | null | undefi
     [...Object.keys(a1), ...Object.keys(a2)].every(k => a1[k as keyof T] === a2[k as keyof T])
   );
 }
+
+export type Destroyable = {
+  isDestroyed(): boolean;
+  destroy(): void;
+};
+
+export function isDestroyable(d: any): d is Destroyable {
+  return d && typeof d.isDestroyed === "function" && typeof d.destroy === "function";
+}
+
+export function isDestroyed(d: any) {
+  return isDestroyable(d) && d.isDestroyed();
+}

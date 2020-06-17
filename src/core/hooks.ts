@@ -10,7 +10,7 @@ import { Event as CesiumEvent } from "cesium";
 
 import { useCesium } from "./context";
 import { EventManager, eventManagerContextKey } from "./EventManager";
-import { includes, shallowEquals } from "./util";
+import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
@@ -253,15 +253,3 @@ export const useCesiumComponent = <
   return [provided.current, mounted, wrapperRef];
 };
 
-interface Destroyable {
-  isDestroyed(): boolean;
-  destroy(): void;
-}
-
-function isDestroyable(d: any): d is Destroyable {
-  return d && typeof d.isDestroyed === "function" && typeof d.destroy === "function";
-}
-
-function isDestroyed(d: any) {
-  return isDestroyable(d) && d.isDestroyed();
-}
