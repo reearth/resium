@@ -1,10 +1,10 @@
 import { Doc, Prop, Type } from "./types";
 
 export function renderDoc(doc: Doc) {
-  const generalComponent =
-    doc.cesiumProps.length === 0 &&
-    doc.cesiumReadonlyProps.length === 0 &&
-    doc.cesiumEvents.length === 0;
+  const notCesiumComponent =
+    doc.cesiumProps?.length === 0 &&
+    doc.cesiumReadonlyProps?.length === 0 &&
+    doc.cesiumEvents?.length === 0;
 
   return `---
 name: ${doc.name}
@@ -35,41 +35,29 @@ ${doc.scope}
 }
 ## Properties
 ${
-  !generalComponent
+  !notCesiumComponent
     ? `
 ### Cesium properties
 
-${renderPropTable(doc.cesiumProps, doc)}`
-    : ""
-}
-${
-  !generalComponent
-    ? `
+${renderPropTable(doc.cesiumProps, doc)}
+
 ### Cesium read-only properties
 
 ${renderPropTable(doc.cesiumReadonlyProps, doc)}
-`
-    : ""
-}${
-    !generalComponent
-      ? `
+
 ### Cesium events
 
 ${renderPropTable(doc.cesiumEvents, doc)}
-`
-      : ""
-  }${
-    generalComponent
-      ? ""
-      : `
+
 ### Other properties`
-  }
+    : ""
+}
 
 ${renderPropTable(doc.props, doc)}
 `;
 }
 
-function renderPropTable(types: Prop[], doc: Doc) {
+function renderPropTable(types: Prop[] = [], doc: Doc) {
   const filteredTypes = types ? types.filter(t => !t.hidden && t.name !== "children") : [];
   if (filteredTypes.length === 0) return "N/A";
 

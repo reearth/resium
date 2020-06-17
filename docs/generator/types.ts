@@ -1,10 +1,12 @@
 export type Doc = {
   name: string;
   cesiumElement: string;
-} & {
-  [kind in PropKind]: Prop[];
-} &
+} & DocProps &
   DocComment;
+
+export type DocProps = {
+  [kind in PropKind]?: Prop[];
+};
 
 export type DocComment = {
   noCesiumElement?: boolean;

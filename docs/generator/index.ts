@@ -1,11 +1,12 @@
 import fs from "fs";
 import path from "path";
+import { inspect } from "util";
 import globby from "globby";
 import { ScriptTarget, createSourceFile } from "typescript";
 
 import { renderDoc } from "./renderer";
 import { parseDoc } from "./parser";
-import { inspect } from "util";
+import { CesiumTypeDefinition } from "./cesium";
 
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
@@ -17,6 +18,21 @@ console.log(
   }`,
 );
 
+// load cesium type definitions
+const cesiumModulePath = path.dirname(require.resolve("cesium"));
+const cesiumPackageJSON = JSON.parse(
+  fs.readFileSync(path.resolve(cesiumModulePath, "package.json"), "utf8"),
+);
+const cesiumTypeDefPath = path.resolve(cesiumModulePath, cesiumPackageJSON.types);
+const cesiumTypeDef = createSourceFile(
+  path.basename(cesiumTypeDefPath),
+  fs.readFileSync(cesiumTypeDefPath, "utf8"),
+  ScriptTarget.ES2020,
+  true,
+);
+const def = new CesiumTypeDefinition(cesiumTypeDef);
+
+// list component paths
 const componentFiles = globby
   .sync([
     "../src/*/*.ts{,x}",
@@ -36,6 +52,7 @@ if (componentFiles.length > 0) {
   }
 }
 
+// generate and write document
 componentFiles.forEach(cf => {
   const p = path.parse(cf);
   const nameWithExt = p.base;
@@ -44,7 +61,7 @@ componentFiles.forEach(cf => {
 
   const sourceFile = createSourceFile(nameWithExt, code, ScriptTarget.ES2020, true);
 
-  const doc = parseDoc(sourceFile);
+  const doc = parseDoc(sourceFile, def);
   if (doc.ignored) {
     return;
   }
