@@ -56,7 +56,13 @@ export const createCesiumComponent = <
       ...props,
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesiumComponent(options, mergedProps, ref);
+    const [provided, mounted, wrapperRef] = useCesiumComponent<
+      Element,
+      Props,
+      Ctx,
+      ProvidecContext,
+      State
+    >(options, mergedProps, ref);
 
     if (noChildren) return null;
 
