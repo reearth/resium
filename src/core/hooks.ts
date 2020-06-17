@@ -9,7 +9,7 @@ import {
 import { Event as CesiumEvent } from "cesium";
 
 import { useCesium } from "./context";
-import EventManager, { eventManagerContextKey } from "./EventManager";
+import { EventManager, eventManagerContextKey } from "./EventManager";
 import { includes, shallowEquals } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };

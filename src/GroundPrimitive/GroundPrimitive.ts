@@ -1,7 +1,6 @@
 import { GroundPrimitive as CesiumGroundPrimitive, Appearance, GeometryInstance } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import { createCesiumComponent, EventProps } from "../core";
 
 /*
 @summary

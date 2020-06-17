@@ -1,6 +1,6 @@
 import { PrimitiveCollection } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 // @cesiumElement PrimitiveCollection
 

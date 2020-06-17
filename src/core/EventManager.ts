@@ -59,7 +59,7 @@ export const eventNames: EventType[] = [
   "onMouseLeave",
 ];
 
-export default class EventManager {
+export class EventManager {
   private static eventTypeMap: EventMap<ScreenSpaceEventType> = {
     onClick: ScreenSpaceEventType.LEFT_CLICK,
     onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
@@ -270,3 +270,5 @@ export default class EventManager {
     return undefined;
   }
 }
+
+export default EventManager;

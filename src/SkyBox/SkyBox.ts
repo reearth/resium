@@ -1,6 +1,6 @@
 import { SkyBox as CesiumSkyBox } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

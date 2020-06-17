@@ -9,7 +9,7 @@ import {
   ClassificationType,
 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { createCesiumComponent, EventkeyMap } from "../core";
 
 /*
 @summary

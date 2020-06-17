@@ -1,7 +1,7 @@
 // @ignore
 import { PostProcessStageLibrary } from "cesium";
 
-import { createPostProcessStage } from "../core/PostProcessStage";
+import { createPostProcessStage } from "../core";
 
 export const BlurStage = createPostProcessStage<{
   delta?: number;

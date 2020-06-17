@@ -1,6 +1,6 @@
 import { PolylineCollection as CesiumPolylineCollection, Matrix4 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

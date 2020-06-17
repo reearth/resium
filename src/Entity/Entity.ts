@@ -25,8 +25,7 @@ import {
   Cesium3DTilesetGraphics,
 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import { createCesiumComponent, EventkeyMap, EventProps } from "../core";
 /*
 @summary
 `Entity` is a basic component for geographical data visualization.

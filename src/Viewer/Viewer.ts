@@ -17,9 +17,14 @@ import {
   TerrainProvider,
 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
-import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
-import { Context } from "../core/context";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  EventManager,
+  eventManagerContextKey,
+  RootEventProps,
+  Context,
+} from "../core";
 
 /*
 @summary

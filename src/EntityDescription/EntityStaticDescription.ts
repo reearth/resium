@@ -4,7 +4,7 @@ import { ConstantProperty } from "cesium";
 const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
-import { useCesium } from "../core/context";
+import { useCesium } from "../core";
 import { Entity } from "cesium";
 
 // @noCesiumElement

@@ -10,7 +10,7 @@ import {
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import { CesiumComponentRef } from "../core/component";
+import { CesiumComponentRef } from "../core";
 import Viewer from "../Viewer";
 import Clock from "../Clock";
 import TimeDynamicPointCloud from "./TimeDynamicPointCloud";

@@ -6,7 +6,7 @@ import {
   ScreenSpaceEventHandler,
 } from "cesium";
 
-import { useCesium } from "../core/context";
+import { useCesium } from "../core";
 
 // @noCesiumElement
 

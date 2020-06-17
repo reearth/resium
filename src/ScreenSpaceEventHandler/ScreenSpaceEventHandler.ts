@@ -1,6 +1,6 @@
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

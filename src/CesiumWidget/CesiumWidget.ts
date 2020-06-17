@@ -13,10 +13,14 @@ import {
   Globe,
 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
-import { pick } from "../core/util";
-import { Context } from "../core/context";
+import {
+  createCesiumComponent,
+  EventManager,
+  eventManagerContextKey,
+  RootEventProps,
+  pick,
+  Context,
+} from "../core";
 
 /*
 @summary

@@ -1,7 +1,6 @@
 import { Material, Cartesian3, DistanceDisplayCondition, Polyline as CesiumPolyline } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import { createCesiumComponent, EventProps } from "../core";
 
 /*
 @summary

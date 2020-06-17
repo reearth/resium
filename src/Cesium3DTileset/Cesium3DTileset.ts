@@ -11,8 +11,7 @@ import {
   Resource,
   Cesium3DTileFeature,
 } from "cesium";
-import { createCesiumComponent, EventkeyMap } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import { createCesiumComponent, EventkeyMap, EventProps } from "../core";
 
 /*
 @summary

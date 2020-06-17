@@ -1,6 +1,6 @@
 import { ParticleSystem as CesiumParticleSystem, Matrix4, Color, Cartesian2 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { createCesiumComponent, EventkeyMap } from "../core";
 
 /*
 @summary

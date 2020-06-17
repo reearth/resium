@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 import { Entity, Viewer } from "cesium";
 
-import { useCesium } from "../core/context";
+import { useCesium } from "../core";
 
 // @noCesiumElement
 

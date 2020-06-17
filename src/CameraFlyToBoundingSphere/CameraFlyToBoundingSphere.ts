@@ -1,4 +1,4 @@
-import { createCameraOperation } from "../core/CameraOperation";
+import { createCameraOperation } from "../core";
 import { BoundingSphere, HeadingPitchRange, Camera, Matrix4, EasingFunction } from "cesium";
 
 // @noCesiumElement

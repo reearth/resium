@@ -11,7 +11,7 @@ import {
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import { useCesium } from "../core/context";
+import { useCesium } from "../core";
 import Viewer from "../Viewer";
 import ParticleSystem from "./ParticleSystem";
 import CameraFlyTo from "../CameraFlyTo";

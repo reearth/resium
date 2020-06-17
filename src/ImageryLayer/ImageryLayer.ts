@@ -7,7 +7,7 @@ import {
   ImagerySplitDirection,
 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

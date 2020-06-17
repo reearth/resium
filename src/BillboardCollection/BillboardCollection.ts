@@ -1,6 +1,6 @@
 import { BillboardCollection as CesiumBillboardCollection, BlendOption, Matrix4 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

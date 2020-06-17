@@ -1,6 +1,6 @@
 import { CustomDataSource as CesiumCustomDataSource, DataSourceClock, EntityCluster } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { createCesiumComponent, EventkeyMap } from "../core";
 
 /*
 @summary

@@ -15,8 +15,7 @@ import {
   Credit,
 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import { createCesiumComponent, EventProps } from "../core";
 
 export interface ModelCesiumProps {
   basePath?: Resource | string;

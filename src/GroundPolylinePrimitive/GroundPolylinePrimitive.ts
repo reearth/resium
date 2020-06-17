@@ -5,8 +5,7 @@ import {
   ClassificationType,
 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import { EventProps, createCesiumComponent } from "../core";
 
 /*
 @summary
