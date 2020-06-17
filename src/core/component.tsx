@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 
 import { useCesiumComponent, Options, EventkeyMap } from "./hooks";
 import { CesiumContext, Context } from "./context";
-import { pick } from "./util";
+import { pick, ExtractFunctions, ReadonlyKeys } from "./util";
 
 export { EventkeyMap };
 
@@ -37,6 +37,11 @@ export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponen
 
 export type PickCesiumProps<T, K extends any[] | readonly any[]> = RemoveReadOnlyAndPartial<
   Pick<T, K extends readonly (infer E)[] ? E : K extends (infer E)[] ? E : never>
+>;
+
+export type UnusedCesiumProps<T, K extends any[] | readonly any[]> = Exclude<
+  Exclude<keyof T, ExtractFunctions<T> | ReadonlyKeys<T>>,
+  K extends readonly (infer E)[] ? E : K extends (infer E)[] ? E : never
 >;
 
 export const createCesiumComponent = <

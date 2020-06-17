@@ -57,3 +57,19 @@ export function isDestroyable(d: any): d is Destroyable {
 export function isDestroyed(d: any) {
   return isDestroyable(d) && d.isDestroyed();
 }
+
+export type ExtractFunctions<T> = {
+  [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
+}[keyof T];
+
+export type AssertNever<T extends never> = T;
+
+export type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <
+  T
+>() => T extends Y ? 1 : 2
+  ? A
+  : B;
+
+export type ReadonlyKeys<T> = {
+  [P in keyof T]-?: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, never, P>;
+}[keyof T];
