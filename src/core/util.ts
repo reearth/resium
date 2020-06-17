@@ -33,7 +33,7 @@ export function entries<T>(obj: T): [keyof T, T[keyof T]][] {
   return Object.keys(obj).map(k => [k, obj[k as keyof T]] as [keyof T, T[keyof T]]);
 }
 
-export function includes<T>(array: T[] | null | undefined, value: T) {
+export function includes<T>(array: readonly T[] | null | undefined, value: T) {
   return !!array && array.indexOf(value) !== -1;
 }
 

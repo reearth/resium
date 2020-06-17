@@ -29,8 +29,8 @@ export type Options<Element, Props, Context = any, ProvidedContext = any, State 
   ) => void;
   provide?: (element: Element, ctx: Context, state?: State) => ProvidedContext;
   update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
-  cesiumProps?: (keyof Props)[];
-  cesiumReadonlyProps?: (keyof Props)[];
+  cesiumProps?: readonly (keyof Props)[];
+  cesiumReadonlyProps?: readonly (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
   setCesiumPropsAfterCreate?: boolean;
   useCommonEvent?: boolean;
@@ -252,4 +252,3 @@ export const useCesiumComponent = <
 
   return [provided.current, mounted, wrapperRef];
 };
-
