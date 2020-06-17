@@ -8,10 +8,10 @@ import {
 import { createCesiumComponent } from "./component";
 import { includes } from "./util";
 
-export interface PostProcessStageCesiumProps {
+export type PostProcessStageCesiumProps = {
   enabled?: boolean;
   selected?: any[];
-}
+};
 
 const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
 

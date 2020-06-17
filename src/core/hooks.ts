@@ -14,7 +14,7 @@ import { includes, shallowEquals } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-export interface Options<Element, Props, Context = any, ProvidedContext = any, State = any> {
+export type Options<Element, Props, Context = any, ProvidedContext = any, State = any> = {
   name: string;
   create?: (
     ctx: Context,
@@ -35,7 +35,7 @@ export interface Options<Element, Props, Context = any, ProvidedContext = any, S
   setCesiumPropsAfterCreate?: boolean;
   useCommonEvent?: boolean;
   useRootEvent?: boolean;
-}
+};
 
 export const useCesiumComponent = <
   Element,

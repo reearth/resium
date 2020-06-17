@@ -3,10 +3,10 @@ import { Camera } from "cesium";
 
 import { useCesium } from "./context";
 
-export interface CameraOperationProps {
+export type CameraOperationProps = {
   cancelFlightOnUnmount?: boolean;
   once?: boolean;
-}
+};
 
 export const createCameraOperation = <P>(
   name: string,

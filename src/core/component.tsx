@@ -6,13 +6,13 @@ import { pick } from "./util";
 
 export { EventkeyMap };
 
-export interface CesiumComponentOptions<
+export type CesiumComponentOptions<
   Element,
   Props,
   Context = any,
   ProvidecContext = any,
   State = any
-> extends Options<Element, Props, Context, ProvidecContext, State> {
+> = Options<Element, Props, Context, ProvidecContext, State> & {
   renderContainer?: boolean;
   noChildren?: boolean;
   containerProps?:
@@ -21,11 +21,11 @@ export interface CesiumComponentOptions<
         props: Props,
       ) => Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>);
   defaultProps?: Partial<Props>;
-}
+};
 
-export interface CesiumComponentRef<Element> {
+export type CesiumComponentRef<Element> = {
   cesiumElement?: Element;
-}
+};
 
 export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<Props> & React.RefAttributes<CesiumComponentRef<Element>>
