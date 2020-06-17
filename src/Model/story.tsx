@@ -7,10 +7,11 @@ import Model from "./Model";
 import CameraFlyTo from "../CameraFlyTo";
 
 import glb from "assets/Cesium_Air.glb";
+import { Transforms, Cartesian3 } from "cesium";
 
-const origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
-const cameraDest = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 210000);
-const modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+const origin = Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
+const cameraDest = Cartesian3.fromDegrees(-95.0, 40.0, 210000);
+const modelMatrix = Transforms.eastNorthUpToFixedFrame(origin);
 
 storiesOf("Model", module).add("Basic", () => (
   <Viewer full>

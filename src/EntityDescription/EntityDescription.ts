@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
+import { Entity, Viewer } from "cesium";
 
 import { useCesium } from "../core/context";
-import { Entity } from "cesium";
 
 // @noCesiumElement
 
@@ -29,11 +29,11 @@ const EntityDescription: React.FC<EntityDescriptionProps> = ({
   container,
   resizeInfoBox = true,
 }) => {
-  const { viewer, entity } = useCesium<{ viewer?: Cesium.Viewer; entity?: Entity }>();
+  const { viewer, entity } = useCesium<{ viewer?: Viewer; entity?: Entity }>();
   const [selected, setSelected] = useState(false);
   const c = useMemo(
     () => container ?? viewer?.infoBox.frame.contentDocument?.createElement("div"),
-    [container, viewer],
+    [container, viewer?.infoBox?.frame?.contentDocument?.createElement],
   );
 
   // Update selected state

@@ -1,5 +1,13 @@
 import React, { useRef } from "react";
-import { HeadingPitchRange, Cesium3DTileStyle } from "cesium";
+import {
+  HeadingPitchRange,
+  Cesium3DTileStyle,
+  TimeIntervalCollection,
+  TimeInterval,
+  JulianDate,
+  ClockRange,
+  Viewer as CesiumViewer,
+} from "cesium";
 import { storiesOf } from "@storybook/react";
 
 import { CesiumComponentRef } from "../core/component";
@@ -22,12 +30,12 @@ const dates = [
   "2018-07-19T15:18:02Z",
   "2018-07-19T15:18:02.5Z",
 ];
-const start = Cesium.JulianDate.fromIso8601(dates[0]);
-const stop = Cesium.JulianDate.fromIso8601(dates[dates.length - 1]);
+const start = JulianDate.fromIso8601(dates[0]);
+const stop = JulianDate.fromIso8601(dates[dates.length - 1]);
 
-const intervals = (Cesium.TimeIntervalCollection as any).fromIso8601DateArray({
+const intervals = TimeIntervalCollection.fromIso8601DateArray({
   iso8601Dates: dates,
-  dataCallback: (interval: Cesium.TimeInterval, index: number) => ({
+  dataCallback: (interval: TimeInterval, index: number) => ({
     uri: uris[index],
   }),
 });
@@ -37,14 +45,14 @@ const style = new Cesium3DTileStyle({
 });
 
 storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
-  const ref = useRef<CesiumComponentRef<Cesium.Viewer>>(null);
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
   return (
     <Viewer full shouldAnimate ref={ref}>
       <Clock
         startTime={start}
         currentTime={start}
         stopTime={stop}
-        clockRange={Cesium.ClockRange.LOOP_STOP}
+        clockRange={ClockRange.LOOP_STOP}
       />
       <TimeDynamicPointCloud
         intervals={intervals}

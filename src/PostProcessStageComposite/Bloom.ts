@@ -10,7 +10,7 @@ export const Bloom = createPostProcessStage<{
   stepSize?: number;
 }>({
   name: "Bloom",
-  create: (props, collection) => (collection as any).bloom, // WORKAROUND
+  create: (_props, collection) => collection.bloom,
   props: ["brightness", "contrast", "delta", "glowOnly", "sigma", "stepSize"],
   noMount: true,
 });

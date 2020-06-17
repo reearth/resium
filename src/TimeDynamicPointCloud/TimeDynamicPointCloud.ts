@@ -1,4 +1,14 @@
-import { TimeDynamicPointCloud as CesiumTimeDynamicPointCloud } from "cesium";
+import {
+  TimeDynamicPointCloud as CesiumTimeDynamicPointCloud,
+  ClippingPlaneCollection,
+  Clock,
+  TimeIntervalCollection,
+  Matrix4,
+  ShadowMode,
+  Cesium3DTileStyle,
+  PrimitiveCollection,
+  CesiumWidget,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,14 +24,14 @@ A TimeDynamicPointCloud object will be attached to the PrimitiveCollection of th
 */
 
 export interface TimeDynamicPointCloudCesiumProps {
-  clock?: Cesium.Clock;
-  intervals: Cesium.TimeIntervalCollection;
+  clock?: Clock;
+  intervals: TimeIntervalCollection;
   show?: boolean;
-  modelMatrix?: Cesium.Matrix4;
-  shadows?: Cesium.ShadowMode;
+  modelMatrix?: Matrix4;
+  shadows?: ShadowMode;
   maximumMemoryUsage?: number;
-  style?: Cesium.Cesium3DTileStyle;
-  clippingPlanes?: Cesium.ClippingPlaneCollection;
+  style?: Cesium3DTileStyle;
+  clippingPlanes?: ClippingPlaneCollection;
 }
 
 export interface TimeDynamicPointCloudCesiumReadonlyProps {
@@ -37,7 +47,7 @@ export interface TimeDynamicPointCloudCesiumReadonlyProps {
 }
 
 export interface TimeDynamicPointCloudCesiumEvents {
-  onFrameChange?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
+  onFrameChange?: (pointCloud: any /* TimeDynamicPointCloud */) => void;
 }
 
 export interface TimeDynamicPointCloudProps
@@ -45,7 +55,7 @@ export interface TimeDynamicPointCloudProps
     TimeDynamicPointCloudCesiumReadonlyProps,
     TimeDynamicPointCloudCesiumEvents {
   // Calls when the point cloud is completely loaded.
-  onReady?: (pointCloud: any /* Cesium.TimeDynamicPointCloud */) => void;
+  onReady?: (pointCloud: any /* TimeDynamicPointCloud */) => void;
 }
 
 const cesiumProps: (keyof TimeDynamicPointCloudCesiumProps)[] = [
@@ -61,17 +71,20 @@ const cesiumProps: (keyof TimeDynamicPointCloudCesiumProps)[] = [
 
 const cesiumReadonlyProps: (keyof TimeDynamicPointCloudCesiumReadonlyProps)[] = ["shading"];
 
-// Cesium.TimeDynamicPointCloud
-const cesiumEventProps: EventkeyMap<any, TimeDynamicPointCloudCesiumEvents> = {
+// TimeDynamicPointCloud
+const cesiumEventProps: EventkeyMap<
+  CesiumTimeDynamicPointCloud,
+  TimeDynamicPointCloudCesiumEvents
+> = {
   onFrameChange: "frameChanged",
 };
 
 const TimeDynamicPointCloud = createCesiumComponent<
-  any /* Cesium.TimeDynamicPointCloud */,
+  CesiumTimeDynamicPointCloud,
   TimeDynamicPointCloudProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
-    cesiumWidget?: Cesium.CesiumWidget;
+    primitiveCollection?: PrimitiveCollection;
+    cesiumWidget?: CesiumWidget;
   }
 >({
   name: "TimeDynamicPointCloud",

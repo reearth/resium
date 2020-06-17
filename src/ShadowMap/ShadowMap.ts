@@ -1,3 +1,5 @@
+import { Scene, ShadowMap as CesiumShadowMap } from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -29,10 +31,10 @@ const cesiumProps: (keyof ShadowMapProps)[] = [
 ];
 
 const ShadowMap = createCesiumComponent<
-  Cesium.ShadowMap,
+  CesiumShadowMap,
   ShadowMapProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "ShadowMap",

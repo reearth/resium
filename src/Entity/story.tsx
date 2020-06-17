@@ -263,7 +263,6 @@ storiesOf("Entity", module)
         name="PathGraphics"
         description="PathGraphics!!"
         position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-        {/* TODO: add loop function */}
         <PathGraphics
           material={Color.RED}
           width={8}
@@ -277,7 +276,7 @@ storiesOf("Entity", module)
         description="PlaneGraphics!!"
         position={Cartesian3.fromDegrees(-74.0707383, 50.7117244, 100)}>
         <PlaneGraphics
-          plane={new Plane(Cartesian3.UNIT_Z, 0.0) as any} // Cesium.Plane
+          plane={new Plane(Cartesian3.UNIT_Z, 0.0)}
           dimensions={new Cartesian2(400000.0, 300000.0)}
           fill={false}
           outline
@@ -293,7 +292,7 @@ storiesOf("Entity", module)
       <Entity name="PolygonGraphics" description="PolygonGraphics!!">
         <PolygonGraphics
           hierarchy={Cartesian3.fromDegreesArray([-108.0, 42.0, -100.0, 42.0, -104.0, 40.0])}
-          material={Cesium.Color.GREEN}
+          material={Color.GREEN}
         />
       </Entity>
       <Entity

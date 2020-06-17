@@ -33,7 +33,7 @@ const EntityStaticDescription: React.FC = ({ children }) => {
     entity.description = new ConstantProperty(renderToStaticMarkup(children));
     return () => {
       if (!entity) return;
-      (entity.description as Cesium.Property | undefined) = undefined;
+      entity.description = undefined;
     };
   }, [children, entity]);
 

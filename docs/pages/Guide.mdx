@@ -197,7 +197,7 @@ const ExampleComponent = () => {
   
   useEffect(() => {
     if (ref.current && ref.current.cesiumElement) {
-      // ref.current.cesiumElement is Cesium.Viewer
+      // ref.current.cesiumElement is Cesium's Viewer
       // DO SOMETHING
     }
   }, []);
@@ -212,14 +212,15 @@ Function component in TypeScript:
 
 ```tsx
 import React, { useEffect, useRef } from "react";
+import { Viewer as CesiumViewer } from "cesium";
 import { Viewer, CesiumComponentRef } from "resium";
 
 const ExampleComponent = () => {
-  const ref = useRef<CesiumComponentRef<Cesium.Viewer>>(null);
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
   
   useEffect(() => {
     if (ref.current?.cesiumElement) {
-      // ref.current.cesiumElement is Cesium.Viewer
+      // ref.current.cesiumElement is Cesium's Viewer
       // DO SOMETHING
     }
   }, []);
@@ -241,7 +242,7 @@ import { Viewer } from "resium";
 class ExampleComponent extends Component {
   componentDidMount() {
     if (this.viewer) {
-      // this.viewer is Cesium.Viewer
+      // this.viewer is Cesium's Viewer
       // DO SOMETHING
     }
   }
@@ -261,14 +262,15 @@ Class component in TypeScript:
 
 ```tsx
 import React, { Component } from "react";
+import { Viewer as CesiumViewer } from "cesium";
 import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
-  private viewer: Cesium.Viewer | undefined;
+  private viewer: CesiumViewer | undefined;
 
   componentDidMount() {
     if (this.viewer) {
-      // this.viewer is Cesium.Viewer
+      // this.viewer is Cesium's Viewer
       // DO SOMETHING
     }
   }
@@ -300,7 +302,7 @@ class ExampleComponent extends Component {
 
   componentDidMount() {
     if (this.ref.current && this.ref.current.cesiumElement) {
-      // this.ref.current.cesiumElement is Cesium.Viewer
+      // this.ref.current.cesiumElement is Cesium's Viewer
       // DO SOMETHING
     }
   }
@@ -317,14 +319,15 @@ Class component in TypeScript:
 
 ```tsx
 import React, { Component, createRef } from "react";
+import { Viewer as CesiumViewer } from "cesium";
 import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
-  private ref = createRef<Cesium.Viewer | undefined>();
+  private ref = createRef<CesiumViewer | undefined>();
 
   componentDidMount() {
     if (this.ref.current?.cesiumElement) {
-      // this.ref.current.cesiumElement is Cesium.Viewer
+      // this.ref.current.cesiumElement is Cesium's Viewer
       // DO SOMETHING
     }
   }

@@ -1,4 +1,13 @@
-import { CylinderGraphics as CesiumCylinderGraphics } from "cesium";
+import {
+  CylinderGraphics as CesiumCylinderGraphics,
+  Entity,
+  Property,
+  HeightReference,
+  Color,
+  MaterialProperty,
+  ShadowMode,
+  DistanceDisplayCondition,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,20 +23,20 @@ and can not be used more than once for each entity.
 */
 
 export interface CylinderGraphicsCesiumProps {
-  heightReference?: Cesium.Property | Cesium.HeightReference;
-  length?: Cesium.Property | number;
-  topRadius?: Cesium.Property | number;
-  bottomRadius?: Cesium.Property | number;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  numberOfVerticalLines?: Cesium.Property | number;
-  slices?: Cesium.Property | number;
-  shadowMode?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
+  heightReference?: Property | HeightReference;
+  length?: Property | number;
+  topRadius?: Property | number;
+  bottomRadius?: Property | number;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  numberOfVerticalLines?: Property | number;
+  slices?: Property | number;
+  shadowMode?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
 }
 
 export interface CylinderCesiumEvents {
@@ -53,27 +62,27 @@ const cesiumProps: (keyof CylinderGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.CylinderGraphics, CylinderCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumCylinderGraphics, CylinderCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const CylinderGraphics = createCesiumComponent<
-  Cesium.CylinderGraphics,
+  CesiumCylinderGraphics,
   CylinderGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "CylinderGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumCylinderGraphics(props as any); // WORKAROUND
+    const element = new CesiumCylinderGraphics(props as any); // WORKAROUND: material
     context.entity.cylinder = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.cylinder = undefined as any;
+      context.entity.cylinder = undefined;
     }
   },
   cesiumProps,

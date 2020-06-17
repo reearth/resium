@@ -7,6 +7,7 @@ import {
   Material,
   Math as CesiumMath,
   VertexFormat,
+  Geometry,
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
@@ -21,7 +22,7 @@ const geometry = new GeometryInstance({
     semiMajorAxis: 1000000.0,
     rotation: CesiumMath.PI_OVER_FOUR,
     vertexFormat: VertexFormat.POSITION_AND_ST,
-  }) as Cesium.Geometry,
+  }) as Geometry,
   id: "id",
 });
 

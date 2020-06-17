@@ -1,4 +1,12 @@
-import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
+import {
+  GeoJsonDataSource as CesiumGeoJsonDataSource,
+  DataSourceCollection,
+  EntityCluster,
+  Resource,
+  Credit,
+  Color,
+  Property,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,27 +22,27 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export interface GeoJsonDataSourceCesiumProps {
-  clustering?: Cesium.EntityCluster;
+  clustering?: EntityCluster;
   name?: string;
 }
 
 export interface GeoJsonDataSourceCesiumEvents {
-  onChange?: (GeoJsonDataSource: Cesium.GeoJsonDataSource) => void;
-  onError?: (GeoJsonDataSource: Cesium.GeoJsonDataSource, error: any) => void;
-  onLoading?: (GeoJsonDataSource: Cesium.GeoJsonDataSource, isLoaded: boolean) => void;
+  onChange?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
+  onError?: (GeoJsonDataSource: CesiumGeoJsonDataSource, error: any) => void;
+  onLoading?: (GeoJsonDataSource: CesiumGeoJsonDataSource, isLoaded: boolean) => void;
 }
 
 export interface GeoJsonDataSourceProps
   extends GeoJsonDataSourceCesiumProps,
     GeoJsonDataSourceCesiumEvents {
   // @CesiumReadonlyProp
-  data?: Cesium.Resource | string | object;
+  data?: Resource | string | any;
   // @CesiumReadonlyProp
   clampToGround?: boolean;
   // @CesiumReadonlyProp
   sourceUri?: string;
   // @CesiumReadonlyProp
-  credit?: Cesium.Credit | string;
+  credit?: Credit | string;
   // @CesiumProp
   show?: boolean;
   // @CesiumReadonlyProp
@@ -42,24 +50,24 @@ export interface GeoJsonDataSourceProps
   // @CesiumReadonlyProp
   markerSymbol?: string;
   // @CesiumReadonlyProp
-  markerColor?: Cesium.Color;
+  markerColor?: Color;
   // @CesiumReadonlyProp
-  stroke?: Cesium.Color;
+  stroke?: Color;
   // @CesiumReadonlyProp
   strokeWidth?: number;
   // @CesiumReadonlyProp
-  fill?: Cesium.Color;
+  fill?: Color;
   // @CesiumReadonlyProp
-  describe?: (properties: { [key: string]: any }, nameProperty: string) => Cesium.Property | string;
+  describe?: (properties: { [key: string]: any }, nameProperty: string) => Property | string;
   // Calls when the Promise for loading data is fullfilled.
-  onLoad?: (GeoJsonDataSouce: Cesium.GeoJsonDataSource) => void;
+  onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
 }
 
 const cesiumProps: (keyof GeoJsonDataSourceCesiumProps)[] = ["clustering", "name"];
 
-const cesiumEventProps: EventkeyMap<Cesium.GeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumGeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
   onChange: "changedEvent",
-  onError: "ErrorEvent" as any,
+  onError: "errorEvent",
   onLoading: "loadingEvent",
 };
 
@@ -78,19 +86,19 @@ const load = ({
   fill,
   describe,
 }: {
-  element: Cesium.GeoJsonDataSource;
-  dataSources: Cesium.DataSourceCollection;
-  data: Cesium.Resource | string | object;
-  onLoad?: (GeoJsonDataSource: Cesium.GeoJsonDataSource) => void;
+  element: CesiumGeoJsonDataSource;
+  dataSources: DataSourceCollection;
+  data: Resource | string | any;
+  onLoad?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
   clampToGround?: boolean;
   sourceUri?: string;
-  credit?: Cesium.Credit | string;
+  credit?: Credit | string;
   markerSize?: number;
   markerSymbol?: string;
-  markerColor?: Cesium.Color;
-  stroke?: Cesium.Color;
+  markerColor?: Color;
+  stroke?: Color;
   strokeWidth?: number;
-  fill?: Cesium.Color;
+  fill?: Color;
   describe?: GeoJsonDataSourceProps["describe"];
 }) => {
   element
@@ -103,9 +111,9 @@ const load = ({
       strokeWidth,
       fill,
       sourceUri,
-      describe, // WORKAROUND
+      describe,
       credit,
-    } as any)
+    })
     .then(value => {
       if (onLoad) {
         onLoad(value);
@@ -114,10 +122,10 @@ const load = ({
 };
 
 const GeoJsonDataSource = createCesiumComponent<
-  Cesium.GeoJsonDataSource,
+  CesiumGeoJsonDataSource,
   GeoJsonDataSourceProps,
   {
-    dataSourceCollection?: Cesium.DataSourceCollection;
+    dataSourceCollection?: DataSourceCollection;
   }
 >({
   name: "GeoJsonDataSource",

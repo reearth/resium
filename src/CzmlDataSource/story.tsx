@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { GeoJsonDataSource } from "cesium";
 
 import Viewer from "../Viewer";
 import CzmlDataSource from "./CzmlDataSource";
@@ -38,7 +39,7 @@ const czml = [
 
 const onLoadAction = action("onLoad");
 
-const onLoad = (g: Cesium.GeoJsonDataSource) => {
+const onLoad = (g: GeoJsonDataSource) => {
   // You can process the data source here
   g.entities.values[0].name = "TOKYO!";
   onLoadAction(g);

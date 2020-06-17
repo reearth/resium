@@ -1,4 +1,9 @@
-import { PolylineCollection as CesiumPolylineCollection } from "cesium";
+import {
+  PolylineCollection as CesiumPolylineCollection,
+  Scene,
+  PrimitiveCollection,
+  Matrix4,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -20,7 +25,7 @@ A PolylineCollection object will be attached to the PrimitiveCollection of the V
 export interface PolylineCollectionCesiumProps {
   debugShowBoundingVolume?: boolean;
   length?: number;
-  modelMatrix?: Cesium.Matrix4;
+  modelMatrix?: Matrix4;
 }
 
 export interface PolylineCollectionProps extends PolylineCollectionCesiumProps {
@@ -34,11 +39,11 @@ const cesiumProps: (keyof PolylineCollectionCesiumProps)[] = [
 ];
 
 const PolylineCollection = createCesiumComponent<
-  Cesium.PolylineCollection,
+  CesiumPolylineCollection,
   PolylineCollectionProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
-    scene?: Cesium.Scene;
+    primitiveCollection?: PrimitiveCollection;
+    scene?: Scene;
   }
 >({
   name: "PolylineCollection",
@@ -47,7 +52,7 @@ const PolylineCollection = createCesiumComponent<
     const element = new CesiumPolylineCollection({
       modelMatrix: props.modelMatrix,
       debugShowBoundingVolume: props.debugShowBoundingVolume,
-      length: props.length, // WORKAROUND
+      length: props.length, // WORKAROUND: missing field
       scene: context.scene,
     } as any);
     context.primitiveCollection.add(element);

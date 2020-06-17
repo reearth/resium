@@ -1,4 +1,11 @@
-import { LabelCollection as CesiumLabelCollection } from "cesium";
+import {
+  LabelCollection as CesiumLabelCollection,
+  Scene,
+  BlendOption,
+  Matrix4,
+  PrimitiveCollection,
+} from "cesium";
+
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -17,9 +24,9 @@ A LabelCollection object will be attached to the PrimitiveCollection of the View
 */
 
 export interface LabelCollectionCesiumProps {
-  blendOption?: Cesium.BlendOption;
+  blendOption?: BlendOption;
   debugShowBoundingVolume?: boolean;
-  modelMatrix?: Cesium.Matrix4;
+  modelMatrix?: Matrix4;
 }
 
 export interface LabelCollectionProps extends LabelCollectionCesiumProps {
@@ -33,11 +40,11 @@ const cesiumProps: (keyof LabelCollectionCesiumProps)[] = [
 ];
 
 const LabelCollection = createCesiumComponent<
-  Cesium.LabelCollection,
+  CesiumLabelCollection,
   LabelCollectionProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
-    scene?: Cesium.Scene;
+    primitiveCollection?: PrimitiveCollection;
+    scene?: Scene;
   }
 >({
   name: "LabelCollection",

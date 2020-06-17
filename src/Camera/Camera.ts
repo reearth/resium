@@ -1,3 +1,12 @@
+import {
+  Cartesian3,
+  Camera as CesiumCamera,
+  Scene,
+  PerspectiveFrustum,
+  PerspectiveOffCenterFrustum,
+  OrthographicFrustum,
+} from "cesium";
+
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
 /*
@@ -40,16 +49,16 @@ It can not be used more than once for each Viewer or CesiumWidget.
 */
 
 export interface CameraCesiumProps {
-  position?: Cesium.Cartesian3;
-  direction?: Cesium.Cartesian3;
-  up?: Cesium.Cartesian3;
-  right?: Cesium.Cartesian3;
-  frustum?: Cesium.Frustum;
+  position?: Cartesian3;
+  direction?: Cartesian3;
+  up?: Cartesian3;
+  right?: Cartesian3;
+  frustum?: PerspectiveFrustum | PerspectiveOffCenterFrustum | OrthographicFrustum;
   defaultMoveAmount?: number;
   defaultLookAmount?: number;
   defaultRotateAmount?: number;
   defaultZoomAmount?: number;
-  constrainedAxis?: Cesium.Cartesian3;
+  constrainedAxis?: Cartesian3;
   maximumTranslateFactor?: number;
   maximumZoomFactor?: number;
   percentageChanged?: number;
@@ -79,17 +88,17 @@ const cesiumProps: (keyof CameraCesiumProps)[] = [
   "percentageChanged",
 ];
 
-const cesiumEventProps: EventkeyMap<Cesium.Camera, CameraCesiumEvents> = {
+const cesiumEventProps: EventkeyMap<CesiumCamera, CameraCesiumEvents> = {
   onChange: "changed",
   onMoveEnd: "moveEnd",
   onMoveStart: "moveStart",
 };
 
 const Camera = createCesiumComponent<
-  Cesium.Camera,
+  CesiumCamera,
   CameraProps,
   {
-    scene?: Cesium.Scene;
+    scene?: Scene;
   }
 >({
   name: "Camera",

@@ -3,7 +3,7 @@ import { PostProcessStageLibrary } from "cesium";
 
 import { createPostProcessStage } from "../core/PostProcessStage";
 
-export const NightVisionStage = createPostProcessStage<{}>({
+export const NightVisionStage = createPostProcessStage<unknown>({
   name: "NightVisionStage",
   props: [],
   create: () => PostProcessStageLibrary.createNightVisionStage(),

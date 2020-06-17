@@ -12,7 +12,7 @@ export const AmbientOcclusion = createPostProcessStage<{
   sigma?: number;
 }>({
   name: "AmbientOcclusion",
-  create: (props, collection) => (collection as any).ambientOcclusion, // WORKAROUND
+  create: (_props, collection) => collection.ambientOcclusion,
   props: [
     "ambientOcclusionOnly",
     "bias",

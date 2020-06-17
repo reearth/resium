@@ -1,4 +1,10 @@
-import { BillboardCollection as CesiumBillboardCollection } from "cesium";
+import {
+  BillboardCollection as CesiumBillboardCollection,
+  BlendOption,
+  Matrix4,
+  PrimitiveCollection,
+  Scene,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -18,10 +24,10 @@ A BillboardColleciton object will be attached to the PrimitiveCollection of the 
 */
 
 export interface BillboardCollectionCesiumProps {
-  blendOption?: Cesium.BlendOption;
+  blendOption?: BlendOption;
   debugShowBoundingVolume?: boolean;
   length?: number;
-  modelMatrix?: Cesium.Matrix4;
+  modelMatrix?: Matrix4;
 }
 
 export interface BillboardCollectionProps extends BillboardCollectionCesiumProps {
@@ -36,11 +42,11 @@ const cesiumProps: (keyof BillboardCollectionCesiumProps)[] = [
 ];
 
 const BillboardCollection = createCesiumComponent<
-  Cesium.BillboardCollection,
+  CesiumBillboardCollection,
   BillboardCollectionProps,
   {
-    primitiveCollection?: Cesium.PrimitiveCollection;
-    scene?: Cesium.Scene;
+    primitiveCollection?: PrimitiveCollection;
+    scene?: Scene;
   }
 >({
   name: "BillboardCollection",

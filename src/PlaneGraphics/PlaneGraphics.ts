@@ -1,4 +1,13 @@
-import { PlaneGraphics as CesiumPlaneGraphics } from "cesium";
+import {
+  PlaneGraphics as CesiumPlaneGraphics,
+  Entity,
+  Property,
+  Cartesian2,
+  Color,
+  MaterialProperty,
+  DistanceDisplayCondition,
+  ShadowMode,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -14,16 +23,16 @@ and can not be used more than once for each entity.
 */
 
 export interface PlaneGraphicsCesiumProps {
-  plane?: Cesium.Property | any;
-  dimensions?: Cesium.Property | Cesium.Cartesian2;
-  show?: Cesium.Property | boolean;
-  fill?: Cesium.Property | boolean;
-  material?: Cesium.MaterialProperty | Cesium.Color | string;
-  outline?: Cesium.Property | boolean;
-  outlineColor?: Cesium.Property | Cesium.Color;
-  outlineWidth?: Cesium.Property | number;
-  shadows?: Cesium.Property | Cesium.ShadowMode;
-  distanceDisplayCondition?: Cesium.Property | Cesium.DistanceDisplayCondition;
+  plane?: Property | any;
+  dimensions?: Property | Cartesian2;
+  show?: Property | boolean;
+  fill?: Property | boolean;
+  material?: MaterialProperty | Color | string;
+  outline?: Property | boolean;
+  outlineColor?: Property | Color;
+  outlineWidth?: Property | number;
+  shadows?: Property | ShadowMode;
+  distanceDisplayCondition?: Property | DistanceDisplayCondition;
 }
 
 export interface PlaneGraphicsCesiumEvents {
@@ -45,28 +54,28 @@ const cesiumProps: (keyof PlaneGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
 ];
 
-// Cesium.PlaneGraphics
+// PlaneGraphics
 const cesiumEventProps: EventkeyMap<any, PlaneGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
 const PlaneGraphics = createCesiumComponent<
-  any, // Cesium.PlaneGraphics
+  CesiumPlaneGraphics,
   PlaneGraphicsProps,
   {
-    entity?: Cesium.Entity;
+    entity?: Entity;
   }
 >({
   name: "PlaneGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPlaneGraphics(props as any); // WORKAROUND
+    const element = new CesiumPlaneGraphics(props as any); // WORKAROUND: material
     context.entity.plane = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.entity) {
-      context.entity.plane = undefined as any;
+      context.entity.plane = undefined;
     }
   },
   cesiumProps,
