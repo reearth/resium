@@ -17,7 +17,7 @@ overrides:
     parserOptions:
       sourceType: module
   - files:
-      - docs2/src/**/*.js
+      - docs/src/**/*.js
     parserOptions:
       sourceType: module
       ecmaFeatures:
@@ -33,7 +33,7 @@ overrides:
       react-hooks/exhaustive-deps: error
   - files:
       - '{src,__mocks__,.storybook}/**/*.ts{,x}'
-      - 'docs/{src,components}/**/*'
+      - 'docs/{src,components,generator}/**/*'
     parser: '@typescript-eslint/parser'
     parserOptions:
       sourceType: module
