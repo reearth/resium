@@ -1,6 +1,5 @@
 import {
   PostProcessStageComposite as CesiumPostProcessStageComposite,
-  Scene,
   PostProcessStage,
 } from "cesium";
 
@@ -84,10 +83,7 @@ const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[
 
 export const PostProcessStageComposite = createCesiumComponent<
   CesiumPostProcessStageComposite,
-  PostProcessStageCompositeProps,
-  {
-    scene?: Scene;
-  }
+  PostProcessStageCompositeProps
 >({
   name: "PostProcessStageComposite",
   create(context, props) {

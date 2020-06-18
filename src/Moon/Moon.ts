@@ -1,4 +1,4 @@
-import { Moon as CesiumMoon, Scene, Ellipsoid } from "cesium";
+import { Moon as CesiumMoon, Ellipsoid } from "cesium";
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -29,13 +29,7 @@ const cesiumProps: (keyof MoonCesiumProps)[] = ["onlySunLighting", "show", "text
 
 const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
 
-const Moon = createCesiumComponent<
-  CesiumMoon,
-  MoonProps,
-  {
-    scene?: Scene;
-  }
->({
+const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
   name: "Moon",
   create(context, props) {
     if (!context.scene) return;

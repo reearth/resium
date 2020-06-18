@@ -1,6 +1,5 @@
 import {
   PolylineGraphics as CesiumPolylineGraphics,
-  Entity,
   MaterialProperty,
   Color,
   ShadowMode,
@@ -62,13 +61,7 @@ const cesiumEventProps: EventkeyMap<CesiumPolylineGraphics, PolylineGraphicsCesi
   onDefinitionChange: "definitionChanged",
 };
 
-const PolylineGraphics = createCesiumComponent<
-  CesiumPolylineGraphics,
-  PolylineGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineGraphicsProps>({
   name: "PolylineGraphics",
   create(context, props) {
     if (!context.entity) return;

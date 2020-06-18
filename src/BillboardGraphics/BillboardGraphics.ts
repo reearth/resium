@@ -10,7 +10,6 @@ import {
   BoundingRectangle,
   HeightReference,
   DistanceDisplayCondition,
-  Entity,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
@@ -84,13 +83,7 @@ const cesiumEventProps: EventkeyMap<CesiumBillboardGraphics, BillboardGraphicsCe
   onDefinitionChange: "definitionChanged",
 };
 
-const BillboardGraphics = createCesiumComponent<
-  CesiumBillboardGraphics,
-  BillboardGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const BillboardGraphics = createCesiumComponent<CesiumBillboardGraphics, BillboardGraphicsProps>({
   name: "BillboardGraphics",
   create(context, props) {
     if (!context.entity) return;

@@ -1,9 +1,4 @@
-import {
-  CustomDataSource as CesiumCustomDataSource,
-  DataSourceClock,
-  EntityCluster,
-  DataSourceCollection,
-} from "cesium";
+import { CustomDataSource as CesiumCustomDataSource, DataSourceClock, EntityCluster } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -46,13 +41,7 @@ const cesiumEventProps: EventkeyMap<CesiumCustomDataSource, CustomDataSourceCesi
   onLoading: "loadingEvent",
 };
 
-const CustomDataSource = createCesiumComponent<
-  CesiumCustomDataSource,
-  CustomDataSourceProps,
-  {
-    dataSourceCollection?: DataSourceCollection;
-  }
->({
+const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDataSourceProps>({
   name: "CustomDataSource",
   create(context, props) {
     if (!context.dataSourceCollection) return;

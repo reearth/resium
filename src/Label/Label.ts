@@ -9,7 +9,6 @@ import {
   LabelStyle,
   VerticalOrigin,
   Label as CesiumLabel,
-  LabelCollection,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -83,13 +82,7 @@ const cesiumProps: (keyof LabelCesiumProps)[] = [
   "verticalOrigin",
 ];
 
-const Label = createCesiumComponent<
-  CesiumLabel,
-  LabelProps,
-  {
-    labelCollection?: LabelCollection;
-  }
->({
+const Label = createCesiumComponent<CesiumLabel, LabelProps>({
   name: "Label",
   create: (context, props) => context.labelCollection?.add(props),
   destroy(element, context) {

@@ -1,9 +1,4 @@
-import {
-  GroundPrimitive as CesiumGroundPrimitive,
-  PrimitiveCollection,
-  Appearance,
-  GeometryInstance,
-} from "cesium";
+import { GroundPrimitive as CesiumGroundPrimitive, Appearance, GeometryInstance } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
@@ -70,13 +65,7 @@ const cesiumReadonlyProps: (keyof GroundPrimitiveCesiumReadonlyProps)[] = [
   "vertexCacheOptimize",
 ];
 
-const GroundPrimitive = createCesiumComponent<
-  CesiumGroundPrimitive,
-  GroundPrimitiveProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-  }
->({
+const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
   name: "GroundPrimitive",
   create(context, props) {
     if (!context.primitiveCollection) return;

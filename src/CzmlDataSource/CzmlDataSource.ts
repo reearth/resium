@@ -85,13 +85,7 @@ const load = ({
     });
 };
 
-const CzmlDataSource = createCesiumComponent<
-  CesiumCzmlDataSource,
-  CzmlDataSourceProps,
-  {
-    dataSourceCollection?: DataSourceCollection;
-  }
->({
+const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourceProps>({
   name: "CzmlDataSource",
   create(context, props) {
     if (!context.dataSourceCollection) return;

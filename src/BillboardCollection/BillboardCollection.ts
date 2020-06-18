@@ -1,10 +1,4 @@
-import {
-  BillboardCollection as CesiumBillboardCollection,
-  BlendOption,
-  Matrix4,
-  PrimitiveCollection,
-  Scene,
-} from "cesium";
+import { BillboardCollection as CesiumBillboardCollection, BlendOption, Matrix4 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -43,11 +37,7 @@ const cesiumProps: (keyof BillboardCollectionCesiumProps)[] = [
 
 const BillboardCollection = createCesiumComponent<
   CesiumBillboardCollection,
-  BillboardCollectionProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-    scene?: Scene;
-  }
+  BillboardCollectionProps
 >({
   name: "BillboardCollection",
   create(context, props) {

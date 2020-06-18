@@ -1,5 +1,5 @@
 import { createCesiumComponent, EventkeyMap } from "../core/component";
-import { ClockRange, ClockStep, JulianDate, Clock as CesiumClock, CesiumWidget } from "cesium";
+import { ClockRange, ClockStep, JulianDate, Clock as CesiumClock } from "cesium";
 
 /*
 @summary
@@ -47,13 +47,7 @@ const cesiumProps: (keyof ClockCesiumProps)[] = [
   "stopTime",
 ];
 
-const Clock = createCesiumComponent<
-  CesiumClock,
-  ClockProps,
-  {
-    cesiumWidget?: CesiumWidget;
-  }
->({
+const Clock = createCesiumComponent<CesiumClock, ClockProps>({
   name: "Clock",
   create: ctx => ctx.cesiumWidget?.clock,
   cesiumProps,

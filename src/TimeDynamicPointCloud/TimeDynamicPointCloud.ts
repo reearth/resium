@@ -6,8 +6,6 @@ import {
   Matrix4,
   ShadowMode,
   Cesium3DTileStyle,
-  PrimitiveCollection,
-  CesiumWidget,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
@@ -81,11 +79,7 @@ const cesiumEventProps: EventkeyMap<
 
 const TimeDynamicPointCloud = createCesiumComponent<
   CesiumTimeDynamicPointCloud,
-  TimeDynamicPointCloudProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-    cesiumWidget?: CesiumWidget;
-  }
+  TimeDynamicPointCloudProps
 >({
   name: "TimeDynamicPointCloud",
   create(context, props) {

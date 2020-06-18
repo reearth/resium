@@ -7,7 +7,6 @@ import {
   ShadowMode,
   DistanceDisplayCondition,
   ClassificationType,
-  Entity,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
@@ -79,13 +78,7 @@ const cesiumEventProps: EventkeyMap<CesiumEllipseGraphics, EllipseGraphicsCesium
   onDefinitionChange: "definitionChanged",
 };
 
-const EllipseGraphics = createCesiumComponent<
-  CesiumEllipseGraphics,
-  EllipseGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const EllipseGraphics = createCesiumComponent<CesiumEllipseGraphics, EllipseGraphicsProps>({
   name: "EllipseGraphics",
   create(context, props) {
     if (!context.entity) return;

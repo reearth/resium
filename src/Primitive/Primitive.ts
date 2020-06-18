@@ -4,7 +4,6 @@ import {
   ShadowMode,
   Matrix4,
   GeometryInstance,
-  PrimitiveCollection,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -72,13 +71,7 @@ const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
   "vertexCacheOptimize",
 ];
 
-const Primitive = createCesiumComponent<
-  CesiumPrimitive,
-  PrimitiveProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-  }
->({
+const Primitive = createCesiumComponent<CesiumPrimitive, PrimitiveProps>({
   name: "Primitive",
   create(context, props) {
     if (!context.primitiveCollection) return;

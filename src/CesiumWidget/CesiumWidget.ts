@@ -11,13 +11,12 @@ import {
   MapProjection,
   ShadowMode,
   Globe,
-  Camera,
-  Scene,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
 import { pick } from "../core/util";
+import { Context } from "../core/context";
 
 /*
 @summary
@@ -116,14 +115,8 @@ export interface CesiumWidgetProps
 const CesiumWidget = createCesiumComponent<
   CesiumCesiumWidget,
   CesiumWidgetProps,
-  undefined,
-  {
-    cesiumWidget: CesiumCesiumWidget;
-    scene: Scene;
-    globe: Globe;
-    camera: Camera;
-    [eventManagerContextKey]?: EventManager;
-  },
+  Context,
+  Context,
   EventManager
 >({
   name: "CesiumWidget",

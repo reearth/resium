@@ -1,4 +1,4 @@
-import { Scene, ShadowMap as CesiumShadowMap } from "cesium";
+import { ShadowMap as CesiumShadowMap } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -30,13 +30,7 @@ const cesiumProps: (keyof ShadowMapProps)[] = [
   "softShadows",
 ];
 
-const ShadowMap = createCesiumComponent<
-  CesiumShadowMap,
-  ShadowMapProps,
-  {
-    scene?: Scene;
-  }
->({
+const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
   name: "ShadowMap",
   create: context => context.scene?.shadowMap,
   cesiumProps,

@@ -1,6 +1,5 @@
 import {
   WallGraphics as CesiumWallGraphics,
-  Entity,
   Property,
   Cartesian3,
   MaterialProperty,
@@ -62,13 +61,7 @@ const cesiumEventProps: EventkeyMap<CesiumWallGraphics, WallGraphicsCesiumEvents
   onDefinitionChange: "definitionChanged",
 };
 
-const WallGraphics = createCesiumComponent<
-  CesiumWallGraphics,
-  WallGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const WallGraphics = createCesiumComponent<CesiumWallGraphics, WallGraphicsProps>({
   name: "WallGraphics",
   create(context, props) {
     if (!context.entity) return;

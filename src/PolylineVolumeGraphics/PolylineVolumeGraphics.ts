@@ -1,6 +1,5 @@
 import {
   PolylineVolumeGraphics as CesiumPolylineVolumeGraphics,
-  Entity,
   Property,
   CornerType,
   Cartesian2,
@@ -71,10 +70,7 @@ const cesiumEventProps: EventkeyMap<
 
 const PolylineVolumeGraphics = createCesiumComponent<
   CesiumPolylineVolumeGraphics,
-  PolylineVolumeGraphicsProps,
-  {
-    entity?: Entity;
-  }
+  PolylineVolumeGraphicsProps
 >({
   name: "PolylineVolumeGraphics",
   create(context, props) {

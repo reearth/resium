@@ -1,10 +1,4 @@
-import {
-  ParticleSystem as CesiumParticleSystem,
-  Matrix4,
-  Color,
-  Cartesian2,
-  PrimitiveCollection,
-} from "cesium";
+import { ParticleSystem as CesiumParticleSystem, Matrix4, Color, Cartesian2 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 
@@ -96,13 +90,7 @@ const cesiumEventProps: EventkeyMap<any, ParticleSystemCesiumEvents> = {
   onComplete: "complete",
 };
 
-const ParticleSystem = createCesiumComponent<
-  CesiumParticleSystem,
-  ParticleSystemProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-  }
->({
+const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSystemProps>({
   name: "ParticleSystem",
   create(context, props) {
     if (!context.primitiveCollection) return;

@@ -3,7 +3,6 @@ import {
   BoundingRectangle,
   Color,
   PixelFormat,
-  Scene,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -91,10 +90,7 @@ const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
 
 export const PostProcessStage = createCesiumComponent<
   CesiumPostProcessStage,
-  PostProcessStageProps,
-  {
-    scene?: Scene;
-  }
+  PostProcessStageProps
 >({
   name: "PostProcessStage",
   create(context, props) {

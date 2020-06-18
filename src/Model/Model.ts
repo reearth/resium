@@ -13,7 +13,6 @@ import {
   ShadowMode,
   Scene,
   Credit,
-  PrimitiveCollection,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -107,13 +106,7 @@ const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
   "credit",
 ];
 
-const Model = createCesiumComponent<
-  CesiumModel,
-  ModelProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-  }
->({
+const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
   create(context, props) {
     if (!context.primitiveCollection) return;

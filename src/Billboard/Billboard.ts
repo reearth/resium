@@ -8,7 +8,6 @@ import {
   NearFarScalar,
   VerticalOrigin,
   Billboard as CesiumBillboard,
-  BillboardCollection,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -76,13 +75,7 @@ const cesiumProps: (keyof BillboardCesiumProps)[] = [
   "width",
 ];
 
-const Billboard = createCesiumComponent<
-  CesiumBillboard,
-  BillboardProps,
-  {
-    billboardCollection?: BillboardCollection;
-  }
->({
+const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({
   name: "Billboard",
   create(context, props) {
     return context.billboardCollection?.add(props);

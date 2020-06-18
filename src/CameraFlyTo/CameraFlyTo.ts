@@ -40,7 +40,7 @@ export interface CameraFlyToProps {
 const CameraFlyTo = createCameraOperation<CameraFlyToProps>(
   "CameraFlyTo",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { cancelFlightOnUnmount, ...props }) => {
+  (camera, { ...props }) => {
     camera.flyTo(props);
   },
 );

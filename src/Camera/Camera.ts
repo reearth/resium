@@ -1,7 +1,6 @@
 import {
   Cartesian3,
   Camera as CesiumCamera,
-  Scene,
   PerspectiveFrustum,
   PerspectiveOffCenterFrustum,
   OrthographicFrustum,
@@ -94,13 +93,7 @@ const cesiumEventProps: EventkeyMap<CesiumCamera, CameraCesiumEvents> = {
   onMoveStart: "moveStart",
 };
 
-const Camera = createCesiumComponent<
-  CesiumCamera,
-  CameraProps,
-  {
-    scene?: Scene;
-  }
->({
+const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
   name: "Camera",
   create: context => context.scene?.camera,
   cesiumProps,

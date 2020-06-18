@@ -4,7 +4,6 @@ import {
   Color,
   NearFarScalar,
   PointPrimitive as CesiumPointPrimitive,
-  PointPrimitiveCollection,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -56,13 +55,7 @@ const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
   "translucencyByDistance",
 ];
 
-const PointPrimitive = createCesiumComponent<
-  CesiumPointPrimitive,
-  PointPrimitiveProps,
-  {
-    pointPrimitiveCollection?: PointPrimitiveCollection;
-  }
->({
+const PointPrimitive = createCesiumComponent<CesiumPointPrimitive, PointPrimitiveProps>({
   name: "PointPrimitive",
   create: (context, props) => context.pointPrimitiveCollection?.add(props),
   destroy(element, context) {

@@ -6,7 +6,6 @@ import {
   Resource,
   EntityCluster,
   Camera,
-  Scene,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
@@ -101,14 +100,7 @@ const load = ({
   });
 };
 
-const KmlDataSource = createCesiumComponent<
-  CesiumKmlDataSource,
-  KmlDataSourceProps,
-  {
-    dataSourceCollection?: DataSourceCollection;
-    scene?: Scene;
-  }
->({
+const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourceProps>({
   name: "KmlDataSource",
   create(context, props) {
     if (!context.scene || !context.dataSourceCollection) return;
