@@ -1,6 +1,5 @@
 import {
   PointGraphics as CesiumPointGraphics,
-  Entity,
   Property,
   Color,
   NearFarScalar,
@@ -57,13 +56,7 @@ const cesiumEventProps: EventkeyMap<CesiumPointGraphics, PointGraphicsCesiumEven
   onDefinitionChange: "definitionChanged",
 };
 
-const PointGraphics = createCesiumComponent<
-  CesiumPointGraphics,
-  PointGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const PointGraphics = createCesiumComponent<CesiumPointGraphics, PointGraphicsProps>({
   name: "PointGraphics",
   create(context, props) {
     if (!context.entity) return;

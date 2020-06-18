@@ -1,6 +1,5 @@
 import {
   PolygonGraphics as CesiumPolygonGraphics,
-  Entity,
   Property,
   HeightReference,
   PolygonHierarchy,
@@ -83,13 +82,7 @@ const cesiumEventProps: EventkeyMap<CesiumPolygonGraphics, PolygonGraphicsCesium
   onDefinitionChange: "definitionChanged",
 };
 
-const PolygonGraphics = createCesiumComponent<
-  CesiumPolygonGraphics,
-  PolygonGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGraphicsProps>({
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;

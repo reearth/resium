@@ -1,6 +1,5 @@
 import {
   PathGraphics as CesiumPathGraphics,
-  Entity,
   Property,
   DistanceDisplayCondition,
   Color,
@@ -50,13 +49,7 @@ const cesiumEventProps: EventkeyMap<CesiumPathGraphics, PathGraphicsCesiumEvents
   onDefinitionChange: "definitionChanged",
 };
 
-const PathGraphics = createCesiumComponent<
-  CesiumPathGraphics,
-  PathGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const PathGraphics = createCesiumComponent<CesiumPathGraphics, PathGraphicsProps>({
   name: "PathGraphics",
   create(context, props) {
     if (!context.entity) return;

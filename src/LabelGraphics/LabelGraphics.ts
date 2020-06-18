@@ -1,6 +1,5 @@
 import {
   LabelGraphics as CesiumLabelGraphics,
-  Entity,
   Property,
   Cartesian3,
   Cartesian2,
@@ -84,13 +83,7 @@ const cesiumEventProps: EventkeyMap<CesiumLabelGraphics, LabelGraphicsCesiumEven
   onDefinitionChange: "definitionChanged",
 };
 
-const LabelGraphics = createCesiumComponent<
-  CesiumLabelGraphics,
-  LabelGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const LabelGraphics = createCesiumComponent<CesiumLabelGraphics, LabelGraphicsProps>({
   name: "LabelGraphics",
   create(context, props) {
     if (!context.entity) return;

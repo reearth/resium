@@ -1,6 +1,5 @@
 import {
   BoxGraphics as CesiumBoxGraphics,
-  Entity,
   Property,
   HeightReference,
   Cartesian3,
@@ -59,13 +58,7 @@ const cesiumEventProps: EventkeyMap<CesiumBoxGraphics, BoxGraphicsCesiumEvents> 
   onDefinitionChange: "definitionChanged",
 };
 
-const BoxGraphics = createCesiumComponent<
-  CesiumBoxGraphics,
-  BoxGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const BoxGraphics = createCesiumComponent<CesiumBoxGraphics, BoxGraphicsProps>({
   name: "BoxGraphics",
   create(context, props) {
     if (!context.entity) return;

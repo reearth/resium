@@ -2,10 +2,6 @@ import React from "react";
 import {
   Viewer as CesiumViewer,
   Globe,
-  Camera,
-  Scene,
-  EntityCollection,
-  CesiumWidget,
   DataSourceCollection,
   ImageryProvider,
   MapProjection,
@@ -23,6 +19,7 @@ import {
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
 import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
+import { Context } from "../core/context";
 
 /*
 @summary
@@ -180,22 +177,7 @@ export interface ViewerProps
   children?: React.ReactNode;
 }
 
-const Viewer = createCesiumComponent<
-  CesiumViewer,
-  ViewerProps,
-  undefined,
-  {
-    viewer: CesiumViewer;
-    cesiumWidget: CesiumWidget;
-    dataSourceCollection: DataSourceCollection;
-    entityCollection: EntityCollection;
-    scene: Scene;
-    globe: Globe;
-    camera: Camera;
-    [eventManagerContextKey]?: EventManager;
-  },
-  EventManager
->({
+const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context, EventManager>({
   name: "Viewer",
   create(_context, props, wrapper) {
     if (!wrapper) return;

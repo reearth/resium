@@ -1,4 +1,4 @@
-import { PrimitiveCollection, Scene } from "cesium";
+import { PrimitiveCollection } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -28,11 +28,7 @@ const cesiumProps: (keyof GroundPrimitiveCollectionCesiumProps)[] = ["show"];
 
 const GroundPrimitiveCollection = createCesiumComponent<
   PrimitiveCollection,
-  GroundPrimitiveCollectionProps,
-  {
-    scene?: Scene;
-  },
-  { primitiveCollection: PrimitiveCollection }
+  GroundPrimitiveCollectionProps
 >({
   name: "GroundPrimitiveCollection",
   create: context => context.scene?.groundPrimitives,

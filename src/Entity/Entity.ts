@@ -22,8 +22,6 @@ import {
   PointGraphics,
   RectangleGraphics,
   WallGraphics,
-  Viewer,
-  EntityCollection,
   Cesium3DTilesetGraphics,
 } from "cesium";
 
@@ -174,14 +172,7 @@ const cesiumEventProps: EventkeyMap<CesiumEntity, EntityCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
-const Entity = createCesiumComponent<
-  CesiumEntity,
-  EntityProps,
-  {
-    entityCollection?: EntityCollection;
-    viewer?: Viewer;
-  }
->({
+const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   name: "Entity",
   create(context, props) {
     if (!context.entityCollection) return;

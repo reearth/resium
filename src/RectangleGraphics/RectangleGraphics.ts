@@ -8,7 +8,6 @@ import {
   MaterialProperty,
   HeightReference,
   Rectangle,
-  Entity,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
@@ -77,13 +76,7 @@ const cesiumEventProps: EventkeyMap<CesiumRectangleGraphics, RectangleGraphicsCe
   onDefinitionChange: "definitionChanged",
 };
 
-const RectangleGraphics = createCesiumComponent<
-  CesiumRectangleGraphics,
-  RectangleGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const RectangleGraphics = createCesiumComponent<CesiumRectangleGraphics, RectangleGraphicsProps>({
   name: "RectangleGraphics",
   create(context, props) {
     if (!context.entity) return;

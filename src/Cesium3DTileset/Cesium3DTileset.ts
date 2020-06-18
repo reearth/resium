@@ -1,6 +1,5 @@
 import {
   Cesium3DTileset as CesiumCesium3DTileset,
-  PrimitiveCollection,
   Matrix4,
   ShadowMode,
   ClippingPlaneCollection,
@@ -173,13 +172,7 @@ const cesiumEventProps: EventkeyMap<CesiumCesium3DTileset, Cesium3DTilesetCesium
   onTileVisible: "tileVisible",
 };
 
-const Cesium3DTileset = createCesiumComponent<
-  CesiumCesium3DTileset,
-  Cesium3DTilesetProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-  }
->({
+const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
   create(context, props) {
     if (!context.primitiveCollection) return;

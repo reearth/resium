@@ -6,7 +6,6 @@ import {
   Material,
   ShadowMode,
   TerrainProvider,
-  Scene,
 } from "cesium";
 
 /*
@@ -110,13 +109,7 @@ const cesiumProps: (keyof GlobeCesiumProps)[] = [
   "tileCacheSize",
 ];
 
-const Globe = createCesiumComponent<
-  CesiumGlobe,
-  GlobeProps,
-  {
-    scene?: Scene;
-  }
->({
+const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",
   create: context => context.scene?.globe,
   cesiumProps,

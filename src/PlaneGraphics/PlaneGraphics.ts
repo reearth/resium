@@ -1,6 +1,5 @@
 import {
   PlaneGraphics as CesiumPlaneGraphics,
-  Entity,
   Property,
   Cartesian2,
   Color,
@@ -59,13 +58,7 @@ const cesiumEventProps: EventkeyMap<any, PlaneGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
-const PlaneGraphics = createCesiumComponent<
-  CesiumPlaneGraphics,
-  PlaneGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const PlaneGraphics = createCesiumComponent<CesiumPlaneGraphics, PlaneGraphicsProps>({
   name: "PlaneGraphics",
   create(context, props) {
     if (!context.entity) return;

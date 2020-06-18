@@ -1,10 +1,4 @@
-import {
-  LabelCollection as CesiumLabelCollection,
-  Scene,
-  BlendOption,
-  Matrix4,
-  PrimitiveCollection,
-} from "cesium";
+import { LabelCollection as CesiumLabelCollection, BlendOption, Matrix4 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -39,14 +33,7 @@ const cesiumProps: (keyof LabelCollectionCesiumProps)[] = [
   "modelMatrix",
 ];
 
-const LabelCollection = createCesiumComponent<
-  CesiumLabelCollection,
-  LabelCollectionProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-    scene?: Scene;
-  }
->({
+const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollectionProps>({
   name: "LabelCollection",
   create(context, props) {
     if (!context.scene || !context.primitiveCollection) return;

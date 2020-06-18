@@ -2,7 +2,6 @@ import {
   PointPrimitiveCollection as CesiumPointPrimitiveCollection,
   Matrix4,
   BlendOption,
-  PrimitiveCollection,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -40,10 +39,7 @@ const cesiumProps: (keyof PointPrimitiveCollectionCesiumProps)[] = [
 
 const PointPrimitiveCollection = createCesiumComponent<
   CesiumPointPrimitiveCollection,
-  PointPrimitiveCollectionProps,
-  {
-    primitiveCollection?: PrimitiveCollection;
-  }
+  PointPrimitiveCollectionProps
 >({
   name: "PointPrimitveCollection",
   create(context, props) {

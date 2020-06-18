@@ -1,4 +1,4 @@
-import { Scene, SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
+import { SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -31,13 +31,7 @@ const cesiumProps: (keyof SkyAtmosphereCesiumProps)[] = [
   "show",
 ];
 
-const SkyAtmosphere = createCesiumComponent<
-  CesiumSkyAtmosphere,
-  SkyAtmosphereProps,
-  {
-    scene?: Scene;
-  }
->({
+const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmosphereProps>({
   name: "SkyAtmosphere",
   create: context => context.scene?.skyAtmosphere,
   cesiumProps,

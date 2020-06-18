@@ -1,4 +1,9 @@
-import { GroundPolylinePrimitive as CesiumGroundPolylinePrimitive } from "cesium";
+import {
+  GroundPolylinePrimitive as CesiumGroundPolylinePrimitive,
+  GeometryInstance,
+  Appearance,
+  ClassificationType,
+} from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
@@ -19,18 +24,18 @@ Otherwise, a primitive object will be attached to the PrimitiveCollection of the
 */
 
 export interface GroundPolylinePrimitiveCesiumProps {
-  appearance?: Cesium.Appearance;
+  appearance?: Appearance;
   debugShowBoundingVolume?: boolean;
   debugShowShadowVolume?: boolean;
-  classificationType?: any; // Cesium.ClassificationType
-  depthFailAppearance?: Cesium.Appearance;
+  classificationType?: ClassificationType;
+  depthFailAppearance?: Appearance;
   show?: boolean;
 }
 
 export interface GroundPolylinePrimitiveCesiumReadonlyProps {
   allowPicking?: boolean;
   asynchronous?: boolean;
-  geometryInstances?: Cesium.GeometryInstance[] | Cesium.GeometryInstance;
+  geometryInstances?: GeometryInstance[] | GeometryInstance;
   interleave?: boolean;
   releaseGeometryInstances?: boolean;
 }
@@ -41,7 +46,7 @@ export interface GroundPolylinePrimitiveProps
     EventProps<any> {
   // Cesium.GroundPolylinePrimitive
   // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPolylinePrimitive.html#readyPromise) is fullfilled
-  onReady?: (primitive: Cesium.GroundPolylinePrimitive) => void;
+  onReady?: (primitive: CesiumGroundPolylinePrimitive) => void;
 }
 
 const cesiumProps: (keyof GroundPolylinePrimitiveCesiumProps)[] = [
@@ -62,11 +67,8 @@ const cesiumReadonlyProps: (keyof GroundPolylinePrimitiveCesiumReadonlyProps)[] 
 ];
 
 const GroundPolylinePrimitive = createCesiumComponent<
-  Cesium.GroundPolylinePrimitive,
-  GroundPolylinePrimitiveProps,
-  {
-    primitiveCollection?: Cesium.PrimitiveCollection;
-  }
+  CesiumGroundPolylinePrimitive,
+  GroundPolylinePrimitiveProps
 >({
   name: "GroundPolylinePrimitive",
   create(context, props) {

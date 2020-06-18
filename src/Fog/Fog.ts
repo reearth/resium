@@ -1,5 +1,5 @@
 import { createCesiumComponent } from "../core/component";
-import { Fog as CesiumFog, Scene } from "cesium";
+import { Fog as CesiumFog } from "cesium";
 
 /*
 @summary
@@ -30,13 +30,7 @@ const cesiumProps: (keyof FogCesiumProps)[] = [
   "screenSpaceErrorFactor",
 ];
 
-const Fog = createCesiumComponent<
-  CesiumFog,
-  FogProps,
-  {
-    scene?: Scene;
-  }
->({
+const Fog = createCesiumComponent<CesiumFog, FogProps>({
   name: "Fog",
   create(context) {
     if (!context.scene) return;

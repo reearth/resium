@@ -1,4 +1,4 @@
-import { Sun as CesiumSun, Scene } from "cesium";
+import { Sun as CesiumSun } from "cesium";
 import { createCesiumComponent } from "../core/component";
 
 /*
@@ -23,13 +23,7 @@ export interface SunProps extends SunCesiumProps {}
 
 const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
 
-const Sun = createCesiumComponent<
-  CesiumSun,
-  SunProps,
-  {
-    scene?: Scene;
-  }
->({
+const Sun = createCesiumComponent<CesiumSun, SunProps>({
   name: "Sun",
   create(context) {
     if (!context.scene) return;

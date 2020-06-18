@@ -40,7 +40,7 @@ export interface CameraFlyToBoundingSphereProps {
 const CameraFlyToBoundingSphere = createCameraOperation<CameraFlyToBoundingSphereProps>(
   "CameraFlyToBoundingSphere",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { cancelFlightOnUnmount, boundingSphere, ...props }) => {
+  (camera, { boundingSphere, ...props }) => {
     camera.flyToBoundingSphere(boundingSphere, props);
   },
 );

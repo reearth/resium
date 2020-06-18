@@ -187,13 +187,7 @@ const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   }
 };
 
-const Scene = createCesiumComponent<
-  CesiumScene,
-  SceneProps,
-  {
-    scene?: CesiumScene;
-  }
->({
+const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   name: "Scene",
   create(context, props) {
     if (context.scene && props.mode) {

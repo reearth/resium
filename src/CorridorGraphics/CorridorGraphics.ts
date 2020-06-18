@@ -9,7 +9,6 @@ import {
   DistanceDisplayCondition,
   ClassificationType,
   ConstantProperty,
-  Entity,
 } from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core/component";
@@ -77,13 +76,7 @@ const cesiumEventProps: EventkeyMap<CesiumCorridorGraphics, CorridorCesiumEvents
   onDefinitionChange: "definitionChanged",
 };
 
-const CorridorGraphics = createCesiumComponent<
-  CesiumCorridorGraphics,
-  CorridorGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const CorridorGraphics = createCesiumComponent<CesiumCorridorGraphics, CorridorGraphicsProps>({
   name: "CorridorGraphics",
   create(context, props) {
     if (!context.entity) return;

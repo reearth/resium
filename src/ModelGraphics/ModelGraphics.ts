@@ -1,6 +1,5 @@
 import {
   ModelGraphics as CesiumModelGraphics,
-  Entity,
   Property,
   Color,
   Cartesian2,
@@ -81,13 +80,7 @@ const cesiumEventProps: EventkeyMap<CesiumModelGraphics, ModelGraphicsCesiumEven
   onDefinitionChange: "definitionChanged",
 };
 
-const ModelGraphics = createCesiumComponent<
-  CesiumModelGraphics,
-  ModelGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const ModelGraphics = createCesiumComponent<CesiumModelGraphics, ModelGraphicsProps>({
   name: "ModelGraphics",
   create(context, props) {
     if (!context.entity) return;

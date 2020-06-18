@@ -1,6 +1,5 @@
 import {
   CylinderGraphics as CesiumCylinderGraphics,
-  Entity,
   Property,
   HeightReference,
   Color,
@@ -66,13 +65,7 @@ const cesiumEventProps: EventkeyMap<CesiumCylinderGraphics, CylinderCesiumEvents
   onDefinitionChange: "definitionChanged",
 };
 
-const CylinderGraphics = createCesiumComponent<
-  CesiumCylinderGraphics,
-  CylinderGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const CylinderGraphics = createCesiumComponent<CesiumCylinderGraphics, CylinderGraphicsProps>({
   name: "CylinderGraphics",
   create(context, props) {
     if (!context.entity) return;

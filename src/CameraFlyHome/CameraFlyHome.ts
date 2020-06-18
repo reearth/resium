@@ -30,7 +30,7 @@ export interface CameraFlyHomeProps {
 const CameraFlyHome = createCameraOperation<CameraFlyHomeProps>(
   "CameraFlyHome",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { cancelFlightOnUnmount, duration }) => {
+  (camera, { duration }) => {
     camera.flyHome(duration);
   },
 );

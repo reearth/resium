@@ -45,6 +45,7 @@ overrides:
       - react
       - '@typescript-eslint'
       - react-hooks
+      - autofix
     extends:
       - prettier/react
       - plugin:react/recommended
@@ -59,6 +60,7 @@ overrides:
       react/prop-types: 'off'
       react-hooks/rules-of-hooks: error
       react-hooks/exhaustive-deps: error
+      # autofix/no-unused-vars: 'error'
     settings:
       react:
         version: detect

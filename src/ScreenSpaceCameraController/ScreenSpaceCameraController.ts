@@ -2,7 +2,6 @@ import {
   ScreenSpaceCameraController as CesiumScreenSpaceCameraController,
   CameraEventType,
   KeyboardEventModifier,
-  Scene,
 } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
@@ -91,10 +90,7 @@ const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
 
 const ScreenSpaceCameraController = createCesiumComponent<
   CesiumScreenSpaceCameraController,
-  ScreenSpaceCameraControllerCesiumProps,
-  {
-    scene?: Scene;
-  }
+  ScreenSpaceCameraControllerCesiumProps
 >({
   name: "ScreenSpaceCameraController",
   create: context => context.scene?.screenSpaceCameraController,

@@ -4,7 +4,6 @@ import {
   Rectangle,
   TextureMagnificationFilter,
   TextureMinificationFilter,
-  ImageryLayerCollection,
   ImagerySplitDirection,
 } from "cesium";
 
@@ -148,13 +147,7 @@ const cesiumReadonlyProps: (keyof ImageryLayerCesiumReadonlyProps)[] = [
   "maximumTerrainLevel",
 ];
 
-const ImageryLayer = createCesiumComponent<
-  CesiumImageryLayer,
-  ImageryLayerProps,
-  {
-    imageryLayerCollection?: ImageryLayerCollection;
-  }
->({
+const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
   name: "ImageryLayer",
   create(context, props) {
     if (!context.imageryLayerCollection) return;

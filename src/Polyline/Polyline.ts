@@ -1,10 +1,4 @@
-import {
-  Material,
-  Cartesian3,
-  DistanceDisplayCondition,
-  Polyline as CesiumPolyline,
-  PolylineCollection,
-} from "cesium";
+import { Material, Cartesian3, DistanceDisplayCondition, Polyline as CesiumPolyline } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 import { EventProps } from "../core/EventManager";
@@ -45,13 +39,7 @@ const cesiumProps: (keyof PolylineCesiumProps)[] = [
   "width",
 ];
 
-const Polyline = createCesiumComponent<
-  CesiumPolyline,
-  PolylineProps,
-  {
-    polylineCollection?: PolylineCollection;
-  }
->({
+const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
   name: "Polyline",
   create: (context, props) => context.polylineCollection?.add(props),
   destroy(element, context) {

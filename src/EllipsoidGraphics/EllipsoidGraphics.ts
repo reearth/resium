@@ -1,6 +1,5 @@
 import {
   EllipsoidGraphics as CesiumEllipsoidGraphics,
-  Entity,
   Property,
   HeightReference,
   Cartesian3,
@@ -77,13 +76,7 @@ const cesiumEventProps: EventkeyMap<CesiumEllipsoidGraphics, EllipsoidGraphicsCe
   onDefinitionChange: "definitionChanged",
 };
 
-const EllipsoidGraphics = createCesiumComponent<
-  CesiumEllipsoidGraphics,
-  EllipsoidGraphicsProps,
-  {
-    entity?: Entity;
-  }
->({
+const EllipsoidGraphics = createCesiumComponent<CesiumEllipsoidGraphics, EllipsoidGraphicsProps>({
   name: "EllipsoidGraphics",
   create(context, props) {
     if (!context.entity) return;

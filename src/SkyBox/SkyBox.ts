@@ -1,4 +1,4 @@
-import { SkyBox as CesiumSkyBox, Scene } from "cesium";
+import { SkyBox as CesiumSkyBox } from "cesium";
 
 import { createCesiumComponent } from "../core/component";
 
@@ -31,13 +31,7 @@ export interface SkyBoxProps extends SkyBoxCesiumProps {}
 
 const cesiumProps: (keyof SkyBoxCesiumProps)[] = ["sources", "show"];
 
-const SkyBox = createCesiumComponent<
-  CesiumSkyBox,
-  SkyBoxProps,
-  {
-    scene?: Scene;
-  }
->({
+const SkyBox = createCesiumComponent<CesiumSkyBox, SkyBoxProps>({
   name: "SkyBox",
   create: context => context.scene?.skyBox,
   cesiumProps,

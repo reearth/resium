@@ -121,13 +121,7 @@ const load = ({
     });
 };
 
-const GeoJsonDataSource = createCesiumComponent<
-  CesiumGeoJsonDataSource,
-  GeoJsonDataSourceProps,
-  {
-    dataSourceCollection?: DataSourceCollection;
-  }
->({
+const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJsonDataSourceProps>({
   name: "GeoJsonDataSource",
   create(context, props) {
     if (!context.dataSourceCollection) return;
