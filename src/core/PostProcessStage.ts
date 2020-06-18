@@ -5,8 +5,9 @@ import {
   Scene,
 } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps } from "./component";
-import { includes, AssertNever } from "./util";
+import { createCesiumComponent } from "./component";
+import { includes } from "./util";
+import { AssertNever, PickCesiumProps, UnusedCesiumProps } from "./types";
 
 export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;
 

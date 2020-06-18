@@ -6,3 +6,4 @@ export * from "./hooks";
 export * from "./PostProcessStage";
 export * from "./util";
 export * from "./withCesium";
+export * from "./types";
