@@ -196,6 +196,7 @@ describe("core/component", () => {
     const Component1 = createCesiumComponent<
       string,
       { children?: React.ReactNode },
+      any,
       { context: string }
     >({
       name: "test",

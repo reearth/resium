@@ -1,7 +1,7 @@
 import React, { forwardRef } from "react";
 
 import { useCesiumComponent, Options, EventkeyMap } from "./hooks";
-import { CesiumContext } from "./context";
+import { CesiumContext, Context } from "./context";
 import { pick } from "./util";
 
 export { EventkeyMap };
@@ -34,8 +34,8 @@ export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponen
 export const createCesiumComponent = <
   Element,
   Props,
-  Context = any,
-  ProvidecContext = any,
+  Ctx = Context,
+  ProvidecContext = Context,
   State = any
 >({
   renderContainer,
@@ -43,7 +43,7 @@ export const createCesiumComponent = <
   containerProps,
   defaultProps,
   ...options
-}: CesiumComponentOptions<Element, Props, Context, ProvidecContext, State>): CesiumComponentType<
+}: CesiumComponentOptions<Element, Props, Ctx, ProvidecContext, State>): CesiumComponentType<
   Element,
   Props
 > => {
