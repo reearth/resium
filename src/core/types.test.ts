@@ -62,3 +62,8 @@ type PickCesiumPropsTest6 = Assert<
   PickCesiumProps<UnionMerge<Test, TestOptions>, "hoge">,
   { hoge?: string | number | null }
 >;
+
+describe("core/types", () => {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  it("should compile", () => {});
+});
