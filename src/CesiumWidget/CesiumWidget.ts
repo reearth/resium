@@ -8,7 +8,6 @@ import {
   RootEventProps,
   pick,
   Context,
-  pick,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
