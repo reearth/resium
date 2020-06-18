@@ -1,16 +1,12 @@
-import {
-  Cartesian3,
-  DistanceDisplayCondition,
-  Color,
-  HeightReference,
-  HorizontalOrigin,
-  Cartesian2,
-  NearFarScalar,
-  VerticalOrigin,
-  Billboard as CesiumBillboard,
-} from "cesium";
+import { Billboard as CesiumBillboard } from "cesium";
 
-import { createCesiumComponent, EventProps } from "../core";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -26,36 +22,16 @@ Only inside [BillboardCollection](/components/BillboardCollection) components.
 A billboard object will be attached to the parent BillboardCollection.
 */
 
-export interface BillboardCesiumProps {
-  alignAxis?: Cartesian3;
-  color?: Color;
-  disableDepthTestDistance?: number;
-  distanceDisplayCondition?: DistanceDisplayCondition;
-  height?: number;
-  heightReference?: HeightReference;
-  horizontalOrigin?: HorizontalOrigin;
-  id?: any;
-  image?: string;
-  pixelOffset?: Cartesian2;
-  pixelOffsetScaleByDistance?: NearFarScalar;
-  position?: Cartesian3;
-  rotation?: number;
-  scale?: number;
-  scaleByDistance?: NearFarScalar;
-  show?: boolean;
-  sizeInMeters?: boolean;
-  translucencyByDistance?: NearFarScalar;
-  verticalOrigin?: VerticalOrigin;
-  width?: number;
-}
+export type BillboardCesiumProps = PickCesiumProps<CesiumBillboard, typeof cesiumProps>;
 
-export interface BillboardProps extends BillboardCesiumProps, EventProps<CesiumBillboard> {}
+export type BillboardProps = BillboardCesiumProps & EventProps<CesiumBillboard>;
 
-const cesiumProps: (keyof BillboardCesiumProps)[] = [
-  "alignAxis",
+const cesiumProps = [
+  "alignedAxis",
   "color",
   "disableDepthTestDistance",
   "distanceDisplayCondition",
+  "eyeOffset",
   "height",
   "heightReference",
   "horizontalOrigin",
@@ -72,7 +48,12 @@ const cesiumProps: (keyof BillboardCesiumProps)[] = [
   "translucencyByDistance",
   "verticalOrigin",
   "width",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumBillboard, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({
   name: "Billboard",

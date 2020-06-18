@@ -14,11 +14,11 @@ ScreenSpaceEventHandler is available inside [Viewer](/components/Viewer) or [Ces
 ScreenSpaceEventHandler components with useDefault prop can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface ScreenSpaceEventHandlerProps {
+export type ScreenSpaceEventHandlerProps = {
   // If true, use the default ScreenSpaceEventHandler of the CesiumWidget instead of creating a new ScreenSpaceEventHandler object. This property cannot be changed after mounting.
   useDefault?: boolean;
   children?: React.ReactNode;
-}
+};
 
 const ScreenSpaceEventHandler = createCesiumComponent<
   CesiumScreenSpaceEventHandler,

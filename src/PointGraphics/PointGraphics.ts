@@ -1,13 +1,12 @@
-import {
-  PointGraphics as CesiumPointGraphics,
-  Property,
-  Color,
-  NearFarScalar,
-  HeightReference,
-  DistanceDisplayCondition,
-} from "cesium";
+import { PointGraphics as CesiumPointGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -20,26 +19,18 @@ PointGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface PointGraphicsCesiumProps {
-  color?: Property | Color;
-  pixelSize?: Property | number;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  show?: Property | boolean;
-  scaleByDistance?: Property | NearFarScalar;
-  translucencyByDistance?: Property | NearFarScalar;
-  heightReference?: Property | HeightReference;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  disableDepthTestDistance?: Property | number;
-}
+export type PointGraphicsCesiumProps = PickCesiumProps<
+  CesiumPointGraphics | CesiumPointGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface PointGraphicsCesiumEvents {
+export type PointGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface PointGraphicsProps extends PointGraphicsCesiumProps, PointGraphicsCesiumEvents {}
+export type PointGraphicsProps = PointGraphicsCesiumProps & PointGraphicsCesiumEvents;
 
-const cesiumProps: (keyof PointGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "color",
   "pixelSize",
   "outlineColor",
@@ -50,11 +41,19 @@ const cesiumProps: (keyof PointGraphicsCesiumProps)[] = [
   "heightReference",
   "distanceDisplayCondition",
   "disableDepthTestDistance",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumPointGraphics, PointGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPointGraphics,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const PointGraphics = createCesiumComponent<CesiumPointGraphics, PointGraphicsProps>({
   name: "PointGraphics",

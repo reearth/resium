@@ -1,6 +1,6 @@
-import { BillboardCollection as CesiumBillboardCollection, BlendOption, Matrix4 } from "cesium";
+import { BillboardCollection as CesiumBillboardCollection } from "cesium";
 
-import { createCesiumComponent } from "../core";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -17,23 +17,27 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A BillboardColleciton object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export interface BillboardCollectionCesiumProps {
-  blendOption?: BlendOption;
-  debugShowBoundingVolume?: boolean;
-  length?: number;
-  modelMatrix?: Matrix4;
-}
+export type BillboardCollectionCesiumProps = PickCesiumProps<
+  CesiumBillboardCollection,
+  typeof cesiumProps
+>;
 
-export interface BillboardCollectionProps extends BillboardCollectionCesiumProps {
+export type BillboardCollectionProps = BillboardCollectionCesiumProps & {
   children?: React.ReactNode;
-}
+};
 
-const cesiumProps: (keyof BillboardCollectionCesiumProps)[] = [
+const cesiumProps = [
   "blendOption",
   "debugShowBoundingVolume",
-  "length",
+  "debugShowTextureAtlas",
   "modelMatrix",
-];
+] as const;
+
+// Unused prop check
+// length: cannot be modified
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<CesiumBillboardCollection, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const BillboardCollection = createCesiumComponent<
   CesiumBillboardCollection,

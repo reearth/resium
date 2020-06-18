@@ -1,15 +1,12 @@
-import {
-  ModelGraphics as CesiumModelGraphics,
-  Property,
-  Color,
-  Cartesian2,
-  ClippingPlaneCollection,
-  DistanceDisplayCondition,
-  HeightReference,
-  ShadowMode,
-} from "cesium";
+import { ModelGraphics as CesiumModelGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -22,38 +19,18 @@ ModelGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface ModelGraphicsCesiumProps {
-  uri?: Property | string;
-  show?: Property | boolean;
-  scale?: Property | number;
-  minimumPixelSize?: Property | number;
-  maximumScale?: Property | number;
-  incrementallyLoadTextures?: Property | boolean;
-  runAnimations?: Property | boolean;
-  clampAnimations?: Property | boolean;
-  // @type Property | { [name: string]: TranslationRotationScale }
-  nodeTransformations?: Property | any;
-  shadows?: Property | ShadowMode;
-  heightReference?: Property | HeightReference;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  silhouetteColor?: Property | Color;
-  silhouetteSize?: Property | number;
-  color?: Property | Color;
-  // @type Property | ColorBlendMode
-  colorBlendMode?: Property | any;
-  colorBlendAmount?: Property | number;
-  clippingPlanes?: Property | ClippingPlaneCollection;
-  imageBasedLightingFactor?: Property | Cartesian2;
-  lightColor?: Property | Color;
-}
+export type ModelGraphicsCesiumProps = PickCesiumProps<
+  CesiumModelGraphics | CesiumModelGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface ModelGraphicsCesiumEvents {
+export type ModelGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface ModelGraphicsProps extends ModelGraphicsCesiumProps, ModelGraphicsCesiumEvents {}
+export type ModelGraphicsProps = ModelGraphicsCesiumProps & ModelGraphicsCesiumEvents;
 
-const cesiumProps: (keyof ModelGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "uri",
   "show",
   "scale",
@@ -74,11 +51,19 @@ const cesiumProps: (keyof ModelGraphicsCesiumProps)[] = [
   "clippingPlanes",
   "imageBasedLightingFactor",
   "lightColor",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumModelGraphics, ModelGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumModelGraphics | CesiumModelGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const ModelGraphics = createCesiumComponent<CesiumModelGraphics, ModelGraphicsProps>({
   name: "ModelGraphics",

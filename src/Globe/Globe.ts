@@ -1,12 +1,11 @@
-import { createCesiumComponent, EventkeyMap } from "../core";
 import {
-  Globe as CesiumGlobe,
-  Color,
-  ClippingPlaneCollection,
-  Material,
-  ShadowMode,
-  TerrainProvider,
-} from "cesium";
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
+import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
 
 /*
 @summary
@@ -47,35 +46,13 @@ Globe is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compon
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface GlobeCesiumProps {
-  atmosphereBrightnessShift?: number;
-  atmosphereHueShift?: number;
-  atmosphereSaturationShift?: number;
-  backFaceCulling?: boolean;
-  baseColor?: Color;
-  clippingPlanes?: ClippingPlaneCollection;
-  depthTestAgainstTerrain?: boolean;
-  enableLighting?: boolean;
-  lightingFadeInDistance?: number;
-  lightingFadeOutDistance?: number;
-  material?: Material;
-  maximumScreenSpaceError?: number;
-  nightFadeInDistance?: number;
-  nightFadeOutDistance?: number;
-  oceanNormalMapUrl?: string;
-  shadows?: ShadowMode;
-  show?: boolean;
-  showGroundAtmosphere?: boolean;
-  showWaterEffect?: boolean;
-  terrainProvider?: TerrainProvider;
-  tileCacheSize?: number;
-}
+export type GlobeCesiumProps = PickCesiumProps<CesiumGlobe, typeof cesiumProps>;
 
-export interface GlobeCesiumEvents {
+export type GlobeCesiumEvents = {
   onImageryLayersUpdate?: () => void;
   onTerrainProviderChange?: (terrainProvider: TerrainProvider) => void;
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
-}
+};
 
 const cesiumEventProps: EventkeyMap<CesiumGlobe, GlobeCesiumEvents> = {
   onImageryLayersUpdate: "imageryLayersUpdatedEvent",
@@ -83,9 +60,9 @@ const cesiumEventProps: EventkeyMap<CesiumGlobe, GlobeCesiumEvents> = {
   onTileLoadProgress: "tileLoadProgressEvent",
 };
 
-export interface GlobeProps extends GlobeCesiumProps, GlobeCesiumEvents {}
+export type GlobeProps = GlobeCesiumProps & GlobeCesiumEvents;
 
-const cesiumProps: (keyof GlobeCesiumProps)[] = [
+const cesiumProps = [
   "atmosphereBrightnessShift",
   "atmosphereHueShift",
   "atmosphereSaturationShift",
@@ -107,7 +84,15 @@ const cesiumProps: (keyof GlobeCesiumProps)[] = [
   "showWaterEffect",
   "terrainProvider",
   "tileCacheSize",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumGlobe,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",

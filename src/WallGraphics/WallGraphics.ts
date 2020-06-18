@@ -1,14 +1,12 @@
-import {
-  WallGraphics as CesiumWallGraphics,
-  Property,
-  Cartesian3,
-  MaterialProperty,
-  Color,
-  ShadowMode,
-  DistanceDisplayCondition,
-} from "cesium";
+import { WallGraphics as CesiumWallGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -21,28 +19,18 @@ WallGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface WallGraphicsCesiumProps {
-  positions?: Property | Cartesian3[];
-  maximumHeights?: Property | number[];
-  minimumHeights?: Property | number[];
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  granularity?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type WallGraphicsCesiumProps = PickCesiumProps<
+  CesiumWallGraphics | CesiumWallGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface WallGraphicsCesiumEvents {
+export type WallGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface WallGraphicsProps extends WallGraphicsCesiumProps, WallGraphicsCesiumEvents {}
+export type WallGraphicsProps = WallGraphicsCesiumProps & WallGraphicsCesiumEvents;
 
-const cesiumProps: (keyof WallGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "positions",
   "maximumHeights",
   "minimumHeights",
@@ -55,17 +43,25 @@ const cesiumProps: (keyof WallGraphicsCesiumProps)[] = [
   "granularity",
   "shadows",
   "distanceDisplayCondition",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumWallGraphics, WallGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumWallGraphics | CesiumWallGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const WallGraphics = createCesiumComponent<CesiumWallGraphics, WallGraphicsProps>({
   name: "WallGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumWallGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumWallGraphics(props);
     context.entity.wall = element;
     return element;
   },

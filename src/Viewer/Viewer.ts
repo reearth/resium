@@ -1,21 +1,5 @@
 import React from "react";
-import {
-  Viewer as CesiumViewer,
-  Globe,
-  DataSourceCollection,
-  ImageryProvider,
-  MapProjection,
-  SceneMode,
-  SkyAtmosphere,
-  SkyBox,
-  MapMode2D,
-  ProviderViewModel,
-  ClockViewModel,
-  Entity,
-  ShadowMode,
-  DataSource,
-  TerrainProvider,
-} from "cesium";
+import { Viewer as CesiumViewer, ImageryProvider } from "cesium";
 
 import {
   createCesiumComponent,
@@ -24,6 +8,9 @@ import {
   eventManagerContextKey,
   RootEventProps,
   Context,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
 } from "../core";
 
 /*
@@ -41,68 +28,22 @@ import {
 Everywhere. `Viewer` is a root component. 
 */
 
-export interface ViewerCesiumProps {
-  terrainProvider?: TerrainProvider;
-  terrainShadows?: ShadowMode;
-  clockTrackedDataSource?: DataSource;
-  targetFrameRate?: number;
-  useDefaultRenderLoop?: boolean;
-  resolutionScale?: number;
-  allowDataSourcesToSuspendAnimation?: boolean;
-  trackedEntity?: Entity;
-  selectedEntity?: Entity;
-  shadows?: boolean;
-  useBrowserRecommendedResolution?: boolean;
-}
-
-export interface ViewerCesiumReadonlyProps {
-  animation?: boolean;
-  baseLayerPicker?: boolean;
-  fullscreenButton?: boolean;
-  vrButton?: boolean;
-  geocoder?: boolean;
-  homeButton?: boolean;
-  infoBox?: boolean;
-  sceneModePicker?: boolean;
-  selectionIndicator?: boolean;
-  timeline?: boolean;
-  navigationHelpButton?: boolean;
-  navigationInstructionsInitiallyVisible?: boolean;
-  scene3DOnly?: boolean;
-  shouldAnimate?: boolean;
-  clockViewModel?: ClockViewModel;
-  selectedImageryProviderViewModel?: ProviderViewModel;
-  imageryProviderViewModels?: ProviderViewModel[];
-  selectedTerrainProviderViewModel?: ProviderViewModel;
-  terrainProviderViewModels?: ProviderViewModel[];
+export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps> & {
   // If false, the default imagery layer will be removed.
   imageryProvider?: ImageryProvider | false;
-  skyBox?: SkyBox;
-  skyAtmosphere?: SkyAtmosphere;
-  fullscreenElement?: Element | string;
-  showRenderLoopErrors?: boolean;
-  automaticallyTrackDataSourceClocks?: boolean;
-  contextOptions?: any;
-  sceneMode?: SceneMode;
-  mapProjection?: MapProjection;
-  globe?: Globe;
-  orderIndependentTranslucency?: boolean;
-  creditContainer?: Element | string;
-  creditViewport?: Element | string;
-  dataSources?: DataSourceCollection;
-  terrainExaggeration?: number;
-  mapMode2D?: MapMode2D;
-  projectionPicker?: boolean;
-  requestRenderMode?: boolean;
-  maximumRenderTimeChange?: number;
-}
+};
 
-export interface ViewerCesiumEvents {
+export type ViewerCesiumReadonlyProps = PickCesiumProps<
+  CesiumViewer & CesiumViewer.ConstructorOptions,
+  typeof cesiumReadonlyProps
+>;
+
+export type ViewerCesiumEvents = {
   onSelectedEntityChange?: () => void;
   onTrackedEntityChange?: () => void;
-}
+};
 
-const cesiumProps: (keyof ViewerCesiumProps)[] = [
+const cesiumProps = [
   "terrainProvider",
   "terrainShadows",
   "clockTrackedDataSource",
@@ -114,9 +55,9 @@ const cesiumProps: (keyof ViewerCesiumProps)[] = [
   "selectedEntity",
   "shadows",
   "useBrowserRecommendedResolution",
-];
+] as const;
 
-const cesiumReadonlyProps: (keyof ViewerCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "animation",
   "baseLayerPicker",
   "fullscreenButton",
@@ -155,32 +96,41 @@ const cesiumReadonlyProps: (keyof ViewerCesiumReadonlyProps)[] = [
   "projectionPicker",
   "requestRenderMode",
   "maximumRenderTimeChange",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumViewer, ViewerCesiumEvents> = {
   onSelectedEntityChange: "selectedEntityChanged",
   onTrackedEntityChange: "trackedEntityChanged",
 };
 
-export interface ViewerProps
-  extends ViewerCesiumProps,
-    ViewerCesiumReadonlyProps,
-    ViewerCesiumEvents,
-    RootEventProps {
-  // Applied to outer `div` element
-  className?: string;
-  // Applied to outer `div` element
-  id?: string;
-  // Applied to outer `div` element
-  style?: React.CSSProperties;
-  // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
-  full?: boolean;
-  // All props applied to outer `div` element
-  containerProps?: any;
-  // It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself.
-  extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
-  children?: React.ReactNode;
-}
+export type ViewerProps = ViewerCesiumProps &
+  ViewerCesiumReadonlyProps &
+  ViewerCesiumEvents &
+  RootEventProps & {
+    // Applied to outer `div` element
+    className?: string;
+    // Applied to outer `div` element
+    id?: string;
+    // Applied to outer `div` element
+    style?: React.CSSProperties;
+    // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
+    full?: boolean;
+    // All props applied to outer `div` element
+    containerProps?: any;
+    // It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself.
+    extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
+    children?: React.ReactNode;
+  };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumViewer,
+  | typeof cesiumProps
+  | typeof cesiumReadonlyProps
+  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context, EventManager>({
   name: "Viewer",

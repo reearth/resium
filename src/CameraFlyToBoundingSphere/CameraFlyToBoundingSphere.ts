@@ -1,4 +1,4 @@
-import { createCameraOperation } from "../core";
+import { createCameraOperation, AssertNever } from "../core";
 import { BoundingSphere, HeadingPitchRange, Camera, Matrix4, EasingFunction } from "cesium";
 
 // @noCesiumElement
@@ -19,7 +19,7 @@ See also: [Camera#flyToBoundingSphere](https://cesiumjs.org/Cesium/Build/Documen
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface CameraFlyToBoundingSphereProps {
+export type CameraFlyToBoundingSphereProps = {
   boundingSphere: BoundingSphere;
   duration?: number;
   offset?: HeadingPitchRange;
@@ -35,13 +35,26 @@ export interface CameraFlyToBoundingSphereProps {
   cancelFlightOnUnmount?: boolean;
   // If true, camera flight will be executed only once time.
   once?: boolean;
-}
+};
+
+// Unused prop check
+// complete, cancel: prop name changed
+type IgnoredProps = "complete" | "cancel";
+type UnusedProps = Exclude<
+  keyof Parameters<Camera["flyToBoundingSphere"]>[1],
+  keyof CameraFlyToBoundingSphereProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CameraFlyToBoundingSphere = createCameraOperation<CameraFlyToBoundingSphereProps>(
   "CameraFlyToBoundingSphere",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { boundingSphere, ...props }) => {
-    camera.flyToBoundingSphere(boundingSphere, props);
+  (camera, { cancelFlightOnUnmount, boundingSphere, onComplete, onCancel, ...props }) => {
+    camera.flyToBoundingSphere(boundingSphere, {
+      ...props,
+      complete: onComplete,
+      cancel: onCancel,
+    });
   },
 );
 

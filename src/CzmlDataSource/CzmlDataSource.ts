@@ -1,12 +1,17 @@
 import {
   CzmlDataSource as CesiumCzmlDataSource,
-  EntityCluster,
   Resource,
   Credit,
   DataSourceCollection,
 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -19,39 +24,37 @@ CZML data can be loaded from a URL, string or raw object.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface CzmlDataSourceCesiumProps {
-  clustering?: EntityCluster;
-}
+export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, typeof cesiumProps>;
 
-export interface CzmlDataSourceCesiumReadonlyProps {
-  name?: string;
-}
+export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<
+  CesiumCzmlDataSource,
+  typeof cesiumReadonlyProps
+>;
 
-export interface CzmlDataSourceCesiumEvents {
+export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
   onError?: (CzmlDataSource: CesiumCzmlDataSource, error: any) => void;
   onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
-}
+};
 
-export interface CzmlDataSourceProps
-  extends CzmlDataSourceCesiumProps,
-    CzmlDataSourceCesiumReadonlyProps,
-    CzmlDataSourceCesiumEvents {
-  // @CesiumReadonlyProp
-  data?: Resource | string | any;
-  // @CesiumReadonlyProp
-  sourceUri?: string;
-  // @CesiumReadonlyProp
-  credit?: Credit | string;
-  // @CesiumProp
-  show?: boolean;
-  // Calls when the Promise for loading data is fullfilled.
-  onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
-}
+export type CzmlDataSourceProps = CzmlDataSourceCesiumProps &
+  CzmlDataSourceCesiumReadonlyProps &
+  CzmlDataSourceCesiumEvents & {
+    // @CesiumReadonlyProp
+    data?: Resource | string | any;
+    // @CesiumReadonlyProp
+    sourceUri?: string;
+    // @CesiumReadonlyProp
+    credit?: Credit | string;
+    // @CesiumProp
+    show?: boolean;
+    // Calls when the Promise for loading data is fullfilled.
+    onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
+  };
 
-const cesiumProps: (keyof CzmlDataSourceCesiumProps)[] = ["clustering"];
+const cesiumProps = ["clustering"] as const;
 
-const cesiumReadonlyProps: (keyof CzmlDataSourceCesiumReadonlyProps)[] = ["name"];
+const cesiumReadonlyProps = ["name"] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumCzmlDataSource, CzmlDataSourceCesiumEvents> = {
   onChange: "changedEvent",
@@ -84,6 +87,16 @@ const load = ({
       }
     });
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCzmlDataSource,
+  | typeof cesiumProps
+  | typeof cesiumReadonlyProps
+  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourceProps>({
   name: "CzmlDataSource",

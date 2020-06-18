@@ -1,18 +1,12 @@
-import {
-  BillboardGraphics as CesiumBillboardGraphics,
-  VerticalOrigin,
-  HorizontalOrigin,
-  Cartesian3,
-  Property,
-  Cartesian2,
-  Color,
-  NearFarScalar,
-  BoundingRectangle,
-  HeightReference,
-  DistanceDisplayCondition,
-} from "cesium";
+import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -25,38 +19,18 @@ BillboardGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface BillboardGraphicsCesiumProps {
-  image?: Property | ImageData | string | HTMLCanvasElement;
-  show?: Property | boolean;
-  scale?: Property | number;
-  horizontalOrigin?: Property | HorizontalOrigin;
-  verticalOrigin?: Property | VerticalOrigin;
-  eyeOffset?: Property | Cartesian3;
-  pixelOffset?: Property | Cartesian2;
-  rotation?: Property | number;
-  alignedAxis?: Property | Cartesian3;
-  width?: Property | number;
-  height?: Property | number;
-  color?: Property | Color;
-  scaleByDistance?: Property | NearFarScalar;
-  translucencyByDistance?: Property | NearFarScalar;
-  pixelOffsetScaleByDistance?: Property | NearFarScalar;
-  imageSubRegion?: Property | BoundingRectangle;
-  sizeInMeters?: Property | boolean;
-  heightReference?: Property | HeightReference;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  disableDepthTestDistance?: Property | number;
-}
+export type BillboardGraphicsCesiumProps = PickCesiumProps<
+  CesiumBillboardGraphics | CesiumBillboardGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface BillboardGraphicsCesiumEvents {
+export type BillboardGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface BillboardGraphicsProps
-  extends BillboardGraphicsCesiumProps,
-    BillboardGraphicsCesiumEvents {}
+export type BillboardGraphicsProps = BillboardGraphicsCesiumProps & BillboardGraphicsCesiumEvents;
 
-const cesiumProps: (keyof BillboardGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "image",
   "show",
   "scale",
@@ -77,11 +51,19 @@ const cesiumProps: (keyof BillboardGraphicsCesiumProps)[] = [
   "heightReference",
   "distanceDisplayCondition",
   "disableDepthTestDistance",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumBillboardGraphics, BillboardGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumBillboardGraphics | CesiumBillboardGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps][]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const BillboardGraphics = createCesiumComponent<CesiumBillboardGraphics, BillboardGraphicsProps>({
   name: "BillboardGraphics",

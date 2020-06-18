@@ -1,12 +1,12 @@
-import {
-  Cartesian3,
-  Camera as CesiumCamera,
-  PerspectiveFrustum,
-  PerspectiveOffCenterFrustum,
-  OrthographicFrustum,
-} from "cesium";
+import { Camera as CesiumCamera } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -47,31 +47,17 @@ Camera is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compo
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface CameraCesiumProps {
-  position?: Cartesian3;
-  direction?: Cartesian3;
-  up?: Cartesian3;
-  right?: Cartesian3;
-  frustum?: PerspectiveFrustum | PerspectiveOffCenterFrustum | OrthographicFrustum;
-  defaultMoveAmount?: number;
-  defaultLookAmount?: number;
-  defaultRotateAmount?: number;
-  defaultZoomAmount?: number;
-  constrainedAxis?: Cartesian3;
-  maximumTranslateFactor?: number;
-  maximumZoomFactor?: number;
-  percentageChanged?: number;
-}
+export type CameraCesiumProps = PickCesiumProps<CesiumCamera, typeof cesiumProps>;
 
-export interface CameraCesiumEvents {
+export type CameraCesiumEvents = {
   onChange?: (areaPercentage: number) => void;
   onMoveEnd?: () => void;
   onMoveStart?: () => void;
-}
+};
 
-export interface CameraProps extends CameraCesiumProps, CameraCesiumEvents {}
+export type CameraProps = CameraCesiumProps & CameraCesiumEvents;
 
-const cesiumProps: (keyof CameraCesiumProps)[] = [
+const cesiumProps = [
   "position",
   "direction",
   "up",
@@ -85,13 +71,21 @@ const cesiumProps: (keyof CameraCesiumProps)[] = [
   "maximumTranslateFactor",
   "maximumZoomFactor",
   "percentageChanged",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumCamera, CameraCesiumEvents> = {
   onChange: "changed",
   onMoveEnd: "moveEnd",
   onMoveStart: "moveStart",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCamera,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps][]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
   name: "Camera",

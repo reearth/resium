@@ -1,12 +1,12 @@
-import {
-  DistanceDisplayCondition,
-  Cartesian3,
-  Color,
-  NearFarScalar,
-  PointPrimitive as CesiumPointPrimitive,
-} from "cesium";
+import { PointPrimitive as CesiumPointPrimitive } from "cesium";
 
-import { createCesiumComponent, EventProps } from "../core";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -22,25 +22,11 @@ Only inside [PointPrimitiveCollection](/components/PointPrimitiveCollection) com
 A point object will be attached to the parent PointPrimitiveCollection.
 */
 
-export interface PointPrimitiveCesiumProps {
-  color?: Color;
-  disableDepthTestDistance?: number;
-  distanceDisplayCondition?: DistanceDisplayCondition;
-  id?: any;
-  outlineColor?: Color;
-  outlineWidth?: number;
-  pixelSize?: number;
-  position?: Cartesian3;
-  scaleByDistance?: NearFarScalar;
-  show?: boolean;
-  translucencyByDistance?: NearFarScalar;
-}
+export type PointPrimitiveCesiumProps = PickCesiumProps<CesiumPointPrimitive, typeof cesiumProps>;
 
-export interface PointPrimitiveProps
-  extends PointPrimitiveCesiumProps,
-    EventProps<CesiumPointPrimitive> {}
+export type PointPrimitiveProps = PointPrimitiveCesiumProps & EventProps<CesiumPointPrimitive>;
 
-const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
+const cesiumProps = [
   "color",
   "disableDepthTestDistance",
   "distanceDisplayCondition",
@@ -52,7 +38,12 @@ const cesiumProps: (keyof PointPrimitiveCesiumProps)[] = [
   "scaleByDistance",
   "show",
   "translucencyByDistance",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPointPrimitive, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const PointPrimitive = createCesiumComponent<CesiumPointPrimitive, PointPrimitiveProps>({
   name: "PointPrimitive",

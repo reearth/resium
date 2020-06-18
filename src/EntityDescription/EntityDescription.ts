@@ -19,10 +19,10 @@ EntityDescription is available only inside [Entity](/components/Entity) componen
 and can not be used more than once or together with EntityStaticDescription component for each entity.
 */
 
-export interface EntityDescriptionProps {
+export type EntityDescriptionProps = {
   container?: Element;
   resizeInfoBox?: boolean;
-}
+};
 
 const EntityDescription: React.FC<EntityDescriptionProps> = ({
   children,

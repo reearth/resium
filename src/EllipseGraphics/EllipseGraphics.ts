@@ -1,15 +1,12 @@
-import {
-  EllipseGraphics as CesiumEllipseGraphics,
-  Property,
-  HeightReference,
-  MaterialProperty,
-  Color,
-  ShadowMode,
-  DistanceDisplayCondition,
-  ClassificationType,
-} from "cesium";
+import { EllipseGraphics as CesiumEllipseGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -22,37 +19,18 @@ EllipseGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface EllipseGraphicsCesiumProps {
-  semiMajorAxis?: Property | number;
-  semiMinorAxis?: Property | number;
-  height?: Property | number;
-  heightReference?: Property | HeightReference;
-  extrudedHeight?: Property | number;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  numberOfVerticalLines?: Property | number;
-  rotation?: Property | number;
-  stRotation?: Property | number;
-  granularity?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  zIndex?: Property | number;
-  classificationType?: Property | ClassificationType;
-}
+export type EllipseGraphicsCesiumProps = PickCesiumProps<
+  CesiumEllipseGraphics | CesiumEllipseGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface EllipseGraphicsCesiumEvents {
+export type EllipseGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface EllipseGraphicsProps
-  extends EllipseGraphicsCesiumProps,
-    EllipseGraphicsCesiumEvents {}
+export type EllipseGraphicsProps = EllipseGraphicsCesiumProps & EllipseGraphicsCesiumEvents;
 
-const cesiumProps: (keyof EllipseGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "semiMajorAxis",
   "semiMinorAxis",
   "height",
@@ -72,17 +50,25 @@ const cesiumProps: (keyof EllipseGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
   "zIndex",
   "classificationType",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumEllipseGraphics, EllipseGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumEllipseGraphics | CesiumEllipseGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const EllipseGraphics = createCesiumComponent<CesiumEllipseGraphics, EllipseGraphicsProps>({
   name: "EllipseGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumEllipseGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumEllipseGraphics(props);
     if (props.classificationType) {
       // WORKAROUND: classificationType field type is mismatched
       (element as any).classificationType = props.classificationType;

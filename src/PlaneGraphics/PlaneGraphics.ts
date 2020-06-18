@@ -1,14 +1,12 @@
-import {
-  PlaneGraphics as CesiumPlaneGraphics,
-  Property,
-  Cartesian2,
-  Color,
-  MaterialProperty,
-  DistanceDisplayCondition,
-  ShadowMode,
-} from "cesium";
+import { PlaneGraphics as CesiumPlaneGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -21,26 +19,18 @@ PlaneGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface PlaneGraphicsCesiumProps {
-  plane?: Property | any;
-  dimensions?: Property | Cartesian2;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type PlaneGraphicsCesiumProps = PickCesiumProps<
+  CesiumPlaneGraphics | CesiumPlaneGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface PlaneGraphicsCesiumEvents {
+export type PlaneGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface PlaneGraphicsProps extends PlaneGraphicsCesiumProps, PlaneGraphicsCesiumEvents {}
+export type PlaneGraphicsProps = PlaneGraphicsCesiumProps & PlaneGraphicsCesiumEvents;
 
-const cesiumProps: (keyof PlaneGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "plane",
   "dimensions",
   "show",
@@ -51,18 +41,26 @@ const cesiumProps: (keyof PlaneGraphicsCesiumProps)[] = [
   "outlineWidth",
   "shadows",
   "distanceDisplayCondition",
-];
+] as const;
 
 // PlaneGraphics
 const cesiumEventProps: EventkeyMap<any, PlaneGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPlaneGraphics | CesiumPlaneGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const PlaneGraphics = createCesiumComponent<CesiumPlaneGraphics, PlaneGraphicsProps>({
   name: "PlaneGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPlaneGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumPlaneGraphics(props);
     context.entity.plane = element;
     return element;
   },

@@ -1,9 +1,13 @@
-import {
-  PostProcessStageComposite as CesiumPostProcessStageComposite,
-  PostProcessStage,
-} from "cesium";
+import { PostProcessStageComposite as CesiumPostProcessStageComposite } from "cesium";
 
-import { createCesiumComponent } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+  ConstructorOptions,
+  Merge,
+} from "../core";
 
 /*
 @summary
@@ -56,30 +60,34 @@ import { AmbientOcclusion, Bloom } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface PostProcessStageCompositeCesiumProps {
-  enabled?: boolean;
-  selected?: any[];
-}
+export type PostProcessStageCompositeCesiumProps = PickCesiumProps<
+  CesiumPostProcessStageComposite,
+  typeof cesiumProps
+>;
 
-export interface PostProcessStageCompositeCesiumReadonlyProps {
-  stages: PostProcessStage[];
-  inputPreviousStageTexture?: boolean;
-  name?: string;
-  uniforms?: any;
-}
+export type PostProcessStageCompositeCesiumReadonlyProps = PickCesiumProps<
+  Merge<
+    CesiumPostProcessStageComposite,
+    ConstructorOptions<typeof CesiumPostProcessStageComposite>
+  >,
+  typeof cesiumReadonlyProps,
+  "stages"
+>;
 
-export interface PostProcessStageCompositeProps
-  extends PostProcessStageCompositeCesiumProps,
-    PostProcessStageCompositeCesiumReadonlyProps {}
+export type PostProcessStageCompositeProps = PostProcessStageCompositeCesiumProps &
+  PostProcessStageCompositeCesiumReadonlyProps;
 
-const cesiumProps: (keyof PostProcessStageCompositeCesiumProps)[] = ["enabled", "selected"];
+const cesiumProps = ["enabled", "selected"] as const;
 
-const cesiumReadonlyProps: (keyof PostProcessStageCompositeCesiumReadonlyProps)[] = [
-  "inputPreviousStageTexture",
-  "name",
-  "stages",
-  "uniforms",
-];
+const cesiumReadonlyProps = ["inputPreviousStageTexture", "name", "stages", "uniforms"] as const;
+
+export // Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPostProcessStageComposite,
+  typeof cesiumProps | typeof cesiumReadonlyProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 export const PostProcessStageComposite = createCesiumComponent<
   CesiumPostProcessStageComposite,

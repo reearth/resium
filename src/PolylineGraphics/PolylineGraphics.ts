@@ -1,14 +1,12 @@
-import {
-  PolylineGraphics as CesiumPolylineGraphics,
-  MaterialProperty,
-  Color,
-  ShadowMode,
-  Property,
-  DistanceDisplayCondition,
-  Cartesian3,
-} from "cesium";
+import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -21,29 +19,18 @@ PolylineGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface PolylineGraphicsCesiumProps {
-  positions?: Property | Cartesian3[];
-  followSurface?: Property | boolean;
-  clampToGround?: Property | boolean;
-  width?: Property | number;
-  show?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  depthFailMaterial?: MaterialProperty | Color | string;
-  granularity?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  zIndex?: Property | number;
-}
+export type PolylineGraphicsCesiumProps = PickCesiumProps<
+  CesiumPolylineGraphics | CesiumPolylineGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface PolylineGraphicsCesiumEvents {
+export type PolylineGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface PolylineGraphicsProps
-  extends PolylineGraphicsCesiumProps,
-    PolylineGraphicsCesiumEvents {}
+export type PolylineGraphicsProps = PolylineGraphicsCesiumProps & PolylineGraphicsCesiumEvents;
 
-const cesiumProps: (keyof PolylineGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "positions",
   "followSurface",
   "clampToGround",
@@ -55,17 +42,25 @@ const cesiumProps: (keyof PolylineGraphicsCesiumProps)[] = [
   "shadows",
   "distanceDisplayCondition",
   "zIndex",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumPolylineGraphics, PolylineGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPolylineGraphics | CesiumPolylineGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineGraphicsProps>({
   name: "PolylineGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolylineGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumPolylineGraphics(props);
     context.entity.polyline = element;
     return element;
   },

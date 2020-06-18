@@ -1,6 +1,6 @@
 import { SkyBox as CesiumSkyBox } from "cesium";
 
-import { createCesiumComponent } from "../core";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -14,7 +14,7 @@ SkyBox is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compo
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface SkyBoxCesiumProps {
+export type SkyBoxCesiumProps = PickCesiumProps<CesiumSkyBox, typeof cesiumProps> & {
   sources?: {
     positiveX: string | ImageData;
     negativeX: string | ImageData;
@@ -23,13 +23,17 @@ export interface SkyBoxCesiumProps {
     positiveZ: string | ImageData;
     negativeZ: string | ImageData;
   };
-  show?: boolean;
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyBoxProps extends SkyBoxCesiumProps {}
+export type SkyBoxProps = SkyBoxCesiumProps;
 
-const cesiumProps: (keyof SkyBoxCesiumProps)[] = ["sources", "show"];
+const cesiumProps = ["sources", "show"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumSkyBox, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const SkyBox = createCesiumComponent<CesiumSkyBox, SkyBoxProps>({
   name: "SkyBox",

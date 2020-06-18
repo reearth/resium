@@ -1,14 +1,12 @@
-import {
-  CylinderGraphics as CesiumCylinderGraphics,
-  Property,
-  HeightReference,
-  Color,
-  MaterialProperty,
-  ShadowMode,
-  DistanceDisplayCondition,
-} from "cesium";
+import { CylinderGraphics as CesiumCylinderGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -21,30 +19,18 @@ CylinderGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface CylinderGraphicsCesiumProps {
-  heightReference?: Property | HeightReference;
-  length?: Property | number;
-  topRadius?: Property | number;
-  bottomRadius?: Property | number;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  numberOfVerticalLines?: Property | number;
-  slices?: Property | number;
-  shadowMode?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type CylinderGraphicsCesiumProps = PickCesiumProps<
+  CesiumCylinderGraphics | CesiumCylinderGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface CylinderCesiumEvents {
+export type CylinderCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface CylinderGraphicsProps extends CylinderGraphicsCesiumProps, CylinderCesiumEvents {}
+export type CylinderGraphicsProps = CylinderGraphicsCesiumProps & CylinderCesiumEvents;
 
-const cesiumProps: (keyof CylinderGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "heightReference",
   "length",
   "topRadius",
@@ -59,17 +45,25 @@ const cesiumProps: (keyof CylinderGraphicsCesiumProps)[] = [
   "slices",
   "shadowMode",
   "distanceDisplayCondition",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumCylinderGraphics, CylinderCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCylinderGraphics | CesiumCylinderGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const CylinderGraphics = createCesiumComponent<CesiumCylinderGraphics, CylinderGraphicsProps>({
   name: "CylinderGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumCylinderGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumCylinderGraphics(props);
     context.entity.cylinder = element;
     return element;
   },

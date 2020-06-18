@@ -1,74 +1,35 @@
+import { Model as CesiumModel, ModelMesh, Primitive, ModelNode, Resource } from "cesium";
+
 import {
-  Model as CesiumModel,
-  ModelMesh,
-  Primitive,
-  ModelNode,
-  Cartesian3,
-  ClippingPlaneCollection,
-  Cartesian2,
-  Color,
-  DistanceDisplayCondition,
-  Matrix4,
-  Resource,
-  ShadowMode,
-  Scene,
-  Credit,
-} from "cesium";
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+  ConstructorOptions,
+  Merge,
+} from "../core";
 
-import { createCesiumComponent, EventProps } from "../core";
+export type ModelCesiumProps = PickCesiumProps<
+  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
+  typeof cesiumProps
+>;
 
-export interface ModelCesiumProps {
-  basePath?: Resource | string;
-  show?: boolean;
-  modelMatrix?: Matrix4;
-  scale?: number;
-  minimumPixelSize?: number;
-  maximumScale?: number;
-  id?: any;
-  clampAnimations?: boolean;
-  shadows?: ShadowMode;
-  debugShowBoundingVolume?: boolean;
-  debugWireframe?: boolean;
-  scene?: Scene;
-  distanceDisplayCondition?: DistanceDisplayCondition;
-  color?: Color;
-  // @type ColorBlendMode
-  colorBlendMode?: any;
-  colorBlendAmount?: number;
-  silhouetteColor?: Color;
-  silhouetteSize?: number;
-  clippingPlanes?: ClippingPlaneCollection;
-  dequantizeInShader?: boolean;
-  imageBasedLightingFactor?: Cartesian2;
-  lightColor?: Cartesian3;
-  luminanceAtZenith?: number;
-  sphericalHarmonicCoefficients?: Cartesian3[];
-  specularEnvironmentMaps?: string;
-}
+export type ModelCesiumReadonlyProps = PickCesiumProps<CesiumModel, typeof cesiumReadonlyProps>;
 
-export interface ModelCesiumReadonlyProps {
-  allowPicking?: boolean;
-  asynchronous?: boolean;
-  gltf?: any | ArrayBuffer | Uint8Array;
-  incrementallyLoadTextures?: boolean;
-  url?: Resource | string;
-  credit?: Credit | string;
-}
+export type ModelProps = ModelCesiumProps &
+  ModelCesiumReadonlyProps &
+  EventProps<{
+    id?: string;
+    mesh: ModelMesh;
+    node: ModelNode;
+    primitive: Primitive;
+  }> & {
+    // Calls when the model is completely loaded.
+    onReady?: (model: CesiumModel) => void;
+  };
 
-export interface ModelProps
-  extends ModelCesiumProps,
-    ModelCesiumReadonlyProps,
-    EventProps<{
-      id?: string;
-      mesh: ModelMesh;
-      node: ModelNode;
-      primitive: Primitive;
-    }> {
-  // Calls when the model is completely loaded.
-  onReady?: (model: CesiumModel) => void;
-}
-
-const cesiumProps: (keyof ModelCesiumProps)[] = [
+const cesiumProps = [
   "basePath",
   "clampAnimations",
   "clippingPlanes",
@@ -96,14 +57,22 @@ const cesiumProps: (keyof ModelCesiumProps)[] = [
   "specularEnvironmentMaps",
 ];
 
-const cesiumReadonlyProps: (keyof ModelCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "allowPicking",
   "asynchronous",
   "gltf",
   "incrementallyLoadTextures",
   "url",
   "credit",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
+  typeof cesiumProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",

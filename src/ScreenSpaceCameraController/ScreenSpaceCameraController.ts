@@ -1,10 +1,6 @@
-import {
-  ScreenSpaceCameraController as CesiumScreenSpaceCameraController,
-  CameraEventType,
-  KeyboardEventModifier,
-} from "cesium";
+import { ScreenSpaceCameraController as CesiumScreenSpaceCameraController } from "cesium";
 
-import { createCesiumComponent } from "../core";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -18,52 +14,12 @@ ScreenSpaceCameraController is available inside [Viewer](/components/Viewer) or 
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface ScreenSpaceCameraControllerCesiumProps {
-  bounceAnimationTime?: number;
-  enableCollisionDetection?: boolean;
-  enableInputs?: boolean;
-  enableLook?: boolean;
-  enableRotate?: boolean;
-  enableTilt?: boolean;
-  enableTranslate?: boolean;
-  enableZoom?: boolean;
-  inertiaSpin?: number;
-  inertiaTranslate?: number;
-  inertiaZoom?: number;
-  lookEventTypes?:
-    | CameraEventType
-    | CameraEventType[]
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
-  maximumMovementRatio?: number;
-  maximumZoomDistance?: number;
-  minimumCollisionTerrainHeight?: number;
-  minimumPickingTerrainHeight?: number;
-  minimumTrackBallHeight?: number;
-  minimumZoomDistance?: number;
-  rotateEventTypes?:
-    | CameraEventType
-    | CameraEventType[]
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
-  tiltEventTypes?:
-    | CameraEventType
-    | CameraEventType[]
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
-  translateEventTypes?:
-    | CameraEventType
-    | CameraEventType[]
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
-  zoomEventTypes?:
-    | CameraEventType
-    | CameraEventType[]
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }
-    | { eventType: CameraEventType; modifier: KeyboardEventModifier }[];
-}
+export type ScreenSpaceCameraControllerCesiumProps = PickCesiumProps<
+  CesiumScreenSpaceCameraController,
+  typeof cesiumProps
+>;
 
-const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
+const cesiumProps = [
   "bounceAnimationTime",
   "enableCollisionDetection",
   "enableInputs",
@@ -86,7 +42,12 @@ const cesiumProps: (keyof ScreenSpaceCameraControllerCesiumProps)[] = [
   "tiltEventTypes",
   "translateEventTypes",
   "zoomEventTypes",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumScreenSpaceCameraController, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const ScreenSpaceCameraController = createCesiumComponent<
   CesiumScreenSpaceCameraController,

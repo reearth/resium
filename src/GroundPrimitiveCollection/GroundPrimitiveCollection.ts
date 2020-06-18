@@ -1,6 +1,6 @@
 import { PrimitiveCollection } from "cesium";
 
-import { createCesiumComponent } from "../core";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 // @cesiumElement PrimitiveCollection
 
@@ -16,15 +16,21 @@ It can have some GroundPrimitive components as children.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface GroundPrimitiveCollectionCesiumProps {
-  show?: boolean;
-}
+export type GroundPrimitiveCollectionCesiumProps = PickCesiumProps<
+  PrimitiveCollection,
+  typeof cesiumProps
+>;
 
-export interface GroundPrimitiveCollectionProps extends GroundPrimitiveCollectionCesiumProps {
+export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps & {
   children?: React.ReactNode;
-}
+};
 
-const cesiumProps: (keyof GroundPrimitiveCollectionCesiumProps)[] = ["show"];
+const cesiumProps = ["show", "destroyPrimitives"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<PrimitiveCollection, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const GroundPrimitiveCollection = createCesiumComponent<
   PrimitiveCollection,

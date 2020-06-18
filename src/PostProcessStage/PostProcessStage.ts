@@ -1,11 +1,13 @@
-import {
-  PostProcessStage as CesiumPostProcessStage,
-  BoundingRectangle,
-  Color,
-  PixelFormat,
-} from "cesium";
+import { PostProcessStage as CesiumPostProcessStage } from "cesium";
 
-import { createCesiumComponent } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+  ConstructorOptions,
+  Merge,
+} from "../core";
 
 /*
 @summary
@@ -49,33 +51,26 @@ import { LensFlareStage } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface PostProcessStageCesiumProps {
+export type PostProcessStageCesiumProps = PickCesiumProps<
+  CesiumPostProcessStage,
+  typeof cesiumProps
+> & {
   enabled?: boolean;
   selected?: any[];
-}
+};
 
-export interface PostProcessStageCesiumReadonlyProps {
-  fragmentShader: string;
-  uniforms?: any;
-  textureScale?: number;
-  forcePowerOfTwo?: boolean;
-  // @type PostProcessStageSampleMode
-  sampleMode?: any;
-  pixelFormat?: PixelFormat;
-  // @type PixelDatatype
-  pixelDatatype?: any;
-  clearColor?: Color;
-  scissorRectangle?: BoundingRectangle;
-  name?: string;
-}
+export type PostProcessStageCesiumReadonlyProps = PickCesiumProps<
+  Merge<CesiumPostProcessStage, ConstructorOptions<typeof CesiumPostProcessStage>>,
+  typeof cesiumReadonlyProps,
+  "fragmentShader"
+>;
 
-export interface PostProcessStageProps
-  extends PostProcessStageCesiumProps,
-    PostProcessStageCesiumReadonlyProps {}
+export type PostProcessStageProps = PostProcessStageCesiumProps &
+  PostProcessStageCesiumReadonlyProps;
 
-const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
+const cesiumProps = ["enabled", "selected"] as const;
 
-const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "clearColor",
   "forcePowerOfTwo",
   "fragmentShader",
@@ -86,7 +81,15 @@ const cesiumReadonlyProps: (keyof PostProcessStageCesiumReadonlyProps)[] = [
   "scissorRectangle",
   "textureScale",
   "uniforms",
-];
+] as const;
+
+export // Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPostProcessStage,
+  typeof cesiumProps | typeof cesiumReadonlyProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 export const PostProcessStage = createCesiumComponent<
   CesiumPostProcessStage,

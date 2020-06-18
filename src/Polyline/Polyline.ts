@@ -1,6 +1,12 @@
 import { Material, Cartesian3, DistanceDisplayCondition, Polyline as CesiumPolyline } from "cesium";
 
-import { createCesiumComponent, EventProps } from "../core";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -16,7 +22,7 @@ Only inside [PolylineCollection](/components/PolylineCollection) component.
 A polyline object will be attached to the parent PolylineCollection.
 */
 
-export interface PolylineCesiumProps {
+export type PolylineCesiumProps = PickCesiumProps<CesiumPolyline, typeof cesiumProps> & {
   distanceDisplayCondition?: DistanceDisplayCondition;
   id?: any;
   loop?: boolean;
@@ -24,11 +30,11 @@ export interface PolylineCesiumProps {
   positions?: Cartesian3[];
   show?: boolean;
   width?: number;
-}
+};
 
-export interface PolylineProps extends PolylineCesiumProps, EventProps<CesiumPolyline> {}
+export type PolylineProps = PolylineCesiumProps & EventProps<CesiumPolyline>;
 
-const cesiumProps: (keyof PolylineCesiumProps)[] = [
+const cesiumProps = [
   "distanceDisplayCondition",
   "id",
   "loop",
@@ -36,7 +42,12 @@ const cesiumProps: (keyof PolylineCesiumProps)[] = [
   "positions",
   "show",
   "width",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPolyline, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
   name: "Polyline",
