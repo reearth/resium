@@ -1,15 +1,12 @@
-import {
-  EllipsoidGraphics as CesiumEllipsoidGraphics,
-  Property,
-  HeightReference,
-  Cartesian3,
-  Color,
-  MaterialProperty,
-  DistanceDisplayCondition,
-  ShadowMode,
-} from "cesium";
+import { EllipsoidGraphics as CesiumEllipsoidGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -22,36 +19,18 @@ EllipsoidGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface EllipsoidGraphicsCesiumProps {
-  heightReference?: Property | HeightReference;
-  radii?: Property | Cartesian3;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  innerRadii?: Property | Cartesian3;
-  material?: MaterialProperty | Color | string;
-  maximumClock?: Property | number;
-  maximumCone?: Property | number;
-  minimumClock?: Property | number;
-  minimumCone?: Property | number;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  subdivisions?: Property | number;
-  stackPartitions?: Property | number;
-  slicePartitions?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type EllipsoidGraphicsCesiumProps = PickCesiumProps<
+  CesiumEllipsoidGraphics | CesiumEllipsoidGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface EllipsoidGraphicsCesiumEvents {
+export type EllipsoidGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface EllipsoidGraphicsProps
-  extends EllipsoidGraphicsCesiumProps,
-    EllipsoidGraphicsCesiumEvents {}
+export type EllipsoidGraphicsProps = EllipsoidGraphicsCesiumProps & EllipsoidGraphicsCesiumEvents;
 
-const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "heightReference",
   "radii",
   "show",
@@ -70,17 +49,25 @@ const cesiumProps: (keyof EllipsoidGraphicsCesiumProps)[] = [
   "slicePartitions",
   "shadows",
   "distanceDisplayCondition",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumEllipsoidGraphics, EllipsoidGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumEllipsoidGraphics | CesiumEllipsoidGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const EllipsoidGraphics = createCesiumComponent<CesiumEllipsoidGraphics, EllipsoidGraphicsProps>({
   name: "EllipsoidGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumEllipsoidGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumEllipsoidGraphics(props);
     context.entity.ellipsoid = element;
     return element;
   },

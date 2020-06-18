@@ -1,12 +1,12 @@
 import { useEffect, useRef } from "react";
-import { Camera, Scene } from "cesium";
+import { Camera } from "cesium";
 
 import { useCesium } from "./context";
 
-export interface CameraOperationProps {
+export type CameraOperationProps = {
   cancelFlightOnUnmount?: boolean;
   once?: boolean;
-}
+};
 
 export const createCameraOperation = <P>(
   name: string,
@@ -14,7 +14,7 @@ export const createCameraOperation = <P>(
 ) => {
   /* eslint-disable react-hooks/rules-of-hooks */
   const component: React.FC<P & CameraOperationProps> = props => {
-    const ctx = useCesium<{ camera?: Camera; scene?: Scene }>();
+    const ctx = useCesium();
     const prevProps = useRef<P>();
     const first = useRef(false);
 

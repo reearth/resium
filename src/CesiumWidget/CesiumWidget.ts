@@ -1,22 +1,17 @@
 import React from "react";
-import {
-  CesiumWidget as CesiumCesiumWidget,
-  ImageryProvider,
-  TerrainProvider,
-  Clock,
-  SkyBox,
-  SkyAtmosphere,
-  SceneMode,
-  MapMode2D,
-  MapProjection,
-  ShadowMode,
-  Globe,
-} from "cesium";
+import { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import EventManager, { eventManagerContextKey, RootEventProps } from "../core/EventManager";
-import { pick } from "../core/util";
-import { Context } from "../core/context";
+import {
+  createCesiumComponent,
+  EventManager,
+  eventManagerContextKey,
+  RootEventProps,
+  pick,
+  Context,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -35,44 +30,21 @@ import { Context } from "../core/context";
 Everywhere. `CesiumWidget` is a root component. 
 */
 
-export interface CesiumWidgetCesiumProps {
-  resolutionScale?: number;
-  useDefaultRenderLoop?: boolean;
-  targetFrameRate?: number;
-  useBrowserRecommendedResolution?: boolean;
-}
+export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
 
-export interface CesiumWidgetCesiumReadonlyProps {
-  clock?: Clock;
-  imageryProvider?: ImageryProvider;
-  terrainProvider?: TerrainProvider;
-  skyBox?: SkyBox;
-  skyAtmosphere?: SkyAtmosphere;
-  sceneMode?: SceneMode;
-  scene3DOnly?: boolean;
-  orderIndependentTranslucency?: boolean;
-  mapMode2D?: MapMode2D;
-  mapProjection?: MapProjection;
-  globe?: Globe;
-  showRenderLoopErrors?: boolean;
-  contextOptions?: WebGLContextAttributes;
-  creditContainer?: Element | string;
-  creditViewport?: Element | string;
-  terrainExaggeration?: number;
-  shadows?: boolean;
-  terrainShadows?: ShadowMode;
-  requestRenderMode?: boolean;
-  maximumRenderTimeChange?: number;
-}
+export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<
+  CesiumCesiumWidget,
+  typeof cesiumReadonlyProps
+>;
 
-const cesiumProps: (keyof CesiumWidgetCesiumProps)[] = [
+const cesiumProps = [
   "resolutionScale",
   "useDefaultRenderLoop",
   "targetFrameRate",
   "useBrowserRecommendedResolution",
 ];
 
-const cesiumReadonlyProps: (keyof CesiumWidgetCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "clock",
   "imageryProvider",
   "terrainProvider",
@@ -95,22 +67,29 @@ const cesiumReadonlyProps: (keyof CesiumWidgetCesiumReadonlyProps)[] = [
   "maximumRenderTimeChange",
 ];
 
-export interface CesiumWidgetProps
-  extends CesiumWidgetCesiumProps,
-    CesiumWidgetCesiumReadonlyProps,
-    RootEventProps {
-  // Applied to outer `div` element
-  className?: string;
-  // Applied to outer `div` element
-  id?: string;
-  // Applied to outer `div` element
-  style?: React.CSSProperties;
-  // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
-  full?: boolean;
-  // All props applied to outer `div` element
-  containerProps?: any;
-  children?: React.ReactNode;
-}
+export type CesiumWidgetProps = CesiumWidgetCesiumProps &
+  CesiumWidgetCesiumReadonlyProps &
+  RootEventProps & {
+    // Applied to outer `div` element
+    className?: string;
+    // Applied to outer `div` element
+    id?: string;
+    // Applied to outer `div` element
+    style?: React.CSSProperties;
+    // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
+    full?: boolean;
+    // All props applied to outer `div` element
+    containerProps?: any;
+    children?: React.ReactNode;
+  };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCesiumWidget,
+  typeof cesiumProps | typeof cesiumReadonlyProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CesiumWidget = createCesiumComponent<
   CesiumCesiumWidget,

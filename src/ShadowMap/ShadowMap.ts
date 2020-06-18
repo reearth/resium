@@ -1,6 +1,6 @@
 import { ShadowMap as CesiumShadowMap } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -12,23 +12,23 @@ import { createCesiumComponent } from "../core/component";
 Inside [Viewer](/components/Viewer) component or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface ShadowMapProps {
-  darkness?: number;
-  enabled?: boolean;
-  maximumDistance?: number;
-  normalOffset?: boolean;
-  size?: number;
-  softShadows?: boolean;
-}
+export type ShadowMapCesiumProps = PickCesiumProps<CesiumShadowMap, typeof cesiumProps>;
 
-const cesiumProps: (keyof ShadowMapProps)[] = [
+export type ShadowMapProps = ShadowMapCesiumProps;
+
+const cesiumProps = [
   "darkness",
   "enabled",
   "maximumDistance",
   "normalOffset",
   "size",
   "softShadows",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumShadowMap, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
   name: "ShadowMap",

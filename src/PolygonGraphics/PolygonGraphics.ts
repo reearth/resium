@@ -1,17 +1,13 @@
-import {
-  PolygonGraphics as CesiumPolygonGraphics,
-  Property,
-  HeightReference,
-  PolygonHierarchy,
-  Cartesian3,
-  Color,
-  MaterialProperty,
-  ShadowMode,
-  DistanceDisplayCondition,
-  ClassificationType,
-} from "cesium";
+import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+  Merge,
+} from "../core";
 
 /*
 @summary
@@ -24,38 +20,18 @@ PolygonGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface PolygonGraphicsCesiumProps {
-  hierarchy?: Property | PolygonHierarchy | Cartesian3[];
-  height?: Property | number;
-  heightReference?: Property | HeightReference;
-  extrudedHeight?: Property | number;
-  extrudedHeightReference?: Property | HeightReference;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  stRotation?: Property | number;
-  granularity?: Property | number;
-  perPositionHeight?: Property | boolean;
-  closeTop?: boolean;
-  closeBottom?: boolean;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  zIndex?: Property | number;
-  classificationType?: Property | ClassificationType;
-}
+export type PolygonGraphicsCesiumProps = PickCesiumProps<
+  Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>,
+  typeof cesiumProps
+>;
 
-export interface PolygonGraphicsCesiumEvents {
+export type PolygonGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface PolygonGraphicsProps
-  extends PolygonGraphicsCesiumProps,
-    PolygonGraphicsCesiumEvents {}
+export type PolygonGraphicsProps = PolygonGraphicsCesiumProps & PolygonGraphicsCesiumEvents;
 
-const cesiumProps: (keyof PolygonGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "hierarchy",
   "height",
   "heightReference",
@@ -76,11 +52,19 @@ const cesiumProps: (keyof PolygonGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
   "zIndex",
   "classificationType",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumPolygonGraphics, PolygonGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPolygonGraphics | CesiumPolygonGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGraphicsProps>({
   name: "PolygonGraphics",

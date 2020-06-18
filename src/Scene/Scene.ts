@@ -1,20 +1,12 @@
-import {
-  Scene as CesiumScene,
-  SceneMode,
-  SkyBox,
-  Sun,
-  TerrainProvider,
-  Cartesian3,
-  SkyAtmosphere,
-  ShadowMap,
-  Moon,
-  Light,
-  Color,
-  Globe,
-  Fog,
-} from "cesium";
+import { Scene as CesiumScene, SceneMode } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -55,52 +47,9 @@ Scene is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compon
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface SceneCesiumProps {
-  backgroundColor?: Color;
-  completeMorphOnUserInput?: boolean;
-  debugCommandFilter?: (command: any) => boolean;
-  debugShowCommands?: boolean;
-  debugShowDepthFrustum?: number;
-  debugShowFramesPerSecond?: boolean;
-  debugShowFrustumPlanes?: boolean;
-  debugShowFrustums?: boolean;
-  debugShowGlobeDepth?: boolean;
-  eyeSeparation?: number;
-  farToNearRatio?: number;
-  focalLength?: number;
-  fog?: Fog;
-  fxaa?: boolean;
-  globe?: Globe;
-  highDynamicRange?: boolean;
-  imagerySplitPosition?: number;
-  invertClassification?: boolean;
-  invertClassificationColor?: Color;
-  light?: Light;
-  logarithmicDepthBuffer?: number;
-  logarithmicDepthFarToNearRatio?: number;
-  mapMode2D?: boolean;
-  maximumRenderTimeChange?: number;
-  minimumDisableDepthTestDistance?: number;
-  mode?: SceneMode;
-  moon?: Moon;
-  morphTime?: number;
-  nearToFarDistance2D?: number;
-  pickTranslucentDepth?: boolean;
-  requestRenderMode?: boolean;
-  rethrowRenderErrors?: boolean;
-  shadowMap?: ShadowMap;
-  skyAtmosphere?: SkyAtmosphere;
-  skyBox?: SkyBox;
-  specularEnvironmentMaps?: string;
-  sphericalHarmonicCoefficients?: Cartesian3[];
-  sun?: Sun;
-  sunBloom?: boolean;
-  terrainProvider?: TerrainProvider;
-  useDepthPicking?: boolean;
-  useWebVR?: boolean;
-}
+export type SceneCesiumProps = PickCesiumProps<CesiumScene, typeof cesiumProps>;
 
-export interface SceneCesiumEvents {
+export type SceneCesiumEvents = {
   onMorphComplete?: () => void;
   onMorphStart?: () => void;
   onPostRender?: () => void;
@@ -108,15 +57,17 @@ export interface SceneCesiumEvents {
   onPreUpdate?: () => void;
   onRenderError?: () => void;
   onTerrainProviderChange?: () => void;
-}
+};
 
-export interface SceneProps extends SceneCesiumProps, SceneCesiumEvents {
-  children?: React.ReactNode;
-  // If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds).
-  morphDuration?: number;
-}
+export type SceneProps = SceneCesiumProps &
+  SceneCesiumEvents & {
+    children?: React.ReactNode;
+    mode?: SceneMode;
+    // If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds).
+    morphDuration?: number;
+  };
 
-const cesiumProps: (keyof SceneCesiumProps)[] = [
+const cesiumProps = [
   "backgroundColor",
   "completeMorphOnUserInput",
   "debugCommandFilter",
@@ -159,7 +110,7 @@ const cesiumProps: (keyof SceneCesiumProps)[] = [
   "terrainProvider",
   "useDepthPicking",
   "useWebVR",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumScene, SceneCesiumEvents> = {
   onMorphComplete: "morphComplete",
@@ -186,6 +137,14 @@ const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
       break;
   }
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumScene,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   name: "Scene",

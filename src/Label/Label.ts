@@ -1,18 +1,12 @@
-import {
-  Color,
-  Cartesian2,
-  DistanceDisplayCondition,
-  Cartesian3,
-  HeightReference,
-  HorizontalOrigin,
-  NearFarScalar,
-  LabelStyle,
-  VerticalOrigin,
-  Label as CesiumLabel,
-} from "cesium";
+import { Label as CesiumLabel } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -28,35 +22,11 @@ Only inside [LabelCollection](/components/LabelCollection) component.
 A label object will be attached to the parent LabelCollection.
 */
 
-export interface LabelCesiumProps {
-  backgroundColor?: Color;
-  backgroundPadding?: Cartesian2;
-  disableDepthTestDistance?: number;
-  distanceDisplayCondition?: DistanceDisplayCondition;
-  eyeOffset?: Cartesian3;
-  fillColor?: Color;
-  font?: string;
-  heightReference?: HeightReference;
-  horizontalOrigin?: HorizontalOrigin;
-  id?: any;
-  outlineColor?: Color;
-  outlineWidth?: number;
-  pixelOffset?: Cartesian2;
-  pixelOffsetScaleByDistance?: NearFarScalar;
-  position?: Cartesian3;
-  scale?: number;
-  scaleByDistance?: NearFarScalar;
-  show?: boolean;
-  showBackground?: boolean;
-  style?: LabelStyle;
-  text?: string;
-  translucencyByDistance?: NearFarScalar;
-  verticalOrigin?: VerticalOrigin;
-}
+export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps>;
 
-export interface LabelProps extends LabelCesiumProps, EventProps<CesiumLabel> {}
+export type LabelProps = LabelCesiumProps & EventProps<CesiumLabel>;
 
-const cesiumProps: (keyof LabelCesiumProps)[] = [
+const cesiumProps = [
   "backgroundColor",
   "backgroundPadding",
   "disableDepthTestDistance",
@@ -80,7 +50,13 @@ const cesiumProps: (keyof LabelCesiumProps)[] = [
   "text",
   "translucencyByDistance",
   "verticalOrigin",
-];
+] as const;
+
+// Unused prop check
+// totalScale: for read only
+type IgnoredProps = "totalScale";
+type UnusedProps = UnusedCesiumProps<CesiumLabel, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Label = createCesiumComponent<CesiumLabel, LabelProps>({
   name: "Label",

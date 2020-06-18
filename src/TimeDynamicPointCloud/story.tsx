@@ -10,7 +10,7 @@ import {
 } from "cesium";
 import { storiesOf } from "@storybook/react";
 
-import { CesiumComponentRef } from "../core/component";
+import { CesiumComponentRef } from "../core";
 import Viewer from "../Viewer";
 import Clock from "../Clock";
 import TimeDynamicPointCloud from "./TimeDynamicPointCloud";
@@ -35,7 +35,7 @@ const stop = JulianDate.fromIso8601(dates[dates.length - 1]);
 
 const intervals = TimeIntervalCollection.fromIso8601DateArray({
   iso8601Dates: dates,
-  dataCallback: (interval: TimeInterval, index: number) => ({
+  dataCallback: (_interval: TimeInterval, index: number) => ({
     uri: uris[index],
   }),
 });

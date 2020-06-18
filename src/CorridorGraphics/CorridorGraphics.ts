@@ -1,17 +1,12 @@
-import {
-  CorridorGraphics as CesiumCorridorGraphics,
-  Property,
-  Cartesian3,
-  CornerType,
-  HeightReference,
-  MaterialProperty,
-  Color,
-  DistanceDisplayCondition,
-  ClassificationType,
-  ConstantProperty,
-} from "cesium";
+import { CorridorGraphics as CesiumCorridorGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -24,34 +19,18 @@ CorriderGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface CorridorGraphicsCesiumProps {
-  positions?: Property | Cartesian3[];
-  width?: Property | number;
-  cornerType?: Property | CornerType;
-  height?: Property | number;
-  heightReference?: Property | HeightReference;
-  extrudedHeight?: Property | number;
-  extrudedHeightReference?: Property | HeightReference;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  granularity?: Property | number;
-  shadows?: Property | boolean;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  zIndex?: ConstantProperty | number;
-  classificationType?: Property | ClassificationType;
-}
+export type CorridorGraphicsCesiumProps = PickCesiumProps<
+  CesiumCorridorGraphics | CesiumCorridorGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface CorridorCesiumEvents {
+export type CorridorCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface CorridorGraphicsProps extends CorridorGraphicsCesiumProps, CorridorCesiumEvents {}
+export type CorridorGraphicsProps = CorridorGraphicsCesiumProps & CorridorCesiumEvents;
 
-const cesiumProps: (keyof CorridorGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "positions",
   "width",
   "cornerType",
@@ -70,11 +49,19 @@ const cesiumProps: (keyof CorridorGraphicsCesiumProps)[] = [
   "distanceDisplayCondition",
   "zIndex",
   "classificationType",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumCorridorGraphics, CorridorCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCorridorGraphics | CesiumCorridorGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CorridorGraphics = createCesiumComponent<CesiumCorridorGraphics, CorridorGraphicsProps>({
   name: "CorridorGraphics",

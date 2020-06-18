@@ -1,4 +1,4 @@
-import { createCameraOperation } from "../core/CameraOperation";
+import { createCameraOperation, AssertNever } from "../core";
 import { EasingFunction, Camera, Matrix4, Rectangle, Cartesian3 } from "cesium";
 
 // @noCesiumElement
@@ -19,8 +19,9 @@ See also: [Camera#flyTo](https://cesiumjs.org/Cesium/Build/Documentation/Camera.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface CameraFlyToProps {
+export type CameraFlyToProps = {
   destination: Cartesian3 | Rectangle;
+  convert?: boolean;
   orientation?: any;
   duration?: number;
   onComplete?: Camera.FlightCompleteCallback;
@@ -35,13 +36,19 @@ export interface CameraFlyToProps {
   cancelFlightOnUnmount?: boolean;
   // If true, camera flight will be executed only once time.
   once?: boolean;
-}
+};
+
+// Unused prop check
+// complete, cancel: prop name changed
+type IgnoredProps = "complete" | "cancel";
+type UnusedProps = Exclude<keyof Parameters<Camera["flyTo"]>[0], keyof CameraFlyToProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CameraFlyTo = createCameraOperation<CameraFlyToProps>(
   "CameraFlyTo",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  (camera, { ...props }) => {
-    camera.flyTo(props);
+  (camera, { cancelFlightOnUnmount, onComplete, onCancel, ...props }) => {
+    camera.flyTo({ ...props, complete: onComplete, cancel: onCancel });
   },
 );
 

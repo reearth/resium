@@ -1,6 +1,6 @@
 import { PolylineCollection as CesiumPolylineCollection, Matrix4 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -17,21 +17,25 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A PolylineCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export interface PolylineCollectionCesiumProps {
+export type PolylineCollectionCesiumProps = PickCesiumProps<
+  CesiumPolylineCollection,
+  typeof cesiumProps
+> & {
   debugShowBoundingVolume?: boolean;
   length?: number;
   modelMatrix?: Matrix4;
-}
+};
 
-export interface PolylineCollectionProps extends PolylineCollectionCesiumProps {
+export type PolylineCollectionProps = PolylineCollectionCesiumProps & {
   children?: React.ReactNode;
-}
+};
 
-const cesiumProps: (keyof PolylineCollectionCesiumProps)[] = [
-  "debugShowBoundingVolume",
-  "length",
-  "modelMatrix",
-];
+const cesiumProps = ["debugShowBoundingVolume", "length", "modelMatrix"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPolylineCollection, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, PolylineCollectionProps>(
   {

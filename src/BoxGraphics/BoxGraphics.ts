@@ -1,15 +1,12 @@
-import {
-  BoxGraphics as CesiumBoxGraphics,
-  Property,
-  HeightReference,
-  Cartesian3,
-  Color,
-  MaterialProperty,
-  ShadowMode,
-  DistanceDisplayCondition,
-} from "cesium";
+import { BoxGraphics as CesiumBoxGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -22,26 +19,18 @@ BoxGraphic is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface BoxGraphicsCesiumProps {
-  heightReference?: Property | HeightReference;
-  dimensions?: Property | Cartesian3;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type BoxGraphicsCesiumProps = PickCesiumProps<
+  CesiumBoxGraphics | CesiumBoxGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface BoxGraphicsCesiumEvents {
+export type BoxGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface BoxGraphicsProps extends BoxGraphicsCesiumProps, BoxGraphicsCesiumEvents {}
+export type BoxGraphicsProps = BoxGraphicsCesiumProps & BoxGraphicsCesiumEvents;
 
-const cesiumProps: (keyof BoxGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "heightReference",
   "dimensions",
   "show",
@@ -52,11 +41,19 @@ const cesiumProps: (keyof BoxGraphicsCesiumProps)[] = [
   "outlineWidth",
   "shadows",
   "distanceDisplayCondition",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumBoxGraphics, BoxGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumBoxGraphics | CesiumBoxGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps][]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const BoxGraphics = createCesiumComponent<CesiumBoxGraphics, BoxGraphicsProps>({
   name: "BoxGraphics",

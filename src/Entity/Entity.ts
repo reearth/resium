@@ -1,32 +1,14 @@
-import {
-  Entity as CesiumEntity,
-  TimeIntervalCollection,
-  BillboardGraphics,
-  BoxGraphics,
-  CorridorGraphics,
-  CylinderGraphics,
-  Property,
-  EllipseGraphics,
-  EllipsoidGraphics,
-  LabelGraphics,
-  ModelGraphics,
-  Matrix4,
-  PathGraphics,
-  PlaneGraphics,
-  PropertyBag,
-  Cartesian3,
-  PositionProperty,
-  PolylineVolumeGraphics,
-  PolylineGraphics,
-  PolygonGraphics,
-  PointGraphics,
-  RectangleGraphics,
-  WallGraphics,
-  Cesium3DTilesetGraphics,
-} from "cesium";
+import { Entity as CesiumEntity } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
+
 /*
 @summary
 `Entity` is a basic component for geographical data visualization.
@@ -86,60 +68,29 @@ Either:
 - Inside [CustomDataSource](/components/CustomDataSource) component: the entity will be attached to the EntityCollection of the CustomDataSource.
 */
 
-export interface EntityCesiumProps {
-  name?: string;
-  availability?: TimeIntervalCollection;
-  show?: boolean;
-  description?: Property | string;
-  position?: PositionProperty | Cartesian3;
-  orientation?: Property | Matrix4;
-  viewFrom?: Property;
-  parent?: CesiumEntity;
-  billboard?: BillboardGraphics | BillboardGraphics.ConstructorOptions;
-  box?: BoxGraphics | BoxGraphics.ConstructorOptions;
-  corridor?: CorridorGraphics | CorridorGraphics.ConstructorOptions;
-  cylinder?: CylinderGraphics | CylinderGraphics.ConstructorOptions;
-  ellipse?: EllipseGraphics | EllipseGraphics.ConstructorOptions;
-  ellipsoid?: EllipsoidGraphics | EllipsoidGraphics.ConstructorOptions;
-  label?: LabelGraphics | LabelGraphics.ConstructorOptions;
-  model?: ModelGraphics | ModelGraphics.ConstructorOptions;
-  tileset?: Cesium3DTilesetGraphics | Cesium3DTilesetGraphics.ConstructorOptions;
-  path?: PathGraphics | PathGraphics.ConstructorOptions;
-  plane?: PlaneGraphics | PlaneGraphics.ConstructorOptions;
-  point?: PointGraphics | PointGraphics.ConstructorOptions;
-  polygon?: PolygonGraphics | PolygonGraphics.ConstructorOptions;
-  polyline?: PolylineGraphics | PolylineGraphics.ConstructorOptions;
-  properties?:
-    | PropertyBag
-    | {
-        [key: string]: any;
-      };
-  polylineVolume?: PolylineVolumeGraphics | PolylineVolumeGraphics.ConstructorOptions;
-  rectangle?: RectangleGraphics | RectangleGraphics.ConstructorOptions;
-  wall?: WallGraphics | WallGraphics.ConstructorOptions;
-}
+export type EntityCesiumProps = PickCesiumProps<
+  CesiumEntity | CesiumEntity.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface EntityCesiumReadonlyProps {
-  id?: string;
-}
+export type EntityCesiumReadonlyProps = PickCesiumProps<CesiumEntity, typeof cesiumReadonlyProps>;
 
-export interface EntityCesiumEvents {
+export type EntityCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface EntityProps
-  extends EntityCesiumProps,
-    EntityCesiumReadonlyProps,
-    EntityCesiumEvents,
-    EventProps<CesiumEntity> {
-  children?: React.ReactNode;
-  // If true, the entity will be selected. It works only inside Viewer not CesiumWidget.
-  selected?: boolean;
-  // If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget.
-  tracked?: boolean;
-}
+export type EntityProps = EntityCesiumProps &
+  EntityCesiumReadonlyProps &
+  EntityCesiumEvents &
+  EventProps<CesiumEntity> & {
+    children?: React.ReactNode;
+    // If true, the entity will be selected. It works only inside Viewer not CesiumWidget.
+    selected?: boolean;
+    // If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget.
+    tracked?: boolean;
+  };
 
-const cesiumProps: (keyof EntityCesiumProps)[] = [
+const cesiumProps = [
   "availability",
   "billboard",
   "box",
@@ -166,11 +117,21 @@ const cesiumProps: (keyof EntityCesiumProps)[] = [
   "wall",
 ];
 
-const cesiumReadonlyProps: (keyof EntityCesiumReadonlyProps)[] = ["id"];
+const cesiumReadonlyProps = ["id"] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumEntity, EntityCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumEntity | CesiumEntity.ConstructorOptions,
+  typeof cesiumProps &
+    typeof cesiumReadonlyProps &
+    typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   name: "Entity",

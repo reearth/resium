@@ -1,6 +1,6 @@
 import { SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -14,22 +14,23 @@ SkyAtmosphere is available inside [Viewer](/components/Viewer) or [CesiumWidget]
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface SkyAtmosphereCesiumProps {
-  brightnessShift?: number;
-  hueShift?: number;
-  saturationShift?: number;
-  show?: boolean;
-}
+export type SkyAtmosphereCesiumProps = PickCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SkyAtmosphereProps extends SkyAtmosphereCesiumProps {}
+export type SkyAtmosphereProps = SkyAtmosphereCesiumProps;
 
-const cesiumProps: (keyof SkyAtmosphereCesiumProps)[] = [
+const cesiumProps = [
   "brightnessShift",
   "hueShift",
   "saturationShift",
   "show",
-];
+  "perFragmentAtmosphere",
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmosphereProps>({
   name: "SkyAtmosphere",

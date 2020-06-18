@@ -1,16 +1,12 @@
-import {
-  RectangleGraphics as CesiumRectangleGraphics,
-  Property,
-  ClassificationType,
-  DistanceDisplayCondition,
-  ShadowMode,
-  Color,
-  MaterialProperty,
-  HeightReference,
-  Rectangle,
-} from "cesium";
+import { RectangleGraphics as CesiumRectangleGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -23,36 +19,18 @@ RectangleGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface RectangleGraphicsCesiumProps {
-  coordinates?: Property | Rectangle;
-  height?: Property | number;
-  heightReference?: Property | HeightReference;
-  extrudedHeight?: Property | number;
-  extrudedHeightReference?: Property | HeightReference;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  rotation?: Property | number;
-  stRotation?: Property | number;
-  granularity?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  zIndex?: Property | number;
-  classificationType?: Property | ClassificationType;
-}
+export type RectangleGraphicsCesiumProps = PickCesiumProps<
+  CesiumRectangleGraphics | CesiumRectangleGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface RectangleGraphicsCesiumEvents {
+export type RectangleGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface RectangleGraphicsProps
-  extends RectangleGraphicsCesiumProps,
-    RectangleGraphicsCesiumEvents {}
+export type RectangleGraphicsProps = RectangleGraphicsCesiumProps & RectangleGraphicsCesiumEvents;
 
-const cesiumProps: (keyof RectangleGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "coordinates",
   "height",
   "heightReference",
@@ -70,17 +48,25 @@ const cesiumProps: (keyof RectangleGraphicsCesiumProps)[] = [
   "shadows",
   "distanceDisplayCondition",
   "zIndex",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumRectangleGraphics, RectangleGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumRectangleGraphics | CesiumRectangleGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const RectangleGraphics = createCesiumComponent<CesiumRectangleGraphics, RectangleGraphicsProps>({
   name: "RectangleGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumRectangleGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumRectangleGraphics(props);
     context.entity.rectangle = element;
     return element;
   },

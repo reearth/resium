@@ -1,14 +1,17 @@
 import {
   KmlDataSource as CesiumKmlDataSource,
-  Credit,
   Ellipsoid,
   DataSourceCollection,
   Resource,
-  EntityCluster,
-  Camera,
 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -21,50 +24,41 @@ Both KML and KMZ are supported, and can be loaded from a URL, string or raw obje
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface KmlDataSourceCesiumProps {
-  clustering?: EntityCluster;
-  name?: string;
-}
+export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>;
 
-export interface KmlDataSourceCesiumReadonlyProps {
-  camera?: Camera;
-  canvas?: HTMLCanvasElement;
-  ellipsoid?: Ellipsoid;
-}
+export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<
+  CesiumKmlDataSource & CesiumKmlDataSource.LoadOptions,
+  typeof cesiumReadonlyProps
+> & {
+  data: string | Resource | Document | Blob;
+};
 
-export interface KmlDataSourceCesiumEvents {
+export type KmlDataSourceCesiumEvents = {
   onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
   onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void;
   onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void;
   onRefresh?: (kmlDataSource: CesiumKmlDataSource, urlComponent: string) => void;
   onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
-}
+};
 
-export interface KmlDataSourceProps
-  extends KmlDataSourceCesiumProps,
-    KmlDataSourceCesiumReadonlyProps,
-    KmlDataSourceCesiumEvents {
-  // @CesiumReadonlyProp
-  data?: Resource | string | Document | Blob;
-  // @CesiumReadonlyProp
-  clampToGround?: boolean;
-  // @CesiumReadonlyProp
-  sourceUri?: string;
-  // @CesiumReadonlyProp
-  credit?: Credit | string;
-  // @CesiumProp
-  show?: boolean;
-  // Calls when the Promise for loading data is fullfilled.
-  onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
-}
+export type KmlDataSourceProps = KmlDataSourceCesiumProps &
+  KmlDataSourceCesiumReadonlyProps &
+  KmlDataSourceCesiumEvents & {
+    // Calls when the Promise for loading data is fullfilled.
+    onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
+  };
 
-const cesiumProps: (keyof KmlDataSourceCesiumProps)[] = ["clustering", "name"];
+const cesiumProps = ["clustering", "name", "show"] as const;
 
-const cesiumReadonlyProps: (keyof KmlDataSourceCesiumReadonlyProps)[] = [
-  "camera",
+const cesiumReadonlyProps = [
+  "data",
   "canvas",
+  "camera",
   "ellipsoid",
-];
+  "clampToGround",
+  "sourceUri",
+  "credit",
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumKmlDataSource, KmlDataSourceCesiumEvents> = {
   onChange: "changedEvent",
@@ -81,7 +75,6 @@ const load = ({
   clampToGround,
   ellipsoid,
   sourceUri,
-  credit,
 }: {
   element: CesiumKmlDataSource;
   dataSources: DataSourceCollection;
@@ -90,24 +83,33 @@ const load = ({
   clampToGround?: boolean;
   ellipsoid?: Ellipsoid;
   sourceUri?: string;
-  credit?: Credit | string;
 }) => {
-  // WORKAROUND: credit is missing
-  element.load(data, { clampToGround, ellipsoid, sourceUri, credit } as any).then(value => {
+  element.load(data, { clampToGround, ellipsoid, sourceUri }).then(value => {
     if (onLoad) {
       onLoad(value);
     }
   });
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumKmlDataSource | CesiumKmlDataSource.LoadOptions,
+  | typeof cesiumProps
+  | typeof cesiumReadonlyProps
+  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourceProps>({
   name: "KmlDataSource",
   create(context, props) {
-    if (!context.scene || !context.dataSourceCollection) return;
+    if (!context.scene || !context.dataSourceCollection || !context.scene) return;
     const element = new CesiumKmlDataSource({
       camera: props.camera || context.scene.camera,
-      canvas: props.canvas || (context.scene.canvas as HTMLCanvasElement),
+      canvas: props.canvas || context.scene.canvas,
       ellipsoid: props.ellipsoid,
+      credit: props.credit,
     });
     if (props.clustering) {
       element.clustering = props.clustering;
@@ -128,7 +130,6 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
         clampToGround: props.clampToGround,
         ellipsoid: props.ellipsoid,
         sourceUri: props.sourceUri,
-        credit: props.credit,
       });
     }
     return element;
@@ -156,7 +157,6 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
         clampToGround: props.clampToGround,
         ellipsoid: props.ellipsoid,
         sourceUri: props.sourceUri,
-        credit: props.credit,
       });
     }
   },

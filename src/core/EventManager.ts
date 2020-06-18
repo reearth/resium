@@ -6,7 +6,7 @@ export const eventManagerContextKey = "__RESIUM_EVENT_MANAGER";
 
 type EventType = keyof RootEventProps;
 
-export interface EventProps<T> {
+export type EventProps<T> = {
   onClick?: (movement: CesiumMovementEvent, target: T) => void;
   onDoubleClick?: (movement: CesiumMovementEvent, target: T) => void;
   onMouseDown?: (movement: CesiumMovementEvent, target: T) => void;
@@ -23,19 +23,19 @@ export interface EventProps<T> {
   onRightUp?: (movement: CesiumMovementEvent, target: T) => void;
   onMouseEnter?: (movement: CesiumMovementEvent, target: T) => void;
   onMouseLeave?: (movement: CesiumMovementEvent, target: T) => void;
-}
+};
 
-export interface RootEventProps extends EventProps<any> {
+export type RootEventProps = EventProps<any> & {
   onWheel?: (delta: number) => void;
-}
+};
 
 type EventMap<T> = { [k in EventType]: T };
 
-export interface CesiumMovementEvent {
+export type CesiumMovementEvent = {
   position?: Cartesian2;
   startPosition?: Cartesian2;
   endPosition?: Cartesian2;
-}
+};
 
 export type Callback<T = any> = (e: CesiumMovementEvent, source: T) => void;
 
@@ -59,7 +59,7 @@ export const eventNames: EventType[] = [
   "onMouseLeave",
 ];
 
-export default class EventManager {
+export class EventManager {
   private static eventTypeMap: EventMap<ScreenSpaceEventType> = {
     onClick: ScreenSpaceEventType.LEFT_CLICK,
     onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
@@ -270,3 +270,5 @@ export default class EventManager {
     return undefined;
   }
 }
+
+export default EventManager;

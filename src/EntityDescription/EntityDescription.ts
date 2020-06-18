@@ -1,8 +1,8 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
-import { Entity, Viewer } from "cesium";
+import { Entity } from "cesium";
 
-import { useCesium } from "../core/context";
+import { useCesium } from "../core";
 
 // @noCesiumElement
 
@@ -19,17 +19,17 @@ EntityDescription is available only inside [Entity](/components/Entity) componen
 and can not be used more than once or together with EntityStaticDescription component for each entity.
 */
 
-export interface EntityDescriptionProps {
+export type EntityDescriptionProps = {
   container?: Element;
   resizeInfoBox?: boolean;
-}
+};
 
 const EntityDescription: React.FC<EntityDescriptionProps> = ({
   children,
   container,
   resizeInfoBox = true,
 }) => {
-  const { viewer, entity } = useCesium<{ viewer?: Viewer; entity?: Entity }>();
+  const { viewer, entity } = useCesium();
   const [selected, setSelected] = useState(false);
   const c = useMemo(
     () => container ?? viewer?.infoBox.frame.contentDocument?.createElement("div"),

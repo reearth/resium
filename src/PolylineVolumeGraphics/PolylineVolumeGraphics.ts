@@ -1,16 +1,12 @@
-import {
-  PolylineVolumeGraphics as CesiumPolylineVolumeGraphics,
-  Property,
-  CornerType,
-  Cartesian2,
-  Cartesian3,
-  MaterialProperty,
-  Color,
-  ShadowMode,
-  DistanceDisplayCondition,
-} from "cesium";
+import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -23,30 +19,19 @@ PolylineVolumeGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface PolylineVolumeGraphicsCesiumProps {
-  positions?: Property | Cartesian3[];
-  shape?: Property | Cartesian2[];
-  cornerType?: Property | CornerType;
-  show?: Property | boolean;
-  fill?: Property | boolean;
-  material?: MaterialProperty | Color | string;
-  outline?: Property | boolean;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  granularity?: Property | number;
-  shadows?: Property | ShadowMode;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<
+  CesiumPolylineVolumeGraphics | CesiumPolylineVolumeGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface PolylineVolumeGraphicsCesiumEvents {
+export type PolylineVolumeGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface PolylineVolumeGraphicsProps
-  extends PolylineVolumeGraphicsCesiumProps,
-    PolylineVolumeGraphicsCesiumEvents {}
+export type PolylineVolumeGraphicsProps = PolylineVolumeGraphicsCesiumProps &
+  PolylineVolumeGraphicsCesiumEvents;
 
-const cesiumProps: (keyof PolylineVolumeGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "positions",
   "shape",
   "cornerType",
@@ -59,7 +44,7 @@ const cesiumProps: (keyof PolylineVolumeGraphicsCesiumProps)[] = [
   "granularity",
   "shadows",
   "distanceDisplayCondition",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<
   CesiumPolylineVolumeGraphics,
@@ -68,6 +53,14 @@ const cesiumEventProps: EventkeyMap<
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPolylineVolumeGraphics | CesiumPolylineVolumeGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const PolylineVolumeGraphics = createCesiumComponent<
   CesiumPolylineVolumeGraphics,
   PolylineVolumeGraphicsProps
@@ -75,7 +68,7 @@ const PolylineVolumeGraphics = createCesiumComponent<
   name: "PolylineVolumeGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolylineVolumeGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumPolylineVolumeGraphics(props);
     context.entity.polylineVolume = element;
     return element;
   },

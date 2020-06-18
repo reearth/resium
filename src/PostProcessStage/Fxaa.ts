@@ -1,5 +1,5 @@
 // @ignore
-import { createPostProcessStage } from "../core/PostProcessStage";
+import { createPostProcessStage } from "../core";
 
 export const Fxaa = createPostProcessStage<unknown>({
   name: "Fxaa",

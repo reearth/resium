@@ -1,6 +1,6 @@
-import { LabelCollection as CesiumLabelCollection, BlendOption, Matrix4 } from "cesium";
+import { LabelCollection as CesiumLabelCollection } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -17,21 +17,19 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A LabelCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export interface LabelCollectionCesiumProps {
-  blendOption?: BlendOption;
-  debugShowBoundingVolume?: boolean;
-  modelMatrix?: Matrix4;
-}
+export type LabelCollectionCesiumProps = PickCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
 
-export interface LabelCollectionProps extends LabelCollectionCesiumProps {
+export type LabelCollectionProps = LabelCollectionCesiumProps & {
   children?: React.ReactNode;
-}
+};
 
-const cesiumProps: (keyof LabelCollectionCesiumProps)[] = [
-  "blendOption",
-  "debugShowBoundingVolume",
-  "modelMatrix",
-];
+const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
+
+// Unused prop check
+// length: for read only
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollectionProps>({
   name: "LabelCollection",

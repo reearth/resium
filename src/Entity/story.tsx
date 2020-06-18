@@ -193,7 +193,7 @@ storiesOf("Entity", module)
         position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
         <CorridorGraphics
           material={Color.YELLOW}
-          positions={Cartesian3.fromDegreesArray([-100.0, 40.0, -105.0, 40.0, -105.0, 35.0])}
+          positions={Cartesian3.fromDegreesArray([-100.0, 40.0, -105.0, 40.0, -105.0, 35.0]) as any} // WORKAROUND
           height={200000.0}
           extrudedHeight={100000.0}
           width={200000.0}
@@ -291,7 +291,7 @@ storiesOf("Entity", module)
       </Entity>
       <Entity name="PolygonGraphics" description="PolygonGraphics!!">
         <PolygonGraphics
-          hierarchy={Cartesian3.fromDegreesArray([-108.0, 42.0, -100.0, 42.0, -104.0, 40.0])}
+          hierarchy={Cartesian3.fromDegreesArray([-108.0, 42.0, -100.0, 42.0, -104.0, 40.0]) as any} // WORKAROUND
           material={Color.GREEN}
         />
       </Entity>

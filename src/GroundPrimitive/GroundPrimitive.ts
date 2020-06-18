@@ -1,7 +1,12 @@
-import { GroundPrimitive as CesiumGroundPrimitive, Appearance, GeometryInstance } from "cesium";
+import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -18,44 +23,31 @@ If this component is inside GroundPrimitiveCollection component, a ground primit
 Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export interface GroundPrimitiveCesiumProps {
-  appearance?: Appearance;
-  debugShowBoundingVolume?: boolean;
-  debugShowShadowVolume?: boolean;
-  classificationType?: any; // ClassificationType
-  depthFailAppearance?: Appearance;
-  show?: boolean;
-}
+export type GroundPrimitiveCesiumProps = PickCesiumProps<CesiumGroundPrimitive, typeof cesiumProps>;
 
-export interface GroundPrimitiveCesiumReadonlyProps {
-  allowPicking?: boolean;
-  asynchronous?: boolean;
-  compressVertices?: boolean;
-  geometryInstances?: GeometryInstance[] | GeometryInstance;
-  interleave?: boolean;
-  releaseGeometryInstances?: boolean;
-  vertexCacheOptimize?: boolean;
-}
+export type GroundPrimitiveCesiumReadonlyProps = PickCesiumProps<
+  CesiumGroundPrimitive,
+  typeof cesiumReadonlyProps
+>;
 
-export interface GroundPrimitiveProps
-  extends GroundPrimitiveCesiumProps,
-    GroundPrimitiveCesiumReadonlyProps,
-    EventProps<CesiumGroundPrimitive> {
-  // GroundPrimitive
-  // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPrimitive.html#readyPromise) is fullfilled
-  onReady?: (primitive: CesiumGroundPrimitive) => void;
-}
+export type GroundPrimitiveProps = GroundPrimitiveCesiumProps &
+  GroundPrimitiveCesiumReadonlyProps &
+  EventProps<CesiumGroundPrimitive> & {
+    // GroundPrimitive
+    // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPrimitive.html#readyPromise) is fullfilled
+    onReady?: (primitive: CesiumGroundPrimitive) => void;
+  };
 
-const cesiumProps: (keyof GroundPrimitiveCesiumProps)[] = [
+const cesiumProps = [
   "appearance",
   "classificationType",
   "debugShowBoundingVolume",
   "debugShowShadowVolume",
   "depthFailAppearance",
   "show",
-];
+] as const;
 
-const cesiumReadonlyProps: (keyof GroundPrimitiveCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "allowPicking",
   "asynchronous",
   "compressVertices",
@@ -63,7 +55,15 @@ const cesiumReadonlyProps: (keyof GroundPrimitiveCesiumReadonlyProps)[] = [
   "interleave",
   "releaseGeometryInstances",
   "vertexCacheOptimize",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumGroundPrimitive,
+  typeof cesiumProps | typeof cesiumReadonlyProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
   name: "GroundPrimitive",

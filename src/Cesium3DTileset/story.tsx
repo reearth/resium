@@ -3,7 +3,7 @@ import { storiesOf } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Viewer as CesiumViewer } from "cesium";
 
-import { CesiumComponentRef } from "../core/component";
+import { CesiumComponentRef } from "../core";
 import Viewer from "../Viewer";
 import Cesium3DTileset from "./Cesium3DTileset";
 

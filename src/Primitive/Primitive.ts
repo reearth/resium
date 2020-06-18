@@ -1,13 +1,12 @@
-import {
-  Primitive as CesiumPrimitive,
-  Appearance,
-  ShadowMode,
-  Matrix4,
-  GeometryInstance,
-} from "cesium";
+import { Primitive as CesiumPrimitive, Appearance, ShadowMode, Matrix4 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
-import { EventProps } from "../core/EventManager";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -23,7 +22,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export interface PrimitiveCesiumProps {
+export type PrimitiveCesiumProps = PickCesiumProps<CesiumPrimitive, typeof cesiumProps> & {
   appearance?: Appearance;
   cull?: boolean;
   debugShowBoundingVolume?: boolean;
@@ -31,27 +30,21 @@ export interface PrimitiveCesiumProps {
   modelMatrix?: Matrix4;
   shadows?: ShadowMode;
   show?: boolean;
-}
+};
 
-export interface PrimitiveCesiumReadonlyProps {
-  allowPicking?: boolean;
-  asynchronous?: boolean;
-  compressVertices?: boolean;
-  geometryInstances?: GeometryInstance[] | GeometryInstance;
-  interleave?: boolean;
-  releaseGeometryInstances?: boolean;
-  vertexCacheOptimize?: boolean;
-}
+export type PrimitiveCesiumReadonlyProps = PickCesiumProps<
+  CesiumPrimitive,
+  typeof cesiumReadonlyProps
+>;
 
-export interface PrimitiveProps
-  extends PrimitiveCesiumProps,
-    PrimitiveCesiumReadonlyProps,
-    EventProps<CesiumPrimitive> {
-  // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/Primitive.html#readyPromise) is fullfilled
-  onReady?: (primitive: CesiumPrimitive) => void;
-}
+export type PrimitiveProps = PrimitiveCesiumProps &
+  PrimitiveCesiumReadonlyProps &
+  EventProps<CesiumPrimitive> & {
+    // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/Primitive.html#readyPromise) is fullfilled
+    onReady?: (primitive: CesiumPrimitive) => void;
+  };
 
-const cesiumProps: (keyof PrimitiveCesiumProps)[] = [
+const cesiumProps = [
   "appearance",
   "cull",
   "debugShowBoundingVolume",
@@ -61,7 +54,7 @@ const cesiumProps: (keyof PrimitiveCesiumProps)[] = [
   "show",
 ];
 
-const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "allowPicking",
   "asynchronous",
   "compressVertices",
@@ -69,7 +62,12 @@ const cesiumReadonlyProps: (keyof PrimitiveCesiumReadonlyProps)[] = [
   "interleave",
   "releaseGeometryInstances",
   "vertexCacheOptimize",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPrimitive, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Primitive = createCesiumComponent<CesiumPrimitive, PrimitiveProps>({
   name: "Primitive",

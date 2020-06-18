@@ -1,13 +1,13 @@
-import {
-  ImageryLayer as CesiumImageryLayer,
-  ImageryProvider,
-  Rectangle,
-  TextureMagnificationFilter,
-  TextureMinificationFilter,
-  ImagerySplitDirection,
-} from "cesium";
+import { ImageryLayer as CesiumImageryLayer } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+  Merge,
+  ConstructorOptions2,
+} from "../core";
 
 /*
 @summary
@@ -43,89 +43,17 @@ Either:
 - Inside [ImageryLayerCollection](/components/ImageryLayerCollection) component: same as above
 */
 
-export interface ImageryLayerCesiumProps {
-  alpha?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => number)
-    | number;
-  brightness?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => number)
-    | number;
-  contrast?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => number)
-    | number;
-  hue?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => number)
-    | number;
-  saturation?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => number)
-    | number;
-  gamma?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => number)
-    | number;
-  splitDirection?:
-    | ((
-        frameState: any /* FrameState */,
-        layer: CesiumImageryLayer,
-        x: number,
-        y: number,
-        level: number,
-      ) => any)
-    | ImagerySplitDirection;
-  minificationFilter?: TextureMinificationFilter;
-  magnificationFilter?: TextureMagnificationFilter;
-  cutoutRectangle?: Rectangle;
-  show?: boolean;
-}
+export type ImageryLayerCesiumProps = PickCesiumProps<CesiumImageryLayer, typeof cesiumProps>;
 
-export interface ImageryLayerCesiumReadonlyProps {
-  imageryProvider: ImageryProvider;
-  rectangle?: Rectangle;
-  maximumAnisotropy?: number;
-  minimumTerrainLevel?: number;
-  maximumTerrainLevel?: number;
-}
+export type ImageryLayerCesiumReadonlyProps = PickCesiumProps<
+  Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>>,
+  typeof cesiumReadonlyProps,
+  "imageryProvider"
+>;
 
-export interface ImageryLayerProps
-  extends ImageryLayerCesiumProps,
-    ImageryLayerCesiumReadonlyProps {}
+export type ImageryLayerProps = ImageryLayerCesiumProps & ImageryLayerCesiumReadonlyProps;
 
-const cesiumProps: (keyof ImageryLayerCesiumProps)[] = [
+const cesiumProps = [
   "alpha",
   "brightness",
   "contrast",
@@ -137,37 +65,33 @@ const cesiumProps: (keyof ImageryLayerCesiumProps)[] = [
   "magnificationFilter",
   "cutoutRectangle",
   "show",
-];
+  "nightAlpha",
+  "dayAlpha",
+  "colorToAlpha",
+  "colorToAlphaThreshold",
+] as const;
 
-const cesiumReadonlyProps: (keyof ImageryLayerCesiumReadonlyProps)[] = [
+const cesiumReadonlyProps = [
   "imageryProvider",
   "rectangle",
   "maximumAnisotropy",
   "minimumTerrainLevel",
   "maximumTerrainLevel",
-];
+] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumImageryLayer,
+  typeof cesiumProps | typeof cesiumReadonlyProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
   name: "ImageryLayer",
   create(context, props) {
     if (!context.imageryLayerCollection) return;
-    const element = new CesiumImageryLayer(props.imageryProvider, {
-      rectangle: props.rectangle,
-      alpha: props.alpha,
-      brightness: props.brightness,
-      contrast: props.contrast,
-      hue: props.hue,
-      saturation: props.saturation,
-      gamma: props.gamma,
-      splitDirection: props.splitDirection,
-      minificationFilter: props.minificationFilter,
-      magnificationFilter: props.magnificationFilter,
-      show: props.show,
-      maximumAnisotropy: props.maximumAnisotropy,
-      minimumTerrainLevel: props.minimumTerrainLevel,
-      maximumTerrainLevel: props.maximumTerrainLevel,
-      cutoutRectangle: props.cutoutRectangle,
-    });
+    const element = new CesiumImageryLayer(props.imageryProvider, props);
     context.imageryLayerCollection.add(element);
     return element;
   },

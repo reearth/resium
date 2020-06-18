@@ -1,5 +1,5 @@
-import { Moon as CesiumMoon, Ellipsoid } from "cesium";
-import { createCesiumComponent } from "../core/component";
+import { Moon as CesiumMoon } from "cesium";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -13,21 +13,20 @@ Moon is available inside [Viewer](/components/Viewer) or [CesiumWidget](/compone
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface MoonCesiumProps {
-  onlySunLighting?: boolean;
-  show?: boolean;
-  textureUrl?: string;
-}
+export type MoonCesiumProps = PickCesiumProps<CesiumMoon, typeof cesiumProps>;
 
-export interface MoonCesiumReadonlyProps {
-  ellipsoid?: Ellipsoid;
-}
+export type MoonCesiumReadonlyProps = PickCesiumProps<CesiumMoon, typeof cesiumReadonlyProps>;
 
-export interface MoonProps extends MoonCesiumProps, MoonCesiumReadonlyProps {}
+export type MoonProps = MoonCesiumProps & MoonCesiumReadonlyProps;
 
-const cesiumProps: (keyof MoonCesiumProps)[] = ["onlySunLighting", "show", "textureUrl"];
+const cesiumProps = ["onlySunLighting", "show", "textureUrl"] as const;
 
-const cesiumReadonlyProps: (keyof MoonCesiumReadonlyProps)[] = ["ellipsoid"];
+const cesiumReadonlyProps = ["ellipsoid"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumMoon, typeof cesiumProps | typeof cesiumReadonlyProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
   name: "Moon",
@@ -37,7 +36,7 @@ const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
     context.scene.moon = element;
     return element;
   },
-  destroy(element, context) {
+  destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
       context.scene.moon = new CesiumMoon();
     }

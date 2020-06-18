@@ -1,12 +1,12 @@
-import {
-  PathGraphics as CesiumPathGraphics,
-  Property,
-  DistanceDisplayCondition,
-  Color,
-  MaterialProperty,
-} from "cesium";
+import { PathGraphics as CesiumPathGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -19,23 +19,18 @@ PathGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface PathGraphicsCesiumProps {
-  leadTime?: Property | number;
-  trailTime?: Property | number;
-  show?: Property | boolean;
-  width?: Property | number;
-  material?: MaterialProperty | Color | string;
-  resolution?: Property | number;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-}
+export type PathGraphicsCesiumProps = PickCesiumProps<
+  CesiumPathGraphics | CesiumPathGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface PathGraphicsCesiumEvents {
+export type PathGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface PathGraphicsProps extends PathGraphicsCesiumProps, PathGraphicsCesiumEvents {}
+export type PathGraphicsProps = PathGraphicsCesiumProps & PathGraphicsCesiumEvents;
 
-const cesiumProps: (keyof PathGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "leadTime",
   "trailTime",
   "show",
@@ -43,17 +38,25 @@ const cesiumProps: (keyof PathGraphicsCesiumProps)[] = [
   "material",
   "resolution",
   "distanceDisplayCondition",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumPathGraphics, PathGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
 
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumPathGraphics | CesiumPathGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+
 const PathGraphics = createCesiumComponent<CesiumPathGraphics, PathGraphicsProps>({
   name: "PathGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPathGraphics(props as any); // WORKAROUND: material
+    const element = new CesiumPathGraphics(props);
     context.entity.path = element;
     return element;
   },

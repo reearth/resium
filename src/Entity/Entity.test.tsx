@@ -3,7 +3,7 @@ import React from "react";
 import { Entity as CesiumEntity } from "cesium";
 import { mount } from "enzyme";
 
-import { Provider } from "../core/context";
+import { Provider } from "../core";
 import Entity, { EntityProps } from "./Entity";
 import { reset } from "../../__mocks__/cesium/Entity";
 

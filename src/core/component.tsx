@@ -1,18 +1,16 @@
 import React, { forwardRef } from "react";
 
-import { useCesiumComponent, Options, EventkeyMap } from "./hooks";
+import { useCesiumComponent, Options } from "./hooks";
 import { CesiumContext, Context } from "./context";
 import { pick } from "./util";
 
-export { EventkeyMap };
-
-export interface CesiumComponentOptions<
+export type CesiumComponentOptions<
   Element,
   Props,
   Context = any,
   ProvidecContext = any,
   State = any
-> extends Options<Element, Props, Context, ProvidecContext, State> {
+> = Options<Element, Props, Context, ProvidecContext, State> & {
   renderContainer?: boolean;
   noChildren?: boolean;
   containerProps?:
@@ -21,11 +19,11 @@ export interface CesiumComponentOptions<
         props: Props,
       ) => Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>);
   defaultProps?: Partial<Props>;
-}
+};
 
-export interface CesiumComponentRef<Element> {
+export type CesiumComponentRef<Element> = {
   cesiumElement?: Element;
-}
+};
 
 export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<Props> & React.RefAttributes<CesiumComponentRef<Element>>
@@ -56,7 +54,13 @@ export const createCesiumComponent = <
       ...props,
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesiumComponent(options, mergedProps, ref);
+    const [provided, mounted, wrapperRef] = useCesiumComponent<
+      Element,
+      Props,
+      Ctx,
+      ProvidecContext,
+      State
+    >(options, mergedProps, ref);
 
     if (noChildren) return null;
 

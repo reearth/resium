@@ -1,5 +1,5 @@
 import { Sun as CesiumSun } from "cesium";
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -13,15 +13,17 @@ Sun is available inside [Viewer](/components/Viewer) or [CesiumWidget](/componen
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface SunCesiumProps {
-  glowFactor?: number;
-  show?: boolean;
-}
+export type SunCesiumProps = PickCesiumProps<CesiumSun, typeof cesiumProps>;
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface SunProps extends SunCesiumProps {}
+export type SunProps = SunCesiumProps;
 
-const cesiumProps: (keyof SunCesiumProps)[] = ["glowFactor", "show"];
+const cesiumProps = ["glowFactor", "show"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumSun, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Sun = createCesiumComponent<CesiumSun, SunProps>({
   name: "Sun",

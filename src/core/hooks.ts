@@ -9,12 +9,12 @@ import {
 import { Event as CesiumEvent } from "cesium";
 
 import { useCesium } from "./context";
-import EventManager, { eventManagerContextKey } from "./EventManager";
-import { includes, shallowEquals } from "./util";
+import { EventManager, eventManagerContextKey } from "./EventManager";
+import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-export interface Options<Element, Props, Context = any, ProvidedContext = any, State = any> {
+export type Options<Element, Props, Context = any, ProvidedContext = any, State = any> = {
   name: string;
   create?: (
     ctx: Context,
@@ -29,13 +29,13 @@ export interface Options<Element, Props, Context = any, ProvidedContext = any, S
   ) => void;
   provide?: (element: Element, ctx: Context, state?: State) => ProvidedContext;
   update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
-  cesiumProps?: (keyof Props)[];
-  cesiumReadonlyProps?: (keyof Props)[];
+  cesiumProps?: readonly (keyof Props)[];
+  cesiumReadonlyProps?: readonly (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
   setCesiumPropsAfterCreate?: boolean;
   useCommonEvent?: boolean;
   useRootEvent?: boolean;
-}
+};
 
 export const useCesiumComponent = <
   Element,
@@ -252,16 +252,3 @@ export const useCesiumComponent = <
 
   return [provided.current, mounted, wrapperRef];
 };
-
-interface Destroyable {
-  isDestroyed(): boolean;
-  destroy(): void;
-}
-
-function isDestroyable(d: any): d is Destroyable {
-  return d && typeof d.isDestroyed === "function" && typeof d.destroy === "function";
-}
-
-function isDestroyed(d: any) {
-  return isDestroyable(d) && d.isDestroyed();
-}

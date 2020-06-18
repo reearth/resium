@@ -1,4 +1,4 @@
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import { createCesiumComponent, EventkeyMap, UnusedCesiumProps, AssertNever } from "../core";
 import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
 
 /*
@@ -13,15 +13,15 @@ Available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/Cesi
 This component refers to the single ImageryLayerCollection of them, so can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface ImageryLayerCollectionCesiumEvents {
+export type ImageryLayerCollectionCesiumEvents = {
   onLayerAdd?: (layer: ImageryLayer, index: number) => void;
   onLayerMove?: (layer: ImageryLayer, index: number) => void;
   onLayerRemove?: (layer: ImageryLayer, index: number) => void;
   onLayerShowOrHide?: (layer: ImageryLayer, index: number) => void;
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface ImageryLayerCollectionProps extends ImageryLayerCollectionCesiumEvents {}
+export type ImageryLayerCollectionProps = ImageryLayerCollectionCesiumEvents;
 
 const cesiumEventProps: EventkeyMap<
   CesiumImageryLayerCollection,
@@ -32,6 +32,15 @@ const cesiumEventProps: EventkeyMap<
   onLayerRemove: "layerRemoved",
   onLayerShowOrHide: "layerShownOrHidden",
 };
+
+// Unused prop check
+// length: for read only
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<
+  CesiumImageryLayerCollection,
+  typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const ImageryLayerCollection = createCesiumComponent<
   CesiumImageryLayerCollection,

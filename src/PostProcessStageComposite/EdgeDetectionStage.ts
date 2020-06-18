@@ -1,7 +1,7 @@
 // @ignore
 import { PostProcessStageLibrary, Color } from "cesium";
 
-import { createPostProcessStage } from "../core/PostProcessStage";
+import { createPostProcessStage } from "../core";
 
 export const EdgeDetectionStage = createPostProcessStage<{
   color?: Color;

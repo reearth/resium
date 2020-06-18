@@ -1,16 +1,16 @@
 import React, { forwardRef } from "react";
 import { Consumer } from "./context";
 
-export interface CesiumProp<C> {
+export type CesiumProp<C> = {
   cesium: C;
-}
+};
 
 export interface CesiumInsideComponentType<E, P = any>
   extends React.PureComponent<WithContextProps<P, any>> {
   cesiumElement: E;
 }
 
-export type CesiumHOCComponentType<E, P, C> = React.ForwardRefExoticComponent<
+export type CesiumHOCComponentType<E, P> = React.ForwardRefExoticComponent<
   React.PropsWithoutRef<P> & React.RefAttributes<CesiumInsideComponentType<E, P>>
 >;
 

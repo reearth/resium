@@ -4,7 +4,7 @@ import {
   BlendOption,
 } from "cesium";
 
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
 /*
 @summary
@@ -21,21 +21,26 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A PointPrimitiveCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export interface PointPrimitiveCollectionCesiumProps {
+export type PointPrimitiveCollectionCesiumProps = PickCesiumProps<
+  CesiumPointPrimitiveCollection,
+  typeof cesiumProps
+> & {
   blendOption?: BlendOption;
   debugShowBoundingVolume?: boolean;
   modelMatrix?: Matrix4;
-}
+};
 
-export interface PointPrimitiveCollectionProps extends PointPrimitiveCollectionCesiumProps {
+export type PointPrimitiveCollectionProps = PointPrimitiveCollectionCesiumProps & {
   children?: React.ReactNode;
-}
+};
 
-const cesiumProps: (keyof PointPrimitiveCollectionCesiumProps)[] = [
-  "blendOption",
-  "debugShowBoundingVolume",
-  "modelMatrix",
-];
+const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
+
+// Unused prop check
+// length: for read only
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<CesiumPointPrimitiveCollection, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const PointPrimitiveCollection = createCesiumComponent<
   CesiumPointPrimitiveCollection,

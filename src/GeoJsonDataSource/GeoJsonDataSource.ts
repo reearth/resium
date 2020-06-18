@@ -1,14 +1,19 @@
 import {
   GeoJsonDataSource as CesiumGeoJsonDataSource,
   DataSourceCollection,
-  EntityCluster,
   Resource,
   Credit,
   Color,
   Property,
 } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -21,49 +26,48 @@ Both GeoJSON and TopoJSON are supported, and can be loaded from a URL, string or
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface GeoJsonDataSourceCesiumProps {
-  clustering?: EntityCluster;
-  name?: string;
-}
+export type GeoJsonDataSourceCesiumProps = PickCesiumProps<
+  CesiumGeoJsonDataSource,
+  typeof cesiumProps
+>;
 
-export interface GeoJsonDataSourceCesiumEvents {
+export type GeoJsonDataSourceCesiumEvents = {
   onChange?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
   onError?: (GeoJsonDataSource: CesiumGeoJsonDataSource, error: any) => void;
   onLoading?: (GeoJsonDataSource: CesiumGeoJsonDataSource, isLoaded: boolean) => void;
-}
+};
 
-export interface GeoJsonDataSourceProps
-  extends GeoJsonDataSourceCesiumProps,
-    GeoJsonDataSourceCesiumEvents {
-  // @CesiumReadonlyProp
-  data?: Resource | string | any;
-  // @CesiumReadonlyProp
-  clampToGround?: boolean;
-  // @CesiumReadonlyProp
-  sourceUri?: string;
-  // @CesiumReadonlyProp
-  credit?: Credit | string;
-  // @CesiumProp
-  show?: boolean;
-  // @CesiumReadonlyProp
-  markerSize?: number;
-  // @CesiumReadonlyProp
-  markerSymbol?: string;
-  // @CesiumReadonlyProp
-  markerColor?: Color;
-  // @CesiumReadonlyProp
-  stroke?: Color;
-  // @CesiumReadonlyProp
-  strokeWidth?: number;
-  // @CesiumReadonlyProp
-  fill?: Color;
-  // @CesiumReadonlyProp
-  describe?: (properties: { [key: string]: any }, nameProperty: string) => Property | string;
-  // Calls when the Promise for loading data is fullfilled.
-  onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
-}
+export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
+  GeoJsonDataSourceCesiumEvents & {
+    // @CesiumReadonlyProp
+    data?: Resource | string | any;
+    // @CesiumReadonlyProp
+    clampToGround?: boolean;
+    // @CesiumReadonlyProp
+    sourceUri?: string;
+    // @CesiumReadonlyProp
+    credit?: Credit | string;
+    // @CesiumProp
+    show?: boolean;
+    // @CesiumReadonlyProp
+    markerSize?: number;
+    // @CesiumReadonlyProp
+    markerSymbol?: string;
+    // @CesiumReadonlyProp
+    markerColor?: Color;
+    // @CesiumReadonlyProp
+    stroke?: Color;
+    // @CesiumReadonlyProp
+    strokeWidth?: number;
+    // @CesiumReadonlyProp
+    fill?: Color;
+    // @CesiumReadonlyProp
+    describe?: (properties: { [key: string]: any }, nameProperty: string) => Property | string;
+    // Calls when the Promise for loading data is fullfilled.
+    onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
+  };
 
-const cesiumProps: (keyof GeoJsonDataSourceCesiumProps)[] = ["clustering", "name"];
+const cesiumProps = ["clustering", "name"] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumGeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
   onChange: "changedEvent",
@@ -120,6 +124,14 @@ const load = ({
       }
     });
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumGeoJsonDataSource,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJsonDataSourceProps>({
   name: "GeoJsonDataSource",

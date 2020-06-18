@@ -1,18 +1,12 @@
-import {
-  LabelGraphics as CesiumLabelGraphics,
-  Property,
-  Cartesian3,
-  Cartesian2,
-  NearFarScalar,
-  HeightReference,
-  DistanceDisplayCondition,
-  VerticalOrigin,
-  HorizontalOrigin,
-  Color,
-  LabelStyle,
-} from "cesium";
+import { LabelGraphics as CesiumLabelGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -25,37 +19,18 @@ LabelGraphics is only inside [Entity](/components/Entity) components,
 and can not be used more than once for each entity.
 */
 
-export interface LabelGraphicsCesiumProps {
-  text?: Property | string;
-  font?: Property | string;
-  style?: Property | LabelStyle;
-  fillColor?: Property | Color;
-  outlineColor?: Property | Color;
-  outlineWidth?: Property | number;
-  show?: Property | boolean;
-  showBackground?: Property | boolean;
-  backgroundColor?: Property | Color;
-  backgroundPadding?: Property | Cartesian2;
-  scale?: Property | number;
-  horizontalOrigin?: Property | HorizontalOrigin;
-  verticalOrigin?: Property | VerticalOrigin;
-  eyeOffset?: Property | Cartesian3;
-  pixelOffset?: Property | Cartesian2;
-  translucencyByDistance?: Property | NearFarScalar;
-  pixelOffsetScaleByDistance?: Property | NearFarScalar;
-  scaleByDistance?: Property | NearFarScalar;
-  heightReference?: Property | HeightReference;
-  distanceDisplayCondition?: Property | DistanceDisplayCondition;
-  disableDepthTestDistance?: Property | number;
-}
+export type LabelGraphicsCesiumProps = PickCesiumProps<
+  CesiumLabelGraphics | CesiumLabelGraphics.ConstructorOptions,
+  typeof cesiumProps
+>;
 
-export interface LabelGraphicsCesiumEvents {
+export type LabelGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
-}
+};
 
-export interface LabelGraphicsProps extends LabelGraphicsCesiumProps, LabelGraphicsCesiumEvents {}
+export type LabelGraphicsProps = LabelGraphicsCesiumProps & LabelGraphicsCesiumEvents;
 
-const cesiumProps: (keyof LabelGraphicsCesiumProps)[] = [
+const cesiumProps = [
   "text",
   "font",
   "style",
@@ -77,11 +52,19 @@ const cesiumProps: (keyof LabelGraphicsCesiumProps)[] = [
   "heightReference",
   "distanceDisplayCondition",
   "disableDepthTestDistance",
-];
+] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumLabelGraphics, LabelGraphicsCesiumEvents> = {
   onDefinitionChange: "definitionChanged",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumLabelGraphics | CesiumLabelGraphics.ConstructorOptions,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const LabelGraphics = createCesiumComponent<CesiumLabelGraphics, LabelGraphicsProps>({
   name: "LabelGraphics",

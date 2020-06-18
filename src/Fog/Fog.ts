@@ -1,4 +1,4 @@
-import { createCesiumComponent } from "../core/component";
+import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 import { Fog as CesiumFog } from "cesium";
 
 /*
@@ -13,22 +13,16 @@ Fog is available inside [Viewer](/components/Viewer) or [CesiumWidget](/componen
 It can not be used more than once for each Viewer or CesiumWidget.
 */
 
-export interface FogCesiumProps {
-  density?: number;
-  enabled?: boolean;
-  minimumBrightness?: number;
-  screenSpaceErrorFactor?: number;
-}
+export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
-export interface FogProps extends FogCesiumProps {}
+export type FogProps = FogCesiumProps;
 
-const cesiumProps: (keyof FogCesiumProps)[] = [
-  "density",
-  "enabled",
-  "minimumBrightness",
-  "screenSpaceErrorFactor",
-];
+const cesiumProps = ["density", "enabled", "minimumBrightness", "screenSpaceErrorFactor"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumFog, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Fog = createCesiumComponent<CesiumFog, FogProps>({
   name: "Fog",

@@ -1,6 +1,12 @@
 import { CustomDataSource as CesiumCustomDataSource, DataSourceClock, EntityCluster } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core/component";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  UnusedCesiumProps,
+  AssertNever,
+} from "../core";
 
 /*
 @summary
@@ -14,32 +20,42 @@ It can have some Entity components as children.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export interface CustomDataSourceCesiumProps {
+export type CustomDataSourceCesiumProps = PickCesiumProps<
+  CesiumCustomDataSource,
+  typeof cesiumProps
+> & {
   clustering?: EntityCluster;
   name?: string;
   show?: boolean;
   clock?: DataSourceClock;
-}
+};
 
-export interface CustomDataSourceCesiumEvents {
+export type CustomDataSourceCesiumEvents = {
   onChange?: (customDataSource: CesiumCustomDataSource) => void;
   onError?: (customDataSource: CesiumCustomDataSource, error: any) => void;
   onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
-}
+};
 
-export interface CustomDataSourceProps
-  extends CustomDataSourceCesiumProps,
-    CustomDataSourceCesiumEvents {
-  children?: React.ReactNode;
-}
+export type CustomDataSourceProps = CustomDataSourceCesiumProps &
+  CustomDataSourceCesiumEvents & {
+    children?: React.ReactNode;
+  };
 
-const cesiumProps: (keyof CustomDataSourceCesiumProps)[] = ["clustering", "name", "show", "clock"];
+const cesiumProps = ["clustering", "name", "show", "clock"] as const;
 
 const cesiumEventProps: EventkeyMap<CesiumCustomDataSource, CustomDataSourceCesiumEvents> = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
 };
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCustomDataSource,
+  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDataSourceProps>({
   name: "CustomDataSource",

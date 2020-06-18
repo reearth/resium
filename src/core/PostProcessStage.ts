@@ -7,13 +7,16 @@ import {
 
 import { createCesiumComponent } from "./component";
 import { includes } from "./util";
+import { AssertNever, PickCesiumProps, UnusedCesiumProps } from "./types";
 
-export interface PostProcessStageCesiumProps {
-  enabled?: boolean;
-  selected?: any[];
-}
+export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;
 
-const cesiumProps: (keyof PostProcessStageCesiumProps)[] = ["enabled", "selected"];
+const cesiumProps = ["enabled", "selected"] as const;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<PostProcessStage, typeof cesiumProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 export const createPostProcessStage = <UniformProps>(opts: {
   name: string;
