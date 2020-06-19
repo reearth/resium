@@ -9,6 +9,7 @@ export { default as CameraFlyHome } from "./CameraFlyHome";
 export { default as CameraFlyTo } from "./CameraFlyTo";
 export { default as CameraFlyToBoundingSphere } from "./CameraFlyToBoundingSphere";
 export { default as Cesium3DTileset } from "./Cesium3DTileset";
+export { default as Cesium3DTilesetGraphics } from "./Cesium3DTilesetGraphics";
 export { default as CesiumWidget } from "./CesiumWidget";
 export { default as Clock } from "./Clock";
 export { default as CorridorGraphics } from "./CorridorGraphics";
