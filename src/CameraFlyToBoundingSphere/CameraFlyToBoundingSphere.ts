@@ -1,4 +1,4 @@
-import { createCameraOperation } from "../core";
+import { createCameraOperation, StaticMethodOptions2 } from "../core";
 import { Camera } from "cesium";
 
 // @noCesiumElement
@@ -19,7 +19,7 @@ See also: [Camera#flyToBoundingSphere](https://cesium.com/docs/cesiumjs-ref-doc/
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Options = NonNullable<Parameters<Camera["flyToBoundingSphere"]>[1]>;
+type Options = StaticMethodOptions2<Camera, "flyToBoundingSphere">;
 
 export type CameraFlyToBoundingSphereProps = Omit<Options, "complete" | "cancel"> & {
   boundingSphere: Parameters<Camera["flyToBoundingSphere"]>[0];

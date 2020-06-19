@@ -61,7 +61,6 @@ const PointPrimitiveCollection = createCesiumComponent<
 export default PointPrimitiveCollection;
 
 // Unused prop check
-// length: for read only
 type IgnoredProps = "length";
 type UnusedProps = UnusedCesiumProps<
   CesiumPointPrimitiveCollection,

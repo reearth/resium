@@ -50,7 +50,6 @@ const ImageryLayerCollection = createCesiumComponent<
 export default ImageryLayerCollection;
 
 // Unused prop check
-// length: for read only
 type IgnoredProps = "length";
 type UnusedProps = UnusedCesiumProps<
   CesiumImageryLayerCollection,

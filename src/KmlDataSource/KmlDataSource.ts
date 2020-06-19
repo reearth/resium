@@ -7,6 +7,7 @@ import {
   AssertNever,
   Merge,
   ValueOf,
+  MethodOptions2,
 } from "../core";
 
 /*
@@ -22,7 +23,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 
 type Target = Merge<
   Merge<CesiumKmlDataSource, CesiumKmlDataSource.LoadOptions>,
-  NonNullable<Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[1]>
+  MethodOptions2<typeof CesiumKmlDataSource, "load">
 >;
 
 export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>;
@@ -140,6 +141,8 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
 export default KmlDataSource;
 
 // Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<Target, typeof cesiumProps | ValueOf<typeof cesiumEventProps>>;
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  keyof KmlDataSourceProps | ValueOf<typeof cesiumEventProps>
+>;
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -59,7 +59,6 @@ const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollec
 export default LabelCollection;
 
 // Unused prop check
-// length: for read only
 type IgnoredProps = "length";
 type UnusedProps = UnusedCesiumProps<CesiumLabelCollection, keyof LabelCollectionProps>;
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

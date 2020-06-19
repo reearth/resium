@@ -69,7 +69,6 @@ const Label = createCesiumComponent<CesiumLabel, LabelProps>({
 export default Label;
 
 // Unused prop check
-// totalScale: for read only
 type IgnoredProps = "totalScale";
 type UnusedProps = UnusedCesiumProps<CesiumLabel, keyof LabelProps>;
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -21,12 +21,11 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A ParticleSystem object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
+type Target = Merge<CesiumParticleSystem, ConstructorOptions<typeof CesiumParticleSystem>>;
+
 export type ParticleSystemCesiumProps = PickCesiumProps<CesiumParticleSystem, typeof cesiumProps>;
 
-export type ParticleSystemCesiumReadonlyProps = PickCesiumProps<
-  Merge<CesiumParticleSystem, ConstructorOptions<typeof CesiumParticleSystem>>,
-  typeof cesiumReadonlyProps
->;
+export type ParticleSystemCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type ParticleSystemCesiumEvents = {
   onComplete?: () => void;
@@ -63,6 +62,7 @@ const cesiumProps = [
   "mass",
   "minimumMass",
   "maximumMass",
+  "sizeInMeters",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -90,7 +90,7 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
   },
   update(element, props, prevProps) {
     if (props.onUpdate !== prevProps.onUpdate) {
-      (element.updateCallback as any) = props.onUpdate; // WORKAROUND: updateCallback
+      (element.updateCallback as any) = props.onUpdate; // WORKAROUND: updateCallback should be accept undefined
     }
   },
   destroy(element, context) {
@@ -105,9 +105,9 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
 export default ParticleSystem;
 
 // Unused prop check
-type IgnoredProps = never;
+type IgnoredProps = "isComplete";
 type UnusedProps = UnusedCesiumProps<
-  CesiumParticleSystem,
+  Target,
   keyof ParticleSystemProps | ValueOf<typeof cesiumEventProps>
 >;
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

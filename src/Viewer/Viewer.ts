@@ -1,5 +1,5 @@
 import React from "react";
-import { Viewer as CesiumViewer } from "cesium";
+import { Viewer as CesiumViewer, ImageryProvider } from "cesium";
 
 import {
   createCesiumComponent,
@@ -29,18 +29,15 @@ import {
 Everywhere. `Viewer` is a root component. 
 */
 
-export type ViewerCesiumProps = PickCesiumProps<
-  Merge<CesiumViewer, CesiumViewer.ConstructorOptions>,
-  typeof cesiumProps
-> & {
-  /** If false, the default imagery layer will be removed. */
-  imageryProvider?: CesiumViewer.ConstructorOptions["imageryProvider"];
-};
+export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
 export type ViewerCesiumReadonlyProps = PickCesiumProps<
-  CesiumViewer & CesiumViewer.ConstructorOptions,
+  Merge<CesiumViewer, CesiumViewer.ConstructorOptions>,
   typeof cesiumReadonlyProps
->;
+> & {
+  /** If false, the default imagery layer will be removed. */
+  imageryProvider?: ImageryProvider | false;
+};
 
 export type ViewerCesiumEvents = {
   onSelectedEntityChange?: () => void;
@@ -132,7 +129,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context
   name: "Viewer",
   create(_context, props, wrapper) {
     if (!wrapper) return;
-    const v = new CesiumViewer(wrapper, props as any); // WORKAROUND: imageryProvider
+    const v = new CesiumViewer(wrapper, props);
     if (!v) return;
 
     if (props.imageryProvider === false) {

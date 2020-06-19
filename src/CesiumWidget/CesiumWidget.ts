@@ -11,6 +11,7 @@ import {
   UnusedCesiumProps,
   AssertNever,
   Merge,
+  ConstructorOptions2,
 } from "../core";
 
 /*
@@ -30,10 +31,7 @@ import {
 Everywhere. `CesiumWidget` is a root component. 
 */
 
-type Target = Merge<
-  CesiumCesiumWidget,
-  NonNullable<ConstructorParameters<typeof CesiumCesiumWidget>[1]>
->;
+type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
 
 export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
 

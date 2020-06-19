@@ -7,6 +7,7 @@ import {
   AssertNever,
   Merge,
   ValueOf,
+  MethodOptions2,
 } from "../core";
 
 /*
@@ -22,7 +23,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 
 type Target = Merge<
   Merge<CesiumGeoJsonDataSource, CesiumGeoJsonDataSource.LoadOptions>,
-  NonNullable<Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[1]>
+  MethodOptions2<typeof CesiumGeoJsonDataSource, "load">
 >;
 
 export type GeoJsonDataSourceCesiumProps = PickCesiumProps<
@@ -143,7 +144,7 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
 export default GeoJsonDataSource;
 
 // Unused prop check
-type IgnoredProps = never;
+type IgnoredProps = "entities" | "clock" | "isLoading";
 type UnusedProps = UnusedCesiumProps<
   Target,
   keyof GeoJsonDataSourceProps | ValueOf<typeof cesiumEventProps>

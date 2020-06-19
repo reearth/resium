@@ -1,4 +1,4 @@
-import { Model as CesiumModel, ModelMesh, Primitive, ModelNode, Resource } from "cesium";
+import { Model as CesiumModel, ModelMesh, Primitive, ModelNode } from "cesium";
 
 import {
   createCesiumComponent,
@@ -10,12 +10,14 @@ import {
   Merge,
 } from "../core";
 
-export type ModelCesiumProps = PickCesiumProps<
+type Target = Merge<
   Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
-  typeof cesiumProps
+  Parameters<typeof CesiumModel["fromGltf"]>[0]
 >;
 
-export type ModelCesiumReadonlyProps = PickCesiumProps<CesiumModel, typeof cesiumReadonlyProps>;
+export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
+
+export type ModelCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type ModalOtherProps = {
   /** Calls when the model is completely loaded. */
@@ -71,11 +73,11 @@ const cesiumReadonlyProps = [
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
-  create(context, props) {
-    if (!context.primitiveCollection) return;
-    const element = props.url
-      ? CesiumModel.fromGltf(props as ModelProps & { url: string | Resource })
-      : new CesiumModel(props);
+  create(context, { url, scene, ...props }) {
+    if (!context.scene || !context.primitiveCollection) return;
+    const element = url
+      ? CesiumModel.fromGltf({ ...props, url })
+      : new CesiumModel({ ...props, scene: scene || context.scene });
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
     }
@@ -98,9 +100,5 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
 export default Model;
 
 // Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
-  keyof ModelProps
->;
+type UnusedProps = UnusedCesiumProps<Target, keyof ModelProps>;
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
