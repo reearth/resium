@@ -101,7 +101,12 @@ function renderType(t: TypeExpr | undefined): string {
 }
 
 function escapeType(t: string) {
-  return t.replace(/\n/g, "").replace(/ {2,}/g, " ").replace(/\|/g, "&#124");
+  return t
+    .replace(/\n/g, "")
+    .replace(/ {2,}/g, " ")
+    .replace(/\|/g, "&#124")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function getCesiumTypeName(t: CesiumTypeExpr) {
