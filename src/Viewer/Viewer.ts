@@ -103,24 +103,26 @@ const cesiumEventProps: EventkeyMap<CesiumViewer, ViewerCesiumEvents> = {
   onTrackedEntityChange: "trackedEntityChanged",
 };
 
+export type ViewerOtherProps = RootEventProps & {
+  /** Applied to outer `div` element */
+  className?: string;
+  /** Applied to outer `div` element */
+  id?: string;
+  /** Applied to outer `div` element */
+  style?: React.CSSProperties;
+  /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
+  full?: boolean;
+  /** All props applied to outer `div` element */
+  containerProps?: any;
+  /** It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself. */
+  extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
+  children?: React.ReactNode;
+};
+
 export type ViewerProps = ViewerCesiumProps &
   ViewerCesiumReadonlyProps &
   ViewerCesiumEvents &
-  RootEventProps & {
-    // Applied to outer `div` element
-    className?: string;
-    // Applied to outer `div` element
-    id?: string;
-    // Applied to outer `div` element
-    style?: React.CSSProperties;
-    // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
-    full?: boolean;
-    // All props applied to outer `div` element
-    containerProps?: any;
-    // It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself.
-    extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
-    children?: React.ReactNode;
-  };
+  ViewerOtherProps;
 
 // Unused prop check
 type IgnoredProps = never;

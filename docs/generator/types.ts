@@ -18,35 +18,28 @@ export type DocComment = {
 
 export type Prop = {
   name: string;
-  required?: boolean;
-  cesiumType?: boolean;
-  mappedCesiumType?: string;
-} & PropComment;
-
-export type PropComment = {
-  kind?: PropKind;
-  type?: Type;
-  hidden?: boolean;
-  description?: string;
+  type: TypeExpr | undefined;
+  required: boolean;
+  desc?: string;
+  mappedCesiumFieldName?: string;
 };
 
-export type PropKind = "cesiumProps" | "cesiumReadonlyProps" | "cesiumEvents" | "props";
+export type TypeExpr = {
+  text: string;
+  cesiumTypes: CesiumTypeExpr[];
+};
 
-export type Type = TypeRef | UnionType | FunctionType | ArrayType;
-export type TypeRef =
-  | string
-  | {
-      name: string;
-      leftName?: string;
-      rightName?: string;
-      cesium: boolean;
-      params?: Type[];
-    };
-export type FunctionType = {
-  args: { name: string; type: Type; optional: boolean }[];
-  return: Type;
+export type CesiumTypeExpr = {
+  start: number;
+  end: number;
+  name: string;
+  field?: string;
+  fieldIsType?: boolean;
 };
-export type UnionType = Type[];
-export type ArrayType = {
-  element: Type;
-};
+
+export type PropKind =
+  | "cesiumProps"
+  | "cesiumReadonlyProps"
+  | "cesiumEvents"
+  | "otherProps"
+  | "props";

@@ -1,11 +1,6 @@
-import { Doc, Prop, Type } from "./types";
+import { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types";
 
 export function renderDoc(doc: Doc) {
-  const notCesiumComponent =
-    doc.cesiumProps?.length === 0 &&
-    doc.cesiumReadonlyProps?.length === 0 &&
-    doc.cesiumEvents?.length === 0;
-
   return `---
 name: ${doc.name}
 route: /components/${doc.name}
@@ -27,17 +22,17 @@ ${
 ${
   doc.scope
     ? `
-## Available scope
+## Availability
 
 ${doc.scope}
 `
     : ""
 }
 ## Properties
+
 ${
-  !notCesiumComponent
-    ? `
-### Cesium properties
+  !doc.noCesiumElement
+    ? `### Cesium properties
 
 ${renderPropTable(doc.cesiumProps, doc)}
 
@@ -49,63 +44,72 @@ ${renderPropTable(doc.cesiumReadonlyProps, doc)}
 
 ${renderPropTable(doc.cesiumEvents, doc)}
 
-### Other properties`
-    : ""
-}
+### Other properties
 
-${renderPropTable(doc.props, doc)}
+${renderPropTable(doc.otherProps, doc)}`
+    : renderPropTable(doc.props, doc)
+}
 `;
 }
 
-function renderPropTable(types: Prop[] = [], doc: Doc) {
-  const filteredTypes = types ? types.filter(t => !t.hidden && t.name !== "children") : [];
-  if (filteredTypes.length === 0) return "N/A";
-
-  return `
+function renderPropTable(props: Prop[] = [], doc: Doc) {
+  return props.length
+    ? `
 | Property | Type | Description |
 |--|--|--|
-${filteredTypes
+${props
   .map(t => {
     return `| ${t.name} | ${renderType(t.type)} | ${t.required ? "Required. " : ""}${
-      t.mappedCesiumType && !t.description
-        ? `Correspond to [${doc.cesiumElement}#${t.mappedCesiumType}](${getCesiumDocURL(
+      t.mappedCesiumFieldName && !t.desc
+        ? `Correspond to [${doc.cesiumElement}#${t.mappedCesiumFieldName}](${getCesiumDocURL(
             doc.cesiumElement,
-            t.mappedCesiumType,
+            t.mappedCesiumFieldName,
           )})`
-        : t.description || ""
+        : t.desc || ""
     } |`;
   })
   .join("\n")}
-`.trim();
+`.trim()
+    : "N/A";
+}
+
+function renderType(t: TypeExpr | undefined): string {
+  return escapeType(
+    !t
+      ? ""
+      : !t.cesiumTypes.length
+      ? t.text
+      : t.cesiumTypes
+          .concat()
+          .sort((a, b) => a.start - b.start)
+          .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [
+            s,
+            i === 0 ? undefined : a[i - 1],
+          ])
+          .reduce(
+            (a, [current, prev]) =>
+              a +
+              (prev ? t.text.slice(prev.end, current.start) : t.text.slice(0, current.start)) +
+              `[${getCesiumTypeName(current)}](${getCesiumDocURL(
+                current.name,
+                current.field,
+                current.fieldIsType,
+              )})`,
+            "",
+          ) + t.text.slice(t.cesiumTypes[t.cesiumTypes.length - 1].end),
+  );
 }
 
 function escapeType(t: string) {
   return t.replace(/\n/g, "").replace(/ {2,}/g, " ").replace(/\|/g, "&#124");
 }
 
-function renderType(t: Type | undefined): string {
-  return !t
-    ? ""
-    : typeof t === "string"
-    ? escapeType(t)
-    : Array.isArray(t)
-    ? t.map(renderType).join(" &#124; ")
-    : "args" in t
-    ? `(${t.args
-        .map(a => `${a.name}${a.optional ? "?" : ""}: ${renderType(a.type)}`)
-        .join(", ")}) =&gt; ${renderType(t.return)}`
-    : "element" in t
-    ? `${renderType(t.element)}[]`
-    : escapeType(
-        t.cesium
-          ? `[${t.name}](${getCesiumDocURL(
-              t.leftName || t.name,
-              t.rightName ? `.${t.rightName}` : undefined,
-            )})`
-          : t.name,
-      ) + (t.params?.length ? `&lt;${t.params.map(renderType).join(", ")}&gt;` : "");
+function getCesiumTypeName(t: CesiumTypeExpr) {
+  return `${t.name}${t.field ? `.${t.field}` : ""}`;
 }
 
-function getCesiumDocURL(name: string, field?: string) {
-  return `https://cesium.com/docs/cesiumjs-ref-doc/${name}.html${field ? `#${field}` : ""}`;
+function getCesiumDocURL(name: string, field?: string, fieldIsType?: boolean) {
+  return `https://cesium.com/docs/cesiumjs-ref-doc/${name}.html${
+    field ? `#${fieldIsType ? "." : ""}${field}` : ""
+  }`;
 }
