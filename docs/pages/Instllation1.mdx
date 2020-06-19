@@ -14,11 +14,7 @@ See also: [example project](https://github.com/darwin-education/resium/tree/mast
 
 ```
 npm install --save-dev copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin
-```
-
-or
-
-```
+# or
 yarn add copy-webpack-plugin html-webpack-plugin html-webpack-include-assets-plugin
 ```
 
@@ -31,7 +27,7 @@ Cesium will be loaded in HTML. Notify it to webpack.
 ```js
 {
   externals: {
-    cesium: "Cesium"
+    cesium: "Cesium";
   }
 }
 ```
@@ -49,17 +45,19 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```js
 {
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: "node_modules/cesium/Build/Cesium",
-        to: "cesium",
-      },
-    ]),
-  ]
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: "node_modules/cesium/Build/Cesium",
+          to: "cesium",
+        },
+      ],
+    }),
+  ];
 }
 ```
 
-`node_modules/cesium/Build/Cesium` is already minified. If you want to debug, use unminified version: `node_modules/cesium/Build/CesiumUnminified`.
+`node_modules/cesium/Build/Cesium` is already minified. If you want to debug Cesium, use unminified version: `node_modules/cesium/Build/CesiumUnminified`.
 
 The recommended way is to load the minified version in prodcution mode, and the unminified version in development mode.
 
@@ -71,19 +69,21 @@ module.exports = (env, argv) => {
     // ...
     plugins: [
       // ...
-      new CopyWebpackPlugin([
-        {
-          from: `node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
-          to: "cesium",
-        },
-      ]),
+      new CopyWebpackPlugin({
+        patterns: [
+          {
+            from: `node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
+            to: "cesium",
+          },
+        ],
+      }),
       new HtmlWebpackIncludeAssetsPlugin({
         append: false,
         assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
-      })
-    ]
-  }
-}
+      }),
+    ],
+  };
+};
 ```
 
 ## 4. Add html-webpack-plugin and html-webpack-include-assets-plugin
@@ -103,8 +103,8 @@ const HtmlWebpackIncludeAssetsPlugin = require("html-webpack-include-assets-plug
     new HtmlWebpackIncludeAssetsPlugin({
       append: false,
       assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
-    })
-  ]
+    }),
+  ];
 }
 ```
 
@@ -122,7 +122,7 @@ const webpack = require("webpack");
     new webpack.DefinePlugin({
       CESIUM_BASE_URL: JSON.stringify("/cesium"),
     }),
-  ]
+  ];
 }
 ```
 

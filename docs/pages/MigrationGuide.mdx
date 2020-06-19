@@ -5,13 +5,40 @@ route: /migration
 
 # Migration Guide
 
-## v1.8 to v1.9
+## v1.12
+
+Changes related to TypeScript type definitions are main, but some component properties are changed also.
+
+### Official type definition is supported!
+
+Now Cesium's official TypeScript type definitions since Cesium v1.70 is used, so `@types/cesium` is no longer used. You can uninstall it.
+
+### Some component properties are fixed
+
+Some components' properties are mistakenly typed and they are fixed, but that includes some breaking changes. Some properties are changed Cesium prop type: e.g. Cesium props -> Cesium read-only props.
+
+### `useCesium` hook is no longer needed a type argument
+
+You can still add a type argument, but you can also omit it.
+
+```ts
+import { Viewer } from "cesium";
+import { useCesium } from "resium";
+
+// before
+const { viewer } = useCesium<{ viewer?: Viewer }>();
+
+// after
+const { viewer } = useCesium();
+```
+
+## v1.9
 
 Resium are fully reimplemented with React Hooks. There are possibilities that the behavior has changed in edge cases.
 
 And some properties and types are changed, removed, or renamed. For details, please check [changelog](https://github.com/darwin-education/resium/tree/master/CHANGELOG.md).
 
-## v0.x to v1
+## v1.0
 
 ### Resium are fully reimplemented
 

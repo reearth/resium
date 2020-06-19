@@ -7,15 +7,15 @@ route: /guide
 
 ## Component Lifecycle
 
-Resium brings React's component lifecycle to Cesium. The relationship between Cesium elements and React's lifecycle is as follows.
+Resium brings React's component lifecycle to Cesium. The relationship between Cesium elements and React's lifecycle is as follows:
 
 1. Render: Nothing is rendered, as a cesium element is not initialized yet.
 2. Initalize Cesium element: An Cesium element is initialized, and it is added to its parent if the parent exists.
 3. Re-render: After Cesium element's initalization, children of the component are rendered. DOM never be rendered except root components (Viewer and CesiumWidget).
-5. Update: Changed properties of the Cesium element are updated. If "Cesium read-only properties" are changed, the Cesium element will be reinitialized.
-6. Unmount: The Cesium element is destroyed.
+4. Update: Changed properties of the Cesium element are updated. If "Cesium read-only properties" are changed, the Cesium element will be reinitialized.
+5. Unmount: The Cesium element is destroyed.
 
-## Context
+## Context and component availability
 
 Some components provide some Cesium elements to children via React's context API. Many components use the closest component's context. If the context does not exists, components are not rendered.
 
@@ -61,7 +61,7 @@ customDataSource.entities.add(entity);
 viewer.dataSources.add(dataSource);
 ```
 
-Such cases are also in other components. For details, refer to "Available scope" in the document of each component.
+Such cases are also in other components. For details, refer to "Availability" in the document of each component.
 
 ## Component location
 
@@ -102,11 +102,11 @@ e.g.: `Scene` > `Camera` or `Camera` > `Entity` is not recommended.
 
 Each components of resium have 4 kinds of properties as bellow.
 
-### Cesium Properties
+### Cesium properties
 
 "Cesium property" is a property derived from Cesium. Each properties are correspond to a property of the cesium element. All "cesium properties" are variable, so when they are updated in React component, the corresponding properties will be updated seamlessly.
 
-### Cesium Read-only Properties
+### Cesium read-only properties
 
 "Cesium read-only property" is also a property derived from Cesium, but it is immutable. They are available only when initializing the element.
 
@@ -154,10 +154,8 @@ import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
 
 const ExampleComponent = ({ url }) => {
-  const imageryProvider = useMemo(
-    () => new ArcGisMapServerImageryProvider({ url }),
-    [url]
-  );
+  const imageryProvider = useMemo(() => new ArcGisMapServerImageryProvider({ url }), [url]);
+
   return (
     <Viewer>
       <ImageryLayer imageryProvider={imageryProvider} />
@@ -172,7 +170,7 @@ const ExampleComponent = ({ url }) => {
 
 They are renamed according to React's custom. For example, `Viewer#trackedEntityChanged` => `onTrackedEntityChange`.
 
-### Other props
+### Other properties
 
 Some components have convenient properties that do not exist in the Cesium element. They can be used in the same way as normal React component properties.
 
@@ -182,7 +180,7 @@ If you want to access a raw Cesium's element, you cab use `ref` prop of componen
 
 To know what is a Cesium element of each component, refer to "Cesium element" in the document of each component.
 
-Note: `cesiumElement` property in the ref object also may be `undefined`, for example when an error happened. Please check if it's not `undefined` when using `cesiumElement`.
+Note: `cesiumElement` property in the ref object can be `undefined`: e.g. when an initialization error is occurred. Please check if it's not `undefined` when using `cesiumElement`.
 
 ### Way 1: useRef hooks (function component)
 
@@ -194,7 +192,7 @@ import { Viewer } from "resium";
 
 const ExampleComponent = () => {
   const ref = useRef(null);
-  
+
   useEffect(() => {
     if (ref.current && ref.current.cesiumElement) {
       // ref.current.cesiumElement is Cesium's Viewer
@@ -202,9 +200,7 @@ const ExampleComponent = () => {
     }
   }, []);
 
-  return (
-    <Viewer ref={ref} />
-  );
+  return <Viewer ref={ref} />;
 };
 ```
 
@@ -217,7 +213,7 @@ import { Viewer, CesiumComponentRef } from "resium";
 
 const ExampleComponent = () => {
   const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
-  
+
   useEffect(() => {
     if (ref.current?.cesiumElement) {
       // ref.current.cesiumElement is Cesium's Viewer
@@ -225,9 +221,7 @@ const ExampleComponent = () => {
     }
   }, []);
 
-  return (
-    <Viewer ref={ref} />
-  );
+  return <Viewer ref={ref} />;
 };
 ```
 
@@ -252,10 +246,11 @@ class ExampleComponent extends Component {
       <Viewer
         ref={e => {
           this.viewer = e ? e.cesiumElement : undefined;
-        }} />
+        }}
+      />
     );
   }
-};
+}
 ```
 
 Class component in TypeScript:
@@ -280,10 +275,11 @@ class ExampleComponent extends Component {
       <Viewer
         ref={e => {
           this.viewer = e ? e.cesiumElement : undefined;
-        }} />
+        }}
+      />
     );
   }
-};
+}
 ```
 
 ### Way 3: use createRef (class component)
@@ -308,11 +304,9 @@ class ExampleComponent extends Component {
   }
 
   render() {
-    return (
-      <Viewer ref={this.ref} />
-    );
+    return <Viewer ref={this.ref} />;
   }
-};
+}
 ```
 
 Class component in TypeScript:
@@ -333,14 +327,12 @@ class ExampleComponent extends Component {
   }
 
   render() {
-    return (
-      <Viewer ref={this.ref} />
-    );
+    return <Viewer ref={this.ref} />;
   }
-};
+}
 ```
 
 ## Limitations
 
-- Server side rendering is not supported. Cesium is only rendered in web browsers.
-- Resium runs only with `react-dom`, as Cesium depends on APIs of web browsers (DOM, WebGL, Web Worker and so on). React Native is not supported.
+- Server side rendering is not supported. Cesium can be rendered only in web browsers.
+- React Native is not supported. Resium runs only with `react-dom`, as Cesium depends on APIs of web browsers (DOM, WebGL, Web Worker and so on).

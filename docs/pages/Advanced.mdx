@@ -14,9 +14,7 @@ import { useCesium } from "resium";
 
 const ExampleComponent = () => {
   const context = useCesium();
-  return (
-    <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>
-  );
+  return <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>;
 };
 
 export default ExampleComponent;
@@ -29,26 +27,15 @@ import { Viewer } from "cesium";
 import { useCesium } from "resium";
 
 const ExampleComponent = () => {
-  const context = useCesium<{ viewer?: Viewer }>();
-  return (
-    <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>
-  );
+  const context = useCesium();
+  return <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>;
 };
 
 export default ExampleComponent;
 ```
 
-Structure of the context is as following. It changes according to the location of the component.
-
-```js
-{
-  viewer: Viewer | undefined,
-  cesiumWidget: CesiumWidget | undefined,
-  scene: Scene | undefined
-  // ...
-}
-```
+Structure of the context is [here](https://github.com/darwin-education/resium/blob/master/src/core/context.ts#L22).
 
 ## Define a new Cesium component
 
-`createCesiumComponent` function is available in Resium. For details refer to source codes of components in `src`.
+`createCesiumComponent` function is available in Resium. For details refer to source codes of components in `src` directory.

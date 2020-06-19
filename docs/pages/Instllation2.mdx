@@ -16,11 +16,7 @@ See also: [example project](https://github.com/darwin-education/resium/tree/mast
 
 ```
 npm install --save-dev copy-webpack-plugin css-loader style-loader url-loader strip-pragma-loader
-```
-
-or
-
-```
+# or
 yarn add --dev copy-webpack-plugin css-loader style-loader url-loader strip-pragma-loader
 ```
 
@@ -61,20 +57,22 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```js
 {
   plugins: [
-    new CopyWebpackPlugin([
-      {
-        from: path.join(cesiumSource, cesiumWorkers),
-        to: "Workers",
-      },
-      {
-        from: path.join(cesiumSource, "Assets"),
-        to: "Assets",
-      },
-      {
-        from: path.join(cesiumSource, "Widgets"),
-        to: "Widgets",
-      },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        {
+          from: path.join(cesiumSource, cesiumWorkers),
+          to: "Workers",
+        },
+        {
+          from: path.join(cesiumSource, "Assets"),
+          to: "Assets",
+        },
+        {
+          from: path.join(cesiumSource, "Widgets"),
+          to: "Widgets",
+        },
+      ],
+    }),
   ];
 }
 ```
@@ -100,7 +98,6 @@ const webpack = require("webpack");
 
 Note: If `publicPath` in webpack config is changed, CESIUM_BASE_URL may have to be changed also.
 
-
 ## 6. Add loaders and load CSS file in the entry JS
 
 ```js
@@ -119,8 +116,8 @@ Note: If `publicPath` in webpack config is changed, CESIUM_BASE_URL may have to 
       {
         test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
         use: ["url-loader"],
-      }
-    ]
+      },
+    ];
   }
 }
 ```
