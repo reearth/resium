@@ -98,7 +98,7 @@ function parsePropDeclaration(
         name: s.name,
         type: toTypeExpr(type, tc),
         required: !!type && (type.flags ^ SymbolFlags.Optional) === 0,
-        desc: getDesc(s, tc),
+        desc: isCesium(d) ? "" : getDesc(s, tc),
       };
     });
 
@@ -180,9 +180,9 @@ function toTypeExpr(t: Type | undefined, tc: TypeChecker): TypeExpr | undefined 
   return { text, cesiumTypes: [] };
 }
 
-// function isCesium(d: { getSourceFile(): SourceFile } | undefined) {
-//   return !!d && /Cesium\.d\.ts$/.test(d.getSourceFile().fileName);
-// }
+function isCesium(d: { getSourceFile(): SourceFile } | undefined) {
+  return !!d && /Cesium\.d\.ts$/.test(d.getSourceFile().fileName);
+}
 
 export function getVariableNameAndInitializer(node: Node): [string, Expression] | undefined {
   if (!isVariableStatement(node)) return;

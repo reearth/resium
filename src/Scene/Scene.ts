@@ -2,10 +2,10 @@ import { Scene as CesiumScene, SceneMode } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 
 /*
@@ -43,8 +43,8 @@ For details, refer to "Component location" chapter in [Guide](/guide).
 
 /*
 @scope
-Scene is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+Scene can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type SceneCesiumProps = PickCesiumProps<CesiumScene, typeof cesiumProps>;
@@ -55,17 +55,19 @@ export type SceneCesiumEvents = {
   onPostRender?: () => void;
   onPreRender?: () => void;
   onPreUpdate?: () => void;
+  onPostUpdate?: () => void;
   onRenderError?: () => void;
   onTerrainProviderChange?: () => void;
 };
 
-export type SceneProps = SceneCesiumProps &
-  SceneCesiumEvents & {
-    children?: React.ReactNode;
-    mode?: SceneMode;
-    // If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds).
-    morphDuration?: number;
-  };
+export type SceneOtherProps = {
+  children?: React.ReactNode;
+  mode?: SceneMode;
+  /** If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds). */
+  morphDuration?: number;
+};
+
+export type SceneProps = SceneCesiumProps & SceneCesiumEvents & SceneOtherProps;
 
 const cesiumProps = [
   "backgroundColor",
@@ -82,6 +84,7 @@ const cesiumProps = [
   "focalLength",
   "fog",
   "fxaa",
+  "gamma",
   "globe",
   "highDynamicRange",
   "imagerySplitPosition",
@@ -112,15 +115,16 @@ const cesiumProps = [
   "useWebVR",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumScene, SceneCesiumEvents> = {
+const cesiumEventProps = {
   onMorphComplete: "morphComplete",
   onMorphStart: "morphStart",
   onPostRender: "postRender",
   onPreRender: "preRender",
   onPreUpdate: "preUpdate",
+  onPostUpdate: "postUpdate",
   onRenderError: "renderError",
   onTerrainProviderChange: "terrainProviderChanged",
-};
+} as const;
 
 const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   switch (mode) {
@@ -137,14 +141,6 @@ const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
       break;
   }
 };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumScene,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   name: "Scene",
@@ -165,3 +161,11 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps>({
 });
 
 export default Scene;
+
+// Unused prop check
+type IgnoredProps = "postProcessStages";
+type UnusedProps = UnusedCesiumProps<
+  CesiumScene,
+  keyof SceneProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

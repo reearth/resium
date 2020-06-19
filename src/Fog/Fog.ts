@@ -9,8 +9,8 @@ All properties are applied to single fog of the scene.
 
 /*
 @scope
-Fog is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+Fog can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>;
@@ -18,11 +18,6 @@ export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>;
 export type FogProps = FogCesiumProps;
 
 const cesiumProps = ["density", "enabled", "minimumBrightness", "screenSpaceErrorFactor"] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumFog, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Fog = createCesiumComponent<CesiumFog, FogProps>({
   name: "Fog",
@@ -42,3 +37,8 @@ const Fog = createCesiumComponent<CesiumFog, FogProps>({
 });
 
 export default Fog;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumFog, keyof FogProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

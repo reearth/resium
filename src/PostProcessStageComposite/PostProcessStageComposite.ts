@@ -35,10 +35,10 @@ Bult-in PostProcessStageComposite components are available with additional Cesiu
 | | delta | number |
 | | sigma | number |
 | | stepSize | number |
-| EdgeDetectionStage | color | [Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| EdgeDetectionStage | color | [Color](https://cesium.com/docs/cesiumjs-ref-doc/Color.html) |
 | | length | number ||
 | NightVisionStage | - | - |
-| SilhouetteStage | color | [Color](https://cesiumjs.org/Cesium/Build/Documentation/Color.html) |
+| SilhouetteStage | color | [Color](https://cesium.com/docs/cesiumjs-ref-doc/Color.html) |
 | | length | number |
 
 Note: `AmbientOcclusion` and `Bloom` components can not be used multi time for each components, as it refers to the single post process stage of the scene.
@@ -60,16 +60,18 @@ import { AmbientOcclusion, Bloom } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
+type Target = Merge<
+  CesiumPostProcessStageComposite,
+  ConstructorOptions<typeof CesiumPostProcessStageComposite>
+>;
+
 export type PostProcessStageCompositeCesiumProps = PickCesiumProps<
   CesiumPostProcessStageComposite,
   typeof cesiumProps
 >;
 
 export type PostProcessStageCompositeCesiumReadonlyProps = PickCesiumProps<
-  Merge<
-    CesiumPostProcessStageComposite,
-    ConstructorOptions<typeof CesiumPostProcessStageComposite>
-  >,
+  Target,
   typeof cesiumReadonlyProps,
   "stages"
 >;
@@ -80,14 +82,6 @@ export type PostProcessStageCompositeProps = PostProcessStageCompositeCesiumProp
 const cesiumProps = ["enabled", "selected"] as const;
 
 const cesiumReadonlyProps = ["inputPreviousStageTexture", "name", "stages", "uniforms"] as const;
-
-export // Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPostProcessStageComposite,
-  typeof cesiumProps | typeof cesiumReadonlyProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 export const PostProcessStageComposite = createCesiumComponent<
   CesiumPostProcessStageComposite,
@@ -119,3 +113,8 @@ export const PostProcessStageComposite = createCesiumComponent<
 });
 
 export default PostProcessStageComposite;
+
+export // Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<Target, keyof PostProcessStageCompositeProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

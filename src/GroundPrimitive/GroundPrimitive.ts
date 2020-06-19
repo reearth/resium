@@ -30,13 +30,16 @@ export type GroundPrimitiveCesiumReadonlyProps = PickCesiumProps<
   typeof cesiumReadonlyProps
 >;
 
+export type GroundPrimitiveOtherProps = {
+  // GroundPrimitive
+  /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/GroundPrimitive.html#readyPromise) is fullfilled */
+  onReady?: (primitive: CesiumGroundPrimitive) => void;
+};
+
 export type GroundPrimitiveProps = GroundPrimitiveCesiumProps &
   GroundPrimitiveCesiumReadonlyProps &
-  EventProps<CesiumGroundPrimitive> & {
-    // GroundPrimitive
-    // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPrimitive.html#readyPromise) is fullfilled
-    onReady?: (primitive: CesiumGroundPrimitive) => void;
-  };
+  EventProps<CesiumGroundPrimitive> &
+  GroundPrimitiveOtherProps;
 
 const cesiumProps = [
   "appearance",
@@ -56,14 +59,6 @@ const cesiumReadonlyProps = [
   "releaseGeometryInstances",
   "vertexCacheOptimize",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumGroundPrimitive,
-  typeof cesiumProps | typeof cesiumReadonlyProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
   name: "GroundPrimitive",
@@ -90,3 +85,8 @@ const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimi
 });
 
 export default GroundPrimitive;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumGroundPrimitive, keyof GroundPrimitiveProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

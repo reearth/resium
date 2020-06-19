@@ -2,10 +2,11 @@ import { EllipsoidGraphics as CesiumEllipsoidGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-EllipsoidGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+EllipsoidGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type EllipsoidGraphicsCesiumProps = PickCesiumProps<
-  CesiumEllipsoidGraphics | CesiumEllipsoidGraphics.ConstructorOptions,
+  Merge<CesiumEllipsoidGraphics, CesiumEllipsoidGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -51,17 +52,9 @@ const cesiumProps = [
   "distanceDisplayCondition",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumEllipsoidGraphics, EllipsoidGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumEllipsoidGraphics | CesiumEllipsoidGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const EllipsoidGraphics = createCesiumComponent<CesiumEllipsoidGraphics, EllipsoidGraphicsProps>({
   name: "EllipsoidGraphics",
@@ -81,3 +74,11 @@ const EllipsoidGraphics = createCesiumComponent<CesiumEllipsoidGraphics, Ellipso
 });
 
 export default EllipsoidGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumEllipsoidGraphics, CesiumEllipsoidGraphics.ConstructorOptions>,
+  keyof EllipsoidGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

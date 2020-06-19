@@ -2,10 +2,10 @@ import { Camera as CesiumCamera } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 
 /*
@@ -43,8 +43,8 @@ For details, refer to "Component location" chapter in [Guide](/guide).
 
 /*
 @scope
-Camera is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+Camera can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type CameraCesiumProps = PickCesiumProps<CesiumCamera, typeof cesiumProps>;
@@ -73,19 +73,11 @@ const cesiumProps = [
   "percentageChanged",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumCamera, CameraCesiumEvents> = {
+const cesiumEventProps = {
   onChange: "changed",
   onMoveEnd: "moveEnd",
   onMoveStart: "moveStart",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCamera,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps][]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
   name: "Camera",
@@ -96,3 +88,11 @@ const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
 });
 
 export default Camera;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCamera,
+  keyof CameraProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

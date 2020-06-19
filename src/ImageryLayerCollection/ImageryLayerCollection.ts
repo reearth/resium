@@ -1,4 +1,10 @@
-import { createCesiumComponent, EventkeyMap, UnusedCesiumProps, AssertNever } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  UnusedCesiumProps,
+  AssertNever,
+  ValueOf,
+} from "../core";
 import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
 
 /*
@@ -10,7 +16,7 @@ It can have some `ImageryLayer` components as children.
 /*
 @scope
 Available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-This component refers to the single ImageryLayerCollection of them, so can not be used more than once for each Viewer or CesiumWidget.
+This component refers to the single ImageryLayerCollection of them, so can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type ImageryLayerCollectionCesiumEvents = {
@@ -20,7 +26,6 @@ export type ImageryLayerCollectionCesiumEvents = {
   onLayerShowOrHide?: (layer: ImageryLayer, index: number) => void;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export type ImageryLayerCollectionProps = ImageryLayerCollectionCesiumEvents;
 
 const cesiumEventProps: EventkeyMap<
@@ -33,15 +38,6 @@ const cesiumEventProps: EventkeyMap<
   onLayerShowOrHide: "layerShownOrHidden",
 };
 
-// Unused prop check
-// length: for read only
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<
-  CesiumImageryLayerCollection,
-  typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const ImageryLayerCollection = createCesiumComponent<
   CesiumImageryLayerCollection,
   ImageryLayerCollectionProps
@@ -52,3 +48,11 @@ const ImageryLayerCollection = createCesiumComponent<
 });
 
 export default ImageryLayerCollection;
+
+// Unused prop check
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<
+  CesiumImageryLayerCollection,
+  ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

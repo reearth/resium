@@ -2,10 +2,11 @@ import { EllipseGraphics as CesiumEllipseGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-EllipseGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+EllipseGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type EllipseGraphicsCesiumProps = PickCesiumProps<
-  CesiumEllipseGraphics | CesiumEllipseGraphics.ConstructorOptions,
+  Merge<CesiumEllipseGraphics, CesiumEllipseGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -50,29 +51,18 @@ const cesiumProps = [
   "distanceDisplayCondition",
   "zIndex",
   "classificationType",
+  "extrudedHeightReference",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumEllipseGraphics, EllipseGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumEllipseGraphics | CesiumEllipseGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const EllipseGraphics = createCesiumComponent<CesiumEllipseGraphics, EllipseGraphicsProps>({
   name: "EllipseGraphics",
   create(context, props) {
     if (!context.entity) return;
     const element = new CesiumEllipseGraphics(props);
-    if (props.classificationType) {
-      // WORKAROUND: classificationType field type is mismatched
-      (element as any).classificationType = props.classificationType;
-    }
     context.entity.ellipse = element;
     return element;
   },
@@ -86,3 +76,11 @@ const EllipseGraphics = createCesiumComponent<CesiumEllipseGraphics, EllipseGrap
 });
 
 export default EllipseGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumEllipseGraphics, CesiumEllipseGraphics.ConstructorOptions>,
+  keyof EllipseGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,4 +1,4 @@
-import { PolylineCollection as CesiumPolylineCollection, Matrix4 } from "cesium";
+import { PolylineCollection as CesiumPolylineCollection } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
@@ -20,22 +20,15 @@ A PolylineCollection object will be attached to the PrimitiveCollection of the V
 export type PolylineCollectionCesiumProps = PickCesiumProps<
   CesiumPolylineCollection,
   typeof cesiumProps
-> & {
-  debugShowBoundingVolume?: boolean;
-  length?: number;
-  modelMatrix?: Matrix4;
-};
+>;
 
-export type PolylineCollectionProps = PolylineCollectionCesiumProps & {
+export type PolylineCollectionOtherProps = {
   children?: React.ReactNode;
 };
 
-const cesiumProps = ["debugShowBoundingVolume", "length", "modelMatrix"] as const;
+export type PolylineCollectionProps = PolylineCollectionCesiumProps & PolylineCollectionOtherProps;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPolylineCollection, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+const cesiumProps = ["debugShowBoundingVolume", "length", "modelMatrix"] as const;
 
 const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, PolylineCollectionProps>(
   {
@@ -45,7 +38,7 @@ const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, Polyl
       const element = new CesiumPolylineCollection({
         modelMatrix: props.modelMatrix,
         debugShowBoundingVolume: props.debugShowBoundingVolume,
-        length: props.length, // WORKAROUND: missing field
+        length: props.length,
         scene: context.scene,
       } as any);
       context.primitiveCollection.add(element);
@@ -69,3 +62,8 @@ const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, Polyl
 );
 
 export default PolylineCollection;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPolylineCollection, keyof PolylineCollectionProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

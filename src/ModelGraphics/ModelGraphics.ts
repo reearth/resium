@@ -2,10 +2,11 @@ import { ModelGraphics as CesiumModelGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-ModelGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+ModelGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type ModelGraphicsCesiumProps = PickCesiumProps<
-  CesiumModelGraphics | CesiumModelGraphics.ConstructorOptions,
+  Merge<CesiumModelGraphics, CesiumModelGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -51,19 +52,12 @@ const cesiumProps = [
   "clippingPlanes",
   "imageBasedLightingFactor",
   "lightColor",
+  "articulations",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumModelGraphics, ModelGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumModelGraphics | CesiumModelGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const ModelGraphics = createCesiumComponent<CesiumModelGraphics, ModelGraphicsProps>({
   name: "ModelGraphics",
@@ -83,3 +77,11 @@ const ModelGraphics = createCesiumComponent<CesiumModelGraphics, ModelGraphicsPr
 });
 
 export default ModelGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumModelGraphics, CesiumModelGraphics.ConstructorOptions>,
+  keyof ModelGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -2,11 +2,11 @@ import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
   Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -16,8 +16,8 @@ import {
 
 /*
 @scope
-PolygonGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+PolygonGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type PolygonGraphicsCesiumProps = PickCesiumProps<
@@ -32,6 +32,7 @@ export type PolygonGraphicsCesiumEvents = {
 export type PolygonGraphicsProps = PolygonGraphicsCesiumProps & PolygonGraphicsCesiumEvents;
 
 const cesiumProps = [
+  "arcType",
   "hierarchy",
   "height",
   "heightReference",
@@ -54,23 +55,15 @@ const cesiumProps = [
   "classificationType",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumPolygonGraphics, PolygonGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPolygonGraphics | CesiumPolygonGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGraphicsProps>({
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND: hierarchy type mismatched
+    const element = new CesiumPolygonGraphics(props);
     context.entity.polygon = element;
     return element;
   },
@@ -84,3 +77,11 @@ const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGrap
 });
 
 export default PolygonGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>,
+  keyof PolygonGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

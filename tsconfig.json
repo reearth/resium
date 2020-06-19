@@ -18,5 +18,6 @@
       "*": ["src/types/*"],
       "assets": [".storybook/assets/*"]
     }
-  }
+  },
+  "exclude": ["dist"]
 }

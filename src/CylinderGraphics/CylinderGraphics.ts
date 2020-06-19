@@ -2,10 +2,11 @@ import { CylinderGraphics as CesiumCylinderGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-CylinderGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+CylinderGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type CylinderGraphicsCesiumProps = PickCesiumProps<
-  CesiumCylinderGraphics | CesiumCylinderGraphics.ConstructorOptions,
+  Merge<CesiumCylinderGraphics, CesiumCylinderGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -45,19 +46,12 @@ const cesiumProps = [
   "slices",
   "shadowMode",
   "distanceDisplayCondition",
+  "shadows",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumCylinderGraphics, CylinderCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCylinderGraphics | CesiumCylinderGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const CylinderGraphics = createCesiumComponent<CesiumCylinderGraphics, CylinderGraphicsProps>({
   name: "CylinderGraphics",
@@ -77,3 +71,11 @@ const CylinderGraphics = createCesiumComponent<CesiumCylinderGraphics, CylinderG
 });
 
 export default CylinderGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumCylinderGraphics, CesiumCylinderGraphics.ConstructorOptions>,
+  keyof CylinderGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

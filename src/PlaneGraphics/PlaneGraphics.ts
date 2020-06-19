@@ -2,10 +2,11 @@ import { PlaneGraphics as CesiumPlaneGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-PlaneGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+PlaneGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type PlaneGraphicsCesiumProps = PickCesiumProps<
-  CesiumPlaneGraphics | CesiumPlaneGraphics.ConstructorOptions,
+  Merge<CesiumPlaneGraphics, CesiumPlaneGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -44,17 +45,9 @@ const cesiumProps = [
 ] as const;
 
 // PlaneGraphics
-const cesiumEventProps: EventkeyMap<any, PlaneGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPlaneGraphics | CesiumPlaneGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PlaneGraphics = createCesiumComponent<CesiumPlaneGraphics, PlaneGraphicsProps>({
   name: "PlaneGraphics",
@@ -74,3 +67,11 @@ const PlaneGraphics = createCesiumComponent<CesiumPlaneGraphics, PlaneGraphicsPr
 });
 
 export default PlaneGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPlaneGraphics, CesiumPlaneGraphics.ConstructorOptions>,
+  keyof PlaneGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

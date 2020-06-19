@@ -20,8 +20,8 @@ Its children will be rendered with `ReactDOM.renderToStaticMarkup` as HTML strin
 
 /*
 @scope
-EntityStaticDescription is available only inside [Entity](/components/Entity) components,
-and can not be used more than once or together with EntityDescription component for each entity.
+EntityStaticDescription can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once or together with EntityDescription component for each entity.
 */
 
 const EntityStaticDescription: React.FC = ({ children }) => {

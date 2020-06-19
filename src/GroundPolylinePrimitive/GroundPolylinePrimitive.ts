@@ -33,13 +33,15 @@ export type GroundPolylinePrimitiveCesiumReadonlyProps = PickCesiumProps<
   typeof cesiumReadonlyProps
 >;
 
+export type GroundPolylinePrimitiveOtherProps = {
+  /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/GroundPolylinePrimitive.html#readyPromise) is fullfilled */
+  onReady?: (primitive: CesiumGroundPolylinePrimitive) => void;
+};
+
 export type GroundPolylinePrimitiveProps = GroundPolylinePrimitiveCesiumProps &
   GroundPolylinePrimitiveCesiumReadonlyProps &
-  EventProps<CesiumGroundPolylinePrimitive> & {
-    // Cesium.GroundPolylinePrimitive
-    // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/GroundPolylinePrimitive.html#readyPromise) is fullfilled
-    onReady?: (primitive: CesiumGroundPolylinePrimitive) => void;
-  };
+  EventProps<CesiumGroundPolylinePrimitive> &
+  GroundPolylinePrimitiveOtherProps;
 
 const cesiumProps = [
   "appearance",
@@ -57,14 +59,6 @@ const cesiumReadonlyProps = [
   "interleave",
   "releaseGeometryInstances",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumGroundPolylinePrimitive,
-  typeof cesiumProps | typeof cesiumReadonlyProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const GroundPolylinePrimitive = createCesiumComponent<
   CesiumGroundPolylinePrimitive,
@@ -94,3 +88,11 @@ const GroundPolylinePrimitive = createCesiumComponent<
 });
 
 export default GroundPolylinePrimitive;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumGroundPolylinePrimitive,
+  keyof GroundPolylinePrimitiveProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

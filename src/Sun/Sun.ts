@@ -9,21 +9,15 @@ All properties are applied to single sun in the scene.
 
 /*
 @scope
-Sun is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+Sun can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type SunCesiumProps = PickCesiumProps<CesiumSun, typeof cesiumProps>;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export type SunProps = SunCesiumProps;
 
 const cesiumProps = ["glowFactor", "show"] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumSun, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Sun = createCesiumComponent<CesiumSun, SunProps>({
   name: "Sun",
@@ -43,3 +37,8 @@ const Sun = createCesiumComponent<CesiumSun, SunProps>({
 });
 
 export default Sun;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumSun, keyof SunProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

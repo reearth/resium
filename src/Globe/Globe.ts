@@ -1,9 +1,9 @@
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
 
@@ -42,8 +42,8 @@ For details, refer to "Component location" chapter in [Guide](/guide).
 
 /*
 @scope
-Globe is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+Globe can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type GlobeCesiumProps = PickCesiumProps<CesiumGlobe, typeof cesiumProps>;
@@ -54,11 +54,11 @@ export type GlobeCesiumEvents = {
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 };
 
-const cesiumEventProps: EventkeyMap<CesiumGlobe, GlobeCesiumEvents> = {
+const cesiumEventProps = {
   onImageryLayersUpdate: "imageryLayersUpdatedEvent",
   onTerrainProviderChange: "terrainProviderChanged",
   onTileLoadProgress: "tileLoadProgressEvent",
-};
+} as const;
 
 export type GlobeProps = GlobeCesiumProps & GlobeCesiumEvents;
 
@@ -84,15 +84,18 @@ const cesiumProps = [
   "showWaterEffect",
   "terrainProvider",
   "tileCacheSize",
+  "loadingDescendantLimit",
+  "preloadAncestors",
+  "preloadSiblings",
+  "fillHighlightColor",
+  "dynamicAtmosphereLighting",
+  "dynamicAtmosphereLightingFromSun",
+  "showSkirts",
+  "cartographicLimitRectangle",
+  "translucency",
+  "undergroundColor",
+  "undergroundColorAlphaByDistance",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumGlobe,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",
@@ -103,3 +106,11 @@ const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
 });
 
 export default Globe;
+
+// Unused prop check
+type IgnoredProps = "ellipsoid" | "imageryLayers";
+type UnusedProps = UnusedCesiumProps<
+  CesiumGlobe,
+  keyof GlobeProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

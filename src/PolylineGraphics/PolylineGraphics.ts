@@ -2,10 +2,11 @@ import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-PolylineGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+PolylineGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type PolylineGraphicsCesiumProps = PickCesiumProps<
-  CesiumPolylineGraphics | CesiumPolylineGraphics.ConstructorOptions,
+  Merge<CesiumPolylineGraphics, CesiumPolylineGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -31,6 +32,8 @@ export type PolylineGraphicsCesiumEvents = {
 export type PolylineGraphicsProps = PolylineGraphicsCesiumProps & PolylineGraphicsCesiumEvents;
 
 const cesiumProps = [
+  "arcType",
+  "classificationType",
   "positions",
   "followSurface",
   "clampToGround",
@@ -44,17 +47,9 @@ const cesiumProps = [
   "zIndex",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumPolylineGraphics, PolylineGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPolylineGraphics | CesiumPolylineGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineGraphicsProps>({
   name: "PolylineGraphics",
@@ -74,3 +69,11 @@ const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineG
 });
 
 export default PolylineGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPolylineGraphics, CesiumPolylineGraphics.ConstructorOptions>,
+  keyof PolylineGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

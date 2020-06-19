@@ -21,16 +21,14 @@ export type GroundPrimitiveCollectionCesiumProps = PickCesiumProps<
   typeof cesiumProps
 >;
 
-export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps & {
+export type GroundPrimitiveCollectionOtherProps = {
   children?: React.ReactNode;
 };
 
-const cesiumProps = ["show", "destroyPrimitives"] as const;
+export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps &
+  GroundPrimitiveCollectionOtherProps;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<PrimitiveCollection, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+const cesiumProps = ["show", "destroyPrimitives"] as const;
 
 const GroundPrimitiveCollection = createCesiumComponent<
   PrimitiveCollection,
@@ -46,3 +44,8 @@ const GroundPrimitiveCollection = createCesiumComponent<
 });
 
 export default GroundPrimitiveCollection;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<PrimitiveCollection, keyof GroundPrimitiveCollectionProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

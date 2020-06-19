@@ -22,9 +22,12 @@ export type BillboardCollectionCesiumProps = PickCesiumProps<
   typeof cesiumProps
 >;
 
-export type BillboardCollectionProps = BillboardCollectionCesiumProps & {
+export type BillboardCollectionOtherProps = {
   children?: React.ReactNode;
 };
+
+export type BillboardCollectionProps = BillboardCollectionCesiumProps &
+  BillboardCollectionOtherProps;
 
 const cesiumProps = [
   "blendOption",
@@ -32,12 +35,6 @@ const cesiumProps = [
   "debugShowTextureAtlas",
   "modelMatrix",
 ] as const;
-
-// Unused prop check
-// length: cannot be modified
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<CesiumBillboardCollection, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const BillboardCollection = createCesiumComponent<
   CesiumBillboardCollection,
@@ -72,3 +69,9 @@ const BillboardCollection = createCesiumComponent<
 });
 
 export default BillboardCollection;
+
+// Unused prop check
+// length: cannot be modified
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<CesiumBillboardCollection, keyof BillboardCollectionProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

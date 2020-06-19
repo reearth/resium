@@ -15,8 +15,8 @@ Its children will be rendered to the container element specified by container pr
 
 /*
 @scope
-EntityDescription is available only inside [Entity](/components/Entity) components,
-and can not be used more than once or together with EntityStaticDescription component for each entity.
+EntityDescription can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once or together with EntityStaticDescription component for each entity.
 */
 
 export type EntityDescriptionProps = {

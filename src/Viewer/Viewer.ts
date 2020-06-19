@@ -3,7 +3,6 @@ import { Viewer as CesiumViewer, ImageryProvider } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   EventManager,
   eventManagerContextKey,
   RootEventProps,
@@ -11,6 +10,8 @@ import {
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
+  Merge,
 } from "../core";
 
 /*
@@ -28,15 +29,15 @@ import {
 Everywhere. `Viewer` is a root component. 
 */
 
-export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps> & {
-  // If false, the default imagery layer will be removed.
-  imageryProvider?: ImageryProvider | false;
-};
+export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
 export type ViewerCesiumReadonlyProps = PickCesiumProps<
-  CesiumViewer & CesiumViewer.ConstructorOptions,
+  Merge<CesiumViewer, CesiumViewer.ConstructorOptions>,
   typeof cesiumReadonlyProps
->;
+> & {
+  /** If false, the default imagery layer will be removed. */
+  imageryProvider?: ImageryProvider | false;
+};
 
 export type ViewerCesiumEvents = {
   onSelectedEntityChange?: () => void;
@@ -98,10 +99,10 @@ const cesiumReadonlyProps = [
   "maximumRenderTimeChange",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumViewer, ViewerCesiumEvents> = {
+const cesiumEventProps = {
   onSelectedEntityChange: "selectedEntityChanged",
   onTrackedEntityChange: "trackedEntityChanged",
-};
+} as const;
 
 export type ViewerOtherProps = RootEventProps & {
   /** Applied to outer `div` element */
@@ -124,21 +125,11 @@ export type ViewerProps = ViewerCesiumProps &
   ViewerCesiumEvents &
   ViewerOtherProps;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumViewer,
-  | typeof cesiumProps
-  | typeof cesiumReadonlyProps
-  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context, EventManager>({
   name: "Viewer",
   create(_context, props, wrapper) {
     if (!wrapper) return;
-    const v = new CesiumViewer(wrapper, props as any); // WORKAROUND: imageryProvider
+    const v = new CesiumViewer(wrapper, props);
     if (!v) return;
 
     if (props.imageryProvider === false) {
@@ -208,3 +199,11 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context
 });
 
 export default Viewer;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumViewer,
+  keyof ViewerProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

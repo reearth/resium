@@ -1,16 +1,13 @@
-import {
-  KmlDataSource as CesiumKmlDataSource,
-  Ellipsoid,
-  DataSourceCollection,
-  Resource,
-} from "cesium";
+import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
+  MethodOptions2,
 } from "../core";
 
 /*
@@ -24,13 +21,18 @@ Both KML and KMZ are supported, and can be loaded from a URL, string or raw obje
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
+type Target = Merge<
+  Merge<CesiumKmlDataSource, CesiumKmlDataSource.LoadOptions>,
+  MethodOptions2<typeof CesiumKmlDataSource, "load">
+>;
+
 export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>;
 
 export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<
-  CesiumKmlDataSource & CesiumKmlDataSource.LoadOptions,
+  Target,
   typeof cesiumReadonlyProps
 > & {
-  data: string | Resource | Document | Blob;
+  data: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
 };
 
 export type KmlDataSourceCesiumEvents = {
@@ -41,12 +43,15 @@ export type KmlDataSourceCesiumEvents = {
   onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
 };
 
+export type KmlDataSourceOtherProps = {
+  /** Calls when the Promise for loading data is fullfilled. */
+  onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
+};
+
 export type KmlDataSourceProps = KmlDataSourceCesiumProps &
   KmlDataSourceCesiumReadonlyProps &
-  KmlDataSourceCesiumEvents & {
-    // Calls when the Promise for loading data is fullfilled.
-    onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
-  };
+  KmlDataSourceCesiumEvents &
+  KmlDataSourceOtherProps;
 
 const cesiumProps = ["clustering", "name", "show"] as const;
 
@@ -60,46 +65,21 @@ const cesiumReadonlyProps = [
   "credit",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumKmlDataSource, KmlDataSourceCesiumEvents> = {
+const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
   onRefresh: "refreshEvent",
   onUnsupportedNode: "unsupportedNodeEvent",
-};
+} as const;
 
-const load = ({
-  element,
-  data,
-  onLoad,
-  clampToGround,
-  ellipsoid,
-  sourceUri,
-}: {
-  element: CesiumKmlDataSource;
-  dataSources: DataSourceCollection;
-  data: Resource | string | Document | Blob;
-  onLoad?: (kmlDataSource: CesiumKmlDataSource) => void;
-  clampToGround?: boolean;
-  ellipsoid?: Ellipsoid;
-  sourceUri?: string;
-}) => {
-  element.load(data, { clampToGround, ellipsoid, sourceUri }).then(value => {
+const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
+  element.load(data, options).then(value => {
     if (onLoad) {
       onLoad(value);
     }
   });
 };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumKmlDataSource | CesiumKmlDataSource.LoadOptions,
-  | typeof cesiumProps
-  | typeof cesiumReadonlyProps
-  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourceProps>({
   name: "KmlDataSource",
@@ -122,26 +102,17 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
     }
     context.dataSourceCollection.add(element);
     if (props.data) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        clampToGround: props.clampToGround,
-        ellipsoid: props.ellipsoid,
-        sourceUri: props.sourceUri,
-      });
+      load(element, props);
     }
     return element;
   },
-  update(element, props, prevProps, context) {
+  update(element, props, prevProps) {
     if (!props.data) {
       element.show = false;
     } else if (prevProps.show !== props.show) {
       element.show = typeof props.show === "boolean" ? props.show : true;
     }
     if (
-      context.dataSourceCollection &&
       props.data &&
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
@@ -149,15 +120,7 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
         prevProps.sourceUri !== props.sourceUri ||
         prevProps.credit !== prevProps.credit)
     ) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        clampToGround: props.clampToGround,
-        ellipsoid: props.ellipsoid,
-        sourceUri: props.sourceUri,
-      });
+      load(element, props);
     }
   },
   destroy(element, context) {
@@ -176,3 +139,11 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
 });
 
 export default KmlDataSource;
+
+// Unused prop check
+type IgnoredProps = "entities" | "isLoading" | "clock";
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  keyof KmlDataSourceProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

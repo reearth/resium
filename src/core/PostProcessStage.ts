@@ -11,12 +11,9 @@ import { AssertNever, PickCesiumProps, UnusedCesiumProps } from "./types";
 
 export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;
 
-const cesiumProps = ["enabled", "selected"] as const;
+export type PostProcessStageProps = PostProcessStageCesiumProps;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<PostProcessStage, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+const cesiumProps = ["enabled", "selected"] as const;
 
 export const createPostProcessStage = <UniformProps>(opts: {
   name: string;
@@ -82,3 +79,8 @@ export const createPostProcessStage = <UniformProps>(opts: {
   });
 
 export default createPostProcessStage;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<PostProcessStage, keyof PostProcessStageProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

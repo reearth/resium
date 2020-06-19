@@ -24,7 +24,9 @@ A label object will be attached to the parent LabelCollection.
 
 export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps>;
 
-export type LabelProps = LabelCesiumProps & EventProps<CesiumLabel>;
+export type LabelOtherProps = EventProps<CesiumLabel>;
+
+export type LabelProps = LabelCesiumProps & LabelOtherProps;
 
 const cesiumProps = [
   "backgroundColor",
@@ -52,12 +54,6 @@ const cesiumProps = [
   "verticalOrigin",
 ] as const;
 
-// Unused prop check
-// totalScale: for read only
-type IgnoredProps = "totalScale";
-type UnusedProps = UnusedCesiumProps<CesiumLabel, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Label = createCesiumComponent<CesiumLabel, LabelProps>({
   name: "Label",
   create: (context, props) => context.labelCollection?.add(props),
@@ -71,3 +67,8 @@ const Label = createCesiumComponent<CesiumLabel, LabelProps>({
 });
 
 export default Label;
+
+// Unused prop check
+type IgnoredProps = "totalScale";
+type UnusedProps = UnusedCesiumProps<CesiumLabel, keyof LabelProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

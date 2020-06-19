@@ -6,11 +6,12 @@ import {
   EventManager,
   eventManagerContextKey,
   RootEventProps,
-  pick,
   Context,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ConstructorOptions2,
 } from "../core";
 
 /*
@@ -30,19 +31,32 @@ import {
 Everywhere. `CesiumWidget` is a root component. 
 */
 
+type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
+
 export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
 
-export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<
-  CesiumCesiumWidget,
-  typeof cesiumReadonlyProps
->;
+export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+
+export type CesiumWidgetOtherProps = RootEventProps & {
+  /** Applied to outer `div` element */
+  className?: string;
+  /** Applied to outer `div` element */
+  id?: string;
+  /** Applied to outer `div` element */
+  style?: React.CSSProperties;
+  /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
+  full?: boolean;
+  /** All props applied to outer `div` element */
+  containerProps?: any;
+  children?: React.ReactNode;
+};
 
 const cesiumProps = [
   "resolutionScale",
   "useDefaultRenderLoop",
   "targetFrameRate",
   "useBrowserRecommendedResolution",
-];
+] as const;
 
 const cesiumReadonlyProps = [
   "clock",
@@ -65,31 +79,11 @@ const cesiumReadonlyProps = [
   "terrainShadows",
   "requestRenderMode",
   "maximumRenderTimeChange",
-];
+] as const;
 
 export type CesiumWidgetProps = CesiumWidgetCesiumProps &
   CesiumWidgetCesiumReadonlyProps &
-  RootEventProps & {
-    // Applied to outer `div` element
-    className?: string;
-    // Applied to outer `div` element
-    id?: string;
-    // Applied to outer `div` element
-    style?: React.CSSProperties;
-    // Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true.
-    full?: boolean;
-    // All props applied to outer `div` element
-    containerProps?: any;
-    children?: React.ReactNode;
-  };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCesiumWidget,
-  typeof cesiumProps | typeof cesiumReadonlyProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+  CesiumWidgetOtherProps;
 
 const CesiumWidget = createCesiumComponent<
   CesiumCesiumWidget,
@@ -99,12 +93,9 @@ const CesiumWidget = createCesiumComponent<
   EventManager
 >({
   name: "CesiumWidget",
-  create(context, props, container) {
+  create(_context, props, container) {
     if (!container) return;
-    const v = new CesiumCesiumWidget(
-      container,
-      pick(props, [...cesiumProps, ...cesiumReadonlyProps]),
-    );
+    const v = new CesiumCesiumWidget(container, props);
     if (!v) return;
 
     if (typeof props.resolutionScale === "number") {
@@ -160,3 +151,8 @@ const CesiumWidget = createCesiumComponent<
 });
 
 export default CesiumWidget;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<Target, keyof CesiumWidgetProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

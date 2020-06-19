@@ -1,4 +1,4 @@
-import { Model as CesiumModel, ModelMesh, Primitive, ModelNode, Resource } from "cesium";
+import { Model as CesiumModel, ModelMesh, Primitive, ModelNode } from "cesium";
 
 import {
   createCesiumComponent,
@@ -10,12 +10,19 @@ import {
   Merge,
 } from "../core";
 
-export type ModelCesiumProps = PickCesiumProps<
+type Target = Merge<
   Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
-  typeof cesiumProps
+  Parameters<typeof CesiumModel["fromGltf"]>[0]
 >;
 
-export type ModelCesiumReadonlyProps = PickCesiumProps<CesiumModel, typeof cesiumReadonlyProps>;
+export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
+
+export type ModelCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+
+export type ModalOtherProps = {
+  /** Calls when the model is completely loaded. */
+  onReady?: (model: CesiumModel) => void;
+};
 
 export type ModelProps = ModelCesiumProps &
   ModelCesiumReadonlyProps &
@@ -24,10 +31,8 @@ export type ModelProps = ModelCesiumProps &
     mesh: ModelMesh;
     node: ModelNode;
     primitive: Primitive;
-  }> & {
-    // Calls when the model is completely loaded.
-    onReady?: (model: CesiumModel) => void;
-  };
+  }> &
+  ModalOtherProps;
 
 const cesiumProps = [
   "basePath",
@@ -38,7 +43,6 @@ const cesiumProps = [
   "colorBlendMode",
   "debugShowBoundingVolume",
   "debugWireframe",
-  "dequantizeInShader",
   "distanceDisplayCondition",
   "id",
   "imageBasedLightingFactor",
@@ -47,7 +51,6 @@ const cesiumProps = [
   "minimumPixelSize",
   "modelMatrix",
   "scale",
-  "scene",
   "shadows",
   "show",
   "silhouetteColor",
@@ -55,32 +58,27 @@ const cesiumProps = [
   "luminanceAtZenith",
   "sphericalHarmonicCoefficients",
   "specularEnvironmentMaps",
-];
+] as const;
 
 const cesiumReadonlyProps = [
   "allowPicking",
   "asynchronous",
-  "gltf",
-  "incrementallyLoadTextures",
-  "url",
   "credit",
+  "dequantizeInShader",
+  "gltf",
+  "heightReference",
+  "incrementallyLoadTextures",
+  "scene",
+  "url",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
-  typeof cesiumProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
-  create(context, props) {
-    if (!context.primitiveCollection) return;
-    const element = props.url
-      ? CesiumModel.fromGltf(props as ModelProps & { url: string | Resource })
-      : new CesiumModel(props);
+  create(context, { url, scene, ...props }) {
+    if (!context.scene || !context.primitiveCollection) return;
+    const element = url
+      ? CesiumModel.fromGltf({ ...props, url })
+      : new CesiumModel({ ...props, scene: scene || context.scene });
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
     }
@@ -101,3 +99,8 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
 });
 
 export default Model;
+
+// Unused prop check
+type IgnoredProps = "activeAnimations";
+type UnusedProps = UnusedCesiumProps<Target, keyof ModelProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

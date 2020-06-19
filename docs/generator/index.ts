@@ -17,19 +17,6 @@ console.log(
   }`,
 );
 
-// load cesium type definitions
-const cesiumModulePath = path.dirname(require.resolve("cesium"));
-const cesiumPackageJSON = JSON.parse(
-  fs.readFileSync(path.resolve(cesiumModulePath, "package.json"), "utf8"),
-);
-const cesiumTypeDefPath = path.resolve(cesiumModulePath, cesiumPackageJSON.types);
-const cesiumTypeDef = createSourceFile(
-  path.basename(cesiumTypeDefPath),
-  fs.readFileSync(cesiumTypeDefPath, "utf8"),
-  ScriptTarget.ES2020,
-  true,
-);
-
 // list component paths
 const componentFiles = globby
   .sync([

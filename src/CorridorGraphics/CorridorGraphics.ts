@@ -2,10 +2,11 @@ import { CorridorGraphics as CesiumCorridorGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-CorriderGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+CorriderGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type CorridorGraphicsCesiumProps = PickCesiumProps<
-  CesiumCorridorGraphics | CesiumCorridorGraphics.ConstructorOptions,
+  Merge<CesiumCorridorGraphics, CesiumCorridorGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -51,17 +52,9 @@ const cesiumProps = [
   "classificationType",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumCorridorGraphics, CorridorCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCorridorGraphics | CesiumCorridorGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const CorridorGraphics = createCesiumComponent<CesiumCorridorGraphics, CorridorGraphicsProps>({
   name: "CorridorGraphics",
@@ -84,3 +77,11 @@ const CorridorGraphics = createCesiumComponent<CesiumCorridorGraphics, CorridorG
 });
 
 export default CorridorGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumCorridorGraphics, CesiumCorridorGraphics.ConstructorOptions>,
+  keyof CorridorGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

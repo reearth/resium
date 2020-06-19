@@ -54,10 +54,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 export type PostProcessStageCesiumProps = PickCesiumProps<
   CesiumPostProcessStage,
   typeof cesiumProps
-> & {
-  enabled?: boolean;
-  selected?: any[];
-};
+>;
 
 export type PostProcessStageCesiumReadonlyProps = PickCesiumProps<
   Merge<CesiumPostProcessStage, ConstructorOptions<typeof CesiumPostProcessStage>>,
@@ -82,14 +79,6 @@ const cesiumReadonlyProps = [
   "textureScale",
   "uniforms",
 ] as const;
-
-export // Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPostProcessStage,
-  typeof cesiumProps | typeof cesiumReadonlyProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 export const PostProcessStage = createCesiumComponent<
   CesiumPostProcessStage,
@@ -121,3 +110,8 @@ export const PostProcessStage = createCesiumComponent<
 });
 
 export default PostProcessStage;
+
+export // Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPostProcessStage, keyof PostProcessStageProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

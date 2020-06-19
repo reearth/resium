@@ -2,10 +2,11 @@ import { PathGraphics as CesiumPathGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -15,12 +16,12 @@ import {
 
 /*
 @scope
-PathGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+PathGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type PathGraphicsCesiumProps = PickCesiumProps<
-  CesiumPathGraphics | CesiumPathGraphics.ConstructorOptions,
+  Merge<CesiumPathGraphics, CesiumPathGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -40,17 +41,9 @@ const cesiumProps = [
   "distanceDisplayCondition",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumPathGraphics, PathGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPathGraphics | CesiumPathGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PathGraphics = createCesiumComponent<CesiumPathGraphics, PathGraphicsProps>({
   name: "PathGraphics",
@@ -70,3 +63,11 @@ const PathGraphics = createCesiumComponent<CesiumPathGraphics, PathGraphicsProps
 });
 
 export default PathGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPathGraphics, CesiumPathGraphics.ConstructorOptions>,
+  keyof PathGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

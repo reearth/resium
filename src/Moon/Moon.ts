@@ -9,8 +9,8 @@ All properties are applied to single moon of the scene.
 
 /*
 @scope
-Moon is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+Moon can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type MoonCesiumProps = PickCesiumProps<CesiumMoon, typeof cesiumProps>;
@@ -22,11 +22,6 @@ export type MoonProps = MoonCesiumProps & MoonCesiumReadonlyProps;
 const cesiumProps = ["onlySunLighting", "show", "textureUrl"] as const;
 
 const cesiumReadonlyProps = ["ellipsoid"] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumMoon, typeof cesiumProps | typeof cesiumReadonlyProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
   name: "Moon",
@@ -49,3 +44,8 @@ const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
 });
 
 export default Moon;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumMoon, keyof MoonProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

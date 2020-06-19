@@ -1,16 +1,13 @@
-import {
-  CzmlDataSource as CesiumCzmlDataSource,
-  Resource,
-  Credit,
-  DataSourceCollection,
-} from "cesium";
+import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
+  MethodOptions2,
 } from "../core";
 
 /*
@@ -24,12 +21,19 @@ CZML data can be loaded from a URL, string or raw object.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
+type Target = Merge<
+  Merge<CesiumCzmlDataSource, CesiumCzmlDataSource.LoadOptions>,
+  MethodOptions2<typeof CesiumCzmlDataSource, "load">
+>;
+
 export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, typeof cesiumProps>;
 
 export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<
-  CesiumCzmlDataSource,
+  Target,
   typeof cesiumReadonlyProps
->;
+> & {
+  data: Parameters<CesiumCzmlDataSource["load"]>[0];
+};
 
 export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
@@ -37,66 +41,33 @@ export type CzmlDataSourceCesiumEvents = {
   onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
 };
 
+export type CzmlDataSourceOtherProps = {
+  /** Calls when the Promise for loading data is fullfilled. */
+  onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
+};
+
 export type CzmlDataSourceProps = CzmlDataSourceCesiumProps &
   CzmlDataSourceCesiumReadonlyProps &
-  CzmlDataSourceCesiumEvents & {
-    // @CesiumReadonlyProp
-    data?: Resource | string | any;
-    // @CesiumReadonlyProp
-    sourceUri?: string;
-    // @CesiumReadonlyProp
-    credit?: Credit | string;
-    // @CesiumProp
-    show?: boolean;
-    // Calls when the Promise for loading data is fullfilled.
-    onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
-  };
+  CzmlDataSourceCesiumEvents &
+  CzmlDataSourceOtherProps;
 
-const cesiumProps = ["clustering"] as const;
+const cesiumProps = ["clustering", "show"] as const;
 
-const cesiumReadonlyProps = ["name"] as const;
+const cesiumReadonlyProps = ["name", "data", "sourceUri", "credit"] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumCzmlDataSource, CzmlDataSourceCesiumEvents> = {
+const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
-};
+} as const;
 
-const load = ({
-  element,
-  data,
-  onLoad,
-  sourceUri,
-  credit,
-}: {
-  element: CesiumCzmlDataSource;
-  dataSources: DataSourceCollection;
-  data: Resource | string | any;
-  onLoad?: (CzmlDataSource: CesiumCzmlDataSource) => void;
-  sourceUri?: string;
-  credit?: Credit | string;
-}) => {
-  element
-    .load(data, {
-      sourceUri,
-      credit,
-    })
-    .then(value => {
-      if (onLoad) {
-        onLoad(value);
-      }
-    });
+const load = (element: CesiumCzmlDataSource, { data, onLoad, ...options }: CzmlDataSourceProps) => {
+  element.load(data, options).then(value => {
+    if (onLoad) {
+      onLoad(value);
+    }
+  });
 };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCzmlDataSource,
-  | typeof cesiumProps
-  | typeof cesiumReadonlyProps
-  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourceProps>({
   name: "CzmlDataSource",
@@ -111,38 +82,23 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
     }
     context.dataSourceCollection.add(element);
     if (props.data) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        sourceUri: props.sourceUri,
-        credit: props.credit,
-      });
+      load(element, props);
     }
     return element;
   },
-  update(element, props, prevProps, context) {
+  update(element, props, prevProps) {
     if (!props.data) {
       element.show = false;
     } else if (prevProps.show !== props.show) {
       element.show = typeof props.show === "boolean" ? props.show : true;
     }
     if (
-      context.dataSourceCollection &&
       props.data &&
       (prevProps.data !== props.data ||
         prevProps.sourceUri !== props.sourceUri ||
         prevProps.credit !== props.credit)
     ) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        sourceUri: props.sourceUri,
-        credit: props.credit,
-      });
+      load(element, props);
     }
   },
   destroy(element, context) {
@@ -161,3 +117,11 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
 });
 
 export default CzmlDataSource;
+
+// Unused prop check
+type IgnoredProps = "clock" | "entities" | "isLoading";
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  keyof CzmlDataSourceProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,9 +1,9 @@
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 import { ClockRange, ClockStep, JulianDate, Clock as CesiumClock } from "cesium";
 
@@ -15,8 +15,8 @@ All properties are applied to single clock.
 
 /*
 @scope
-Clock is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-Clock can not be used more than once for each Viewer or CesiumWidget.
+Clock can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Clock can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type ClockCesiumProps = PickCesiumProps<CesiumClock, typeof cesiumProps> & {
@@ -35,10 +35,10 @@ export type ClockCesiumEvents = {
   onTick?: (clock: CesiumClock) => void;
 };
 
-const cesiumEventProps: EventkeyMap<CesiumClock, ClockCesiumEvents> = {
+const cesiumEventProps = {
   onStop: "onStop",
   onTick: "onTick",
-};
+} as const;
 
 export type ClockProps = ClockCesiumProps & ClockCesiumEvents;
 
@@ -53,14 +53,6 @@ const cesiumProps = [
   "stopTime",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumClock,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Clock = createCesiumComponent<CesiumClock, ClockProps>({
   name: "Clock",
   create: ctx => ctx.cesiumWidget?.clock,
@@ -70,3 +62,11 @@ const Clock = createCesiumComponent<CesiumClock, ClockProps>({
 });
 
 export default Clock;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumClock,
+  keyof ClockProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
