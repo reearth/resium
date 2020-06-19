@@ -43,7 +43,7 @@ For details, refer to "Component location" chapter in [Guide](/guide).
 
 /*
 @scope
-Scene is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Scene can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 

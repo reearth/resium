@@ -9,7 +9,7 @@ All properties are applied to single sun in the scene.
 
 /*
 @scope
-Sun is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Sun can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 

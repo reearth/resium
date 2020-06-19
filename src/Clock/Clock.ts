@@ -15,7 +15,7 @@ All properties are applied to single clock.
 
 /*
 @scope
-Clock is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Clock can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 Clock can not be mounted more than once for each Viewer or CesiumWidget.
 */
 

@@ -9,7 +9,7 @@ All properties are applied to single fog of the scene.
 
 /*
 @scope
-Fog is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Fog can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 

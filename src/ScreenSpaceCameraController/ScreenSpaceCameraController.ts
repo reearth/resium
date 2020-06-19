@@ -10,7 +10,7 @@ All properties are applied to single ScreenSpaceCameraController in the scene.
 
 /*
 @scope
-ScreenSpaceCameraController is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+ScreenSpaceCameraController can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 

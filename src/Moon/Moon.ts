@@ -9,7 +9,7 @@ All properties are applied to single moon of the scene.
 
 /*
 @scope
-Moon is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
+Moon can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
