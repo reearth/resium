@@ -31,13 +31,13 @@ Everywhere. `Viewer` is a root component.
 
 export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
-export type ViewerCesiumReadonlyProps = PickCesiumProps<
-  Merge<CesiumViewer, CesiumViewer.ConstructorOptions>,
-  typeof cesiumReadonlyProps
-> & {
-  /** If false, the default imagery layer will be removed. */
-  imageryProvider?: ImageryProvider | false;
-};
+export type ViewerCesiumReadonlyProps = Merge<
+  PickCesiumProps<Merge<CesiumViewer, CesiumViewer.ConstructorOptions>, typeof cesiumReadonlyProps>,
+  {
+    /** If false, the default imagery layer will be removed. */
+    imageryProvider?: ImageryProvider | false;
+  }
+>;
 
 export type ViewerCesiumEvents = {
   onSelectedEntityChange?: () => void;
@@ -127,12 +127,15 @@ export type ViewerProps = ViewerCesiumProps &
 
 const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context, EventManager>({
   name: "Viewer",
-  create(_context, props, wrapper) {
+  create(_context, { imageryProvider, ...props }, wrapper) {
     if (!wrapper) return;
-    const v = new CesiumViewer(wrapper, props);
+    const v = new CesiumViewer(wrapper, {
+      ...props,
+      imageryProvider: imageryProvider === false ? undefined : imageryProvider,
+    });
     if (!v) return;
 
-    if (props.imageryProvider === false) {
+    if (imageryProvider === false) {
       v.imageryLayers.removeAll();
     }
 
