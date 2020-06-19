@@ -11,7 +11,7 @@ import { createCesiumComponent } from "../core";
 /*
 @scope
 ScreenSpaceEventHandler is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-ScreenSpaceEventHandler components with useDefault prop can not be used more than once for each Viewer or CesiumWidget.
+ScreenSpaceEventHandler components with useDefault prop can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type ScreenSpaceEventHandlerProps = {

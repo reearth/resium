@@ -10,7 +10,7 @@ All properties are applied to single moon of the scene.
 /*
 @scope
 Moon is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type MoonCesiumProps = PickCesiumProps<CesiumMoon, typeof cesiumProps>;

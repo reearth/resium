@@ -16,8 +16,8 @@ import {
 
 /*
 @scope
-BillboardGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+BillboardGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type BillboardGraphicsCesiumProps = PickCesiumProps<

@@ -10,7 +10,7 @@ All properties are applied to single fog of the scene.
 /*
 @scope
 Fog is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>;

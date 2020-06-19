@@ -44,7 +44,7 @@ For details, refer to "Component location" chapter in [Guide](/guide).
 /*
 @scope
 Scene is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type SceneCesiumProps = PickCesiumProps<CesiumScene, typeof cesiumProps>;

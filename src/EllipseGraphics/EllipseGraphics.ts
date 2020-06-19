@@ -16,8 +16,8 @@ import {
 
 /*
 @scope
-EllipseGraphics is only inside [Entity](/components/Entity) components,
-and can not be used more than once for each entity.
+EllipseGraphics can be mounted only inside[Entity](/components/Entity) components,
+and can not be mounted more than once for each entity.
 */
 
 export type EllipseGraphicsCesiumProps = PickCesiumProps<
@@ -51,6 +51,7 @@ const cesiumProps = [
   "distanceDisplayCondition",
   "zIndex",
   "classificationType",
+  "extrudedHeightReference",
 ] as const;
 
 const cesiumEventProps = {

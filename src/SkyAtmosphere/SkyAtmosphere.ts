@@ -11,7 +11,7 @@ All properties are applied to single SkyAtmosphere in the scene.
 /*
 @scope
 SkyAtmosphere is available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-It can not be used more than once for each Viewer or CesiumWidget.
+It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type SkyAtmosphereCesiumProps = PickCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;

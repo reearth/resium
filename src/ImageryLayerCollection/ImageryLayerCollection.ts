@@ -16,7 +16,7 @@ It can have some `ImageryLayer` components as children.
 /*
 @scope
 Available inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
-This component refers to the single ImageryLayerCollection of them, so can not be used more than once for each Viewer or CesiumWidget.
+This component refers to the single ImageryLayerCollection of them, so can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
 export type ImageryLayerCollectionCesiumEvents = {
