@@ -9,6 +9,7 @@ export type ArrayKeys<K> = StringOnly<
 export type AssertNever<T extends never> = T;
 
 export type Merge<A, B> = Omit<A, keyof B> & B;
+
 export type UnionMerge<A, B> = Omit<A, keyof A & keyof B> &
   Omit<B, keyof A & keyof B> &
   { [K in keyof A & keyof B]: A[K] | B[K] };
@@ -19,10 +20,32 @@ export type PickCesiumProps<
   Required extends ArrayKeys<K> = never
 > = RemoveReadOnlyAndPartial<Pick<T, ArrayKeys<K>>, Required>;
 
-export type ConstructorOptions<T extends new (...args: any[]) => any> = ConstructorParameters<T>[0];
-export type ConstructorOptions2<T extends new (...args: any[]) => any> = ConstructorParameters<
-  T
->[1];
+export type ConstructorOptions<T extends new (...args: any[]) => any> = NonNullable<
+  ConstructorParameters<T>[0]
+>;
+export type ConstructorOptions2<T extends new (...args: any[]) => any> = NonNullable<
+  ConstructorParameters<T>[1]
+>;
+
+export type StaticMethodOptions<
+  T extends { [J in K]: (...args: any[]) => any },
+  K extends keyof T
+> = NonNullable<Parameters<T[K]>[0]>;
+
+export type StaticMethodOptions2<
+  T extends { [J in K]: (...args: any[]) => any },
+  K extends keyof T
+> = NonNullable<Parameters<T[K]>[1]>;
+
+export type MethodOptions<
+  T extends new (...args: any) => any & { [J in K]: (...args: any[]) => any },
+  K extends keyof T
+> = NonNullable<Parameters<InstanceType<T>[K]>[0]>;
+
+export type MethodOptions2<
+  T extends new (...args: any) => any & { [J in K]: (...args: any[]) => any },
+  K extends keyof T
+> = NonNullable<Parameters<InstanceType<T>[K]>[1]>;
 
 export type UnusedCesiumProps<T, K> = Exclude<
   Exclude<keyof T, FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>>>,
