@@ -97,6 +97,7 @@ const cesiumProps = [
   "debugShowMemoryUsage",
   "debugShowUrl",
   "pointCloudShading",
+  "style",
 ] as const;
 
 const cesiumReadonlyProps = [

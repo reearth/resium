@@ -39,7 +39,7 @@ export type CustomDataSourceProps = CustomDataSourceCesiumProps &
   CustomDataSourceCesiumEvents &
   CustomDataSourceOtherProps;
 
-const cesiumProps = ["clustering", "name", "show", "clock"] as const;
+const cesiumProps = ["clustering", "name", "show", "clock", "isLoading"] as const;
 
 const cesiumEventProps = {
   onChange: "changedEvent",
@@ -82,7 +82,7 @@ const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDat
 export default CustomDataSource;
 
 // Unused prop check
-type IgnoredProps = never;
+type IgnoredProps = "entities";
 type UnusedProps = UnusedCesiumProps<
   CesiumCustomDataSource,
   keyof CustomDataSourceProps | ValueOf<typeof cesiumEventProps>

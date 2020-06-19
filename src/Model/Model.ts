@@ -43,7 +43,6 @@ const cesiumProps = [
   "colorBlendMode",
   "debugShowBoundingVolume",
   "debugWireframe",
-  "dequantizeInShader",
   "distanceDisplayCondition",
   "id",
   "imageBasedLightingFactor",
@@ -52,7 +51,6 @@ const cesiumProps = [
   "minimumPixelSize",
   "modelMatrix",
   "scale",
-  "scene",
   "shadows",
   "show",
   "silhouetteColor",
@@ -65,10 +63,13 @@ const cesiumProps = [
 const cesiumReadonlyProps = [
   "allowPicking",
   "asynchronous",
-  "gltf",
-  "incrementallyLoadTextures",
-  "url",
   "credit",
+  "dequantizeInShader",
+  "gltf",
+  "heightReference",
+  "incrementallyLoadTextures",
+  "scene",
+  "url",
 ] as const;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
@@ -100,5 +101,6 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
 export default Model;
 
 // Unused prop check
+type IgnoredProps = "activeAnimations";
 type UnusedProps = UnusedCesiumProps<Target, keyof ModelProps>;
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

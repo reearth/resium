@@ -141,6 +141,7 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
 export default KmlDataSource;
 
 // Unused prop check
+type IgnoredProps = "entities" | "isLoading" | "clock";
 type UnusedProps = UnusedCesiumProps<
   Target,
   keyof KmlDataSourceProps | ValueOf<typeof cesiumEventProps>

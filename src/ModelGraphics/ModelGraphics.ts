@@ -52,6 +52,7 @@ const cesiumProps = [
   "clippingPlanes",
   "imageBasedLightingFactor",
   "lightColor",
+  "articulations",
 ] as const;
 
 const cesiumEventProps = {

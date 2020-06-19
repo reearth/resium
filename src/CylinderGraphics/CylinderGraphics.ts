@@ -46,6 +46,7 @@ const cesiumProps = [
   "slices",
   "shadowMode",
   "distanceDisplayCondition",
+  "shadows",
 ] as const;
 
 const cesiumEventProps = {

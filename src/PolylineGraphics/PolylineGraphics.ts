@@ -32,6 +32,8 @@ export type PolylineGraphicsCesiumEvents = {
 export type PolylineGraphicsProps = PolylineGraphicsCesiumProps & PolylineGraphicsCesiumEvents;
 
 const cesiumProps = [
+  "arcType",
+  "classificationType",
   "positions",
   "followSurface",
   "clampToGround",

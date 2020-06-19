@@ -103,12 +103,14 @@ const cesiumProps = [
   "description",
   "ellipse",
   "ellipsoid",
+  "entityCollection",
   "label",
   "model",
   "name",
   "orientation",
   "path",
   "plane",
+  "parent",
   "point",
   "polygon",
   "polyline",
@@ -117,6 +119,7 @@ const cesiumProps = [
   "properties",
   "rectangle",
   "show",
+  "tileset",
   "viewFrom",
   "wall",
 ] as const;
@@ -179,7 +182,7 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
 export default Entity;
 
 // Unused prop check
-type IgnoredProps = never;
+type IgnoredProps = "isShowing" | "propertyNames";
 type UnusedProps = UnusedCesiumProps<
   Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
   keyof EntityProps | ValueOf<typeof cesiumEventProps>

@@ -84,6 +84,17 @@ const cesiumProps = [
   "showWaterEffect",
   "terrainProvider",
   "tileCacheSize",
+  "loadingDescendantLimit",
+  "preloadAncestors",
+  "preloadSiblings",
+  "fillHighlightColor",
+  "dynamicAtmosphereLighting",
+  "dynamicAtmosphereLightingFromSun",
+  "showSkirts",
+  "cartographicLimitRectangle",
+  "translucency",
+  "undergroundColor",
+  "undergroundColorAlphaByDistance",
 ] as const;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
@@ -97,7 +108,7 @@ const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
 export default Globe;
 
 // Unused prop check
-type IgnoredProps = never;
+type IgnoredProps = "ellipsoid" | "imageryLayers";
 type UnusedProps = UnusedCesiumProps<
   CesiumGlobe,
   keyof GlobeProps | ValueOf<typeof cesiumEventProps>

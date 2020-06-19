@@ -32,6 +32,7 @@ export type RectangleGraphicsCesiumEvents = {
 export type RectangleGraphicsProps = RectangleGraphicsCesiumProps & RectangleGraphicsCesiumEvents;
 
 const cesiumProps = [
+  "classificationType",
   "coordinates",
   "height",
   "heightReference",

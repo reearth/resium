@@ -32,6 +32,7 @@ export type PolygonGraphicsCesiumEvents = {
 export type PolygonGraphicsProps = PolygonGraphicsCesiumProps & PolygonGraphicsCesiumEvents;
 
 const cesiumProps = [
+  "arcType",
   "hierarchy",
   "height",
   "heightReference",
@@ -62,7 +63,7 @@ const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGrap
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumPolygonGraphics(props as any); // WORKAROUND: hierarchy type mismatched
+    const element = new CesiumPolygonGraphics(props);
     context.entity.polygon = element;
     return element;
   },

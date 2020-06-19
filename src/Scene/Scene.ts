@@ -55,6 +55,7 @@ export type SceneCesiumEvents = {
   onPostRender?: () => void;
   onPreRender?: () => void;
   onPreUpdate?: () => void;
+  onPostUpdate?: () => void;
   onRenderError?: () => void;
   onTerrainProviderChange?: () => void;
 };
@@ -83,6 +84,7 @@ const cesiumProps = [
   "focalLength",
   "fog",
   "fxaa",
+  "gamma",
   "globe",
   "highDynamicRange",
   "imagerySplitPosition",
@@ -119,6 +121,7 @@ const cesiumEventProps = {
   onPostRender: "postRender",
   onPreRender: "preRender",
   onPreUpdate: "preUpdate",
+  onPostUpdate: "postUpdate",
   onRenderError: "renderError",
   onTerrainProviderChange: "terrainProviderChanged",
 } as const;
@@ -160,7 +163,7 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps>({
 export default Scene;
 
 // Unused prop check
-type IgnoredProps = never;
+type IgnoredProps = "postProcessStages";
 type UnusedProps = UnusedCesiumProps<
   CesiumScene,
   keyof SceneProps | ValueOf<typeof cesiumEventProps>
