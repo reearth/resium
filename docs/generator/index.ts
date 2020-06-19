@@ -2,11 +2,10 @@ import fs from "fs";
 import path from "path";
 import { inspect } from "util";
 import globby from "globby";
-import { ScriptTarget, createSourceFile } from "typescript";
+import { ScriptTarget, createSourceFile, createProgram } from "typescript";
 
 import { renderDoc } from "./renderer";
 import { parseDoc } from "./parser";
-import { CesiumTypeDefinition } from "./cesium";
 
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
@@ -30,7 +29,6 @@ const cesiumTypeDef = createSourceFile(
   ScriptTarget.ES2020,
   true,
 );
-const def = new CesiumTypeDefinition(cesiumTypeDef);
 
 // list component paths
 const componentFiles = globby
@@ -52,19 +50,19 @@ if (componentFiles.length > 0) {
   }
 }
 
+const program = createProgram(componentFiles, {});
+const tc = program.getTypeChecker();
+
 // generate and write document
 componentFiles.forEach(cf => {
   const p = path.parse(cf);
-  const nameWithExt = p.base;
   const name = p.name;
-  const code = fs.readFileSync(cf, "utf8");
 
-  const sourceFile = createSourceFile(nameWithExt, code, ScriptTarget.ES2020, true);
+  const sourceFile = program.getSourceFile(cf);
+  if (!sourceFile) return;
 
-  const doc = parseDoc(sourceFile, def);
-  if (doc.ignored) {
-    return;
-  }
+  const doc = parseDoc(sourceFile, tc);
+  if (doc.ignored) return;
 
   if (preview && name) {
     console.log(inspect(doc, false, null, true));

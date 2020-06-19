@@ -1,64 +1,24 @@
 import { parse } from "path";
 import {
   Node,
-  PropertySignature,
-  isInterfaceDeclaration,
-  isPropertySignature,
   isVariableStatement,
   isPropertyAssignment,
   SourceFile,
   isIdentifier,
   isTypeAliasDeclaration,
-  isTypeLiteralNode,
   isObjectLiteralExpression,
   isStringLiteral,
-  isIntersectionTypeNode,
-  TypeNode,
-  isTypeReferenceNode,
-  isArrayTypeNode,
-  isUnionTypeNode,
-  isFunctionTypeNode,
-  PropertyDeclaration,
-  ExpressionWithTypeArguments,
-  InterfaceDeclaration,
-  TypeReferenceNode,
-  isExpressionWithTypeArguments,
+  TypeChecker,
+  Type,
+  SymbolFlags,
+  Symbol,
+  Expression,
+  getLeadingCommentRanges,
 } from "typescript";
-import { Prop, Doc, PropKind, Type, PropComment, DocComment, DocProps } from "./types";
-import { CesiumTypeDefinition } from "./cesium";
-import {
-  createImportMap,
-  getConstArrayElements,
-  getLeadingComment,
-  getVariableNameAndInitializer,
-  getUnionStringLiterals,
-  isTypeOf,
-  entityNameToStringArray,
-} from "./ast";
+import { Prop, Doc, PropKind, DocComment, DocProps, TypeExpr } from "./types";
 
-const rootEventProps: Prop[] = [
-  ...getEventProps("any"),
-  {
-    name: "onWheel",
-    type: {
-      args: [{ name: "delta", type: "number", optional: false }],
-      return: "void",
-    },
-  },
-];
-
-export function parseDoc(sourceFile: SourceFile, def: CesiumTypeDefinition): Doc {
+export function parseDoc(sourceFile: SourceFile, tc: TypeChecker): Doc {
   const name = parse(sourceFile.fileName).name;
-
-  // create import map
-  const importMap = createImportMap(sourceFile, "cesium");
-
-  // get cesium prop field names
-  const [cesiumProps, cesiumReadonlyProps] = getConstArrayElements(
-    sourceFile,
-    "cesiumProps",
-    "cesiumReadonlyProps",
-  );
 
   // parse doc comments
   const commentDoc = sourceFile.statements
@@ -76,7 +36,7 @@ export function parseDoc(sourceFile: SourceFile, def: CesiumTypeDefinition): Doc
     };
   */
   const propDoc = sourceFile.statements
-    .map(node => parsePropDeclaration(node, cesiumProps, cesiumReadonlyProps, importMap, def))
+    .map(node => parsePropDeclaration(name, node, tc))
     .reduce<DocProps>((a, b) => (b ? { ...a, [b[0]]: [...(a[b[0]] ?? []), ...b[1]] } : a), {});
 
   // parse event props
@@ -93,7 +53,7 @@ export function parseDoc(sourceFile: SourceFile, def: CesiumTypeDefinition): Doc
       .forEach(ev => {
         const ev2 = propDoc.cesiumEvents?.find(e => e.name === ev[0]);
         if (ev2) {
-          ev2.mappedCesiumType = importMap.get(ev[1]) || ev[1];
+          ev2.mappedCesiumFieldName = ev[1];
         }
       });
   }
@@ -107,85 +67,40 @@ export function parseDoc(sourceFile: SourceFile, def: CesiumTypeDefinition): Doc
 }
 
 function parsePropDeclaration(
+  name: string,
   node: Node,
-  cesiumProps: readonly string[],
-  cesiumReadonlyProps: readonly string[],
-  importMap: Map<string, string>,
-  def: CesiumTypeDefinition,
+  tc: TypeChecker,
 ): [PropKind, Prop[]] | undefined {
-  if (!isInterfaceDeclaration(node) && !isTypeAliasDeclaration(node)) return;
+  if (!isTypeAliasDeclaration(node)) return;
 
-  const name = node.name.text;
-  const key: PropKind | undefined = /.+?CesiumProps$/.test(name)
-    ? "cesiumProps"
-    : /.+?CesiumReadonlyProps$/.test(name)
-    ? "cesiumReadonlyProps"
-    : /.+?CesiumEvents$/.test(name)
-    ? "cesiumEvents"
-    : /.+?Props$/.test(name)
-    ? "props"
-    : undefined;
+  const nodeName = node.name.text;
+  const key: PropKind | undefined =
+    name + "CesiumProps" === nodeName
+      ? "cesiumProps"
+      : name + "CesiumReadonlyProps" === nodeName
+      ? "cesiumReadonlyProps"
+      : name + "CesiumEvents" === nodeName
+      ? "cesiumEvents"
+      : name + "OtherProps" === nodeName
+      ? "otherProps"
+      : name + "Props" === nodeName
+      ? "props"
+      : undefined;
   if (!key) return;
 
-  const propNames =
-    key === "cesiumProps" ? cesiumProps : key === "cesiumReadonlyProps" ? cesiumReadonlyProps : [];
-
-  // parse props from declaration
-  // type A = B & C & D & { ... } -> B, C, D, { ... }
-  // interface A extends B, C, D { ... } => B, C, D, { ... }
-  const typeNodes: (
-    | TypeNode
-    | InterfaceDeclaration
-    | ExpressionWithTypeArguments
-  )[] = isTypeAliasDeclaration(node)
-    ? isTypeReferenceNode(node.type) || isTypeLiteralNode(node.type)
-      ? [node.type]
-      : isIntersectionTypeNode(node.type)
-      ? [...node.type.types]
-      : []
-    : [...(node.heritageClauses?.[0].types ?? []), node];
-
-  const props = typeNodes
-    .map(n => {
-      // PickCesiumProps<Hoge, foobar>
-      if (propNames.length && (isTypeReferenceNode(n) || isExpressionWithTypeArguments(n))) {
-        const cesiumProps = pickCesiumProps(n, propNames, importMap, def);
-        if (cesiumProps) return cesiumProps;
-      }
-
-      // { member?: Hoge }
-      if (isTypeLiteralNode(n) || isInterfaceDeclaration(n)) {
-        return n.members
-          .filter(isPropertySignature)
-          .map(n2 => parseProp(n2, importMap))
-          .filter((p): p is Prop => !!p);
-      }
-
-      const nameExpression = isTypeReferenceNode(n)
-        ? n.typeName
-        : isExpressionWithTypeArguments(n)
-        ? n.expression
-        : undefined;
-      const name = nameExpression && isIdentifier(nameExpression) ? nameExpression.text : undefined;
-
-      // RootEventProps
-      if (name === "RootEventProps") {
-        return rootEventProps;
-      }
-
-      const typeArgs =
-        isTypeReferenceNode(n) || isExpressionWithTypeArguments(n) ? n.typeArguments : undefined;
-
-      // EventProps<Hoge>
-      const eventPropsType = name === "EventProps" && typeArgs?.[0];
-      if (eventPropsType) {
-        const targetType = parseType(eventPropsType, importMap);
-        return getEventProps(targetType);
-      }
-
-      return [];
-    })
-    .reduce((a, b) => [...a, ...b], []);
+  const props = tc
+    .getTypeAtLocation(node)
+    .getApparentProperties()
+    .map(s => {
+      const d = s.getDeclarations()?.[0];
+      const type = d ? tc.getTypeAtLocation(d) : undefined;
+      return {
+        name: s.name,
+        type: toTypeExpr(type, tc),
+        required: !!type && (type.flags ^ SymbolFlags.Optional) === 0,
+        desc: getDesc(s, tc),
+      };
+    });
 
   return [key, props];
 }
@@ -207,66 +122,6 @@ function parseEventMap(node: Node): [string, string][] {
       .filter((n): n is [string, string] => !!n);
   }
   return [];
-}
-
-function parseProp(node: PropertySignature, typeNameMap?: Map<string, string>): Prop | undefined {
-  if (!node.type) return undefined;
-  const comment = parsePropComment(node);
-  if (!comment.type) {
-    delete comment.type;
-  }
-  const type = parseType(node.type, typeNameMap);
-  return {
-    name: isIdentifier(node.name) ? node.name.text : "",
-    required: !node.questionToken,
-    type,
-    ...comment,
-  };
-}
-
-function parsePropComment(node: Node): PropComment {
-  const comments = getLeadingComment(node);
-
-  let kind = undefined;
-  const description: string[] = [];
-  let hidden = false;
-  let type: Type | undefined;
-
-  comments.forEach(c => {
-    if (/^@CesiumProp/.test(c)) {
-      kind = "cesiumProps";
-      return;
-    }
-    if (/^@CesiumReadonlyProp/.test(c)) {
-      kind = "cesiumReadonlyProps";
-      return;
-    }
-    if (/^@CesiumEvent/.test(c)) {
-      kind = "cesiumEvents";
-      return;
-    }
-    if (/^@prop/.test(c)) {
-      kind = "props";
-      return;
-    }
-    if (/^@hidden/.test(c)) {
-      hidden = true;
-    }
-    const m = c.match(/^@type (.+?)$/);
-    if (m) {
-      type = parseTypeFromStr(m[1]);
-      return;
-    }
-    // normal comment = description
-    description.push(c.trim());
-  });
-
-  return {
-    kind,
-    description: description.join(" "),
-    hidden,
-    type,
-  };
 }
 
 function parseDocComment(node: Node): DocComment | undefined {
@@ -308,148 +163,62 @@ function parseDocComment(node: Node): DocComment | undefined {
   return doc;
 }
 
-export function parseType(node: TypeNode, map?: Map<string, string> | Set<string>): Type {
-  if (isTypeReferenceNode(node)) {
-    if (isIdentifier(node.typeName)) {
-      const name = node.typeName.text;
-      return {
-        name: (map && map instanceof Map && map.get(name)) || name,
-        cesium: !!map?.has(name),
-        params: node.typeArguments?.map(n => parseType(n, map)),
-      };
-    } else if (isIdentifier(node.typeName.left)) {
-      const leftName =
-        (map && map instanceof Map && map.get(node.typeName.left.text)) || node.typeName.left.text;
-      const rightName = node.typeName.right.text;
-      return {
-        name: [leftName, rightName].join("."),
-        leftName,
-        rightName,
-        cesium: !!map?.has(node.typeName.left.text),
-        params: node.typeArguments?.map(n => parseType(n, map)),
-      };
-    }
-  } else if (isUnionTypeNode(node)) {
-    return node.types.map(n => parseType(n, map));
-  } else if (isFunctionTypeNode(node)) {
-    return {
-      args: node.parameters
-        .map(p =>
-          isIdentifier(p.name) && p.type
-            ? {
-                name: p.name.text,
-                type: parseType(p.type, map),
-                optional: !!p.questionToken,
-              }
-            : undefined,
-        )
-        .filter((p): p is { name: string; type: Type; optional: boolean } => !!p && !!p.type),
-      return: parseType(node.type, map),
-    };
-  } else if (isArrayTypeNode(node)) {
-    return { element: parseType(node.elementType, map) };
-  }
-  return node.getText();
+// eslint-disable-next-line @typescript-eslint/ban-types
+function getDesc(s: Symbol | undefined, tc: TypeChecker) {
+  return s
+    ?.getDocumentationComment(tc)
+    .filter(c => c.kind === "text")
+    .map(c => c.text.replace(/\n/g, ""))
+    .join("");
 }
 
-export function parseTypeFromStr(str: string): Type {
-  const types = str.split("|").map(t => t.trim());
-  if (types.length > 1) {
-    return types.map(t => ({ name: t.replace(/^Cesium\./, ""), cesium: /^Cesium\./.test(t) }));
-  }
-  return { name: types[0].replace(/^Cesium\./, ""), cesium: /^Cesium\./.test(types[0]) };
+function toTypeExpr(t: Type | undefined, tc: TypeChecker): TypeExpr | undefined {
+  if (!t) return;
+  const text = tc.typeToString(t);
+
+  // TODO: implement Cesium type detection
+  return { text, cesiumTypes: [] };
 }
 
-export function pickCesiumProps(
-  node: TypeReferenceNode | ExpressionWithTypeArguments,
-  props: readonly string[],
-  importMap: Map<string, string>,
-  def: CesiumTypeDefinition,
-): Prop[] | undefined {
-  if (!node.typeArguments || node.typeArguments.length < 2) return;
+// function isCesium(d: { getSourceFile(): SourceFile } | undefined) {
+//   return !!d && /Cesium\.d\.ts$/.test(d.getSourceFile().fileName);
+// }
 
-  const name = "typeName" in node ? node.typeName : node.expression;
-  if (!isIdentifier(name) || name.text !== "PickCesiumProps") return;
-
-  const typeArg = node.typeArguments[1];
-  const propNames = Array.from(
-    new Set(
-      isTypeOf(typeArg, "cesiumProps") || isTypeOf(typeArg, "cesiumReadonlyProps")
-        ? props ?? []
-        : getUnionStringLiterals(typeArg) ?? [],
-    ),
-  );
-
-  // PickCesiumProps<CesiumViewer> or PickCesiumProps<CesiumViewer & CesiumViewer.ConstructorOptions>
-  const cesiumType = node.typeArguments[0];
-  const cesiumTypeIdentifiers = isTypeReferenceNode(cesiumType)
-    ? [cesiumType.typeName]
-    : isIntersectionTypeNode(cesiumType)
-    ? cesiumType.types.filter(isTypeReferenceNode).map(r => r.typeName)
-    : undefined;
-  // [["CesiumViewer"], ["CesiumViewer", "ConstructorOptions"]]
-  const cesiumTypeNames = cesiumTypeIdentifiers
-    ?.map(entityNameToStringArray)
-    .map(n => [importMap.get(n[0]) ?? n[0], ...n.slice(1)]);
-
-  const cesiumProps = cesiumTypeNames
-    ?.map(n =>
-      def
-        .getPropertiesFromType(n)
-        ?.map(p => parsePropertyDeclaration(p, def, false))
-        .filter((p): p is Prop => !!p),
-    )
-    .reduce<Prop[]>((a, b) => (b ? [...a, ...b] : a), []);
-
-  return cesiumProps
-    ? propNames.map(p => cesiumProps.find(r => r.name === p)).filter((p): p is Prop => !!p)
-    : [];
+export function getVariableNameAndInitializer(node: Node): [string, Expression] | undefined {
+  if (!isVariableStatement(node)) return;
+  const d = node.declarationList.declarations[0];
+  if (!d.initializer || !isIdentifier(d.name)) return;
+  return [d.name.text, d.initializer];
 }
 
-function parsePropertyDeclaration(
-  p: PropertyDeclaration | PropertySignature,
-  def: CesiumTypeDefinition,
-  overrideRequired?: boolean,
-): Prop | undefined {
-  return isIdentifier(p.name) && p.type
-    ? {
-        name: p.name.text,
-        type: parseType(p.type, def.identitifers),
-        required: typeof overrideRequired === "boolean" ? overrideRequired : !p.questionToken,
-        cesiumType: def.identitifers.has(p.type.getText()),
+export function getLeadingComment(node: Node) {
+  const text = node.getFullText();
+  const nodeStart = node.getStart();
+  const comment: string[] = [];
+  let start = 0;
+  // eslint-disable-next-line no-constant-condition
+  while (true) {
+    const comments = getLeadingCommentRanges(text, start);
+    if (comments && comments[0]) {
+      if (comments[0].pos >= nodeStart) {
+        break;
       }
-    : undefined;
+      comment.push(formatComment(text.slice(comments[0].pos, comments[0].end)));
+      start = comments[0].end;
+    } else {
+      break;
+    }
+  }
+  return comment;
 }
 
-function getEventProps(t?: Type): Prop[] {
-  return !t
-    ? []
-    : [
-        "onClick",
-        "onDoubleClick",
-        "onMouseClick",
-        "onMouseDown",
-        "onMouseUp",
-        "onMiddleClick",
-        "onMiddleDown",
-        "onMiddleUp",
-        "onMouseMove",
-        "onPinchEnd",
-        "onPinchMove",
-        "onPinchStart",
-        "onRightClick",
-        "onRightDown",
-        "onRightUp",
-        "onMouseEnter",
-        "onMouseLeave",
-      ].map(e => ({
-        name: e,
-        type: {
-          args: [
-            { name: "movement", type: "CesiumMovementEvent", optional: false },
-            { name: "target", type: t, optional: false },
-          ],
-          return: "void",
-        },
-      }));
+function formatComment(comment: string): string {
+  const multiline = /^\/\*/.test(comment);
+  const jsdoc = /\/\*\*/.test(comment);
+  return comment
+    .split("\n")
+    .map(c => (multiline ? c.replace(/^\/\*\*? ?|\*\/$/g, "") : c.replace(/^\/\/ ?/g, "")))
+    .map(c => (!jsdoc ? c : c.replace(/^ \* ?/g, "")))
+    .filter((c, i, a) => (i !== 0 && i !== a.length - 1) || c.trim().length !== 0)
+    .join("\n");
 }
