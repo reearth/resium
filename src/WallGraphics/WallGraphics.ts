@@ -6,6 +6,7 @@ import {
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 
 /*
@@ -49,14 +50,6 @@ const cesiumEventProps: EventkeyMap<CesiumWallGraphics, WallGraphicsCesiumEvents
   onDefinitionChange: "definitionChanged",
 };
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumWallGraphics | CesiumWallGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const WallGraphics = createCesiumComponent<CesiumWallGraphics, WallGraphicsProps>({
   name: "WallGraphics",
   create(context, props) {
@@ -75,3 +68,11 @@ const WallGraphics = createCesiumComponent<CesiumWallGraphics, WallGraphicsProps
 });
 
 export default WallGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumWallGraphics | CesiumWallGraphics.ConstructorOptions,
+  keyof WallGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

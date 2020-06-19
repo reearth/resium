@@ -2,11 +2,11 @@ import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
   Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -54,17 +54,9 @@ const cesiumProps = [
   "classificationType",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumPolygonGraphics, PolygonGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPolygonGraphics | CesiumPolygonGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGraphicsProps>({
   name: "PolygonGraphics",
@@ -84,3 +76,11 @@ const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGrap
 });
 
 export default PolygonGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>,
+  keyof PolygonGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

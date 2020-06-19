@@ -23,11 +23,6 @@ const cesiumProps = ["onlySunLighting", "show", "textureUrl"] as const;
 
 const cesiumReadonlyProps = ["ellipsoid"] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumMoon, typeof cesiumProps | typeof cesiumReadonlyProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
   name: "Moon",
   create(context, props) {
@@ -49,3 +44,8 @@ const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
 });
 
 export default Moon;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumMoon, keyof MoonProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

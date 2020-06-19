@@ -2,12 +2,12 @@ import { ParticleSystem as CesiumParticleSystem } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
   ConstructorOptions,
   Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -30,15 +30,12 @@ export type ParticleSystemCesiumReadonlyProps = PickCesiumProps<
 
 export type ParticleSystemCesiumEvents = {
   onComplete?: () => void;
+  onUpdate?: CesiumParticleSystem.updateCallback;
 };
 
 export type ParticleSystemProps = ParticleSystemCesiumProps &
   ParticleSystemCesiumReadonlyProps &
-  ParticleSystemCesiumEvents & {
-    // @CesiumEvent
-    // Correspond to [ParticleSystem#updateCallback](https://cesiumjs.org/Cesium/Build/Documentation/ParticleSystem.html#updateCallback)
-    onUpdate?: CesiumParticleSystem.updateCallback;
-  };
+  ParticleSystemCesiumEvents;
 
 const cesiumProps = [
   "show",
@@ -78,17 +75,10 @@ const cesiumReadonlyProps = [
 ] as const;
 
 // ParticleSystem
-const cesiumEventProps: EventkeyMap<any, ParticleSystemCesiumEvents> = {
+const cesiumEventProps = {
   onComplete: "complete",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumParticleSystem,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+  onUpdate: "updateCallback",
+} as const;
 
 const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSystemProps>({
   name: "ParticleSystem",
@@ -113,3 +103,11 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
 });
 
 export default ParticleSystem;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumParticleSystem,
+  keyof ParticleSystemProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

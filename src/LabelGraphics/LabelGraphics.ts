@@ -2,10 +2,11 @@ import { LabelGraphics as CesiumLabelGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -20,7 +21,7 @@ and can not be used more than once for each entity.
 */
 
 export type LabelGraphicsCesiumProps = PickCesiumProps<
-  CesiumLabelGraphics | CesiumLabelGraphics.ConstructorOptions,
+  Merge<CesiumLabelGraphics, CesiumLabelGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -54,17 +55,9 @@ const cesiumProps = [
   "disableDepthTestDistance",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumLabelGraphics, LabelGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumLabelGraphics | CesiumLabelGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const LabelGraphics = createCesiumComponent<CesiumLabelGraphics, LabelGraphicsProps>({
   name: "LabelGraphics",
@@ -84,3 +77,11 @@ const LabelGraphics = createCesiumComponent<CesiumLabelGraphics, LabelGraphicsPr
 });
 
 export default LabelGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumLabelGraphics, CesiumLabelGraphics.ConstructorOptions>,
+  keyof LabelGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

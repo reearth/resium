@@ -2,10 +2,11 @@ import { PointGraphics as CesiumPointGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -20,7 +21,7 @@ and can not be used more than once for each entity.
 */
 
 export type PointGraphicsCesiumProps = PickCesiumProps<
-  CesiumPointGraphics | CesiumPointGraphics.ConstructorOptions,
+  Merge<CesiumPointGraphics, CesiumPointGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -43,17 +44,9 @@ const cesiumProps = [
   "disableDepthTestDistance",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumPointGraphics, PointGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPointGraphics,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PointGraphics = createCesiumComponent<CesiumPointGraphics, PointGraphicsProps>({
   name: "PointGraphics",
@@ -72,3 +65,11 @@ const PointGraphics = createCesiumComponent<CesiumPointGraphics, PointGraphicsPr
 });
 
 export default PointGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPointGraphics, CesiumPointGraphics.ConstructorOptions>,
+  keyof PointGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

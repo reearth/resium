@@ -1,9 +1,9 @@
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
 
@@ -54,11 +54,11 @@ export type GlobeCesiumEvents = {
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 };
 
-const cesiumEventProps: EventkeyMap<CesiumGlobe, GlobeCesiumEvents> = {
+const cesiumEventProps = {
   onImageryLayersUpdate: "imageryLayersUpdatedEvent",
   onTerrainProviderChange: "terrainProviderChanged",
   onTileLoadProgress: "tileLoadProgressEvent",
-};
+} as const;
 
 export type GlobeProps = GlobeCesiumProps & GlobeCesiumEvents;
 
@@ -86,14 +86,6 @@ const cesiumProps = [
   "tileCacheSize",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumGlobe,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",
   create: context => context.scene?.globe,
@@ -103,3 +95,11 @@ const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
 });
 
 export default Globe;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumGlobe,
+  keyof GlobeProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

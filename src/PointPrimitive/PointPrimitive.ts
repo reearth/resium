@@ -24,7 +24,9 @@ A point object will be attached to the parent PointPrimitiveCollection.
 
 export type PointPrimitiveCesiumProps = PickCesiumProps<CesiumPointPrimitive, typeof cesiumProps>;
 
-export type PointPrimitiveProps = PointPrimitiveCesiumProps & EventProps<CesiumPointPrimitive>;
+export type PointPrimitiveOtherProps = EventProps<CesiumPointPrimitive>;
+
+export type PointPrimitiveProps = PointPrimitiveCesiumProps & PointPrimitiveOtherProps;
 
 const cesiumProps = [
   "color",
@@ -40,11 +42,6 @@ const cesiumProps = [
   "translucencyByDistance",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPointPrimitive, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const PointPrimitive = createCesiumComponent<CesiumPointPrimitive, PointPrimitiveProps>({
   name: "PointPrimitive",
   create: (context, props) => context.pointPrimitiveCollection?.add(props),
@@ -58,3 +55,8 @@ const PointPrimitive = createCesiumComponent<CesiumPointPrimitive, PointPrimitiv
 });
 
 export default PointPrimitive;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPointPrimitive, keyof PointPrimitiveProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

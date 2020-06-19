@@ -1,8 +1,4 @@
-import {
-  PointPrimitiveCollection as CesiumPointPrimitiveCollection,
-  Matrix4,
-  BlendOption,
-} from "cesium";
+import { PointPrimitiveCollection as CesiumPointPrimitiveCollection } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
 
@@ -24,23 +20,16 @@ A PointPrimitiveCollection object will be attached to the PrimitiveCollection of
 export type PointPrimitiveCollectionCesiumProps = PickCesiumProps<
   CesiumPointPrimitiveCollection,
   typeof cesiumProps
-> & {
-  blendOption?: BlendOption;
-  debugShowBoundingVolume?: boolean;
-  modelMatrix?: Matrix4;
-};
+>;
 
-export type PointPrimitiveCollectionProps = PointPrimitiveCollectionCesiumProps & {
+export type PointPrimitiveCollectionOtherProps = {
   children?: React.ReactNode;
 };
 
-const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
+export type PointPrimitiveCollectionProps = PointPrimitiveCollectionCesiumProps &
+  PointPrimitiveCollectionOtherProps;
 
-// Unused prop check
-// length: for read only
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<CesiumPointPrimitiveCollection, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
 
 const PointPrimitiveCollection = createCesiumComponent<
   CesiumPointPrimitiveCollection,
@@ -70,3 +59,12 @@ const PointPrimitiveCollection = createCesiumComponent<
 });
 
 export default PointPrimitiveCollection;
+
+// Unused prop check
+// length: for read only
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<
+  CesiumPointPrimitiveCollection,
+  keyof PointPrimitiveCollectionProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

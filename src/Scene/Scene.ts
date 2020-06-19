@@ -2,10 +2,10 @@ import { Scene as CesiumScene, SceneMode } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 
 /*
@@ -59,13 +59,14 @@ export type SceneCesiumEvents = {
   onTerrainProviderChange?: () => void;
 };
 
-export type SceneProps = SceneCesiumProps &
-  SceneCesiumEvents & {
-    children?: React.ReactNode;
-    mode?: SceneMode;
-    // If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds).
-    morphDuration?: number;
-  };
+export type SceneOtherProps = {
+  children?: React.ReactNode;
+  mode?: SceneMode;
+  /** If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds). */
+  morphDuration?: number;
+};
+
+export type SceneProps = SceneCesiumProps & SceneCesiumEvents & SceneOtherProps;
 
 const cesiumProps = [
   "backgroundColor",
@@ -112,7 +113,7 @@ const cesiumProps = [
   "useWebVR",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumScene, SceneCesiumEvents> = {
+const cesiumEventProps = {
   onMorphComplete: "morphComplete",
   onMorphStart: "morphStart",
   onPostRender: "postRender",
@@ -120,7 +121,7 @@ const cesiumEventProps: EventkeyMap<CesiumScene, SceneCesiumEvents> = {
   onPreUpdate: "preUpdate",
   onRenderError: "renderError",
   onTerrainProviderChange: "terrainProviderChanged",
-};
+} as const;
 
 const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   switch (mode) {
@@ -137,14 +138,6 @@ const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
       break;
   }
 };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumScene,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   name: "Scene",
@@ -165,3 +158,11 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps>({
 });
 
 export default Scene;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumScene,
+  keyof SceneProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

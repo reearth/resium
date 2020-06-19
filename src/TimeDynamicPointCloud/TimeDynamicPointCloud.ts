@@ -8,6 +8,7 @@ import {
   AssertNever,
   ConstructorOptions,
   Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -36,12 +37,15 @@ export type TimeDynamicPointCloudCesiumEvents = {
   onFrameChange?: (pointCloud: CesiumTimeDynamicPointCloud) => void;
 };
 
+export type TimeDynamicPointCloudOtherProps = {
+  /** Calls when the point cloud is completely loaded. */
+  onReady?: (pointCloud: CesiumTimeDynamicPointCloud) => void;
+};
+
 export type TimeDynamicPointCloudProps = TimeDynamicPointCloudCesiumProps &
   TimeDynamicPointCloudCesiumReadonlyProps &
-  TimeDynamicPointCloudCesiumEvents & {
-    // Calls when the point cloud is completely loaded.
-    onReady?: (pointCloud: CesiumTimeDynamicPointCloud) => void;
-  };
+  TimeDynamicPointCloudCesiumEvents &
+  TimeDynamicPointCloudOtherProps;
 
 const cesiumProps = [
   "clippingPlanes",
@@ -62,16 +66,6 @@ const cesiumEventProps: EventkeyMap<
 > = {
   onFrameChange: "frameChanged",
 };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumTimeDynamicPointCloud,
-  | typeof cesiumProps
-  | typeof cesiumReadonlyProps
-  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const TimeDynamicPointCloud = createCesiumComponent<
   CesiumTimeDynamicPointCloud,
@@ -105,3 +99,11 @@ const TimeDynamicPointCloud = createCesiumComponent<
 });
 
 export default TimeDynamicPointCloud;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumTimeDynamicPointCloud,
+  keyof TimeDynamicPointCloudProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

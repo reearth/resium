@@ -16,7 +16,6 @@ It can not be used more than once for each Viewer or CesiumWidget.
 
 export type SkyAtmosphereCesiumProps = PickCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export type SkyAtmosphereProps = SkyAtmosphereCesiumProps;
 
 const cesiumProps = [
@@ -27,11 +26,6 @@ const cesiumProps = [
   "perFragmentAtmosphere",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmosphereProps>({
   name: "SkyAtmosphere",
   create: context => context.scene?.skyAtmosphere,
@@ -40,3 +34,8 @@ const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmospherePr
 });
 
 export default SkyAtmosphere;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumSkyAtmosphere, keyof SkyAtmosphereProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

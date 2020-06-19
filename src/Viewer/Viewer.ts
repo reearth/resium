@@ -1,9 +1,8 @@
 import React from "react";
-import { Viewer as CesiumViewer, ImageryProvider } from "cesium";
+import { Viewer as CesiumViewer } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   EventManager,
   eventManagerContextKey,
   RootEventProps,
@@ -11,6 +10,8 @@ import {
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
+  Merge,
 } from "../core";
 
 /*
@@ -28,9 +29,12 @@ import {
 Everywhere. `Viewer` is a root component. 
 */
 
-export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps> & {
-  // If false, the default imagery layer will be removed.
-  imageryProvider?: ImageryProvider | false;
+export type ViewerCesiumProps = PickCesiumProps<
+  Merge<CesiumViewer, CesiumViewer.ConstructorOptions>,
+  typeof cesiumProps
+> & {
+  /** If false, the default imagery layer will be removed. */
+  imageryProvider?: CesiumViewer.ConstructorOptions["imageryProvider"];
 };
 
 export type ViewerCesiumReadonlyProps = PickCesiumProps<
@@ -98,10 +102,10 @@ const cesiumReadonlyProps = [
   "maximumRenderTimeChange",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumViewer, ViewerCesiumEvents> = {
+const cesiumEventProps = {
   onSelectedEntityChange: "selectedEntityChanged",
   onTrackedEntityChange: "trackedEntityChanged",
-};
+} as const;
 
 export type ViewerOtherProps = RootEventProps & {
   /** Applied to outer `div` element */
@@ -123,16 +127,6 @@ export type ViewerProps = ViewerCesiumProps &
   ViewerCesiumReadonlyProps &
   ViewerCesiumEvents &
   ViewerOtherProps;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumViewer,
-  | typeof cesiumProps
-  | typeof cesiumReadonlyProps
-  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context, EventManager>({
   name: "Viewer",
@@ -208,3 +202,11 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context
 });
 
 export default Viewer;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumViewer,
+  keyof ViewerProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

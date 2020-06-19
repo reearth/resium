@@ -2,11 +2,12 @@ import { Entity as CesiumEntity } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   EventProps,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -69,7 +70,7 @@ Either:
 */
 
 export type EntityCesiumProps = PickCesiumProps<
-  CesiumEntity | CesiumEntity.ConstructorOptions,
+  Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -79,16 +80,19 @@ export type EntityCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
+export type EntityOtherProps = {
+  children?: React.ReactNode;
+  /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
+  selected?: boolean;
+  /** If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget. */
+  tracked?: boolean;
+};
+
 export type EntityProps = EntityCesiumProps &
   EntityCesiumReadonlyProps &
   EntityCesiumEvents &
-  EventProps<CesiumEntity> & {
-    children?: React.ReactNode;
-    // If true, the entity will be selected. It works only inside Viewer not CesiumWidget.
-    selected?: boolean;
-    // If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget.
-    tracked?: boolean;
-  };
+  EventProps<CesiumEntity> &
+  EntityOtherProps;
 
 const cesiumProps = [
   "availability",
@@ -115,23 +119,13 @@ const cesiumProps = [
   "show",
   "viewFrom",
   "wall",
-];
+] as const;
 
 const cesiumReadonlyProps = ["id"] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumEntity, EntityCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumEntity | CesiumEntity.ConstructorOptions,
-  typeof cesiumProps &
-    typeof cesiumReadonlyProps &
-    typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   name: "Entity",
@@ -183,3 +177,11 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
 });
 
 export default Entity;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
+  keyof EntityProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

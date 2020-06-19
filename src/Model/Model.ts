@@ -17,6 +17,11 @@ export type ModelCesiumProps = PickCesiumProps<
 
 export type ModelCesiumReadonlyProps = PickCesiumProps<CesiumModel, typeof cesiumReadonlyProps>;
 
+export type ModalOtherProps = {
+  /** Calls when the model is completely loaded. */
+  onReady?: (model: CesiumModel) => void;
+};
+
 export type ModelProps = ModelCesiumProps &
   ModelCesiumReadonlyProps &
   EventProps<{
@@ -24,10 +29,8 @@ export type ModelProps = ModelCesiumProps &
     mesh: ModelMesh;
     node: ModelNode;
     primitive: Primitive;
-  }> & {
-    // Calls when the model is completely loaded.
-    onReady?: (model: CesiumModel) => void;
-  };
+  }> &
+  ModalOtherProps;
 
 const cesiumProps = [
   "basePath",
@@ -55,7 +58,7 @@ const cesiumProps = [
   "luminanceAtZenith",
   "sphericalHarmonicCoefficients",
   "specularEnvironmentMaps",
-];
+] as const;
 
 const cesiumReadonlyProps = [
   "allowPicking",
@@ -65,14 +68,6 @@ const cesiumReadonlyProps = [
   "url",
   "credit",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
-  typeof cesiumProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
@@ -101,3 +96,11 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
 });
 
 export default Model;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
+  keyof ModelProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

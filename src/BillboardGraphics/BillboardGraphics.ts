@@ -2,10 +2,11 @@ import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -20,7 +21,7 @@ and can not be used more than once for each entity.
 */
 
 export type BillboardGraphicsCesiumProps = PickCesiumProps<
-  CesiumBillboardGraphics | CesiumBillboardGraphics.ConstructorOptions,
+  Merge<CesiumBillboardGraphics, CesiumBillboardGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -53,44 +54,15 @@ const cesiumProps = [
   "disableDepthTestDistance",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumBillboardGraphics, BillboardGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumBillboardGraphics | CesiumBillboardGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps][]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const BillboardGraphics = createCesiumComponent<CesiumBillboardGraphics, BillboardGraphicsProps>({
   name: "BillboardGraphics",
   create(context, props) {
     if (!context.entity) return;
-    const element = new CesiumBillboardGraphics({
-      image: props.image as any, // WORKAROUND: ImageData type missing
-      show: props.show,
-      scale: props.scale,
-      horizontalOrigin: props.horizontalOrigin,
-      verticalOrigin: props.verticalOrigin,
-      eyeOffset: props.eyeOffset,
-      pixelOffset: props.pixelOffset,
-      rotation: props.rotation,
-      alignedAxis: props.alignedAxis,
-      width: props.width,
-      height: props.height,
-      color: props.color,
-      scaleByDistance: props.scaleByDistance,
-      translucencyByDistance: props.translucencyByDistance,
-      pixelOffsetScaleByDistance: props.pixelOffsetScaleByDistance,
-      imageSubRegion: props.imageSubRegion,
-      sizeInMeters: props.sizeInMeters,
-      heightReference: props.heightReference,
-      distanceDisplayCondition: props.distanceDisplayCondition,
-      disableDepthTestDistance: props.disableDepthTestDistance,
-    });
+    const element = new CesiumBillboardGraphics(props);
     context.entity.billboard = element;
     return element;
   },
@@ -104,3 +76,11 @@ const BillboardGraphics = createCesiumComponent<CesiumBillboardGraphics, Billboa
 });
 
 export default BillboardGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumBillboardGraphics, CesiumBillboardGraphics.ConstructorOptions>,
+  keyof BillboardGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

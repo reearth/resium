@@ -32,7 +32,9 @@ export type PolylineCesiumProps = PickCesiumProps<CesiumPolyline, typeof cesiumP
   width?: number;
 };
 
-export type PolylineProps = PolylineCesiumProps & EventProps<CesiumPolyline>;
+export type PolylineOtherProps = EventProps<CesiumPolyline>;
+
+export type PolylineProps = PolylineCesiumProps & PolylineOtherProps;
 
 const cesiumProps = [
   "distanceDisplayCondition",
@@ -43,11 +45,6 @@ const cesiumProps = [
   "show",
   "width",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPolyline, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
   name: "Polyline",
@@ -62,3 +59,8 @@ const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
 });
 
 export default Polyline;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPolyline, keyof PolylineProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

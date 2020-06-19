@@ -25,11 +25,6 @@ const cesiumProps = [
   "softShadows",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumShadowMap, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
   name: "ShadowMap",
   create: context => context.scene?.shadowMap,
@@ -37,3 +32,8 @@ const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
 });
 
 export default ShadowMap;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumShadowMap, keyof ShadowMapProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

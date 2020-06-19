@@ -79,14 +79,6 @@ const cesiumReadonlyProps = [
   "maximumTerrainLevel",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumImageryLayer,
-  typeof cesiumProps | typeof cesiumReadonlyProps
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
   name: "ImageryLayer",
   create(context, props) {
@@ -105,3 +97,8 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
 });
 
 export default ImageryLayer;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumImageryLayer, keyof ImageryLayerProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

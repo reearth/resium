@@ -2,10 +2,11 @@ import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -20,7 +21,7 @@ and can not be used more than once for each entity.
 */
 
 export type PolylineGraphicsCesiumProps = PickCesiumProps<
-  CesiumPolylineGraphics | CesiumPolylineGraphics.ConstructorOptions,
+  Merge<CesiumPolylineGraphics, CesiumPolylineGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -44,17 +45,9 @@ const cesiumProps = [
   "zIndex",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumPolylineGraphics, PolylineGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumPolylineGraphics | CesiumPolylineGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineGraphicsProps>({
   name: "PolylineGraphics",
@@ -74,3 +67,11 @@ const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineG
 });
 
 export default PolylineGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumPolylineGraphics, CesiumPolylineGraphics.ConstructorOptions>,
+  keyof PolylineGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

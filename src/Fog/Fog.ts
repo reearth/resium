@@ -19,11 +19,6 @@ export type FogProps = FogCesiumProps;
 
 const cesiumProps = ["density", "enabled", "minimumBrightness", "screenSpaceErrorFactor"] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumFog, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Fog = createCesiumComponent<CesiumFog, FogProps>({
   name: "Fog",
   create(context) {
@@ -42,3 +37,8 @@ const Fog = createCesiumComponent<CesiumFog, FogProps>({
 });
 
 export default Fog;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumFog, keyof FogProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

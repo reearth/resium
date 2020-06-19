@@ -1,3 +1,7 @@
+import { Event } from "cesium";
+
+export type ValueOf<T> = T[keyof T];
+
 export type ArrayKeys<K> = StringOnly<
   K extends readonly (infer E)[] ? E : K extends (infer E)[] ? E : K
 >;
@@ -11,7 +15,7 @@ export type UnionMerge<A, B> = Omit<A, keyof A & keyof B> &
 
 export type PickCesiumProps<
   T,
-  K extends any[] | readonly any[] | string,
+  K extends readonly any[] | string,
   Required extends ArrayKeys<K> = never
 > = RemoveReadOnlyAndPartial<Pick<T, ArrayKeys<K>>, Required>;
 
@@ -21,13 +25,17 @@ export type ConstructorOptions2<T extends new (...args: any[]) => any> = Constru
 >[1];
 
 export type UnusedCesiumProps<T, K> = Exclude<
-  Exclude<keyof T, ExtractFunctions<T> | ReadonlyKeys<T>>,
+  Exclude<keyof T, FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>>>,
   ArrayKeys<K>
 >;
 
 type StringOnly<K> = K extends string ? K : never;
 
-type ExtractFunctions<T> = {
+type CesiumEventKeys<T> = {
+  [K in keyof T]: T[K] extends Event ? K : never;
+}[keyof T];
+
+type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
 }[keyof T];
 
@@ -36,8 +44,6 @@ type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <
   : 2
   ? A
   : B;
-
-type IfNotEquals<X, Y, A = never, B = Y> = IfEquals<X, Y, A, B>;
 
 type ReadonlyKeys<T> = {
   [P in keyof T]-?: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, never, P>;

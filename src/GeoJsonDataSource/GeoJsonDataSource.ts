@@ -1,18 +1,12 @@
-import {
-  GeoJsonDataSource as CesiumGeoJsonDataSource,
-  DataSourceCollection,
-  Resource,
-  Credit,
-  Color,
-  Property,
-} from "cesium";
+import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -26,10 +20,22 @@ Both GeoJSON and TopoJSON are supported, and can be loaded from a URL, string or
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
+type Target = Merge<
+  Merge<CesiumGeoJsonDataSource, CesiumGeoJsonDataSource.LoadOptions>,
+  NonNullable<Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[1]>
+>;
+
 export type GeoJsonDataSourceCesiumProps = PickCesiumProps<
   CesiumGeoJsonDataSource,
   typeof cesiumProps
 >;
+
+export type GeoJsonDataSourceCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+> & {
+  data: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
+};
 
 export type GeoJsonDataSourceCesiumEvents = {
   onChange?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
@@ -37,101 +43,48 @@ export type GeoJsonDataSourceCesiumEvents = {
   onLoading?: (GeoJsonDataSource: CesiumGeoJsonDataSource, isLoaded: boolean) => void;
 };
 
+export type GeoJsonDataSourceOtherProps = {
+  /** Calls when the Promise for loading data is fullfilled. */
+  onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
+};
+
 export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
-  GeoJsonDataSourceCesiumEvents & {
-    // @CesiumReadonlyProp
-    data?: Resource | string | any;
-    // @CesiumReadonlyProp
-    clampToGround?: boolean;
-    // @CesiumReadonlyProp
-    sourceUri?: string;
-    // @CesiumReadonlyProp
-    credit?: Credit | string;
-    // @CesiumProp
-    show?: boolean;
-    // @CesiumReadonlyProp
-    markerSize?: number;
-    // @CesiumReadonlyProp
-    markerSymbol?: string;
-    // @CesiumReadonlyProp
-    markerColor?: Color;
-    // @CesiumReadonlyProp
-    stroke?: Color;
-    // @CesiumReadonlyProp
-    strokeWidth?: number;
-    // @CesiumReadonlyProp
-    fill?: Color;
-    // @CesiumReadonlyProp
-    describe?: (properties: { [key: string]: any }, nameProperty: string) => Property | string;
-    // Calls when the Promise for loading data is fullfilled.
-    onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
-  };
+  GeoJsonDataSourceCesiumReadonlyProps &
+  GeoJsonDataSourceCesiumEvents &
+  GeoJsonDataSourceOtherProps;
 
-const cesiumProps = ["clustering", "name"] as const;
+const cesiumProps = ["clustering", "name", "show"] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumGeoJsonDataSource, GeoJsonDataSourceCesiumEvents> = {
+const cesiumReadonlyProps = [
+  "data",
+  "clampToGround",
+  "sourceUri",
+  "credit",
+  "markerSize",
+  "markerSymbol",
+  "markerColor",
+  "stroke",
+  "strokeWidth",
+  "fill",
+  "describe",
+] as const;
+
+const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
-};
+} as const;
 
-const load = ({
-  element,
-  data,
-  onLoad,
-  clampToGround,
-  sourceUri,
-  credit,
-  markerSize,
-  markerSymbol,
-  markerColor,
-  stroke,
-  strokeWidth,
-  fill,
-  describe,
-}: {
-  element: CesiumGeoJsonDataSource;
-  dataSources: DataSourceCollection;
-  data: Resource | string | any;
-  onLoad?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
-  clampToGround?: boolean;
-  sourceUri?: string;
-  credit?: Credit | string;
-  markerSize?: number;
-  markerSymbol?: string;
-  markerColor?: Color;
-  stroke?: Color;
-  strokeWidth?: number;
-  fill?: Color;
-  describe?: GeoJsonDataSourceProps["describe"];
-}) => {
-  element
-    .load(data, {
-      clampToGround,
-      markerSize,
-      markerSymbol,
-      markerColor,
-      stroke,
-      strokeWidth,
-      fill,
-      sourceUri,
-      describe,
-      credit,
-    })
-    .then(value => {
-      if (onLoad) {
-        onLoad(value);
-      }
-    });
+const load = (
+  element: CesiumGeoJsonDataSource,
+  { data, onLoad, ...options }: GeoJsonDataSourceProps,
+) => {
+  element.load(data, options).then(value => {
+    if (onLoad) {
+      onLoad(value);
+    }
+  });
 };
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumGeoJsonDataSource,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJsonDataSourceProps>({
   name: "GeoJsonDataSource",
@@ -146,33 +99,17 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
     }
     context.dataSourceCollection.add(element);
     if (props.data) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        clampToGround: props.clampToGround,
-        sourceUri: props.sourceUri,
-        markerSize: props.markerSize,
-        markerSymbol: props.markerSymbol,
-        markerColor: props.markerColor,
-        stroke: props.stroke,
-        strokeWidth: props.strokeWidth,
-        fill: props.fill,
-        describe: props.describe,
-        credit: props.credit,
-      });
+      load(element, props);
     }
     return element;
   },
-  update(element, props, prevProps, context) {
+  update(element, props, prevProps) {
     if (!props.data) {
       element.show = false;
     } else if (prevProps.show !== props.show) {
       element.show = typeof props.show === "boolean" ? props.show : true;
     }
     if (
-      context.dataSourceCollection &&
       props.data &&
       (prevProps.data !== props.data ||
         prevProps.clampToGround !== props.clampToGround ||
@@ -185,22 +122,7 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
         prevProps.strokeWidth !== props.strokeWidth ||
         prevProps.fill !== props.fill)
     ) {
-      load({
-        element,
-        dataSources: context.dataSourceCollection,
-        data: props.data,
-        onLoad: props.onLoad,
-        clampToGround: props.clampToGround,
-        sourceUri: props.sourceUri,
-        credit: props.credit,
-        markerSize: props.markerSize,
-        markerSymbol: props.markerSymbol,
-        markerColor: props.markerColor,
-        stroke: props.stroke,
-        strokeWidth: props.strokeWidth,
-        fill: props.fill,
-        describe: props.describe,
-      });
+      load(element, props);
     }
   },
   destroy(element, context) {
@@ -214,7 +136,16 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
     };
   },
   cesiumProps,
+  cesiumReadonlyProps,
   cesiumEventProps,
 });
 
 export default GeoJsonDataSource;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  keyof GeoJsonDataSourceProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

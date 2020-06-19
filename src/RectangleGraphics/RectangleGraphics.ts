@@ -2,10 +2,11 @@ import { RectangleGraphics as CesiumRectangleGraphics } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -20,7 +21,7 @@ and can not be used more than once for each entity.
 */
 
 export type RectangleGraphicsCesiumProps = PickCesiumProps<
-  CesiumRectangleGraphics | CesiumRectangleGraphics.ConstructorOptions,
+  Merge<CesiumRectangleGraphics, CesiumRectangleGraphics.ConstructorOptions>,
   typeof cesiumProps
 >;
 
@@ -50,17 +51,9 @@ const cesiumProps = [
   "zIndex",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumRectangleGraphics, RectangleGraphicsCesiumEvents> = {
+const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumRectangleGraphics | CesiumRectangleGraphics.ConstructorOptions,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const RectangleGraphics = createCesiumComponent<CesiumRectangleGraphics, RectangleGraphicsProps>({
   name: "RectangleGraphics",
@@ -80,3 +73,11 @@ const RectangleGraphics = createCesiumComponent<CesiumRectangleGraphics, Rectang
 });
 
 export default RectangleGraphics;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumRectangleGraphics, CesiumRectangleGraphics.ConstructorOptions>,
+  keyof RectangleGraphicsProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

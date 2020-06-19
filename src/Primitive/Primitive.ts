@@ -1,4 +1,4 @@
-import { Primitive as CesiumPrimitive, Appearance, ShadowMode, Matrix4 } from "cesium";
+import { Primitive as CesiumPrimitive } from "cesium";
 
 import {
   createCesiumComponent,
@@ -22,27 +22,22 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type PrimitiveCesiumProps = PickCesiumProps<CesiumPrimitive, typeof cesiumProps> & {
-  appearance?: Appearance;
-  cull?: boolean;
-  debugShowBoundingVolume?: boolean;
-  depthFailAppearance?: Appearance;
-  modelMatrix?: Matrix4;
-  shadows?: ShadowMode;
-  show?: boolean;
-};
+export type PrimitiveCesiumProps = PickCesiumProps<CesiumPrimitive, typeof cesiumProps>;
 
 export type PrimitiveCesiumReadonlyProps = PickCesiumProps<
   CesiumPrimitive,
   typeof cesiumReadonlyProps
 >;
 
+export type PrimtiiveOtherProps = {
+  /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/Primitive.html#readyPromise) is fullfilled */
+  onReady?: (primitive: CesiumPrimitive) => void;
+};
+
 export type PrimitiveProps = PrimitiveCesiumProps &
   PrimitiveCesiumReadonlyProps &
-  EventProps<CesiumPrimitive> & {
-    // Calls when [Primitive#readyPromise](https://cesiumjs.org/Cesium/Build/Documentation/Primitive.html#readyPromise) is fullfilled
-    onReady?: (primitive: CesiumPrimitive) => void;
-  };
+  EventProps<CesiumPrimitive> &
+  PrimtiiveOtherProps;
 
 const cesiumProps = [
   "appearance",
@@ -52,7 +47,7 @@ const cesiumProps = [
   "modelMatrix",
   "shadows",
   "show",
-];
+] as const;
 
 const cesiumReadonlyProps = [
   "allowPicking",
@@ -63,11 +58,6 @@ const cesiumReadonlyProps = [
   "releaseGeometryInstances",
   "vertexCacheOptimize",
 ] as const;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPrimitive, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
 
 const Primitive = createCesiumComponent<CesiumPrimitive, PrimitiveProps>({
   name: "Primitive",
@@ -94,3 +84,8 @@ const Primitive = createCesiumComponent<CesiumPrimitive, PrimitiveProps>({
 });
 
 export default Primitive;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumPrimitive, keyof PrimitiveProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

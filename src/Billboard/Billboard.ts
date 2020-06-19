@@ -24,7 +24,9 @@ A billboard object will be attached to the parent BillboardCollection.
 
 export type BillboardCesiumProps = PickCesiumProps<CesiumBillboard, typeof cesiumProps>;
 
-export type BillboardProps = BillboardCesiumProps & EventProps<CesiumBillboard>;
+export type BillboardOtherProps = EventProps<CesiumBillboard>;
+
+export type BillboardProps = BillboardCesiumProps & BillboardOtherProps;
 
 const cesiumProps = [
   "alignedAxis",
@@ -50,11 +52,6 @@ const cesiumProps = [
   "width",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumBillboard, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({
   name: "Billboard",
   create(context, props) {
@@ -70,3 +67,8 @@ const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({
 });
 
 export default Billboard;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<CesiumBillboard, keyof BillboardProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

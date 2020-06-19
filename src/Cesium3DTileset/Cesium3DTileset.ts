@@ -1,13 +1,13 @@
-import { Cesium3DTileset as CesiumCesium3DTileset, Cesium3DTileFeature, Resource } from "cesium";
+import { Cesium3DTileset as CesiumCesium3DTileset, Cesium3DTileFeature } from "cesium";
 import {
   createCesiumComponent,
-  EventkeyMap,
   EventProps,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
   ConstructorOptions,
   Merge,
+  ValueOf,
 } from "../core";
 
 /*
@@ -25,10 +25,9 @@ export type Cesium3DTilesetCesiumProps = PickCesiumProps<CesiumCesium3DTileset, 
 
 export type Cesium3DTilesetCesiumReadonlyProps = PickCesiumProps<
   Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
-  typeof cesiumReadonlyProps
-> & {
-  url: Resource | string | Promise<Resource> | Promise<string>;
-};
+  typeof cesiumReadonlyProps,
+  "url"
+>;
 
 export type Cesium3DTilesetCesiumEvents = {
   onAllTilesLoad?: () => void;
@@ -40,13 +39,15 @@ export type Cesium3DTilesetCesiumEvents = {
   onTileVisible?: (tile: CesiumCesium3DTileset) => void;
 };
 
+export type Cesium3DTilesetOtherProps = EventProps<Cesium3DTileFeature> & {
+  /** Calls when the tile set is completely loaded. */
+  onReady?: (tileset: CesiumCesium3DTileset) => void;
+};
+
 export type Cesium3DTilesetProps = Cesium3DTilesetCesiumProps &
   Cesium3DTilesetCesiumReadonlyProps &
   Cesium3DTilesetCesiumEvents &
-  EventProps<Cesium3DTileFeature> & {
-    // Calls when the tile set is completely loaded.
-    onReady?: (tileset: CesiumCesium3DTileset) => void;
-  };
+  Cesium3DTilesetOtherProps;
 
 const cesiumProps = [
   "show",
@@ -104,7 +105,7 @@ const cesiumReadonlyProps = [
   "debugHeatmapTilePropertyName",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumCesium3DTileset, Cesium3DTilesetCesiumEvents> = {
+const cesiumEventProps = {
   onAllTilesLoad: "allTilesLoaded",
   onInitialTilesLoad: "initialTilesLoaded",
   onLoadProgress: "loadProgress",
@@ -112,17 +113,7 @@ const cesiumEventProps: EventkeyMap<CesiumCesium3DTileset, Cesium3DTilesetCesium
   onTileLoad: "tileLoad",
   onTileUnload: "tileUnload",
   onTileVisible: "tileVisible",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
-  | typeof cesiumProps
-  | typeof cesiumReadonlyProps
-  | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
@@ -156,3 +147,11 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
 });
 
 export default Cesium3DTileset;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
+  keyof Cesium3DTilesetProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

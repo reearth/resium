@@ -1,11 +1,11 @@
-import { CustomDataSource as CesiumCustomDataSource, DataSourceClock, EntityCluster } from "cesium";
+import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 
 import {
   createCesiumComponent,
-  EventkeyMap,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
+  ValueOf,
 } from "../core";
 
 /*
@@ -23,12 +23,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 export type CustomDataSourceCesiumProps = PickCesiumProps<
   CesiumCustomDataSource,
   typeof cesiumProps
-> & {
-  clustering?: EntityCluster;
-  name?: string;
-  show?: boolean;
-  clock?: DataSourceClock;
-};
+>;
 
 export type CustomDataSourceCesiumEvents = {
   onChange?: (customDataSource: CesiumCustomDataSource) => void;
@@ -36,26 +31,21 @@ export type CustomDataSourceCesiumEvents = {
   onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
 };
 
+export type CustomDataSourceOtherProps = {
+  children?: React.ReactNode;
+};
+
 export type CustomDataSourceProps = CustomDataSourceCesiumProps &
-  CustomDataSourceCesiumEvents & {
-    children?: React.ReactNode;
-  };
+  CustomDataSourceCesiumEvents &
+  CustomDataSourceOtherProps;
 
 const cesiumProps = ["clustering", "name", "show", "clock"] as const;
 
-const cesiumEventProps: EventkeyMap<CesiumCustomDataSource, CustomDataSourceCesiumEvents> = {
+const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
-};
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCustomDataSource,
-  typeof cesiumProps | typeof cesiumEventProps[keyof typeof cesiumEventProps]
->;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+} as const;
 
 const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDataSourceProps>({
   name: "CustomDataSource",
@@ -90,3 +80,11 @@ const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDat
 });
 
 export default CustomDataSource;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumCustomDataSource,
+  keyof CustomDataSourceProps | ValueOf<typeof cesiumEventProps>
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

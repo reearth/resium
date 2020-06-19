@@ -19,17 +19,13 @@ A LabelCollection object will be attached to the PrimitiveCollection of the View
 
 export type LabelCollectionCesiumProps = PickCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
 
-export type LabelCollectionProps = LabelCollectionCesiumProps & {
+export type LabelCollectionOtherProps = {
   children?: React.ReactNode;
 };
 
-const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
+export type LabelCollectionProps = LabelCollectionCesiumProps & LabelCollectionOtherProps;
 
-// Unused prop check
-// length: for read only
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
+const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
 
 const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollectionProps>({
   name: "LabelCollection",
@@ -61,3 +57,9 @@ const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollec
 });
 
 export default LabelCollection;
+
+// Unused prop check
+// length: for read only
+type IgnoredProps = "length";
+type UnusedProps = UnusedCesiumProps<CesiumLabelCollection, keyof LabelCollectionProps>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

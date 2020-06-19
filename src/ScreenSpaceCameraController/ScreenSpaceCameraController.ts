@@ -19,6 +19,8 @@ export type ScreenSpaceCameraControllerCesiumProps = PickCesiumProps<
   typeof cesiumProps
 >;
 
+export type ScreenSpaceCameraControllerProps = ScreenSpaceCameraControllerCesiumProps;
+
 const cesiumProps = [
   "bounceAnimationTime",
   "enableCollisionDetection",
@@ -44,14 +46,9 @@ const cesiumProps = [
   "zoomEventTypes",
 ] as const;
 
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumScreenSpaceCameraController, typeof cesiumProps>;
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
-
 const ScreenSpaceCameraController = createCesiumComponent<
   CesiumScreenSpaceCameraController,
-  ScreenSpaceCameraControllerCesiumProps
+  ScreenSpaceCameraControllerProps
 >({
   name: "ScreenSpaceCameraController",
   create: context => context.scene?.screenSpaceCameraController,
@@ -60,3 +57,11 @@ const ScreenSpaceCameraController = createCesiumComponent<
 });
 
 export default ScreenSpaceCameraController;
+
+// Unused prop check
+type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  CesiumScreenSpaceCameraController,
+  keyof ScreenSpaceCameraControllerProps
+>;
+type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

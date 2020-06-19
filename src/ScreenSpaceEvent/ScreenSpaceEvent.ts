@@ -9,7 +9,7 @@ import { useCesium } from "../core";
 @summary
 `ScreenSpaceEvent` is an event callback for mouse or touch interactions.
 
-See also: [ScreenSpaceEventHandler#setInputAction](https://cesiumjs.org/Cesium/Build/Documentation/ScreenSpaceEventHandler.html?classFilter=screenspa#setInputAction)
+See also: [ScreenSpaceEventHandler#setInputAction](https://cesium.com/docs/cesiumjs-ref-doc/ScreenSpaceEventHandler.html?classFilter=screenspa#setInputAction)
 */
 
 /*
@@ -18,7 +18,7 @@ Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
 */
 
 export type ScreenSpaceEventProps = {
-  // If empty, the event will be removed even if there is the default event.
+  /** If empty, the event will be removed even if there is the default event. */
   action?: (e: { position: Cartesian2 }) => void;
   modifier?: KeyboardEventModifier;
   type: ScreenSpaceEventType;

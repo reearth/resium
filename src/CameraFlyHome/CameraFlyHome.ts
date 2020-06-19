@@ -10,7 +10,7 @@ When it is mounted, `camera.flyHome(duration)` will be execute.
 
 If any property is changed, the current camera flight will be canceled and a new one is executed.
 
-See also: [Camera#flyHome](https://cesiumjs.org/Cesium/Build/Documentation/Camera.html?classFilter=camer#flyHome)
+See also: [Camera#flyHome](https://cesium.com/docs/cesiumjs-ref-doc/Camera.html?classFilter=camer#flyHome)
 */
 
 /*
@@ -19,11 +19,11 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export type CameraFlyHomeProps = {
-  // Duration of camera flight (second)
+  /** Duration of camera flight (second) */
   duration: number;
-  // If true, cancel camera flight if this component is unmounted. Default value is false.
+  /** If true, cancel camera flight if this component is unmounted. Default value is false. */
   cancelFlightOnUnmount?: boolean;
-  // If true, camera flight will be executed only once time.
+  /** If true, camera flight will be executed only once time. */
   once?: boolean;
 };
 
