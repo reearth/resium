@@ -1,5 +1,7 @@
 # Changelog
 
+## v1.12.0-beta.2 - 2020/06/22
+
 ## v1.12.0-beta.1 - 2020/06/20
 
 Note: some breaking changes are included
