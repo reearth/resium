@@ -13,9 +13,12 @@
     "generate": "ts-node generator"
   },
   "dependencies": {
-    "docz": "^2.3.1",
+    "docz": "latest",
     "facepaint": "^1.2.1",
-    "gatsby-plugin-google-analytics": "^2.3.4"
+    "gatsby-plugin-google-analytics": "^2.3.4",
+    "prop-types": "^15.7.2",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0"
   },
   "devDependencies": {
     "npm-run-all": "^4.1.5",

@@ -31,7 +31,7 @@ const componentFiles = globby
 
 if (componentFiles.length > 0) {
   try {
-    fs.mkdirSync(path.resolve(__dirname, "..", "api"));
+    fs.mkdirSync(path.resolve(__dirname, "..", "src", "api"));
   } catch (err) {
     // ignore
   }
@@ -57,7 +57,7 @@ componentFiles.forEach(cf => {
   }
   if (doc) {
     const result = renderDoc(doc);
-    fs.writeFileSync(path.resolve(__dirname, "..", "api", `${name}.mdx`), result);
+    fs.writeFileSync(path.resolve(__dirname, "..", "src", "api", `${name}.mdx`), result);
   }
 });
 
