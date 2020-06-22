@@ -34,9 +34,7 @@ export type GeoJsonDataSourceCesiumProps = PickCesiumProps<
 export type GeoJsonDataSourceCesiumReadonlyProps = PickCesiumProps<
   Target,
   typeof cesiumReadonlyProps
-> & {
-  data: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
-};
+>;
 
 export type GeoJsonDataSourceCesiumEvents = {
   onChange?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
@@ -47,6 +45,7 @@ export type GeoJsonDataSourceCesiumEvents = {
 export type GeoJsonDataSourceOtherProps = {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
+  data?: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
 };
 
 export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
@@ -57,7 +56,6 @@ export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
 const cesiumProps = ["clustering", "name", "show"] as const;
 
 const cesiumReadonlyProps = [
-  "data",
   "clampToGround",
   "sourceUri",
   "credit",
@@ -80,6 +78,7 @@ const load = (
   element: CesiumGeoJsonDataSource,
   { data, onLoad, ...options }: GeoJsonDataSourceProps,
 ) => {
+  if (!data) return;
   element.load(data, options).then(value => {
     if (onLoad) {
       onLoad(value);

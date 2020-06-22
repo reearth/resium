@@ -28,12 +28,7 @@ type Target = Merge<
 
 export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>;
 
-export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
-> & {
-  data: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
-};
+export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type KmlDataSourceCesiumEvents = {
   onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
@@ -46,6 +41,7 @@ export type KmlDataSourceCesiumEvents = {
 export type KmlDataSourceOtherProps = {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
+  data?: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
 };
 
 export type KmlDataSourceProps = KmlDataSourceCesiumProps &
@@ -56,7 +52,6 @@ export type KmlDataSourceProps = KmlDataSourceCesiumProps &
 const cesiumProps = ["clustering", "name", "show"] as const;
 
 const cesiumReadonlyProps = [
-  "data",
   "canvas",
   "camera",
   "ellipsoid",
@@ -74,6 +69,7 @@ const cesiumEventProps = {
 } as const;
 
 const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
+  if (!data) return;
   element.load(data, options).then(value => {
     if (onLoad) {
       onLoad(value);

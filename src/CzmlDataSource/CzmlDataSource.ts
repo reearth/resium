@@ -28,12 +28,7 @@ type Target = Merge<
 
 export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, typeof cesiumProps>;
 
-export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
-> & {
-  data: Parameters<CesiumCzmlDataSource["load"]>[0];
-};
+export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
@@ -44,6 +39,7 @@ export type CzmlDataSourceCesiumEvents = {
 export type CzmlDataSourceOtherProps = {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
+  data?: Parameters<CesiumCzmlDataSource["load"]>[0];
 };
 
 export type CzmlDataSourceProps = CzmlDataSourceCesiumProps &
@@ -53,7 +49,7 @@ export type CzmlDataSourceProps = CzmlDataSourceCesiumProps &
 
 const cesiumProps = ["clustering", "show"] as const;
 
-const cesiumReadonlyProps = ["name", "data", "sourceUri", "credit"] as const;
+const cesiumReadonlyProps = ["name", "sourceUri", "credit"] as const;
 
 const cesiumEventProps = {
   onChange: "changedEvent",
@@ -62,6 +58,7 @@ const cesiumEventProps = {
 } as const;
 
 const load = (element: CesiumCzmlDataSource, { data, onLoad, ...options }: CzmlDataSourceProps) => {
+  if (!data) return;
   element.load(data, options).then(value => {
     if (onLoad) {
       onLoad(value);
