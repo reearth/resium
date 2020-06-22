@@ -47,12 +47,14 @@ module.exports = ({ config, mode }) => ({
     ...(mode === "PRODUCTION"
       ? []
       : [
-          new CopyPlugin([
-            {
-              from: "node_modules/cesium/Build/Cesium",
-              to: "cesium",
-            },
-          ]),
+          new CopyPlugin({
+            patterns: [
+              {
+                from: "node_modules/cesium/Build/Cesium",
+                to: "cesium",
+              },
+            ],
+          }),
         ]),
   ],
   resolve: {

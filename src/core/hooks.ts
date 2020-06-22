@@ -62,7 +62,7 @@ export const useCesiumComponent = <
 ): [ProvidedContext | undefined, boolean, React.RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
   const ctx = useCesium<Context & { [eventManagerContextKey]?: EventManager }>();
-  const provided = useRef<ProvidedContext | undefined>(undefined);
+  const provided = useRef<ProvidedContext | undefined>(provide ? ({} as any) : undefined);
   const attachedEvents = useRef<
     {
       [key in keyof Element]?: any;
