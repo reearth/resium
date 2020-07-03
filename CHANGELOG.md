@@ -1,5 +1,19 @@
 # Changelog
 
+## v1.12 - 2020/07/03
+
+### BREAKING CHANGES
+
+- Resium uses Cesium's official type definitions since v1.70. `@types/cesium` is no longer needed.
+- Resium's components properties now support all the properties supported by Cesium by following Cesium's type definitions.
+- All properties type except Cesium event props follow Cesium's type definitions.
+
+### Bug Fixes
+
+- Mouse event on primitives ([#324](https://github.com/darwin-education/resium/pull/324))
+- CameraFlyXXX component: `onComplete` event is not called
+- Upgrade deps
+
 ## v1.12.0-beta.2 - 2020/06/22
 
 ## v1.12.0-beta.1 - 2020/06/20
