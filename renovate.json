@@ -9,6 +9,9 @@
     ":maintainLockFilesWeekly",
     ":enableVulnerabilityAlertsWithLabel(security)"
   ],
+  "enabledManagers": [
+    "npm"
+  ],
   "packageRules": [
     {
       "packagePatterns": [
