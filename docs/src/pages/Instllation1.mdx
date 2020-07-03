@@ -59,7 +59,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 `node_modules/cesium/Build/Cesium` is already minified. If you want to debug Cesium, use unminified version: `node_modules/cesium/Build/CesiumUnminified`.
 
-The recommended way is to load the minified version in prodcution mode, and the unminified version in development mode.
+The recommended way is to load the minified version in production mode, and the unminified version in development mode.
 
 ```js
 module.exports = (env, argv) => {
@@ -76,10 +76,6 @@ module.exports = (env, argv) => {
             to: "cesium",
           },
         ],
-      }),
-      new HtmlWebpackIncludeAssetsPlugin({
-        append: false,
-        assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
       }),
     ],
   };
