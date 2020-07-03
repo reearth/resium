@@ -10,15 +10,15 @@
     "build2": "webpack --config webpack.config.2.js --mode production"
   },
   "devDependencies": {
-    "@babel/core": "7.10.2",
-    "@babel/preset-env": "7.10.2",
-    "@babel/preset-react": "7.10.1",
+    "@babel/core": "7.10.4",
+    "@babel/preset-env": "7.10.4",
+    "@babel/preset-react": "7.10.4",
     "@hot-loader/react-dom": "16.13.0",
     "babel-loader": "8.1.0",
-    "copy-webpack-plugin": "6.0.2",
+    "copy-webpack-plugin": "6.0.3",
     "css-loader": "3.6.0",
-    "eslint": "7.3.0",
-    "eslint-plugin-react": "7.20.0",
+    "eslint": "7.3.1",
+    "eslint-plugin-react": "7.20.3",
     "html-webpack-include-assets-plugin": "2.0.0",
     "html-webpack-plugin": "4.3.0",
     "strip-pragma-loader": "1.0.0",
@@ -29,7 +29,7 @@
     "webpack-dev-server": "3.11.0"
   },
   "dependencies": {
-    "cesium": "1.70.1",
+    "cesium": "1.71.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-hot-loader": "4.12.21",

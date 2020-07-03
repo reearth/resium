@@ -7,7 +7,7 @@ const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
 
-module.exports = (env, args) => {
+module.exports = (_env, args) => {
   const prod = args.mode === "production";
   return {
     context: __dirname,
@@ -38,12 +38,14 @@ module.exports = (env, args) => {
       new webpack.DefinePlugin({
         CESIUM_BASE_URL: JSON.stringify("/cesium"),
       }),
-      new CopyPlugin([
-        {
-          from: `../node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
-          to: "cesium",
-        },
-      ]),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: `../node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
+            to: "cesium",
+          },
+        ],
+      }),
       new HtmlPlugin({
         template: "index.html",
       }),

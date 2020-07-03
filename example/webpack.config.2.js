@@ -9,7 +9,7 @@ const CopyPlugin = require("copy-webpack-plugin");
 const cesiumSource = "node_modules/cesium/Source";
 const cesiumWorkers = "../Build/Cesium/Workers";
 
-module.exports = (env, args) => {
+module.exports = (_env, args) => {
   const prod = args.mode === "production";
   return {
     context: __dirname,
@@ -65,20 +65,22 @@ module.exports = (env, args) => {
       new webpack.DefinePlugin({
         CESIUM_BASE_URL: JSON.stringify("/"),
       }),
-      new CopyPlugin([
-        {
-          from: path.join(cesiumSource, cesiumWorkers),
-          to: "Workers",
-        },
-        {
-          from: path.join(cesiumSource, "Assets"),
-          to: "Assets",
-        },
-        {
-          from: path.join(cesiumSource, "Widgets"),
-          to: "Widgets",
-        },
-      ]),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: path.join(cesiumSource, cesiumWorkers),
+            to: "Workers",
+          },
+          {
+            from: path.join(cesiumSource, "Assets"),
+            to: "Assets",
+          },
+          {
+            from: path.join(cesiumSource, "Widgets"),
+            to: "Widgets",
+          },
+        ],
+      }),
       new HtmlPlugin({
         template: "index.html",
       }),
