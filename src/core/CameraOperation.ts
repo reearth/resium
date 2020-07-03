@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, FC } from "react";
 import { Camera } from "cesium";
 
 import { useCesium } from "./context";
@@ -11,9 +11,9 @@ export type CameraOperationProps = {
 export const createCameraOperation = <P>(
   name: string,
   cameraOperationStart: (camera: Camera, props: P, prevProps?: P) => void,
-) => {
+): FC<P & CameraOperationProps> => {
   /* eslint-disable react-hooks/rules-of-hooks */
-  const component: React.FC<P & CameraOperationProps> = props => {
+  const component: FC<P & CameraOperationProps> = props => {
     const ctx = useCesium();
     const prevProps = useRef<P>();
     const first = useRef(false);

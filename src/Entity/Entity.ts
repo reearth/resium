@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Entity as CesiumEntity } from "cesium";
 
 import {
@@ -81,7 +82,7 @@ export type EntityCesiumEvents = {
 };
 
 export type EntityOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
   /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
   selected?: boolean;
   /** If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget. */

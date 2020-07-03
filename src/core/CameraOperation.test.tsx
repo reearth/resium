@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React from "react";
+import React, { FC } from "react";
 import { mount } from "enzyme";
 
 import { Provider } from "./context";
@@ -20,7 +20,7 @@ describe("core/cameraop", () => {
       cameraOperationStart,
     );
 
-    const Test: React.FC<{ test: number }> = ({ test }) => (
+    const Test: FC<{ test: number }> = ({ test }) => (
       <Provider value={{ camera, scene }}>
         <DummyCameraOperation test={test} />
       </Provider>

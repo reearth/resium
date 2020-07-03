@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useEffect, useRef, useMemo, FC } from "react";
 import {
   Cartesian2,
   Cartesian3,
@@ -53,7 +53,7 @@ const renderCanvas = (can: HTMLCanvasElement, p: number) => {
   c.fill();
 };
 
-const CanvasEntity: React.FC<EntityProps> = props => {
+const CanvasEntity: FC<EntityProps> = props => {
   const c1 = useMemo<HTMLCanvasElement>(initCanvas, []);
   const c2 = useMemo<HTMLCanvasElement>(initCanvas, []);
   const [image, setImage] = useState<HTMLCanvasElement>();

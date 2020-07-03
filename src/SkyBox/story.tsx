@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Color } from "cesium";
 import { storiesOf } from "@storybook/react";
 
@@ -7,7 +7,7 @@ import Scene from "../Scene";
 import SkyBox from "./SkyBox";
 
 const SkyBoxWrapper = () => {
-  const [shown, setShown] = React.useState(false);
+  const [shown, setShown] = useState(false);
   return (
     <>
       <SkyBox show={shown} />

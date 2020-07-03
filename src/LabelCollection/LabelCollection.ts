@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { LabelCollection as CesiumLabelCollection } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
@@ -20,7 +21,7 @@ A LabelCollection object will be attached to the PrimitiveCollection of the View
 export type LabelCollectionCesiumProps = PickCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
 
 export type LabelCollectionOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export type LabelCollectionProps = LabelCollectionCesiumProps & LabelCollectionOtherProps;

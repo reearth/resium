@@ -5,6 +5,7 @@ import {
   useState,
   useCallback,
   useLayoutEffect,
+  RefObject,
 } from "react";
 import { Event as CesiumEvent } from "cesium";
 
@@ -59,7 +60,7 @@ export const useCesiumComponent = <
   }: Options<Element, Props, Context, ProvidedContext, State>,
   props: Props,
   ref: any,
-): [ProvidedContext | undefined, boolean, React.RefObject<HTMLDivElement>] => {
+): [ProvidedContext | undefined, boolean, RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
   const ctx = useCesium<Context & { [eventManagerContextKey]?: EventManager }>();
   const provided = useRef<ProvidedContext | undefined>(provide ? ({} as any) : undefined);

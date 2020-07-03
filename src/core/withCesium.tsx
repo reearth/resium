@@ -1,4 +1,11 @@
-import React, { forwardRef } from "react";
+import React, {
+  forwardRef,
+  PureComponent,
+  PropsWithoutRef,
+  RefAttributes,
+  ForwardRefExoticComponent,
+  ComponentType,
+} from "react";
 import { Consumer } from "./context";
 
 export type CesiumProp<C> = {
@@ -6,16 +13,16 @@ export type CesiumProp<C> = {
 };
 
 export interface CesiumInsideComponentType<E, P = any>
-  extends React.PureComponent<WithContextProps<P, any>> {
+  extends PureComponent<WithContextProps<P, any>> {
   cesiumElement: E;
 }
 
-export type CesiumHOCComponentType<E, P> = React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<P> & React.RefAttributes<CesiumInsideComponentType<E, P>>
+export type CesiumHOCComponentType<E, P> = ForwardRefExoticComponent<
+  PropsWithoutRef<P> & RefAttributes<CesiumInsideComponentType<E, P>>
 >;
 
 export type WithContextProps<P, C> = P & CesiumProp<C>;
-export type WithContextType<P, C> = React.ComponentType<WithContextProps<P, C>>;
+export type WithContextType<P, C> = ComponentType<WithContextProps<P, C>>;
 
 export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
   // supports both functional components and class components

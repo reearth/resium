@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { BillboardCollection as CesiumBillboardCollection } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
@@ -23,7 +24,7 @@ export type BillboardCollectionCesiumProps = PickCesiumProps<
 >;
 
 export type BillboardCollectionOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export type BillboardCollectionProps = BillboardCollectionCesiumProps &

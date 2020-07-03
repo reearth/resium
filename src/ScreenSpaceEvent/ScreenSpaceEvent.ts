@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { ScreenSpaceEventType, KeyboardEventModifier, Cartesian2 } from "cesium";
 
 import { useCesium } from "../core";
@@ -24,7 +24,7 @@ export type ScreenSpaceEventProps = {
   type: ScreenSpaceEventType;
 };
 
-const ScreenSpaceEvent: React.FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
+const ScreenSpaceEvent: FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
   const ctx = useCesium();
 
   useEffect(() => {

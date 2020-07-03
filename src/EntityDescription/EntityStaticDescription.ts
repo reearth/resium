@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { ConstantProperty } from "cesium";
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { renderToStaticMarkup } = require("react-dom/server.browser");
@@ -24,7 +24,7 @@ EntityStaticDescription can be mounted only inside[Entity](/components/Entity) c
 and can not be mounted more than once or together with EntityDescription component for each entity.
 */
 
-const EntityStaticDescription: React.FC = ({ children }) => {
+const EntityStaticDescription: FC = ({ children }) => {
   const entity = useCesium().entity;
 
   useEffect(() => {

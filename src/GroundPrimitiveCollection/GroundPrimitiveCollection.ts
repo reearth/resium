@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { PrimitiveCollection } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
@@ -22,7 +23,7 @@ export type GroundPrimitiveCollectionCesiumProps = PickCesiumProps<
 >;
 
 export type GroundPrimitiveCollectionOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps &

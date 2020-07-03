@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React from "react";
+import React, { FC } from "react";
 import { Entity as CesiumEntity } from "cesium";
 import { mount } from "enzyme";
 
@@ -38,7 +38,7 @@ describe("Entity", () => {
   it("should update", () => {
     const entity = new CesiumEntity();
 
-    const Component: React.FC<EntityProps> = props => (
+    const Component: FC<EntityProps> = props => (
       <Provider value={context}>
         <Entity {...props} />
       </Provider>

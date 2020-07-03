@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 
 import {
@@ -32,7 +33,7 @@ export type CustomDataSourceCesiumEvents = {
 };
 
 export type CustomDataSourceOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export type CustomDataSourceProps = CustomDataSourceCesiumProps &

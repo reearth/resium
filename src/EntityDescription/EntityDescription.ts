@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, FC } from "react";
 import { createPortal } from "react-dom";
 import { Entity } from "cesium";
 
@@ -24,7 +24,7 @@ export type EntityDescriptionProps = {
   resizeInfoBox?: boolean;
 };
 
-const EntityDescription: React.FC<EntityDescriptionProps> = ({
+const EntityDescription: FC<EntityDescriptionProps> = ({
   children,
   container,
   resizeInfoBox = true,

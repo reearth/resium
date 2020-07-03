@@ -1,4 +1,4 @@
-import React from "react";
+import { CSSProperties, ReactNode } from "react";
 import { CesiumWidget as CesiumCesiumWidget } from "cesium";
 
 import {
@@ -43,12 +43,12 @@ export type CesiumWidgetOtherProps = RootEventProps & {
   /** Applied to outer `div` element */
   id?: string;
   /** Applied to outer `div` element */
-  style?: React.CSSProperties;
+  style?: CSSProperties;
   /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
   full?: boolean;
   /** All props applied to outer `div` element */
   containerProps?: any;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const cesiumProps = [

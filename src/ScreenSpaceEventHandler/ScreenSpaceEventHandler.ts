@@ -1,6 +1,7 @@
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
 
 import { createCesiumComponent } from "../core";
+import { ReactNode } from "react";
 
 /*
 @summary
@@ -17,7 +18,7 @@ ScreenSpaceEventHandler components with useDefault prop can not be mounted more 
 export type ScreenSpaceEventHandlerProps = {
   /** If true, use the default ScreenSpaceEventHandler of the CesiumWidget instead of creating a new ScreenSpaceEventHandler object. This property cannot be changed after mounting. */
   useDefault?: boolean;
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 const ScreenSpaceEventHandler = createCesiumComponent<

@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { PolylineCollection as CesiumPolylineCollection } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
@@ -23,7 +24,7 @@ export type PolylineCollectionCesiumProps = PickCesiumProps<
 >;
 
 export type PolylineCollectionOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export type PolylineCollectionProps = PolylineCollectionCesiumProps & PolylineCollectionOtherProps;

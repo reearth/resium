@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { Scene as CesiumScene, SceneMode } from "cesium";
 
 import {
@@ -61,7 +62,7 @@ export type SceneCesiumEvents = {
 };
 
 export type SceneOtherProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
   mode?: SceneMode;
   /** If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds). */
   morphDuration?: number;

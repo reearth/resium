@@ -1,4 +1,13 @@
-import React, { forwardRef } from "react";
+import React, {
+  forwardRef,
+  DetailedHTMLProps,
+  HTMLAttributes,
+  ForwardRefExoticComponent,
+  PropsWithoutRef,
+  RefAttributes,
+  ForwardRefRenderFunction,
+  ReactElement,
+} from "react";
 
 import { useCesiumComponent, Options } from "./hooks";
 import { CesiumContext, Context } from "./context";
@@ -17,7 +26,7 @@ export type CesiumComponentOptions<
     | (keyof Props)[]
     | ((
         props: Props,
-      ) => Partial<React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement>>);
+      ) => Partial<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>>);
   defaultProps?: Partial<Props>;
 };
 
@@ -25,8 +34,8 @@ export type CesiumComponentRef<Element> = {
   cesiumElement?: Element;
 };
 
-export type CesiumComponentType<Element, Props> = React.ForwardRefExoticComponent<
-  React.PropsWithoutRef<Props> & React.RefAttributes<CesiumComponentRef<Element>>
+export type CesiumComponentType<Element, Props> = ForwardRefExoticComponent<
+  PropsWithoutRef<Props> & RefAttributes<CesiumComponentRef<Element>>
 >;
 
 export const createCesiumComponent = <
@@ -45,10 +54,7 @@ export const createCesiumComponent = <
   Element,
   Props
 > => {
-  const component: React.ForwardRefRenderFunction<CesiumComponentRef<Element>, Props> = (
-    props,
-    ref,
-  ) => {
+  const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, Props> = (props, ref) => {
     const mergedProps = {
       ...defaultProps,
       ...props,
@@ -64,7 +70,7 @@ export const createCesiumComponent = <
 
     if (noChildren) return null;
 
-    const children = mounted ? (mergedProps.children as React.ReactElement) : null;
+    const children = mounted ? (mergedProps.children as ReactElement) : null;
     const wrappedChildren = renderContainer ? (
       <div
         ref={wrapperRef}

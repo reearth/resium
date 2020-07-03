@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { createRef } from "react";
+import React, { createRef, ReactNode } from "react";
 import { mount } from "enzyme";
 import { Event } from "cesium";
 
@@ -195,7 +195,7 @@ describe("core/component", () => {
 
     const Component1 = createCesiumComponent<
       string,
-      { children?: React.ReactNode },
+      { children?: ReactNode },
       any,
       { context: string }
     >({
@@ -270,7 +270,7 @@ describe("core/component", () => {
   });
 
   it("should not render when noChildren is true", () => {
-    const Component = createCesiumComponent<string, { children?: React.ReactNode }>({
+    const Component = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
       noChildren: true,
     });

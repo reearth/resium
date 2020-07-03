@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback } from "react";
+import React, { useMemo, useRef, useCallback, FC } from "react";
 import {
   Cartesian3,
   Cartesian2,
@@ -21,7 +21,7 @@ const pos = new Cartesian3(277096.634865404, 5647834.481964232, 2985563.70391222
 const snowAlpha = 1.0;
 const snowRadius = 100000.0;
 
-const SnowParticle: React.FC = () => {
+const SnowParticle: FC = () => {
   const scene = useCesium().scene;
   const snowGravityScratch = useRef(new Cartesian3());
   const snowParticleSize = scene ? scene.drawingBufferWidth / 100.0 : 0;
