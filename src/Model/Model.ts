@@ -58,6 +58,7 @@ const cesiumProps = [
   "luminanceAtZenith",
   "sphericalHarmonicCoefficients",
   "specularEnvironmentMaps",
+  "backFaceCulling",
 ] as const;
 
 const cesiumReadonlyProps = [
