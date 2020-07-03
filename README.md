@@ -1,4 +1,4 @@
-![Resium](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/resium.gif)
+![Resium](https://raw.githubusercontent.com/darwin-education/resium/master/docs/src/resources/resium.gif)
 
 [![Build Status](https://travis-ci.org/darwin-education/resium.svg?branch=master)](https://travis-ci.org/darwin-education/resium) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium) [![Financial Contributors on Open Collective](https://opencollective.com/resium/all/badge.svg?label=financial+contributors)](https://opencollective.com/resium)
 
@@ -21,9 +21,9 @@ React components for 🌏[Cesium](https://cesiumjs.org/)
 </Viewer>
 ```
 
-![Screenshot](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/darwin-education/resium/master/docs/src/resources/screenshot.png)
 
-![Usage](https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/usage.gif)
+![Usage](https://raw.githubusercontent.com/darwin-education/resium/master/docs/src/resources/usage.gif)
 
 ## Contributors
 
