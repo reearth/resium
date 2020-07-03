@@ -1,5 +1,4 @@
 {
-  "enabled": false,
   "extends": [
     "config:base",
     ":timezone(Asia/Tokyo)",
@@ -10,7 +9,15 @@
     ":maintainLockFilesWeekly",
     ":enableVulnerabilityAlertsWithLabel(security)"
   ],
-  "schedule": [
-    "every weekend"
+  "packageRules": [
+    {
+      "packagePatterns": [
+        "*"
+      ],
+      "excludePackagePatterns": [
+        "cesium"
+      ],
+      "enabled": false
+    }
   ]
 }
