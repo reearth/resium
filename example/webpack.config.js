@@ -5,7 +5,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const HtmlIncludeAssetsPlugin = require("html-webpack-include-assets-plugin");
+const HtmlTagsPlugin = require("html-webpack-tags-plugin");
 
 module.exports = (_env, args) => {
   const prod = args.mode === "production";
@@ -49,9 +49,9 @@ module.exports = (_env, args) => {
       new HtmlPlugin({
         template: "index.html",
       }),
-      new HtmlIncludeAssetsPlugin({
+      new HtmlTagsPlugin({
         append: false,
-        assets: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
+        tags: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
       }),
       ...(prod ? [] : [new webpack.HotModuleReplacementPlugin()]),
     ],
