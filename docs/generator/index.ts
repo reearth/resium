@@ -2,7 +2,7 @@ import fs from "fs";
 import path from "path";
 import { inspect } from "util";
 import globby from "globby";
-import { ScriptTarget, createSourceFile, createProgram } from "typescript";
+import { createProgram } from "typescript";
 
 import { renderDoc } from "./renderer";
 import { parseDoc } from "./parser";
