@@ -28,12 +28,3 @@ jobs:
         run: (cd docs && yarn install)
       - name: Check
         run: yarn run check
-      - name: Slack Notification
-        uses: 8398a7/action-slack@v3
-        if: always()
-        with:
-          status: ${{ job.status }}
-          fields: repo,commit,action,workflow
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
