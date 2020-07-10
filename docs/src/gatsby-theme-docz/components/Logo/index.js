@@ -9,7 +9,7 @@ const Image = styled.img`
 export const Logo = () => (
   <Link to="/">
     <Image
-      src="https://raw.githubusercontent.com/darwin-education/resium/master/docs/resources/logo-sidebar.png"
+      src="https://raw.githubusercontent.com/darwin-education/resium/master/docs/src/resources/logo-sidebar.png"
       alt="Resium"
     />
   </Link>

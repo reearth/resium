@@ -19,6 +19,10 @@ export default {
     "Advanced",
     "Migration Guide",
     "Contribution",
+    {
+      name: "GitHub",
+      href: "https://github.com/darwin-education/resium",
+    },
   ],
   themeConfig: {
     initialColorMode: "dark",
