@@ -24,7 +24,7 @@ export { default as EntityDescription, EntityStaticDescription } from "./EntityD
 export { default as Fog } from "./Fog";
 export { default as GeoJsonDataSource } from "./GeoJsonDataSource";
 export { default as Globe } from "./Globe";
-export { default as GroundPolylinePrimitive } from "./GroundPolylinePrimitive"
+export { default as GroundPolylinePrimitive } from "./GroundPolylinePrimitive";
 export { default as GroundPrimitive } from "./GroundPrimitive";
 export { default as GroundPrimitiveCollection } from "./GroundPrimitiveCollection";
 export { default as ImageryLayer } from "./ImageryLayer";
