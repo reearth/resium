@@ -8,14 +8,18 @@ import {
   createWorldTerrain,
   Math as CesiumMath,
 } from "cesium";
-import { storiesOf } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 
 import { useCesium } from "../core";
 import Viewer from "../Viewer";
 import ParticleSystem from "./ParticleSystem";
 import CameraFlyTo from "../CameraFlyTo";
-
 import snowImg from "assets/circular_particle.png";
+
+export default {
+  title: "ParticleSystem",
+  component: ParticleSystem,
+} as Meta;
 
 const pos = new Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
 const snowAlpha = 1.0;
@@ -83,7 +87,7 @@ const SnowParticle: FC = () => {
   );
 };
 
-storiesOf("ParticleSystem", module).add("Basic", () => (
+export const Snow: Story = () => (
   <Viewer full shouldAnimate terrainProvider={createWorldTerrain({})}>
     <CameraFlyTo
       duration={0}
@@ -95,4 +99,4 @@ storiesOf("ParticleSystem", module).add("Basic", () => (
     />
     <SnowParticle />
   </Viewer>
-));
+);

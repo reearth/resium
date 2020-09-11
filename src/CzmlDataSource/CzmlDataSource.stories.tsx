@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { GeoJsonDataSource } from "cesium";
 
 import Viewer from "../Viewer";
-import CzmlDataSource from "./CzmlDataSource";
+import CzmlDataSource, { CzmlDataSourceProps } from "./CzmlDataSource";
+
+export default {
+  title: "CzmlDataSource",
+  component: CzmlDataSource,
+} as Meta;
 
 const czml = [
   {
@@ -45,22 +50,10 @@ const onLoad = (g: GeoJsonDataSource) => {
   onLoadAction(g);
 };
 
-storiesOf("CzmlDataSource", module)
-  .add("Basic", () => (
-    <Viewer full>
-      <CzmlDataSource data={czml} onLoad={onLoad} onError={action("onError")} />
-    </Viewer>
-  ))
-  .add("Show", () => {
-    const [show, setShow] = useState(true);
-    return (
-      <Viewer full>
-        <button
-          style={{ position: "absolute", top: "0", left: "0" }}
-          onClick={() => setShow(s => !s)}>
-          Toggle
-        </button>
-        <CzmlDataSource data={czml} show={show} />
-      </Viewer>
-    );
-  });
+export const Basic: Story<CzmlDataSourceProps> = args => (
+  <Viewer full>
+    <CzmlDataSource {...args} data={czml} onLoad={onLoad} onError={action("onError")} />
+  </Viewer>
+);
+
+Basic.args = { show: true };

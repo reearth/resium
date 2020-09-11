@@ -1,12 +1,17 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 import { JulianDate, ClockRange, ClockStep } from "cesium";
 
 import Viewer from "../Viewer";
-import Clock from "./Clock";
+import Clock, { ClockProps } from "./Clock";
 import Globe from "../Globe";
 
-storiesOf("Clock", module).add("Basic", () => (
+export default {
+  title: "Clock",
+  component: Clock,
+} as Meta;
+
+export const Basic: Story<ClockProps> = () => (
   <Viewer full>
     <Globe enableLighting />
     <Clock
@@ -19,4 +24,4 @@ storiesOf("Clock", module).add("Basic", () => (
       shouldAnimate // Animation on by default
     />
   </Viewer>
-));
+);

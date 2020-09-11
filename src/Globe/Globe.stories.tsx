@@ -1,16 +1,23 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import Globe from "./Globe";
+import Globe, { GlobeProps } from "./Globe";
 
-storiesOf("Globe", module).add("Basic", () => (
+export default {
+  title: "Globe",
+  component: Globe,
+} as Meta;
+
+export const Basic: Story<GlobeProps> = args => (
   <Viewer full>
     <Globe
-      enableLighting
+      {...args}
       onImageryLayersUpdate={action("onImageryLayersUpdate")}
       onTerrainProviderChange={action("onTerrainProviderChange")}
     />
   </Viewer>
-));
+);
+
+Basic.args = { enableLighting: true };

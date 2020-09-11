@@ -8,18 +8,23 @@ import {
   ClockRange,
   Viewer as CesiumViewer,
 } from "cesium";
-import { storiesOf } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 
 import { CesiumComponentRef } from "../core";
 import Viewer from "../Viewer";
 import Clock from "../Clock";
-import TimeDynamicPointCloud from "./TimeDynamicPointCloud";
+import TimeDynamicPointCloud, { TimeDynamicPointCloudProps } from "./TimeDynamicPointCloud";
 
 import point0 from "assets/pointcloud/0.pnts";
 import point1 from "assets/pointcloud/1.pnts";
 import point2 from "assets/pointcloud/2.pnts";
 import point3 from "assets/pointcloud/3.pnts";
 import point4 from "assets/pointcloud/4.pnts";
+
+export default {
+  title: "TimeDynamicPointCloud",
+  component: TimeDynamicPointCloud,
+} as Meta;
 
 const uris = [point0, point1, point2, point3, point4];
 const dates = [
@@ -44,7 +49,7 @@ const style = new Cesium3DTileStyle({
   pointSize: 5,
 });
 
-storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
+export const Basic: Story<TimeDynamicPointCloudProps> = args => {
   const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
   return (
     <Viewer full shouldAnimate ref={ref}>
@@ -55,6 +60,7 @@ storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
         clockRange={ClockRange.LOOP_STOP}
       />
       <TimeDynamicPointCloud
+        {...args}
         intervals={intervals}
         style={style}
         onReady={p => {
@@ -63,4 +69,6 @@ storiesOf("TimeDynamicPointCloud", module).add("Basic", () => {
       />
     </Viewer>
   );
-});
+};
+
+Basic.args = { show: true };

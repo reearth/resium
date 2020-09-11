@@ -1,13 +1,18 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 import { Cartesian3 } from "cesium";
 
 import Viewer from "../Viewer";
 import Entity from "../Entity";
-import { Bloom } from ".";
+import { PostProcessStageComposite, Bloom, BloomProps } from ".";
 import model from "assets/Cesium_Air.glb";
 
-storiesOf("PostProcessStageComposite", module).add("Bloom", () => (
+export default {
+  title: "PostProcessStageComposite",
+  component: PostProcessStageComposite,
+} as Meta;
+
+export const BloomStory: Story<BloomProps> = () => (
   <Viewer full>
     <Bloom />
     <Entity
@@ -16,4 +21,6 @@ storiesOf("PostProcessStageComposite", module).add("Bloom", () => (
       tracked
     />
   </Viewer>
-));
+);
+
+BloomStory.storyName = "Bloom";

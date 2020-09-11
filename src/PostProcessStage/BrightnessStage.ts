@@ -2,10 +2,13 @@
 import { PostProcessStageLibrary } from "cesium";
 
 import { createPostProcessStage } from "../core";
+import { PostProcessStageProps } from "./PostProcessStage";
 
-export const BrightnessStage = createPostProcessStage<{
-  brightness?: number;
-}>({
+type Props = { brightness?: number };
+
+export type BrightnessStageProps = PostProcessStageProps & Props;
+
+export const BrightnessStage = createPostProcessStage<Props>({
   name: "BrightnessStage",
   props: ["brightness"],
   create: () => PostProcessStageLibrary.createBrightnessStage(),

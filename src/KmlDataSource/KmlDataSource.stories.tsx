@@ -1,10 +1,15 @@
-import React, { useState } from "react";
-import { storiesOf } from "@storybook/react";
+import React from "react";
+import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
 
 import Viewer from "../Viewer";
-import KmlDataSource from "./KmlDataSource";
+import KmlDataSource, { KmlDataSourceProps } from "./KmlDataSource";
+
+export default {
+  title: "KmlDataSource",
+  component: KmlDataSource,
+} as Meta;
 
 const data = new DOMParser().parseFromString(
   `
@@ -66,22 +71,10 @@ const onLoad = (k: CesiumKmlDataSource) => {
   onLoadAction(k);
 };
 
-storiesOf("KmlDataSource", module)
-  .add("Basic", () => (
-    <Viewer full>
-      <KmlDataSource data={data} onLoad={onLoad} onError={action("onError")} />
-    </Viewer>
-  ))
-  .add("Show", () => {
-    const [show, setShow] = useState(true);
-    return (
-      <Viewer full>
-        <button
-          style={{ position: "absolute", top: "0", left: "0" }}
-          onClick={() => setShow(s => !s)}>
-          Toggle
-        </button>
-        <KmlDataSource data={data} show={show} />
-      </Viewer>
-    );
-  });
+export const Basic: Story<KmlDataSourceProps> = args => (
+  <Viewer full>
+    <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action("onError")} />
+  </Viewer>
+);
+
+Basic.args = { show: true };

@@ -1,11 +1,10 @@
 import React from "react";
-import { storiesOf } from "@storybook/react";
+import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
-import Model from "./Model";
+import Model, { ModelProps } from "./Model";
 import CameraFlyTo from "../CameraFlyTo";
-
 import glb from "assets/Cesium_Air.glb";
 import { Transforms, Cartesian3 } from "cesium";
 
@@ -13,10 +12,16 @@ const origin = Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
 const cameraDest = Cartesian3.fromDegrees(-95.0, 40.0, 210000);
 const modelMatrix = Transforms.eastNorthUpToFixedFrame(origin);
 
-storiesOf("Model", module).add("Basic", () => (
+export default {
+  title: "Model",
+  component: Model,
+} as Meta;
+
+export const Basic: Story<ModelProps> = args => (
   <Viewer full>
     <CameraFlyTo destination={cameraDest} duration={0} />
     <Model
+      {...args}
       url={glb}
       modelMatrix={modelMatrix}
       minimumPixelSize={128}
@@ -25,4 +30,4 @@ storiesOf("Model", module).add("Basic", () => (
       onClick={action("onClick")}
     />
   </Viewer>
-));
+);
