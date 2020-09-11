@@ -4,7 +4,8 @@ import { Cartesian3 } from "cesium";
 
 import Viewer from "../Viewer";
 import Entity from "../Entity";
-import { PostProcessStageComposite, Bloom, BloomProps } from ".";
+import { PostProcessStageComposite, Bloom } from ".";
+import { BloomProps } from "./Bloom";
 import model from "assets/Cesium_Air.glb";
 
 export default {

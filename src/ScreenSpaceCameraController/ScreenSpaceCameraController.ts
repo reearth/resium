@@ -64,4 +64,5 @@ type UnusedProps = UnusedCesiumProps<
   CesiumScreenSpaceCameraController,
   keyof ScreenSpaceCameraControllerProps
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

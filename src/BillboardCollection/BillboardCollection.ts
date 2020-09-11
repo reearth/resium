@@ -75,4 +75,5 @@ export default BillboardCollection;
 // length: cannot be modified
 type IgnoredProps = "length";
 type UnusedProps = UnusedCesiumProps<CesiumBillboardCollection, keyof BillboardCollectionProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

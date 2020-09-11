@@ -2,14 +2,9 @@ import React from "react";
 import { Meta, Story } from "@storybook/react";
 
 import Viewer from "../Viewer";
-import {
-  PostProcessStage,
-  LensFlareStage,
-  LensFlareStageProps,
-  NightVisionStage,
-  PostProcessStageProps,
-  BlackAndWhiteStage,
-} from ".";
+import { PostProcessStage, LensFlareStage, NightVisionStage, BlackAndWhiteStage } from ".";
+import { LensFlareStageProps } from "./LensFlareStage";
+import { PostProcessStageProps } from "./PostProcessStage";
 
 export default {
   title: "PostProcessStage",

@@ -113,4 +113,5 @@ type UnusedProps = UnusedCesiumProps<
   CesiumGlobe,
   keyof GlobeProps | ValueOf<typeof cesiumEventProps>
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

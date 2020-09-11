@@ -114,4 +114,5 @@ export default PostProcessStage;
 export // Unused prop check
 type IgnoredProps = never;
 type UnusedProps = UnusedCesiumProps<CesiumPostProcessStage, keyof PostProcessStageProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

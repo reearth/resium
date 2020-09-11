@@ -71,4 +71,5 @@ export default Label;
 // Unused prop check
 type IgnoredProps = "totalScale";
 type UnusedProps = UnusedCesiumProps<CesiumLabel, keyof LabelProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

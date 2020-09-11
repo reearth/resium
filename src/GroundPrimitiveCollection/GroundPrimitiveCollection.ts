@@ -49,4 +49,5 @@ export default GroundPrimitiveCollection;
 // Unused prop check
 type IgnoredProps = never;
 type UnusedProps = UnusedCesiumProps<PrimitiveCollection, keyof GroundPrimitiveCollectionProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -101,4 +101,5 @@ export default ImageryLayer;
 // Unused prop check
 type IgnoredProps = never;
 type UnusedProps = UnusedCesiumProps<CesiumImageryLayer, keyof ImageryLayerProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

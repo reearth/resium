@@ -1,7 +1,6 @@
 import React from "react";
 import { Cartesian3, Transforms } from "cesium";
 import { Meta, Story } from "@storybook/react";
-import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import Polyline, { PolylineProps } from "./Polyline";

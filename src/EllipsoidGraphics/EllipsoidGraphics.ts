@@ -81,4 +81,5 @@ type UnusedProps = UnusedCesiumProps<
   Merge<CesiumEllipsoidGraphics, CesiumEllipsoidGraphics.ConstructorOptions>,
   keyof EllipsoidGraphicsProps | ValueOf<typeof cesiumEventProps>
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

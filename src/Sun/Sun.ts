@@ -41,4 +41,5 @@ export default Sun;
 // Unused prop check
 type IgnoredProps = never;
 type UnusedProps = UnusedCesiumProps<CesiumSun, keyof SunProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
