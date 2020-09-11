@@ -1,12 +1,12 @@
 import React from "react";
-import { Meta, Story } from "@storybook/react/types-6-0";
+import { Meta, Story } from "@storybook/react";
 import { Cartesian3, Color, Transforms } from "cesium";
 
+import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 import Billboard, { BillboardProps } from "./Billboard";
 import BillboardCollection from "../BillboardCollection";
 import exampleImage from "assets/example.png";
-import { actions } from "@storybook/addon-actions";
 
 export default {
   title: "Billboard",
@@ -30,6 +30,7 @@ const Template: Story<BillboardProps> = args => (
 );
 
 export const Basic = Template.bind({});
+
 Basic.args = {
   image: exampleImage,
   scale: 0.1,
@@ -48,26 +49,8 @@ export const Events: Story<BillboardProps> = args => (
     </BillboardCollection>
   </Viewer>
 );
+
 Events.args = {
   image: exampleImage,
   scale: 0.1,
 };
-
-const events = actions(
-  "onClick",
-  "onDoubleClick",
-  "onMouseDown",
-  "onMouseUp",
-  "onMiddleClick",
-  "onMiddleDown",
-  "onMiddleUp",
-  "onMouseMove",
-  "onPinchEnd",
-  "onPinchMove",
-  "onPinchStart",
-  "onRightClick",
-  "onRightDown",
-  "onRightUp",
-  "onMouseEnter",
-  "onMouseLeave",
-);
