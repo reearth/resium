@@ -1,7 +1,8 @@
 // @ignore
 import { createPostProcessStage } from "../core";
+import { PostProcessStageCompositeProps } from "./PostProcessStageComposite";
 
-export const AmbientOcclusion = createPostProcessStage<{
+type Props = {
   intensity?: number;
   bias?: number;
   lengthCap?: number;
@@ -10,7 +11,11 @@ export const AmbientOcclusion = createPostProcessStage<{
   ambientOcclusionOnly?: boolean;
   delta?: number;
   sigma?: number;
-}>({
+};
+
+export type AmbientOcclusionProps = PostProcessStageCompositeProps & Props;
+
+export const AmbientOcclusion = createPostProcessStage<Props>({
   name: "AmbientOcclusion",
   create: (_props, collection) => collection.ambientOcclusion,
   props: [

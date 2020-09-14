@@ -33,7 +33,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
   const [selected, setSelected] = useState(false);
   const c = useMemo(
     () => container ?? viewer?.infoBox.frame.contentDocument?.createElement("div"),
-    [container, viewer?.infoBox?.frame?.contentDocument?.createElement],
+    [container, viewer?.infoBox.frame.contentDocument],
   );
 
   // Update selected state
@@ -60,7 +60,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
         // auto resize
         frame.style.display = "block";
         frame.style.height = parent.getBoundingClientRect().height + "px";
-        delete frame.style.display;
+        frame.style.display = "";
       }
     } else if (c.parentElement === parent) {
       parent.removeChild(c);

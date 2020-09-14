@@ -88,4 +88,5 @@ export default Primitive;
 // Unused prop check
 type IgnoredProps = never;
 type UnusedProps = UnusedCesiumProps<CesiumPrimitive, keyof PrimitiveProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

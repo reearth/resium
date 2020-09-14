@@ -142,4 +142,5 @@ type UnusedProps = UnusedCesiumProps<
   Target,
   keyof KmlDataSourceProps | ValueOf<typeof cesiumEventProps>
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

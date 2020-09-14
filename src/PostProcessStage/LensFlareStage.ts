@@ -2,8 +2,9 @@
 import { PostProcessStageLibrary } from "cesium";
 
 import { createPostProcessStage } from "../core";
+import { PostProcessStageProps } from "./PostProcessStage";
 
-export const LensFlareStage = createPostProcessStage<{
+type Props = {
   dirtTexture?: any;
   starTexture?: any;
   intensity?: number;
@@ -11,7 +12,11 @@ export const LensFlareStage = createPostProcessStage<{
   ghostDispersal?: number;
   haloWidth?: number;
   earthRadius?: number;
-}>({
+};
+
+export type LensFlareStageProps = PostProcessStageProps & Props;
+
+export const LensFlareStage = createPostProcessStage<Props>({
   name: "LensFlareStage",
   props: [
     "dirtTexture",

@@ -67,4 +67,5 @@ type UnusedProps = UnusedCesiumProps<
   CesiumPointPrimitiveCollection,
   keyof PointPrimitiveCollectionProps
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -156,4 +156,5 @@ type UnusedProps = UnusedCesiumProps<
   Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
   keyof Cesium3DTilesetProps | ValueOf<typeof cesiumEventProps>
 >;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -155,4 +155,5 @@ export default CesiumWidget;
 // Unused prop check
 type IgnoredProps = never;
 type UnusedProps = UnusedCesiumProps<Target, keyof CesiumWidgetProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

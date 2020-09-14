@@ -10,7 +10,7 @@ import defaultComponents from "gatsby-theme-docz/src/components";
 import { InlineCode } from "./components/InlineCode";
 import { Table } from "./components/Table";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, react/display-name
 const withNoClassName = Component => ({ className: _, ...props }) => <Component {...props} />;
 
 const components = {

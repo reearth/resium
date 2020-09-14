@@ -104,4 +104,5 @@ export default Model;
 // Unused prop check
 type IgnoredProps = "activeAnimations";
 type UnusedProps = UnusedCesiumProps<Target, keyof ModelProps>;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;
