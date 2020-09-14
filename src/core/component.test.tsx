@@ -138,6 +138,9 @@ describe("core/component", () => {
   });
 
   it("should remount when cesium read only props are updated", () => {
+    const warn = console.warn;
+    console.warn = jest.fn();
+
     const cesiumElement = {
       foo: 0,
     };
@@ -168,6 +171,8 @@ describe("core/component", () => {
     expect(createFn).toBeCalledTimes(2);
     expect(destroyFn).toBeCalledTimes(1);
     expect(cesiumElement.foo).toBe(2);
+
+    console.warn = warn;
   });
 
   it("should call update", () => {
