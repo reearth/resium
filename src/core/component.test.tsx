@@ -193,15 +193,10 @@ describe("core/component", () => {
     const create1 = jest.fn(() => "test");
     const create2 = jest.fn(() => "test");
 
-    const Component1 = createCesiumComponent<
-      string,
-      { children?: ReactNode },
-      any,
-      { context: string }
-    >({
+    const Component1 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
       create: create1,
-      provide: () => ({ context: "b" }),
+      provide: (): any => ({ context: "b" }),
     });
 
     const Component2 = createCesiumComponent<string, unknown>({

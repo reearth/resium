@@ -41,4 +41,4 @@ export type Context = {
 
 export const CesiumContext = createContext<any>({});
 export const { Provider, Consumer } = CesiumContext;
-export const useCesium = <T = Context>() => useContext(CesiumContext) as T;
+export const useCesium = (): Context => useContext(CesiumContext) || {};
