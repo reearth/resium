@@ -6,7 +6,6 @@ import {
   EventManager,
   eventManagerContextKey,
   RootEventProps,
-  Context,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
@@ -85,13 +84,7 @@ export type CesiumWidgetProps = CesiumWidgetCesiumProps &
   CesiumWidgetCesiumReadonlyProps &
   CesiumWidgetOtherProps;
 
-const CesiumWidget = createCesiumComponent<
-  CesiumCesiumWidget,
-  CesiumWidgetProps,
-  Context,
-  Context,
-  EventManager
->({
+const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps, EventManager>({
   name: "CesiumWidget",
   create(_context, props, container) {
     if (!container) return;

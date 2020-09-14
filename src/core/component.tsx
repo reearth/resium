@@ -10,16 +10,10 @@ import React, {
 } from "react";
 
 import { useCesiumComponent, Options } from "./hooks";
-import { CesiumContext, Context } from "./context";
+import { CesiumContext } from "./context";
 import { pick } from "./util";
 
-export type CesiumComponentOptions<
-  Element,
-  Props,
-  Context = any,
-  ProvidecContext = any,
-  State = any
-> = Options<Element, Props, Context, ProvidecContext, State> & {
+export type CesiumComponentOptions<Element, Props, State = any> = Options<Element, Props, State> & {
   renderContainer?: boolean;
   noChildren?: boolean;
   containerProps?:
@@ -38,35 +32,24 @@ export type CesiumComponentType<Element, Props> = ForwardRefExoticComponent<
   PropsWithoutRef<Props> & RefAttributes<CesiumComponentRef<Element>>
 >;
 
-export const createCesiumComponent = <
-  Element,
-  Props,
-  Ctx = Context,
-  ProvidecContext = Context,
-  State = any
->({
+export const createCesiumComponent = <Element, Props, State = any>({
   renderContainer,
   noChildren,
   containerProps,
   defaultProps,
   ...options
-}: CesiumComponentOptions<Element, Props, Ctx, ProvidecContext, State>): CesiumComponentType<
-  Element,
-  Props
-> => {
+}: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<Element, Props> => {
   const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, Props> = (props, ref) => {
     const mergedProps = {
       ...defaultProps,
       ...props,
     };
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesiumComponent<
-      Element,
-      Props,
-      Ctx,
-      ProvidecContext,
-      State
-    >(options, mergedProps, ref);
+    const [provided, mounted, wrapperRef] = useCesiumComponent<Element, Props, State>(
+      options,
+      mergedProps,
+      ref,
+    );
 
     if (noChildren) return null;
 

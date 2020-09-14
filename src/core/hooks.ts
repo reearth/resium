@@ -9,13 +9,13 @@ import {
 } from "react";
 import { Event as CesiumEvent } from "cesium";
 
-import { useCesium } from "./context";
+import { Context, useCesium } from "./context";
 import { EventManager, eventManagerContextKey } from "./EventManager";
 import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-export type Options<Element, Props, Context = any, ProvidedContext = any, State = any> = {
+export type Options<Element, Props, State = any> = {
   name: string;
   create?: (
     ctx: Context,
@@ -28,7 +28,7 @@ export type Options<Element, Props, Context = any, ProvidedContext = any, State 
     wrapperRef: HTMLDivElement | null,
     state?: State,
   ) => void;
-  provide?: (element: Element, ctx: Context, state?: State) => ProvidedContext;
+  provide?: (element: Element, ctx: Context, state?: State) => Partial<Context>;
   update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
   cesiumProps?: readonly (keyof Props)[];
   cesiumReadonlyProps?: readonly (keyof Props)[];
@@ -38,13 +38,7 @@ export type Options<Element, Props, Context = any, ProvidedContext = any, State 
   useRootEvent?: boolean;
 };
 
-export const useCesiumComponent = <
-  Element,
-  Props,
-  Context,
-  ProvidedContext extends { [key in string]?: unknown } = { [key in string]?: unknown },
-  State = any
->(
+export const useCesiumComponent = <Element, Props, State = any>(
   {
     name,
     create,
@@ -57,13 +51,13 @@ export const useCesiumComponent = <
     setCesiumPropsAfterCreate,
     useCommonEvent,
     useRootEvent,
-  }: Options<Element, Props, Context, ProvidedContext, State>,
+  }: Options<Element, Props, State>,
   props: Props,
   ref: any,
-): [ProvidedContext | undefined, boolean, RefObject<HTMLDivElement>] => {
+): [Partial<Context> | undefined, boolean, RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
-  const ctx = useCesium<Context & { [eventManagerContextKey]?: EventManager }>();
-  const provided = useRef<ProvidedContext | undefined>(provide ? ({} as any) : undefined);
+  const ctx = useCesium();
+  const provided = useRef<Partial<Context> | undefined>(provide ? {} : undefined);
   const attachedEvents = useRef<
     {
       [key in keyof Element]?: any;
@@ -75,7 +69,7 @@ export const useCesiumComponent = <
   const mountedRef = useRef(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State>();
-  const eventManager = ctx[eventManagerContextKey];
+  const eventManager = ctx?.[eventManagerContextKey];
 
   // Update properties
   const updateProperties = useCallback(

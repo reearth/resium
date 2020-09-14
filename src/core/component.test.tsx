@@ -138,6 +138,9 @@ describe("core/component", () => {
   });
 
   it("should remount when cesium read only props are updated", () => {
+    const warn = console.warn;
+    console.warn = jest.fn();
+
     const cesiumElement = {
       foo: 0,
     };
@@ -168,6 +171,8 @@ describe("core/component", () => {
     expect(createFn).toBeCalledTimes(2);
     expect(destroyFn).toBeCalledTimes(1);
     expect(cesiumElement.foo).toBe(2);
+
+    console.warn = warn;
   });
 
   it("should call update", () => {
@@ -193,15 +198,10 @@ describe("core/component", () => {
     const create1 = jest.fn(() => "test");
     const create2 = jest.fn(() => "test");
 
-    const Component1 = createCesiumComponent<
-      string,
-      { children?: ReactNode },
-      any,
-      { context: string }
-    >({
+    const Component1 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
       create: create1,
-      provide: () => ({ context: "b" }),
+      provide: (): any => ({ context: "b" }),
     });
 
     const Component2 = createCesiumComponent<string, unknown>({

@@ -6,7 +6,6 @@ import {
   EventManager,
   eventManagerContextKey,
   RootEventProps,
-  Context,
   PickCesiumProps,
   UnusedCesiumProps,
   AssertNever,
@@ -125,7 +124,7 @@ export type ViewerProps = ViewerCesiumProps &
   ViewerCesiumEvents &
   ViewerOtherProps;
 
-const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, Context, Context, EventManager>({
+const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
   name: "Viewer",
   create(_context, { imageryProvider, ...props }, wrapper) {
     if (!wrapper) return;
