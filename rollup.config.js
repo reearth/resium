@@ -18,8 +18,8 @@ export default {
       env === "es"
         ? pkg.module
         : env === "cjs"
-        ? pkg.main
-        : `dist/resium${env === "production" ? ".min" : ""}.js`,
+          ? pkg.main
+          : `dist/resium${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom": "ReactDOM",
@@ -35,10 +35,10 @@ export default {
         compilerOptions: {
           declaration: env === "es", // only compile defs in es format
           declarationDir: "dist/types",
-          module: "es2015",
         },
       },
       useTsconfigDeclarationDir: true,
+      check: false, // exec type check with "yarn run type" before building
       exclude: [
         "./src/**/story/**/*",
         "./src/**/story.tsx",
@@ -56,15 +56,14 @@ export default {
       comments: ["license", "jsdoc"],
       extensions: [".js", ".jsx", ".ts", ".tsx"],
     }),
-  ].concat(
-    env === "production"
+    ...(env === "production"
       ? [
-          replace({
-            "process.env.NODE_ENV": JSON.stringify("production"),
-          }),
-          terser(),
-        ]
-      : [],
-  ),
-  external: ["react", "react-dom", "react-dom/server.browser", "cesium"],
+        replace({
+          "process.env.NODE_ENV": JSON.stringify("production"),
+        }),
+        terser(),
+      ]
+      : []),
+  ],
+  external: [...Object.keys(pkg.peerDependencies || {}), "react-dom/server.browser"],
 };
