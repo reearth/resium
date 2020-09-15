@@ -1,6 +1,24 @@
 # Changelog
 
-## v1.12 - 2020/07/03
+## v1.13.0 - 2020/09/15
+
+### New Features
+
+- `ClassificationPrimitive` component
+
+### Bug Fixes
+
+- `PointGraphics` component does not display a point correctly
+- `GroundPolylinePrimitive` component does not exported
+
+### Chore
+
+- Upgrade storybook to v6
+- Update example project: use react-refresh instead of react-hot-loader
+- Change `useCesium` hook type
+- Change `containerProps` type in options of `createCesiumComponent` func
+
+## v1.12.0 - 2020/07/03
 
 ### BREAKING CHANGES
 
