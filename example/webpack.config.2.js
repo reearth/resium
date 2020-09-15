@@ -5,6 +5,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 const cesiumSource = "node_modules/cesium/Source";
 const cesiumWorkers = "../Build/Cesium/Workers";
@@ -26,7 +27,12 @@ module.exports = (_env, args) => {
         {
           test: /\.js$/,
           exclude: /node_modules/,
-          use: "babel-loader",
+          use: {
+            loader: "babel-loader",
+            options: {
+              plugins: prod ? [] : ["react-refresh/babel"],
+            }
+          },
         },
         {
           test: /\.css$/,
@@ -39,21 +45,21 @@ module.exports = (_env, args) => {
         ...[
           prod
             ? {
-                // Strip cesium pragmas
-                test: /\.js$/,
-                enforce: "pre",
-                include: path.resolve(__dirname, cesiumSource),
-                use: [
-                  {
-                    loader: "strip-pragma-loader",
-                    options: {
-                      pragmas: {
-                        debug: false,
-                      },
+              // Strip cesium pragmas
+              test: /\.js$/,
+              enforce: "pre",
+              include: path.resolve(__dirname, cesiumSource),
+              use: [
+                {
+                  loader: "strip-pragma-loader",
+                  options: {
+                    pragmas: {
+                      debug: false,
                     },
                   },
-                ],
-              }
+                },
+              ],
+            }
             : {},
         ],
       ],
@@ -84,15 +90,10 @@ module.exports = (_env, args) => {
       new HtmlPlugin({
         template: "index.html",
       }),
-      ...(prod ? [] : [new webpack.HotModuleReplacementPlugin()]),
+      ...(prod ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
     ],
     resolve: {
       alias: {
-        ...(prod
-          ? {}
-          : {
-              "react-dom": "@hot-loader/react-dom",
-            }),
         cesium$: "cesium/Cesium",
         cesium: "cesium/Source",
       },
