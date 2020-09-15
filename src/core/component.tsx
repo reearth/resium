@@ -1,6 +1,5 @@
 import React, {
   forwardRef,
-  DetailedHTMLProps,
   HTMLAttributes,
   ForwardRefExoticComponent,
   PropsWithoutRef,
@@ -16,11 +15,7 @@ import { pick } from "./util";
 export type CesiumComponentOptions<Element, Props, State = any> = Options<Element, Props, State> & {
   renderContainer?: boolean;
   noChildren?: boolean;
-  containerProps?:
-    | (keyof Props)[]
-    | ((
-        props: Props,
-      ) => Partial<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>>);
+  containerProps?: (keyof Props)[] | ((props: Props) => HTMLAttributes<HTMLDivElement>);
   defaultProps?: Partial<Props>;
 };
 
