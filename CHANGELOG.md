@@ -4,19 +4,21 @@
 
 ### New Features
 
-- `ClassificationPrimitive` component
+- `ClassificationPrimitive` component ([#429](https://github.com/darwin-education/resium/pull/429))
 
 ### Bug Fixes
 
 - `PointGraphics` component does not display a point correctly
-- `GroundPolylinePrimitive` component does not exported
+- `GroundPolylinePrimitive` component is not exported ([#423](https://github.com/darwin-education/resium/pull/423))
 
 ### Chore
 
 - Upgrade storybook to v6
 - Update example project: use react-refresh instead of react-hot-loader
+- Fix typo in documentation ([#421](https://github.com/darwin-education/resium/pull/421))
 - Change `useCesium` hook type
-- Change `containerProps` type in options of `createCesiumComponent` func
+- Change type parameters of `createCesiumComponent` function
+- Change `containerProps` type in options of `createCesiumComponent` function
 
 ## v1.12.0 - 2020/07/03
 
