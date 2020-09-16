@@ -23,6 +23,7 @@ const componentFiles = globby
     "../src/*/*.ts{,x}",
     "!../src/*/index.ts{,x}",
     "!../src/*/story.ts{,x}",
+    "!../src/*/*.stories.ts{,x}",
     "!../src/*/test.ts{,x}",
     "!../src/*/*.test.ts{,x}",
     "!../src/core/**/*",
