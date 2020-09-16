@@ -13,8 +13,8 @@ route: /advanced
 import { useCesium } from "resium";
 
 const ExampleComponent = () => {
-  const context = useCesium();
-  return <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>;
+  const { viewer } = useCesium();
+  return <p>Cesium Viewer object is{viewer ? "" : " not"} provided here.</p>;
 };
 
 export default ExampleComponent;
@@ -27,8 +27,8 @@ import { Viewer } from "cesium";
 import { useCesium } from "resium";
 
 const ExampleComponent = () => {
-  const context = useCesium();
-  return <p>Cesium Viewer object is{context.viewer ? "" : " not"} provided here.</p>;
+  const { viewer } = useCesium();
+  return <p>Cesium Viewer object is{viewer ? "" : " not"} provided here.</p>;
 };
 
 export default ExampleComponent;

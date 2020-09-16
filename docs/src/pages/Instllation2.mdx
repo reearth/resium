@@ -176,4 +176,6 @@ You can import Cesium directly:
 import { Cartesian3 } from "cesium";
 ```
 
-Note: `import Cesium from "cesium";` may be cause an error, as default is not exported from Cesium.
+Warning: `import Cesium from "cesium";` may be cause an error, as default is not exported from Cesium.
+
+Pro tip: you can enable HMR (hot module replacement) with [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin).

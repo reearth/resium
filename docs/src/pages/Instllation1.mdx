@@ -82,6 +82,8 @@ module.exports = (env, argv) => {
 };
 ```
 
+But Cesium is a heavy library, so you can also use the minified version even in development mode.
+
 ## 4. Add html-webpack-plugin and html-webpack-include-assets-plugin
 
 Load Cesium js and css files in HTML.
@@ -133,3 +135,5 @@ You can import Cesium directly:
 ```js
 import { Cartesian3 } from "cesium";
 ```
+
+Pro tip: you can enable HMR (hot module replacement) with [react-refresh-webpack-plugin](https://github.com/pmmmwh/react-refresh-webpack-plugin).
