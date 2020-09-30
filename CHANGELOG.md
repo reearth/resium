@@ -1,5 +1,16 @@
 # Changelog
 
+## v1.13.1 - 2020/09/30
+
+### Bug Fixes
+
+- Resium does not work in create-react-app env ([#438](https://github.com/darwin-education/resium/pull/438))
+- `EntityDescription` component does not render description in infobox ([#436](https://github.com/darwin-education/resium/pull/436))
+
+### Chore
+
+- Update dependencies
+
 ## v1.13.0 - 2020/09/15
 
 ### New Features
