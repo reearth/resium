@@ -58,7 +58,7 @@ export const createCesiumComponent = <Element, Props, State = any>({
         {children}
       </div>
     ) : (
-      children
+      children ?? null
     );
 
     if (provided) {
