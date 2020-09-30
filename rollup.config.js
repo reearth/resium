@@ -18,8 +18,8 @@ export default {
       env === "es"
         ? pkg.module
         : env === "cjs"
-          ? pkg.main
-          : `dist/resium${env === "production" ? ".min" : ""}.js`,
+        ? pkg.main
+        : `dist/resium${env === "production" ? ".min" : ""}.js`,
     globals: {
       react: "React",
       "react-dom": "ReactDOM",
@@ -58,11 +58,11 @@ export default {
     }),
     ...(env === "production"
       ? [
-        replace({
-          "process.env.NODE_ENV": JSON.stringify("production"),
-        }),
-        terser(),
-      ]
+          replace({
+            "process.env.NODE_ENV": JSON.stringify("production"),
+          }),
+          terser(),
+        ]
       : []),
   ],
   external: [...Object.keys(pkg.peerDependencies || {}), "react-dom/server.browser"],
