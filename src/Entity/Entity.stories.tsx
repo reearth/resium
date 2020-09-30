@@ -123,6 +123,15 @@ export const Description: Story<EntityProps> = args => {
         point={{ pixelSize: 15, color: Color.RED }}>
         <EntityDescription>
           <h1>Hello!</h1>
+        </EntityDescription>
+      </Entity>
+      <Entity
+        {...args}
+        name="test4"
+        position={Cartesian3.fromDegrees(-74, 10, 100)}
+        point={{ pixelSize: 15, color: Color.ORANGE }}>
+        <EntityDescription>
+          <h1>Hello!</h1>
           <p>This is description. It can be described with React!</p>
           <button onClick={() => setCount(i => i + 1)}>counter: {count}</button>
         </EntityDescription>

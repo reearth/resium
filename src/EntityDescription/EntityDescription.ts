@@ -54,17 +54,31 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     const frame = viewer.infoBox?.frame;
     const parent = frame?.contentDocument?.querySelector(".cesium-infoBox-description");
     if (!frame || !parent) return;
+
+    let timeout: number | undefined;
+
     if (selected) {
       parent.appendChild(c);
+
+      // remove cesium-infoBox-bodyless class
+      viewer.infoBox.container
+        .querySelector(".cesium-infoBox.cesium-infoBox-bodyless")
+        ?.classList.remove("cesium-infoBox-bodyless");
+
+      // auto resize
       if (resizeInfoBox) {
-        // auto resize
-        frame.style.display = "block";
-        frame.style.height = parent.getBoundingClientRect().height + "px";
-        frame.style.display = "";
+        const height = parent.getBoundingClientRect().height;
+        frame.style.height = height + "px";
+
+        timeout = window.setTimeout(() => {
+          frame.style.height = parent.getBoundingClientRect().height + "px";
+        }, 10);
       }
     } else if (c.parentElement === parent) {
       parent.removeChild(c);
     }
+
+    return timeout ? () => clearTimeout(timeout) : undefined;
   }, [c, container, resizeInfoBox, selected, viewer]);
 
   return c ? createPortal(!container || selected ? children : null, c) : null;

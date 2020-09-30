@@ -25,7 +25,7 @@ and can not be mounted more than once or together with EntityDescription compone
 */
 
 const EntityStaticDescription: FC = ({ children }) => {
-  const entity = useCesium().entity;
+  const { entity } = useCesium();
 
   useEffect(() => {
     if (!entity || !children) return;
