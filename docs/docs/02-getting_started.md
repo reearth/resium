@@ -1,6 +1,6 @@
 ---
-name: Getting Started
-route: /getting_started
+id: getting_started
+title: Getting Started
 ---
 
 # Getting Started
@@ -13,7 +13,7 @@ You can import all resium components as following.
 import { Viewer } from "resium";
 ```
 
-## The simplest resium application
+## The simplest Resium application
 
 The simplest resium application is as following.
 
@@ -256,4 +256,4 @@ const App = () => {
 - [Guide](/guide)
 - Components: see menu
 - [Examples](/examples/)
-- [Cesium Documentation](https://cesiumjs.org/refdoc/)
+- [Cesium Documentation](https://cesium.com/learn/cesiumjs/ref-doc/)

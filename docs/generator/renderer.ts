@@ -2,12 +2,8 @@ import { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types";
 
 export function renderDoc(doc: Doc) {
   return `---
-name: ${doc.name}
-route: /components/${doc.name}
-menu: Components
+title: ${doc.name}
 ---
-
-import Link from "../components/Link";
 
 # ${doc.name}
 ${doc.summary ? `\n${doc.summary}\n` : ""}
@@ -16,9 +12,7 @@ ${
     ? ""
     : `- **Cesium element**: [${doc.cesiumElement}](${getCesiumDocURL(doc.cesiumElement)})
 `
-}- **Example**: <Link href="/examples/?path=/story/${doc.name.toLowerCase()}--basic">${
-    doc.name
-  }</Link>
+}- **Example**: <a href="/examples/?path=/story/${doc.name.toLowerCase()}--basic">${doc.name}</a>
 ${
   doc.scope
     ? `

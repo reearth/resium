@@ -1,6 +1,6 @@
 ---
-name: Contribution
-route: /contribution
+id: contribution
+title: Contribution
 ---
 
 # Contribution

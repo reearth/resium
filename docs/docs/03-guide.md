@@ -1,6 +1,6 @@
 ---
-name: Guide
-route: /guide
+id: guide
+title: Guide
 ---
 
 # Guide

@@ -1,6 +1,6 @@
 ---
-name: Migration Guide
-route: /migration
+id: migration
+title: Migration Guide
 ---
 
 # Migration Guide

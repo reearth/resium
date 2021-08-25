@@ -1,0 +1,35 @@
+.features {
+  display: flex;
+  margin: 40px 0;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.feature {
+  text-align: center;
+  flex: 1;
+  box-sizing: border-box;
+}
+
+.emoji {
+  font-size: 150%;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+@media (max-width: 500px) {
+  .feature {
+    flex: auto;
+  }
+
+  .desc {
+    font-size: 18px;
+    flex-wrap: nowrap;
+  }
+}
+
+@media (max-width: 768px) {
+  .desc {
+    font-size: 14px;
+  }
+}
