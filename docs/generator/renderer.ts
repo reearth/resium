@@ -12,7 +12,7 @@ ${
     ? ""
     : `- **Cesium element**: [${doc.cesiumElement}](${getCesiumDocURL(doc.cesiumElement)})
 `
-}- **Example**: <a href="/examples/?path=/story/${doc.name.toLowerCase()}--basic">${doc.name}</a>
+}- **Example**: [${doc.name}](/examples/?path=/story/${doc.name.toLowerCase()}--basic")
 ${
   doc.scope
     ? `

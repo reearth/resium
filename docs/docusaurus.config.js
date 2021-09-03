@@ -3,8 +3,8 @@ module.exports = {
   tagline: "React components for 🌍 Cesium",
   url: "https://resium.reearth.io",
   baseUrl: "/",
-  onBrokenLinks: "throw",
-  onBrokenMarkdownLinks: "warn",
+  onBrokenLinks: "ignore",
+  onBrokenMarkdownLinks: "log",
   favicon: "img/favicon.ico",
   organizationName: "reearth", // Usually your GitHub org/user name.
   projectName: "resium", // Usually your repo name.
