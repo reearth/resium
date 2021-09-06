@@ -10,6 +10,7 @@ module.exports = {
   projectName: "resium", // Usually your repo name.
   trailingSlash: false,
   themeConfig: {
+    image: "og.png",
     colorMode: {
       defaultMode: "dark",
     },
