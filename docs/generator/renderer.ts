@@ -12,7 +12,9 @@ ${
     ? ""
     : `- **Cesium element**: [${doc.cesiumElement}](${getCesiumDocURL(doc.cesiumElement)})
 `
-}- **Example**: [${doc.name}](/examples/?path=/story/${doc.name.toLowerCase()}--basic")
+}- **Example**: [${
+    doc.name
+  }](https://resium.reearth.io/examples/?path=/story/${doc.name.toLowerCase()}--basic")
 ${
   doc.scope
     ? `

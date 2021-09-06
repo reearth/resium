@@ -26,7 +26,7 @@ module.exports = {
           docId: "home",
         },
         {
-          href: "/examples/",
+          href: "https://resium.reearth.io/examples/",
           label: "Examples",
           position: "left",
         },
