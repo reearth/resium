@@ -1,5 +1,5 @@
 import React from "react";
-import { KeyboardEventModifier, ScreenSpaceEventType, Cartesian3 } from "cesium";
+import { Cartesian3, KeyboardEventModifier, ScreenSpaceEventType } from "cesium";
 import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
@@ -27,6 +27,7 @@ export const Basic: Story<ScreenSpaceEventHandlerProps> = args => (
         type={ScreenSpaceEventType.RIGHT_CLICK}
         modifier={KeyboardEventModifier.SHIFT}
       />
+      <ScreenSpaceEvent action={action("Mouse moved")} type={ScreenSpaceEventType.MOUSE_MOVE} />
     </ScreenSpaceEventHandler>
   </Viewer>
 );
