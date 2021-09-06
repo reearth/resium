@@ -1,6 +1,6 @@
 ---
-name: Advanced
-route: /advanced
+id: advanced
+title: Advanced
 ---
 
 # Advanced

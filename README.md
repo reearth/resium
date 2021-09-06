@@ -2,7 +2,7 @@
 
 ![master](https://github.com/darwin-education/resium/workflows/master/badge.svg) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium) [![Financial Contributors on Open Collective](https://opencollective.com/resium/all/badge.svg?label=financial+contributors)](https://opencollective.com/resium)
 
-React components for 🌏[Cesium](https://cesiumjs.org/)
+React components for 🌏[Cesium](https://cesium.com/)
 
 - **Declarative Cesium** 🌏: high maintainable Cesium app with React
 - **Blazing Fast Development** 👨: HMR works perfectly

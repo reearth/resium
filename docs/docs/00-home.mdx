@@ -1,0 +1,32 @@
+---
+title: Home
+slug: /
+---
+
+import { Features, Feature } from "../src/components/Feature";
+
+# Resium
+
+![Resium](/resium.gif)
+
+Resium is library of React components for 🌍[Cesium](https://cesium.com/)
+
+```jsx
+<Viewer full>
+  <Entity
+    name="tokyo"
+    description="test"
+    position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+  />
+</Viewer>
+```
+
+![Screenshot](/screenshot.png)
+
+![Usage](/usage.gif)
+
+<Features>
+  <Feature title="Declarative Cesium" emoji="🌏" desc="Let's create a high maintainability Cesium application with React today!" />
+  <Feature title="Blazing Fast Development" emoji="👨🏻‍💻" desc="Resium brings hot module replacement to Cesium, which dramatically improves your development speed!" />
+  <Feature title="Strongly Typed" emoji="💪" desc="Resium fully supports TypeScript. Type definitions are built-in!" />
+</Features>

@@ -10,6 +10,7 @@ import { parseDoc } from "./parser";
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 const preview = options.includes("--preview") || options.includes("-p");
+const dest = path.resolve(__dirname, "..", "docs", "components");
 
 console.log(
   `Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}${
@@ -32,7 +33,7 @@ const componentFiles = globby
 
 if (componentFiles.length > 0) {
   try {
-    fs.mkdirSync(path.resolve(__dirname, "..", "src", "api"));
+    fs.mkdirSync(dest);
   } catch (err) {
     // ignore
   }
@@ -58,7 +59,7 @@ componentFiles.forEach(cf => {
   }
   if (doc) {
     const result = renderDoc(doc);
-    fs.writeFileSync(path.resolve(__dirname, "..", "src", "api", `${name}.mdx`), result);
+    fs.writeFileSync(path.join(dest, `${name}.mdx`), result);
   }
 });
 

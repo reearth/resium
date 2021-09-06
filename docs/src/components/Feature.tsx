@@ -1,26 +1,18 @@
-import styled from "@emotion/styled";
+import React, { PropsWithChildren } from "react";
+import styles from "./Feature.module.css";
 
-export const Feature = styled.div`
-  text-align: center;
-  width: calc(100% / 3);
-  box-sizing: border-box;
-  @media (max-width: 500px) {
-    width: auto;
-  }
-`;
+export function Features({ children }: PropsWithChildren<unknown>) {
+  return <div className={styles.features}>{children}</div>;
+}
 
-export const FeatureWrapper = styled.div`
-  display: flex;
-  margin: 40px 0;
-  flex-wrap: wrap;
-`;
-
-export const FeatureDesc = styled.p`
-  @media (max-width: 500px) {
-    font-size: 18px;
-    flex-wrap: nowrap;
-  }
-  @media (max-width: 768px) {
-    font-size: 14px;
-  }
-`;
+export function Feature({ title, emoji, desc }: { title?: string; emoji?: string; desc?: string }) {
+  return (
+    <section className={styles.feature}>
+      <h3 className={styles.title}>
+        <span className={styles.emoji}>{emoji}</span>
+        {title}
+      </h3>
+      <p className={styles.desc}>{desc}</p>
+    </section>
+  );
+}
