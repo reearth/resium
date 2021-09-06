@@ -13,7 +13,7 @@ module.exports = {
     },
     "@storybook/addon-storysource",
   ],
-  webpackFinal: async (config, { configType }) => ({
+  webpackFinal: async config => ({
     ...config,
     externals: {
       ...config.externals,
@@ -32,20 +32,16 @@ module.exports = {
     plugins: [
       ...config.plugins,
       new webpack.DefinePlugin({
-        CESIUM_BASE_URL: JSON.stringify("/cesium"),
+        CESIUM_BASE_URL: JSON.stringify("./cesium"),
       }),
-      ...(configType === "PRODUCTION"
-        ? []
-        : [
-            new CopyPlugin({
-              patterns: [
-                {
-                  from: "node_modules/cesium/Build/Cesium",
-                  to: "cesium",
-                },
-              ],
-            }),
-          ]),
+      new CopyPlugin({
+        patterns: [
+          {
+            from: "node_modules/cesium/Build/Cesium",
+            to: "cesium",
+          },
+        ],
+      }),
     ],
     resolve: {
       ...config.resolve,
