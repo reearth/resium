@@ -9,28 +9,28 @@ Your contribution welcome!
 
 ## Reporting bugs
 
-If you find bugs ascribed to resium, please open a issue in [GitHub issues](https://github.com/darwin-education/resium/issues).
+If you find bugs ascribed to resium, please open a issue in [GitHub issues](https://github.com/reearth/resium/issues).
 
 ## When you have a question
 
-Post your question to [GitHub issues](https://github.com/darwin-education/resium/issues).
+Post your question to [GitHub issues](https://github.com/reearth/resium/issues).
 
 Note: Please do not email the author if at all possible.
 
 ## Suggesting new features or new components
 
-Please open a issue in [GitHub issues](https://github.com/darwin-education/resium/issues).
+Please open a issue in [GitHub issues](https://github.com/reearth/resium/issues).
 
 ## Start hacking
 
 Resium requires an editor supporting TypeScript, ESLint, and Yarn.
 
-1. Fork [resium repository](https://github.com/darwin-education/resium).
+1. Fork [resium repository](https://github.com/reearth/resium).
 2. Clone a new repository made with forking.
 3. Install modules with `yarn` command.
 4. Let's develop!
 5. Commit and push your changes.
-6. Make a new [pull request](https://github.com/darwin-education/resium/pulls) in resium repository.
+6. Make a new [pull request](https://github.com/reearth/resium/pulls) in resium repository.
 
 - To run test: `yarn test`
 - To start storybook: `yarn storybook`

@@ -34,7 +34,7 @@ const ExampleComponent = () => {
 export default ExampleComponent;
 ```
 
-Structure of the context is [here](https://github.com/darwin-education/resium/blob/master/src/core/context.ts#L22).
+Structure of the context is [here](https://github.com/reearth/resium/blob/master/src/core/context.ts#L22).
 
 ## Define a new Cesium component
 

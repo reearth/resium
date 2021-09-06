@@ -23,14 +23,14 @@ To use Cesium in webpack environment, preparation is a bit more necessary, becau
 
 There are some choices. Choose one.
 
-1. If you are using `create-react-app`, [craco-cesium](https://github.com/darwin-education/craco-cesium) is recommended (easiest)
+1. If you are using `create-react-app`, [craco-cesium](https://github.com/reearth/craco-cesium) is recommended (easiest)
 2. [webpack: Copy whole Cesium files and load Cesium in HTML](#2-2-copy-whole-cesium-files-and-load-cesium-in-html) (easier)
 3. [webpack: Copy only asset files and load Cesium partially](#2-3-copy-only-asset-files-and-load-cesium-partially)
 4. vite: [vite-plugin-cesium](https://github.com/nshen/vite-plugin-cesium) is recommended
 
 ## 2-2. webpack: Copy whole Cesium files and load Cesium in HTML
 
-See also: [example project](https://github.com/darwin-education/resium/tree/master/example)
+See also: [example project](https://github.com/reearth/resium/tree/master/example)
 
 ### 2-2-1. Install webpack plugins
 
@@ -152,7 +152,7 @@ Note: If `publicPath` in webpack config is changed, CESIUM_BASE_URL may have to 
 
 In this way, imported and used Cesium's source codes are bundled to your app's source code with webpack.
 
-See also: [example project](https://github.com/darwin-education/resium/tree/master/example/webpack.config.2.js) and [Cesium's official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
+See also: [example project](https://github.com/reearth/resium/tree/master/example/webpack.config.2.js) and [Cesium's official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
 
 ### 2-3-1. Install webpack plugins and loaders
 

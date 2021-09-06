@@ -4,8 +4,8 @@
 
 ### Bug Fixes
 
-- Resium does not work in create-react-app env ([#438](https://github.com/darwin-education/resium/pull/438))
-- `EntityDescription` component does not render description in infobox ([#436](https://github.com/darwin-education/resium/pull/436))
+- Resium does not work in create-react-app env ([#438](https://github.com/reearth/resium/pull/438))
+- `EntityDescription` component does not render description in infobox ([#436](https://github.com/reearth/resium/pull/436))
 
 ### Chore
 
@@ -15,18 +15,18 @@
 
 ### New Features
 
-- `ClassificationPrimitive` component ([#429](https://github.com/darwin-education/resium/pull/429))
+- `ClassificationPrimitive` component ([#429](https://github.com/reearth/resium/pull/429))
 
 ### Bug Fixes
 
 - `PointGraphics` component does not display a point correctly
-- `GroundPolylinePrimitive` component is not exported ([#423](https://github.com/darwin-education/resium/pull/423))
+- `GroundPolylinePrimitive` component is not exported ([#423](https://github.com/reearth/resium/pull/423))
 
 ### Chore
 
 - Upgrade storybook to v6
 - Update example project: use react-refresh instead of react-hot-loader
-- Fix typo in documentation ([#421](https://github.com/darwin-education/resium/pull/421))
+- Fix typo in documentation ([#421](https://github.com/reearth/resium/pull/421))
 - Change `useCesium` hook type
 - Change type parameters of `createCesiumComponent` function
 - Change `containerProps` type in options of `createCesiumComponent` function
@@ -41,7 +41,7 @@
 
 ### Bug Fixes
 
-- Mouse event on primitives ([#324](https://github.com/darwin-education/resium/pull/324))
+- Mouse event on primitives ([#324](https://github.com/reearth/resium/pull/324))
 - CameraFlyXXX component: `onComplete` event is not called
 - Upgrade deps
 
@@ -58,13 +58,13 @@ Note: some breaking changes are included
   - **Scene**: `light` prop
 - Fix
   - types
-  - error on destroying camera operators ([#248](https://github.com/darwin-education/resium/issues/248))
-  - prevent reset when contents hot reloaded ([#232](https://github.com/darwin-education/resium/issues/232))
+  - error on destroying camera operators ([#248](https://github.com/reearth/resium/issues/248))
+  - prevent reset when contents hot reloaded ([#232](https://github.com/reearth/resium/issues/232))
 - Upgrade deps
 
 ## v1.10.1 - 2020/01/18
 
-- fix: error on destorying model ([#189](https://github.com/darwin-education/resium/issues/189))
+- fix: error on destorying model ([#189](https://github.com/reearth/resium/issues/189))
 - build: fix rollup config
 - Introduce Renovate
 
@@ -104,8 +104,8 @@ Note: some breaking changes are included
 ## v1.8.1 - 2019/11/11
 
 - fix
-  - Support Cesium v1.63 ([#126](https://github.com/darwin-education/resium/issues/126))
-  - typo: startPosition of CesiumMovementEvent ([#122](https://github.com/darwin-education/resium/issues/122))
+  - Support Cesium v1.63 ([#126](https://github.com/reearth/resium/issues/126))
+  - typo: startPosition of CesiumMovementEvent ([#122](https://github.com/reearth/resium/issues/122))
 
 ## v1.8.0 - 2019/10/10
 
@@ -123,9 +123,9 @@ Note: some breaking changes are included
 ## v1.7.0 - 2019/08/07
 
 - add
-  - `SkyBox` component ([#109](https://github.com/darwin-education/resium/issues/109))
+  - `SkyBox` component ([#109](https://github.com/reearth/resium/issues/109))
 - fix
-  - expose `GroundPrimitive` and `GroundPrimitiveCollection` ([#110](https://github.com/darwin-education/resium/issues/110))
+  - expose `GroundPrimitive` and `GroundPrimitiveCollection` ([#110](https://github.com/reearth/resium/issues/110))
   - typo: SkyAtmosphereContext
 - chore
   - upgrade deps
@@ -135,10 +135,10 @@ Note: some breaking changes are included
 - add
   - `SkyAtmosphere` component
 - change
-  - export types in core: e.g. `CesiumInsideComponentType` ([#103](https://github.com/darwin-education/resium/issues/103))
+  - export types in core: e.g. `CesiumInsideComponentType` ([#103](https://github.com/reearth/resium/issues/103))
 - fix
   - make `url` prop of `Cesium3DTileset` component read only
-  - fix Billboard, PointPrimitive, Polyline components cannot be update ([#99](https://github.com/darwin-education/resium/issues/99), [#101](https://github.com/darwin-education/resium/issues/101))
+  - fix Billboard, PointPrimitive, Polyline components cannot be update ([#99](https://github.com/reearth/resium/issues/99), [#101](https://github.com/reearth/resium/issues/101))
 - doc
   - update installation guide
   - add and update webpack config to example
@@ -147,15 +147,15 @@ Note: some breaking changes are included
 ## v1.5.0 - 2019/07/05
 
 - fix
-  - cannot update properties of Label component ([#92](https://github.com/darwin-education/resium/issues/92))
+  - cannot update properties of Label component ([#92](https://github.com/reearth/resium/issues/92))
   - fix component names
 - remove: terrainExaggeration property from Scene component
-- refactor: change folder structure ([#87](https://github.com/darwin-education/resium/pull/87) by [@imvan32](https://github.com/imvan32))
+- refactor: change folder structure ([#87](https://github.com/reearth/resium/pull/87) by [@imvan32](https://github.com/imvan32))
 - chore: upgrade deps
 
 ## v1.4.1 - 2019/03/26
 
-- fix: typo ([#74](https://github.com/darwin-education/resium/pull/74))
+- fix: typo ([#74](https://github.com/reearth/resium/pull/74))
 - fix: dependencies
 
 ## v1.4.0 - 2019/03/25
@@ -166,29 +166,29 @@ Note: some breaking changes are included
 
 ## v1.3.1 - 2019/03/15
 
-- Fix error on unmount ([#70](https://github.com/darwin-education/resium/pull/70))
+- Fix error on unmount ([#70](https://github.com/reearth/resium/pull/70))
 
 ## v1.3.0 - 2019/03/11
 
 - Add
-  - `GroundPrimitive` and `GroundPrimitiveCollection` component ([#67](https://github.com/darwin-education/resium/pull/67))
+  - `GroundPrimitive` and `GroundPrimitiveCollection` component ([#67](https://github.com/reearth/resium/pull/67))
 - Doc
-  - [Example page](https://resium.darwineducation.com/examples/) is available! ([#65](https://github.com/darwin-education/resium/pull/65))
-  - Add link of [craco-cesium](https://github.com/darwin-education/craco-cesium) in installation page
-  - Show source code in storybook ([#66](https://github.com/darwin-education/resium/pull/66))
+  - [Example page](https://resium.reearth.io/examples/) is available! ([#65](https://github.com/reearth/resium/pull/65))
+  - Add link of [craco-cesium](https://github.com/reearth/craco-cesium) in installation page
+  - Show source code in storybook ([#66](https://github.com/reearth/resium/pull/66))
 - Chore
-  - Export cesium context ([#62](https://github.com/darwin-education/resium/pull/62))
-  - Introduce typescript-eslint instead of tslint ([#63](https://github.com/darwin-education/resium/pull/63))
+  - Export cesium context ([#62](https://github.com/reearth/resium/pull/62))
+  - Introduce typescript-eslint instead of tslint ([#63](https://github.com/reearth/resium/pull/63))
   - Upgrade dependencies
 
 ## v1.2.1 - 2019/01/22
 
-- fix: unexpected rendering ([#46](https://github.com/darwin-education/resium/issues/46))
+- fix: unexpected rendering ([#46](https://github.com/reearth/resium/issues/46))
 
 ## v1.2.0 - 2019/01/15
 
 - Change
-  - **Viewer**: Enable to disable default imagery provider ([#50](https://github.com/darwin-education/resium/issues/50))
+  - **Viewer**: Enable to disable default imagery provider ([#50](https://github.com/reearth/resium/issues/50))
 - Decrepated
   - **Globe**: `ellipsoid`, `imageryLayers` (because they are unchangeable)
 - Upgrade dependencies
@@ -196,7 +196,7 @@ Note: some breaking changes are included
 
 ## v1.1.1 - 2019/01/10
 
-- fix: GeoJsonDataSource describe error ([#48](https://github.com/darwin-education/resium/issues/48))
+- fix: GeoJsonDataSource describe error ([#48](https://github.com/reearth/resium/issues/48))
 
 ## v1.1.0 - 2019/01/07
 
