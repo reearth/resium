@@ -1,10 +1,6 @@
 import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  Merge,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary

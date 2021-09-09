@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import React, { createRef, ReactNode } from "react";
+import { createRef, ReactNode } from "react";
 import { Event } from "cesium";
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";

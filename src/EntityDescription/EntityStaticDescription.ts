@@ -1,10 +1,10 @@
 import { useEffect, FC } from "react";
 import { ConstantProperty } from "cesium";
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const { renderToStaticMarkup } = require("react-dom/server.browser");
 // WORKAROUND: import { renderToStaticMarkup } from "react-dom/server.browser";
 
 import { useCesium } from "../core";
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const { renderToStaticMarkup } = require("react-dom/server.browser");
 
 // @noCesiumElement
 

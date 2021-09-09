@@ -1,4 +1,3 @@
-import React from "react";
 import { Cartesian3 } from "cesium";
 import { Story, Meta } from "@storybook/react";
 import { actions } from "@storybook/addon-actions";

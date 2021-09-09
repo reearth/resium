@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback, FC } from "react";
+import { useMemo, useRef, useCallback, FC } from "react";
 import {
   Cartesian3,
   Cartesian2,

@@ -1,4 +1,3 @@
-import React from "react";
 import { Cartesian3, Math as CesiumMath } from "cesium";
 import { Meta, Story } from "@storybook/react";
 

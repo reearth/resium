@@ -1,4 +1,4 @@
-import React, {
+import {
   forwardRef,
   HTMLAttributes,
   ForwardRefExoticComponent,
@@ -51,6 +51,7 @@ export const createCesiumComponent = <Element, Props, State = any>({
     const children = mounted ? (mergedProps.children as ReactElement) : null;
     const wrappedChildren = renderContainer ? (
       <div
+        data-testid="resium-container"
         ref={wrapperRef}
         {...(typeof containerProps === "function"
           ? containerProps(mergedProps)

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Viewer as CesiumViewer } from "cesium";

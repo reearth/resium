@@ -1,4 +1,3 @@
-import React from "react";
 import { Cartesian3, KeyboardEventModifier, ScreenSpaceEventType } from "cesium";
 import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";

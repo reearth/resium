@@ -19,7 +19,9 @@ Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
 
 export type ScreenSpaceEventProps = {
   /** If empty, the event will be removed even if there is the default event. */
-  action?: (e: { position: Cartesian2 } | {startPosition: Cartesian2, endPosition: Cartesian2}) => void;
+  action?: (
+    e: { position: Cartesian2 } | { startPosition: Cartesian2; endPosition: Cartesian2 },
+  ) => void;
   modifier?: KeyboardEventModifier;
   type: ScreenSpaceEventType;
 };

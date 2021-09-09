@@ -1,4 +1,3 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { JulianDate, ClockRange, ClockStep } from "cesium";
 
