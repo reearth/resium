@@ -1,0 +1,24 @@
+{
+  "extends": [
+    "plugin:react/recommended"
+  ],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "node": false
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "version": "16.6"
+    }
+  }
+}

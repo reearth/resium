@@ -1,0 +1,27 @@
+{
+  "name": "resium-example-c137.js",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "start": "webpack serve",
+    "build": "webpack --mode production"
+  },
+  "devDependencies": {
+    "@babel/core": "7.15.5",
+    "@babel/preset-env": "7.15.4",
+    "@babel/preset-react": "7.14.5",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
+    "babel-loader": "8.2.2",
+    "html-webpack-plugin": "5.3.2",
+    "react-refresh": "^0.10.0",
+    "webpack": "5.52.0",
+    "webpack-cli": "4.8.0",
+    "webpack-dev-server": "4.1.1"
+  },
+  "dependencies": {
+    "c137.js": "1.84.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
+    "resium": "1.13.1"
+  }
+}
