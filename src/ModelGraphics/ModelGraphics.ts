@@ -1,13 +1,6 @@
 import { ModelGraphics as CesiumModelGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -55,7 +48,7 @@ const cesiumProps = [
   "articulations",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -77,12 +70,3 @@ const ModelGraphics = createCesiumComponent<CesiumModelGraphics, ModelGraphicsPr
 });
 
 export default ModelGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumModelGraphics, CesiumModelGraphics.ConstructorOptions>,
-  keyof ModelGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

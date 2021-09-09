@@ -1,12 +1,6 @@
 import { PointPrimitive as CesiumPointPrimitive } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -55,9 +49,3 @@ const PointPrimitive = createCesiumComponent<CesiumPointPrimitive, PointPrimitiv
 });
 
 export default PointPrimitive;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPointPrimitive, keyof PointPrimitiveProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

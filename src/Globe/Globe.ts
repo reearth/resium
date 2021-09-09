@@ -1,10 +1,4 @@
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
 
 /*
@@ -54,7 +48,7 @@ export type GlobeCesiumEvents = {
   onTileLoadProgress?: (currentLoadQueueLength: number) => void;
 };
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onImageryLayersUpdate: "imageryLayersUpdatedEvent",
   onTerrainProviderChange: "terrainProviderChanged",
   onTileLoadProgress: "tileLoadProgressEvent",
@@ -106,12 +100,3 @@ const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
 });
 
 export default Globe;
-
-// Unused prop check
-type IgnoredProps = "ellipsoid" | "imageryLayers";
-type UnusedProps = UnusedCesiumProps<
-  CesiumGlobe,
-  keyof GlobeProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,13 +1,6 @@
 import { LabelGraphics as CesiumLabelGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -55,7 +48,7 @@ const cesiumProps = [
   "disableDepthTestDistance",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -77,12 +70,3 @@ const LabelGraphics = createCesiumComponent<CesiumLabelGraphics, LabelGraphicsPr
 });
 
 export default LabelGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumLabelGraphics, CesiumLabelGraphics.ConstructorOptions>,
-  keyof LabelGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

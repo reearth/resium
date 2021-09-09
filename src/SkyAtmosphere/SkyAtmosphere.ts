@@ -1,6 +1,6 @@
 import { SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -34,9 +34,3 @@ const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmospherePr
 });
 
 export default SkyAtmosphere;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumSkyAtmosphere, keyof SkyAtmosphereProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

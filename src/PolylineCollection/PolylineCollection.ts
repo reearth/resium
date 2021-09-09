@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { PolylineCollection as CesiumPolylineCollection } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -63,9 +63,3 @@ const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, Polyl
 );
 
 export default PolylineCollection;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPolylineCollection, keyof PolylineCollectionProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,4 +1,4 @@
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 import { Fog as CesiumFog } from "cesium";
 
 /*
@@ -37,9 +37,3 @@ const Fog = createCesiumComponent<CesiumFog, FogProps>({
 });
 
 export default Fog;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumFog, keyof FogProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -5,9 +5,9 @@ import {
   Scene,
 } from "cesium";
 
+import { PickCesiumProps } from "./types";
 import { createCesiumComponent } from "./component";
 import { includes } from "./util";
-import { AssertNever, PickCesiumProps, UnusedCesiumProps } from "./types";
 
 export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;
 
@@ -79,9 +79,3 @@ export const createPostProcessStage = <UniformProps>(opts: {
   });
 
 export default createPostProcessStage;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<PostProcessStage, keyof PostProcessStageProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

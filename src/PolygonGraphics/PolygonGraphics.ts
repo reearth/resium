@@ -1,13 +1,6 @@
 import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -55,7 +48,7 @@ const cesiumProps = [
   "classificationType",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -77,12 +70,3 @@ const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGrap
 });
 
 export default PolygonGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>,
-  keyof PolygonGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { PrimitiveCollection } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 // @cesiumElement PrimitiveCollection
 
@@ -45,9 +45,3 @@ const GroundPrimitiveCollection = createCesiumComponent<
 });
 
 export default GroundPrimitiveCollection;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<PrimitiveCollection, keyof GroundPrimitiveCollectionProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

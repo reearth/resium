@@ -1,13 +1,6 @@
 import { CylinderGraphics as CesiumCylinderGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -49,7 +42,7 @@ const cesiumProps = [
   "shadows",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -71,12 +64,3 @@ const CylinderGraphics = createCesiumComponent<CesiumCylinderGraphics, CylinderG
 });
 
 export default CylinderGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumCylinderGraphics, CesiumCylinderGraphics.ConstructorOptions>,
-  keyof CylinderGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { BillboardCollection as CesiumBillboardCollection } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -70,10 +70,3 @@ const BillboardCollection = createCesiumComponent<
 });
 
 export default BillboardCollection;
-
-// Unused prop check
-// length: cannot be modified
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<CesiumBillboardCollection, keyof BillboardCollectionProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

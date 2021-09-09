@@ -1,13 +1,6 @@
 import { PostProcessStage as CesiumPostProcessStage } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ConstructorOptions,
-  Merge,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
 
 /*
 @summary
@@ -110,9 +103,3 @@ export const PostProcessStage = createCesiumComponent<
 });
 
 export default PostProcessStage;
-
-export // Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumPostProcessStage, keyof PostProcessStageProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
 import { LabelCollection as CesiumLabelCollection } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -58,9 +58,3 @@ const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollec
 });
 
 export default LabelCollection;
-
-// Unused prop check
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<CesiumLabelCollection, keyof LabelCollectionProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

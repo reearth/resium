@@ -1,13 +1,6 @@
 import { PlaneGraphics as CesiumPlaneGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -45,7 +38,7 @@ const cesiumProps = [
 ] as const;
 
 // PlaneGraphics
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -67,12 +60,3 @@ const PlaneGraphics = createCesiumComponent<CesiumPlaneGraphics, PlaneGraphicsPr
 });
 
 export default PlaneGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumPlaneGraphics, CesiumPlaneGraphics.ConstructorOptions>,
-  keyof PlaneGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,13 +1,6 @@
 import { Cesium3DTilesetGraphics as CesiumCesium3DTilesetGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -34,7 +27,7 @@ export type Cesium3DTilesetGraphicsProps = Cesium3DTilesetGraphicsCesiumProps &
 
 const cesiumProps = ["show", "uri", "maximumScreenSpaceError"] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -59,12 +52,3 @@ const Cesium3DTilesetGraphics = createCesiumComponent<
 });
 
 export default Cesium3DTilesetGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumCesium3DTilesetGraphics, CesiumCesium3DTilesetGraphics.ConstructorOptions>,
-  keyof Cesium3DTilesetGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

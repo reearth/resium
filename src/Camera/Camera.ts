@@ -1,12 +1,6 @@
 import { Camera as CesiumCamera } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -73,7 +67,7 @@ const cesiumProps = [
   "percentageChanged",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onChange: "changed",
   onMoveEnd: "moveEnd",
   onMoveStart: "moveStart",
@@ -88,12 +82,3 @@ const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
 });
 
 export default Camera;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumCamera,
-  keyof CameraProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

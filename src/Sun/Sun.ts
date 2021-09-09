@@ -1,5 +1,5 @@
 import { Sun as CesiumSun } from "cesium";
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -37,9 +37,3 @@ const Sun = createCesiumComponent<CesiumSun, SunProps>({
 });
 
 export default Sun;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumSun, keyof SunProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

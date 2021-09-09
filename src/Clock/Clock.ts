@@ -1,11 +1,5 @@
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
-} from "../core";
-import { ClockRange, ClockStep, JulianDate, Clock as CesiumClock } from "cesium";
+import { Clock as CesiumClock, ClockRange, ClockStep, JulianDate } from "cesium";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -35,7 +29,7 @@ export type ClockCesiumEvents = {
   onTick?: (clock: CesiumClock) => void;
 };
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onStop: "onStop",
   onTick: "onTick",
 } as const;
@@ -62,12 +56,3 @@ const Clock = createCesiumComponent<CesiumClock, ClockProps>({
 });
 
 export default Clock;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumClock,
-  keyof ClockProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

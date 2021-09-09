@@ -1,12 +1,6 @@
 import { GroundPolylinePrimitive as CesiumGroundPolylinePrimitive } from "cesium";
 
-import {
-  EventProps,
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-} from "../core";
+import { EventProps, createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -88,12 +82,3 @@ const GroundPolylinePrimitive = createCesiumComponent<
 });
 
 export default GroundPolylinePrimitive;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumGroundPolylinePrimitive,
-  keyof GroundPolylinePrimitiveProps
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

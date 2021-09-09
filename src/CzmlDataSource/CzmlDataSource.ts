@@ -1,14 +1,6 @@
 import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-  MethodOptions2,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2 } from "../core";
 
 /*
 @summary
@@ -21,7 +13,7 @@ CZML data can be loaded from a URL, string or raw object.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Target = Merge<
+export type Target = Merge<
   Merge<CesiumCzmlDataSource, CesiumCzmlDataSource.LoadOptions>,
   MethodOptions2<typeof CesiumCzmlDataSource, "load">
 >;
@@ -51,7 +43,7 @@ const cesiumProps = ["clustering", "show"] as const;
 
 const cesiumReadonlyProps = ["name", "sourceUri", "credit"] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
@@ -114,12 +106,3 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
 });
 
 export default CzmlDataSource;
-
-// Unused prop check
-type IgnoredProps = "clock" | "entities" | "isLoading";
-type UnusedProps = UnusedCesiumProps<
-  Target,
-  keyof CzmlDataSourceProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

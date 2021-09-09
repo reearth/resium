@@ -3,11 +3,8 @@ import {
   createCesiumComponent,
   EventProps,
   PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
   ConstructorOptions,
   Merge,
-  ValueOf,
 } from "../core";
 
 /*
@@ -107,7 +104,7 @@ const cesiumReadonlyProps = [
   "debugHeatmapTilePropertyName",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onAllTilesLoad: "allTilesLoaded",
   onInitialTilesLoad: "initialTilesLoaded",
   onLoadProgress: "loadProgress",
@@ -149,12 +146,3 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
 });
 
 export default Cesium3DTileset;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
-  keyof Cesium3DTilesetProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,15 +1,7 @@
 import { ReactNode } from "react";
 import { Entity as CesiumEntity } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -127,7 +119,7 @@ const cesiumProps = [
 
 const cesiumReadonlyProps = ["id"] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -181,12 +173,3 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
 });
 
 export default Entity;
-
-// Unused prop check
-type IgnoredProps = "isShowing" | "propertyNames";
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
-  keyof EntityProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

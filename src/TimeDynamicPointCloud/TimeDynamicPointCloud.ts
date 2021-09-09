@@ -4,11 +4,8 @@ import {
   createCesiumComponent,
   EventkeyMap,
   PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
   ConstructorOptions,
   Merge,
-  ValueOf,
 } from "../core";
 
 /*
@@ -60,7 +57,7 @@ const cesiumProps = [
 const cesiumReadonlyProps = ["clock", "shading"] as const;
 
 // TimeDynamicPointCloud
-const cesiumEventProps: EventkeyMap<
+export const cesiumEventProps: EventkeyMap<
   CesiumTimeDynamicPointCloud,
   TimeDynamicPointCloudCesiumEvents
 > = {
@@ -99,12 +96,3 @@ const TimeDynamicPointCloud = createCesiumComponent<
 });
 
 export default TimeDynamicPointCloud;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumTimeDynamicPointCloud,
-  keyof TimeDynamicPointCloudProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

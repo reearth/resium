@@ -1,12 +1,6 @@
 import { Billboard as CesiumBillboard } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -67,9 +61,3 @@ const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({
 });
 
 export default Billboard;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumBillboard, keyof BillboardProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

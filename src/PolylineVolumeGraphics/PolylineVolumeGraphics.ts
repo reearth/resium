@@ -1,14 +1,6 @@
 import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventkeyMap,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, EventkeyMap, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -48,7 +40,7 @@ const cesiumProps = [
   "distanceDisplayCondition",
 ] as const;
 
-const cesiumEventProps: EventkeyMap<
+export const cesiumEventProps: EventkeyMap<
   CesiumPolylineVolumeGraphics,
   PolylineVolumeGraphicsCesiumEvents
 > = {
@@ -76,12 +68,3 @@ const PolylineVolumeGraphics = createCesiumComponent<
 });
 
 export default PolylineVolumeGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumPolylineVolumeGraphics, CesiumPolylineVolumeGraphics.ConstructorOptions>,
-  keyof PolylineVolumeGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

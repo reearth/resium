@@ -1,13 +1,6 @@
 import { EllipsoidGraphics as CesiumEllipsoidGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -52,7 +45,7 @@ const cesiumProps = [
   "distanceDisplayCondition",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -74,12 +67,3 @@ const EllipsoidGraphics = createCesiumComponent<CesiumEllipsoidGraphics, Ellipso
 });
 
 export default EllipsoidGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumEllipsoidGraphics, CesiumEllipsoidGraphics.ConstructorOptions>,
-  keyof EllipsoidGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

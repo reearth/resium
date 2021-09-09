@@ -79,7 +79,7 @@ export type ViewerEventProps = {
 and
 
 ```ts
-const cesiumEventProps: EventKeyMap<Viewer, ViewerProps> = {
+export const cesiumEventProps: EventKeyMap<Viewer, ViewerProps> = {
   onTest: "test", // <== Add a new property name mapping
 };
 ```

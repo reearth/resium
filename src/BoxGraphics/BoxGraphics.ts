@@ -1,13 +1,6 @@
 import { BoxGraphics as CesiumBoxGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -44,7 +37,7 @@ const cesiumProps = [
   "distanceDisplayCondition",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -66,12 +59,3 @@ const BoxGraphics = createCesiumComponent<CesiumBoxGraphics, BoxGraphicsProps>({
 });
 
 export default BoxGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumBoxGraphics, CesiumBoxGraphics.ConstructorOptions>,
-  keyof BoxGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

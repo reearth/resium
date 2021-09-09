@@ -7,8 +7,6 @@ import {
   eventManagerContextKey,
   RootEventProps,
   PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
   Merge,
   ConstructorOptions2,
 } from "../core";
@@ -27,7 +25,7 @@ import {
 
 /*
 @scope
-Everywhere. `CesiumWidget` is a root component. 
+Everywhere. `CesiumWidget` is a root component.
 */
 
 type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
@@ -144,9 +142,3 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
 });
 
 export default CesiumWidget;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<Target, keyof CesiumWidgetProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

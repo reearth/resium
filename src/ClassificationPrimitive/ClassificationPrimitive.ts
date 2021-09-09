@@ -1,12 +1,6 @@
 import { ClassificationPrimitive as CesiumClassificationPrimitive } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -90,12 +84,3 @@ const ClassificationPrimitive = createCesiumComponent<
 });
 
 export default ClassificationPrimitive;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumClassificationPrimitive,
-  keyof ClassificationPrimitiveProps
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

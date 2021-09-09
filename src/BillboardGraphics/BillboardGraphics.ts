@@ -3,10 +3,7 @@ import { BillboardGraphics as CesiumBillboardGraphics } from "cesium";
 import {
   createCesiumComponent,
   PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
   Merge,
-  ValueOf,
 } from "../core";
 
 /*
@@ -54,7 +51,7 @@ const cesiumProps = [
   "disableDepthTestDistance",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -76,12 +73,3 @@ const BillboardGraphics = createCesiumComponent<CesiumBillboardGraphics, Billboa
 });
 
 export default BillboardGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumBillboardGraphics, CesiumBillboardGraphics.ConstructorOptions>,
-  keyof BillboardGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

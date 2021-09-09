@@ -1,13 +1,6 @@
 import { PolylineGraphics as CesiumPolylineGraphics } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -47,7 +40,7 @@ const cesiumProps = [
   "zIndex",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
@@ -69,12 +62,3 @@ const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineG
 });
 
 export default PolylineGraphics;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  Merge<CesiumPolylineGraphics, CesiumPolylineGraphics.ConstructorOptions>,
-  keyof PolylineGraphicsProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

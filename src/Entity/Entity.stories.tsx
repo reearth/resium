@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useMemo, FC } from "react";
+import { useState, useEffect, useRef, useMemo, FC } from "react";
 import {
   Cartesian2,
   Cartesian3,
@@ -361,41 +361,11 @@ export const Graphics: Story<EntityProps> = args => (
       position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
       <WallGraphics
         positions={Cartesian3.fromDegreesArray([
-          -115.0,
-          50.0,
-          -112.5,
-          50.0,
-          -110.0,
-          50.0,
-          -107.5,
-          50.0,
-          -105.0,
-          50.0,
-          -102.5,
-          50.0,
-          -100.0,
-          50.0,
-          -97.5,
-          50.0,
-          -95.0,
-          50.0,
-          -92.5,
-          50.0,
-          -90.0,
-          50.0,
+          -115.0, 50.0, -112.5, 50.0, -110.0, 50.0, -107.5, 50.0, -105.0, 50.0, -102.5, 50.0,
+          -100.0, 50.0, -97.5, 50.0, -95.0, 50.0, -92.5, 50.0, -90.0, 50.0,
         ])}
         maximumHeights={[
-          100000,
-          200000,
-          100000,
-          200000,
-          100000,
-          200000,
-          100000,
-          200000,
-          100000,
-          200000,
-          100000,
+          100000, 200000, 100000, 200000, 100000, 200000, 100000, 200000, 100000, 200000, 100000,
         ]}
         minimumHeights={[0, 100000, 0, 100000, 0, 100000, 0, 100000, 0, 100000, 0]}
         material={Color.BLUE.withAlpha(0.5)}

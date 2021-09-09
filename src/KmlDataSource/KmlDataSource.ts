@@ -1,14 +1,6 @@
 import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-  MethodOptions2,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2 } from "../core";
 
 /*
 @summary
@@ -21,7 +13,7 @@ Both KML and KMZ are supported, and can be loaded from a URL, string or raw obje
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Target = Merge<
+export type Target = Merge<
   Merge<CesiumKmlDataSource, CesiumKmlDataSource.LoadOptions>,
   MethodOptions2<typeof CesiumKmlDataSource, "load">
 >;
@@ -60,7 +52,7 @@ const cesiumReadonlyProps = [
   "credit",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
@@ -114,7 +106,7 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
         prevProps.clampToGround !== props.clampToGround ||
         prevProps.ellipsoid !== props.ellipsoid ||
         prevProps.sourceUri !== props.sourceUri ||
-        prevProps.credit !== prevProps.credit)
+        prevProps.credit !== props.credit)
     ) {
       load(element, props);
     }
@@ -135,12 +127,3 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
 });
 
 export default KmlDataSource;
-
-// Unused prop check
-type IgnoredProps = "entities" | "isLoading" | "clock";
-type UnusedProps = UnusedCesiumProps<
-  Target,
-  keyof KmlDataSourceProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

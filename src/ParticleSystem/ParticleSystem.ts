@@ -1,14 +1,6 @@
 import { ParticleSystem as CesiumParticleSystem } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ConstructorOptions,
-  Merge,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
 
 /*
 @summary
@@ -75,7 +67,7 @@ const cesiumReadonlyProps = [
 ] as const;
 
 // ParticleSystem
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onComplete: "complete",
   onUpdate: "updateCallback",
 } as const;
@@ -103,12 +95,3 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
 });
 
 export default ParticleSystem;
-
-// Unused prop check
-type IgnoredProps = "isComplete";
-type UnusedProps = UnusedCesiumProps<
-  Target,
-  keyof ParticleSystemProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

@@ -1,12 +1,6 @@
 import { Label as CesiumLabel } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -67,9 +61,3 @@ const Label = createCesiumComponent<CesiumLabel, LabelProps>({
 });
 
 export default Label;
-
-// Unused prop check
-type IgnoredProps = "totalScale";
-type UnusedProps = UnusedCesiumProps<CesiumLabel, keyof LabelProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

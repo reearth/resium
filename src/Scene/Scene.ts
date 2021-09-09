@@ -1,13 +1,7 @@
 import { ReactNode } from "react";
 import { Scene as CesiumScene, SceneMode } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -116,7 +110,7 @@ const cesiumProps = [
   "useWebVR",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onMorphComplete: "morphComplete",
   onMorphStart: "morphStart",
   onPostRender: "postRender",
@@ -162,12 +156,3 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps>({
 });
 
 export default Scene;
-
-// Unused prop check
-type IgnoredProps = "postProcessStages";
-type UnusedProps = UnusedCesiumProps<
-  CesiumScene,
-  keyof SceneProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

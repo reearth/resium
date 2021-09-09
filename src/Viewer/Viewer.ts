@@ -7,9 +7,6 @@ import {
   eventManagerContextKey,
   RootEventProps,
   PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
   Merge,
 } from "../core";
 
@@ -25,7 +22,7 @@ import {
 
 /*
 @scope
-Everywhere. `Viewer` is a root component. 
+Everywhere. `Viewer` is a root component.
 */
 
 export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
@@ -98,7 +95,7 @@ const cesiumReadonlyProps = [
   "maximumRenderTimeChange",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onSelectedEntityChange: "selectedEntityChanged",
   onTrackedEntityChange: "trackedEntityChanged",
 } as const;
@@ -201,12 +198,3 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
 });
 
 export default Viewer;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumViewer,
-  keyof ViewerProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

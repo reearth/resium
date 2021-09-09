@@ -2,10 +2,20 @@
 import React, { FC } from "react";
 import { Entity as CesiumEntity } from "cesium";
 import { mount } from "enzyme";
+import { expectType, TypeEqual } from "ts-expect";
 
-import { Provider } from "../core";
-import Entity, { EntityProps } from "./Entity";
+import { Provider, Merge, ValueOf, UnusedCesiumProps } from "../core";
+import Entity, { EntityProps, cesiumEventProps } from "./Entity";
 import { reset } from "../../__mocks__/cesium/Entity";
+
+// Unused prop check
+type UnusedProps = UnusedCesiumProps<
+  Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
+  keyof EntityProps | ValueOf<typeof cesiumEventProps>
+>;
+type IgnoredProps = "isShowing" | "propertyNames";
+
+expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
 
 describe("Entity", () => {
   const context = {

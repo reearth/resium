@@ -1,14 +1,6 @@
 import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ValueOf,
-  MethodOptions2,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2 } from "../core";
 
 /*
 @summary
@@ -21,7 +13,7 @@ Both GeoJSON and TopoJSON are supported, and can be loaded from a URL, string or
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Target = Merge<
+export type Target = Merge<
   Merge<CesiumGeoJsonDataSource, CesiumGeoJsonDataSource.LoadOptions>,
   MethodOptions2<typeof CesiumGeoJsonDataSource, "load">
 >;
@@ -68,7 +60,7 @@ const cesiumReadonlyProps = [
   "describe",
 ] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
@@ -141,12 +133,3 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
 });
 
 export default GeoJsonDataSource;
-
-// Unused prop check
-type IgnoredProps = "entities" | "clock" | "isLoading";
-type UnusedProps = UnusedCesiumProps<
-  Target,
-  keyof GeoJsonDataSourceProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

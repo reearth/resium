@@ -1,6 +1,6 @@
 import { ShadowMap as CesiumShadowMap } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -32,9 +32,3 @@ const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
 });
 
 export default ShadowMap;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumShadowMap, keyof ShadowMapProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

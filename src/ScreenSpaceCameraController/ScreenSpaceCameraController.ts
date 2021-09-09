@@ -1,6 +1,6 @@
 import { ScreenSpaceCameraController as CesiumScreenSpaceCameraController } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, UnusedCesiumProps, AssertNever } from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -57,12 +57,3 @@ const ScreenSpaceCameraController = createCesiumComponent<
 });
 
 export default ScreenSpaceCameraController;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<
-  CesiumScreenSpaceCameraController,
-  keyof ScreenSpaceCameraControllerProps
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

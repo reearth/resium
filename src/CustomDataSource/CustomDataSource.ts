@@ -1,13 +1,7 @@
-import { ReactNode } from "react";
 import { CustomDataSource as CesiumCustomDataSource } from "cesium";
+import { ReactNode } from "react";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -42,7 +36,7 @@ export type CustomDataSourceProps = CustomDataSourceCesiumProps &
 
 const cesiumProps = ["clustering", "name", "show", "clock", "isLoading"] as const;
 
-const cesiumEventProps = {
+export const cesiumEventProps = {
   onChange: "changedEvent",
   onError: "errorEvent",
   onLoading: "loadingEvent",
@@ -81,12 +75,3 @@ const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDat
 });
 
 export default CustomDataSource;
-
-// Unused prop check
-type IgnoredProps = "entities";
-type UnusedProps = UnusedCesiumProps<
-  CesiumCustomDataSource,
-  keyof CustomDataSourceProps | ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

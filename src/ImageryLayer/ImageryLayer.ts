@@ -1,13 +1,6 @@
 import { ImageryLayer as CesiumImageryLayer } from "cesium";
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  UnusedCesiumProps,
-  AssertNever,
-  Merge,
-  ConstructorOptions2,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, ConstructorOptions2 } from "../core";
 
 /*
 @summary
@@ -97,9 +90,3 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
 });
 
 export default ImageryLayer;
-
-// Unused prop check
-type IgnoredProps = never;
-type UnusedProps = UnusedCesiumProps<CesiumImageryLayer, keyof ImageryLayerProps>;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

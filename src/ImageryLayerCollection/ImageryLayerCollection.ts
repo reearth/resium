@@ -1,10 +1,4 @@
-import {
-  createCesiumComponent,
-  EventkeyMap,
-  UnusedCesiumProps,
-  AssertNever,
-  ValueOf,
-} from "../core";
+import { createCesiumComponent, EventkeyMap } from "../core";
 import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
 
 /*
@@ -28,7 +22,7 @@ export type ImageryLayerCollectionCesiumEvents = {
 
 export type ImageryLayerCollectionProps = ImageryLayerCollectionCesiumEvents;
 
-const cesiumEventProps: EventkeyMap<
+export const cesiumEventProps: EventkeyMap<
   CesiumImageryLayerCollection,
   ImageryLayerCollectionCesiumEvents
 > = {
@@ -48,12 +42,3 @@ const ImageryLayerCollection = createCesiumComponent<
 });
 
 export default ImageryLayerCollection;
-
-// Unused prop check
-type IgnoredProps = "length";
-type UnusedProps = UnusedCesiumProps<
-  CesiumImageryLayerCollection,
-  ValueOf<typeof cesiumEventProps>
->;
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type AssertUnusedProps = AssertNever<Exclude<UnusedProps, IgnoredProps>>;

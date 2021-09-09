@@ -41,7 +41,7 @@ export function parseDoc(sourceFile: SourceFile, tc: TypeChecker): Doc {
 
   // parse event props
   /*
-    const cesiumEventProps = {
+    export const cesiumEventProps = {
       onDefinitionChange: "definitionChanged",
     };
   */
