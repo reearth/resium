@@ -15,18 +15,18 @@ import Viewer from "../Viewer";
 import Clock from "../Clock";
 import TimeDynamicPointCloud, { TimeDynamicPointCloudProps } from "./TimeDynamicPointCloud";
 
-import point0 from "assets/pointcloud/0.pnts";
-import point1 from "assets/pointcloud/1.pnts";
-import point2 from "assets/pointcloud/2.pnts";
-import point3 from "assets/pointcloud/3.pnts";
-import point4 from "assets/pointcloud/4.pnts";
-
 export default {
   title: "TimeDynamicPointCloud",
   component: TimeDynamicPointCloud,
 } as Meta;
 
-const uris = [point0, point1, point2, point3, point4];
+const uris = [
+  "pointcloud/0.pnts",
+  "pointcloud/1.pnts",
+  "pointcloud/2.pnts",
+  "pointcloud/3.pnts",
+  "pointcloud/4.pnts",
+];
 const dates = [
   "2018-07-19T15:18:00Z",
   "2018-07-19T15:18:00.5Z",

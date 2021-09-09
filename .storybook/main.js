@@ -1,4 +1,3 @@
-const path = require("path");
 const webpack = require("webpack");
 const CopyPlugin = require("copy-webpack-plugin");
 
@@ -19,16 +18,6 @@ module.exports = {
       ...config.externals,
       cesium: "Cesium",
     },
-    module: {
-      ...config.module,
-      rules: [
-        ...config.module.rules,
-        {
-          test: /.(glb|pnts)$/,
-          use: "file-loader",
-        },
-      ],
-    },
     plugins: [
       ...config.plugins,
       new webpack.DefinePlugin({
@@ -43,12 +32,5 @@ module.exports = {
         ],
       }),
     ],
-    resolve: {
-      ...config.resolve,
-      alias: {
-        ...config.alias,
-        assets: path.resolve(__dirname, "assets"),
-      },
-    },
   }),
 };

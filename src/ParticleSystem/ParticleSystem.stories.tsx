@@ -14,7 +14,6 @@ import { useCesium } from "../core";
 import Viewer from "../Viewer";
 import ParticleSystem from "./ParticleSystem";
 import CameraFlyTo from "../CameraFlyTo";
-import snowImg from "assets/circular_particle.png";
 
 export default {
   title: "ParticleSystem",
@@ -29,9 +28,10 @@ const SnowParticle: FC = () => {
   const scene = useCesium().scene;
   const snowGravityScratch = useRef(new Cartesian3());
   const snowParticleSize = scene ? scene.drawingBufferWidth / 100.0 : 0;
-  const minimumSnowImageSize = useMemo(() => new Cartesian2(snowParticleSize, snowParticleSize), [
-    snowParticleSize,
-  ]);
+  const minimumSnowImageSize = useMemo(
+    () => new Cartesian2(snowParticleSize, snowParticleSize),
+    [snowParticleSize],
+  );
   const maximumSnowImageSize = useMemo(
     () => new Cartesian2(snowParticleSize * 2.0, snowParticleSize * 2.0),
     [snowParticleSize],
@@ -76,7 +76,7 @@ const SnowParticle: FC = () => {
       emitter={emitter}
       startScale={0.5}
       endScale={1.0}
-      image={snowImg}
+      image="circular_particle.png"
       emissionRate={7000.0}
       startColor={Color.WHITE.withAlpha(0.0)}
       endColor={Color.WHITE.withAlpha(snowAlpha)}

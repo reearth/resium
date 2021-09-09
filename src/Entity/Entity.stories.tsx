@@ -32,8 +32,6 @@ import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
 import RectangleGraphics from "../RectangleGraphics";
 import WallGraphics from "../WallGraphics";
 import { events } from "../core/storybook";
-import billboardImage from "assets/example.png";
-import glb from "assets/Cesium_Air.glb";
 
 export default {
   title: "Entity",
@@ -185,7 +183,7 @@ export const Graphics: Story<EntityProps> = args => (
       description="BillboardGraphics!!"
       position={Cartesian3.fromDegrees(-40.0707383, 40.7117244, 100)}
       selected>
-      <BillboardGraphics image={billboardImage} scale={0.05} />
+      <BillboardGraphics image="example.png" scale={0.05} />
     </Entity>
     <Entity
       {...args}
@@ -270,7 +268,7 @@ export const Graphics: Story<EntityProps> = args => (
       name="ModelGraphics"
       description="ModelGraphics!!"
       position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
-      <ModelGraphics uri={glb} minimumPixelSize={128} maximumScale={20000} />
+      <ModelGraphics uri="Cesium_Air.glb" minimumPixelSize={128} maximumScale={20000} />
     </Entity>
     <Entity
       {...args}
@@ -327,15 +325,7 @@ export const Graphics: Story<EntityProps> = args => (
       position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}>
       <PolylineVolumeGraphics
         positions={Cartesian3.fromDegreesArrayHeights([
-          -90.0,
-          32.0,
-          0.0,
-          -90.0,
-          36.0,
-          100000.0,
-          -94.0,
-          36.0,
-          0.0,
+          -90.0, 32.0, 0.0, -90.0, 36.0, 100000.0, -94.0, 36.0, 0.0,
         ])}
         shape={[
           new Cartesian2(-50000, -50000),

@@ -6,7 +6,6 @@ import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 import Billboard, { BillboardProps } from "./Billboard";
 import BillboardCollection from "../BillboardCollection";
-import exampleImage from "assets/example.png";
 
 export default {
   title: "Billboard",
@@ -32,7 +31,7 @@ const Template: Story<BillboardProps> = args => (
 export const Basic = Template.bind({});
 
 Basic.args = {
-  image: exampleImage,
+  image: "example.png",
   scale: 0.1,
 };
 
@@ -51,6 +50,6 @@ export const Events: Story<BillboardProps> = args => (
 );
 
 Events.args = {
-  image: exampleImage,
+  image: "example.png",
   scale: 0.1,
 };
