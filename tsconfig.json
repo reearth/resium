@@ -1,29 +1,33 @@
 {
+  "include": [
+    "src",
+    "types"
+  ],
+  "exclude": [
+    "dist"
+  ],
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
-    "jsx": "react",
+    "module": "esnext",
     "lib": [
-      "esnext",
-      "dom"
+      "dom",
+      "esnext"
     ],
-    "module": "es2015",
-    "moduleResolution": "node",
-    "noImplicitReturns": true,
-    "pretty": true,
-    "rootDir": ".",
+    "importHelpers": true,
+    "declaration": true,
     "sourceMap": true,
+    "rootDir": "src",
     "strict": true,
-    "target": "es5",
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "esModuleInterop": true,
     "skipLibCheck": true,
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "src/types/*"
-      ],
-      "assets": [
-        ".storybook/assets/*"
-      ]
-    }
+    "forceConsistentCasingInFileNames": true,
+    "noEmit": true,
+    "target": "es2015",
+    "downlevelIteration": true
   }
 }
