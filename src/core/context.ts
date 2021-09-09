@@ -16,6 +16,7 @@ import {
   LabelCollection,
   PolylineCollection,
   PointPrimitiveCollection,
+  CloudCollection,
 } from "cesium";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 
@@ -36,6 +37,7 @@ export type Context = {
   labelCollection?: LabelCollection;
   polylineCollection?: PolylineCollection;
   pointPrimitiveCollection?: PointPrimitiveCollection;
+  cloudCollection?: CloudCollection;
   [eventManagerContextKey]?: EventManager;
 };
 
