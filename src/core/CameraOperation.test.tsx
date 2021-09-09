@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { FC } from "react";
-import { mount } from "enzyme";
+import { FC } from "react";
+import { render } from "@testing-library/react";
 
 import { Provider } from "./context";
 import { createCameraOperation } from "./CameraOperation";
@@ -25,17 +25,12 @@ describe("core/cameraop", () => {
         <DummyCameraOperation test={test} />
       </Provider>
     );
-    const wrapper = mount(<Test test={0} />);
+    const { rerender } = render(<Test test={0} />);
 
     expect(cameraOperationStart).toHaveBeenCalledTimes(1);
     expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
 
-    wrapper.update();
-
-    expect(cameraOperationStart).toHaveBeenCalledTimes(1);
-    expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
-
-    wrapper.setProps({ test: 1 });
+    rerender(<Test test={1} />);
 
     expect(cameraOperationStart).toHaveBeenCalledTimes(2);
     expect(camera.cancelFlight).toHaveBeenCalledTimes(2);
@@ -51,7 +46,7 @@ describe("core/cameraop", () => {
 
     const DummyCameraOperation = createCameraOperation("dummy", () => {});
 
-    const wrapper = mount(
+    const { unmount } = render(
       <Provider value={{ camera, scene }}>
         <DummyCameraOperation cancelFlightOnUnmount />
       </Provider>,
@@ -59,7 +54,7 @@ describe("core/cameraop", () => {
 
     expect(camera.cancelFlight).toHaveBeenCalledTimes(1);
 
-    wrapper.unmount();
+    unmount();
 
     expect(camera.cancelFlight).toHaveBeenCalledTimes(2);
   });

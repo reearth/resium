@@ -1,12 +1,10 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import React, { FC } from "react";
+import { createRef } from "react";
 import { Entity as CesiumEntity } from "cesium";
-import { mount } from "enzyme";
 import { expectType, TypeEqual } from "ts-expect";
+import { render } from "@testing-library/react";
 
-import { Provider, Merge, ValueOf, UnusedCesiumProps } from "../core";
+import { Provider, Merge, ValueOf, UnusedCesiumProps, CesiumComponentRef } from "../core";
 import Entity, { EntityProps, cesiumEventProps } from "./Entity";
-import { reset } from "../../__mocks__/cesium/Entity";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -17,58 +15,38 @@ type IgnoredProps = "isShowing" | "propertyNames";
 
 expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
 
-describe("Entity", () => {
-  const context = {
-    entityCollection: {
-      add: jest.fn(),
-      remove: jest.fn(),
-    },
-  };
+const context = () => ({
+  entityCollection: {
+    add: jest.fn(),
+    remove: jest.fn(),
+  },
+});
 
-  const fn = () => () => {};
+const fn = () => {};
 
-  afterEach(() => {
-    reset();
-  });
+it("should mount", async () => {
+  const ctx = context();
+  const ref = createRef<CesiumComponentRef<CesiumEntity>>();
+  render(
+    <Provider value={ctx}>
+      <Entity ref={ref} name="test" onDefinitionChange={fn} />
+    </Provider>,
+  );
 
-  it("should mount", () => {
-    const entity = new CesiumEntity();
+  expect(ctx.entityCollection.add).toBeCalledWith(expect.any(CesiumEntity));
+  expect(ref.current?.cesiumElement).toBeInstanceOf(CesiumEntity);
+  expect(ref.current?.cesiumElement?.name).toBe("test");
+  expect(ref.current?.cesiumElement?.definitionChanged.numberOfListeners).toBe(1);
+});
 
-    mount(
-      <Provider value={context}>
-        <Entity name="test" onDefinitionChange={fn()} />
-      </Provider>,
-    );
+it("should unmount", () => {
+  const ctx = context();
 
-    expect(context.entityCollection.add).toBeCalledWith(entity);
-    expect(entity.name).toBe("test");
-    expect(entity.definitionChanged.numberOfListeners).toBe(1);
-  });
+  render(
+    <Provider value={ctx}>
+      <Entity />
+    </Provider>,
+  ).unmount();
 
-  it("should update", () => {
-    const entity = new CesiumEntity();
-
-    const Component: FC<EntityProps> = props => (
-      <Provider value={context}>
-        <Entity {...props} />
-      </Provider>
-    );
-
-    mount(<Component />).setProps({ name: "test2", onDefinitionChange: fn() });
-
-    expect(entity.name).toBe("test2");
-    expect(entity.definitionChanged.numberOfListeners).toBe(1);
-  });
-
-  it("should unmount", () => {
-    const entity = new CesiumEntity();
-
-    mount(
-      <Provider value={context}>
-        <Entity />
-      </Provider>,
-    ).unmount();
-
-    expect(context.entityCollection.remove).toBeCalledWith(entity);
-  });
+  expect(ctx.entityCollection.remove).toBeCalledWith(expect.any(CesiumEntity));
 });

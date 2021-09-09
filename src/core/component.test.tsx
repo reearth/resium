@@ -1,10 +1,15 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createRef, ReactNode } from "react";
-import { mount } from "enzyme";
 import { Event } from "cesium";
+import { render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 
 import { createCesiumComponent, CesiumComponentRef } from "./component";
 import { Provider } from "./context";
+
+beforeEach(() => {
+  console.warn = jest.fn();
+});
 
 describe("core/component", () => {
   it("should create and expose cesium element correctly on initialized", () => {
@@ -18,7 +23,7 @@ describe("core/component", () => {
 
     const ref = createRef<CesiumComponentRef<string>>();
 
-    mount(
+    render(
       <Provider value={value}>
         <Component test={1} ref={ref} />
       </Provider>,
@@ -39,7 +44,7 @@ describe("core/component", () => {
       destroy,
     });
 
-    mount(
+    render(
       <Provider value={value}>
         <Component test={1} />
       </Provider>,
@@ -60,12 +65,9 @@ describe("core/component", () => {
       cesiumEventProps: { bar: "hoge" },
     });
 
-    const bar = () => {};
-
-    mount(<Component bar={bar} />);
+    render(<Component bar={() => {}} />);
 
     expect(cesiumElement.hoge.numberOfListeners).toBe(1);
-    expect(cesiumElement.hoge.addEventListener).toBeCalledWith(bar);
   });
 
   it("should set cesium props after created", () => {
@@ -80,7 +82,7 @@ describe("core/component", () => {
       setCesiumPropsAfterCreate: true,
     });
 
-    mount(<Component foo={10} />);
+    render(<Component foo={10} />);
 
     expect(cesiumElement.foo).toBe(10);
   });
@@ -96,11 +98,11 @@ describe("core/component", () => {
       cesiumProps: ["foo"],
     });
 
-    const wrapper = mount(<Component />);
+    const { rerender } = render(<Component />);
 
     expect(cesiumElement.foo).toBe(0);
 
-    wrapper.setProps({ foo: 1 });
+    rerender(<Component foo={1} />);
 
     expect(cesiumElement.foo).toBe(1);
   });
@@ -125,22 +127,20 @@ describe("core/component", () => {
       },
     });
 
-    const wrapper = mount(<Component foo={() => {}} hoge={() => {}} />);
+    const { rerender } = render(<Component foo={() => {}} hoge={() => {}} />);
 
     expect(cesiumElement.foo.numberOfListeners).toBe(1);
     expect(cesiumElement.bar.numberOfListeners).toBe(0);
+    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
 
-    wrapper.setProps({ foo: undefined, bar: () => {}, hoge: () => {} });
+    rerender(<Component bar={() => {}} hoge={() => {}} />);
 
     expect(cesiumElement.foo.numberOfListeners).toBe(0);
     expect(cesiumElement.bar.numberOfListeners).toBe(1);
-    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+    expect(cesiumElement.hoge.numberOfListeners).toBe(1); // TODO
   });
 
   it("should remount when cesium read only props are updated", () => {
-    const warn = console.warn;
-    console.warn = jest.fn();
-
     const cesiumElement = {
       foo: 0,
     };
@@ -160,19 +160,17 @@ describe("core/component", () => {
       cesiumReadonlyProps: ["foo"],
     });
 
-    const wrapper = mount(<Component foo={1} />);
+    const { rerender } = render(<Component foo={1} />);
 
     expect(createFn).toBeCalledTimes(1);
     expect(destroyFn).toBeCalledTimes(0);
     expect(cesiumElement.foo).toBe(1);
 
-    wrapper.setProps({ foo: 2 });
+    rerender(<Component foo={2} />);
 
     expect(createFn).toBeCalledTimes(2);
     expect(destroyFn).toBeCalledTimes(1);
     expect(cesiumElement.foo).toBe(2);
-
-    console.warn = warn;
   });
 
   it("should call update", () => {
@@ -184,11 +182,11 @@ describe("core/component", () => {
       update: updateFn,
     });
 
-    const wrapper = mount(<Component />);
+    const { rerender } = render(<Component />);
 
     expect(updateFn).toBeCalledTimes(0);
 
-    wrapper.setProps({ foo: 1 });
+    rerender(<Component foo={1} />);
 
     expect(updateFn).toBeCalledTimes(1);
     expect(updateFn).toBeCalledWith("hoge", { foo: 1 }, {}, {});
@@ -209,7 +207,7 @@ describe("core/component", () => {
       create: create2,
     });
 
-    mount(
+    render(
       <Provider value={{ context: "a", context2: "foo" }}>
         <Component1>
           <Component2 />
@@ -231,7 +229,7 @@ describe("core/component", () => {
       containerProps: ["className"],
     });
 
-    const wrapper = mount(
+    render(
       <Provider value={{}}>
         <Component className="hoge" />
       </Provider>,
@@ -242,8 +240,9 @@ describe("core/component", () => {
       expect.anything(),
       expect.any(HTMLDivElement),
     );
-    expect(wrapper.find("div").length).toBe(1);
-    expect(wrapper.find("div").at(0).prop("className")).toBe("hoge");
+    const containers = screen.getAllByTestId("resium-container");
+    expect(containers.length).toBe(1);
+    expect(containers[0].getAttribute("class")).toBe("hoge");
   });
 
   it("should keep state", () => {
@@ -259,7 +258,7 @@ describe("core/component", () => {
       destroy: destroyFn,
     });
 
-    mount(
+    render(
       <Provider value={{}}>
         <Component />
       </Provider>,
@@ -272,15 +271,28 @@ describe("core/component", () => {
   it("should not render when noChildren is true", () => {
     const Component = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
-      noChildren: true,
+      noChildren: false,
     });
 
-    const wrapper = mount(
+    const { rerender } = render(
       <Component>
-        <div />
+        <p data-testid="hello">Hello!</p>
       </Component>,
     );
 
-    expect(wrapper.find("div").length).toBe(0);
+    expect(screen.queryByTestId("hello")).toBeInTheDocument();
+
+    const Component2 = createCesiumComponent<string, { children?: ReactNode }>({
+      name: "test",
+      noChildren: true,
+    });
+
+    rerender(
+      <Component2>
+        <p data-testid="hello">Hello!</p>
+      </Component2>,
+    );
+
+    expect(screen.queryByTestId("hello")).not.toBeInTheDocument();
   });
 });
