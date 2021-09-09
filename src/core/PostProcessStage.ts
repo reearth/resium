@@ -32,7 +32,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
       scene?: Scene;
     }
   >({
-    name,
+    name: opts.name,
     create(context, props) {
       if (!context.scene) return;
       const element = opts.create(props, context.scene.postProcessStages);

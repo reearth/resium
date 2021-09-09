@@ -77,12 +77,13 @@ export const useCesiumComponent = <Element, Props, State = any>(
       if (!element.current) return;
       const target: any = element.current;
 
+      const propsKeys = Object.keys(props) as (keyof Props)[];
       const eventKeys = Object.keys(cesiumEventProps || []) as (keyof Props)[];
 
-      const propDiff = [
-        ...(Object.keys(props) as (keyof Props)[]),
-        ...(Object.keys(prevProps.current) as (keyof Props)[]),
-      ]
+      const propDiff = propsKeys
+        .concat(
+          (Object.keys(prevProps.current) as (keyof Props)[]).filter(k => !propsKeys.includes(k)),
+        )
         .filter(k => prevProps.current[k] !== props[k])
         .map(k => [k, prevProps.current[k], props[k]] as [keyof Props, any, any]);
 
@@ -130,7 +131,6 @@ export const useCesiumComponent = <Element, Props, State = any>(
       // Recreate cesium element when any read-only prop is updated
       if (mountedRef.current && updatedReadonlyProps.length > 0) {
         if (process.env.NODE_ENV !== "production") {
-          // eslint-disable-next-line no-console
           console.warn(
             `Warning: <${name}> is recreated because following read-only props have been updated: ${updatedReadonlyProps.join(
               ", ",
