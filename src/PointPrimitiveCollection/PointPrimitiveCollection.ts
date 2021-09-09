@@ -30,7 +30,7 @@ export type PointPrimitiveCollectionOtherProps = {
 export type PointPrimitiveCollectionProps = PointPrimitiveCollectionCesiumProps &
   PointPrimitiveCollectionOtherProps;
 
-const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix"] as const;
+const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix", "show"] as const;
 
 const PointPrimitiveCollection = createCesiumComponent<
   CesiumPointPrimitiveCollection,

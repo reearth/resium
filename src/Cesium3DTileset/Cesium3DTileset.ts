@@ -96,10 +96,13 @@ const cesiumProps = [
   "pointCloudShading",
   "style",
   "backFaceCulling",
+  "vectorClassificationOnly",
+  "vectorKeepDecodedPositions",
 ] as const;
 
 const cesiumReadonlyProps = [
   "url",
+  "showOutline",
   "cullWithChildrenBounds",
   "debugHeatmapTilePropertyName",
 ] as const;

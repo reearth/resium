@@ -89,6 +89,8 @@ const cesiumProps = [
   "translucency",
   "undergroundColor",
   "undergroundColorAlphaByDistance",
+  "terrainExaggeration",
+  "terrainExaggerationRelativeHeight",
 ] as const;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({

@@ -23,6 +23,7 @@ const cesiumProps = [
   "normalOffset",
   "size",
   "softShadows",
+  "fadingEnabled",
 ] as const;
 
 const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({

@@ -8,7 +8,7 @@ type UnusedProps = UnusedCesiumProps<
   Target,
   keyof KmlDataSourceProps | ValueOf<typeof cesiumEventProps>
 >;
-type IgnoredProps = "entities" | "isLoading" | "clock";
+type IgnoredProps = "entities" | "isLoading" | "clock" | "kmlTours";
 
 expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
 

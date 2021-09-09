@@ -29,7 +29,7 @@ export type PolylineCollectionOtherProps = {
 
 export type PolylineCollectionProps = PolylineCollectionCesiumProps & PolylineCollectionOtherProps;
 
-const cesiumProps = ["debugShowBoundingVolume", "length", "modelMatrix"] as const;
+const cesiumProps = ["debugShowBoundingVolume", "length", "modelMatrix", "show"] as const;
 
 const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, PolylineCollectionProps>(
   {

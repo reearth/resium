@@ -35,6 +35,7 @@ const cesiumProps = [
   "debugShowBoundingVolume",
   "debugShowTextureAtlas",
   "modelMatrix",
+  "show",
 ] as const;
 
 const BillboardCollection = createCesiumComponent<
