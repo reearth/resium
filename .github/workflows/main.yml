@@ -28,7 +28,7 @@ jobs:
       - name: Install
         run: yarn install --frozen-lockfile
       - name: Install Docs
-        run: (cd docs && yarn install)
+        run: (cd docs && yarn install --frozen-lockfile)
       - name: Check
         run: yarn run check
       - name: Build docs

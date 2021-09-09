@@ -9,10 +9,8 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 
 // See also: https://github.com/CesiumGS/cesium-webpack-example
 
-module.exports = (_env, args) => {
-  const prod = args.mode === "production";
+module.exports = () => {
   return {
-    mode: prod ? "production" : "development",
     module: {
       rules: [
         {
@@ -47,9 +45,7 @@ module.exports = (_env, args) => {
           { from: "node_modules/cesium/Build/Cesium/Widgets", to: "Widgets" },
         ],
       }),
-      new HtmlPlugin({
-        template: "index.html",
-      }),
+      new HtmlPlugin(),
       ...(prod ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
     ],
   };

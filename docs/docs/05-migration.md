@@ -36,7 +36,7 @@ const { viewer } = useCesium();
 
 Resium are fully reimplemented with React Hooks. There are possibilities that the behavior has changed in edge cases.
 
-And some properties and types are changed, removed, or renamed. For details, please check [changelog](https://github.com/reearth/resium/tree/master/CHANGELOG.md).
+And some properties and types are changed, removed, or renamed. For details, please check [changelog](https://github.com/reearth/resium/tree/main/CHANGELOG.md).
 
 ## v1.0
 
@@ -90,7 +90,7 @@ PropType is no longer used. TypeScript is recommended.
 
 ### Renamed / Decrepated: properties
 
-See [CHANGELOG](https://github.com/reearth/resium/tree/master/CHANGELOG.md).
+See [CHANGELOG](https://github.com/reearth/resium/tree/main/CHANGELOG.md).
 
 #### `url` or `czml` prop of Kml/Czml/GeoJsonDataSource
 

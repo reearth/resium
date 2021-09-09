@@ -8,13 +8,11 @@ const CopyPlugin = require("copy-webpack-plugin");
 const HtmlTagsPlugin = require("html-webpack-tags-plugin");
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
-module.exports = (_env, args) => {
-  const prod = args.mode === "production";
+module.exports = () => {
   return {
     externals: {
       cesium: "Cesium",
     },
-    mode: prod ? "production" : "development",
     module: {
       rules: [
         {
@@ -36,14 +34,12 @@ module.exports = (_env, args) => {
       new CopyPlugin({
         patterns: [
           {
-            from: `../node_modules/cesium/Build/Cesium${prod ? "" : "Unminified"}`,
+            from: "node_modules/cesium/Build/Cesium",
             to: "cesium",
           },
         ],
       }),
-      new HtmlPlugin({
-        template: "index.html",
-      }),
+      new HtmlPlugin(),
       new HtmlTagsPlugin({
         append: false,
         tags: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],

@@ -25,7 +25,9 @@ Just as Cesium's root object is `Viewer`, `<Viewer>` is also a root component in
 import React from "react";
 import { Viewer } from "resium";
 
-const App = () => <Viewer />;
+function App() {
+  return <Viewer />;
+}
 
 export default App;
 ```
@@ -88,11 +90,15 @@ import { Cartesian3 } from "cesium";
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 const pointGraphics = { pixelSize: 10 };
 
-const App = () => (
-  <Viewer full>
-    <Entity position={position} point={pointGraphics} />
-  </Viewer>
-);
+function App() {
+  return (
+    <Viewer full>
+      <Entity position={position} point={pointGraphics} />
+    </Viewer>
+  );
+}
+
+export default App;
 ```
 
 This is equivalent to:
@@ -117,13 +123,17 @@ import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
-const App = () => (
-  <Viewer full>
-    <Entity position={position}>
-      <PointGraphics pixelSize={10} />
-    </Entity>
-  </Viewer>
-);
+function App() {
+  return (
+    <Viewer full>
+      <Entity position={position}>
+        <PointGraphics pixelSize={10} />
+      </Entity>
+    </Viewer>
+  );
+}
+
+export default App;
 ```
 
 ## Displaying description of an entity
@@ -137,13 +147,17 @@ import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
-const App = () => (
-  <Viewer full>
-    <Entity position={position} name="Tokyo" description="Hello, world.">
-      <PointGraphics pixelSize={10} />
-    </Entity>
-  </Viewer>
-);
+function App() {
+  return (
+    <Viewer full>
+      <Entity position={position} name="Tokyo" description="Hello, world.">
+        <PointGraphics pixelSize={10} />
+      </Entity>
+    </Viewer>
+  );
+}
+
+export default App;
 ```
 
 If you want to render rich description, `EntityDescription` component is the best. It enables using JSX in the description of entities!
@@ -155,17 +169,21 @@ import { Cartesian3 } from "cesium";
 
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
-const App = () => (
-  <Viewer full>
-    <Entity position={position} name="Tokyo">
-      <PointGraphics pixelSize={10} />
-      <EntityDescription>
-        <h1>Hello, world.</h1>
-        <p>JSX is available here!</p>
-      </EntityDescription>
-    </Entity>
-  </Viewer>
-);
+function App() {
+  return (
+    <Viewer full>
+      <Entity position={position} name="Tokyo">
+        <PointGraphics pixelSize={10} />
+        <EntityDescription>
+          <h1>Hello, world.</h1>
+          <p>JSX is available here!</p>
+        </EntityDescription>
+      </Entity>
+    </Viewer>
+  );
+}
+
+export default App;
 ```
 
 ## Adding Cesium world terrain
@@ -180,17 +198,21 @@ import { Cartesian3, createWorldTerrain } from "cesium";
 const terrainProvider = createWorldTerrain();
 const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
-const App = () => (
-  <Viewer full terrainProvider={terrainProvider}>
-    <Entity position={position} name="Tokyo">
-      <PointGraphics pixelSize={10} />
-      <EntityDescription>
-        <h1>Hello, world.</h1>
-        <p>JSX is available here!</p>
-      </EntityDescription>
-    </Entity>
-  </Viewer>
-);
+function App() {
+  return (
+    <Viewer full terrainProvider={terrainProvider}>
+      <Entity position={position} name="Tokyo">
+        <PointGraphics pixelSize={10} />
+        <EntityDescription>
+          <h1>Hello, world.</h1>
+          <p>JSX is available here!</p>
+        </EntityDescription>
+      </Entity>
+    </Viewer>
+  );
+}
+
+export default App;
 ```
 
 ## Loading your own data
@@ -214,23 +236,27 @@ const data = {
   },
 };
 
-const App = () => (
-  <Viewer full>
-    <GeoJsonDataSource data={"your_geo_json.geojson"} />
-    <KmlDataSource data={"your_geo_json.kml"} />
-    <GeoJsonDataSource data={data} />
-  </Viewer>
-);
+function App() {
+  return (
+    <Viewer full>
+      <GeoJsonDataSource data={"your_geo_json.geojson"} />
+      <KmlDataSource data={"your_geo_json.kml"} />
+      <GeoJsonDataSource data={data} />
+    </Viewer>
+  );
+}
+
+export default App;
 ```
 
-3D tile is also available.
+3D tiles is also available.
 
 ```jsx
 import React from "react";
 import { Viewer, Cesium3DTileset } from "resium";
 import { IonResource } from "cesium";
 
-const App = () => {
+function App() {
   let viewer; // This will be raw Cesium's Viewer object.
 
   const handleReady = tileset => {
@@ -248,12 +274,14 @@ const App = () => {
       <Cesium3DTileset url={IonResource.fromAssetId(5714)} onReady={handleReady} />
     </Viewer>
   );
-};
+}
+
+export default App;
 ```
 
 ## What's next?
 
 - [Guide](/guide)
 - Components: see menu
-- [Examples](/examples/)
+- [Examples](https://resium.reearth.io/examples/)
 - [Cesium Documentation](https://cesium.com/learn/cesiumjs/ref-doc/)
