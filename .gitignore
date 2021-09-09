@@ -2,10 +2,6 @@ node_modules
 *.log
 /dist
 /coverage
-/.cache
-/.rpt2_cache
-/docs/.docz
-/docs/api
 /examples/build
 /example/package-lock.json
 /example/yarn.lock
