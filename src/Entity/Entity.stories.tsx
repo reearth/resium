@@ -6,12 +6,14 @@ import {
   CornerType,
   LabelStyle,
   Plane,
-  Rectangle,
-  Math as CesiumMath,
   PolylineDashMaterialProperty,
+  // Rectangle,
+  // Math as CesiumMath,
 } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { action } from "@storybook/addon-actions";
 
+import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 import Entity, { EntityProps } from "./Entity";
 import EntityDescription, { EntityStaticDescription } from "../EntityDescription";
@@ -28,10 +30,9 @@ import PlaneGraphics from "../PlaneGraphics";
 import PointGraphics from "../PointGraphics";
 import PolygonGraphics from "../PolygonGraphics";
 import PolylineGraphics from "../PolylineGraphics";
-import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
-import RectangleGraphics from "../RectangleGraphics";
-import WallGraphics from "../WallGraphics";
-import { events } from "../core/storybook";
+// import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
+// import RectangleGraphics from "../RectangleGraphics";
+// import WallGraphics from "../WallGraphics";
 
 export default {
   title: "Entity",
@@ -176,7 +177,7 @@ export const Events: Story<EntityProps> = args => (
 );
 
 export const Graphics: Story<EntityProps> = args => (
-  <Viewer full>
+  <Viewer full onMouseEnter={action("mouseenter")}>
     <Entity
       {...args}
       name="BillboardGraphics"
@@ -318,7 +319,7 @@ export const Graphics: Story<EntityProps> = args => (
         }
       />
     </Entity>
-    <Entity
+    {/* <Entity
       {...args}
       name="PolylineVolumeGraphics"
       description="PolylineVolumeGraphics!!"
@@ -338,8 +339,8 @@ export const Graphics: Story<EntityProps> = args => (
         outline
         outlineColor={Color.BLACK}
       />
-    </Entity>
-    <Entity
+    </Entity> */}
+    {/* <Entity
       {...args}
       name="RectangleGraphics"
       description="RectangleGraphics!!"
@@ -353,8 +354,8 @@ export const Graphics: Story<EntityProps> = args => (
         outline // height must be set for outline to display
         outlineColor={Color.BLACK}
       />
-    </Entity>
-    <Entity
+    </Entity> */}
+    {/* <Entity
       {...args}
       name="WallGraphics"
       description="WallGraphics!!"
@@ -372,6 +373,6 @@ export const Graphics: Story<EntityProps> = args => (
         outline
         outlineColor={Color.BLACK}
       />
-    </Entity>
+    </Entity> */}
   </Viewer>
 );
