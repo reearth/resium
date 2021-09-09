@@ -1,10 +1,11 @@
+import { Transforms, Cartesian3 } from "cesium";
 import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import Model, { ModelProps } from "./Model";
 import CameraFlyTo from "../CameraFlyTo";
-import { Transforms, Cartesian3 } from "cesium";
+import { events } from "../core/storybook";
 
 const origin = Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
 const cameraDest = Cartesian3.fromDegrees(-95.0, 40.0, 210000);
@@ -25,7 +26,7 @@ export const Basic: Story<ModelProps> = args => (
       minimumPixelSize={128}
       maximumScale={20000}
       onReady={action("onReady")}
-      onClick={action("onClick")}
+      {...events}
     />
   </Viewer>
 );

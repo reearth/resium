@@ -1,25 +1,3 @@
-import { Polyline, DistanceDisplayCondition } from "cesium";
-
-export const polylineEquals = (a: any, b: any) =>
-  !!a &&
-  !!b &&
-  a instanceof Polyline &&
-  b instanceof Polyline &&
-  a.show === b.show &&
-  a.width === b.width &&
-  a.loop === b.loop &&
-  a.material === b.material &&
-  a.positions === b.positions &&
-  a.id === b.id &&
-  DistanceDisplayCondition.equals(a.distanceDisplayCondition, b.distanceDisplayCondition);
-
-export const pickedObjectEquals = (picked: any, element: any) =>
-  !!picked &&
-  (picked === element ||
-    (!!picked.id && picked.id === element) ||
-    picked.equals?.(element) ||
-    polylineEquals(picked, element));
-
 export function pick<T, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
   if (!keys) return {} as Pick<T, K>;
   return entries(obj).reduce((a, [k, v]) => {

@@ -1,4 +1,4 @@
-import { PointPrimitive as CesiumPointPrimitive } from "cesium";
+import { PointPrimitive as CesiumPointPrimitive, PointPrimitiveCollection } from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
@@ -18,7 +18,11 @@ A point object will be attached to the parent PointPrimitiveCollection.
 
 export type PointPrimitiveCesiumProps = PickCesiumProps<CesiumPointPrimitive, typeof cesiumProps>;
 
-export type PointPrimitiveOtherProps = EventProps<CesiumPointPrimitive>;
+export type PointPrimitiveOtherProps = EventProps<{
+  collection: PointPrimitiveCollection;
+  id: string | undefined;
+  primitive: CesiumPointPrimitive;
+}>;
 
 export type PointPrimitiveProps = PointPrimitiveCesiumProps & PointPrimitiveOtherProps;
 

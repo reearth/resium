@@ -11,6 +11,7 @@ import {
 import { Meta, Story } from "@storybook/react";
 
 import { CesiumComponentRef } from "../core";
+import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 import Clock from "../Clock";
 import TimeDynamicPointCloud, { TimeDynamicPointCloudProps } from "./TimeDynamicPointCloud";
@@ -66,6 +67,7 @@ export const Basic: Story<TimeDynamicPointCloudProps> = args => {
         onReady={p => {
           ref.current?.cesiumElement?.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
         }}
+        {...events}
       />
     </Viewer>
   );

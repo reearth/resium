@@ -6,6 +6,7 @@ import {
   PickCesiumProps,
   ConstructorOptions,
   Merge,
+  EventProps,
 } from "../core";
 
 /*
@@ -42,6 +43,7 @@ export type TimeDynamicPointCloudOtherProps = {
 export type TimeDynamicPointCloudProps = TimeDynamicPointCloudCesiumProps &
   TimeDynamicPointCloudCesiumReadonlyProps &
   TimeDynamicPointCloudCesiumEvents &
+  EventProps<{ primitive?: CesiumTimeDynamicPointCloud }> &
   TimeDynamicPointCloudOtherProps;
 
 const cesiumProps = [
@@ -93,6 +95,7 @@ const TimeDynamicPointCloud = createCesiumComponent<
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  useCommonEvent: true,
 });
 
 export default TimeDynamicPointCloud;

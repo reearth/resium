@@ -5,6 +5,36 @@ title: Migration Guide
 
 # Migration Guide
 
+## v1.14
+
+### Event handlers no longer receive an entity and primitive directly
+
+Until now, you could receive the picked entities and primitives directly in the event handler of the component.
+
+```jsx
+<Viewer onClick={e => {
+  if (e instanceof Entity) {
+    // e is a entity!
+  }
+}} />
+```
+
+This behavior has been changed so that the value returned by `scene.pick` method is passed directly to the event handler:
+
+```jsx
+<Viewer onClick={e => {
+  if (e?.id instanceof Entity) {
+    // e.id is an Entity!
+  } else if (e?.primitive instanceof Primitive) {
+    // e.id is a Primitive!
+  } else if (e instanceof Cesium3DTileFeature) {
+    // e is a Cesium3DTileFeature!
+  }
+}} />
+```
+
+This change will apply to all components that have event properties.
+
 ## v1.12
 
 Changes related to TypeScript type definitions are main, but some component properties are changed also.

@@ -1,4 +1,10 @@
-import { Material, Cartesian3, DistanceDisplayCondition, Polyline as CesiumPolyline } from "cesium";
+import {
+  Material,
+  Cartesian3,
+  DistanceDisplayCondition,
+  Polyline as CesiumPolyline,
+  PolylineCollection,
+} from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
@@ -26,7 +32,11 @@ export type PolylineCesiumProps = PickCesiumProps<CesiumPolyline, typeof cesiumP
   width?: number;
 };
 
-export type PolylineOtherProps = EventProps<CesiumPolyline>;
+export type PolylineOtherProps = EventProps<{
+  collection: PolylineCollection;
+  id: string | undefined;
+  primitive: CesiumPolyline;
+}>;
 
 export type PolylineProps = PolylineCesiumProps & PolylineOtherProps;
 

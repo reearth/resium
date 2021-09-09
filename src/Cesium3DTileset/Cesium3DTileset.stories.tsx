@@ -6,6 +6,7 @@ import { Viewer as CesiumViewer } from "cesium";
 import Viewer from "../Viewer";
 import Cesium3DTileset, { Cesium3DTilesetProps } from "./Cesium3DTileset";
 import { CesiumComponentRef } from "../core";
+import { events } from "../core/storybook";
 
 export default {
   title: "Cesium3DTileset",
@@ -27,7 +28,7 @@ export const Basic: Story<Cesium3DTilesetProps> = args => {
         onReady={tileset => {
           ref.current?.cesiumElement?.zoomTo(tileset);
         }}
-        onClick={action("onClick")}
+        {...events}
       />
     </Viewer>
   );

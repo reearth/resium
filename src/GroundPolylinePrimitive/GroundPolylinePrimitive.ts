@@ -34,7 +34,7 @@ export type GroundPolylinePrimitiveOtherProps = {
 
 export type GroundPolylinePrimitiveProps = GroundPolylinePrimitiveCesiumProps &
   GroundPolylinePrimitiveCesiumReadonlyProps &
-  EventProps<CesiumGroundPolylinePrimitive> &
+  EventProps<{ id: string; primitive: CesiumGroundPolylinePrimitive }> & // TODO: validate type
   GroundPolylinePrimitiveOtherProps;
 
 const cesiumProps = [

@@ -30,7 +30,7 @@ export type PrimtiiveOtherProps = {
 
 export type PrimitiveProps = PrimitiveCesiumProps &
   PrimitiveCesiumReadonlyProps &
-  EventProps<CesiumPrimitive> &
+  EventProps<{ id: string; primitive: CesiumPrimitive }> &
   PrimtiiveOtherProps;
 
 const cesiumProps = [

@@ -1,4 +1,4 @@
-import { Billboard as CesiumBillboard } from "cesium";
+import { Billboard as CesiumBillboard, BillboardCollection } from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
@@ -18,7 +18,11 @@ A billboard object will be attached to the parent BillboardCollection.
 
 export type BillboardCesiumProps = PickCesiumProps<CesiumBillboard, typeof cesiumProps>;
 
-export type BillboardOtherProps = EventProps<CesiumBillboard>;
+export type BillboardOtherProps = EventProps<{
+  collection: BillboardCollection;
+  id: string | undefined;
+  primitive: CesiumBillboard;
+}>;
 
 export type BillboardProps = BillboardCesiumProps & BillboardOtherProps;
 

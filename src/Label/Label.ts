@@ -1,4 +1,4 @@
-import { Label as CesiumLabel } from "cesium";
+import { Label as CesiumLabel, LabelCollection } from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
@@ -18,7 +18,11 @@ A label object will be attached to the parent LabelCollection.
 
 export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps>;
 
-export type LabelOtherProps = EventProps<CesiumLabel>;
+export type LabelOtherProps = EventProps<{
+  collection: LabelCollection;
+  id: string | undefined;
+  primitive: CesiumLabel;
+}>;
 
 export type LabelProps = LabelCesiumProps & LabelOtherProps;
 

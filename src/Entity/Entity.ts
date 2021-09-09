@@ -1,5 +1,19 @@
 import { ReactNode } from "react";
-import { Entity as CesiumEntity } from "cesium";
+import {
+  Billboard,
+  BillboardCollection,
+  Entity as CesiumEntity,
+  Label,
+  LabelCollection,
+  Model,
+  ModelMesh,
+  ModelNode,
+  PointPrimitive,
+  PointPrimitiveCollection,
+  Polyline,
+  PolylineCollection,
+  Primitive,
+} from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
 
@@ -81,10 +95,25 @@ export type EntityOtherProps = {
   tracked?: boolean;
 };
 
+export type EventTarget = {
+  id: CesiumEntity;
+} & (
+  | { primitive: Primitive }
+  | {
+      primitive: Model;
+      mesh: ModelMesh;
+      node: ModelNode;
+    }
+  | { collection: BillboardCollection; primitive: Billboard }
+  | { collection: LabelCollection; primitive: Label }
+  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
+  | { collection: PolylineCollection; primitive: Polyline }
+);
+
 export type EntityProps = EntityCesiumProps &
   EntityCesiumReadonlyProps &
   EntityCesiumEvents &
-  EventProps<CesiumEntity> &
+  EventProps<EventTarget> &
   EntityOtherProps;
 
 const cesiumProps = [
