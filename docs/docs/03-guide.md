@@ -174,9 +174,11 @@ They are renamed according to React's custom. For example, `Viewer#trackedEntity
 
 Some components have convenient properties that do not exist in the Cesium element. They can be used in the same way as normal React component properties.
 
-## Accessing to a raw Cesium's element
+## Accessing to a raw Cesium element
 
-If you want to access a raw Cesium's element, you cab use `ref` prop of components. It can be get by `cesiumElement` property of the component object that can be get by them.
+If you want to access a raw Cesium element, you can use `ref` prop of components.
+
+Ref is one of the concepts that comes up in React. To see more information, see [the React documentation](https://reactjs.org/docs/refs-and-the-dom.html).
 
 To know what is a Cesium element of each component, refer to "Cesium element" in the document of each component.
 
