@@ -1,6 +1,21 @@
-import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
+import {
+  Billboard,
+  BillboardCollection,
+  Entity,
+  GeoJsonDataSource as CesiumGeoJsonDataSource,
+  Label,
+  LabelCollection,
+  Model,
+  ModelMesh,
+  ModelNode,
+  PointPrimitive,
+  PointPrimitiveCollection,
+  Polyline,
+  PolylineCollection,
+  Primitive,
+} from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2 } from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
 
 /*
 @summary
@@ -40,9 +55,25 @@ export type GeoJsonDataSourceOtherProps = {
   data?: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
 };
 
+export type EventTarget = {
+  id: Entity;
+} & (
+  | { primitive: Primitive }
+  | {
+      primitive: Model;
+      mesh: ModelMesh;
+      node: ModelNode;
+    }
+  | { collection: BillboardCollection; primitive: Billboard }
+  | { collection: LabelCollection; primitive: Label }
+  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
+  | { collection: PolylineCollection; primitive: Polyline }
+);
+
 export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
   GeoJsonDataSourceCesiumReadonlyProps &
   GeoJsonDataSourceCesiumEvents &
+  EventProps<EventTarget> &
   GeoJsonDataSourceOtherProps;
 
 const cesiumProps = ["clustering", "name", "show"] as const;
@@ -130,6 +161,7 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  useCommonEvent: true,
 });
 
 export default GeoJsonDataSource;

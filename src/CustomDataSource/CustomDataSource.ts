@@ -1,7 +1,22 @@
-import { CustomDataSource as CesiumCustomDataSource } from "cesium";
+import {
+  Billboard,
+  BillboardCollection,
+  CustomDataSource as CesiumCustomDataSource,
+  Entity,
+  Label,
+  LabelCollection,
+  Model,
+  ModelMesh,
+  ModelNode,
+  PointPrimitive,
+  PointPrimitiveCollection,
+  Polyline,
+  PolylineCollection,
+  Primitive,
+} from "cesium";
 import { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { createCesiumComponent, PickCesiumProps, EventProps } from "../core";
 
 /*
 @summary
@@ -20,7 +35,22 @@ export type CustomDataSourceCesiumProps = PickCesiumProps<
   typeof cesiumProps
 >;
 
-export type CustomDataSourceCesiumEvents = {
+export type EventTarget = {
+  id: Entity;
+} & (
+  | { primitive: Primitive }
+  | {
+      primitive: Model;
+      mesh: ModelMesh;
+      node: ModelNode;
+    }
+  | { collection: BillboardCollection; primitive: Billboard }
+  | { collection: LabelCollection; primitive: Label }
+  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
+  | { collection: PolylineCollection; primitive: Polyline }
+);
+
+export type CustomDataSourceCesiumEvents = EventProps<EventTarget> & {
   onChange?: (customDataSource: CesiumCustomDataSource) => void;
   onError?: (customDataSource: CesiumCustomDataSource, error: any) => void;
   onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
@@ -72,6 +102,7 @@ const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDat
   },
   cesiumProps,
   cesiumEventProps,
+  useCommonEvent: true,
 });
 
 export default CustomDataSource;

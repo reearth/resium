@@ -4,6 +4,7 @@ import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
 
 import Viewer from "../Viewer";
 import KmlDataSource, { KmlDataSourceProps } from "./KmlDataSource";
+import { events } from "../core/storybook";
 
 export default {
   title: "KmlDataSource",
@@ -72,7 +73,7 @@ const onLoad = (k: CesiumKmlDataSource) => {
 
 export const Basic: Story<KmlDataSourceProps> = args => (
   <Viewer full>
-    <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action("onError")} />
+    <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action("onError")} {...events} />
   </Viewer>
 );
 

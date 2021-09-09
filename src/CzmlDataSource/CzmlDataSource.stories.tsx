@@ -4,6 +4,7 @@ import { GeoJsonDataSource } from "cesium";
 
 import Viewer from "../Viewer";
 import CzmlDataSource, { CzmlDataSourceProps } from "./CzmlDataSource";
+import { events } from "../core/storybook";
 
 export default {
   title: "CzmlDataSource",
@@ -51,7 +52,7 @@ const onLoad = (g: GeoJsonDataSource) => {
 
 export const Basic: Story<CzmlDataSourceProps> = args => (
   <Viewer full>
-    <CzmlDataSource {...args} data={czml} onLoad={onLoad} onError={action("onError")} />
+    <CzmlDataSource {...args} data={czml} onLoad={onLoad} onError={action("onError")} {...events} />
   </Viewer>
 );
 

@@ -238,9 +238,10 @@ export class EventManager {
   private getEventCallback(type: EventType, picked: any) {
     return picked === null
       ? this.events[type].get(null)
-      : this.events[type].get(picked.id) ||
-          this.events[type].get(picked.primitive) ||
-          this.events[type].get(picked.tileset);
+      : this.events[type].get(picked.id) || // Entity
+          this.events[type].get(picked.id?.entityCollection?.owner) || // Entity in DataSource
+          this.events[type].get(picked.primitive) || // Primitive
+          this.events[type].get(picked.tileset); // Cesium3DTileFeature
   }
 
   private onMouseMove = (e: CesiumMovementEvent) => {

@@ -4,6 +4,7 @@ import { Meta, Story } from "@storybook/react";
 import Viewer from "../Viewer";
 import CustomDataSource, { CustomDataSourceProps } from "./CustomDataSource";
 import Entity from "../Entity";
+import { events } from "../core/storybook";
 
 export default {
   title: "CustomDataSource",
@@ -12,7 +13,7 @@ export default {
 
 export const Basic: Story<CustomDataSourceProps> = args => (
   <Viewer full>
-    <CustomDataSource {...args} name="custom">
+    <CustomDataSource {...args} name="custom" {...events}>
       <Entity
         name="added to custom data source"
         description="test"
@@ -20,7 +21,7 @@ export const Basic: Story<CustomDataSourceProps> = args => (
         point={{ pixelSize: 10, color: Color.RED }}
       />
     </CustomDataSource>
-    <CustomDataSource name="hidden" show={false}>
+    <CustomDataSource name="hidden" show={false} {...events}>
       <Entity
         name="added to custom data source but hidden"
         description="test"
@@ -41,6 +42,7 @@ export const UseEntityCluster: Story<CustomDataSourceProps> = args => (
   <Viewer full>
     <CustomDataSource
       {...args}
+      {...events}
       clustering={
         new EntityCluster({
           enabled: true,

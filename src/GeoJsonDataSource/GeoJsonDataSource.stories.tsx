@@ -4,6 +4,7 @@ import { action } from "@storybook/addon-actions";
 
 import Viewer from "../Viewer";
 import GeoJsonDataSource, { GeoJsonDataSourceProps } from "./GeoJsonDataSource";
+import { events } from "../core/storybook";
 
 export default {
   title: "GeoJsonDataSource",
@@ -37,6 +38,7 @@ export const Basic: Story<GeoJsonDataSourceProps> = args => (
         onLoadAction(g);
       }}
       onError={action("onError")}
+      {...events}
     />
   </Viewer>
 );

@@ -1,6 +1,21 @@
-import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
+import {
+  Billboard,
+  BillboardCollection,
+  CzmlDataSource as CesiumCzmlDataSource,
+  Entity,
+  Label,
+  LabelCollection,
+  Model,
+  ModelMesh,
+  ModelNode,
+  PointPrimitive,
+  PointPrimitiveCollection,
+  Polyline,
+  PolylineCollection,
+  Primitive,
+} from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2 } from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
 
 /*
 @summary
@@ -22,7 +37,22 @@ export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, ty
 
 export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type CzmlDataSourceCesiumEvents = {
+export type EventTarget = {
+  id: Entity;
+} & (
+  | { primitive: Primitive }
+  | {
+      primitive: Model;
+      mesh: ModelMesh;
+      node: ModelNode;
+    }
+  | { collection: BillboardCollection; primitive: Billboard }
+  | { collection: LabelCollection; primitive: Label }
+  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
+  | { collection: PolylineCollection; primitive: Polyline }
+);
+
+export type CzmlDataSourceCesiumEvents = EventProps<EventTarget> & {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
   onError?: (CzmlDataSource: CesiumCzmlDataSource, error: any) => void;
   onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
@@ -103,6 +133,7 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  useCommonEvent: true,
 });
 
 export default CzmlDataSource;
