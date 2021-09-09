@@ -5,43 +5,172 @@ title: Installation
 
 # Installation
 
-## 1. Install Cesium and Resium
-
-You can install `cesium` and `resium` from npm.
+Install `cesium` and `resium`:
 
 ```bash
 npm install --save cesium resium
-# or
+# OR
 yarn add cesium resium
 ```
 
-**Note for TypeScript users**: `@types/cesium` is no longer needed because Resium supports Cesium's official type definition.
+:::note
+**For TypeScript users**: `@types/cesium` is no longer needed because Resium supports Cesium official type definition.
+:::
 
-## 2. Set up bundler
-
-To use Cesium in webpack environment, preparation is a bit more necessary, because Cesium includes many asset files and uses AMD as module system.
+Then, to use Cesium in webpack environment, preparation is a bit more necessary, because Cesium includes many asset files.
 
 There are some choices. Choose one.
 
-1. If you are using `create-react-app`, [craco-cesium](https://github.com/reearth/craco-cesium) is recommended (easier, [example project is here](https://github.com/reearth/resium/tree/main/example/create-react-app))
-2. [webpack: Copy whole Cesium files and load Cesium in HTML](#2-2-webpack-copy-whole-cesium-files-and-load-cesium-in-html)
-3. [webpack: Copy only asset files and bundle Cesium normaly except assets](#2-3-webpack-copy-only-asset-files-and-bundle-cesium-normaly-except-assets)
-4. [Vite](#2-4-vite) (**🚀 easiest and fastest to build as of 2021**)
-## 2-2. webpack: Copy whole Cesium files and load Cesium in HTML
+- [create-react-app](#1-create-react-app)
+- [Next.js](#2-nextjs)
+- webpack
+   - [Copy whole Cesium files and load Cesium in HTML](#3-webpack-copy-whole-cesium-files-and-load-cesium-in-html)
+   - [Copy only asset files and bundle Cesium normaly except assets](#4-webpack-copy-only-asset-files-and-bundle-cesium-normaly-except-assets)
+- [Vite](#5-vite) (**🚀 easiest and fastest to build as of 2021**)
+
+When you finish set up, you can import Cesium:
+
+```js
+import { Cartesian3 } from "cesium";
+```
+
+Then advance to [Getting Started](/getting_started).
+
+:::caution
+`import Cesium from "cesium";` causes an error, as default is not exported from Cesium. Use `import * as Cesium from "cesium";`.
+:::
+
+## 1. create-react-app
+
+If you are using create-react-app, [craco-cesium](https://github.com/reearth/craco-cesium) is recommended.
+
+Refer to [the documentation](https://github.com/reearth/craco-cesium#craco-cesium) and [example project](https://github.com/reearth/resium/tree/main/example/create-react-app).
+
+## 2. Next.js
+
+See also: [example project](https://github.com/reearth/resium/tree/main/example/next)
+
+The steps for initializing Next.js are not explained here. We will assume that your Next.js project already exists.
+
+
+### 2-1. Edit `next.config.js`
+
+Add a webpack define pugin:
+
+```js
+const webpack = require('webpack');
+
+module.exports = {
+  reactStrictMode: true,
+  webpack: config => {
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        CESIUM_BASE_URL: JSON.stringify('cesium'),
+      }),
+    );
+    return config;
+  }
+}
+```
+
+### 2-2. Set up script to copy Cesium files automatically
+
+Install `symlink-dir`:
+
+```bash
+npm install --save-dev symlink-dir
+# OR
+yarn add --dev symlink-dir
+```
+
+:::note
+`ln -s` commands is also OK, but I recommend `symlink-dir` because it supports multi-platform.
+:::
+
+Then edit `package.json`:
+
+```js title="package.json"
+{
+  "scripts": {
+    "postinstall": "symlink-dir node_modules/cesium/Build/Cesium public/cesium"
+  }
+}
+```
+
+Finally execute postinstall scripts to create the symbolic link:
+
+```bash
+npm install
+# OR
+yarn
+```
+
+Adding `/public/cesium` to `.gitignore` is good:
+
+```markup title=".gitignore"
+/public/cesium
+```
+
+:::note
+Using `copy-webpack-plugin` in `next.config.js` does not work because the copied files won't be delivered correctly from the server.
+:::
+
+### 2-3: Implement your component
+
+Cesium cannot be used in SSR, so components using Cesium should be separated from page components. Define your Cesium component in any location other than `pages` directory.
+
+```jsx title="components/Cesium.js"
+import { Viewer } from 'resium'
+
+export default function Cesium() {
+  return (
+    <Viewer full />
+  )
+}
+```
+
+Then dynamically import components using Cesium with `next/dynamic`. Don't forget `{ ssr: false }` option. Also load Cesium CSS file with `next/head`.
+
+```jsx title="pages/index.js"
+import Head from 'next/head'
+import dynamic from 'next/dynamic'
+
+const Cesium = dynamic(
+  () => import('../components/Cesium'),
+  { ssr: false }
+)
+
+export default function Home() {
+  return (
+    <>
+      <Head>
+        <link rel="stylesheet" href="cesium/Widgets/widgets.css" />
+      </Head>
+      <Cesium />
+    </>
+  )
+}
+```
+
+If you want to import a TypeScript file (`.tsx`), `() => import('../components/Cesium.tsx')` works instead.
+
+That's all!
+
+## 3. webpack: Copy whole Cesium files and load Cesium in HTML
 
 See also: [example project](https://github.com/reearth/resium/tree/main/example/webpack)
 
-### 2-2-1. Install webpack plugins
+### 3-1. Install webpack plugins
 
 ```bash
 npm install --save-dev copy-webpack-plugin html-webpack-plugin html-webpack-tags-plugin
-# or
+# OR
 yarn add copy-webpack-plugin html-webpack-plugin html-webpack-tags-plugin
 ```
 
 Then, edit your webpack configuration.
 
-### 2-2-2. Add `cesium` to externals
+### 3-2. Add `cesium` to externals
 
 Cesium will be loaded in HTML. Notify it to webpack.
 
@@ -55,7 +184,7 @@ Cesium will be loaded in HTML. Notify it to webpack.
 
 When cesium is loaded, webpack uses `window.Cesium` instead of loading source files.
 
-### 2-2-3. Add plugins
+### 3-3. Add plugins
 
 - Copy whole Cesium files at build time with copy-webpack-plugin
 - Add tags to index.html to load JS and CSS with html-webpack-tags-plugin
@@ -94,23 +223,23 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 Note: If `publicPath` in webpack config is changed, `CESIUM_BASE_URL` may have to be changed also.
 
-## 2-3. webpack: Copy only asset files and bundle Cesium normaly except assets
+## 4. webpack: Copy only asset files and bundle Cesium normaly except assets
 
-In this way, imported and used Cesium's source codes are bundled to your app's source code with webpack.
+In this way, imported and used Cesium source codes are bundled to your app's source code with webpack.
 
-See also: [example project](https://github.com/reearth/resium/tree/main/example/webpack2) and [Cesium's official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
+See also: [example project](https://github.com/reearth/resium/tree/main/example/webpack2) and [Cesium official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
 
-### 2-3-1. Install webpack plugins and loaders
+### 4-1. Install webpack plugins and loaders
 
-```
+```bash
 npm install --save-dev copy-webpack-plugin css-loader style-loader url-loader
-# or
+# OR
 yarn add --dev copy-webpack-plugin css-loader style-loader url-loader
 ```
 
 Then, edit your webpack configuration.
 
-### 2-3-2. Add plugins
+### 4-2. Add plugins
 
 - Copy only asset files at build time
 - Cesium refers to `CESIUM_BASE_URL` to find asset files
@@ -140,7 +269,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
 
 Note: If `publicPath` in webpack config is changed, `CESIUM_BASE_URL` may have to be changed also.
 
-### 2-3-3. Add loaders and load CSS file in the entry JS
+### 4-3. Add loaders and load CSS file in the entry JS
 
 ```js
 {
@@ -164,7 +293,7 @@ Note: If `publicPath` in webpack config is changed, `CESIUM_BASE_URL` may have t
 }
 ```
 
-### 2-3-4. Load CSS in your app
+### 4-4. Load CSS in your app
 
 Add link tag in head of index.html to load CSS:
 
@@ -186,7 +315,7 @@ import "cesium/Widgets/widgets.css";
 
 :::
 
-## 2-4. Vite
+## 5. Vite
 
 [Vite](https://vitejs.dev/) is one of next generation JavaScript bundler. [vite-plugin-cesium](https://github.com/nshen/vite-plugin-cesium) is recommended to use Cesium with Vite.
 
@@ -196,7 +325,8 @@ Init a new vite project (select "react"):
 
 ```bash
 npm init vite example
-# OR yarn create vite example
+# OR
+yarn create vite example
 ```
 
 Then install Cesium, Resium, and [vite-plugin-cesium](https://github.com/)
@@ -204,7 +334,9 @@ Then install Cesium, Resium, and [vite-plugin-cesium](https://github.com/)
 ```bash
 npm install --save cesium resium
 npm install --save-dev vite-plguin-cesium
-# OR yarn add cesium resium; yarn add --dev vite-plguin-cesium
+# OR
+yarn add cesium resium
+yarn add --dev vite-plguin-cesium
 ```
 
 Then edit `vite.config.js`:
@@ -221,15 +353,3 @@ export default defineConfig({
 ```
 
 That's all!
-
-## 3. Ready
-
-Everything is ready! You can import Cesium directly:
-
-```js
-import { Cartesian3 } from "cesium";
-```
-
-Warning: `import Cesium from "cesium";` may be cause an error, as default is not exported from Cesium.
-
-Advance to [Getting Started](/getting_started).

@@ -12,9 +12,9 @@ title: Migration Guide
 Until now, you could receive the picked entities and primitives directly in the event handler of the component.
 
 ```jsx
-<Viewer onClick={e => {
-  if (e instanceof Entity) {
-    // e is a entity!
+<Viewer onClick={(e, target) => {
+  if (target instanceof Entity) {
+    // target is a entity!
   }
 }} />
 ```
@@ -22,13 +22,13 @@ Until now, you could receive the picked entities and primitives directly in the 
 This behavior has been changed so that the value returned by `scene.pick` method is passed directly to the event handler:
 
 ```jsx
-<Viewer onClick={e => {
-  if (e?.id instanceof Entity) {
-    // e.id is an Entity!
-  } else if (e?.primitive instanceof Primitive) {
-    // e.id is a Primitive!
-  } else if (e instanceof Cesium3DTileFeature) {
-    // e is a Cesium3DTileFeature!
+<Viewer onClick={(e, target) => {
+  if (target?.id instanceof Entity) {
+    // target.id is an Entity!
+  } else if (target?.primitive instanceof Primitive) {
+    // target.id is a Primitive!
+  } else if (target instanceof Cesium3DTileFeature) {
+    // target is a Cesium3DTileFeature!
   }
 }} />
 ```
