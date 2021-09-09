@@ -322,7 +322,9 @@ export enum WebGLConstants {
     COMPRESSED_RGB_PVRTC_2BPPV1_IMG = 35841,
     COMPRESSED_RGBA_PVRTC_4BPPV1_IMG = 35842,
     COMPRESSED_RGBA_PVRTC_2BPPV1_IMG = 35843,
+    COMPRESSED_RGBA_ASTC_4x4_WEBGL = 37808,
     COMPRESSED_RGB_ETC1_WEBGL = 36196,
+    COMPRESSED_RGBA_BPTC_UNORM = 36492,
     HALF_FLOAT_OES = 36193,
     DOUBLE = 5130,
     READ_BUFFER = 3074,
@@ -597,7 +599,9 @@ export enum WebGLConstants {
     MAX_ELEMENT_INDEX = 36203,
     TEXTURE_IMMUTABLE_LEVELS = 33503,
     MAX_TEXTURE_MAX_ANISOTROPY_EXT = 34047
-}/**
+}
+
+/**
  * A {@link TerrainProvider} that produces terrain geometry by tessellating height maps
  * retrieved from Elevation Tiles of an an ArcGIS ImageService.
  * @example
@@ -626,21 +630,21 @@ export class ArcGISTiledElevationTerrainProvider {
      * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
      * are passed an instance of {@link TileProviderError}.
      */
-    errorEvent: Event;
+    readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
      * the source of the terrain.  This function should not be called before {@link ArcGISTiledElevationTerrainProvider#ready} returns true.
      */
-    credit: Credit;
+    readonly credit: Credit;
     /**
      * Gets the tiling scheme used by this provider.  This function should
      * not be called before {@link ArcGISTiledElevationTerrainProvider#ready} returns true.
      */
-    tilingScheme: GeographicTilingScheme;
+    readonly tilingScheme: GeographicTilingScheme;
     /**
      * Gets a value indicating whether or not the provider is ready for use.
      */
-    ready: boolean;
+    readonly ready: boolean;
     /**
      * Gets a promise that resolves to true when the provider is ready for use.
      */
@@ -651,19 +655,19 @@ export class ArcGISTiledElevationTerrainProvider {
      * as a reflective surface with animated waves.  This function should not be
      * called before {@link ArcGISTiledElevationTerrainProvider#ready} returns true.
      */
-    hasWaterMask: boolean;
+    readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
      * This function should not be called before {@link ArcGISTiledElevationTerrainProvider#ready} returns true.
      */
-    hasVertexNormals: boolean;
+    readonly hasVertexNormals: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
      * at points and in rectangles.  This function should not be called before
      * {@link TerrainProvider#ready} returns true.  This property may be undefined if availability
      * information is not available.
      */
-    availability: TileAvailability;
+    readonly availability: TileAvailability;
     /**
      * Requests the geometry for a given tile.  This function should not be called before
      * {@link ArcGISTiledElevationTerrainProvider#ready} returns true.  The result includes terrain
@@ -690,7 +694,7 @@ export class ArcGISTiledElevationTerrainProvider {
      * @param level - The level of the tile for which to request geometry.
      * @returns Undefined if not supported, otherwise true or false.
      */
-    getTileDataAvailable(x: number, y: number, level: number): boolean;
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
     /**
      * Makes sure we load availability data for a tile
      * @param x - The X coordinate of the tile for which to request geometry.
@@ -850,10 +854,12 @@ export class AxisAlignedBoundingBox {
  * Provides geocoding through Bing Maps.
  * @param options - Object with the following properties:
  * @param options.key - A key to use with the Bing Maps geocoding service
+ * @param [options.culture] - A Bing Maps {@link https://docs.microsoft.com/en-us/bingmaps/rest-services/common-parameters-and-types/supported-culture-codes|Culture Code} to return results in a specific culture and language.
  */
 export class BingMapsGeocoderService {
     constructor(options: {
         key: string;
+        culture?: string;
     });
     /**
      * The URL endpoint for the Bing geocoder service
@@ -957,7 +963,7 @@ export class BoundingRectangle {
      * Determines if two rectangles intersect.
      * @param left - A rectangle to check for intersection.
      * @param right - The other rectangle to check for intersection.
-     * @returns <code>Intersect.INTESECTING</code> if the rectangles intersect, <code>Intersect.OUTSIDE</code> otherwise.
+     * @returns <code>Intersect.INTERSECTING</code> if the rectangles intersect, <code>Intersect.OUTSIDE</code> otherwise.
      */
     static intersect(left: BoundingRectangle, right: BoundingRectangle): Intersect;
     /**
@@ -977,7 +983,7 @@ export class BoundingRectangle {
     /**
      * Determines if this rectangle intersects with another.
      * @param right - A rectangle to check for intersection.
-     * @returns <code>Intersect.INTESECTING</code> if the rectangles intersect, <code>Intersect.OUTSIDE</code> otherwise.
+     * @returns <code>Intersect.INTERSECTING</code> if the rectangles intersect, <code>Intersect.OUTSIDE</code> otherwise.
      */
     intersect(right: BoundingRectangle): Intersect;
     /**
@@ -1189,7 +1195,7 @@ export class BoundingSphere {
      * });
      * @param sphere - The sphere.
      * @param cartesian - The point
-     * @returns The estimated distance squared from the bounding sphere to the point.
+     * @returns The distance squared from the bounding sphere to the point. Returns 0 if the point is inside the sphere.
      */
     static distanceSquaredTo(sphere: BoundingSphere, cartesian: Cartesian3): number;
     /**
@@ -1624,6 +1630,13 @@ export class Cartesian2 {
      */
     static dot(left: Cartesian2, right: Cartesian2): number;
     /**
+     * Computes the magnitude of the cross product that would result from implicitly setting the Z coordinate of the input vectors to 0
+     * @param left - The first Cartesian.
+     * @param right - The second Cartesian.
+     * @returns The cross product.
+     */
+    static cross(left: Cartesian2, right: Cartesian2): number;
+    /**
      * Computes the componentwise product of two Cartesians.
      * @param left - The first Cartesian.
      * @param right - The second Cartesian.
@@ -1731,6 +1744,10 @@ export class Cartesian2 {
      * An immutable Cartesian2 instance initialized to (0.0, 0.0).
      */
     static readonly ZERO: Cartesian2;
+    /**
+     * An immutable Cartesian2 instance initialized to (1.0, 1.0).
+     */
+    static readonly ONE: Cartesian2;
     /**
      * An immutable Cartesian2 instance initialized to (1.0, 0.0).
      */
@@ -2142,6 +2159,10 @@ export class Cartesian3 {
      */
     static readonly ZERO: Cartesian3;
     /**
+     * An immutable Cartesian3 instance initialized to (1.0, 1.0, 1.0).
+     */
+    static readonly ONE: Cartesian3;
+    /**
      * An immutable Cartesian3 instance initialized to (1.0, 0.0, 0.0).
      */
     static readonly UNIT_X: Cartesian3;
@@ -2464,6 +2485,10 @@ export class Cartesian4 {
      */
     static readonly ZERO: Cartesian4;
     /**
+     * An immutable Cartesian4 instance initialized to (1.0, 1.0, 1.0, 1.0).
+     */
+    static readonly ONE: Cartesian4;
+    /**
      * An immutable Cartesian4 instance initialized to (1.0, 0.0, 0.0, 0.0).
      */
     static readonly UNIT_X: Cartesian4;
@@ -2769,21 +2794,21 @@ export class CesiumTerrainProvider {
      * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
      * are passed an instance of {@link TileProviderError}.
      */
-    errorEvent: Event;
+    readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
      * the source of the terrain.  This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
-    credit: Credit;
+    readonly credit: Credit;
     /**
      * Gets the tiling scheme used by this provider.  This function should
      * not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
-    tilingScheme: GeographicTilingScheme;
+    readonly tilingScheme: GeographicTilingScheme;
     /**
      * Gets a value indicating whether or not the provider is ready for use.
      */
-    ready: boolean;
+    readonly ready: boolean;
     /**
      * Gets a promise that resolves to true when the provider is ready for use.
      */
@@ -2794,35 +2819,35 @@ export class CesiumTerrainProvider {
      * as a reflective surface with animated waves.  This function should not be
      * called before {@link CesiumTerrainProvider#ready} returns true.
      */
-    hasWaterMask: boolean;
+    readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
      * This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
-    hasVertexNormals: boolean;
+    readonly hasVertexNormals: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include metadata.
      * This function should not be called before {@link CesiumTerrainProvider#ready} returns true.
      */
-    hasMetadata: boolean;
+    readonly hasMetadata: boolean;
     /**
      * Boolean flag that indicates if the client should request vertex normals from the server.
      * Vertex normals data is appended to the standard tile mesh data only if the client requests the vertex normals and
      * if the server provides vertex normals.
      */
-    requestVertexNormals: boolean;
+    readonly requestVertexNormals: boolean;
     /**
      * Boolean flag that indicates if the client should request a watermask from the server.
      * Watermask data is appended to the standard tile mesh data only if the client requests the watermask and
      * if the server provides a watermask.
      */
-    requestWaterMask: boolean;
+    readonly requestWaterMask: boolean;
     /**
      * Boolean flag that indicates if the client should request metadata from the server.
      * Metadata is appended to the standard tile mesh data only if the client requests the metadata and
      * if the server provides a metadata.
      */
-    requestMetadata: boolean;
+    readonly requestMetadata: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
      * at points and in rectangles.  This function should not be called before
@@ -2832,7 +2857,7 @@ export class CesiumTerrainProvider {
      * exists deeper in the tree rather than it all being discoverable at the root. However, a tile that
      * is available now will not become unavailable in the future.
      */
-    availability: TileAvailability;
+    readonly availability: TileAvailability;
     /**
      * Gets the maximum geometric error allowed in a tile at a given level.
      * @param level - The tile level for which to get the maximum geometric error.
@@ -2846,7 +2871,7 @@ export class CesiumTerrainProvider {
      * @param level - The level of the tile for which to request geometry.
      * @returns Undefined if not supported or availability is unknown, otherwise true or false.
      */
-    getTileDataAvailable(x: number, y: number, level: number): boolean;
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
     /**
      * Makes sure we load availability data for a tile
      * @param x - The X coordinate of the tile for which to request geometry.
@@ -4306,16 +4331,21 @@ export enum ComponentDatatype {
 /**
  * Describes a compressed texture and contains a compressed texture buffer.
  * @param internalFormat - The pixel format of the compressed texture.
+ * @param pixelDatatype - The pixel datatype of the compressed texture.
  * @param width - The width of the texture.
  * @param height - The height of the texture.
  * @param buffer - The compressed texture buffer.
  */
 export class CompressedTextureBuffer {
-    constructor(internalFormat: PixelFormat, width: number, height: number, buffer: Uint8Array);
+    constructor(internalFormat: PixelFormat, pixelDatatype: PixelDatatype, width: number, height: number, buffer: Uint8Array);
     /**
      * The format of the compressed texture.
      */
     readonly internalFormat: PixelFormat;
+    /**
+     * The datatype of the compressed texture.
+     */
+    readonly pixelDatatype: PixelDatatype;
     /**
      * The width of the texture.
      */
@@ -4719,6 +4749,135 @@ export class CullingVolume {
      * @returns Intersect.OUTSIDE, Intersect.INTERSECTING, or Intersect.INSIDE.
      */
     computeVisibility(boundingVolume: any): Intersect;
+}
+
+export namespace CustomHeightmapTerrainProvider {
+    /**
+     * @param x - The X coordinate of the tile for which to request geometry.
+     * @param y - The Y coordinate of the tile for which to request geometry.
+     * @param level - The level of the tile for which to request geometry.
+     */
+    type GeometryCallback = (x: number, y: number, level: number) => Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | number[] | Promise<Int8Array | Uint8Array | Int16Array | Uint16Array | Int32Array | Uint32Array | Float32Array | Float64Array | number[]> | undefined;
+}
+
+/**
+ * A simple {@link TerrainProvider} that gets height values from a callback function.
+ * It can be used for procedurally generated terrain or as a way to load custom
+ * heightmap data without creating a subclass of {@link TerrainProvider}.
+ *
+ * There are some limitations such as no water mask, no vertex normals, and no
+ * availability, so a full-fledged {@link TerrainProvider} subclass is better suited
+ * for these more sophisticated use cases.
+ * @example
+ * var viewer = new Cesium.Viewer("cesiumContainer", {
+ *   terrainProvider: new Cesium.CustomHeightmapTerrainProvider({
+ *     width: 32,
+ *     height: 32,
+ *     callback: function (x, y, level) {
+ *       return new Float32Array(32 * 32); // all zeros
+ *     },
+ *   }),
+ * });
+ * @param options - Object with the following properties:
+ * @param options.callback - The callback function for requesting tile geometry.
+ * @param options.width - The number of columns per heightmap tile.
+ * @param options.height - The number of rows per heightmap tile.
+ * @param [options.tilingScheme] - The tiling scheme specifying how the ellipsoidal
+ * surface is broken into tiles. If this parameter is not provided, a {@link GeographicTilingScheme}
+ * is used.
+ * @param [options.ellipsoid] - The ellipsoid.  If the tilingScheme is specified,
+ * this parameter is ignored and the tiling scheme's ellipsoid is used instead. If neither
+ * parameter is specified, the WGS84 ellipsoid is used.
+ * @param [options.credit] - A credit for the data source, which is displayed on the canvas.
+ */
+export class CustomHeightmapTerrainProvider {
+    constructor(options: {
+        callback: CustomHeightmapTerrainProvider.GeometryCallback;
+        width: number;
+        height: number;
+        tilingScheme?: TilingScheme;
+        ellipsoid?: Ellipsoid;
+        credit?: Credit | string;
+    });
+    /**
+     * Gets an event that is raised when the terrain provider encounters an asynchronous error. By subscribing
+     * to the event, you will be notified of the error and can potentially recover from it. Event listeners
+     * are passed an instance of {@link TileProviderError}.
+     */
+    readonly errorEvent: Event;
+    /**
+     * Gets the credit to display when this terrain provider is active. Typically this is used to credit
+     * the source of the terrain.
+     */
+    readonly credit: Credit;
+    /**
+     * Gets the tiling scheme used by this provider.
+     */
+    readonly tilingScheme: TilingScheme;
+    /**
+     * Gets a value indicating whether or not the provider is ready for use.
+     */
+    readonly ready: boolean;
+    /**
+     * Gets a promise that resolves to true when the provider is ready for use.
+     */
+    readonly readyPromise: Promise<boolean>;
+    /**
+     * Gets a value indicating whether or not the provider includes a water mask. The water mask
+     * indicates which areas of the globe are water rather than land, so they can be rendered
+     * as a reflective surface with animated waves.
+     * Water mask is not supported by {@link CustomHeightmapTerrainProvider}, so the return
+     * value will always be false.
+     */
+    readonly hasWaterMask: boolean;
+    /**
+     * Gets a value indicating whether or not the requested tiles include vertex normals.
+     * Vertex normals are not supported by {@link CustomHeightmapTerrainProvider}, so the return
+     * value will always be false.
+     */
+    readonly hasVertexNormals: boolean;
+    /**
+     * Gets the number of columns per heightmap tile.
+     */
+    readonly width: boolean;
+    /**
+     * Gets the number of rows per heightmap tile.
+     */
+    readonly height: boolean;
+    /**
+     * Requests the geometry for a given tile. The result includes terrain
+     * data and indicates that all child tiles are available.
+     * @param x - The X coordinate of the tile for which to request geometry.
+     * @param y - The Y coordinate of the tile for which to request geometry.
+     * @param level - The level of the tile for which to request geometry.
+     * @param [request] - The request object. Intended for internal use only.
+     * @returns A promise for the requested geometry. If this method
+     *          returns undefined instead of a promise, it is an indication that too many requests are already
+     *          pending and the request will be retried later.
+     */
+    requestTileGeometry(x: number, y: number, level: number, request?: Request): Promise<TerrainData> | undefined;
+    /**
+     * Gets the maximum geometric error allowed in a tile at a given level.
+     * @param level - The tile level for which to get the maximum geometric error.
+     * @returns The maximum geometric error.
+     */
+    getLevelMaximumGeometricError(level: number): number;
+    /**
+     * Determines whether data for a tile is available to be loaded.
+     * @param x - The X coordinate of the tile for which to request geometry.
+     * @param y - The Y coordinate of the tile for which to request geometry.
+     * @param level - The level of the tile for which to request geometry.
+     * @returns Undefined if not supported, otherwise true or false.
+     */
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
+    /**
+     * Makes sure we load availability data for a tile
+     * @param x - The X coordinate of the tile for which to request geometry.
+     * @param y - The Y coordinate of the tile for which to request geometry.
+     * @param level - The level of the tile for which to request geometry.
+     * @returns Undefined if nothing need to be loaded or a Promise that resolves when all required tiles are loaded
+     */
+    loadTileDataAvailability(x: number, y: number, level: number): undefined | Promise<void>;
 }
 
 /**
@@ -5132,18 +5291,6 @@ export namespace EasingFunction {
      */
     const BOUNCE_IN_OUT: EasingFunction.Callback;
     /**
-     * Quadratic in.
-     */
-    const QUADRACTIC_IN: EasingFunction.Callback;
-    /**
-     * Quadratic out.
-     */
-    const QUADRACTIC_OUT: EasingFunction.Callback;
-    /**
-     * Quadratic in then out.
-     */
-    const QUADRACTIC_IN_OUT: EasingFunction.Callback;
-    /**
      * Function interface for implementing a custom easing function.
      * @example
      * function quadraticIn(time) {
@@ -5417,7 +5564,7 @@ export class Ellipsoid {
      * Computes the normal of the plane tangent to the surface of the ellipsoid at the provided position.
      * @param cartesian - The Cartesian position for which to to determine the surface normal.
      * @param [result] - The object onto which to store the result.
-     * @returns The modified result parameter or a new Cartesian3 instance if none was provided.
+     * @returns The modified result parameter or a new Cartesian3 instance if none was provided, or undefined if a normal cannot be found.
      */
     geodeticSurfaceNormal(cartesian: Cartesian3, result?: Cartesian3): Cartesian3;
     /**
@@ -5895,21 +6042,21 @@ export class EllipsoidTerrainProvider {
      * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
      * are passed an instance of {@link TileProviderError}.
      */
-    errorEvent: Event;
+    readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
      * the source of the terrain.  This function should not be called before {@link EllipsoidTerrainProvider#ready} returns true.
      */
-    credit: Credit;
+    readonly credit: Credit;
     /**
      * Gets the tiling scheme used by this provider.  This function should
      * not be called before {@link EllipsoidTerrainProvider#ready} returns true.
      */
-    tilingScheme: GeographicTilingScheme;
+    readonly tilingScheme: GeographicTilingScheme;
     /**
      * Gets a value indicating whether or not the provider is ready for use.
      */
-    ready: boolean;
+    readonly ready: boolean;
     /**
      * Gets a promise that resolves to true when the provider is ready for use.
      */
@@ -5920,19 +6067,19 @@ export class EllipsoidTerrainProvider {
      * as a reflective surface with animated waves.  This function should not be
      * called before {@link EllipsoidTerrainProvider#ready} returns true.
      */
-    hasWaterMask: boolean;
+    readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
      * This function should not be called before {@link EllipsoidTerrainProvider#ready} returns true.
      */
-    hasVertexNormals: boolean;
+    readonly hasVertexNormals: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
      * at points and in rectangles.  This function should not be called before
      * {@link TerrainProvider#ready} returns true.  This property may be undefined if availability
      * information is not available.
      */
-    availability: TileAvailability;
+    readonly availability: TileAvailability;
     /**
      * Requests the geometry for a given tile.  This function should not be called before
      * {@link TerrainProvider#ready} returns true.  The result includes terrain
@@ -5959,7 +6106,7 @@ export class EllipsoidTerrainProvider {
      * @param level - The level of the tile for which to request geometry.
      * @returns Undefined if not supported, otherwise true or false.
      */
-    getTileDataAvailable(x: number, y: number, level: number): boolean;
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
     /**
      * Makes sure we load availability data for a tile
      * @param x - The X coordinate of the tile for which to request geometry.
@@ -6085,6 +6232,11 @@ export enum ExtrapolationType {
  */
 export namespace FeatureDetection {
     /**
+     * Detects whether the current browser supports Basis Universal textures and the web assembly modules needed to transcode them.
+     * @returns true if the browser supports web assembly modules and the scene supports Basis Universal textures, false if not.
+     */
+    function supportsBasis(scene: Scene): boolean;
+    /**
      * Detects whether the current browser supports the full screen standard.
      * @returns true if the browser supports the full screen standard, false if not.
      */
@@ -6094,6 +6246,21 @@ export namespace FeatureDetection {
      * @returns true if the browser supports typed arrays, false if not.
      */
     function supportsTypedArrays(): boolean;
+    /**
+     * Detects whether the current browser supports BigInt64Array typed arrays.
+     * @returns true if the browser supports BigInt64Array typed arrays, false if not.
+     */
+    function supportsBigInt64Array(): boolean;
+    /**
+     * Detects whether the current browser supports BigUint64Array typed arrays.
+     * @returns true if the browser supports BigUint64Array typed arrays, false if not.
+     */
+    function supportsBigUint64Array(): boolean;
+    /**
+     * Detects whether the current browser supports BigInt.
+     * @returns true if the browser supports BigInt, false if not.
+     */
+    function supportsBigInt(): boolean;
     /**
      * Detects whether the current browser supports Web Workers.
      * @returns true if the browsers supports Web Workers, false if not.
@@ -7191,19 +7358,19 @@ export class GoogleEarthEnterpriseTerrainProvider {
      * as a reflective surface with animated waves.  This function should not be
      * called before {@link GoogleEarthEnterpriseTerrainProvider#ready} returns true.
      */
-    hasWaterMask: boolean;
+    readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
      * This function should not be called before {@link GoogleEarthEnterpriseTerrainProvider#ready} returns true.
      */
-    hasVertexNormals: boolean;
+    readonly hasVertexNormals: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
      * at points and in rectangles.  This function should not be called before
      * {@link GoogleEarthEnterpriseTerrainProvider#ready} returns true.  This property may be undefined if availability
      * information is not available.
      */
-    availability: TileAvailability;
+    readonly availability: TileAvailability;
     /**
      * Requests the geometry for a given tile.  This function should not be called before
      * {@link GoogleEarthEnterpriseTerrainProvider#ready} returns true.  The result must include terrain data and
@@ -7230,7 +7397,7 @@ export class GoogleEarthEnterpriseTerrainProvider {
      * @param level - The level of the tile for which to request geometry.
      * @returns Undefined if not supported, otherwise true or false.
      */
-    getTileDataAvailable(x: number, y: number, level: number): boolean;
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
     /**
      * Makes sure we load availability data for a tile
      * @param x - The X coordinate of the tile for which to request geometry.
@@ -7860,6 +8027,11 @@ export class HermiteSpline {
 }
 
 /**
+ * Hilbert Order helper functions.
+ */
+export namespace HilbertOrder { }
+
+/**
  * Constants for WebGL index datatypes.  These corresponds to the
  * <code>type</code> parameter of {@link http://www.khronos.org/opengles/sdk/docs/man/xhtml/glDrawElements.xml|drawElements}.
  */
@@ -8257,12 +8429,14 @@ export class IonResource extends Resource {
      * @param [options.preferBlob = false] - If true, we will load the image via a blob.
      * @param [options.preferImageBitmap = false] - If true, image will be decoded during fetch and an <code>ImageBitmap</code> is returned.
      * @param [options.flipY = false] - If true, image will be vertically flipped during decode. Only applies if the browser supports <code>createImageBitmap</code>.
+     * @param [options.skipColorSpaceConversion = false] - If true, any custom gamma or color profiles in the image will be ignored. Only applies if the browser supports <code>createImageBitmap</code>.
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchImage(options?: {
         preferBlob?: boolean;
         preferImageBitmap?: boolean;
         flipY?: boolean;
+        skipColorSpaceConversion?: boolean;
     }): Promise<ImageBitmap> | Promise<HTMLImageElement> | undefined;
 }
 
@@ -9072,23 +9246,35 @@ export namespace Math {
      */
     function incrementWrap(n?: number, maximumValue?: number, minimumValue?: number): number;
     /**
-     * Determines if a positive integer is a power of two.
+     * Determines if a non-negative integer is a power of two.
+     * The maximum allowed input is (2^32)-1 due to 32-bit bitwise operator limitation in Javascript.
      * @example
      * var t = Cesium.Math.isPowerOfTwo(16); // true
      * var f = Cesium.Math.isPowerOfTwo(20); // false
-     * @param n - The positive integer to test.
+     * @param n - The integer to test in the range [0, (2^32)-1].
      * @returns <code>true</code> if the number if a power of two; otherwise, <code>false</code>.
      */
     function isPowerOfTwo(n: number): boolean;
     /**
-     * Computes the next power-of-two integer greater than or equal to the provided positive integer.
+     * Computes the next power-of-two integer greater than or equal to the provided non-negative integer.
+     * The maximum allowed input is 2^31 due to 32-bit bitwise operator limitation in Javascript.
      * @example
      * var n = Cesium.Math.nextPowerOfTwo(29); // 32
      * var m = Cesium.Math.nextPowerOfTwo(32); // 32
-     * @param n - The positive integer to test.
+     * @param n - The integer to test in the range [0, 2^31].
      * @returns The next power-of-two integer.
      */
     function nextPowerOfTwo(n: number): number;
+    /**
+     * Computes the previous power-of-two integer less than or equal to the provided non-negative integer.
+     * The maximum allowed input is (2^32)-1 due to 32-bit bitwise operator limitation in Javascript.
+     * @example
+     * var n = Cesium.Math.previousPowerOfTwo(29); // 16
+     * var m = Cesium.Math.previousPowerOfTwo(32); // 32
+     * @param n - The integer to test in the range [0, (2^32)-1].
+     * @returns The previous power-of-two integer.
+     */
+    function previousPowerOfTwo(n: number): number;
     /**
      * Constraint a value to lie between two values.
      * @param value - The value to constrain.
@@ -10293,7 +10479,7 @@ export class Matrix4 implements ArrayLike<number> {
     static setColumn(matrix: Matrix4, index: number, cartesian: Cartesian4, result: Matrix4): Matrix4;
     /**
      * Computes a new matrix that replaces the translation in the rightmost column of the provided
-     * matrix with the provided translation.  This assumes the matrix is an affine transformation
+     * matrix with the provided translation. This assumes the matrix is an affine transformation.
      * @param matrix - The matrix to use.
      * @param translation - The translation that replaces the translation of the provided matrix.
      * @param result - The object onto which to store the result.
@@ -10301,7 +10487,8 @@ export class Matrix4 implements ArrayLike<number> {
      */
     static setTranslation(matrix: Matrix4, translation: Cartesian3, result: Matrix4): Matrix4;
     /**
-     * Computes a new matrix that replaces the scale with the provided scale.  This assumes the matrix is an affine transformation
+     * Computes a new matrix that replaces the scale with the provided scale.
+     * This assumes the matrix is an affine transformation.
      * @param matrix - The matrix to use.
      * @param scale - The scale that replaces the scale of the provided matrix.
      * @param result - The object onto which to store the result.
@@ -10394,10 +10581,10 @@ export class Matrix4 implements ArrayLike<number> {
      */
     static subtract(left: Matrix4, right: Matrix4, result: Matrix4): Matrix4;
     /**
-     * Computes the product of two matrices assuming the matrices are
-     * affine transformation matrices, where the upper left 3x3 elements
-     * are a rotation matrix, and the upper three elements in the fourth
-     * column are the translation.  The bottom row is assumed to be [0, 0, 0, 1].
+     * Computes the product of two matrices assuming the matrices are affine transformation matrices,
+     * where the upper left 3x3 elements are any matrix, and
+     * the upper three elements in the fourth column are the translation.
+     * The bottom row is assumed to be [0, 0, 0, 1].
      * The matrix is not verified to be in the proper form.
      * This method is faster than computing the product for general 4x4
      * matrices using {@link Matrix4.multiply}.
@@ -10454,7 +10641,7 @@ export class Matrix4 implements ArrayLike<number> {
     static multiplyByUniformScale(matrix: Matrix4, scale: number, result: Matrix4): Matrix4;
     /**
      * Multiplies an affine transformation matrix (with a bottom row of <code>[0.0, 0.0, 0.0, 1.0]</code>)
-     * by an implicit non-uniform scale matrix.  This is an optimization
+     * by an implicit non-uniform scale matrix. This is an optimization
      * for <code>Matrix4.multiply(m, Matrix4.fromUniformScale(scale), m);</code>, where
      * <code>m</code> must be an affine matrix.
      * This function performs fewer allocations and arithmetic operations.
@@ -10632,14 +10819,14 @@ export class Matrix4 implements ArrayLike<number> {
      */
     static equalsEpsilon(left?: Matrix4, right?: Matrix4, epsilon?: number): boolean;
     /**
-     * Gets the translation portion of the provided matrix, assuming the matrix is a affine transformation matrix.
+     * Gets the translation portion of the provided matrix, assuming the matrix is an affine transformation matrix.
      * @param matrix - The matrix to use.
      * @param result - The object onto which to store the result.
      * @returns The modified result parameter.
      */
     static getTranslation(matrix: Matrix4, result: Cartesian3): Cartesian3;
     /**
-     * Gets the upper left 3x3 rotation matrix of the provided matrix, assuming the matrix is an affine transformation matrix.
+     * Gets the upper left 3x3 matrix of the provided matrix.
      * @example
      * // returns a Matrix3 instance from a Matrix4 instance
      *
@@ -10662,7 +10849,7 @@ export class Matrix4 implements ArrayLike<number> {
     /**
      * Computes the inverse of the provided matrix using Cramers Rule.
      * If the determinant is zero, the matrix can not be inverted, and an exception is thrown.
-     * If the matrix is an affine transformation matrix, it is more efficient
+     * If the matrix is a proper rigid transformation, it is more efficient
      * to invert it with {@link Matrix4.inverseTransformation}.
      * @param matrix - The matrix to invert.
      * @param result - The object onto which to store the result.
@@ -10670,10 +10857,10 @@ export class Matrix4 implements ArrayLike<number> {
      */
     static inverse(matrix: Matrix4, result: Matrix4): Matrix4;
     /**
-     * Computes the inverse of the provided matrix assuming it is
-     * an affine transformation matrix, where the upper left 3x3 elements
-     * are a rotation matrix, and the upper three elements in the fourth
-     * column are the translation.  The bottom row is assumed to be [0, 0, 0, 1].
+     * Computes the inverse of the provided matrix assuming it is a proper rigid matrix,
+     * where the upper left 3x3 elements are a rotation matrix,
+     * and the upper three elements in the fourth column are the translation.
+     * The bottom row is assumed to be [0, 0, 0, 1].
      * The matrix is not verified to be in the proper form.
      * This method is faster than computing the inverse for a general 4x4
      * matrix using {@link Matrix4.inverse}.
@@ -11110,7 +11297,7 @@ export class OrientedBoundingBox {
      * });
      * @param box - The box.
      * @param cartesian - The point
-     * @returns The estimated distance squared from the bounding sphere to the point.
+     * @returns The distance squared from the oriented bounding box to the point. Returns 0 if the point is inside the box.
      */
     static distanceSquaredTo(box: OrientedBoundingBox, cartesian: Cartesian3): number;
     /**
@@ -11886,9 +12073,25 @@ export enum PixelFormat {
      */
     RGBA_PVRTC_2BPPV1 = WebGLConstants.COMPRESSED_RGBA_PVRTC_2BPPV1_IMG,
     /**
+     * A pixel format containing red, green, blue, and alpha channels that is ASTC compressed.
+     */
+    RGBA_ASTC = WebGLConstants.COMPRESSED_RGBA_ASTC_4x4_WEBGL,
+    /**
      * A pixel format containing red, green, and blue channels that is ETC1 compressed.
      */
-    RGB_ETC1 = WebGLConstants.COMPRESSED_RGB_ETC1_WEBGL
+    RGB_ETC1 = WebGLConstants.COMPRESSED_RGB_ETC1_WEBGL,
+    /**
+     * A pixel format containing red, green, and blue channels that is ETC2 compressed.
+     */
+    RGB8_ETC2 = WebGLConstants.COMPRESSED_RGB8_ETC2,
+    /**
+     * A pixel format containing red, green, blue, and alpha channels that is ETC2 compressed.
+     */
+    RGBA8_ETC2_EAC = WebGLConstants.COMPRESSED_RGBA8_ETC2_EAC,
+    /**
+     * A pixel format containing red, green, blue, and alpha channels that is BC7 compressed.
+     */
+    RGBA_BC7 = WebGLConstants.COMPRESSED_RGBA_BPTC_UNORM
 }
 
 /**
@@ -12500,7 +12703,7 @@ export class PolylineGeometry {
  *   shapePositions : computeCircle(100000.0)
  * });
  * @param options - Object with the following properties:
- * @param options.polylinePositions - An array of {@link Cartesain3} positions that define the center of the polyline volume.
+ * @param options.polylinePositions - An array of {@link Cartesian3} positions that define the center of the polyline volume.
  * @param options.shapePositions - An array of {@link Cartesian2} positions that define the shape to be extruded along the polyline
  * @param [options.ellipsoid = Ellipsoid.WGS84] - The ellipsoid to be used as a reference.
  * @param [options.granularity = Math.RADIANS_PER_DEGREE] - The distance, in radians, between each latitude and longitude. Determines the number of positions in the buffer.
@@ -14214,12 +14417,14 @@ export class Resource {
      * @param [options.preferBlob = false] - If true, we will load the image via a blob.
      * @param [options.preferImageBitmap = false] - If true, image will be decoded during fetch and an <code>ImageBitmap</code> is returned.
      * @param [options.flipY = false] - If true, image will be vertically flipped during decode. Only applies if the browser supports <code>createImageBitmap</code>.
+     * @param [options.skipColorSpaceConversion = false] - If true, any custom gamma or color profiles in the image will be ignored. Only applies if the browser supports <code>createImageBitmap</code>.
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     fetchImage(options?: {
         preferBlob?: boolean;
         preferImageBitmap?: boolean;
         flipY?: boolean;
+        skipColorSpaceConversion?: boolean;
     }): Promise<ImageBitmap> | Promise<HTMLImageElement> | undefined;
     /**
      * Creates a Resource and calls fetchImage() on it.
@@ -14235,6 +14440,7 @@ export class Resource {
      * @param [options.request] - A Request object that will be used. Intended for internal use only.
      * @param [options.preferBlob = false] - If true, we will load the image via a blob.
      * @param [options.preferImageBitmap = false] - If true, image will be decoded during fetch and an <code>ImageBitmap</code> is returned.
+     * @param [options.skipColorSpaceConversion = false] - If true, any custom gamma or color profiles in the image will be ignored. Only applies when requesting an image and the browser supports <code>createImageBitmap</code>.
      * @returns a promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
      */
     static fetchImage(options: {
@@ -14249,6 +14455,7 @@ export class Resource {
         request?: Request;
         preferBlob?: boolean;
         preferImageBitmap?: boolean;
+        skipColorSpaceConversion?: boolean;
     }): Promise<ImageBitmap> | Promise<HTMLImageElement> | undefined;
     /**
      * Asynchronously loads the given resource as text.  Returns a promise that will resolve to
@@ -15301,21 +15508,20 @@ export class Spline {
  * returning results asynchronously via a promise.
  *
  * The Worker is not constructed until a task is scheduled.
- * @param workerName - The name of the worker.  This is expected to be a script
- *                            in the Workers folder.
- * @param [maximumActiveTasks = 5] - The maximum number of active tasks.  Once exceeded,
+ * @param workerPath - The Url to the worker. This can either be an absolute path or relative to the Cesium Workers folder.
+ * @param [maximumActiveTasks = Number.POSITIVE_INFINITY] - The maximum number of active tasks.  Once exceeded,
  *                                        scheduleTask will not queue any more tasks, allowing
  *                                        work to be rescheduled in future frames.
  */
 export class TaskProcessor {
-    constructor(workerName: string, maximumActiveTasks?: number);
+    constructor(workerPath: string, maximumActiveTasks?: number);
     /**
      * Schedule a task to be processed by the web worker asynchronously.  If there are currently more
      * tasks active than the maximum set by the constructor, will immediately return undefined.
      * Otherwise, returns a promise that will resolve to the result posted back by the worker when
      * finished.
      * @example
-     * var taskProcessor = new Cesium.TaskProcessor('myWorkerName');
+     * var taskProcessor = new Cesium.TaskProcessor('myWorkerPath');
      * var promise = taskProcessor.scheduleTask({
      *     someParameter : true,
      *     another : 'hello'
@@ -15440,22 +15646,22 @@ export class TerrainProvider {
      * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
      * are passed an instance of {@link TileProviderError}.
      */
-    errorEvent: Event;
+    readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
      * the source of the terrain. This function should
      * not be called before {@link TerrainProvider#ready} returns true.
      */
-    credit: Credit;
+    readonly credit: Credit;
     /**
      * Gets the tiling scheme used by the provider.  This function should
      * not be called before {@link TerrainProvider#ready} returns true.
      */
-    tilingScheme: TilingScheme;
+    readonly tilingScheme: TilingScheme;
     /**
      * Gets a value indicating whether or not the provider is ready for use.
      */
-    ready: boolean;
+    readonly ready: boolean;
     /**
      * Gets a promise that resolves to true when the provider is ready for use.
      */
@@ -15466,19 +15672,19 @@ export class TerrainProvider {
      * as a reflective surface with animated waves.  This function should not be
      * called before {@link TerrainProvider#ready} returns true.
      */
-    hasWaterMask: boolean;
+    readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
      * This function should not be called before {@link TerrainProvider#ready} returns true.
      */
-    hasVertexNormals: boolean;
+    readonly hasVertexNormals: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
      * at points and in rectangles.  This function should not be called before
      * {@link TerrainProvider#ready} returns true.  This property may be undefined if availability
      * information is not available.
      */
-    availability: TileAvailability;
+    readonly availability: TileAvailability;
     /**
      * Gets a list of indices for a triangle mesh representing a regular grid.  Calling
      * this function multiple times with the same grid width and height returns the
@@ -15532,7 +15738,7 @@ export class TerrainProvider {
      * @param level - The level of the tile for which to request geometry.
      * @returns Undefined if not supported by the terrain provider, otherwise true or false.
      */
-    getTileDataAvailable(x: number, y: number, level: number): boolean;
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
     /**
      * Makes sure we load availability data for a tile
      * @param x - The X coordinate of the tile for which to request geometry.
@@ -16577,21 +16783,21 @@ export class VRTheWorldTerrainProvider {
      * to the event, you will be notified of the error and can potentially recover from it.  Event listeners
      * are passed an instance of {@link TileProviderError}.
      */
-    errorEvent: Event;
+    readonly errorEvent: Event;
     /**
      * Gets the credit to display when this terrain provider is active.  Typically this is used to credit
      * the source of the terrain.  This function should not be called before {@link VRTheWorldTerrainProvider#ready} returns true.
      */
-    credit: Credit;
+    readonly credit: Credit;
     /**
      * Gets the tiling scheme used by this provider.  This function should
      * not be called before {@link VRTheWorldTerrainProvider#ready} returns true.
      */
-    tilingScheme: GeographicTilingScheme;
+    readonly tilingScheme: GeographicTilingScheme;
     /**
      * Gets a value indicating whether or not the provider is ready for use.
      */
-    ready: boolean;
+    readonly ready: boolean;
     /**
      * Gets a promise that resolves to true when the provider is ready for use.
      */
@@ -16602,19 +16808,19 @@ export class VRTheWorldTerrainProvider {
      * as a reflective surface with animated waves.  This function should not be
      * called before {@link VRTheWorldTerrainProvider#ready} returns true.
      */
-    hasWaterMask: boolean;
+    readonly hasWaterMask: boolean;
     /**
      * Gets a value indicating whether or not the requested tiles include vertex normals.
      * This function should not be called before {@link VRTheWorldTerrainProvider#ready} returns true.
      */
-    hasVertexNormals: boolean;
+    readonly hasVertexNormals: boolean;
     /**
      * Gets an object that can be used to determine availability of terrain from this provider, such as
      * at points and in rectangles.  This function should not be called before
      * {@link TerrainProvider#ready} returns true.  This property may be undefined if availability
      * information is not available.
      */
-    availability: TileAvailability;
+    readonly availability: TileAvailability;
     /**
      * Requests the geometry for a given tile.  This function should not be called before
      * {@link VRTheWorldTerrainProvider#ready} returns true.  The result includes terrain
@@ -16641,7 +16847,7 @@ export class VRTheWorldTerrainProvider {
      * @param level - The level of the tile for which to request geometry.
      * @returns Undefined if not supported, otherwise true or false.
      */
-    getTileDataAvailable(x: number, y: number, level: number): boolean;
+    getTileDataAvailable(x: number, y: number, level: number): boolean | undefined;
     /**
      * Makes sure we load availability data for a tile
      * @param x - The X coordinate of the tile for which to request geometry.
@@ -17519,61 +17725,6 @@ export function getTimestamp(): number;
 export function isLeapYear(year: number): boolean;
 
 /**
- * Asynchronously loads and parses the given URL to a CRN file or parses the raw binary data of a CRN file.
- * Returns a promise that will resolve to an object containing the image buffer, width, height and format once loaded,
- * or reject if the URL failed to load or failed to parse the data.  The data is loaded
- * using XMLHttpRequest, which means that in order to make requests to another origin,
- * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
- * @example
- * // load a single URL asynchronously
- * Cesium.loadCRN('some/url').then(function(textureData) {
- *     var width = textureData.width;
- *     var height = textureData.height;
- *     var format = textureData.internalFormat;
- *     var arrayBufferView = textureData.bufferView;
- *     // use the data to create a texture
- * }).otherwise(function(error) {
- *     // an error occurred
- * });
- * @param resourceOrUrlOrBuffer - The URL of the binary data or an ArrayBuffer.
- * @returns A promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
- */
-export function loadCRN(resourceOrUrlOrBuffer: Resource | string | ArrayBuffer): Promise<CompressedTextureBuffer> | undefined;
-
-/**
- * Asynchronously loads and parses the given URL to a KTX file or parses the raw binary data of a KTX file.
- * Returns a promise that will resolve to an object containing the image buffer, width, height and format once loaded,
- * or reject if the URL failed to load or failed to parse the data.  The data is loaded
- * using XMLHttpRequest, which means that in order to make requests to another origin,
- * the server must have Cross-Origin Resource Sharing (CORS) headers enabled.
- * <p>
- * The following are part of the KTX format specification but are not supported:
- * <ul>
- *     <li>Big-endian files</li>
- *     <li>Metadata</li>
- *     <li>3D textures</li>
- *     <li>Texture Arrays</li>
- *     <li>Cubemaps</li>
- *     <li>Mipmaps</li>
- * </ul>
- * </p>
- * @example
- * // load a single URL asynchronously
- * Cesium.loadKTX('some/url').then(function(ktxData) {
- *     var width = ktxData.width;
- *     var height = ktxData.height;
- *     var format = ktxData.internalFormat;
- *     var arrayBufferView = ktxData.bufferView;
- *     // use the data to create a texture
- * }).otherwise(function(error) {
- *     // an error occurred
- * });
- * @param resourceOrUrlOrBuffer - The URL of the binary data or an ArrayBuffer.
- * @returns A promise that will resolve to the requested data when loaded. Returns undefined if <code>request.throttle</code> is true and the request does not have high enough priority.
- */
-export function loadKTX(resourceOrUrlOrBuffer: Resource | string | ArrayBuffer): Promise<CompressedTextureBuffer> | undefined;
-
-/**
  * A stable merge sort.
  * @example
  * // Assume array contains BoundingSpheres in world coordinates.
@@ -18101,6 +18252,9 @@ export class BoxGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -18821,7 +18975,7 @@ export class CorridorGraphics {
      */
     positions: Property | undefined;
     /**
-     * Gets or sets the numeric Property specifying the width of the corridor.
+     * Gets or sets the numeric Property specifying the width of the outline.
      */
     width: Property | undefined;
     /**
@@ -18868,6 +19022,9 @@ export class CorridorGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -19072,6 +19229,9 @@ export class CylinderGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -19689,6 +19849,9 @@ export class EllipseGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -19856,6 +20019,9 @@ export class EllipsoidGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -20157,6 +20323,7 @@ export class Entity {
  * @param [options.clusterBillboards = true] - Whether or not to cluster the billboards of an entity.
  * @param [options.clusterLabels = true] - Whether or not to cluster the labels of an entity.
  * @param [options.clusterPoints = true] - Whether or not to cluster the points of an entity.
+ * @param [options.show = true] - Determines if the entities in the cluster will be shown.
  */
 export class EntityCluster {
     constructor(options?: {
@@ -20166,7 +20333,12 @@ export class EntityCluster {
         clusterBillboards?: boolean;
         clusterLabels?: boolean;
         clusterPoints?: boolean;
+        show?: boolean;
     });
+    /**
+     * Determines if entities in this collection will be shown.
+     */
+    show: boolean;
     /**
      * Gets or sets whether clustering is enabled.
      */
@@ -20984,6 +21156,10 @@ export class KmlDataSource {
      */
     credit: Credit;
     /**
+     * Gets the KML Tours that are used to guide the camera to specified destinations on given time intervals.
+     */
+    kmlTours: KmlTour[];
+    /**
      * Asynchronously loads the provided KML data, replacing any existing data.
      * @param data - A url, parsed KML document, or Blob containing binary KMZ data or a parsed KML document.
      * @param [options] - An object with the following properties:
@@ -21076,9 +21252,11 @@ export class KmlLookAt {
 }
 
 /**
+ * Describes a KmlTour, which uses KmlTourFlyTo, and KmlTourWait to
+ * guide the camera to a specified destinations on given time intervals.
  * @param name - name parsed from KML
  * @param id - id parsed from KML
- * @param playlist - array with KMLTourFlyTos, KMLTourWaits and KMLTourSoundCues
+ * @param playlist - array with KmlTourFlyTos and KmlTourWaits
  */
 export class KmlTour {
     constructor(name: string, id: string, playlist: any[]);
@@ -21144,6 +21322,8 @@ export class KmlTour {
 }
 
 /**
+ * Transitions the KmlTour to the next destination. This transition is facilitated
+ * using a specified flyToMode over a given number of seconds.
  * @param duration - entry duration
  * @param flyToMode - KML fly to mode: bounce, smooth, etc
  * @param view - KmlCamera or KmlLookAt
@@ -21180,6 +21360,7 @@ export namespace KmlTourFlyTo {
 }
 
 /**
+ * Pauses the KmlTour for a given number of seconds.
  * @param duration - entry duration
  */
 export class KmlTourWait {
@@ -21933,6 +22114,9 @@ export class PlaneGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -22217,6 +22401,9 @@ export class PolygonGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -22856,6 +23043,9 @@ export class PolylineVolumeGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -23251,6 +23441,9 @@ export class RectangleGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -24155,6 +24348,9 @@ export class WallGraphics {
     outlineColor: Property | undefined;
     /**
      * Gets or sets the numeric Property specifying the width of the outline.
+     * <p>
+     * Note: This property will be ignored on all major browsers on Windows platforms. For details, see (@link https://github.com/CesiumGS/cesium/issues/40}.
+     * </p>
      */
     outlineWidth: Property | undefined;
     /**
@@ -25008,6 +25204,7 @@ export namespace Billboard {
  * @param [options.blendOption = BlendOption.OPAQUE_AND_TRANSLUCENT] - The billboard blending option. The default
  * is used for rendering both opaque and translucent billboards. However, if either all of the billboards are completely opaque or all are completely translucent,
  * setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve performance by up to 2x.
+ * @param [options.show = true] - Determines if the billboards in the collection will be shown.
  */
 export class BillboardCollection {
     constructor(options?: {
@@ -25015,7 +25212,12 @@ export class BillboardCollection {
         debugShowBoundingVolume?: boolean;
         scene?: Scene;
         blendOption?: BlendOption;
+        show?: boolean;
     });
+    /**
+     * Determines if billboards in this collection will be shown.
+     */
+    show: boolean;
     /**
      * The 4x4 transformation matrix that transforms each billboard in this collection from model to world coordinates.
      * When this is the identity matrix, the billboards are drawn in world coordinates, i.e., Earth's WGS84 coordinates.
@@ -26494,8 +26696,7 @@ export class Cesium3DTileContent {
      */
     readonly batchTableByteLength: number;
     /**
-     * Gets the array of {@link Cesium3DTileContent} objects that represent the
-     * content a composite's inner tiles, which can also be composites.
+     * Gets the array of {@link Cesium3DTileContent} objects for contents that contain other contents, such as composite tiles. The inner contents may in turn have inner contents, such as a composite tile that contains a composite tile.
      */
     readonly innerContents: any[];
     /**
@@ -26515,11 +26716,10 @@ export class Cesium3DTileContent {
      */
     readonly url: string;
     /**
-     * Determines if the tile's batch table has a property.  If it does, each feature in
-     * the tile will have the property.
+     * Returns whether the feature has this property.
      * @param batchId - The batchId for the feature.
      * @param name - The case-sensitive name of the property.
-     * @returns <code>true</code> if the property exists; otherwise, <code>false</code>.
+     * @returns <code>true</code> if the feature has this property; otherwise, <code>false</code>.
      */
     hasProperty(batchId: number, name: string): boolean;
     /**
@@ -26580,6 +26780,12 @@ export class Cesium3DTileFeature {
      */
     color: Color;
     /**
+     * Gets a typed array containing the ECEF positions of the polyline.
+     * Returns undefined if {@link Cesium3DTileset#vectorKeepDecodedPositions} is false
+     * or the feature is not a polyline in a vector tile.
+     */
+    polylinePositions: Float64Array;
+    /**
      * Gets the tileset containing the feature.
      */
     readonly tileset: Cesium3DTileset;
@@ -26614,7 +26820,7 @@ export class Cesium3DTileFeature {
      *     console.log(propertyName + ': ' + feature.getProperty(propertyName));
      * }
      * @param name - The case-sensitive name of the property.
-     * @returns The value of the property or <code>undefined</code> if the property does not exist.
+     * @returns The value of the property or <code>undefined</code> if the feature does not have this property.
      */
     getProperty(name: string): any;
     /**
@@ -26856,7 +27062,7 @@ export class Cesium3DTilePointFeature {
      *     console.log(propertyName + ': ' + feature.getProperty(propertyName));
      * }
      * @param name - The case-sensitive name of the property.
-     * @returns The value of the property or <code>undefined</code> if the property does not exist.
+     * @returns The value of the property or <code>undefined</code> if the feature does not have this property.
      */
     getProperty(name: string): any;
     /**
@@ -26884,7 +27090,7 @@ export class Cesium3DTilePointFeature {
  * A style that is applied to a {@link Cesium3DTileset}.
  * <p>
  * Evaluates an expression defined using the
- * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
+ * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
  * </p>
  * @example
  * tileset.style = new Cesium.Cesium3DTileStyle({
@@ -26911,7 +27117,7 @@ export class Cesium3DTileStyle {
     constructor(style?: Resource | string | any);
     /**
      * Gets the object defining the style using the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
+     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
      */
     readonly style: any;
     /**
@@ -27571,7 +27777,7 @@ export class Cesium3DTileStyle {
 }
 
 /**
- * A {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification|3D Tiles tileset},
+ * A {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification|3D Tiles tileset},
  * used for streaming massive heterogeneous 3D geospatial datasets.
  * @example
  * var tileset = scene.primitives.add(new Cesium.Cesium3DTileset({
@@ -27635,8 +27841,11 @@ export class Cesium3DTileStyle {
  * @param [options.lightColor] - The light color when shading models. When <code>undefined</code> the scene's light color is used instead.
  * @param [options.luminanceAtZenith = 0.2] - The sun's luminance at the zenith in kilo candela per meter squared to use for this model's procedural environment map.
  * @param [options.sphericalHarmonicCoefficients] - The third order spherical harmonic coefficients used for the diffuse color of image-based lighting.
- * @param [options.specularEnvironmentMaps] - A URL to a KTX file that contains a cube map of the specular lighting and the convoluted specular mipmaps.
+ * @param [options.specularEnvironmentMaps] - A URL to a KTX2 file that contains a cube map of the specular lighting and the convoluted specular mipmaps.
  * @param [options.backFaceCulling = true] - Whether to cull back-facing geometry. When true, back face culling is determined by the glTF material's doubleSided property; when false, back face culling is disabled.
+ * @param [options.showOutline = true] - Whether to display the outline for models using the {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension. When true, outlines are displayed. When false, outlines are not displayed.
+ * @param [options.vectorClassificationOnly = false] - Indicates that only the tileset's vector tiles should be used for classification.
+ * @param [options.vectorKeepDecodedPositions = false] - Whether vector tiles should keep decoded positions in memory. This is used with {@link Cesium3DTileFeature.getPolylinePositions}.
  * @param [options.debugHeatmapTilePropertyName] - The tile variable to colorize as a heatmap. All rendered tiles will be colorized relative to each other's specified variable value.
  * @param [options.debugFreezeFrame = false] - For debugging only. Determines if only the tiles from last frame should be used for rendering.
  * @param [options.debugColorizeTiles = false] - For debugging only. When true, assigns a random color to each tile.
@@ -27689,6 +27898,9 @@ export class Cesium3DTileset {
         sphericalHarmonicCoefficients?: Cartesian3[];
         specularEnvironmentMaps?: string;
         backFaceCulling?: boolean;
+        showOutline?: boolean;
+        vectorClassificationOnly?: boolean;
+        vectorKeepDecodedPositions?: boolean;
         debugHeatmapTilePropertyName?: string;
         debugFreezeFrame?: boolean;
         debugColorizeTiles?: boolean;
@@ -27899,6 +28111,9 @@ export class Cesium3DTileset {
      * <li><code>url</code>: the url of the failed tile.</li>
      * <li><code>message</code>: the error message.</li>
      * </ul>
+     * <p>
+     * If the <code>3DTILES_multiple_contents</code> extension is used, this event is raised once per inner content with errors.
+     * </p>
      * @example
      * tileset.tileFailed.addEventListener(function(error) {
      *     console.log('An error occurred loading tile: ' + error.url);
@@ -28023,6 +28238,12 @@ export class Cesium3DTileset {
      */
     backFaceCulling: boolean;
     /**
+     * Whether to display the outline for models using the
+     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension.
+     * When true, outlines are displayed. When false, outlines are not displayed.
+     */
+    readonly showOutline: boolean;
+    /**
      * This property is for debugging only; it is not optimized for production use.
      * <p>
      * Determines if only the tiles from last frame should be used for rendering.  This
@@ -28100,9 +28321,13 @@ export class Cesium3DTileset {
      */
     debugShowUrl: boolean;
     /**
+     * Function for examining vector lines as they are being streamed.
+     */
+    examineVectorLinesFunction: (...params: any[]) => any;
+    /**
      * Gets the tileset's asset object property, which contains metadata about the tileset.
      * <p>
-     * See the {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification#reference-asset|asset schema reference}
+     * See the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification#reference-asset|asset schema reference}
      * in the 3D Tiles spec for the full set of properties.
      * </p>
      */
@@ -28118,7 +28343,7 @@ export class Cesium3DTileset {
     /**
      * Gets the tileset's properties dictionary object, which contains metadata about per-feature properties.
      * <p>
-     * See the {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification#reference-properties|properties schema reference}
+     * See the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification#reference-properties|properties schema reference}
      * in the 3D Tiles spec for the full set of properties.
      * </p>
      * @example
@@ -28154,16 +28379,16 @@ export class Cesium3DTileset {
      */
     readonly tilesLoaded: boolean;
     /**
-     * The url to a tileset JSON file.
+     * The resource used to fetch the tileset JSON file
      */
-    readonly url: string;
+    readonly resource: Resource;
     /**
      * The base path that non-absolute paths in tileset JSON file are relative to.
      */
     readonly basePath: string;
     /**
      * The style, defined using the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language},
+     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language},
      * applied to each feature in the tileset.
      * <p>
      * Assign <code>undefined</code> to remove the style, which will restore the visual
@@ -28174,6 +28399,13 @@ export class Cesium3DTileset {
      * event is raised, so code in <code>tileVisible</code> can manually set a feature's
      * properties (e.g. color and show) after the style is applied. When
      * a new style is assigned any manually set properties are overwritten.
+     * </p>
+     * <p>
+     * Use an always "true" condition to specify the Color for all objects that are not
+     * overridden by pre-existing conditions. Otherwise, the default color Cesium.Color.White
+     * will be used. Similarly, use an always "true" condition to specify the show property
+     * for all objects that are not overridden by pre-existing conditions. Otherwise, the
+     * default show value true will be used.
      * </p>
      * @example
      * tileset.style = new Cesium.Cesium3DTileStyle({
@@ -28310,6 +28542,15 @@ export class Cesium3DTileset {
      * diffuse and specular lighting contribution from those sources to the final color. A value of 0.0 will disable those light sources.
      */
     imageBasedLightingFactor: Cartesian2;
+    /**
+     * Indicates that only the tileset's vector tiles should be used for classification.
+     */
+    vectorClassificationOnly: boolean;
+    /**
+     * Whether vector tiles should keep decoded positions in memory.
+     * This is used with {@link Cesium3DTileFeature.getPolylinePositions}.
+     */
+    vectorKeepDecodedPositions: boolean;
     /**
      * Provides a hook to override the method used to request the tileset json
      * useful when fetching tilesets from remote servers
@@ -28764,6 +29005,200 @@ export class ClippingPlaneCollection {
 }
 
 /**
+ * A renderable collection of clouds in the 3D scene.
+ * <br /><br />
+ * <div align='center'>
+ * <img src='Images/CumulusCloud.png' width='400' height='300' /><br />
+ * Example cumulus clouds
+ * </div>
+ * <br /><br />
+ * Clouds are added and removed from the collection using {@link CloudCollection#add}
+ * and {@link CloudCollection#remove}.
+ * @example
+ * // Create a cloud collection with two cumulus clouds
+ * var clouds = scene.primitives.add(new Cesium.CloudCollection());
+ * clouds.add({
+ *   position : new Cesium.Cartesian3(1.0, 2.0, 3.0),
+ *   maximumSize: new Cesium.Cartesian3(20.0, 12.0, 8.0)
+ * });
+ * clouds.add({
+ *   position : new Cesium.Cartesian3(4.0, 5.0, 6.0),
+ *   maximumSize: new Cesium.Cartesian3(15.0, 9.0, 9.0),
+ *   slice: 0.5
+ * });
+ * @param [options] - Object with the following properties:
+ * @param [options.show = true] - Whether to display the clouds.
+ * @param [options.noiseDetail = 16.0] - Desired amount of detail in the noise texture.
+ * @param [options.noiseOffset = Cartesian3.ZERO] - Desired translation of data in noise texture.
+ * @param [options.debugBillboards = false] - For debugging only. Determines if the billboards are rendered with an opaque color.
+ * @param [options.debugEllipsoids = false] - For debugging only. Determines if the clouds will be rendered as opaque ellipsoids.
+ */
+export class CloudCollection {
+    constructor(options?: {
+        show?: boolean;
+        noiseDetail?: number;
+        noiseOffset?: number;
+        debugBillboards?: boolean;
+        debugEllipsoids?: boolean;
+    });
+    /**
+     * <p>
+     * Controls the amount of detail captured in the precomputed noise texture
+     * used to render the cumulus clouds. In order for the texture to be tileable,
+     * this must be a power of two. For best results, set this to be a power of two
+     * between <code>8.0</code> and <code>32.0</code> (inclusive).
+     * </p>
+     *
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'>
+     *   <code>clouds.noiseDetail = 8.0;</code><br/>
+     *   <img src='Images/CloudCollection.noiseDetail8.png' width='250' height='158' />
+     * </td>
+     * <td align='center'>
+     *   <code>clouds.noiseDetail = 32.0;</code><br/>
+     *   <img src='Images/CloudCollection.noiseDetail32.png' width='250' height='158' />
+     * </td>
+     * </tr></table>
+     * </div>
+     */
+    noiseDetail: number;
+    /**
+     * <p>
+     * Applies a translation to noise texture coordinates to generate different data.
+     * This can be modified if the default noise does not generate good-looking clouds.
+     * </p>
+     *
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'>
+     *   <code>default</code><br/>
+     *   <img src='Images/CloudCollection.noiseOffsetdefault.png' width='250' height='158' />
+     * </td>
+     * <td align='center'>
+     *   <code>clouds.noiseOffset = new Cesium.Cartesian3(10, 20, 10);</code><br/>
+     *   <img src='Images/CloudCollection.noiseOffsetx10y20z10.png' width='250' height='158' />
+     * </td>
+     * </tr></table>
+     * </div>
+     */
+    noiseOffset: Cartesian3;
+    /**
+     * Determines if billboards in this collection will be shown.
+     */
+    show: boolean;
+    /**
+     * This property is for debugging only; it is not for production use nor is it optimized.
+     * <p>
+     * Renders the billboards with one opaque color for the sake of debugging.
+     * </p>
+     */
+    debugBillboards: boolean;
+    /**
+     * This property is for debugging only; it is not for production use nor is it optimized.
+     * <p>
+     * Draws the clouds as opaque, monochrome ellipsoids for the sake of debugging.
+     * If <code>debugBillboards</code> is also true, then the ellipsoids will draw on top of the billboards.
+     * </p>
+     */
+    debugEllipsoids: boolean;
+    /**
+     * Returns the number of clouds in this collection.
+     */
+    length: number;
+    /**
+     * Creates and adds a cloud with the specified initial properties to the collection.
+     * The added cloud is returned so it can be modified or removed from the collection later.
+     * @example
+     * // Example 1:  Add a cumulus cloud, specifying all the default values.
+     * var c = clouds.add({
+     *   show : true,
+     *   position : Cesium.Cartesian3.ZERO,
+     *   scale : new Cesium.Cartesian2(20.0, 12.0),
+     *   maximumSize: new Cesium.Cartesian3(20.0, 12.0, 12.0),
+     *   slice: -1.0,
+     *   cloudType : CloudType.CUMULUS
+     * });
+     * @example
+     * // Example 2:  Specify only the cloud's cartographic position.
+     * var c = clouds.add({
+     *   position : Cesium.Cartesian3.fromDegrees(longitude, latitude, height)
+     * });
+     * @param [options] - A template describing the cloud's properties as shown in Example 1.
+     * @returns The cloud that was added to the collection.
+     */
+    add(options?: any): CumulusCloud;
+    /**
+     * Removes a cloud from the collection.
+     * @example
+     * var c = clouds.add(...);
+     * clouds.remove(c);  // Returns true
+     * @param cloud - The cloud to remove.
+     * @returns <code>true</code> if the cloud was removed; <code>false</code> if the cloud was not found in the collection.
+     */
+    remove(cloud: CumulusCloud): boolean;
+    /**
+     * Removes all clouds from the collection.
+     * @example
+     * clouds.add(...);
+     * clouds.add(...);
+     * clouds.removeAll();
+     */
+    removeAll(): void;
+    /**
+     * Check whether this collection contains a given cloud.
+     * @param [cloud] - The cloud to check for.
+     * @returns true if this collection contains the cloud, false otherwise.
+     */
+    contains(cloud?: CumulusCloud): boolean;
+    /**
+     * Returns the cloud in the collection at the specified index. Indices are zero-based
+     * and increase as clouds are added. Removing a cloud shifts all clouds after
+     * it to the left, changing their indices. This function is commonly used with
+     * {@link CloudCollection#length} to iterate over all the clouds in the collection.
+     * @example
+     * // Toggle the show property of every cloud in the collection
+     * var len = clouds.length;
+     * for (var i = 0; i < len; ++i) {
+     *   var c = clouds.get(i);
+     *   c.show = !c.show;
+     * }
+     * @param index - The zero-based index of the cloud.
+     * @returns The cloud at the specified index.
+     */
+    get(index: number): CumulusCloud;
+    /**
+     * Returns true if this object was destroyed; otherwise, false.
+     * <br /><br />
+     * If this object was destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.
+     * @returns <code>true</code> if this object was destroyed; otherwise, <code>false</code>.
+     */
+    isDestroyed(): boolean;
+    /**
+     * Destroys the WebGL resources held by this object.  Destroying an object allows for deterministic
+     * release of WebGL resources, instead of relying on the garbage collector to destroy this object.
+     * <br /><br />
+     * Once an object is destroyed, it should not be used; calling any function other than
+     * <code>isDestroyed</code> will result in a {@link DeveloperError} exception.  Therefore,
+     * assign the return value (<code>undefined</code>) to the object as done in the example.
+     * @example
+     * clouds = clouds && clouds.destroy();
+     */
+    destroy(): void;
+}
+
+/**
+ * Specifies the type of the cloud that is added to a {@link CloudCollection} in {@link CloudCollection#add}.
+ */
+export enum CloudType {
+    /**
+     * Cumulus cloud.
+     */
+    CUMULUS = 0
+}
+
+/**
  * Defines different modes for blending between a target color and a primitive's source color.
  *
  * HIGHLIGHT multiplies the source color by the target color
@@ -28780,7 +29215,7 @@ export enum ColorBlendMode {
  * An expression for a style applied to a {@link Cesium3DTileset}.
  * <p>
  * Evaluates a conditions expression defined using the
- * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
+ * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
  * </p>
  * <p>
  * Implements the {@link StyleExpression} interface.
@@ -28806,7 +29241,7 @@ export class ConditionsExpression {
     /**
      * Evaluates the result of an expression, optionally using the provided feature's properties. If the result of
      * the expression in the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}
+     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}
      * is of type <code>Boolean</code>, <code>Number</code>, or <code>String</code>, the corresponding JavaScript
      * primitive type will be returned. If the result is a <code>RegExp</code>, a Javascript <code>RegExp</code>
      * object will be returned. If the result is a <code>Cartesian2</code>, <code>Cartesian3</code>, or <code>Cartesian4</code>,
@@ -28916,6 +29351,144 @@ export enum CullFace {
      * Both front-facing and back-facing triangles are culled.
      */
     FRONT_AND_BACK = WebGLConstants.FRONT_AND_BACK
+}
+
+/**
+ * A cumulus cloud billboard positioned in the 3D scene, that is created and rendered using a {@link CloudCollection}.
+ * A cloud is created and its initial properties are set by calling {@link CloudCollection#add}.
+ * and {@link CloudCollection#remove}.
+ * <br /><br />
+ * <div align='center'>
+ * <img src='Images/CumulusCloud.png' width='400' height='300' /><br />
+ * Example cumulus clouds
+ * </div>
+ */
+export class CumulusCloud {
+    constructor();
+    /**
+     * Determines if this cumulus cloud will be shown.  Use this to hide or show a cloud, instead
+     * of removing it and re-adding it to the collection.
+     */
+    show: boolean;
+    /**
+     * Gets or sets the Cartesian position of this cumulus cloud.
+     */
+    position: Cartesian3;
+    /**
+     * <p>Gets or sets the scale of the cumulus cloud billboard in meters.
+     * The <code>scale</code> property will affect the size of the billboard,
+     * but not the cloud's actual appearance.</p>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'>
+     *   <code>cloud.scale = new Cesium.Cartesian2(12, 8);</code><br/>
+     *   <img src='Images/CumulusCloud.scalex12y8.png' width='250' height='158' />
+     * </td>
+     * <td align='center'>
+     *   <code>cloud.scale = new Cesium.Cartesian2(24, 10);</code><br/>
+     *   <img src='Images/CumulusCloud.scalex24y10.png' width='250' height='158' />
+     * </td>
+     * </tr></table>
+     * </div>
+     *
+     * <p>To modify the cloud's appearance, modify its <code>maximumSize</code>
+     * and <code>slice</code> properties.</p>
+     */
+    scale: Cartesian2;
+    /**
+     * <p>Gets or sets the maximum size of the cumulus cloud rendered on the billboard.
+     * This defines a maximum ellipsoid volume that the cloud can appear in.
+     * Rather than guaranteeing a specific size, this specifies a boundary for the
+     * cloud to appear in, and changing it can affect the shape of the cloud.</p>
+     * <p>Changing the z-value of <code>maximumSize</code> has the most dramatic effect
+     * on the cloud's appearance because it changes the depth of the cloud, and thus the
+     * positions at which the cloud-shaping texture is sampled.</p>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'>
+     * <tr>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize = new Cesium.Cartesian3(14, 9, 10);</code><br/>
+     *     <img src='Images/CumulusCloud.maximumSizex14y9z10.png' width='250' height='158' />
+     *   </td>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize.x = 25;</code><br/>
+     *     <img src='Images/CumulusCloud.maximumSizex25.png' width='250' height='158' />
+     *   </td>
+     * </tr>
+     * <tr>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize.y = 5;</code><br/>
+     *     <img src='Images/CumulusCloud.maximumSizey5.png' width='250' height='158' />
+     *   </td>
+     *   <td align='center'>
+     *     <code>cloud.maximumSize.z = 17;</code><br/>
+     *     <img src='Images/CumulusCloud.maximumSizez17.png' width='250' height='158' />
+     *   </td>
+     * </tr>
+     * </table>
+     * </div>
+     *
+     * <p>To modify the billboard's actual size, modify the cloud's <code>scale</code> property.</p>
+     */
+    maximumSize: Cartesian3;
+    /**
+     * <p>Gets or sets the "slice" of the cloud that is rendered on the billboard, i.e.
+     * the specific cross-section of the cloud chosen for the billboard's appearance.
+     * Given a value between 0 and 1, the slice specifies how deeply into the cloud
+     * to intersect based on its maximum size in the z-direction.</p>
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>cloud.slice = 0.32;</code><br/><img src='Images/CumulusCloud.slice0.32.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.slice = 0.5;</code><br/><img src='Images/CumulusCloud.slice0.5.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.slice = 0.6;</code><br/><img src='Images/CumulusCloud.slice0.6.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     *
+     * <br />
+     * <p>Due to the nature in which this slice is calculated,
+     * values below <code>0.2</code> may result in cross-sections that are too small,
+     * and the edge of the ellipsoid will be visible. Similarly, values above <code>0.7</code>
+     * will cause the cloud to appear smaller. Values outside the range <code>[0.1, 0.9]</code>
+     * should be avoided entirely because they do not produce desirable results.</p>
+     *
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>cloud.slice = 0.08;</code><br/><img src='Images/CumulusCloud.slice0.08.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.slice = 0.8;</code><br/><img src='Images/CumulusCloud.slice0.8.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     *
+     * <p>If <code>slice</code> is set to a negative number, the cloud will not render a cross-section.
+     * Instead, it will render the outside of the ellipsoid that is visible. For clouds with
+     * small values of `maximumSize.z`, this can produce good-looking results, but for larger
+     * clouds, this can result in a cloud that is undesirably warped to the ellipsoid volume.</p>
+     *
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'>
+     *  <code>cloud.slice = -1.0;<br/>cloud.maximumSize.z = 18;</code><br/>
+     *  <img src='Images/CumulusCloud.slice-1z18.png' width='250' height='158' />
+     * </td>
+     * <td align='center'>
+     *   <code>cloud.slice = -1.0;<br/>cloud.maximumSize.z = 30;</code><br/>
+     *   <img src='Images/CumulusCloud.slice-1z30.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     */
+    slice: number;
+    /**
+     * Gets or sets the brightness of the cloud. This can be used to give clouds
+     * a darker, grayer appearance.
+     * <br /><br />
+     * <div align='center'>
+     * <table border='0' cellpadding='5'><tr>
+     * <td align='center'><code>cloud.brightness = 1.0;</code><br/><img src='Images/CumulusCloud.brightness1.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.brightness = 0.6;</code><br/><img src='Images/CumulusCloud.brightness0.6.png' width='250' height='158' /></td>
+     * <td align='center'><code>cloud.brightness = 0.0;</code><br/><img src='Images/CumulusCloud.brightness0.png' width='250' height='158' /></td>
+     * </tr></table>
+     * </div>
+     */
+    brightness: number;
 }
 
 /**
@@ -29381,7 +29954,7 @@ export class EllipsoidSurfaceAppearance {
  * An expression for a style applied to a {@link Cesium3DTileset}.
  * <p>
  * Evaluates an expression defined using the
- * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
+ * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
  * </p>
  * <p>
  * Implements the {@link StyleExpression} interface.
@@ -29404,7 +29977,7 @@ export class Expression {
     /**
      * Evaluates the result of an expression, optionally using the provided feature's properties. If the result of
      * the expression in the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}
+     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}
      * is of type <code>Boolean</code>, <code>Number</code>, or <code>String</code>, the corresponding JavaScript
      * primitive type will be returned. If the result is a <code>RegExp</code>, a Javascript <code>RegExp</code>
      * object will be returned. If the result is a <code>Cartesian2</code>, <code>Cartesian3</code>, or <code>Cartesian4</code>,
@@ -29720,6 +30293,20 @@ export class Globe {
      * A brightness shift of -1.0 is complete darkness, which will let space show through.
      */
     atmosphereBrightnessShift: number;
+    /**
+     * A scalar used to exaggerate the terrain. Defaults to <code>1.0</code> (no exaggeration).
+     * A value of <code>2.0</code> scales the terrain by 2x.
+     * A value of <code>0.0</code> makes the terrain completely flat.
+     * Note that terrain exaggeration will not modify any other primitive as they are positioned relative to the ellipsoid.
+     */
+    terrainExaggeration: number;
+    /**
+     * The height from which terrain is exaggerated. Defaults to <code>0.0</code> (scaled relative to ellipsoid surface).
+     * Terrain that is above this height will scale upwards and terrain that is below this height will scale downwards.
+     * Note that terrain exaggeration will not modify any other primitive as they are positioned relative to the ellipsoid.
+     * If {@link Globe#terrainExaggeration} is <code>1.0</code> this value will have no effect.
+     */
+    terrainExaggerationRelativeHeight: number;
     /**
      * Whether to show terrain skirts. Terrain skirts are geometry extending downwards from a tile's edges used to hide seams between neighboring tiles.
      * Skirts are always hidden when the camera is underground or translucency is enabled.
@@ -31400,6 +31987,16 @@ export class ImageryLayerCollection {
      */
     lowerToBottom(layer: ImageryLayer): void;
     /**
+     * Determines the imagery layers that are intersected by a pick ray. To compute a pick ray from a
+     * location on the screen, use {@link Camera.getPickRay}.
+     * @param ray - The ray to test for intersection.
+     * @param scene - The scene.
+     * @returns An array that includes all of
+     *                                 the layers that are intersected by a given pick ray. Undefined if
+     *                                 no layers are selected.
+     */
+    pickImageryLayers(ray: Ray, scene: Scene): ImageryLayer[] | undefined;
+    /**
      * Asynchronously determines the imagery layer features that are intersected by a pick ray.  The intersected imagery
      * layer features are found by invoking {@link ImageryProvider#pickFeatures} for each imagery layer tile intersected
      * by the pick ray.  To compute a pick ray from a location on the screen, use {@link Camera.getPickRay}.
@@ -32172,6 +32769,7 @@ export class Label {
  * @param [options.blendOption = BlendOption.OPAQUE_AND_TRANSLUCENT] - The label blending option. The default
  * is used for rendering both opaque and translucent labels. However, if either all of the labels are completely opaque or all are completely translucent,
  * setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve performance by up to 2x.
+ * @param [options.show = true] - Determines if the labels in the collection will be shown.
  */
 export class LabelCollection {
     constructor(options?: {
@@ -32179,7 +32777,12 @@ export class LabelCollection {
         debugShowBoundingVolume?: boolean;
         scene?: Scene;
         blendOption?: BlendOption;
+        show?: boolean;
     });
+    /**
+     * Determines if labels in this collection will be shown.
+     */
+    show: boolean;
     /**
      * The 4x4 transformation matrix that transforms each label in this collection from model to world coordinates.
      * When this is the identity matrix, the labels are drawn in world coordinates, i.e., Earth's WGS84 coordinates.
@@ -32345,7 +32948,7 @@ export enum LabelStyle {
 }
 
 /**
- * A light source. This type describes an interface and is not intended to be instantiated directly.
+ * A light source. This type describes an interface and is not intended to be instantiated directly. Together, <code>color</code> and <code>intensity</code> produce a high-dynamic-range light color. <code>intensity</code> can also be used individually to dim or brighten the light without changing the hue.
  */
 export class Light {
     constructor();
@@ -32354,7 +32957,7 @@ export class Light {
      */
     color: Color;
     /**
-     * The intensity of the light.
+     * The intensity controls the strength of the light. <code>intensity</code> has a minimum value of 0.0 and no maximum value.
      */
     intensity: number;
 }
@@ -32895,7 +33498,6 @@ export class MapboxStyleImageryProvider {
  *      <li><code>specularMap</code>:  Single channel texture used to indicate areas of water.</li>
  *      <li><code>normalMap</code>:  Normal map for water normal perturbation.</li>
  *      <li><code>frequency</code>:  Number that controls the number of waves.</li>
- *      <li><code>normalMap</code>:  Normal map for water normal perturbation.</li>
  *      <li><code>animationSpeed</code>:  Number that controls the animations speed of the water.</li>
  *      <li><code>amplitude</code>:  Number that controls the amplitude of water waves.</li>
  *      <li><code>specularIntensity</code>:  Number that controls the intensity of specular reflections.</li>
@@ -33352,8 +33954,15 @@ export namespace MaterialAppearance {
  * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_techniques_webgl/README.md|KHR_techniques_webgl}
  * </li><li>
  * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_transform/README.md|KHR_texture_transform}
+ * </li><li>
+ * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu|KHR_texture_basisu}
  * </li>
  * </ul>
+ * </p>
+ * <p>
+ * Note: for models with compressed textures using the KHR_texture_basisu extension, we recommend power of 2 textures in both dimensions
+ * for maximum compatibility. This is because some samplers require power of 2 textures ({@link https://developer.mozilla.org/en-US/docs/Web/API/WebGL_API/Tutorial/Using_textures_in_WebGL|Using textures in WebGL})
+ * and KHR_texture_basisu requires multiple of 4 dimensions ({@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu/README.md#additional-requirements|KHR_texture_basisu additional requirements}).
  * </p>
  * <p>
  * For high-precision rendering, Cesium supports the {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/1.0/Vendor/CESIUM_RTC/README.md|CESIUM_RTC} extension, which introduces the
@@ -33390,9 +33999,10 @@ export namespace MaterialAppearance {
  * @param [options.lightColor] - The light color when shading the model. When <code>undefined</code> the scene's light color is used instead.
  * @param [options.luminanceAtZenith = 0.2] - The sun's luminance at the zenith in kilo candela per meter squared to use for this model's procedural environment map.
  * @param [options.sphericalHarmonicCoefficients] - The third order spherical harmonic coefficients used for the diffuse color of image-based lighting.
- * @param [options.specularEnvironmentMaps] - A URL to a KTX file that contains a cube map of the specular lighting and the convoluted specular mipmaps.
+ * @param [options.specularEnvironmentMaps] - A URL to a KTX2 file that contains a cube map of the specular lighting and the convoluted specular mipmaps.
  * @param [options.credit] - A credit for the data source, which is displayed on the canvas.
  * @param [options.backFaceCulling = true] - Whether to cull back-facing geometry. When true, back face culling is determined by the material's doubleSided property; when false, back face culling is disabled. Back faces are not culled if {@link Model#color} is translucent or {@link Model#silhouetteSize} is greater than 0.0.
+ * @param [options.showOutline = true] - Whether to display the outline for models using the {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension. When true, outlines are displayed. When false, outlines are not displayed.
  */
 export class Model {
     constructor(options?: {
@@ -33428,6 +34038,7 @@ export class Model {
         specularEnvironmentMaps?: string;
         credit?: Credit | string;
         backFaceCulling?: boolean;
+        showOutline?: boolean;
     });
     /**
      * Determines if the model primitive will be shown.
@@ -33510,6 +34121,12 @@ export class Model {
      * translucent or {@link Model#silhouetteSize} is greater than 0.0.
      */
     backFaceCulling: boolean;
+    /**
+     * Whether to display the outline for models using the
+     * {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension.
+     * When true, outlines are displayed. When false, outlines are not displayed.
+     */
+    readonly showOutline: boolean;
     /**
      * This property is for debugging only; it is not for production use nor is it optimized.
      * <p>
@@ -33626,7 +34243,7 @@ export class Model {
      */
     sphericalHarmonicCoefficients: Cartesian3[];
     /**
-     * A URL to a KTX file that contains a cube map of the specular lighting and the convoluted specular mipmaps.
+     * A URL to a KTX2 file that contains a cube map of the specular lighting and the convoluted specular mipmaps.
      */
     specularEnvironmentMaps: string;
     /**
@@ -33670,6 +34287,8 @@ export class Model {
      * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_techniques_webgl/README.md|KHR_techniques_webgl}
      * </li><li>
      * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_transform/README.md|KHR_texture_transform}
+     * </li><li>
+     * {@link https://github.com/KhronosGroup/glTF/blob/master/extensions/2.0/Khronos/KHR_texture_basisu/README.md|KHR_texture_basisu}
      * </li>
      * </ul>
      * </p>
@@ -33732,6 +34351,7 @@ export class Model {
      * @param [options.dequantizeInShader = true] - Determines if a {@link https://github.com/google/draco|Draco} encoded model is dequantized on the GPU. This decreases total memory usage for encoded models.
      * @param [options.credit] - A credit for the model, which is displayed on the canvas.
      * @param [options.backFaceCulling = true] - Whether to cull back-facing geometry. When true, back face culling is determined by the material's doubleSided property; when false, back face culling is disabled. Back faces are not culled if {@link Model#color} is translucent or {@link Model#silhouetteSize} is greater than 0.0.
+     * @param [options.showOutline = true] - Whether to display the outline for models using the {@link https://github.com/KhronosGroup/glTF/tree/master/extensions/2.0/Vendor/CESIUM_primitive_outline|CESIUM_primitive_outline} extension. When true, outlines are displayed. When false, outlines are not displayed.
      * @returns The newly created model.
      */
     static fromGltf(options: {
@@ -33762,6 +34382,7 @@ export class Model {
         dequantizeInShader?: boolean;
         credit?: Credit | string;
         backFaceCulling?: boolean;
+        showOutline?: boolean;
     }): Model;
     /**
      * Returns the glTF node with the given <code>name</code> property.  This is used to
@@ -34107,6 +34728,22 @@ export enum ModelAnimationLoop {
      */
     MIRRORED_REPEAT = 2
 }
+
+/**
+ * The 4x4 transformation matrix that transforms the model from model to world coordinates.
+ * When this is the identity matrix, the model is drawn in world coordinates, i.e., Earth's Cartesian WGS84 coordinates.
+ * Local reference frames can be used by providing a different transformation matrix, like that returned
+ * by {@link Transforms.eastNorthUpToFixedFrame}.
+ * @example
+ * var origin = Cesium.Cartesian3.fromDegrees(-95.0, 40.0, 200000.0);
+ * m.modelMatrix = Cesium.Transforms.eastNorthUpToFixedFrame(origin);
+ */
+export var modelMatrix: Matrix4;
+
+/**
+ * The bounding sphere that contains all the vertices in this primitive.
+ */
+export var boundingSphere: BoundingSphere;
 
 /**
  * A model's material with modifiable parameters.  A glTF material
@@ -35004,13 +35641,19 @@ export class PointPrimitive {
  * @param [options.blendOption = BlendOption.OPAQUE_AND_TRANSLUCENT] - The point blending option. The default
  * is used for rendering both opaque and translucent points. However, if either all of the points are completely opaque or all are completely translucent,
  * setting the technique to BlendOption.OPAQUE or BlendOption.TRANSLUCENT can improve performance by up to 2x.
+ * @param [options.show = true] - Determines if the primitives in the collection will be shown.
  */
 export class PointPrimitiveCollection {
     constructor(options?: {
         modelMatrix?: Matrix4;
         debugShowBoundingVolume?: boolean;
         blendOption?: BlendOption;
+        show?: boolean;
     });
+    /**
+     * Determines if primitives in this collection will be shown.
+     */
+    show: boolean;
     /**
      * The 4x4 transformation matrix that transforms each point in this collection from model to world coordinates.
      * When this is the identity matrix, the pointPrimitives are drawn in world coordinates, i.e., Earth's WGS84 coordinates.
@@ -35234,12 +35877,18 @@ export class Polyline {
  * @param [options] - Object with the following properties:
  * @param [options.modelMatrix = Matrix4.IDENTITY] - The 4x4 transformation matrix that transforms each polyline from model to world coordinates.
  * @param [options.debugShowBoundingVolume = false] - For debugging only. Determines if this primitive's commands' bounding spheres are shown.
+ * @param [options.show = true] - Determines if the polylines in the collection will be shown.
  */
 export class PolylineCollection {
     constructor(options?: {
         modelMatrix?: Matrix4;
         debugShowBoundingVolume?: boolean;
+        show?: boolean;
     });
+    /**
+     * Determines if polylines in this collection will be shown.
+     */
+    show: boolean;
     /**
      * The 4x4 transformation matrix that transforms each polyline in this collection from model to world coordinates.
      * When this is the identity matrix, the polylines are drawn in world coordinates, i.e., Earth's WGS84 coordinates.
@@ -36060,7 +36709,7 @@ export namespace PostProcessStageLibrary {
      * postProcessStages.add(Cesium.PostProcessLibrary.createSilhouetteStage([yellowEdge, greenEdge]);
      * @returns A post-process stage that applies an edge detection effect.
      */
-    function createEdgeDetectionStage(): PostProcessStageComposite;
+    function createEdgeDetectionStage(): PostProcessStage;
     /**
      * Whether or not an edge detection stage is supported.
      * <p>
@@ -36230,18 +36879,19 @@ export enum PostProcessStageSampleMode {
  * // 3. Create the geometry on the main thread.
  * scene.primitives.add(new Cesium.Primitive({
  *   geometryInstances : new Cesium.GeometryInstance({
- *       geometry : Cesium.EllipsoidGeometry.createGeometry(new Cesium.EllipsoidGeometry({
- *         radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
- *         vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
- *       })),
- *       modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
- *         Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
- *       id : 'ellipsoid',
- *       attributes : {
- *         color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
- *       }
+ *     geometry : Cesium.EllipsoidGeometry.createGeometry(new Cesium.EllipsoidGeometry({
+ *       radii : new Cesium.Cartesian3(500000.0, 500000.0, 1000000.0),
+ *       vertexFormat : Cesium.VertexFormat.POSITION_AND_NORMAL
+ *     })),
+ *     modelMatrix : Cesium.Matrix4.multiplyByTranslation(Cesium.Transforms.eastNorthUpToFixedFrame(
+ *       Cesium.Cartesian3.fromDegrees(-95.59777, 40.03883)), new Cesium.Cartesian3(0.0, 0.0, 500000.0), new Cesium.Matrix4()),
+ *     id : 'ellipsoid',
+ *     attributes : {
+ *       color : Cesium.ColorGeometryInstanceAttribute.fromColor(Cesium.Color.AQUA)
+ *     }
  *   }),
- *   appearance : new Cesium.PerInstanceColorAppearance()
+ *   appearance : new Cesium.PerInstanceColorAppearance(),
+ *   asynchronous : false
  * }));
  * @param [options] - Object with the following properties:
  * @param [options.geometryInstances] - The geometry instances - or a single geometry instance - to render.
@@ -36612,7 +37262,7 @@ export class PrimitiveCollection {
  *     allowTextureFilterAnisotropic : false
  *   }
  * });
- * @param [options] - Object with the following properties:
+ * @param options - Object with the following properties:
  * @param options.canvas - The HTML canvas element to create the scene for.
  * @param [options.contextOptions] - Context and WebGL creation properties.  See details above.
  * @param [options.creditContainer] - The HTML element in which the credits will be displayed.
@@ -36620,14 +37270,13 @@ export class PrimitiveCollection {
  * @param [options.mapProjection = new GeographicProjection()] - The map projection to use in 2D and Columbus View modes.
  * @param [options.orderIndependentTranslucency = true] - If true and the configuration supports it, use order independent translucency.
  * @param [options.scene3DOnly = false] - If true, optimizes memory use and performance for 3D mode but disables the ability to use 2D or Columbus View.
- * @param [options.terrainExaggeration = 1.0] - A scalar used to exaggerate the terrain. Note that terrain exaggeration will not modify any other primitive as they are positioned relative to the ellipsoid.
  * @param [options.shadows = false] - Determines if shadows are cast by light sources.
  * @param [options.mapMode2D = MapMode2D.INFINITE_SCROLL] - Determines if the 2D map is rotatable or can be scrolled infinitely in the horizontal direction.
  * @param [options.requestRenderMode = false] - If true, rendering a frame will only occur when needed as determined by changes within the scene. Enabling improves performance of the application, but requires using {@link Scene#requestRender} to render a new frame explicitly in this mode. This will be necessary in many cases after making changes to the scene in other parts of the API. See {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
  * @param [options.maximumRenderTimeChange = 0.0] - If requestRenderMode is true, this value defines the maximum change in simulation time allowed before a render is requested. See {@link https://cesium.com/blog/2018/01/24/cesium-scene-rendering-performance/|Improving Performance with Explicit Rendering}.
  */
 export class Scene {
-    constructor(options?: {
+    constructor(options: {
         canvas: HTMLCanvasElement;
         contextOptions?: any;
         creditContainer?: Element;
@@ -36635,7 +37284,6 @@ export class Scene {
         mapProjection?: MapProjection;
         orderIndependentTranslucency?: boolean;
         scene3DOnly?: boolean;
-        terrainExaggeration?: number;
         shadows?: boolean;
         mapMode2D?: MapMode2D;
         requestRenderMode?: boolean;
@@ -36864,7 +37512,7 @@ export class Scene {
      */
     sphericalHarmonicCoefficients: Cartesian3[];
     /**
-     * The url to the KTX file containing the specular environment map and convoluted mipmaps for image-based lighting of PBR models.
+     * The url to the KTX2 file containing the specular environment map and convoluted mipmaps for image-based lighting of PBR models.
      */
     specularEnvironmentMaps: string;
     /**
@@ -37011,10 +37659,6 @@ export class Scene {
      * Gets or sets the current mode of the scene.
      */
     mode: SceneMode;
-    /**
-     * Gets the scalar used to exaggerate the terrain.
-     */
-    readonly terrainExaggeration: number;
     /**
      * When <code>true</code>, splits the scene into two viewports with steroscopic views for the left and right eyes.
      * Used for cardboard and WebVR.
@@ -37504,6 +38148,7 @@ export class ScreenSpaceCameraController {
  * @param [options.softShadows = false] - Whether percentage-closer-filtering is enabled for producing softer shadows.
  * @param [options.darkness = 0.3] - The shadow darkness.
  * @param [options.normalOffset = true] - Whether a normal bias is applied to shadows.
+ * @param [options.fadingEnabled = true] - Whether shadows start to fade out once the light gets closer to the horizon.
  */
 export class ShadowMap {
     constructor(options: {
@@ -37518,11 +38163,16 @@ export class ShadowMap {
         softShadows?: boolean;
         darkness?: number;
         normalOffset?: boolean;
+        fadingEnabled?: boolean;
     });
     /**
      * Determines the darkness of the shadows.
      */
     darkness: number;
+    /**
+     * Determines whether shadows start to fade out once the light gets closer to the horizon.
+     */
+    fadingEnabled: boolean;
     /**
      * Determines the maximum distance of the shadow map. Only applicable for cascaded shadows. Larger distances may result in lower quality shadows.
      */
@@ -37968,7 +38618,7 @@ export enum StencilOperation {
  * An expression for a style applied to a {@link Cesium3DTileset}.
  * <p>
  * Derived classes of this interface evaluate expressions in the
- * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}.
+ * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}.
  * </p>
  * <p>
  * This type describes an interface and is not intended to be instantiated directly.
@@ -37979,7 +38629,7 @@ export class StyleExpression {
     /**
      * Evaluates the result of an expression, optionally using the provided feature's properties. If the result of
      * the expression in the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}
+     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}
      * is of type <code>Boolean</code>, <code>Number</code>, or <code>String</code>, the corresponding JavaScript
      * primitive type will be returned. If the result is a <code>RegExp</code>, a Javascript <code>RegExp</code>
      * object will be returned. If the result is a <code>Cartesian2</code>, <code>Cartesian3</code>, or <code>Cartesian4</code>,
@@ -38382,7 +39032,7 @@ export class TimeDynamicImagery {
  * @param [options.shadows = ShadowMode.ENABLED] - Determines whether the point cloud casts or receives shadows from light sources.
  * @param [options.maximumMemoryUsage = 256] - The maximum amount of memory in MB that can be used by the point cloud.
  * @param [options.shading] - Options for constructing a {@link PointCloudShading} object to control point attenuation and eye dome lighting.
- * @param [options.style] - The style, defined using the {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language}, applied to each point in the point cloud.
+ * @param [options.style] - The style, defined using the {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language}, applied to each point in the point cloud.
  * @param [options.clippingPlanes] - The {@link ClippingPlaneCollection} used to selectively disable rendering the point cloud.
  */
 export class TimeDynamicPointCloud {
@@ -38431,7 +39081,7 @@ export class TimeDynamicPointCloud {
     shading: PointCloudShading;
     /**
      * The style, defined using the
-     * {@link https://github.com/CesiumGS/3d-tiles/tree/master/specification/Styling|3D Tiles Styling language},
+     * {@link https://github.com/CesiumGS/3d-tiles/tree/main/specification/Styling|3D Tiles Styling language},
      * applied to each point in the point cloud.
      * <p>
      * Assign <code>undefined</code> to remove the style, which will restore the visual
@@ -39609,10 +40259,13 @@ export function createElevationBandMaterial(options: {
  *        specified, a default style is used which gives each building or building part a
  *        color inferred from its OpenStreetMap <code>tags</code>. If no color can be inferred,
  *        <code>options.defaultColor</code> is used.
+ * @param [options.showOutline = true] - Whether to show outlines around buildings. When true,
+ *        outlines are displayed. When false, outlines are not displayed.
  */
 export function createOsmBuildings(options?: {
     defaultColor?: Color;
     style?: Cesium3DTileStyle;
+    showOutline?: boolean;
 }): Cesium3DTileset;
 
 /**
@@ -40651,7 +41304,6 @@ export class CesiumInspectorViewModel {
  * @param [options.creditContainer] - The DOM element or ID that will contain the {@link CreditDisplay}.  If not specified, the credits are added
  *        to the bottom of the widget itself.
  * @param [options.creditViewport] - The DOM element or ID that will contain the credit pop up created by the {@link CreditDisplay}.  If not specified, it will appear over the widget itself.
- * @param [options.terrainExaggeration = 1.0] - A scalar used to exaggerate the terrain. Note that terrain exaggeration will not modify any other primitive as they are positioned relative to the ellipsoid.
  * @param [options.shadows = false] - Determines if shadows are cast by light sources.
  * @param [options.terrainShadows = ShadowMode.RECEIVE_ONLY] - Determines if the terrain casts or receives shadows from light sources.
  * @param [options.mapMode2D = MapMode2D.INFINITE_SCROLL] - Determines if the 2D map is rotatable or can be scrolled infinitely in the horizontal direction.
@@ -40677,7 +41329,6 @@ export class CesiumWidget {
         contextOptions?: any;
         creditContainer?: Element | string;
         creditViewport?: Element | string;
-        terrainExaggeration?: number;
         shadows?: boolean;
         terrainShadows?: ShadowMode;
         mapMode2D?: MapMode2D;
@@ -41835,7 +42486,6 @@ export namespace Viewer {
      * @property [creditViewport] - The DOM element or ID that will contain the credit pop up created by the {@link CreditDisplay}.  If not specified, it will appear over the widget itself.
      * @property [dataSources = new DataSourceCollection()] - The collection of data sources visualized by the widget.  If this parameter is provided,
      *                               the instance is assumed to be owned by the caller and will not be destroyed when the viewer is destroyed.
-     * @property [terrainExaggeration = 1.0] - A scalar used to exaggerate the terrain. Note that terrain exaggeration will not modify any other primitive as they are positioned relative to the ellipsoid.
      * @property [shadows = false] - Determines if shadows are cast by light sources.
      * @property [terrainShadows = ShadowMode.RECEIVE_ONLY] - Determines if the terrain casts or receives shadows from light sources.
      * @property [mapMode2D = MapMode2D.INFINITE_SCROLL] - Determines if the 2D map is rotatable or can be scrolled infinitely in the horizontal direction.
@@ -41881,7 +42531,6 @@ export namespace Viewer {
         creditContainer?: Element | string;
         creditViewport?: Element | string;
         dataSources?: DataSourceCollection;
-        terrainExaggeration?: number;
         shadows?: boolean;
         terrainShadows?: ShadowMode;
         mapMode2D?: MapMode2D;
@@ -42328,6 +42977,7 @@ declare module "cesium/Source/Core/CorridorOutlineGeometry" { import { CorridorO
 declare module "cesium/Source/Core/Credit" { import { Credit } from 'cesium'; export default Credit; }
 declare module "cesium/Source/Core/CubicRealPolynomial" { import { CubicRealPolynomial } from 'cesium'; export default CubicRealPolynomial; }
 declare module "cesium/Source/Core/CullingVolume" { import { CullingVolume } from 'cesium'; export default CullingVolume; }
+declare module "cesium/Source/Core/CustomHeightmapTerrainProvider" { import { CustomHeightmapTerrainProvider } from 'cesium'; export default CustomHeightmapTerrainProvider; }
 declare module "cesium/Source/Core/CylinderGeometry" { import { CylinderGeometry } from 'cesium'; export default CylinderGeometry; }
 declare module "cesium/Source/Core/CylinderOutlineGeometry" { import { CylinderOutlineGeometry } from 'cesium'; export default CylinderOutlineGeometry; }
 declare module "cesium/Source/Core/DefaultProxy" { import { DefaultProxy } from 'cesium'; export default DefaultProxy; }
@@ -42373,6 +43023,7 @@ declare module "cesium/Source/Core/HeightmapEncoding" { import { HeightmapEncodi
 declare module "cesium/Source/Core/HeightmapTerrainData" { import { HeightmapTerrainData } from 'cesium'; export default HeightmapTerrainData; }
 declare module "cesium/Source/Core/HermitePolynomialApproximation" { import { HermitePolynomialApproximation } from 'cesium'; export default HermitePolynomialApproximation; }
 declare module "cesium/Source/Core/HermiteSpline" { import { HermiteSpline } from 'cesium'; export default HermiteSpline; }
+declare module "cesium/Source/Core/HilbertOrder" { import { HilbertOrder } from 'cesium'; export default HilbertOrder; }
 declare module "cesium/Source/Core/IndexDatatype" { import { IndexDatatype } from 'cesium'; export default IndexDatatype; }
 declare module "cesium/Source/Core/InterpolationAlgorithm" { import { InterpolationAlgorithm } from 'cesium'; export default InterpolationAlgorithm; }
 declare module "cesium/Source/Core/Intersect" { import { Intersect } from 'cesium'; export default Intersect; }
@@ -42488,8 +43139,6 @@ declare module "cesium/Source/Core/getFilenameFromUri" { import { getFilenameFro
 declare module "cesium/Source/Core/getImagePixels" { import { getImagePixels } from 'cesium'; export default getImagePixels; }
 declare module "cesium/Source/Core/getTimestamp" { import { getTimestamp } from 'cesium'; export default getTimestamp; }
 declare module "cesium/Source/Core/isLeapYear" { import { isLeapYear } from 'cesium'; export default isLeapYear; }
-declare module "cesium/Source/Core/loadCRN" { import { loadCRN } from 'cesium'; export default loadCRN; }
-declare module "cesium/Source/Core/loadKTX" { import { loadKTX } from 'cesium'; export default loadKTX; }
 declare module "cesium/Source/Core/mergeSort" { import { mergeSort } from 'cesium'; export default mergeSort; }
 declare module "cesium/Source/Core/objectToQuery" { import { objectToQuery } from 'cesium'; export default objectToQuery; }
 declare module "cesium/Source/Core/pointInsideTriangle" { import { pointInsideTriangle } from 'cesium'; export default pointInsideTriangle; }
@@ -42618,11 +43267,14 @@ declare module "cesium/Source/Scene/ClassificationPrimitive" { import { Classifi
 declare module "cesium/Source/Scene/ClassificationType" { import { ClassificationType } from 'cesium'; export default ClassificationType; }
 declare module "cesium/Source/Scene/ClippingPlane" { import { ClippingPlane } from 'cesium'; export default ClippingPlane; }
 declare module "cesium/Source/Scene/ClippingPlaneCollection" { import { ClippingPlaneCollection } from 'cesium'; export default ClippingPlaneCollection; }
+declare module "cesium/Source/Scene/CloudCollection" { import { CloudCollection } from 'cesium'; export default CloudCollection; }
+declare module "cesium/Source/Scene/CloudType" { import { CloudType } from 'cesium'; export default CloudType; }
 declare module "cesium/Source/Scene/ColorBlendMode" { import { ColorBlendMode } from 'cesium'; export default ColorBlendMode; }
 declare module "cesium/Source/Scene/ConditionsExpression" { import { ConditionsExpression } from 'cesium'; export default ConditionsExpression; }
 declare module "cesium/Source/Scene/ConeEmitter" { import { ConeEmitter } from 'cesium'; export default ConeEmitter; }
 declare module "cesium/Source/Scene/CreditDisplay" { import { CreditDisplay } from 'cesium'; export default CreditDisplay; }
 declare module "cesium/Source/Scene/CullFace" { import { CullFace } from 'cesium'; export default CullFace; }
+declare module "cesium/Source/Scene/CumulusCloud" { import { CumulusCloud } from 'cesium'; export default CumulusCloud; }
 declare module "cesium/Source/Scene/DebugAppearance" { import { DebugAppearance } from 'cesium'; export default DebugAppearance; }
 declare module "cesium/Source/Scene/DebugCameraPrimitive" { import { DebugCameraPrimitive } from 'cesium'; export default DebugCameraPrimitive; }
 declare module "cesium/Source/Scene/DebugModelMatrixPrimitive" { import { DebugModelMatrixPrimitive } from 'cesium'; export default DebugModelMatrixPrimitive; }
