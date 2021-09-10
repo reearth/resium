@@ -128,6 +128,9 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
     if (props.colorBlendMode) {
       element.colorBlendMode = props.colorBlendMode;
     }
+    if (props.style) {
+      element.style = props.style;
+    }
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
     }

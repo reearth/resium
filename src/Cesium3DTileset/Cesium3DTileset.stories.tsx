@@ -7,6 +7,7 @@ import Viewer from "../Viewer";
 import Cesium3DTileset, { Cesium3DTilesetProps } from "./Cesium3DTileset";
 import { CesiumComponentRef } from "../core";
 import { events } from "../core/storybook";
+import Cesium3DTileStyle from "cesium/Source/Scene/Cesium3DTileStyle";
 
 export default {
   title: "Cesium3DTileset",
@@ -29,6 +30,28 @@ export const Basic: Story<Cesium3DTilesetProps> = args => {
           ref.current?.cesiumElement?.zoomTo(tileset);
         }}
         {...events}
+      />
+    </Viewer>
+  );
+};
+
+export const Style: Story<Cesium3DTilesetProps> = args => {
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+  return (
+    <Viewer full ref={ref}>
+      <Cesium3DTileset
+        {...args}
+        url="./tileset/tileset.json"
+        style={
+          new Cesium3DTileStyle({
+            color: {
+              conditions: [["true", "color('red')"]],
+            },
+          })
+        }
+        onReady={tileset => {
+          ref.current?.cesiumElement?.zoomTo(tileset);
+        }}
       />
     </Viewer>
   );
