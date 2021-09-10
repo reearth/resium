@@ -1,9 +1,14 @@
 import { Meta, Story } from "@storybook/react";
+import { Viewer as CesiumViewer } from "cesium";
 
 import Viewer from "../Viewer";
 import { PostProcessStage, LensFlareStage, NightVisionStage, BlackAndWhiteStage } from ".";
 import { LensFlareStageProps } from "./LensFlareStage";
 import { PostProcessStageProps } from "./PostProcessStage";
+import { Fxaa as ResiumFxaa } from "./Fxaa";
+import Cesium3DTileset from "../Cesium3DTileset";
+import { useRef } from "react";
+import { CesiumComponentRef } from "..";
 
 export default {
   title: "PostProcessStage",
@@ -69,5 +74,25 @@ export const NightVison: Story<PostProcessStageProps> = args => (
 );
 
 NightVison.args = {
+  enabled: true,
+};
+
+export const Fxaa: Story<PostProcessStageProps> = args => {
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+  return (
+    <Viewer full ref={ref}>
+      <Cesium3DTileset
+        {...args}
+        url="./tileset/tileset.json"
+        onReady={tileset => {
+          ref.current?.cesiumElement?.zoomTo(tileset);
+        }}
+      />
+      <ResiumFxaa {...args} />
+    </Viewer>
+  );
+};
+
+Fxaa.args = {
   enabled: true,
 };
