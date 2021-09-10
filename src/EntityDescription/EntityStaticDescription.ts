@@ -1,8 +1,9 @@
 import { useEffect, FC } from "react";
 import { ConstantProperty } from "cesium";
-import { renderToStaticMarkup } from "react-dom/server.browser";
 
 import { useCesium } from "../core";
+
+const { renderToStaticMarkup } = require("react-dom/server.browser");
 
 // @noCesiumElement
 
