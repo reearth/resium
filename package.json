@@ -14,8 +14,8 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "start": "microbundle watch",
-    "build": "microbundle",
+    "start": "microbundle watch --tsconfig tsconfig.build.json --globals react-dom/server.browser=ReactDOM --jsx React.createElement",
+    "build": "microbundle --tsconfig tsconfig.build.json --globals react-dom/server.browser=ReactDOM --jsx React.createElement",
     "test": "jest --coverage",
     "check": "run-p type lint",
     "type": "tsc",
