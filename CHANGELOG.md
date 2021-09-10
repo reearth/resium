@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.14.2 - 2021/09/10
+
+- Decrepate EntityStaticDescription component - use EntityDescription component or description prop of Entity component instead
+
 ## v1.14.1 - 2021/09/10
 
 - Fix react-dom/server.browser import error
