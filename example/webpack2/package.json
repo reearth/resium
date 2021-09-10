@@ -8,7 +8,7 @@
   },
   "devDependencies": {
     "@babel/core": "7.15.5",
-    "@babel/preset-env": "7.15.4",
+    "@babel/preset-env": "7.15.6",
     "@babel/preset-react": "7.14.5",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.4.2",
     "babel-loader": "8.2.2",
@@ -18,14 +18,14 @@
     "react-refresh": "^0.10.0",
     "style-loader": "3.2.1",
     "url-loader": "4.1.1",
-    "webpack": "5.52.0",
+    "webpack": "5.52.1",
     "webpack-cli": "4.8.0",
-    "webpack-dev-server": "4.1.1"
+    "webpack-dev-server": "4.2.0"
   },
   "dependencies": {
     "cesium": "1.85.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "resium": "1.13.1"
+    "resium": "1.14.2"
   }
 }

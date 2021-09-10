@@ -630,10 +630,10 @@ react@^17.0.0:
     loose-envify "^1.1.0"
     object-assign "^4.1.1"
 
-resium@^1.13.1:
-  version "1.13.1"
-  resolved "https://registry.yarnpkg.com/resium/-/resium-1.13.1.tgz#355b4efbeaf0ad072fd0f0716659bec2d43541de"
-  integrity sha512-lcpiEvCmA/U64CZ0ybcJpBkFlOXylJBWmweDBPQRIjrUn3lH66ypJuJVJuwPeC0DBfbEuEBJB1tflXkLR+eYoQ==
+resium@^1.14.2:
+  version "1.14.2"
+  resolved "https://registry.yarnpkg.com/resium/-/resium-1.14.2.tgz#f8063a427db41f5fab96d3169b69dd5a320837aa"
+  integrity sha512-p6CIav4UTd/ANbxnW3JN4uzRew8BGNj0KPGJddyM6zp31BOLUZCPxDbgsIdEYw4aUPYBqdAOy2/0ch5PGC517Q==
 
 resolve@^1.20.0:
   version "1.20.0"
