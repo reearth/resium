@@ -1,2 +1,3 @@
-src/stories/
-src/test/
+src/**/*.stories.tsx
+src/**/*.test.ts
+src/**/*.test.tsx
