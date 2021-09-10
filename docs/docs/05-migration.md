@@ -35,6 +35,21 @@ This behavior has been changed so that the value returned by `scene.pick` method
 
 This change will apply to all components that have event properties.
 
+### EntityStaticDescription component is deprecated
+
+EntityStaticDescription component has been remvoed from Resium, because it did not mesh well with the build tools.
+
+Use EntityDescription component or `description` prop of Entity component instead:
+
+```jsx
+<>
+  <EntityDescritpion>
+    <p>Hello</p>
+  </EntityDescription>
+  <Entity description="<p>hello</p>">
+</>
+```
+
 ## v1.12
 
 Changes related to TypeScript type definitions are main, but some component properties are changed also.

@@ -14,8 +14,8 @@
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "start": "microbundle watch --tsconfig tsconfig.build.json --globals react-dom/server.browser=ReactDOM --jsx React.createElement",
-    "build": "microbundle --tsconfig tsconfig.build.json --globals react-dom/server.browser=ReactDOM --jsx React.createElement",
+    "start": "microbundle watch --tsconfig tsconfig.build.json --jsx React.createElement",
+    "build": "microbundle --tsconfig tsconfig.build.json --jsx React.createElement",
     "test": "jest --coverage",
     "check": "run-p type lint",
     "type": "tsc",
@@ -45,8 +45,7 @@
   },
   "peerDependencies": {
     "cesium": "1.x",
-    "react": ">=16.8",
-    "react-dom": ">=16.8"
+    "react": ">=16.8"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.4",

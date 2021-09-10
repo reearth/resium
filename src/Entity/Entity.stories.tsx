@@ -16,7 +16,7 @@ import { action } from "@storybook/addon-actions";
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 import Entity, { EntityProps } from "./Entity";
-import EntityDescription, { EntityStaticDescription } from "../EntityDescription";
+import EntityDescription from "../EntityDescription";
 import BillboardGraphics from "../BillboardGraphics";
 import BoxGraphics from "../BoxGraphics";
 import CorridorGraphics from "../CorridorGraphics";
@@ -107,18 +107,8 @@ export const Description: Story<EntityProps> = args => {
       />
       <Entity
         {...args}
-        name="test2"
-        position={Cartesian3.fromDegrees(-74, 30, 100)}
-        point={{ pixelSize: 15, color: Color.BLUE }}>
-        <EntityStaticDescription>
-          <h1>Hello!</h1>
-          <p>This is description. It can be described with static JSX!</p>
-        </EntityStaticDescription>
-      </Entity>
-      <Entity
-        {...args}
         name="test3"
-        position={Cartesian3.fromDegrees(-74, 20, 100)}
+        position={Cartesian3.fromDegrees(-74, 30, 100)}
         point={{ pixelSize: 15, color: Color.RED }}>
         <EntityDescription>
           <h1>Hello!</h1>
@@ -127,7 +117,7 @@ export const Description: Story<EntityProps> = args => {
       <Entity
         {...args}
         name="test4"
-        position={Cartesian3.fromDegrees(-74, 10, 100)}
+        position={Cartesian3.fromDegrees(-74, 20, 100)}
         point={{ pixelSize: 15, color: Color.ORANGE }}>
         <EntityDescription>
           <h1>Hello!</h1>
