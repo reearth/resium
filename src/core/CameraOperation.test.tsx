@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
-import { FC } from "react";
+import React, { FC } from "react";
 import { render } from "@testing-library/react";
 
 import { Provider } from "./context";

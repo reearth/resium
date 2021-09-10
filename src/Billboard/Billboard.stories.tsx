@@ -1,5 +1,5 @@
 import { Meta, Story } from "@storybook/react";
-import { Cartesian3, Color, Transforms } from "cesium";
+import React, { Cartesian3, Color, Transforms } from "cesium";
 
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";

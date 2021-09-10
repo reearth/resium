@@ -1,4 +1,4 @@
-import { createRef } from "react";
+import React, { createRef } from "react";
 import { Entity as CesiumEntity } from "cesium";
 import { expectType, TypeEqual } from "ts-expect";
 import { render } from "@testing-library/react";

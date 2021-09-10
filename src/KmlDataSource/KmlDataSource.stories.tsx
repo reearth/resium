@@ -1,3 +1,4 @@
+import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
