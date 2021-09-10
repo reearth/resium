@@ -1,5 +1,9 @@
 # Changelog
 
+## v1.14.1 - 2021/09/10
+
+- Fix react-dom/server.browser import error
+
 ## v1.14.0 - 2021/09/10
 
 ## Features
