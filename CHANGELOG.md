@@ -1,5 +1,33 @@
 # Changelog
 
+## v1.14.0 - 2021/09/10
+
+## Features
+
+- Support properties that are available with Cesium v1.85
+- Add CameraLookAt, CumlusCloud, and CloudCollection component
+- Add event props (onClick, onMouseEnter, onMouseLeave, ...etc) to KMLDataSource, CzmlDataSource, GeoJsonDataSource, and CustomDataSource
+- Event handlers no longer receive entities and primitives directly ([See more](https://resium.reearth.io/migration#event-handlers-no-longer-receive-an-entity-and-primitive-directly))
+
+### Bug Fixes
+
+- Complete ScreenSpaceEventHandler action type [#485](https://github.com/reearth/resium/pull/485)
+- Properties not correctly updated
+- Cesium3DTileset style prop does not work ([#477](https://github.com/reearth/resium/pull/477))
+
+## Documentation
+
+- Use Docusaurus
+- Change documentation URL
+- Update installation, getting started and guide page
+- Update and add examples
+
+### Chore
+
+- Update dependencies
+- Use microbundle for a JavaScript bundler
+- Refactor type tests
+
 ## v1.13.1 - 2020/09/30
 
 ### Bug Fixes
