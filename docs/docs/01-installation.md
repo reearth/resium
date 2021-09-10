@@ -209,7 +209,9 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
         },
       ],
     }),
-    new HtmlPlugin(),
+    new HtmlPlugin({
+      template: "index.html",
+    }),
     new HtmlTagsPlugin({
       append: false,
       tags: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
@@ -232,9 +234,9 @@ See also: [example project](https://github.com/reearth/resium/tree/main/example/
 ### 4-1. Install webpack plugins and loaders
 
 ```bash
-npm install --save-dev copy-webpack-plugin css-loader style-loader url-loader
+npm install --save-dev html-webpack-plugin copy-webpack-plugin css-loader style-loader url-loader
 # OR
-yarn add --dev copy-webpack-plugin css-loader style-loader url-loader
+yarn add --dev html-webpack-plugin copy-webpack-plugin css-loader style-loader url-loader
 ```
 
 Then, edit your webpack configuration.
@@ -246,12 +248,16 @@ Then, edit your webpack configuration.
 
 ```js
 const webpack = require("webpack");
+const HtmlPlugin = require("html-webpack-plugin");
 const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```
 
 ```js
 {
   plugins: [
+    new HtmlPlugin({
+      template: "index.html",
+    }),
     new CopyWebpackPlugin({
       patterns: [
         { from: "node_modules/cesium/Build/Cesium/Workers", to: "Workers" },
@@ -295,13 +301,13 @@ Note: If `publicPath` in webpack config is changed, `CESIUM_BASE_URL` may have t
 
 ### 4-4. Load CSS in your app
 
-Add link tag in head of index.html to load CSS:
+Add a link tag in head of your `index.html` to load CSS:
 
 ```html
 <link rel="stylesheet" href="/Widgets/widgets.css" />
 ```
 
-Note: if you have changed `CESIUM_BASE_URL` (at step 2-3-4), you may also have to change this.
+Note: if you have changed `CESIUM_BASE_URL`, you may also have to change this.
 
 Tips: Using `html-webpack-tags-plugin` is also OK!
 
