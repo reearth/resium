@@ -759,10 +759,10 @@ universalify@^2.0.0:
   resolved "https://registry.yarnpkg.com/universalify/-/universalify-2.0.0.tgz#75a4984efedc4b08975c5aeb73f530d02df25717"
   integrity sha512-hAZsKq7Yy11Zu1DE0OzWjw7nnLZmJZYTDZZyEFHZdUhV8FkH5MCfoU1XMaxXovpyW5nq5scPqq0ZDP9Zyl04oQ==
 
-vite-plugin-cesium@^1.2.5:
-  version "1.2.5"
-  resolved "https://registry.yarnpkg.com/vite-plugin-cesium/-/vite-plugin-cesium-1.2.5.tgz#c9ab0f31d2af451f84cca306fc1f5ead480a7d0d"
-  integrity sha512-Tcnb48+8b6Rxf5hbb33KhqG06ljW4XUQPBUhlUYqyHow5uN+8iCQ17lg1cmw8pZ7aBdhLV8Pvr/bP0Ii2mXgAw==
+vite-plugin-cesium@1.2.10:
+  version "1.2.10"
+  resolved "https://registry.yarnpkg.com/vite-plugin-cesium/-/vite-plugin-cesium-1.2.10.tgz#2f3cad7c7b03ca6c0a32e4d558c1208b8aaea065"
+  integrity sha512-6AS63smcST4G+yPaj9iGxPlWJ/DFR7MW2R61famOZpnECCx1WpBlU3pAcAxiVPWSfoJLXAnKgO2T16tbAIEjeQ==
   dependencies:
     fs-extra "^9.1.0"
     rollup-plugin-external-globals "^0.6.1"
