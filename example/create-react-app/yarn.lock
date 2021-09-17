@@ -3109,7 +3109,7 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
-cesium@^1.85.0:
+cesium@1.85.0:
   version "1.85.0"
   resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.85.0.tgz#00d983648710f13a925c20504548879eac38e902"
   integrity sha512-GqcEkcG5owC7rDroZzy3ic9d5oCrpqmpLZ9kWVnVBgvtjL/aAS+eUZ2wz8vCYAcYW77wYnIWeBRbMbaqdAH2XQ==
@@ -3566,7 +3566,7 @@ cosmiconfig@^7.0.0:
     path-type "^4.0.0"
     yaml "^1.10.0"
 
-craco-cesium@^1.2.0:
+craco-cesium@1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/craco-cesium/-/craco-cesium-1.2.0.tgz#451e30d2e1504f8ca5187744ce55f9fd3bdc79aa"
   integrity sha512-C7z8QplSemvMHcR5SymSfkWJDwSy2cohnnm8sydlGEhMJAN5Qgr18ApfABSm4Wc8NYOiL5SV4ngA9c78hHMZEQ==
