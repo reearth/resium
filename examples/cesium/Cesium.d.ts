@@ -18934,7 +18934,7 @@ export namespace CorridorGraphics {
      */
     type ConstructorOptions = {
         show?: Property | boolean;
-        positions?: Property | Cartesian3;
+        positions?: Property | Cartesian3[];
         width?: Property | number;
         height?: Property | number;
         heightReference?: Property | HeightReference;
@@ -26750,7 +26750,7 @@ export class Cesium3DTileContent {
  * </p>
  * <p>
  * Do not construct this directly.  Access it through {@link Cesium3DTileContent#getFeature}
- * or picking using {@link Scene#pick} and {@link Scene#pickPosition}.
+ * or picking using {@link Scene#pick}.
  * </p>
  * @example
  * // On mouse over, display all the properties for a feature in the console log.
