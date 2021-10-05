@@ -27,7 +27,7 @@ React components for 🌏[Cesium](https://cesium.com/)
 
 ## Contributors
 
-If you want to contribute, see [documentation](https://resium.reearth.com/contribution).
+If you want to contribute, see [documentation](https://resium.reearth.io/contribution).
 
 ### Code Contributors
 
