@@ -60,10 +60,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     if (selected) {
       parent.appendChild(c);
 
-      // remove cesium-infoBox-bodyless class
-      viewer.infoBox.container
-        .querySelector(".cesium-infoBox.cesium-infoBox-bodyless")
-        ?.classList.remove("cesium-infoBox-bodyless");
+   
 
       // auto resize
       if (resizeInfoBox) {
@@ -71,6 +68,10 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
         frame.style.height = height + "px";
 
         timeout = window.setTimeout(() => {
+          // remove cesium-infoBox-bodyless class
+          viewer.infoBox.container
+          .querySelector(".cesium-infoBox.cesium-infoBox-bodyless")
+          ?.classList.remove("cesium-infoBox-bodyless");
           frame.style.height = parent.getBoundingClientRect().height + "px";
         }, 10);
       }
