@@ -58,20 +58,19 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     let timeout: number | undefined;
 
     if (selected) {
-      parent.appendChild(c);
-
-   
-
+     
       // auto resize
       if (resizeInfoBox) {
         const height = parent.getBoundingClientRect().height;
         frame.style.height = height + "px";
 
         timeout = window.setTimeout(() => {
+          // append the description content to infoBox.
+          parent.appendChild(c);
           // remove cesium-infoBox-bodyless class
           viewer.infoBox.container
-          .querySelector(".cesium-infoBox.cesium-infoBox-bodyless")
-          ?.classList.remove("cesium-infoBox-bodyless");
+            .querySelector(".cesium-infoBox.cesium-infoBox-bodyless")
+            ?.classList.remove("cesium-infoBox-bodyless");
           frame.style.height = parent.getBoundingClientRect().height + "px";
         }, 10);
       }
