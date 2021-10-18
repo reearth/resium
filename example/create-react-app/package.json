@@ -4,14 +4,14 @@
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
-    "@testing-library/react": "^12.0.0",
-    "@testing-library/user-event": "^13.2.1",
-    "cesium": "1.86.0",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.4.1",
+    "cesium": "1.86.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
-    "resium": "^1.14.2",
-    "web-vitals": "^2.1.0"
+    "resium": "^1.14.3",
+    "web-vitals": "^2.1.2"
   },
   "scripts": {
     "start": "craco start",
@@ -38,7 +38,7 @@
     ]
   },
   "devDependencies": {
-    "@craco/craco": "^6.2.0",
+    "@craco/craco": "^6.3.0",
     "craco-cesium": "^1.2.0"
   }
 }
