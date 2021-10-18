@@ -58,11 +58,9 @@ export const useCesiumComponent = <Element, Props, State = any>(
   const element = useRef<Element>();
   const ctx = useCesium();
   const provided = useRef<Partial<Context> | undefined>(provide ? {} : undefined);
-  const attachedEvents = useRef<
-    {
-      [key in keyof Element]?: any;
-    }
-  >({});
+  const attachedEvents = useRef<{
+    [key in keyof Element]?: any;
+  }>({});
   const initialProps = useRef<Props>(props);
   const prevProps = useRef<Props>({} as Props);
   const [mounted, setMounted] = useState(false);

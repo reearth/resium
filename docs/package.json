@@ -13,8 +13,8 @@
     "generate": "ts-node generator"
   },
   "dependencies": {
-    "@docusaurus/core": "2.0.0-beta.6",
-    "@docusaurus/preset-classic": "2.0.0-beta.6",
+    "@docusaurus/core": "2.0.0-beta.7",
+    "@docusaurus/preset-classic": "2.0.0-beta.7",
     "@mdx-js/react": "^1.6.22",
     "clsx": "^1.1.1",
     "react": "^17.0.2",
@@ -33,11 +33,11 @@
     ]
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "^2.0.0-beta.6",
+    "@docusaurus/module-type-aliases": "^2.0.0-beta.7",
     "@tsconfig/docusaurus": "^1.0.4",
-    "@types/react": "^17.0.20",
-    "@types/react-helmet": "^6.1.2",
-    "@types/react-router-dom": "^5.1.8",
-    "typescript": "^4.4.2"
+    "@types/react": "^17.0.30",
+    "@types/react-helmet": "^6.1.4",
+    "@types/react-router-dom": "^5.3.1",
+    "typescript": "^4.4.4"
   }
 }

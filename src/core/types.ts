@@ -9,8 +9,7 @@ export type ArrayKeys<K> = StringOnly<
 export type Merge<A, B> = Omit<A, keyof B> & B;
 
 export type UnionMerge<A, B> = Omit<A, keyof A & keyof B> &
-  Omit<B, keyof A & keyof B> &
-  { [K in keyof A & keyof B]: A[K] | B[K] };
+  Omit<B, keyof A & keyof B> & { [K in keyof A & keyof B]: A[K] | B[K] };
 
 export type PickCesiumProps<
   T,
@@ -72,7 +71,6 @@ type ReadonlyKeys<T> = {
 
 type RemoveReadOnlyAndPartial<T, Required extends keyof T = never> = {
   -readonly [key in keyof Pick<T, Required>]: T[key];
-} &
-  {
-    -readonly [key in keyof Omit<T, Required>]?: T[key];
-  };
+} & {
+  -readonly [key in keyof Omit<T, Required>]?: T[key];
+};

@@ -6,7 +6,7 @@
   "singleQuote": false,
   "trailingComma": "all",
   "bracketSpacing": true,
-  "jsxBracketSameLine": true,
+  "bracketSameLine": true,
   "arrowParens": "avoid",
   "proseWrap": "preserve"
 }

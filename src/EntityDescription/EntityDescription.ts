@@ -58,7 +58,6 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     let timeout: number | undefined;
 
     if (selected) {
-     
       // auto resize
       if (resizeInfoBox) {
         const height = parent.getBoundingClientRect().height;
