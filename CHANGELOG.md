@@ -1,5 +1,10 @@
 # Changelog
 
+## v1.14.3 - 2021/10/18
+
+- Fix EntityDescription is not displayed on the first time entity selection ([#518](https://github.com/reearth/resium/pull/518))
+- Upgrade dependencies
+
 ## v1.14.2 - 2021/09/10
 
 - Decrepate EntityStaticDescription component - use EntityDescription component or description prop of Entity component instead
