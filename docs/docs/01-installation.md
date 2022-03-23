@@ -339,10 +339,10 @@ Then install Cesium, Resium, and [vite-plugin-cesium](https://github.com/)
 
 ```bash
 npm install --save cesium resium
-npm install --save-dev vite-plguin-cesium
+npm install --save-dev vite-plugin-cesium
 # OR
 yarn add cesium resium
-yarn add --dev vite-plguin-cesium
+yarn add --dev vite-plugin-cesium
 ```
 
 Then edit `vite.config.js`:
