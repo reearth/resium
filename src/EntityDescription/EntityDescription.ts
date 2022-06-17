@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo, FC } from "react";
+import { useEffect, useState, useMemo, FC, ReactNode } from "react";
 import { createPortal } from "react-dom";
 import { Entity } from "cesium";
 
@@ -22,6 +22,7 @@ and can not be mounted more than once for each entity.
 export type EntityDescriptionProps = {
   container?: Element;
   resizeInfoBox?: boolean;
+  children?: ReactNode;
 };
 
 const EntityDescription: FC<EntityDescriptionProps> = ({
