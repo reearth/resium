@@ -31,7 +31,7 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
-    exclude: [...configDefaults.exclude, "docs/**/*", "example/**/*"],
+    exclude: [...configDefaults.exclude, "docs/**/*", "examples/**/*"],
     setupFiles: ["src/test/setup.ts"],
     coverage: {
       reporter: ["text", "json"],

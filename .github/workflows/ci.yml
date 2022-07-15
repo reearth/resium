@@ -26,16 +26,14 @@ jobs:
             ${{ runner.os }}-yarn-
       - name: Install
         run: yarn install --frozen-lockfile
-      - name: Install Docs
-        run: (cd docs && yarn install --frozen-lockfile)
       - name: Lint
         run: yarn run lint
       - name: Test
         run: yarn run test
-      - name: Build
-        run: yarn run build
       - name: Codecov
         uses: codecov/codecov-action@v3
+      - name: Build
+        run: yarn run build
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
