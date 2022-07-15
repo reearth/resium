@@ -11399,7 +11399,7 @@ vfile@^4.0.0:
     unist-util-stringify-position "^2.0.0"
     vfile-message "^2.0.0"
 
-vite-plugin-cesium@^1.2.19:
+vite-plugin-cesium@1.2.19:
   version "1.2.19"
   resolved "https://registry.yarnpkg.com/vite-plugin-cesium/-/vite-plugin-cesium-1.2.19.tgz#f6ecdbe8bdac11f5ed81c192a2d132382fad7f75"
   integrity sha512-81XrdS2S9nhMM1DZfd88uIQNnqeKKhY+b5jLuLt0X1yXdTu7uQdPN8/HVVny8AGsbAJakKsIVJhTT0Kv5nIqbg==
