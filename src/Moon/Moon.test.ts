@@ -1,8 +1,9 @@
-import { it } from "vitest";
-import { expectType, TypeEqual } from "ts-expect";
 import { Moon } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
+
 import { MoonProps } from "./Moon";
 
 // Unused prop check

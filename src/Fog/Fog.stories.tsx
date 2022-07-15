@@ -1,10 +1,10 @@
-import React from "react";
-import { Cartesian3, Math as CesiumMath } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Cartesian3, Math as CesiumMath } from "cesium";
 
-import Viewer from "../Viewer";
-import Fog, { FogProps } from "./Fog";
 import CameraFlyTo from "../CameraFlyTo";
+import Viewer from "../Viewer";
+
+import Fog, { FogProps } from "./Fog";
 
 export default {
   title: "Fog",

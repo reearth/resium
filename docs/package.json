@@ -12,6 +12,9 @@
     "clear": "docusaurus clear",
     "generate": "ts-node generator"
   },
+  "engines": {
+    "node": ">=16"
+  },
   "dependencies": {
     "@docusaurus/core": "2.0.0-rc.1",
     "@docusaurus/preset-classic": "2.0.0-rc.1",
@@ -37,6 +40,7 @@
     "@types/react": "^18.0.15",
     "@types/react-helmet": "^6.1.5",
     "@types/react-router-dom": "^5.3.3",
+    "globby": "^13.1.2",
     "typescript": "^4.7.4"
   }
 }

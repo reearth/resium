@@ -5,8 +5,8 @@ import {
   Scene,
 } from "cesium";
 
-import { PickCesiumProps } from "./types";
 import { createCesiumComponent } from "./component";
+import { PickCesiumProps } from "./types";
 import { includes } from "./util";
 
 export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;

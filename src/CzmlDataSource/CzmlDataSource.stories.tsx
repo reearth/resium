@@ -1,11 +1,11 @@
-import React from "react";
-import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { Meta, Story } from "@storybook/react";
 import { GeoJsonDataSource } from "cesium";
 
-import Viewer from "../Viewer";
-import CzmlDataSource, { CzmlDataSourceProps } from "./CzmlDataSource";
 import { events } from "../core/storybook";
+import Viewer from "../Viewer";
+
+import CzmlDataSource, { CzmlDataSourceProps } from "./CzmlDataSource";
 
 export default {
   title: "CzmlDataSource",

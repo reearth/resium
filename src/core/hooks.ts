@@ -1,3 +1,4 @@
+import { Event as CesiumEvent } from "cesium";
 import {
   useEffect,
   useRef,
@@ -7,7 +8,6 @@ import {
   useLayoutEffect,
   RefObject,
 } from "react";
-import { Event as CesiumEvent } from "cesium";
 
 import { Context, useCesium } from "./context";
 import { EventManager, eventManagerContextKey } from "./EventManager";

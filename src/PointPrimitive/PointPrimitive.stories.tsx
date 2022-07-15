@@ -1,11 +1,11 @@
-import React from "react";
-import { Cartesian3, Color, Transforms } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Cartesian3, Color, Transforms } from "cesium";
 
-import Viewer from "../Viewer";
-import PointPrimitive, { PointPrimitiveProps } from "./PointPrimitive";
-import PointPrimitiveCollection from "../PointPrimitiveCollection";
 import { events } from "../core/storybook";
+import PointPrimitiveCollection from "../PointPrimitiveCollection";
+import Viewer from "../Viewer";
+
+import PointPrimitive, { PointPrimitiveProps } from "./PointPrimitive";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 

@@ -1,9 +1,9 @@
-import React from "react";
-import { Color } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Color } from "cesium";
 
-import Viewer from "../Viewer";
 import Scene from "../Scene";
+import Viewer from "../Viewer";
+
 import SkyBox, { SkyBoxProps } from "./SkyBox";
 
 export default {

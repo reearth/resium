@@ -1,9 +1,9 @@
-import React from "react";
+import { action } from "@storybook/addon-actions";
 import { Meta, Story } from "@storybook/react";
 
 import Viewer from "../Viewer";
+
 import ImageryLayerCollection, { ImageryLayerCollectionProps } from "./ImageryLayerCollection";
-import { action } from "@storybook/addon-actions";
 
 export default {
   title: "ImageryLayerCollection",

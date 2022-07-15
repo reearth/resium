@@ -1,10 +1,11 @@
 import { Meta, Story } from "@storybook/react";
-import React, { Cartesian3, Color, Transforms } from "cesium";
+import { Cartesian3, Color, Transforms } from "cesium";
 
+import BillboardCollection from "../BillboardCollection";
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
+
 import Billboard, { BillboardProps } from "./Billboard";
-import BillboardCollection from "../BillboardCollection";
 
 export default {
   title: "Billboard",

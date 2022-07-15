@@ -1,5 +1,6 @@
-import { createCesiumComponent, PickCesiumProps } from "../core";
 import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
+
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary

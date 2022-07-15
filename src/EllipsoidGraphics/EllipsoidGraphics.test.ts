@@ -1,7 +1,8 @@
-import { it } from "vitest";
 import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
+
 import { EllipsoidGraphicsProps, cesiumEventProps, Target } from "./EllipsoidGraphics";
 
 // Unused prop check

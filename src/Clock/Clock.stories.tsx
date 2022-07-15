@@ -1,10 +1,10 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { JulianDate, ClockRange, ClockStep } from "cesium";
 
-import Viewer from "../Viewer";
-import Clock, { ClockProps } from "./Clock";
 import Globe from "../Globe";
+import Viewer from "../Viewer";
+
+import Clock, { ClockProps } from "./Clock";
 
 export default {
   title: "Clock",

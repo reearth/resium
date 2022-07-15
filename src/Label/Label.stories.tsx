@@ -1,11 +1,11 @@
-import React from "react";
-import { Cartesian3, Color, Transforms } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Cartesian3, Color, Transforms } from "cesium";
 
-import Viewer from "../Viewer";
-import Label, { LabelProps } from "./Label";
-import LabelCollection from "../LabelCollection";
 import { events } from "../core/storybook";
+import LabelCollection from "../LabelCollection";
+import Viewer from "../Viewer";
+
+import Label, { LabelProps } from "./Label";
 
 const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
 

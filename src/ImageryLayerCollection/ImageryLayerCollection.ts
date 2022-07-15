@@ -1,5 +1,6 @@
-import { createCesiumComponent, EventkeyMap } from "../core";
 import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
+
+import { createCesiumComponent, EventkeyMap } from "../core";
 
 /*
 @summary

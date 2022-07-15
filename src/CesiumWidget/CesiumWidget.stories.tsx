@@ -1,8 +1,8 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 
-import CesiumWidget, { CesiumWidgetProps } from "./CesiumWidget";
 import { events } from "../core/storybook";
+
+import CesiumWidget, { CesiumWidgetProps } from "./CesiumWidget";
 
 export default {
   title: "CesiumWidget",

@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from "react";
 import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import { CSSProperties, ReactNode } from "react";
 
 import {
   createCesiumComponent,

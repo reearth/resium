@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import { Meta, Story } from "@storybook/react";
 import {
   HeadingPitchRange,
   Cesium3DTileStyle,
@@ -8,12 +8,13 @@ import {
   ClockRange,
   Viewer as CesiumViewer,
 } from "cesium";
-import { Meta, Story } from "@storybook/react";
+import { useRef } from "react";
 
+import Clock from "../Clock";
 import { CesiumComponentRef } from "../core";
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
-import Clock from "../Clock";
+
 import TimeDynamicPointCloud, { TimeDynamicPointCloudProps } from "./TimeDynamicPointCloud";
 
 export default {

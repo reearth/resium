@@ -1,10 +1,10 @@
-import React from "react";
-import { Cartesian3 } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Cartesian3 } from "cesium";
+
+import { events } from "../core/storybook";
+import Entity from "../Entity";
 
 import Viewer, { ViewerProps } from "./Viewer";
-import Entity from "../Entity";
-import { events } from "../core/storybook";
 
 export default {
   title: "Viewer",

@@ -1,4 +1,4 @@
-import React from "react";
+import { Meta, Story } from "@storybook/react";
 import {
   Cartesian3,
   EllipseGeometry,
@@ -9,11 +9,11 @@ import {
   VertexFormat,
   Geometry,
 } from "cesium";
-import { Meta, Story } from "@storybook/react";
 
-import Viewer from "../Viewer";
-import Primitive, { PrimitiveProps } from "./Primitive";
 import { events } from "../core/storybook";
+import Viewer from "../Viewer";
+
+import Primitive, { PrimitiveProps } from "./Primitive";
 
 export default {
   title: "Primitive",

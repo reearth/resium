@@ -1,15 +1,16 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { Viewer as CesiumViewer } from "cesium";
+import { useRef } from "react";
 
+import { CesiumComponentRef } from "..";
+import Cesium3DTileset from "../Cesium3DTileset";
 import Viewer from "../Viewer";
-import { PostProcessStage, LensFlareStage, NightVisionStage, BlackAndWhiteStage } from ".";
+
+import { Fxaa as ResiumFxaa } from "./Fxaa";
 import { LensFlareStageProps } from "./LensFlareStage";
 import { PostProcessStageProps } from "./PostProcessStage";
-import { Fxaa as ResiumFxaa } from "./Fxaa";
-import Cesium3DTileset from "../Cesium3DTileset";
-import { useRef } from "react";
-import { CesiumComponentRef } from "..";
+
+import { PostProcessStage, LensFlareStage, NightVisionStage, BlackAndWhiteStage } from ".";
 
 export default {
   title: "PostProcessStage",

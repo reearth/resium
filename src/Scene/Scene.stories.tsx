@@ -1,8 +1,8 @@
-import React from "react";
-import { SceneMode } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { SceneMode } from "cesium";
 
 import Viewer from "../Viewer";
+
 import Scene, { SceneProps } from "./Scene";
 
 export default {

@@ -1,4 +1,5 @@
 import { Sun as CesiumSun } from "cesium";
+
 import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*

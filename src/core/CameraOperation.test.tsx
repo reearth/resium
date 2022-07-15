@@ -1,9 +1,9 @@
-import { describe, expect, it, vi } from "vitest";
-import React, { FC } from "react";
 import { render } from "@testing-library/react";
+import { FC } from "react";
+import { describe, expect, it, vi } from "vitest";
 
-import { Provider } from "./context";
 import { createCameraOperation } from "./CameraOperation";
+import { Provider } from "./context";
 
 describe("core/cameraop", () => {
   it("should call proper methods", () => {

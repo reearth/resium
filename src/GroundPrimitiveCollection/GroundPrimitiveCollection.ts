@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { PrimitiveCollection } from "cesium";
+import { ReactNode } from "react";
 
 import { createCesiumComponent, PickCesiumProps } from "../core";
 

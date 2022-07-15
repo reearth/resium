@@ -1,6 +1,8 @@
-import { it } from "vitest";
 import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
+
 import { UnusedCesiumProps } from "../core";
+
 import { PostProcessStageCompositeProps, Target } from "./PostProcessStageComposite";
 
 // Unused prop check

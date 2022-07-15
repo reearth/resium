@@ -1,5 +1,6 @@
-import { createCameraOperation, StaticMethodOptions2 } from "../core";
 import { Camera } from "cesium";
+
+import { createCameraOperation, StaticMethodOptions2 } from "../core";
 
 // @noCesiumElement
 

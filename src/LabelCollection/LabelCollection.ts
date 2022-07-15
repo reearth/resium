@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { LabelCollection as CesiumLabelCollection } from "cesium";
+import { ReactNode } from "react";
 
 import { createCesiumComponent, PickCesiumProps } from "../core";
 

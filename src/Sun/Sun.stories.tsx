@@ -1,7 +1,7 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 
 import Viewer from "../Viewer";
+
 import Sun, { SunProps } from "./Sun";
 
 export default {

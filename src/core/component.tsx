@@ -1,4 +1,4 @@
-import React, {
+import {
   forwardRef,
   HTMLAttributes,
   ForwardRefExoticComponent,
@@ -8,8 +8,8 @@ import React, {
   PropsWithChildren,
 } from "react";
 
-import { useCesiumComponent, Options } from "./hooks";
 import { CesiumContext } from "./context";
+import { useCesiumComponent, Options } from "./hooks";
 import { pick } from "./util";
 
 export type CesiumComponentOptions<Element, Props, State = any> = Options<Element, Props, State> & {

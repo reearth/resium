@@ -1,8 +1,9 @@
-import React, { useState } from "react";
-import { Cartesian3 } from "cesium";
 import { Story, Meta } from "@storybook/react";
+import { Cartesian3 } from "cesium";
+import { useState } from "react";
 
 import Viewer from "../Viewer";
+
 import CameraFlyTo, { CameraFlyToProps } from "./CameraFlyTo";
 
 export default {

@@ -1,6 +1,6 @@
+import type { StorybookViteConfig } from "@storybook/builder-vite";
 import { mergeConfig } from "vite";
 import cesium from "vite-plugin-cesium";
-import type { StorybookViteConfig } from "@storybook/builder-vite";
 
 const config: StorybookViteConfig = {
   core: { builder: "@storybook/builder-vite" },

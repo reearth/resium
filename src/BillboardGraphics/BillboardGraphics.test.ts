@@ -1,8 +1,9 @@
-import { it } from "vitest";
-import { expectType, TypeEqual } from "ts-expect";
 import { BillboardGraphics } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
 import { UnusedCesiumProps, Merge } from "../core";
+
 import { BillboardGraphicsProps, cesiumEventProps } from "./BillboardGraphics";
 
 // Unused prop check

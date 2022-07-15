@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useCallback, FC } from "react";
+import { Meta, Story } from "@storybook/react";
 import {
   Cartesian3,
   Cartesian2,
@@ -8,12 +8,13 @@ import {
   createWorldTerrain,
   Math as CesiumMath,
 } from "cesium";
-import { Meta, Story } from "@storybook/react";
+import { useMemo, useRef, useCallback, FC } from "react";
 
+import CameraFlyTo from "../CameraFlyTo";
 import { useCesium } from "../core";
 import Viewer from "../Viewer";
+
 import ParticleSystem from "./ParticleSystem";
-import CameraFlyTo from "../CameraFlyTo";
 
 export default {
   title: "ParticleSystem",

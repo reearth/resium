@@ -1,4 +1,5 @@
 import { parse } from "path";
+
 import {
   Node,
   isVariableStatement,
@@ -15,6 +16,7 @@ import {
   Expression,
   getLeadingCommentRanges,
 } from "typescript";
+
 import { Prop, Doc, PropKind, DocComment, DocProps, TypeExpr } from "./types";
 
 export function parseDoc(sourceFile: SourceFile, tc: TypeChecker): Doc {
@@ -199,7 +201,7 @@ export function getLeadingComment(node: Node) {
   // eslint-disable-next-line no-constant-condition
   while (true) {
     const comments = getLeadingCommentRanges(text, start);
-    if (comments && comments[0]) {
+    if (comments?.[0]) {
       if (comments[0].pos >= nodeStart) {
         break;
       }

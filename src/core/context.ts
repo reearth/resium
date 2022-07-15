@@ -1,4 +1,3 @@
-import { createContext, useContext } from "react";
 import {
   Viewer,
   CesiumWidget,
@@ -18,6 +17,8 @@ import {
   PointPrimitiveCollection,
   CloudCollection,
 } from "cesium";
+import { createContext, useContext } from "react";
+
 import EventManager, { eventManagerContextKey } from "./EventManager";
 
 export type Context = {

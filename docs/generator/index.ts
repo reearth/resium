@@ -1,11 +1,12 @@
 import fs from "fs";
 import path from "path";
 import { inspect } from "util";
-import globby from "globby";
+
+import { globbySync } from "globby";
 import { createProgram } from "typescript";
 
-import { renderDoc } from "./renderer";
 import { parseDoc } from "./parser";
+import { renderDoc } from "./renderer";
 
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
@@ -19,17 +20,15 @@ console.log(
 );
 
 // list component paths
-const componentFiles = globby
-  .sync([
-    "../src/*/*.ts{,x}",
-    "!../src/*/index.ts{,x}",
-    "!../src/*/story.ts{,x}",
-    "!../src/*/*.stories.ts{,x}",
-    "!../src/*/test.ts{,x}",
-    "!../src/*/*.test.ts{,x}",
-    "!../src/core/**/*",
-  ])
-  .filter(cf => !name.length || name.includes(path.parse(cf).name));
+const componentFiles = globbySync([
+  "../src/*/*.ts{,x}",
+  "!../src/*/index.ts{,x}",
+  "!../src/*/story.ts{,x}",
+  "!../src/*/*.stories.ts{,x}",
+  "!../src/*/test.ts{,x}",
+  "!../src/*/*.test.ts{,x}",
+  "!../src/core/**/*",
+]).filter(cf => !name.length || name.includes(path.parse(cf).name));
 
 if (componentFiles.length > 0) {
   try {

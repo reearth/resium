@@ -1,11 +1,11 @@
-import React from "react";
-import { Cartesian3, Color, EntityCluster } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Cartesian3, Color, EntityCluster } from "cesium";
 
-import Viewer from "../Viewer";
-import CustomDataSource, { CustomDataSourceProps } from "./CustomDataSource";
-import Entity from "../Entity";
 import { events } from "../core/storybook";
+import Entity from "../Entity";
+import Viewer from "../Viewer";
+
+import CustomDataSource, { CustomDataSourceProps } from "./CustomDataSource";
 
 export default {
   title: "CustomDataSource",

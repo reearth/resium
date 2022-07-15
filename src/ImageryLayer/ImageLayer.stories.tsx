@@ -1,8 +1,8 @@
-import React from "react";
-import { ArcGisMapServerImageryProvider, IonImageryProvider } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { ArcGisMapServerImageryProvider, IonImageryProvider } from "cesium";
 
 import Viewer from "../Viewer";
+
 import ImageryLayer, { ImageryLayerProps } from "./ImageryLayer";
 
 export default {

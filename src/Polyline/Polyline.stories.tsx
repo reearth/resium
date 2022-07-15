@@ -1,12 +1,12 @@
-import React from "react";
-import { Cartesian3, Transforms } from "cesium";
 import { Meta, Story } from "@storybook/react";
+import { Cartesian3, Transforms } from "cesium";
 
-import Viewer from "../Viewer";
-import Polyline, { PolylineProps } from "./Polyline";
-import PolylineCollection from "../PolylineCollection";
 import CameraFlyTo from "../CameraFlyTo";
 import { events } from "../core/storybook";
+import PolylineCollection from "../PolylineCollection";
+import Viewer from "../Viewer";
+
+import Polyline, { PolylineProps } from "./Polyline";
 
 export default {
   title: "Polyline",

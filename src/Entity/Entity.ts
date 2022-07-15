@@ -1,4 +1,3 @@
-import { ReactNode } from "react";
 import {
   Billboard,
   BillboardCollection,
@@ -14,6 +13,7 @@ import {
   PolylineCollection,
   Primitive,
 } from "cesium";
+import { ReactNode } from "react";
 
 import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
 

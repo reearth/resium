@@ -1,8 +1,9 @@
-import { it } from "vitest";
-import { expectType, TypeEqual } from "ts-expect";
 import { PointPrimitive } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
+
 import { PointPrimitiveOtherProps, PointPrimitiveProps } from "./PointPrimitive";
 
 // Unused prop check

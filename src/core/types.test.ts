@@ -1,5 +1,5 @@
-import { it } from "vitest";
 import { expectType, TypeEqual, TypeOf } from "ts-expect";
+import { it } from "vitest";
 
 import {
   ConstructorOptions,

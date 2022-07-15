@@ -1,12 +1,13 @@
-import React, { useRef } from "react";
-import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { Meta, Story } from "@storybook/react";
 import { Viewer as CesiumViewer, Cesium3DTileStyle } from "cesium";
+import { useRef } from "react";
 
-import Viewer from "../Viewer";
-import Cesium3DTileset, { Cesium3DTilesetProps } from "./Cesium3DTileset";
 import { CesiumComponentRef } from "../core";
 import { events } from "../core/storybook";
+import Viewer from "../Viewer";
+
+import Cesium3DTileset, { Cesium3DTilesetProps } from "./Cesium3DTileset";
 
 export default {
   title: "Cesium3DTileset",

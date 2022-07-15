@@ -1,9 +1,9 @@
-import { describe, expect, it } from "vitest";
-import React, { FC } from "react";
 import { render, screen } from "@testing-library/react";
+import { FC } from "react";
+import { describe, expect, it } from "vitest";
 
-import { withCesium } from "./withCesium";
 import { Provider } from "./context";
+import { withCesium } from "./withCesium";
 
 describe("core/context", () => {
   it("should inject context to cesium prop", () => {

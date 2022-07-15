@@ -1,10 +1,11 @@
-import React, { createRef } from "react";
-import { Entity as CesiumEntity } from "cesium";
-import { expect, it, vi } from "vitest";
-import { expectType, TypeEqual } from "ts-expect";
 import { render } from "@testing-library/react";
+import { Entity as CesiumEntity } from "cesium";
+import { createRef } from "react";
+import { expectType, TypeEqual } from "ts-expect";
+import { expect, it, vi } from "vitest";
 
 import { Provider, Merge, UnusedCesiumProps, CesiumComponentRef } from "../core";
+
 import Entity, { EntityProps, cesiumEventProps, EntityOtherProps } from "./Entity";
 
 // Unused prop check

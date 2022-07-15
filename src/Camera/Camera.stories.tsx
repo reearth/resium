@@ -1,10 +1,10 @@
-import React from "react";
-import { Cartesian3 } from "cesium";
-import { Story, Meta } from "@storybook/react";
 import { actions } from "@storybook/addon-actions";
+import { Story, Meta } from "@storybook/react";
+import { Cartesian3 } from "cesium";
 
-import Viewer from "../Viewer";
 import CameraFlyTo from "../CameraFlyTo";
+import Viewer from "../Viewer";
+
 import Camera, { CameraProps } from "./Camera";
 
 export default {

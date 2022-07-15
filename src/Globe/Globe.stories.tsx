@@ -1,8 +1,8 @@
-import React from "react";
-import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { Meta, Story } from "@storybook/react";
 
 import Viewer from "../Viewer";
+
 import Globe, { GlobeProps } from "./Globe";
 
 export default {

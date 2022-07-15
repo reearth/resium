@@ -1,7 +1,7 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
-import React, { createRef, ReactNode } from "react";
-import { Event } from "cesium";
 import { render, screen } from "@testing-library/react";
+import { Event } from "cesium";
+import { createRef, ReactNode } from "react";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 import { createCesiumComponent, CesiumComponentRef } from "./component";
 import { Provider } from "./context";
