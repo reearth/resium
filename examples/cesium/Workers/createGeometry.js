@@ -1,1 +1,25 @@
-define(["./when-4bbc8319","./PrimitivePipeline-40f9db75","./createTaskProcessorWorker","./Transforms-d13cc04e","./Matrix2-9aa31791","./RuntimeError-346a3079","./ComponentDatatype-93750d1a","./WebGLConstants-1c8239cc","./combine-83860057","./GeometryAttribute-43536dc0","./GeometryAttributes-7827a6c2","./GeometryPipeline-b1a36b18","./AttributeCompression-af389d04","./EncodedCartesian3-f286cedc","./IndexDatatype-b7d979a6","./IntersectionTests-96a04219","./Plane-318d6937","./WebMercatorProjection-58801a11"],(function(e,r,t,n,a,i,o,s,c,u,d,f,b,m,l,p,y,P){"use strict";var v={};function k(r){var t=v[r];return e.defined(t)||("object"==typeof exports?v[t]=t=require("Workers/"+r):require(["Workers/"+r],(function(e){v[t=e]=e}))),t}return t((function(t,n){for(var a=t.subTasks,i=a.length,o=new Array(i),s=0;s<i;s++){var c=a[s],u=c.geometry,d=c.moduleName;if(e.defined(d)){var f=k(d);o[s]=f(u,c.offset)}else o[s]=u}return e.when.all(o,(function(e){return r.PrimitivePipeline.packCreateGeometryResults(e,n)}))}))}));
+/**
+ * @license
+ * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.95
+ *
+ * Copyright 2011-2022 Cesium Contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Columbus View (Pat. Pend.)
+ *
+ * Portions licensed separately.
+ * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
+ */
+define(["./defaultValue-97284df2","./PrimitivePipeline-42d69f96","./createTaskProcessorWorker","./Transforms-d3d3b2a9","./Matrix2-73789715","./RuntimeError-4f8ec8a2","./ComponentDatatype-e7fbe225","./WebGLConstants-6da700a2","./_commonjsHelpers-3aae1032-65601a27","./combine-d11b1f00","./GeometryAttribute-fd1d7e90","./GeometryAttributes-734a3446","./GeometryPipeline-a847e31f","./AttributeCompression-5744d52e","./EncodedCartesian3-a9a8a281","./IndexDatatype-65271ba3","./IntersectionTests-33ace2d6","./Plane-e916220d","./WebMercatorProjection-04ef6bc3"],(function(e,t,r,n,o,a,i,s,c,f,d,u,m,l,b,p,y,P,k){"use strict";const C={};function G(t){let r=C[t];return e.defined(r)||("object"==typeof exports?C[r]=r=require(`Workers/${t}`):require([`Workers/${t}`],(function(e){r=e,C[r]=e}))),r}return r((function(r,n){const o=r.subTasks,a=o.length,i=new Array(a);for(let t=0;t<a;t++){const r=o[t],n=r.geometry,a=r.moduleName;if(e.defined(a)){const e=G(a);i[t]=e(n,r.offset)}else i[t]=n}return Promise.all(i).then((function(e){return t.PrimitivePipeline.packCreateGeometryResults(e,n)}))}))}));

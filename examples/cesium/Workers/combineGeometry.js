@@ -1,1 +1,25 @@
-define(["./PrimitivePipeline-40f9db75","./createTaskProcessorWorker","./Transforms-d13cc04e","./Matrix2-9aa31791","./RuntimeError-346a3079","./when-4bbc8319","./ComponentDatatype-93750d1a","./WebGLConstants-1c8239cc","./combine-83860057","./GeometryAttribute-43536dc0","./GeometryAttributes-7827a6c2","./GeometryPipeline-b1a36b18","./AttributeCompression-af389d04","./EncodedCartesian3-f286cedc","./IndexDatatype-b7d979a6","./IntersectionTests-96a04219","./Plane-318d6937","./WebMercatorProjection-58801a11"],(function(e,t,i,r,n,a,o,c,m,s,b,P,d,p,u,y,f,l){"use strict";return t((function(t,i){var r=e.PrimitivePipeline.unpackCombineGeometryParameters(t),n=e.PrimitivePipeline.combineGeometry(r);return e.PrimitivePipeline.packCombineGeometryResults(n,i)}))}));
+/**
+ * @license
+ * Cesium - https://github.com/CesiumGS/cesium
+ * Version 1.95
+ *
+ * Copyright 2011-2022 Cesium Contributors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * Columbus View (Pat. Pend.)
+ *
+ * Portions licensed separately.
+ * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
+ */
+define(["./PrimitivePipeline-42d69f96","./createTaskProcessorWorker","./Transforms-d3d3b2a9","./Matrix2-73789715","./RuntimeError-4f8ec8a2","./defaultValue-97284df2","./ComponentDatatype-e7fbe225","./WebGLConstants-6da700a2","./_commonjsHelpers-3aae1032-65601a27","./combine-d11b1f00","./GeometryAttribute-fd1d7e90","./GeometryAttributes-734a3446","./GeometryPipeline-a847e31f","./AttributeCompression-5744d52e","./EncodedCartesian3-a9a8a281","./IndexDatatype-65271ba3","./IntersectionTests-33ace2d6","./Plane-e916220d","./WebMercatorProjection-04ef6bc3"],(function(e,t,i,r,a,n,o,s,m,c,d,b,f,u,P,p,l,y,G){"use strict";return t((function(t,i){const r=e.PrimitivePipeline.unpackCombineGeometryParameters(t),a=e.PrimitivePipeline.combineGeometry(r);return e.PrimitivePipeline.packCombineGeometryResults(a,i)}))}));
