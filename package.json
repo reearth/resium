@@ -27,8 +27,9 @@
     "storybook": "start-storybook -p 9001",
     "storybook:build": "build-storybook -o docs/static/examples",
     "docs": "yarn --cwd docs start",
-    "docs:build": "yarn --cwd docs generate && build-storybook -s .storybook/public -o docs/static/examples && yarn --cwd docs build",
-    "docs:generate": "ts-node ./scripts/generator/index.mts "
+    "docs:build": "run-s docs:generate storybook:build docs:build2",
+    "docs:generate": "ts-node ./scripts/generator/index.mts ",
+    "docs:build2": "yarn --cwd docs build"
   },
   "files": [
     "src",
