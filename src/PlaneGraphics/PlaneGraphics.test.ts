@@ -1,16 +1,17 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { PlaneGraphics } from "cesium";
 
-import { UnusedCesiumProps, Merge, ValueOf } from "../core";
-import { PlaneGraphicsProps, cesiumEventProps } from "./PlaneGraphics";
+import { UnusedCesiumProps } from "../core";
+import { PlaneGraphicsProps, cesiumEventProps, Target } from "./PlaneGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
-  Merge<PlaneGraphics, PlaneGraphics.ConstructorOptions>,
-  keyof PlaneGraphicsProps | ValueOf<typeof cesiumEventProps>
+  Target,
+  PlaneGraphicsProps,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

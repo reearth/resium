@@ -8,7 +8,7 @@ import {
   Merge,
 } from "../core";
 
-type Target = Merge<
+export type Target = Merge<
   Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
   Parameters<typeof CesiumModel["fromGltf"]>[0]
 >;
@@ -17,20 +17,17 @@ export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
 
 export type ModelCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type ModalOtherProps = {
+export type ModalOtherProps = EventProps<{
+  id?: string;
+  mesh: ModelMesh;
+  node: ModelNode;
+  primitive: Primitive;
+}> & {
   /** Calls when the model is completely loaded. */
   onReady?: (model: CesiumModel) => void;
 };
 
-export type ModelProps = ModelCesiumProps &
-  ModelCesiumReadonlyProps &
-  EventProps<{
-    id?: string;
-    mesh: ModelMesh;
-    node: ModelNode;
-    primitive: Primitive;
-  }> &
-  ModalOtherProps;
+export type ModelProps = ModelCesiumProps & ModelCesiumReadonlyProps & ModalOtherProps;
 
 const cesiumProps = [
   "basePath",
@@ -43,7 +40,7 @@ const cesiumProps = [
   "debugWireframe",
   "distanceDisplayCondition",
   "id",
-  "imageBasedLightingFactor",
+  "imageBasedLighting",
   "lightColor",
   "maximumScale",
   "minimumPixelSize",
@@ -53,10 +50,11 @@ const cesiumProps = [
   "show",
   "silhouetteColor",
   "silhouetteSize",
-  "luminanceAtZenith",
-  "sphericalHarmonicCoefficients",
-  "specularEnvironmentMaps",
   "backFaceCulling",
+  "splitDirection",
+  "imageBasedLighting",
+  "showCreditsOnScreen",
+  "activeAnimations",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -69,6 +67,7 @@ const cesiumReadonlyProps = [
   "incrementallyLoadTextures",
   "scene",
   "url",
+  "showOutline",
 ] as const;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({

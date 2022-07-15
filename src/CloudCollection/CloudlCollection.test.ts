@@ -2,12 +2,17 @@ import { expectType, TypeEqual } from "ts-expect";
 import { CloudCollection } from "cesium";
 
 import { UnusedCesiumProps } from "../core";
-import { CloudCollectionProps } from "./CloudCollection";
+import { CloudCollectionOtherProps, CloudCollectionProps } from "./CloudCollection";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<CloudCollection, keyof CloudCollectionProps>;
+type UnusedProps = UnusedCesiumProps<
+  CloudCollection,
+  Omit<CloudCollectionProps, keyof CloudCollectionOtherProps>,
+  {},
+  IgnoredProps
+>;
 type IgnoredProps = "length";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

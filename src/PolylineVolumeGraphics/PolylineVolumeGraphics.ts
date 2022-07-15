@@ -13,10 +13,12 @@ PolylineVolumeGraphics can be mounted only inside[Entity](/components/Entity) co
 and can not be mounted more than once for each entity.
 */
 
-export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<
-  Merge<CesiumPolylineVolumeGraphics, CesiumPolylineVolumeGraphics.ConstructorOptions>,
-  typeof cesiumProps
+export type Target = Merge<
+  CesiumPolylineVolumeGraphics,
+  CesiumPolylineVolumeGraphics.ConstructorOptions
 >;
+
+export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PolylineVolumeGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;

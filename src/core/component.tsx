@@ -5,7 +5,7 @@ import React, {
   PropsWithoutRef,
   RefAttributes,
   ForwardRefRenderFunction,
-  ReactElement,
+  PropsWithChildren,
 } from "react";
 
 import { useCesiumComponent, Options } from "./hooks";
@@ -48,7 +48,11 @@ export const createCesiumComponent = <Element, Props, State = any>({
 
     if (noChildren) return null;
 
-    const children = mounted ? (mergedProps.children as ReactElement) : null;
+    const children = mounted
+      ? "children" in mergedProps
+        ? (mergedProps as PropsWithChildren<Props>).children
+        : null
+      : null;
     const wrappedChildren = renderContainer ? (
       <div
         data-testid="resium-container"
@@ -58,9 +62,9 @@ export const createCesiumComponent = <Element, Props, State = any>({
           : pick(mergedProps, containerProps))}>
         {children}
       </div>
-    ) : (
-      children ?? null
-    );
+    ) : children ? (
+      <>{children}</>
+    ) : null;
 
     if (provided) {
       return <CesiumContext.Provider value={provided}>{wrappedChildren}</CesiumContext.Provider>;

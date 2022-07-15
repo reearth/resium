@@ -13,10 +13,9 @@ PolygonGraphics can be mounted only inside[Entity](/components/Entity) component
 and can not be mounted more than once for each entity.
 */
 
-export type PolygonGraphicsCesiumProps = PickCesiumProps<
-  Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>,
-  typeof cesiumProps
->;
+export type Target = Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>;
+
+export type PolygonGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PolygonGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
@@ -46,6 +45,7 @@ const cesiumProps = [
   "distanceDisplayCondition",
   "zIndex",
   "classificationType",
+  "textureCoordinates",
 ] as const;
 
 export const cesiumEventProps = {

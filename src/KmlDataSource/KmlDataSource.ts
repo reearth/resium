@@ -52,7 +52,7 @@ export type EventTarget = {
   | { collection: PolylineCollection; primitive: Polyline }
 );
 
-export type KmlDataSourceCesiumEvents = EventProps<EventTarget> & {
+export type KmlDataSourceCesiumEvents = {
   onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
   onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void;
   onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void;
@@ -60,7 +60,7 @@ export type KmlDataSourceCesiumEvents = EventProps<EventTarget> & {
   onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
 };
 
-export type KmlDataSourceOtherProps = {
+export type KmlDataSourceOtherProps = EventProps<EventTarget> & {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
   data?: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
@@ -80,6 +80,7 @@ const cesiumReadonlyProps = [
   "clampToGround",
   "sourceUri",
   "credit",
+  "screenOverlayContainer",
 ] as const;
 
 export const cesiumEventProps = {

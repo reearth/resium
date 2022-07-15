@@ -13,6 +13,8 @@ PathGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
+export type Target = Merge<CesiumPathGraphics, CesiumPathGraphics.ConstructorOptions>;
+
 export type PathGraphicsCesiumProps = PickCesiumProps<
   Merge<CesiumPathGraphics, CesiumPathGraphics.ConstructorOptions>,
   typeof cesiumProps

@@ -5,7 +5,7 @@ import { UnusedCesiumProps } from "./types";
 import { PostProcessStageProps } from "./PostProcessStage";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<PostProcessStage, keyof PostProcessStageProps>;
+type UnusedProps = UnusedCesiumProps<PostProcessStage, PostProcessStageProps>;
 type IgnoredProps = never;
 
 expectType<TypeEqual<Exclude<UnusedProps, IgnoredProps>, never>>(true);

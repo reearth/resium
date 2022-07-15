@@ -87,7 +87,7 @@ export type EntityCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type EntityOtherProps = {
+export type EntityOtherProps = EventProps<EventTarget> & {
   children?: ReactNode;
   /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
   selected?: boolean;
@@ -113,7 +113,6 @@ export type EventTarget = {
 export type EntityProps = EntityCesiumProps &
   EntityCesiumReadonlyProps &
   EntityCesiumEvents &
-  EventProps<EventTarget> &
   EntityOtherProps;
 
 const cesiumProps = [

@@ -5,9 +5,9 @@ import { UnusedCesiumProps } from "../core";
 import { MoonProps } from "./Moon";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Moon, keyof MoonProps>;
-type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<Moon, MoonProps, {}, IgnoredProps>;
+type IgnoredProps = "ellipsoid";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

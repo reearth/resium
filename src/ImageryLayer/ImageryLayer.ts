@@ -36,10 +36,12 @@ Either:
 - Inside [ImageryLayerCollection](/components/ImageryLayerCollection) component: same as above
 */
 
-export type ImageryLayerCesiumProps = PickCesiumProps<CesiumImageryLayer, typeof cesiumProps>;
+export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>>;
+
+export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type ImageryLayerCesiumReadonlyProps = PickCesiumProps<
-  Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>>,
+  Target,
   typeof cesiumReadonlyProps,
   "imageryProvider"
 >;

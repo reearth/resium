@@ -49,7 +49,7 @@ export type GeoJsonDataSourceCesiumEvents = {
   onLoading?: (GeoJsonDataSource: CesiumGeoJsonDataSource, isLoaded: boolean) => void;
 };
 
-export type GeoJsonDataSourceOtherProps = {
+export type GeoJsonDataSourceOtherProps = EventProps<EventTarget> & {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
   data?: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
@@ -73,7 +73,6 @@ export type EventTarget = {
 export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
   GeoJsonDataSourceCesiumReadonlyProps &
   GeoJsonDataSourceCesiumEvents &
-  EventProps<EventTarget> &
   GeoJsonDataSourceOtherProps;
 
 const cesiumProps = ["clustering", "name", "show"] as const;

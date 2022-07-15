@@ -1,16 +1,22 @@
 import { expectType, TypeEqual } from "ts-expect";
 import { Cesium3DTileset } from "cesium";
 
-import { UnusedCesiumProps, Merge, ValueOf, ConstructorOptions } from "../core";
-import { Cesium3DTilesetProps, cesiumEventProps } from "./Cesium3DTileset";
+import { UnusedCesiumProps, Merge, ConstructorOptions } from "../core";
+import {
+  Cesium3DTilesetProps,
+  cesiumEventProps,
+  Cesium3DTilesetOtherProps,
+} from "./Cesium3DTileset";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   Merge<Cesium3DTileset, ConstructorOptions<typeof Cesium3DTileset>>,
-  keyof Cesium3DTilesetProps | ValueOf<typeof cesiumEventProps>
+  Omit<Cesium3DTilesetProps, keyof Cesium3DTilesetOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

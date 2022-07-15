@@ -91,6 +91,13 @@ const cesiumProps = [
   "undergroundColorAlphaByDistance",
   "terrainExaggeration",
   "terrainExaggerationRelativeHeight",
+  "lambertDiffuseMultiplier",
+  "atmosphereLightIntensity",
+  "atmosphereRayleighCoefficient",
+  "atmosphereMieCoefficient",
+  "atmosphereRayleighScaleHeight",
+  "atmosphereMieScaleHeight",
+  "atmosphereMieAnisotropy",
 ] as const;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({

@@ -5,9 +5,9 @@ import { UnusedCesiumProps } from "../core";
 import { FogProps } from "./Fog";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Fog, keyof FogProps>;
+type UnusedProps = UnusedCesiumProps<Fog, FogProps, {}, IgnoredProps>;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

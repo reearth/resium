@@ -50,13 +50,13 @@ export type EventTarget = {
   | { collection: PolylineCollection; primitive: Polyline }
 );
 
-export type CustomDataSourceCesiumEvents = EventProps<EventTarget> & {
+export type CustomDataSourceCesiumEvents = {
   onChange?: (customDataSource: CesiumCustomDataSource) => void;
   onError?: (customDataSource: CesiumCustomDataSource, error: any) => void;
   onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
 };
 
-export type CustomDataSourceOtherProps = {
+export type CustomDataSourceOtherProps = EventProps<EventTarget> & {
   children?: ReactNode;
 };
 

@@ -44,11 +44,21 @@ export type MethodOptions2<
   K extends keyof T,
 > = NonNullable<Parameters<InstanceType<T>[K]>[1]>;
 
-export type UnusedCesiumProps<T, K> = Exclude<
-  Exclude<keyof T, FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>>>,
-  ArrayKeys<K>
->;
+export type UnusedCesiumProps<
+  T,
+  K,
+  E extends { [e: string]: string } = {},
+  I extends string = never,
+> = Exclude<InvalidProps<CesiumPureProps<T>, ArrayKeys<keyof K>, E>, I>;
 
+type InvalidProps<T extends string, K extends string, E extends { [e: string]: string } = {}> =
+  | Exclude<T, K | E[keyof E]>
+  | Exclude<K, T | keyof E>;
+
+type CesiumPureProps<T> = Exclude<
+  StringOnly<keyof T>,
+  FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>> | "prototype"
+>;
 type StringOnly<K> = K extends string ? K : never;
 
 type CesiumEventKeys<T> = {

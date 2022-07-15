@@ -73,22 +73,18 @@ const cesiumProps = [
   "debugShowFramesPerSecond",
   "debugShowFrustumPlanes",
   "debugShowFrustums",
-  "debugShowGlobeDepth",
   "eyeSeparation",
   "farToNearRatio",
   "focalLength",
   "fog",
-  "fxaa",
   "gamma",
   "globe",
   "highDynamicRange",
-  "imagerySplitPosition",
   "invertClassification",
   "invertClassificationColor",
   "light",
   "logarithmicDepthBuffer",
   "logarithmicDepthFarToNearRatio",
-  "mapMode2D",
   "maximumRenderTimeChange",
   "minimumDisableDepthTestDistance",
   // "mode", // enable morph with animation
@@ -108,6 +104,10 @@ const cesiumProps = [
   "terrainProvider",
   "useDepthPicking",
   "useWebVR",
+  "postProcessStages",
+  "msaaSamples",
+  "splitPosition",
+  "debugCommandFilter",
 ] as const;
 
 export const cesiumEventProps = {

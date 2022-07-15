@@ -37,7 +37,6 @@ const cesiumProps = [
   "outlineWidth",
   "numberOfVerticalLines",
   "slices",
-  "shadowMode",
   "distanceDisplayCondition",
   "shadows",
 ] as const;

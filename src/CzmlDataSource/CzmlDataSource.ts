@@ -52,13 +52,13 @@ export type EventTarget = {
   | { collection: PolylineCollection; primitive: Polyline }
 );
 
-export type CzmlDataSourceCesiumEvents = EventProps<EventTarget> & {
+export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
   onError?: (CzmlDataSource: CesiumCzmlDataSource, error: any) => void;
   onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
 };
 
-export type CzmlDataSourceOtherProps = {
+export type CzmlDataSourceOtherProps = EventProps<EventTarget> & {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
   data?: Parameters<CesiumCzmlDataSource["load"]>[0];

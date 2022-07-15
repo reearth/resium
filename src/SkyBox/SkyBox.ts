@@ -1,6 +1,6 @@
 import { SkyBox as CesiumSkyBox } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { ConstructorOptions, createCesiumComponent, Merge, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -14,7 +14,9 @@ SkyBox can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/comp
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type SkyBoxCesiumProps = PickCesiumProps<CesiumSkyBox, typeof cesiumProps>;
+export type Target = Merge<CesiumSkyBox, ConstructorOptions<typeof CesiumSkyBox>>;
+
+export type SkyBoxCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type SkyBoxProps = SkyBoxCesiumProps;
 

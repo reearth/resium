@@ -279,7 +279,7 @@ describe("core/component", () => {
       </Component>,
     );
 
-    expect(screen.queryByTestId("hello")).toBeInTheDocument();
+    expect(screen.getByTestId("hello")).toBeInTheDocument();
 
     const Component2 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",

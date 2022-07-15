@@ -17,7 +17,13 @@ export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>;
 
 export type FogProps = FogCesiumProps;
 
-const cesiumProps = ["density", "enabled", "minimumBrightness", "screenSpaceErrorFactor"] as const;
+const cesiumProps = [
+  "density",
+  "enabled",
+  "minimumBrightness",
+  "screenSpaceErrorFactor",
+  "renderable",
+] as const;
 
 const Fog = createCesiumComponent<CesiumFog, FogProps>({
   name: "Fog",

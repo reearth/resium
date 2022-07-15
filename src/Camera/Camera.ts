@@ -62,7 +62,6 @@ const cesiumProps = [
   "defaultRotateAmount",
   "defaultZoomAmount",
   "constrainedAxis",
-  "maximumTranslateFactor",
   "maximumZoomFactor",
   "percentageChanged",
 ] as const;

@@ -20,7 +20,6 @@ export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps>;
 
 export type LabelOtherProps = EventProps<{
   collection: LabelCollection;
-  id: string | undefined;
   primitive: CesiumLabel;
 }>;
 
@@ -36,7 +35,6 @@ const cesiumProps = [
   "font",
   "heightReference",
   "horizontalOrigin",
-  "id",
   "outlineColor",
   "outlineWidth",
   "pixelOffset",

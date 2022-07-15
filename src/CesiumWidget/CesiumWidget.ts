@@ -28,7 +28,7 @@ import {
 Everywhere. `CesiumWidget` is a root component.
 */
 
-type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
+export type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
 
 export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
 
@@ -71,11 +71,11 @@ const cesiumReadonlyProps = [
   "contextOptions",
   "creditContainer",
   "creditViewport",
-  "terrainExaggeration",
   "shadows",
   "terrainShadows",
   "requestRenderMode",
   "maximumRenderTimeChange",
+  "msaaSamples",
 ] as const;
 
 export type CesiumWidgetProps = CesiumWidgetCesiumProps &

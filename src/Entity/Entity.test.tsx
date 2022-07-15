@@ -3,17 +3,19 @@ import { Entity as CesiumEntity } from "cesium";
 import { expectType, TypeEqual } from "ts-expect";
 import { render } from "@testing-library/react";
 
-import { Provider, Merge, ValueOf, UnusedCesiumProps, CesiumComponentRef } from "../core";
-import Entity, { EntityProps, cesiumEventProps } from "./Entity";
+import { Provider, Merge, UnusedCesiumProps, CesiumComponentRef } from "../core";
+import Entity, { EntityProps, cesiumEventProps, EntityOtherProps } from "./Entity";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
-  keyof EntityProps | ValueOf<typeof cesiumEventProps>
+  Omit<EntityProps, keyof EntityOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = "isShowing" | "propertyNames";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 const context = () => ({
   entityCollection: {

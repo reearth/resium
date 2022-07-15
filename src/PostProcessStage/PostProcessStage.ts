@@ -44,13 +44,15 @@ import { LensFlareStage } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type PostProcessStageCesiumProps = PickCesiumProps<
+export type Target = Merge<
   CesiumPostProcessStage,
-  typeof cesiumProps
+  ConstructorOptions<typeof CesiumPostProcessStage>
 >;
 
+export type PostProcessStageCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+
 export type PostProcessStageCesiumReadonlyProps = PickCesiumProps<
-  Merge<CesiumPostProcessStage, ConstructorOptions<typeof CesiumPostProcessStage>>,
+  Target,
   typeof cesiumReadonlyProps,
   "fragmentShader"
 >;

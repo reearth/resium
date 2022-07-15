@@ -1,6 +1,6 @@
 import { ShadowMap as CesiumShadowMap } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { ConstructorOptions, createCesiumComponent, Merge, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -12,9 +12,12 @@ import { createCesiumComponent, PickCesiumProps } from "../core";
 Inside [Viewer](/components/Viewer) component or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type ShadowMapCesiumProps = PickCesiumProps<CesiumShadowMap, typeof cesiumProps>;
+export type Target = Merge<CesiumShadowMap, ConstructorOptions<typeof CesiumShadowMap>>;
 
-export type ShadowMapProps = ShadowMapCesiumProps;
+export type ShadowMapCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type ShadowMapCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+
+export type ShadowMapProps = ShadowMapCesiumProps & ShadowMapCesiumReadonlyProps;
 
 const cesiumProps = [
   "darkness",
@@ -26,10 +29,19 @@ const cesiumProps = [
   "fadingEnabled",
 ] as const;
 
+const cesiumReadonlyProps = [
+  "lightCamera",
+  "isPointLight",
+  "pointLightRadius",
+  "cascadesEnabled",
+  "numberOfCascades",
+] as const;
+
 const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
   name: "ShadowMap",
   create: context => context.scene?.shadowMap,
   cesiumProps,
+  cesiumReadonlyProps,
 });
 
 export default ShadowMap;

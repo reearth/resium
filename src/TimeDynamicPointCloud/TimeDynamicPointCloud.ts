@@ -20,14 +20,19 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A TimeDynamicPointCloud object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
+export type Target = Merge<
+  CesiumTimeDynamicPointCloud,
+  ConstructorOptions<typeof CesiumTimeDynamicPointCloud>
+>;
+
 export type TimeDynamicPointCloudCesiumProps = PickCesiumProps<
-  Merge<CesiumTimeDynamicPointCloud, ConstructorOptions<typeof CesiumTimeDynamicPointCloud>>,
+  Target,
   typeof cesiumProps,
   "intervals"
 >;
 
 export type TimeDynamicPointCloudCesiumReadonlyProps = PickCesiumProps<
-  Merge<CesiumTimeDynamicPointCloud, ConstructorOptions<typeof CesiumTimeDynamicPointCloud>>,
+  Target,
   typeof cesiumReadonlyProps
 >;
 
@@ -35,7 +40,9 @@ export type TimeDynamicPointCloudCesiumEvents = {
   onFrameChange?: (pointCloud: CesiumTimeDynamicPointCloud) => void;
 };
 
-export type TimeDynamicPointCloudOtherProps = {
+export type TimeDynamicPointCloudOtherProps = EventProps<{
+  primitive?: CesiumTimeDynamicPointCloud;
+}> & {
   /** Calls when the point cloud is completely loaded. */
   onReady?: (pointCloud: CesiumTimeDynamicPointCloud) => void;
 };
@@ -43,7 +50,6 @@ export type TimeDynamicPointCloudOtherProps = {
 export type TimeDynamicPointCloudProps = TimeDynamicPointCloudCesiumProps &
   TimeDynamicPointCloudCesiumReadonlyProps &
   TimeDynamicPointCloudCesiumEvents &
-  EventProps<{ primitive?: CesiumTimeDynamicPointCloud }> &
   TimeDynamicPointCloudOtherProps;
 
 const cesiumProps = [

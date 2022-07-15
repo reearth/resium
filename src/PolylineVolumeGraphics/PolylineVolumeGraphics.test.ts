@@ -1,16 +1,17 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { PolylineVolumeGraphics } from "cesium";
 
-import { UnusedCesiumProps, Merge, ValueOf } from "../core";
-import { PolylineVolumeGraphicsProps, cesiumEventProps } from "./PolylineVolumeGraphics";
+import { UnusedCesiumProps } from "../core";
+import { PolylineVolumeGraphicsProps, cesiumEventProps, Target } from "./PolylineVolumeGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
-  Merge<PolylineVolumeGraphics, PolylineVolumeGraphics.ConstructorOptions>,
-  keyof PolylineVolumeGraphicsProps | ValueOf<typeof cesiumEventProps>
+  Target,
+  PolylineVolumeGraphicsProps,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

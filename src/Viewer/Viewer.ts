@@ -25,10 +25,12 @@ import {
 Everywhere. `Viewer` is a root component.
 */
 
+export type Target = Merge<CesiumViewer, CesiumViewer.ConstructorOptions>;
+
 export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
 export type ViewerCesiumReadonlyProps = Merge<
-  PickCesiumProps<Merge<CesiumViewer, CesiumViewer.ConstructorOptions>, typeof cesiumReadonlyProps>,
+  PickCesiumProps<Target, typeof cesiumReadonlyProps>,
   {
     /** If false, the default imagery layer will be removed. */
     imageryProvider?: ImageryProvider | false;
@@ -88,11 +90,12 @@ const cesiumReadonlyProps = [
   "creditContainer",
   "creditViewport",
   "dataSources",
-  "terrainExaggeration",
   "mapMode2D",
   "projectionPicker",
   "requestRenderMode",
   "maximumRenderTimeChange",
+  "depthPlaneEllipsoidOffset",
+  "msaaSamples",
 ] as const;
 
 export const cesiumEventProps = {

@@ -1,13 +1,12 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { ShadowMap } from "cesium";
 
 import { UnusedCesiumProps } from "../core";
-import { ShadowMapProps } from "./ShadowMap";
+import { ShadowMapProps, Target } from "./ShadowMap";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<ShadowMap, keyof ShadowMapProps>;
+type UnusedProps = UnusedCesiumProps<Target, ShadowMapProps, {}, IgnoredProps>;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

@@ -1,6 +1,12 @@
 import { ClassificationPrimitive as CesiumClassificationPrimitive } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import {
+  ConstructorOptions,
+  createCesiumComponent,
+  EventProps,
+  Merge,
+  PickCesiumProps,
+} from "../core";
 
 /*
 @summary
@@ -17,17 +23,19 @@ If this component is inside GroundPrimitiveCollection component, a classificatio
 Otherwise, a classification primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type ClassificationPrimitiveCesiumProps = PickCesiumProps<
+export type Target = Merge<
   CesiumClassificationPrimitive,
-  typeof cesiumProps
+  ConstructorOptions<typeof CesiumClassificationPrimitive>
 >;
 
+export type ClassificationPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+
 export type ClassificationPrimitiveCesiumReadonlyProps = PickCesiumProps<
-  CesiumClassificationPrimitive,
+  Target,
   typeof cesiumReadonlyProps
 >;
 
-export type ClassificationPrimitiveOtherProps = {
+export type ClassificationPrimitiveOtherProps = EventProps<CesiumClassificationPrimitive> & {
   // ClassificationPrimitive
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/ClassificationPrimitive.html#readyPromise) is fullfilled */
   onReady?: (primitive: CesiumClassificationPrimitive) => void;
@@ -35,7 +43,6 @@ export type ClassificationPrimitiveOtherProps = {
 
 export type ClassificationPrimitiveProps = ClassificationPrimitiveCesiumProps &
   ClassificationPrimitiveCesiumReadonlyProps &
-  EventProps<CesiumClassificationPrimitive> &
   ClassificationPrimitiveOtherProps;
 
 const cesiumProps = [
@@ -53,6 +60,7 @@ const cesiumReadonlyProps = [
   "interleave",
   "releaseGeometryInstances",
   "vertexCacheOptimize",
+  "appearance",
 ] as const;
 
 const ClassificationPrimitive = createCesiumComponent<

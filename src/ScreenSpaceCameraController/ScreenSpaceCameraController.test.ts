@@ -7,10 +7,12 @@ import { ScreenSpaceCameraControllerProps } from "./ScreenSpaceCameraController"
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   ScreenSpaceCameraController,
-  keyof ScreenSpaceCameraControllerProps
+  ScreenSpaceCameraControllerProps,
+  {},
+  IgnoredProps
 >;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

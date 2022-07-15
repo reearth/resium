@@ -17,7 +17,15 @@ export type CumulusCloudCesiumProps = PickCesiumProps<CesiumCumulusCloud, typeof
 
 export type CumulusCloudProps = CumulusCloudCesiumProps;
 
-const cesiumProps = ["show", "position", "scale", "maximumSize", "slice", "brightness"] as const;
+const cesiumProps = [
+  "show",
+  "position",
+  "scale",
+  "maximumSize",
+  "slice",
+  "brightness",
+  "color",
+] as const;
 
 const CumulusCloud = createCesiumComponent<CesiumCumulusCloud, CumulusCloudProps>({
   name: "CumulusCloud",

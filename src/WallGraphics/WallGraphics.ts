@@ -1,6 +1,6 @@
 import { WallGraphics as CesiumWallGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap, PickCesiumProps } from "../core";
+import { createCesiumComponent, EventkeyMap, Merge, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -13,10 +13,9 @@ WallGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type WallGraphicsCesiumProps = PickCesiumProps<
-  CesiumWallGraphics | CesiumWallGraphics.ConstructorOptions,
-  typeof cesiumProps
->;
+export type Target = Merge<CesiumWallGraphics, CesiumWallGraphics.ConstructorOptions>;
+
+export type WallGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type WallGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;

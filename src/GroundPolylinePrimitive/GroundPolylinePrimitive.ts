@@ -1,6 +1,12 @@
 import { GroundPolylinePrimitive as CesiumGroundPolylinePrimitive } from "cesium";
 
-import { EventProps, createCesiumComponent, PickCesiumProps } from "../core";
+import {
+  EventProps,
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  ConstructorOptions,
+} from "../core";
 
 /*
 @summary
@@ -17,24 +23,28 @@ If this component is inside GroundPrimitiveCollection component, a ground primit
 Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type GroundPolylinePrimitiveCesiumProps = PickCesiumProps<
+export type Target = Merge<
   CesiumGroundPolylinePrimitive,
-  typeof cesiumProps
+  ConstructorOptions<typeof CesiumGroundPolylinePrimitive>
 >;
 
+export type GroundPolylinePrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+
 export type GroundPolylinePrimitiveCesiumReadonlyProps = PickCesiumProps<
-  CesiumGroundPolylinePrimitive,
+  Target,
   typeof cesiumReadonlyProps
 >;
 
-export type GroundPolylinePrimitiveOtherProps = {
+export type GroundPolylinePrimitiveOtherProps = EventProps<{
+  id: string;
+  primitive: CesiumGroundPolylinePrimitive; // TODO: validate type
+}> & {
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/GroundPolylinePrimitive.html#readyPromise) is fullfilled */
   onReady?: (primitive: CesiumGroundPolylinePrimitive) => void;
 };
 
 export type GroundPolylinePrimitiveProps = GroundPolylinePrimitiveCesiumProps &
   GroundPolylinePrimitiveCesiumReadonlyProps &
-  EventProps<{ id: string; primitive: CesiumGroundPolylinePrimitive }> & // TODO: validate type
   GroundPolylinePrimitiveOtherProps;
 
 const cesiumProps = [
@@ -42,7 +52,6 @@ const cesiumProps = [
   "classificationType",
   "debugShowBoundingVolume",
   "debugShowShadowVolume",
-  "depthFailAppearance",
   "show",
 ] as const;
 
@@ -53,6 +62,8 @@ const cesiumReadonlyProps = [
   "interleave",
   "releaseGeometryInstances",
 ] as const;
+
+// "debugShowShadowVolume" | "depthFailAppearance" | "allowPicking" | "asynchronous" | "geometryInstances" | "interleave" | "releaseGeometryInstances"
 
 const GroundPolylinePrimitive = createCesiumComponent<
   CesiumGroundPolylinePrimitive,

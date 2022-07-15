@@ -2,12 +2,17 @@ import { expectType, TypeEqual } from "ts-expect";
 import { Billboard } from "cesium";
 
 import { UnusedCesiumProps } from "../core";
-import { BillboardProps } from "./Billboard";
+import { BillboardProps, BillboardOtherProps } from "./Billboard";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Billboard, keyof BillboardProps>;
-type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Billboard,
+  Omit<BillboardProps, keyof BillboardOtherProps>,
+  {},
+  IgnoredProps
+>;
+type IgnoredProps = "ready";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

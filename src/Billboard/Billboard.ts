@@ -35,7 +35,6 @@ const cesiumProps = [
   "height",
   "heightReference",
   "horizontalOrigin",
-  "id",
   "image",
   "pixelOffset",
   "pixelOffsetScaleByDistance",
