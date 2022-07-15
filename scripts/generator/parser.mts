@@ -1,23 +1,27 @@
 import { parse } from "path";
 
-import {
+import ts from "typescript";
+import type {
   Node,
+  SourceFile,
+  TypeChecker,
+  Type,
+  Symbol,
+  Expression,
+} from "typescript";
+
+import type { Prop, Doc, PropKind, DocComment, DocProps, TypeExpr } from "./types.mjs";
+
+const {
   isVariableStatement,
   isPropertyAssignment,
-  SourceFile,
   isIdentifier,
   isTypeAliasDeclaration,
   isObjectLiteralExpression,
   isStringLiteral,
-  TypeChecker,
-  Type,
-  SymbolFlags,
-  Symbol,
-  Expression,
   getLeadingCommentRanges,
-} from "typescript";
-
-import { Prop, Doc, PropKind, DocComment, DocProps, TypeExpr } from "./types";
+  SymbolFlags
+} = ts;
 
 export function parseDoc(sourceFile: SourceFile, tc: TypeChecker): Doc {
   const name = parse(sourceFile.fileName).name;

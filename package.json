@@ -5,14 +5,14 @@
   "source": "./src/index.ts",
   "main": "./dist/resium.umd.cjs",
   "module": "./dist/resium.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/resium.umd.cjs",
   "exports": {
     ".": {
       "import": "./dist/resium.mjs",
       "require": "./dist/resium.umd.cjs"
     }
   },
-  "unpkg": "./dist/resium.umd.cjs",
-  "types": "./dist/index.d.ts",
   "repository": "https://github.com/reearth/resium.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
@@ -28,7 +28,7 @@
     "storybook:build": "build-storybook -o docs/static/examples",
     "docs": "yarn --cwd docs start",
     "docs:build": "yarn --cwd docs generate && build-storybook -s .storybook/public -o docs/static/examples && yarn --cwd docs build",
-    "docs:generate": "yarn --cwd docs generate"
+    "docs:generate": "ts-node ./scripts/generator/index.mts "
   },
   "files": [
     "src",
@@ -36,6 +36,10 @@
   ],
   "engines": {
     "node": ">=12"
+  },
+  "compilerOptions": {
+    "module": "es2020",
+    "target": "es2020"
   },
   "peerDependencies": {
     "cesium": "1.x",
@@ -57,6 +61,7 @@
     "cesium": "1.95.0",
     "eslint": "^8.19.0",
     "eslint-config-reearth": "https://github.com/reearth/eslint-config-reearth.git#d1f1466",
+    "globby": "^13.1.2",
     "jsdom": "^20.0.0",
     "npm-run-all": "4.1.5",
     "prettier": "^2.7.1",

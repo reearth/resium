@@ -2,7 +2,7 @@
   "include": ["src",],
   "exclude": ["dist"],
   "compilerOptions": {
-    "module": "CommonJS",
+    "module": "ESNext",
     "lib": [
       "DOM",
       "DOM.Iterable",
@@ -25,5 +25,8 @@
     "noEmit": true,
     "target": "ESNext",
     "downlevelIteration": true
+  },
+  "ts-node": {
+    "esm": true
   }
 }

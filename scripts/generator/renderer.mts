@@ -1,4 +1,4 @@
-import { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types";
+import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mjs";
 
 export function renderDoc(doc: Doc) {
   return `---

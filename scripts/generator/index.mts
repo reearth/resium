@@ -3,15 +3,16 @@ import path from "path";
 import { inspect } from "util";
 
 import { globbySync } from "globby";
-import { createProgram } from "typescript";
+import ts from "typescript";
 
-import { parseDoc } from "./parser";
-import { renderDoc } from "./renderer";
+import { parseDoc } from "./parser.mjs";
+import { renderDoc } from "./renderer.mjs";
 
+const { createProgram } = ts;
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 const preview = options.includes("--preview") || options.includes("-p");
-const dest = path.resolve(__dirname, "..", "docs", "components");
+const dest = path.join("docs", "docs", "components");
 
 console.log(
   `Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}${
@@ -21,13 +22,13 @@ console.log(
 
 // list component paths
 const componentFiles = globbySync([
-  "../src/*/*.ts{,x}",
-  "!../src/*/index.ts{,x}",
-  "!../src/*/story.ts{,x}",
-  "!../src/*/*.stories.ts{,x}",
-  "!../src/*/test.ts{,x}",
-  "!../src/*/*.test.ts{,x}",
-  "!../src/core/**/*",
+  "src/*/*.ts{,x}",
+  "!src/*/index.ts{,x}",
+  "!src/*/story.ts{,x}",
+  "!src/*/*.stories.ts{,x}",
+  "!src/*/test.ts{,x}",
+  "!src/*/*.test.ts{,x}",
+  "!src/core/**/*",
 ]).filter(cf => !name.length || name.includes(path.parse(cf).name));
 
 if (componentFiles.length > 0) {
