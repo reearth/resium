@@ -1,8 +1,6 @@
-"use strict";
-
 const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = (_env, args = {}) => ({
   mode: args.mode === "production" ? "production" : "development",
@@ -15,20 +13,22 @@ module.exports = (_env, args = {}) => ({
           loader: "babel-loader",
           options: {
             plugins: args.mode === "production" ? [] : ["react-refresh/babel"],
-          }
+          },
         },
       },
     ],
   },
   plugins: [
     new HtmlPlugin({
-      template: "index.html"
+      template: "index.html",
     }),
-    ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+    ...(args.mode === "production"
+      ? []
+      : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
   ],
   resolve: {
     alias: {
-      "cesium": "c137.js"
-    }
-  }
+      cesium: "c137.js",
+    },
+  },
 });
