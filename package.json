@@ -28,7 +28,7 @@
     "storybook:build": "build-storybook -o docs/static/examples",
     "docs": "yarn --cwd docs start",
     "docs:build": "run-s docs:generate storybook:build docs:build2",
-    "docs:generate": "ts-node ./scripts/generator/index.mts ",
+    "docs:generate": "ts-node --esm -O '{\"module\":\"ESNext\"}' ./scripts/generator/index.mts",
     "docs:build2": "yarn --cwd docs build"
   },
   "files": [
@@ -61,7 +61,7 @@
     "c8": "^7.11.3",
     "cesium": "1.95.0",
     "eslint": "^8.19.0",
-    "eslint-config-reearth": "https://github.com/reearth/eslint-config-reearth.git#d1f1466",
+    "eslint-config-reearth": "https://github.com/reearth/eslint-config-reearth.git#2dba3d60e4a9ead46641adaebe52526755e18ce8",
     "globby": "^13.1.2",
     "jsdom": "^20.0.0",
     "npm-run-all": "4.1.5",
