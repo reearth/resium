@@ -51,7 +51,7 @@ module.exports = {
           routeBasePath: "/",
           sidebarPath: require.resolve("./sidebars.js"),
           // Please change this to your repo.
-          editUrl: "https://github.com/reearth/resium/edit/master/docs/",
+          editUrl: "https://github.com/reearth/resium/edit/main/docs/",
         },
         theme: {
           customCss: require.resolve("./src/css/custom.css"),
