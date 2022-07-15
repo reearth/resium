@@ -1,5 +1,6 @@
 import React, { createRef } from "react";
 import { Entity as CesiumEntity } from "cesium";
+import { expect, it, vi } from "vitest";
 import { expectType, TypeEqual } from "ts-expect";
 import { render } from "@testing-library/react";
 
@@ -19,8 +20,8 @@ expectType<TypeEqual<never, UnusedProps>>(true);
 
 const context = () => ({
   entityCollection: {
-    add: jest.fn(),
-    remove: jest.fn(),
+    add: vi.fn(),
+    remove: vi.fn(),
   },
 });
 

@@ -1,4 +1,5 @@
 import { PostProcessStage } from "cesium";
+import { it } from "vitest";
 import { expectType, TypeEqual } from "ts-expect";
 
 import { UnusedCesiumProps } from "./types";

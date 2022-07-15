@@ -1,6 +1,6 @@
+import { describe, expect, it } from "vitest";
 import React, { FC } from "react";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
 
 import { withCesium } from "./withCesium";
 import { Provider } from "./context";

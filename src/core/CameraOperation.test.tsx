@@ -1,3 +1,4 @@
+import { describe, expect, it, vi } from "vitest";
 import React, { FC } from "react";
 import { render } from "@testing-library/react";
 
@@ -7,13 +8,13 @@ import { createCameraOperation } from "./CameraOperation";
 describe("core/cameraop", () => {
   it("should call proper methods", () => {
     const camera = {
-      cancelFlight: jest.fn(),
+      cancelFlight: vi.fn(),
     };
     const scene = {
       isDestroyed: () => false,
     };
 
-    const cameraOperationStart = jest.fn();
+    const cameraOperationStart = vi.fn();
     const DummyCameraOperation = createCameraOperation<{ test: number }>(
       "dummy",
       cameraOperationStart,
@@ -37,7 +38,7 @@ describe("core/cameraop", () => {
 
   it("should call cancelFlight", () => {
     const camera = {
-      cancelFlight: jest.fn(),
+      cancelFlight: vi.fn(),
     };
     const scene = {
       isDestroyed: () => false,

@@ -1,16 +1,12 @@
 {
-  "include": [
-    "src",
-    "types"
-  ],
-  "exclude": [
-    "dist"
-  ],
+  "include": ["src",],
+  "exclude": ["dist"],
   "compilerOptions": {
-    "module": "esnext",
+    "module": "ESNext",
     "lib": [
-      "dom",
-      "esnext"
+      "DOM",
+      "DOM.Iterable",
+      "ESNext"
     ],
     "importHelpers": true,
     "declaration": true,
@@ -27,7 +23,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "target": "es2015",
+    "target": "ESNext",
     "downlevelIteration": true
   }
 }

@@ -1,3 +1,4 @@
+import { it } from "vitest";
 import { expectType, TypeEqual } from "ts-expect";
 import { UnusedCesiumProps } from "../core";
 

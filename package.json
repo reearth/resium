@@ -2,22 +2,25 @@
   "name": "resium",
   "version": "1.14.3",
   "description": "React components for Cesium",
-  "type": "module",
   "source": "./src/index.ts",
-  "main": "./dist/resium.cjs",
-  "module": "./dist/resium.module.js",
-  "exports": "./dist/resium.modern.js",
-  "unpkg": "./dist/resium.umd.js",
+  "main": "./dist/resium.umd.cjs",
+  "module": "./dist/resium.mjs",
+  "exports": {
+    ".": {
+      "import": "./dist/resium.mjs",
+      "require": "./dist/resium.umd.cjs"
+    }
+  },
+  "unpkg": "./dist/resium.umd.cjs",
   "types": "./dist/index.d.ts",
   "repository": "https://github.com/reearth/resium.git",
   "author": "rot1024 <aayhrot@gmail.com>",
   "license": "MIT",
   "sideEffects": false,
   "scripts": {
-    "start": "microbundle watch --tsconfig tsconfig.build.json --jsx React.createElement",
-    "build": "microbundle --tsconfig tsconfig.build.json --jsx React.createElement",
-    "test": "jest --coverage",
-    "check": "run-p type lint",
+    "build": "tsc && vite build",
+    "test": "vitest",
+    "coverage": "vitest run --coverage",
     "type": "tsc",
     "lint": "eslint .",
     "format": "eslint --fix .",
@@ -34,18 +37,6 @@
   "engines": {
     "node": ">=12"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "esbuild-jest"
-    },
-    "testEnvironment": "jsdom",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      "/dist/",
-      "/docs/",
-      "/example/"
-    ]
-  },
   "peerDependencies": {
     "cesium": "1.x",
     "react": ">=16.8"
@@ -59,32 +50,27 @@
     "@storybook/theming": "^6.5.9",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",
-    "@testing-library/react-hooks": "^8.0.1",
-    "@types/jest": "^28.1.5",
     "@types/node": "^18.0.4",
     "@types/react": "^18.0.15",
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
     "babel-eslint": "^10.1.0",
     "babel-preset-react-app": "^10.0.1",
+    "c8": "^7.11.3",
     "cesium": "1.95.0",
     "copy-webpack-plugin": "^11.0.0",
     "cross-env": "7.0.3",
-    "esbuild": "^0.14.49",
-    "esbuild-jest": "^0.5.0",
     "eslint": "^8.19.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-config-react-app": "^7.0.1",
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.26.0",
-    "eslint-plugin-jest": "^26.6.0",
     "eslint-plugin-jsx-a11y": "^6.6.0",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-testing-library": "^5.5.1",
-    "jest": "^28.1.3",
-    "microbundle": "^0.15.0",
+    "jsdom": "^20.0.0",
     "npm-run-all": "4.1.5",
     "prettier": "^2.7.1",
     "react": "^18.2.0",
@@ -92,6 +78,9 @@
     "ts-expect": "^1.3.0",
     "ts-node": "^10.9.1",
     "typescript": "4.7.4",
+    "vite": "^3.0.0",
+    "vite-plugin-dts": "^1.3.0",
+    "vitest": "^0.18.0",
     "webpack": "^5.73.0"
   }
 }

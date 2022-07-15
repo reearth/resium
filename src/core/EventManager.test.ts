@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { ScreenSpaceEventType } from "cesium";
 
 import EventManager from "./EventManager";

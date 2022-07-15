@@ -1,18 +1,18 @@
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import React, { createRef, ReactNode } from "react";
 import { Event } from "cesium";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
 
 import { createCesiumComponent, CesiumComponentRef } from "./component";
 import { Provider } from "./context";
 
 beforeEach(() => {
-  console.warn = jest.fn();
+  console.warn = vi.fn();
 });
 
 describe("core/component", () => {
   it("should create and expose cesium element correctly on initialized", () => {
-    const create = jest.fn(() => "foobar");
+    const create = vi.fn(() => "foobar");
     const value = { hoge: 1 };
 
     const Component = createCesiumComponent<string, { test: number }>({
@@ -34,7 +34,7 @@ describe("core/component", () => {
   });
 
   it("should call destroy fn on unmounted", () => {
-    const destroy = jest.fn();
+    const destroy = vi.fn();
     const value = { hoge: 1 };
 
     const Component = createCesiumComponent<string, { test: number }>({
@@ -144,13 +144,13 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const createFn = jest.fn((_ctx, props: { foo?: number }) => {
+    const createFn = vi.fn((_ctx, props: { foo?: number }) => {
       if (typeof props.foo === "number") {
         cesiumElement.foo = props.foo;
       }
       return cesiumElement;
     });
-    const destroyFn = jest.fn();
+    const destroyFn = vi.fn();
 
     const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
       name: "test",
@@ -173,7 +173,7 @@ describe("core/component", () => {
   });
 
   it("should call update", () => {
-    const updateFn = jest.fn();
+    const updateFn = vi.fn();
 
     const Component = createCesiumComponent<"hoge", { foo?: number }>({
       name: "test",
@@ -192,8 +192,8 @@ describe("core/component", () => {
   });
 
   it("should provide context", () => {
-    const create1 = jest.fn(() => "test");
-    const create2 = jest.fn(() => "test");
+    const create1 = vi.fn(() => "test");
+    const create2 = vi.fn(() => "test");
 
     const Component1 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
@@ -219,7 +219,7 @@ describe("core/component", () => {
   });
 
   it("should render container", () => {
-    const createFn = jest.fn(() => "foobar");
+    const createFn = vi.fn(() => "foobar");
 
     const Component = createCesiumComponent<string, { className?: string }>({
       name: "test",
@@ -245,8 +245,8 @@ describe("core/component", () => {
   });
 
   it("should keep state", () => {
-    const provideFn = jest.fn();
-    const destroyFn = jest.fn();
+    const provideFn = vi.fn();
+    const destroyFn = vi.fn();
 
     const state = {};
 
