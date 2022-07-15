@@ -5270,10 +5270,9 @@ eslint-config-prettier@^8.5.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
-"eslint-config-reearth@https://github.com/reearth/eslint-config-reearth.git#2dba3d60e4a9ead46641adaebe52526755e18ce8":
+"eslint-config-reearth@https://github.com/reearth/eslint-config-reearth.git#937f06f7a3e23702dfa8530ce5b5bd1dc4925763":
   version "0.0.0"
-  uid d1f1466f8d4abdf271e715f6fd5520bdeff0c6f8
-  resolved "https://github.com/reearth/eslint-config-reearth.git#d1f1466f8d4abdf271e715f6fd5520bdeff0c6f8"
+  resolved "https://github.com/reearth/eslint-config-reearth.git#937f06f7a3e23702dfa8530ce5b5bd1dc4925763"
   dependencies:
     "@typescript-eslint/eslint-plugin" "^5.30.6"
     "@typescript-eslint/parser" "^5.30.6"
