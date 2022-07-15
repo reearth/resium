@@ -22,3 +22,4 @@ yarn-error.log*
 # resium
 /docs/components/*.mdx
 /static/examples/
+/static/cesium/
