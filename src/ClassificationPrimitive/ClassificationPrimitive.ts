@@ -63,6 +63,8 @@ const cesiumReadonlyProps = [
   "appearance",
 ] as const;
 
+export const otherProps = ["onReady"] as const;
+
 const ClassificationPrimitive = createCesiumComponent<
   CesiumClassificationPrimitive,
   ClassificationPrimitiveProps
@@ -88,6 +90,7 @@ const ClassificationPrimitive = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 

@@ -91,6 +91,8 @@ export const cesiumEventProps = {
   onUnsupportedNode: "unsupportedNodeEvent",
 } as const;
 
+export const otherProps = ["onLoad", "data"] as const;
+
 const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
   if (!data) return;
   element.load(data, options).then(value => {
@@ -155,6 +157,7 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

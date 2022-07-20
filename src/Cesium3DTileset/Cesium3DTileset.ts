@@ -124,6 +124,8 @@ export const cesiumEventProps = {
   onTileVisible: "tileVisible",
 } as const;
 
+export const otherProps = ["onReady"] as const;
+
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
   create(context, props) {
@@ -155,6 +157,7 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

@@ -63,7 +63,7 @@ const cesiumReadonlyProps = [
   "releaseGeometryInstances",
 ] as const;
 
-// "debugShowShadowVolume" | "depthFailAppearance" | "allowPicking" | "asynchronous" | "geometryInstances" | "interleave" | "releaseGeometryInstances"
+export const otherProps = ["onReady"] as const;
 
 const GroundPolylinePrimitive = createCesiumComponent<
   CesiumGroundPolylinePrimitive,
@@ -89,6 +89,7 @@ const GroundPolylinePrimitive = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 

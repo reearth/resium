@@ -79,6 +79,8 @@ export const cesiumEventProps = {
   onLoading: "loadingEvent",
 } as const;
 
+export const otherProps = ["onLoad", "data"] as const;
+
 const load = (element: CesiumCzmlDataSource, { data, onLoad, ...options }: CzmlDataSourceProps) => {
   if (!data) return;
   element.load(data, options).then(value => {
@@ -133,6 +135,7 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

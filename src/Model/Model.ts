@@ -70,6 +70,8 @@ const cesiumReadonlyProps = [
   "showOutline",
 ] as const;
 
+export const otherProps = ["onReady"] as const;
+
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
   create(context, { url, scene, ...props }) {
@@ -93,6 +95,7 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 

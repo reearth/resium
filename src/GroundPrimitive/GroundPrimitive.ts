@@ -63,6 +63,8 @@ const cesiumReadonlyProps = [
   "vertexCacheOptimize",
 ] as const;
 
+export const otherProps = ["onReady"] as const;
+
 const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
   name: "GroundPrimitive",
   create(context, props) {
@@ -84,6 +86,7 @@ const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimi
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 

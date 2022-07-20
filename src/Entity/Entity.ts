@@ -151,6 +151,8 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
+export const otherProps = ["selected", "tracked"] as const;
+
 const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   name: "Entity",
   create(context, props) {
@@ -197,6 +199,7 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

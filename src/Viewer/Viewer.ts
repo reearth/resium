@@ -103,6 +103,8 @@ export const cesiumEventProps = {
   onTrackedEntityChange: "trackedEntityChanged",
 } as const;
 
+export const otherProps = ["className", "id", "style", "full", "containerProps", "extend"] as const;
+
 export type ViewerOtherProps = RootEventProps & {
   /** Applied to outer `div` element */
   className?: string;
@@ -195,6 +197,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   renderContainer: true,
   useCommonEvent: true,
   useRootEvent: true,

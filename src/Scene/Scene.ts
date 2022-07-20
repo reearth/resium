@@ -121,6 +121,8 @@ export const cesiumEventProps = {
   onTerrainProviderChange: "terrainProviderChanged",
 } as const;
 
+export const otherProps = ["mode", "morphDuration"] as const;
+
 const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   switch (mode) {
     case SceneMode.SCENE2D:
@@ -152,6 +154,7 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   },
   cesiumProps,
   cesiumEventProps,
+  otherProps,
   setCesiumPropsAfterCreate: true,
 });
 

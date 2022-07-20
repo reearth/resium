@@ -10,7 +10,7 @@ import {
 } from "react";
 
 import { Context, useCesium } from "./context";
-import { EventManager, eventManagerContextKey } from "./EventManager";
+import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
 import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
@@ -33,6 +33,7 @@ export type Options<Element, Props, State = any> = {
   cesiumProps?: readonly (keyof Props)[];
   cesiumReadonlyProps?: readonly (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
+  otherProps?: readonly (keyof Props)[];
   setCesiumPropsAfterCreate?: boolean;
   useCommonEvent?: boolean;
   useRootEvent?: boolean;
@@ -45,9 +46,9 @@ export const useCesiumComponent = <Element, Props, State = any>(
     destroy,
     provide,
     update,
-    cesiumProps,
     cesiumReadonlyProps,
     cesiumEventProps,
+    otherProps,
     setCesiumPropsAfterCreate,
     useCommonEvent,
     useRootEvent,
@@ -87,9 +88,7 @@ export const useCesiumComponent = <Element, Props, State = any>(
 
       const updatedReadonlyProps: (keyof Props)[] = [];
       for (const [k, prevValue, newValue] of propDiff) {
-        if (includes(cesiumProps, k)) {
-          target[k] = newValue;
-        } else if (includes(cesiumReadonlyProps, k)) {
+        if (cesiumReadonlyProps?.includes(k)) {
           updatedReadonlyProps.push(k);
         } else if (includes(eventKeys, k)) {
           const cesiumKey = cesiumEventProps?.[k] as keyof Element;
@@ -109,6 +108,8 @@ export const useCesiumComponent = <Element, Props, State = any>(
               eventHandler.addEventListener(newValue);
             }
           }
+        } else if (k !== "children" && !eventNames.includes(k as any) && !otherProps?.includes(k)) {
+          target[k] = newValue;
         }
       }
 

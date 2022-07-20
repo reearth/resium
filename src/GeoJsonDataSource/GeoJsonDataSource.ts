@@ -96,6 +96,8 @@ export const cesiumEventProps = {
   onLoading: "loadingEvent",
 } as const;
 
+export const otherProps = ["onLoad", "data"] as const;
+
 const load = (
   element: CesiumGeoJsonDataSource,
   { data, onLoad, ...options }: GeoJsonDataSourceProps,
@@ -160,6 +162,7 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

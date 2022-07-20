@@ -64,6 +64,8 @@ const cesiumProps = [
 
 const cesiumReadonlyProps = ["clock", "shading"] as const;
 
+export const otherProps = ["onReady"] as const;
+
 // TimeDynamicPointCloud
 export const cesiumEventProps: EventkeyMap<
   CesiumTimeDynamicPointCloud,
@@ -101,6 +103,7 @@ const TimeDynamicPointCloud = createCesiumComponent<
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

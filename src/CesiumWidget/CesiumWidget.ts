@@ -78,6 +78,8 @@ const cesiumReadonlyProps = [
   "msaaSamples",
 ] as const;
 
+export const otherProps = ["className", "id", "style", "full", "containerProps"] as const;
+
 export type CesiumWidgetProps = CesiumWidgetCesiumProps &
   CesiumWidgetCesiumReadonlyProps &
   CesiumWidgetOtherProps;
@@ -136,6 +138,7 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
   }),
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   renderContainer: true,
   useCommonEvent: true,
   useRootEvent: true,

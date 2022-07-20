@@ -175,9 +175,9 @@ describe("core/component", () => {
   it("should call update", () => {
     const updateFn = vi.fn();
 
-    const Component = createCesiumComponent<"hoge", { foo?: number }>({
+    const Component = createCesiumComponent<{ hoge: "hoge" }, { foo?: number }>({
       name: "test",
-      create: () => "hoge",
+      create: () => ({ hoge: "hoge" }),
       update: updateFn,
     });
 
@@ -188,7 +188,7 @@ describe("core/component", () => {
     rerender(<Component foo={1} />);
 
     expect(updateFn).toBeCalledTimes(1);
-    expect(updateFn).toBeCalledWith("hoge", { foo: 1 }, {}, {});
+    expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
   });
 
   it("should provide context", () => {
