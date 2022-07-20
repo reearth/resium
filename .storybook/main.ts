@@ -17,6 +17,7 @@ const config: StorybookViteConfig = {
   ],
   async viteFinal(config) {
     return mergeConfig(config, {
+      base: "",
       plugins: [cesium()],
     });
   },
