@@ -19,10 +19,8 @@ export default defineConfig(({ mode }) => {
           ],
     build: {
       lib: {
-        formats: ["es", "umd"],
         entry: "src/index.ts",
         name: "Resium",
-        fileName: "resium",
       },
       rollupOptions: {
         external: ["cesium", "react"],
