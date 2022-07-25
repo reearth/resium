@@ -3,5 +3,5 @@ node_modules
 /examples
 /coverage
 /docs/build
-/docs/static/examples
+/docs/static
 !.storybook

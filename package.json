@@ -56,7 +56,7 @@
     "c8": "^7.12.0",
     "cesium": "1.95.0",
     "eslint": "^8.20.0",
-    "eslint-config-reearth": "https://github.com/reearth/eslint-config-reearth.git#937f06f7a3e23702dfa8530ce5b5bd1dc4925763",
+    "eslint-config-reearth": "^0.1.0",
     "globby": "^13.1.2",
     "jsdom": "^20.0.0",
     "npm-run-all": "4.1.5",

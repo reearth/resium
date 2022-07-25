@@ -2702,7 +2702,7 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@typescript-eslint/eslint-plugin@^5.30.6":
+"@typescript-eslint/eslint-plugin@^5.30.7":
   version "5.30.7"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/eslint-plugin/-/eslint-plugin-5.30.7.tgz#1621dabc1ae4084310e19e9efc80dfdbb97e7493"
   integrity sha512-l4L6Do+tfeM2OK0GJsU7TUcM/1oN/N25xHm3Jb4z3OiDU4Lj8dIuxX9LpVMS9riSXQs42D1ieX7b85/r16H9Fw==
@@ -2717,7 +2717,7 @@
     semver "^7.3.7"
     tsutils "^3.21.0"
 
-"@typescript-eslint/parser@^5.30.6":
+"@typescript-eslint/parser@^5.30.7":
   version "5.30.7"
   resolved "https://registry.yarnpkg.com/@typescript-eslint/parser/-/parser-5.30.7.tgz#99d09729392aec9e64b1de45cd63cb81a4ddd980"
   integrity sha512-Rg5xwznHWWSy7v2o0cdho6n+xLhK2gntImp0rJroVVFkcYFYQ8C8UJTSuTw/3CnExBmPjycjmUJkxVmjXsld6A==
@@ -5268,13 +5268,13 @@ eslint-config-prettier@^8.5.0:
   resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
   integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
 
-"eslint-config-reearth@https://github.com/reearth/eslint-config-reearth.git#937f06f7a3e23702dfa8530ce5b5bd1dc4925763":
-  version "0.0.0"
-  uid "937f06f7a3e23702dfa8530ce5b5bd1dc4925763"
-  resolved "https://github.com/reearth/eslint-config-reearth.git#937f06f7a3e23702dfa8530ce5b5bd1dc4925763"
+eslint-config-reearth@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-reearth/-/eslint-config-reearth-0.1.0.tgz#22d3effbd683763bf00da24878c56c2812876d65"
+  integrity sha512-zgS+5UUoHEavrO7jGC5tSa4x4TchVjU4xSIuO33Va/7Y9sSUV3WV4c7X4Jm+TGiv8J4GoJO3QG85xIKDYLYcsg==
   dependencies:
-    "@typescript-eslint/eslint-plugin" "^5.30.6"
-    "@typescript-eslint/parser" "^5.30.6"
+    "@typescript-eslint/eslint-plugin" "^5.30.7"
+    "@typescript-eslint/parser" "^5.30.7"
     eslint-config-prettier "^8.5.0"
     eslint-plugin-import "^2.26.0"
     eslint-plugin-node "^11.1.0"
