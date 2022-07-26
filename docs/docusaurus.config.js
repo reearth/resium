@@ -5,7 +5,7 @@ module.exports = {
   baseUrl: "/",
   onBrokenLinks: "ignore",
   onBrokenMarkdownLinks: "log",
-  favicon: "img/favicon.ico",
+  favicon: "favicon.ico",
   organizationName: "reearth", // Usually your GitHub org/user name.
   projectName: "resium", // Usually your repo name.
   trailingSlash: false,
