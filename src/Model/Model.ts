@@ -77,7 +77,7 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
   create(context, { url, scene, ...props }) {
     if (!context.scene || !context.primitiveCollection) return;
     const element = url
-      ? CesiumModel.fromGltf({ ...props, url })
+      ? CesiumModel.fromGltf({ ...props, scene: scene || context.scene, url })
       : new CesiumModel({ ...props, scene: scene || context.scene });
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
