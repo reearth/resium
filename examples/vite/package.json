@@ -8,17 +8,17 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "cesium": "1.95.0",
+    "cesium": "1.96.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "resium": "^1.14.3"
+    "resium": "^1.15.0"
   },
   "devDependencies": {
-    "@types/react": "^18.0.15",
+    "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
-    "@vitejs/plugin-react": "^2.0.0",
-    "typescript": "^4.7.4",
-    "vite": "^3.0.0",
-    "vite-plugin-cesium": "^1.2.19"
+    "@vitejs/plugin-react": "^2.0.1",
+    "typescript": "^4.8.2",
+    "vite": "^3.0.9",
+    "vite-plugin-cesium": "^1.2.22"
   }
 }

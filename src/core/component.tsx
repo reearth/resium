@@ -27,7 +27,7 @@ export type CesiumComponentType<Element, Props> = ForwardRefExoticComponent<
   PropsWithoutRef<Props> & RefAttributes<CesiumComponentRef<Element>>
 >;
 
-export const createCesiumComponent = <Element, Props, State = any>({
+export const createCesiumComponent = <Element, Props extends {}, State = any>({
   renderContainer,
   noChildren,
   containerProps,

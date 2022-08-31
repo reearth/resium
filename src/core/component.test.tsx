@@ -201,7 +201,7 @@ describe("core/component", () => {
       provide: (): any => ({ context: "b" }),
     });
 
-    const Component2 = createCesiumComponent<string, unknown>({
+    const Component2 = createCesiumComponent<string, {}>({
       name: "test2",
       create: create2,
     });
@@ -250,7 +250,7 @@ describe("core/component", () => {
 
     const state = {};
 
-    const Component = createCesiumComponent<string, unknown>({
+    const Component = createCesiumComponent<string, {}>({
       name: "test",
       create: () => ["foobar", state],
       provide: provideFn,

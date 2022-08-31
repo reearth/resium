@@ -96,6 +96,7 @@ const cesiumReadonlyProps = [
   "maximumRenderTimeChange",
   "depthPlaneEllipsoidOffset",
   "msaaSamples",
+  "blurActiveElementOnCanvasFocus",
 ] as const;
 
 export const cesiumEventProps = {

@@ -1,4 +1,4 @@
-export function pick<T, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
+export function pick<T extends {}, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
   if (!keys) return {} as Pick<T, K>;
   return entries(obj).reduce((a, [k, v]) => {
     if (!includes(keys, k)) return a;
@@ -7,7 +7,7 @@ export function pick<T, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
   }, {} as Pick<T, K>);
 }
 
-export function entries<T>(obj: T): [keyof T, T[keyof T]][] {
+export function entries<T extends {}>(obj: T): [keyof T, T[keyof T]][] {
   return Object.keys(obj).map(k => [k, obj[k as keyof T]] as [keyof T, T[keyof T]]);
 }
 

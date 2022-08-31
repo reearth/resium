@@ -39,7 +39,7 @@ export type Options<Element, Props, State = any> = {
   useRootEvent?: boolean;
 };
 
-export const useCesiumComponent = <Element, Props, State = any>(
+export const useCesiumComponent = <Element, Props extends {}, State = any>(
   {
     name,
     create,

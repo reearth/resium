@@ -101,6 +101,7 @@ const cesiumProps = [
   "featureIdLabel",
   "instanceFeatureIdLabel",
   "imageBasedLighting",
+  "outlineColor",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -112,6 +113,7 @@ const cesiumReadonlyProps = [
   "modelUpAxis",
   "modelForwardAxis",
   "projectTo2D",
+  "enableShowOutline",
 ] as const;
 
 export const cesiumEventProps = {

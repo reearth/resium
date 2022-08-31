@@ -76,6 +76,7 @@ const cesiumReadonlyProps = [
   "requestRenderMode",
   "maximumRenderTimeChange",
   "msaaSamples",
+  "blurActiveElementOnCanvasFocus",
 ] as const;
 
 export const otherProps = ["className", "id", "style", "full", "containerProps"] as const;
