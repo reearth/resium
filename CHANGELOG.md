@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.15.1 - 2022/08/31
+
+- Fix models are not created correctly ([#559](https://github.com/reearth/resium/issues/559))
+- Update dependencies
+
+## v1.15.0 - 2022/06/25
+
+- Support Cesium v1.95 features
+- Support React v18
+- When an unknown property is passed to a component, it used to be ignored, but has been changed to set the property to the Cesium object
+- Fix ParticleSystem not destroyed expectedly ([#535](https://github.com/reearth/resium/issues/535))
+- Use Vite as a build tool
+
 ## v1.14.3 - 2021/10/18
 
 - Fix EntityDescription is not displayed on the first time entity selection ([#518](https://github.com/reearth/resium/pull/518))
