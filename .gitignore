@@ -1,6 +1,6 @@
 node_modules
 *.log
-# /dist
+/dist
 /coverage
 /examples/build
 /example/package-lock.json
