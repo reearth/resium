@@ -44,11 +44,11 @@ Then advance to [Getting Started](/getting_started).
 
 If you are using create-react-app, [craco-cesium](https://github.com/reearth/craco-cesium) is recommended.
 
-Refer to [the documentation](https://github.com/reearth/craco-cesium#craco-cesium) and [example project](https://github.com/reearth/resium/tree/main/example/create-react-app).
+Refer to [the documentation](https://github.com/reearth/craco-cesium#craco-cesium) and [example project](https://github.com/reearth/resium/tree/main/examples/create-react-app).
 
 ## 2. Next.js
 
-See also: [example project](https://github.com/reearth/resium/tree/main/example/next)
+See also: [example project](https://github.com/reearth/resium/tree/main/examples/next)
 
 The steps for initializing Next.js are not explained here. We will assume that your Next.js project already exists.
 
@@ -158,7 +158,7 @@ That's all!
 
 ## 3. webpack: Copy whole Cesium files and load Cesium in HTML
 
-See also: [example project](https://github.com/reearth/resium/tree/main/example/webpack)
+See also: [example project](https://github.com/reearth/resium/tree/main/examples/webpack)
 
 ### 3-1. Install webpack plugins
 
@@ -229,7 +229,7 @@ Note: If `publicPath` in webpack config is changed, `CESIUM_BASE_URL` may have t
 
 In this way, imported and used Cesium source codes are bundled to your app's source code with webpack.
 
-See also: [example project](https://github.com/reearth/resium/tree/main/example/webpack2) and [Cesium official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
+See also: [example project](https://github.com/reearth/resium/tree/main/examples/webpack2) and [Cesium official example](https://github.com/AnalyticalGraphicsInc/cesium-webpack-example)
 
 ### 4-1. Install webpack plugins and loaders
 
@@ -325,7 +325,7 @@ import "cesium/Widgets/widgets.css";
 
 [Vite](https://vitejs.dev/) is one of next generation JavaScript bundler. [vite-plugin-cesium](https://github.com/nshen/vite-plugin-cesium) is recommended to use Cesium with Vite.
 
-See also: [example project](https://github.com/reearth/resium/tree/main/example/vite)
+See also: [example project](https://github.com/reearth/resium/tree/main/examples/vite)
 
 Init a new vite project (select "react"):
 
