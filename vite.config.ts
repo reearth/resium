@@ -8,9 +8,7 @@ import { configDefaults } from "vitest/config";
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-    react({
-      jsxRuntime: mode === "production" ? "classic" : "automatic",
-    }),
+    react(),
     dts({
       rollupTypes: true,
       exclude: ["./src/env.d.ts"],
