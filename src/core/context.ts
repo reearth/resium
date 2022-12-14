@@ -19,6 +19,7 @@ import {
 } from "cesium";
 import { createContext, useContext } from "react";
 
+import { RootComponentInternalProps } from "./component";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 
 export type Context = {
@@ -39,6 +40,7 @@ export type Context = {
   polylineCollection?: PolylineCollection;
   pointPrimitiveCollection?: PointPrimitiveCollection;
   cloudCollection?: CloudCollection;
+  __$internal?: RootComponentInternalProps;
   [eventManagerContextKey]?: EventManager;
 };
 
