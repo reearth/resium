@@ -1,21 +1,9 @@
-import {
-  Billboard,
-  BillboardCollection,
-  Entity as CesiumEntity,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
+import { Entity as CesiumEntity } from "cesium";
 import { ReactNode } from "react";
 
-import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps, Merge, EventTarget } from "../core";
+
+export type { EventTarget } from "../core";
 
 /*
 @summary
@@ -94,21 +82,6 @@ export type EntityOtherProps = EventProps<EventTarget> & {
   /** If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget. */
   tracked?: boolean;
 };
-
-export type EventTarget = {
-  id: CesiumEntity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
 
 export type EntityProps = EntityCesiumProps &
   EntityCesiumReadonlyProps &

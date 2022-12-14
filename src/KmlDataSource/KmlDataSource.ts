@@ -1,21 +1,15 @@
-import {
-  Billboard,
-  BillboardCollection,
-  Entity,
-  KmlDataSource as CesiumKmlDataSource,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
+import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  MethodOptions2,
+  EventProps,
+  EventTarget,
+} from "../core";
+
+export type { EventTarget } from "../core";
 
 /*
 @summary
@@ -36,21 +30,6 @@ export type Target = Merge<
 export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>;
 
 export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
-
-export type EventTarget = {
-  id: Entity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
 
 export type KmlDataSourceCesiumEvents = {
   onChange?: (kmlDataSource: CesiumKmlDataSource) => void;

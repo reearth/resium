@@ -16,7 +16,6 @@ import {
   Billboard,
   Polyline,
   TimeDynamicPointCloud,
-  ModelMesh,
   ModelNode,
   GroundPolylinePrimitive,
   GroundPrimitive,
@@ -38,7 +37,6 @@ export type RootEventTarget =
         | BillboardCollection
         | PolylineCollection;
       id?: Entity | string;
-      mesh?: ModelMesh;
       node?: ModelNode;
       primitive?:
         | Primitive

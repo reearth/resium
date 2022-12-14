@@ -1,4 +1,18 @@
-import { Event } from "cesium";
+import {
+  Billboard,
+  BillboardCollection,
+  Entity,
+  Event,
+  Label,
+  LabelCollection,
+  Model,
+  ModelNode,
+  PointPrimitive,
+  PointPrimitiveCollection,
+  Polyline,
+  PolylineCollection,
+  Primitive,
+} from "cesium";
 
 export type ValueOf<T> = T[keyof T];
 
@@ -84,3 +98,17 @@ type RemoveReadOnlyAndPartial<T, Required extends keyof T = never> = {
 } & {
   -readonly [key in keyof Omit<T, Required>]?: T[key];
 };
+
+export type EventTarget = {
+  id: Entity;
+} & (
+  | { primitive: Primitive }
+  | {
+      primitive: Model;
+      node: ModelNode;
+    }
+  | { collection: BillboardCollection; primitive: Billboard }
+  | { collection: LabelCollection; primitive: Label }
+  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
+  | { collection: PolylineCollection; primitive: Polyline }
+);

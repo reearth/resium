@@ -45,6 +45,7 @@ const cesiumProps = [
   "imageBasedLightingFactor",
   "lightColor",
   "articulations",
+  "customShader",
 ] as const;
 
 export const cesiumEventProps = {

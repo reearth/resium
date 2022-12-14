@@ -1,21 +1,15 @@
-import {
-  Billboard,
-  BillboardCollection,
-  Entity,
-  GeoJsonDataSource as CesiumGeoJsonDataSource,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
+import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  MethodOptions2,
+  EventProps,
+  EventTarget,
+} from "../core";
+
+export type { EventTarget } from "../core";
 
 /*
 @summary
@@ -54,21 +48,6 @@ export type GeoJsonDataSourceOtherProps = EventProps<EventTarget> & {
   onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
   data?: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
 };
-
-export type EventTarget = {
-  id: Entity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
 
 export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
   GeoJsonDataSourceCesiumReadonlyProps &
