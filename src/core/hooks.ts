@@ -9,13 +9,14 @@ import {
   RefObject,
 } from "react";
 
+import { RootComponentInternalProps } from "./component";
 import { Context, useCesium } from "./context";
 import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
 import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-export type Options<Element, Props, State = any> = {
+export type Options<Element, Props extends RootComponentInternalProps, State = any> = {
   name: string;
   create?: (
     ctx: Context,
@@ -28,7 +29,7 @@ export type Options<Element, Props, State = any> = {
     wrapperRef: HTMLDivElement | null,
     state?: State,
   ) => void;
-  provide?: (element: Element, ctx: Context, state?: State) => Partial<Context>;
+  provide?: (element: Element, ctx: Context, props?: Props, state?: State) => Partial<Context>;
   update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
   cesiumProps?: readonly (keyof Props)[];
   cesiumReadonlyProps?: readonly (keyof Props)[];
@@ -39,7 +40,7 @@ export type Options<Element, Props, State = any> = {
   useRootEvent?: boolean;
 };
 
-export const useCesiumComponent = <Element, Props extends {}, State = any>(
+export const useCesiumComponent = <Element, Props extends RootComponentInternalProps, State = any>(
   {
     name,
     create,
@@ -176,7 +177,7 @@ export const useCesiumComponent = <Element, Props extends {}, State = any>(
     }
 
     if (provide && element.current) {
-      provided.current = { ...ctx, ...provide(element.current, ctx, stateRef.current) };
+      provided.current = { ...ctx, ...provide(element.current, ctx, props, stateRef.current) };
     }
 
     const em = useRootEvent
@@ -229,6 +230,7 @@ export const useCesiumComponent = <Element, Props extends {}, State = any>(
     if (mounted) {
       if (!shallowEquals(props, prevProps.current)) {
         updateProperties(props);
+        ctx.__$internal?.onUpdate?.();
       }
     } else {
       // first time
