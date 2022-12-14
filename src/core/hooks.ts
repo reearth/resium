@@ -239,7 +239,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       setMounted(true);
       mountedRef.current = true;
     }
-  }, [mounted, props, updateProperties]);
+  }, [ctx.__$internal, mounted, props, updateProperties]);
 
   // Expose cesium element
   useImperativeHandle(ref, () => ({

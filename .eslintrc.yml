@@ -1,6 +1,11 @@
 extends:
   - reearth
 overrides:
+  - files:
+      - babel.config.js
+      - docs/*.js
+    extends:
+      - reearth/commonjs
   - files: docs/generator/**/*.ts
     extends:
       - reearth/node
