@@ -677,6 +677,23 @@ input.cesium-cesiumInspector-url {
   width: 100%;
 }
 
+/* packages/widgets/Source/VoxelInspector/VoxelInspector.css */
+.cesium-VoxelInspector {
+  width: 300px;
+  pointer-events: all;
+}
+.cesium-VoxelInspector div,
+.cesium-VoxelInspector input[type=range] {
+  width: 100%;
+  box-sizing: border-box;
+}
+.cesium-VoxelInspector .cesium-cesiumInspector-section {
+  margin-top: 3px;
+}
+.cesium-VoxelInspector .cesium-cesiumInspector-sectionHeader + .cesium-cesiumInspector-show {
+  border-top: 1px solid white;
+}
+
 /* packages/widgets/Source/FullscreenButton/FullscreenButton.css */
 .cesium-button.cesium-fullscreenButton {
   display: block;
@@ -1271,6 +1288,16 @@ span.cesium-projectionPicker-wrapper {
   margin: 0 3px;
 }
 .cesium-viewer-cesium3DTilesInspectorContainer {
+  display: block;
+  position: absolute;
+  top: 50px;
+  right: 10px;
+  max-height: calc(100% - 120px);
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.cesium-viewer-voxelInspectorContainer {
   display: block;
   position: absolute;
   top: 50px;
