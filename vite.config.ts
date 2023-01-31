@@ -6,7 +6,7 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import { configDefaults } from "vitest/config";
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig(() => ({
   plugins: [
     react(),
     dts({
