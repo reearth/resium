@@ -99,6 +99,7 @@ const cesiumProps = [
   "atmosphereRayleighScaleHeight",
   "atmosphereMieScaleHeight",
   "atmosphereMieAnisotropy",
+  "vertexShadowDarkness",
 ] as const;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({

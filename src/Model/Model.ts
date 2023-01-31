@@ -2,7 +2,7 @@ import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode } from "cesi
 
 import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
 
-export type Target = Merge<CesiumModel, Parameters<typeof CesiumModel["fromGltf"]>[0]>;
+export type Target = Merge<CesiumModel, Parameters<(typeof CesiumModel)["fromGltf"]>[0]>;
 
 export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
 

@@ -7,11 +7,11 @@
     "build": "webpack --mode production"
   },
   "devDependencies": {
-    "@babel/core": "7.20.5",
+    "@babel/core": "7.20.12",
     "@babel/preset-env": "7.20.2",
     "@babel/preset-react": "7.18.6",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.10",
-    "babel-loader": "9.1.0",
+    "babel-loader": "9.1.2",
     "copy-webpack-plugin": "11.0.0",
     "html-webpack-plugin": "5.5.0",
     "html-webpack-tags-plugin": "^3.0.2",
@@ -21,9 +21,9 @@
     "webpack-dev-server": "4.11.1"
   },
   "dependencies": {
-    "cesium": "1.100.0",
+    "cesium": "1.101.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "resium": "1.15.1"
+    "resium": "1.16.0"
   }
 }
