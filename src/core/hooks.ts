@@ -10,7 +10,7 @@ import {
 } from "react";
 
 import { RootComponentInternalProps } from "./component";
-import { Context, useCesium } from "./context";
+import { ResiumContext, useCesium } from "./context";
 import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
 import { includes, shallowEquals, isDestroyed } from "./util";
 
@@ -19,18 +19,23 @@ export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 export type Options<Element, Props extends RootComponentInternalProps, State = any> = {
   name: string;
   create?: (
-    ctx: Context,
+    ctx: ResiumContext,
     props: Props,
     wrapperRef: HTMLDivElement | null,
   ) => Element | [Element, State] | undefined;
   destroy?: (
     element: Element,
-    ctx: Context,
+    ctx: ResiumContext,
     wrapperRef: HTMLDivElement | null,
     state?: State,
   ) => void;
-  provide?: (element: Element, ctx: Context, props?: Props, state?: State) => Partial<Context>;
-  update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
+  provide?: (
+    element: Element,
+    ctx: ResiumContext,
+    props?: Props,
+    state?: State,
+  ) => Partial<ResiumContext>;
+  update?: (element: Element, props: Props, prevProps: Props, context: ResiumContext) => void;
   cesiumProps?: readonly (keyof Props)[];
   cesiumReadonlyProps?: readonly (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
@@ -56,10 +61,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   }: Options<Element, Props, State>,
   props: Props,
   ref: any,
-): [Partial<Context> | undefined, boolean, RefObject<HTMLDivElement>] => {
+): [Partial<ResiumContext> | undefined, boolean, RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
   const ctx = useCesium();
-  const provided = useRef<Partial<Context> | undefined>(provide ? {} : undefined);
+  const provided = useRef<Partial<ResiumContext> | undefined>(provide ? {} : undefined);
   const attachedEvents = useRef<{
     [key in keyof Element]?: any;
   }>({});
@@ -177,7 +182,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     }
 
     if (provide && element.current) {
-      provided.current = { ...ctx, ...provide(element.current, ctx, props, stateRef.current) };
+      provided.current = {
+        ...ctx,
+        ...provide(element.current, ctx, props, stateRef.current),
+      };
     }
 
     const em = useRootEvent

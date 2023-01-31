@@ -22,7 +22,7 @@ import { createContext, useContext } from "react";
 import { RootComponentInternalProps } from "./component";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 
-export type Context = {
+export type ResiumContext = {
   viewer?: Viewer;
   cesiumWidget?: CesiumWidget;
   scene?: Scene;
@@ -46,4 +46,4 @@ export type Context = {
 
 export const CesiumContext = createContext<any>({});
 export const { Provider, Consumer } = CesiumContext;
-export const useCesium = (): Context => useContext(CesiumContext) || {};
+export const useCesium = (): ResiumContext => useContext(CesiumContext) || {};
