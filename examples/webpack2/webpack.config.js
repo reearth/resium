@@ -50,4 +50,7 @@ module.exports = (_env, args) => ({
     }),
     ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
   ],
+  resolve: {
+    fallback: { https: false, zlib: false, http: false, url: false }
+  }
 });

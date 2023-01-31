@@ -1,5 +1,11 @@
 # Changelog
 
+## v1.16.0 - 2022/12/14
+
+- Support Cesium v1.100
+- Add `onUpdate` event to root components
+- Update dependencies
+
 ## v1.15.1 - 2022/08/31
 
 - Fix models are not created correctly ([#559](https://github.com/reearth/resium/issues/559))

@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { Event } from "cesium";
 import { createRef, ReactNode } from "react";
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi, vitest } from "vitest";
 
 import { createCesiumComponent, CesiumComponentRef } from "./component";
 import { Provider } from "./context";
@@ -218,6 +218,47 @@ describe("core/component", () => {
     expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
   });
 
+  it("should invoke onUpdate event when being dirty", () => {
+    const cesiumElement = {
+      foo: 0,
+    };
+    const onUpdate = vitest.fn();
+
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumProps: ["foo"],
+    });
+
+    const { rerender } = render(
+      <Provider
+        value={{
+          __$internal: {
+            onUpdate,
+          },
+        }}>
+        <Component />
+      </Provider>,
+    );
+
+    expect(cesiumElement.foo).toBe(0);
+    expect(onUpdate).not.toBeCalled();
+
+    rerender(
+      <Provider
+        value={{
+          __$internal: {
+            onUpdate,
+          },
+        }}>
+        <Component foo={1} />
+      </Provider>,
+    );
+
+    expect(cesiumElement.foo).toBe(1);
+    expect(onUpdate).toBeCalledTimes(1);
+  });
+
   it("should render container", () => {
     const createFn = vi.fn(() => "foobar");
 
@@ -263,7 +304,12 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(provideFn).toBeCalledWith(expect.anything(), expect.anything(), state);
+    expect(provideFn).toBeCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      state,
+    );
     expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
   });
 

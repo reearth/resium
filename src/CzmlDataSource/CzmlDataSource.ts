@@ -1,22 +1,15 @@
+import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
+
 import {
-  Billboard,
-  BillboardCollection,
-  CzmlDataSource as CesiumCzmlDataSource,
-  Entity,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  MethodOptions2,
+  EventProps,
+  EventTarget,
+} from "../core";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
-
+export type { EventTarget } from "../core";
 /*
 @summary
 `CzmlDataSource` provides the way to load and show CZML data into the scene.
@@ -36,21 +29,6 @@ export type Target = Merge<
 export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, typeof cesiumProps>;
 
 export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
-
-export type EventTarget = {
-  id: Entity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
 
 export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
