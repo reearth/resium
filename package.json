@@ -1,7 +1,7 @@
 {
   "name": "resium",
   "version": "1.16.0",
-  "description": "React components for Cesium",
+  "description": "React component library for Cesium",
   "source": "./src/index.ts",
   "main": "./dist/resium.umd.js",
   "module": "./dist/resium.mjs",
