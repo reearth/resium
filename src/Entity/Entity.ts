@@ -130,6 +130,7 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   name: "Entity",
   create(context, props) {
     if (!context.entityCollection) return;
+    delete props.children;
     const element = new CesiumEntity(props);
     if (context.viewer && props.selected) {
       context.viewer.selectedEntity = element;
