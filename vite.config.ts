@@ -6,11 +6,9 @@ import { defineConfig } from "vite";
 import dts from "vite-plugin-dts";
 import { configDefaults } from "vitest/config";
 
-export default defineConfig(({ mode }) => ({
+export default defineConfig({
   plugins: [
-    react({
-      jsxRuntime: mode === "production" ? "classic" : "automatic",
-    }),
+    react(),
     dts({
       rollupTypes: true,
       exclude: ["./src/env.d.ts"],
@@ -40,4 +38,4 @@ export default defineConfig(({ mode }) => ({
       reporter: ["text", "json"],
     },
   },
-}));
+});
