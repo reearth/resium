@@ -13,7 +13,7 @@ beforeEach(() => {
 describe("core/component", () => {
   it("should create and expose cesium element correctly on initialized", () => {
     const create = vi.fn(() => "foobar");
-    const value = { hoge: 1 };
+    const value = { hoge: 1 } as any;
 
     const Component = createCesiumComponent<string, { test: number }>({
       name: "test",
@@ -35,7 +35,7 @@ describe("core/component", () => {
 
   it("should call destroy fn on unmounted", () => {
     const destroy = vi.fn();
-    const value = { hoge: 1 };
+    const value = { hoge: 1 } as any;
 
     const Component = createCesiumComponent<string, { test: number }>({
       name: "test",
@@ -207,7 +207,7 @@ describe("core/component", () => {
     });
 
     render(
-      <Provider value={{ context: "a", context2: "foo" }}>
+      <Provider value={{ context: "a", context2: "foo" } as any}>
         <Component1>
           <Component2 />
         </Component1>

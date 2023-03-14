@@ -9,10 +9,10 @@ describe("core/cameraop", () => {
   it("should call proper methods", () => {
     const camera = {
       cancelFlight: vi.fn(),
-    };
+    } as any;
     const scene = {
       isDestroyed: () => false,
-    };
+    } as any;
 
     const cameraOperationStart = vi.fn();
     const DummyCameraOperation = createCameraOperation<{ test: number }>(
@@ -39,10 +39,10 @@ describe("core/cameraop", () => {
   it("should call cancelFlight", () => {
     const camera = {
       cancelFlight: vi.fn(),
-    };
+    } as any;
     const scene = {
       isDestroyed: () => false,
-    };
+    } as any;
 
     const DummyCameraOperation = createCameraOperation("dummy", () => {});
 

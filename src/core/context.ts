@@ -44,6 +44,6 @@ export type ResiumContext = {
   [eventManagerContextKey]?: EventManager;
 };
 
-export const CesiumContext = createContext<any>({});
+export const CesiumContext = createContext<ResiumContext>({});
 export const { Provider, Consumer } = CesiumContext;
 export const useCesium = (): ResiumContext => useContext(CesiumContext) || {};

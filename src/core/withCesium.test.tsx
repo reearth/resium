@@ -10,7 +10,7 @@ describe("core/context", () => {
     const Dummy: FC<{ cesium: { dummy: string } }> = ({ cesium }) => <p>{cesium.dummy}</p>;
     const WithCesiumDummy = withCesium<Record<string, unknown>, { dummy: string }>(Dummy);
 
-    const value = { dummy: "test" };
+    const value = { dummy: "test" } as any;
 
     render(
       <Provider value={value}>
