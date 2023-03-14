@@ -35,6 +35,7 @@ const cesiumProps = [
   "font",
   "heightReference",
   "horizontalOrigin",
+  "id",
   "outlineColor",
   "outlineWidth",
   "pixelOffset",

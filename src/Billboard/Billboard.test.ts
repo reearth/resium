@@ -13,7 +13,7 @@ type UnusedProps = UnusedCesiumProps<
   {},
   IgnoredProps
 >;
-type IgnoredProps = "ready";
+type IgnoredProps = "ready" | "id"; // id is actually used
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

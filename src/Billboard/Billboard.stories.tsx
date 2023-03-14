@@ -24,7 +24,7 @@ const Template: Story<BillboardProps> = args => (
           [Color.CYAN, new Cartesian3(0.0, 0.0, 1000000.0)],
         ] as const
       ).map((p, i) => (
-        <Billboard key={i} {...args} color={p[0]} position={p[1]} />
+        <Billboard key={i} id={`billboard-${i}`} {...args} color={p[0]} position={p[1]} />
       ))}
     </BillboardCollection>
   </Viewer>

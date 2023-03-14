@@ -9,11 +9,11 @@ import { LabelOtherProps, LabelProps } from "./Label";
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   Label,
-  Omit<LabelProps, keyof LabelOtherProps>,
+  Omit<LabelProps, keyof LabelOtherProps | "id">,
   {},
   IgnoredProps
 >;
-type IgnoredProps = "totalScale";
+type IgnoredProps = "totalScale" | "id"; // id is actually used
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
