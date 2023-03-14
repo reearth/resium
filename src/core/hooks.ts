@@ -68,7 +68,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const attachedEvents = useRef<{
     [key in keyof Element]?: any;
   }>({});
-  const initialProps = useRef<Props>(props);
+  const initialProps = useRef<Props>(propsWithChildren(props));
   const prevProps = useRef<Props>({} as Props);
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
@@ -235,15 +235,16 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   // Update properties of cesium element
   useEffect(() => {
+    const propsWC = propsWithChildren(props);
     if (mounted) {
-      if (!shallowEquals(props, prevProps.current)) {
-        updateProperties(props);
+      if (!shallowEquals(propsWC, prevProps.current)) {
+        updateProperties(propsWC);
         ctx.__$internal?.onUpdate?.();
       }
     } else {
       // first time
-      prevProps.current = props;
-      initialProps.current = props;
+      prevProps.current = propsWC;
+      initialProps.current = propsWC;
       setMounted(true);
       mountedRef.current = true;
     }
@@ -256,3 +257,8 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   return [provided.current, mounted, wrapperRef];
 };
+
+function propsWithChildren<T>(props: T): T {
+  const { children: _children, ...propsWithoutChildren } = props as any;
+  return propsWithoutChildren;
+}
