@@ -1,4 +1,4 @@
-import { Viewer as CesiumViewer, ImageryProvider } from "cesium";
+import { Viewer as CesiumViewer, ImageryProvider, Entity } from "cesium";
 import { ReactNode, CSSProperties } from "react";
 
 import {
@@ -39,8 +39,8 @@ export type ViewerCesiumReadonlyProps = Merge<
 >;
 
 export type ViewerCesiumEvents = {
-  onSelectedEntityChange?: () => void;
-  onTrackedEntityChange?: () => void;
+  onSelectedEntityChange?: (entity: Entity) => void;
+  onTrackedEntityChange?: (entity: Entity) => void;
 };
 
 const cesiumProps = [
