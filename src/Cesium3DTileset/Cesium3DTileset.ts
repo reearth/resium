@@ -1,4 +1,8 @@
-import { Cesium3DTileset as CesiumCesium3DTileset, Cesium3DTileFeature } from "cesium";
+import {
+  Cesium3DTileset as CesiumCesium3DTileset,
+  Cesium3DTileFeature,
+  Cesium3DTile,
+} from "cesium";
 
 import {
   createCesiumComponent,
@@ -32,9 +36,9 @@ export type Cesium3DTilesetCesiumEvents = {
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: (error: any) => void;
-  onTileLoad?: (tile: CesiumCesium3DTileset) => void;
-  onTileUnload?: () => void;
-  onTileVisible?: (tile: CesiumCesium3DTileset) => void;
+  onTileLoad?: (tile: Cesium3DTile) => void;
+  onTileUnload?: (tile: Cesium3DTile) => void;
+  onTileVisible?: (tile: Cesium3DTile) => void;
 };
 
 export type Cesium3DTilesetOtherProps = EventProps<Cesium3DTileFeature> & {
