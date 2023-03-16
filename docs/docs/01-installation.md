@@ -48,7 +48,7 @@ Refer to [the documentation](https://github.com/reearth/craco-cesium#craco-cesiu
 
 ## 2. Next.js
 
-See also: [example project](https://github.com/reearth/resium/tree/main/example/next)
+See also: [example project](https://github.com/reearth/resium/tree/main/examples/next)
 
 The steps for initializing Next.js are not explained here. We will assume that your Next.js project already exists.
 
