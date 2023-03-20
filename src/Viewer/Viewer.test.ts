@@ -1,13 +1,19 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { Viewer } from "cesium";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, ValueOf } from "../core";
-import { ViewerProps, cesiumEventProps } from "./Viewer";
+import { UnusedCesiumProps } from "../core";
+
+import { ViewerProps, cesiumEventProps, Target, ViewerOtherProps } from "./Viewer";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Viewer, keyof ViewerProps | ValueOf<typeof cesiumEventProps>>;
-type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  Omit<ViewerProps, keyof ViewerOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
+>;
+type IgnoredProps = "contextOptions"; // contextOptions is actually used
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

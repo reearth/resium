@@ -53,15 +53,12 @@ import { AmbientOcclusion, Bloom } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Target = Merge<
+export type Target = Merge<
   CesiumPostProcessStageComposite,
   ConstructorOptions<typeof CesiumPostProcessStageComposite>
 >;
 
-export type PostProcessStageCompositeCesiumProps = PickCesiumProps<
-  CesiumPostProcessStageComposite,
-  typeof cesiumProps
->;
+export type PostProcessStageCompositeCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PostProcessStageCompositeCesiumReadonlyProps = PickCesiumProps<
   Target,

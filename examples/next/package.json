@@ -1,0 +1,24 @@
+{
+  "name": "next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "postinstall": "symlink-dir node_modules/cesium/Build/Cesium public/cesium"
+  },
+  "dependencies": {
+    "cesium": "1.101.0",
+    "next": "13.1.6",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "resium": "^1.16.0"
+  },
+  "devDependencies": {
+    "eslint": "8.33.0",
+    "eslint-config-next": "13.1.6",
+    "symlink-dir": "^5.1.0"
+  }
+}

@@ -1,5 +1,5 @@
-import { CSSProperties, ReactNode } from "react";
 import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import { CSSProperties, ReactNode } from "react";
 
 import {
   createCesiumComponent,
@@ -9,6 +9,7 @@ import {
   PickCesiumProps,
   Merge,
   ConstructorOptions2,
+  RootComponentInternalProps,
 } from "../core";
 
 /*
@@ -28,25 +29,26 @@ import {
 Everywhere. `CesiumWidget` is a root component.
 */
 
-type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
+export type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
 
 export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
 
 export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type CesiumWidgetOtherProps = RootEventProps & {
-  /** Applied to outer `div` element */
-  className?: string;
-  /** Applied to outer `div` element */
-  id?: string;
-  /** Applied to outer `div` element */
-  style?: CSSProperties;
-  /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
-  full?: boolean;
-  /** All props applied to outer `div` element */
-  containerProps?: any;
-  children?: ReactNode;
-};
+export type CesiumWidgetOtherProps = RootEventProps &
+  RootComponentInternalProps & {
+    /** Applied to outer `div` element */
+    className?: string;
+    /** Applied to outer `div` element */
+    id?: string;
+    /** Applied to outer `div` element */
+    style?: CSSProperties;
+    /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
+    full?: boolean;
+    /** All props applied to outer `div` element */
+    containerProps?: any;
+    children?: ReactNode;
+  };
 
 const cesiumProps = [
   "resolutionScale",
@@ -71,12 +73,15 @@ const cesiumReadonlyProps = [
   "contextOptions",
   "creditContainer",
   "creditViewport",
-  "terrainExaggeration",
   "shadows",
   "terrainShadows",
   "requestRenderMode",
   "maximumRenderTimeChange",
+  "msaaSamples",
+  "blurActiveElementOnCanvasFocus",
 ] as const;
+
+export const otherProps = ["className", "id", "style", "full", "containerProps"] as const;
 
 export type CesiumWidgetProps = CesiumWidgetCesiumProps &
   CesiumWidgetCesiumReadonlyProps &
@@ -106,7 +111,7 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
       element.destroy();
     }
   },
-  provide(element, _props, state) {
+  provide(element, _context, props, state) {
     return {
       cesiumWidget: element,
       scene: element.scene,
@@ -114,6 +119,9 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
       globe: element.scene.globe,
+      __$internal: {
+        onUpdate: props?.onUpdate,
+      },
       [eventManagerContextKey]: state,
     };
   },
@@ -136,6 +144,7 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
   }),
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   renderContainer: true,
   useCommonEvent: true,
   useRootEvent: true,

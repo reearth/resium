@@ -1,21 +1,15 @@
-import {
-  Billboard,
-  BillboardCollection,
-  Entity,
-  KmlDataSource as CesiumKmlDataSource,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
+import { KmlDataSource as CesiumKmlDataSource } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  MethodOptions2,
+  EventProps,
+  EventTarget,
+} from "../core";
+
+export type { EventTarget } from "../core";
 
 /*
 @summary
@@ -37,22 +31,7 @@ export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, type
 
 export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type EventTarget = {
-  id: Entity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
-
-export type KmlDataSourceCesiumEvents = EventProps<EventTarget> & {
+export type KmlDataSourceCesiumEvents = {
   onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
   onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void;
   onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void;
@@ -60,7 +39,7 @@ export type KmlDataSourceCesiumEvents = EventProps<EventTarget> & {
   onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
 };
 
-export type KmlDataSourceOtherProps = {
+export type KmlDataSourceOtherProps = EventProps<EventTarget> & {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
   data?: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
@@ -80,6 +59,7 @@ const cesiumReadonlyProps = [
   "clampToGround",
   "sourceUri",
   "credit",
+  "screenOverlayContainer",
 ] as const;
 
 export const cesiumEventProps = {
@@ -89,6 +69,8 @@ export const cesiumEventProps = {
   onRefresh: "refreshEvent",
   onUnsupportedNode: "unsupportedNodeEvent",
 } as const;
+
+export const otherProps = ["onLoad", "data"] as const;
 
 const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
   if (!data) return;
@@ -154,6 +136,7 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

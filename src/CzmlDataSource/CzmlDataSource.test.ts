@@ -1,15 +1,24 @@
 import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, ValueOf } from "../core";
-import { Target, CzmlDataSourceProps, cesiumEventProps } from "./CzmlDataSource";
+import { UnusedCesiumProps } from "../core";
+
+import {
+  Target,
+  CzmlDataSourceProps,
+  cesiumEventProps,
+  CzmlDataSourceOtherProps,
+} from "./CzmlDataSource";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   Target,
-  keyof CzmlDataSourceProps | ValueOf<typeof cesiumEventProps>
+  Omit<CzmlDataSourceProps, keyof CzmlDataSourceOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = "clock" | "entities" | "isLoading";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

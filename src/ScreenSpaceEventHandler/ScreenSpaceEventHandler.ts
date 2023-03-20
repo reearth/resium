@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
+import { ReactNode } from "react";
 
 import { createCesiumComponent } from "../core";
 

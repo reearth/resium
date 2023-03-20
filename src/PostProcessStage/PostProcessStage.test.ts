@@ -1,13 +1,14 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { PostProcessStage } from "cesium";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
-import { PostProcessStageProps } from "./PostProcessStage";
+
+import { PostProcessStageProps, Target } from "./PostProcessStage";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<PostProcessStage, keyof PostProcessStageProps>;
-type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<Target, PostProcessStageProps, {}, IgnoredProps>;
+type IgnoredProps = "uniforms"; // uniforms is actually used
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

@@ -1,16 +1,24 @@
-import { expectType, TypeEqual } from "ts-expect";
 import { CustomDataSource } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, ValueOf } from "../core";
-import { cesiumEventProps, CustomDataSourceProps } from "./CustomDataSource";
+import { UnusedCesiumProps } from "../core";
+
+import {
+  cesiumEventProps,
+  CustomDataSourceProps,
+  CustomDataSourceOtherProps,
+} from "./CustomDataSource";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   CustomDataSource,
-  keyof CustomDataSourceProps | ValueOf<typeof cesiumEventProps>
+  Omit<CustomDataSourceProps, keyof CustomDataSourceOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = "entities";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

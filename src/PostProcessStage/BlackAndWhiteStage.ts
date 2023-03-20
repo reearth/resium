@@ -2,6 +2,7 @@
 import { PostProcessStageLibrary } from "cesium";
 
 import { createPostProcessStage } from "../core";
+
 import { PostProcessStageProps } from "./PostProcessStage";
 
 type Props = { gradations?: number };

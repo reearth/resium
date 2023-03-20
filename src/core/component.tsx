@@ -1,18 +1,22 @@
-import React, {
+import {
   forwardRef,
   HTMLAttributes,
   ForwardRefExoticComponent,
   PropsWithoutRef,
   RefAttributes,
   ForwardRefRenderFunction,
-  ReactElement,
+  PropsWithChildren,
 } from "react";
 
-import { useCesiumComponent, Options } from "./hooks";
 import { CesiumContext } from "./context";
+import { useCesiumComponent, Options } from "./hooks";
 import { pick } from "./util";
 
-export type CesiumComponentOptions<Element, Props, State = any> = Options<Element, Props, State> & {
+export type CesiumComponentOptions<
+  Element,
+  Props extends RootComponentInternalProps,
+  State = any,
+> = Options<Element, Props, State> & {
   renderContainer?: boolean;
   noChildren?: boolean;
   containerProps?: (keyof Props)[] | ((props: Props) => HTMLAttributes<HTMLDivElement>);
@@ -27,7 +31,11 @@ export type CesiumComponentType<Element, Props> = ForwardRefExoticComponent<
   PropsWithoutRef<Props> & RefAttributes<CesiumComponentRef<Element>>
 >;
 
-export const createCesiumComponent = <Element, Props, State = any>({
+export type RootComponentInternalProps = {
+  onUpdate?: () => void;
+};
+
+export const createCesiumComponent = <Element, Props extends {}, State = any>({
   renderContainer,
   noChildren,
   containerProps,
@@ -48,7 +56,11 @@ export const createCesiumComponent = <Element, Props, State = any>({
 
     if (noChildren) return null;
 
-    const children = mounted ? (mergedProps.children as ReactElement) : null;
+    const children = mounted
+      ? "children" in mergedProps
+        ? (mergedProps as PropsWithChildren<Props>).children
+        : null
+      : null;
     const wrappedChildren = renderContainer ? (
       <div
         data-testid="resium-container"
@@ -58,9 +70,9 @@ export const createCesiumComponent = <Element, Props, State = any>({
           : pick(mergedProps, containerProps))}>
         {children}
       </div>
-    ) : (
-      children ?? null
-    );
+    ) : children ? (
+      <>{children}</>
+    ) : null;
 
     if (provided) {
       return <CesiumContext.Provider value={provided}>{wrappedChildren}</CesiumContext.Provider>;

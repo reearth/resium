@@ -1,13 +1,14 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { ImageryLayer } from "cesium";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
-import { ImageryLayerProps } from "./ImageryLayer";
+
+import { ImageryLayerProps, Target } from "./ImageryLayer";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<ImageryLayer, keyof ImageryLayerProps>;
-type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<Target, ImageryLayerProps, {}, IgnoredProps>;
+type IgnoredProps = "imageryProvider";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

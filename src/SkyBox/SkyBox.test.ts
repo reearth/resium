@@ -1,13 +1,14 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { SkyBox } from "cesium";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
-import { SkyBoxProps } from "./SkyBox";
+
+import { SkyBoxProps, Target } from "./SkyBox";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<SkyBox, keyof SkyBoxProps>;
-type IgnoredProps = never;
+type UnusedProps = UnusedCesiumProps<Target, SkyBoxProps, {}, IgnoredProps>;
+type IgnoredProps = "sources"; // sources is actually used
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

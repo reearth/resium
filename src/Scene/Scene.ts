@@ -1,5 +1,5 @@
-import { ReactNode } from "react";
 import { Scene as CesiumScene, SceneMode } from "cesium";
+import { ReactNode } from "react";
 
 import { createCesiumComponent, PickCesiumProps } from "../core";
 
@@ -73,22 +73,18 @@ const cesiumProps = [
   "debugShowFramesPerSecond",
   "debugShowFrustumPlanes",
   "debugShowFrustums",
-  "debugShowGlobeDepth",
   "eyeSeparation",
   "farToNearRatio",
   "focalLength",
   "fog",
-  "fxaa",
   "gamma",
   "globe",
   "highDynamicRange",
-  "imagerySplitPosition",
   "invertClassification",
   "invertClassificationColor",
   "light",
   "logarithmicDepthBuffer",
   "logarithmicDepthFarToNearRatio",
-  "mapMode2D",
   "maximumRenderTimeChange",
   "minimumDisableDepthTestDistance",
   // "mode", // enable morph with animation
@@ -108,6 +104,10 @@ const cesiumProps = [
   "terrainProvider",
   "useDepthPicking",
   "useWebVR",
+  "postProcessStages",
+  "msaaSamples",
+  "splitPosition",
+  "debugCommandFilter",
 ] as const;
 
 export const cesiumEventProps = {
@@ -120,6 +120,8 @@ export const cesiumEventProps = {
   onRenderError: "renderError",
   onTerrainProviderChange: "terrainProviderChanged",
 } as const;
+
+export const otherProps = ["mode", "morphDuration"] as const;
 
 const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   switch (mode) {
@@ -152,6 +154,7 @@ const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   },
   cesiumProps,
   cesiumEventProps,
+  otherProps,
   setCesiumPropsAfterCreate: true,
 });
 

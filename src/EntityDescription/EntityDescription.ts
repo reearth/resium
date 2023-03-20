@@ -1,6 +1,6 @@
-import { useEffect, useState, useMemo, FC } from "react";
-import { createPortal } from "react-dom";
 import { Entity } from "cesium";
+import { useEffect, useState, useMemo, FC, PropsWithChildren } from "react";
+import { createPortal } from "react-dom";
 
 import { useCesium } from "../core";
 
@@ -19,10 +19,10 @@ EntityDescription can be mounted only inside[Entity](/components/Entity) compone
 and can not be mounted more than once for each entity.
 */
 
-export type EntityDescriptionProps = {
+export type EntityDescriptionProps = PropsWithChildren<{
   container?: Element;
   resizeInfoBox?: boolean;
-};
+}>;
 
 const EntityDescription: FC<EntityDescriptionProps> = ({
   children,

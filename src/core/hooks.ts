@@ -1,3 +1,4 @@
+import { Event as CesiumEvent } from "cesium";
 import {
   useEffect,
   useRef,
@@ -7,61 +8,67 @@ import {
   useLayoutEffect,
   RefObject,
 } from "react";
-import { Event as CesiumEvent } from "cesium";
 
-import { Context, useCesium } from "./context";
-import { EventManager, eventManagerContextKey } from "./EventManager";
+import { RootComponentInternalProps } from "./component";
+import { ResiumContext, useCesium } from "./context";
+import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
 import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-export type Options<Element, Props, State = any> = {
+export type Options<Element, Props extends RootComponentInternalProps, State = any> = {
   name: string;
   create?: (
-    ctx: Context,
+    ctx: ResiumContext,
     props: Props,
     wrapperRef: HTMLDivElement | null,
   ) => Element | [Element, State] | undefined;
   destroy?: (
     element: Element,
-    ctx: Context,
+    ctx: ResiumContext,
     wrapperRef: HTMLDivElement | null,
     state?: State,
   ) => void;
-  provide?: (element: Element, ctx: Context, state?: State) => Partial<Context>;
-  update?: (element: Element, props: Props, prevProps: Props, context: Context) => void;
+  provide?: (
+    element: Element,
+    ctx: ResiumContext,
+    props?: Props,
+    state?: State,
+  ) => Partial<ResiumContext>;
+  update?: (element: Element, props: Props, prevProps: Props, context: ResiumContext) => void;
   cesiumProps?: readonly (keyof Props)[];
   cesiumReadonlyProps?: readonly (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
+  otherProps?: readonly (keyof Props)[];
   setCesiumPropsAfterCreate?: boolean;
   useCommonEvent?: boolean;
   useRootEvent?: boolean;
 };
 
-export const useCesiumComponent = <Element, Props, State = any>(
+export const useCesiumComponent = <Element, Props extends RootComponentInternalProps, State = any>(
   {
     name,
     create,
     destroy,
     provide,
     update,
-    cesiumProps,
     cesiumReadonlyProps,
     cesiumEventProps,
+    otherProps,
     setCesiumPropsAfterCreate,
     useCommonEvent,
     useRootEvent,
   }: Options<Element, Props, State>,
   props: Props,
   ref: any,
-): [Partial<Context> | undefined, boolean, RefObject<HTMLDivElement>] => {
+): [Partial<ResiumContext> | undefined, boolean, RefObject<HTMLDivElement>] => {
   const element = useRef<Element>();
   const ctx = useCesium();
-  const provided = useRef<Partial<Context> | undefined>(provide ? {} : undefined);
+  const provided = useRef<Partial<ResiumContext> | undefined>(provide ? {} : undefined);
   const attachedEvents = useRef<{
     [key in keyof Element]?: any;
   }>({});
-  const initialProps = useRef<Props>(props);
+  const initialProps = useRef<Props>(propsWithChildren(props));
   const prevProps = useRef<Props>({} as Props);
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
@@ -87,9 +94,7 @@ export const useCesiumComponent = <Element, Props, State = any>(
 
       const updatedReadonlyProps: (keyof Props)[] = [];
       for (const [k, prevValue, newValue] of propDiff) {
-        if (includes(cesiumProps, k)) {
-          target[k] = newValue;
-        } else if (includes(cesiumReadonlyProps, k)) {
+        if (cesiumReadonlyProps?.includes(k)) {
           updatedReadonlyProps.push(k);
         } else if (includes(eventKeys, k)) {
           const cesiumKey = cesiumEventProps?.[k] as keyof Element;
@@ -109,6 +114,8 @@ export const useCesiumComponent = <Element, Props, State = any>(
               eventHandler.addEventListener(newValue);
             }
           }
+        } else if (k !== "children" && !eventNames.includes(k as any) && !otherProps?.includes(k)) {
+          target[k] = newValue;
         }
       }
 
@@ -175,7 +182,10 @@ export const useCesiumComponent = <Element, Props, State = any>(
     }
 
     if (provide && element.current) {
-      provided.current = { ...ctx, ...provide(element.current, ctx, stateRef.current) };
+      provided.current = {
+        ...ctx,
+        ...provide(element.current, ctx, props, stateRef.current),
+      };
     }
 
     const em = useRootEvent
@@ -225,18 +235,20 @@ export const useCesiumComponent = <Element, Props, State = any>(
 
   // Update properties of cesium element
   useEffect(() => {
+    const propsWC = propsWithChildren(props);
     if (mounted) {
-      if (!shallowEquals(props, prevProps.current)) {
-        updateProperties(props);
+      if (!shallowEquals(propsWC, prevProps.current)) {
+        updateProperties(propsWC);
+        ctx.__$internal?.onUpdate?.();
       }
     } else {
       // first time
-      prevProps.current = props;
-      initialProps.current = props;
+      prevProps.current = propsWC;
+      initialProps.current = propsWC;
       setMounted(true);
       mountedRef.current = true;
     }
-  }, [mounted, props, updateProperties]);
+  }, [ctx.__$internal, mounted, props, updateProperties]);
 
   // Expose cesium element
   useImperativeHandle(ref, () => ({
@@ -245,3 +257,8 @@ export const useCesiumComponent = <Element, Props, State = any>(
 
   return [provided.current, mounted, wrapperRef];
 };
+
+function propsWithChildren<T>(props: T): T {
+  const { children: _children, ...propsWithoutChildren } = props as any;
+  return propsWithoutChildren;
+}

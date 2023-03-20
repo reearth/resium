@@ -1,13 +1,20 @@
-import { expectType, TypeEqual } from "ts-expect";
 import { Label } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
-import { LabelProps } from "./Label";
+
+import { LabelOtherProps, LabelProps } from "./Label";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Label, keyof LabelProps>;
-type IgnoredProps = "totalScale";
+type UnusedProps = UnusedCesiumProps<
+  Label,
+  Omit<LabelProps, keyof LabelOtherProps | "id">,
+  {},
+  IgnoredProps
+>;
+type IgnoredProps = "totalScale" | "id"; // id is actually used
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

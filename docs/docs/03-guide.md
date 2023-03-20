@@ -131,7 +131,7 @@ const Example = () => (
 If `imageryProvider` property is constant, The following is recommended.
 
 ```jsx
-import React from "react";
+
 import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
 
@@ -149,7 +149,7 @@ const ExampleComponent = () => (
 If `imageryProvider` property is variable, use `useMemo` hooks:
 
 ```jsx
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
 
@@ -189,7 +189,7 @@ Note: `cesiumElement` property in the ref object can be `undefined`: e.g. when a
 Function component:
 
 ```jsx
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Viewer } from "resium";
 
 const ExampleComponent = () => {
@@ -209,7 +209,7 @@ const ExampleComponent = () => {
 Function component in TypeScript:
 
 ```tsx
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import { Viewer as CesiumViewer } from "cesium";
 import { Viewer, CesiumComponentRef } from "resium";
 
@@ -232,7 +232,7 @@ const ExampleComponent = () => {
 Class component:
 
 ```jsx
-import React, { Component } from "react";
+import { Component } from "react";
 import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
@@ -258,7 +258,7 @@ class ExampleComponent extends Component {
 Class component in TypeScript:
 
 ```tsx
-import React, { Component } from "react";
+import { Component } from "react";
 import { Viewer as CesiumViewer } from "cesium";
 import { Viewer } from "resium";
 
@@ -289,7 +289,7 @@ class ExampleComponent extends Component {
 Class component:
 
 ```jsx
-import React, { Component, createRef } from "react";
+import { Component, createRef } from "react";
 import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
@@ -314,7 +314,7 @@ class ExampleComponent extends Component {
 Class component in TypeScript:
 
 ```tsx
-import React, { Component, createRef } from "react";
+import { Component, createRef } from "react";
 import { Viewer as CesiumViewer } from "cesium";
 import { Viewer } from "resium";
 

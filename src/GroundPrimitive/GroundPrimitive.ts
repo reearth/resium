@@ -1,6 +1,12 @@
 import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import {
+  ConstructorOptions,
+  createCesiumComponent,
+  EventProps,
+  Merge,
+  PickCesiumProps,
+} from "../core";
 
 /*
 @summary
@@ -17,14 +23,19 @@ If this component is inside GroundPrimitiveCollection component, a ground primit
 Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type GroundPrimitiveCesiumProps = PickCesiumProps<CesiumGroundPrimitive, typeof cesiumProps>;
+export type Target = Merge<CesiumGroundPrimitive, ConstructorOptions<typeof CesiumGroundPrimitive>>;
+
+export type GroundPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type GroundPrimitiveCesiumReadonlyProps = PickCesiumProps<
-  CesiumGroundPrimitive,
+  Target,
   typeof cesiumReadonlyProps
 >;
 
-export type GroundPrimitiveOtherProps = {
+export type GroundPrimitiveOtherProps = EventProps<{
+  id: string;
+  primitive: CesiumGroundPrimitive; // TODO: validate type
+}> & {
   // GroundPrimitive
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/GroundPrimitive.html#readyPromise) is fullfilled */
   onReady?: (primitive: CesiumGroundPrimitive) => void;
@@ -32,7 +43,6 @@ export type GroundPrimitiveOtherProps = {
 
 export type GroundPrimitiveProps = GroundPrimitiveCesiumProps &
   GroundPrimitiveCesiumReadonlyProps &
-  EventProps<{ id: string; primitive: CesiumGroundPrimitive }> & // TODO: validate type
   GroundPrimitiveOtherProps;
 
 const cesiumProps = [
@@ -40,7 +50,6 @@ const cesiumProps = [
   "classificationType",
   "debugShowBoundingVolume",
   "debugShowShadowVolume",
-  "depthFailAppearance",
   "show",
 ] as const;
 
@@ -53,6 +62,8 @@ const cesiumReadonlyProps = [
   "releaseGeometryInstances",
   "vertexCacheOptimize",
 ] as const;
+
+export const otherProps = ["onReady"] as const;
 
 const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
   name: "GroundPrimitive",
@@ -75,6 +86,7 @@ const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimi
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 

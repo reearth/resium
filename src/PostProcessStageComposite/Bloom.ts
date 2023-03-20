@@ -1,5 +1,6 @@
 // @ignore
 import { createPostProcessStage } from "../core";
+
 import { PostProcessStageCompositeProps } from "./PostProcessStageComposite";
 
 type Props = {

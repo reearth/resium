@@ -24,6 +24,12 @@ const cesiumProps = [
   "saturationShift",
   "show",
   "perFragmentAtmosphere",
+  "atmosphereLightIntensity",
+  "atmosphereRayleighCoefficient",
+  "atmosphereMieCoefficient",
+  "atmosphereRayleighScaleHeight",
+  "atmosphereMieScaleHeight",
+  "atmosphereMieAnisotropy",
 ] as const;
 
 const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmosphereProps>({

@@ -13,10 +13,9 @@ PointGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type PointGraphicsCesiumProps = PickCesiumProps<
-  Merge<CesiumPointGraphics, CesiumPointGraphics.ConstructorOptions>,
-  typeof cesiumProps
->;
+export type Target = Merge<CesiumPointGraphics, CesiumPointGraphics.ConstructorOptions>;
+
+export type PointGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PointGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;

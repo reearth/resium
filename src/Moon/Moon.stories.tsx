@@ -1,8 +1,8 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { Ellipsoid, Math as CesiumMath } from "cesium";
 
 import Viewer from "../Viewer";
+
 import Moon, { MoonProps } from "./Moon";
 
 export default {

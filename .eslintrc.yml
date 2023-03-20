@@ -1,9 +1,11 @@
 extends:
-  - react-app
-  - react-app/jest
-  - plugin:prettier/recommended
-plugins:
-  - prettier
-root: true
-rules:
-  prettier/prettier: ['warn', {}, { usePrettierrc: true }]
+  - reearth
+overrides:
+  - files:
+      - babel.config.js
+      - docs/*.js
+    extends:
+      - reearth/commonjs
+  - files: docs/generator/**/*.ts
+    extends:
+      - reearth/node

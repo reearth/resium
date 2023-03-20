@@ -1,15 +1,24 @@
 import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, ValueOf } from "../core";
-import { Target, GeoJsonDataSourceProps, cesiumEventProps } from "./GeoJsonDataSource";
+import { UnusedCesiumProps } from "../core";
+
+import {
+  Target,
+  GeoJsonDataSourceProps,
+  cesiumEventProps,
+  GeoJsonDataSourceOtherProps,
+} from "./GeoJsonDataSource";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   Target,
-  keyof GeoJsonDataSourceProps | ValueOf<typeof cesiumEventProps>
+  Omit<GeoJsonDataSourceProps, keyof GeoJsonDataSourceOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
-type IgnoredProps = "entities" | "clock" | "isLoading";
+type IgnoredProps = "clock" | "entities" | "isLoading";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

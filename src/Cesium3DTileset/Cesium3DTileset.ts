@@ -1,4 +1,9 @@
-import { Cesium3DTileset as CesiumCesium3DTileset, Cesium3DTileFeature } from "cesium";
+import {
+  Cesium3DTileset as CesiumCesium3DTileset,
+  Cesium3DTileFeature,
+  Cesium3DTile,
+} from "cesium";
+
 import {
   createCesiumComponent,
   EventProps,
@@ -31,9 +36,9 @@ export type Cesium3DTilesetCesiumEvents = {
   onInitialTilesLoad?: () => void;
   onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
   onTileFailed?: (error: any) => void;
-  onTileLoad?: (tile: CesiumCesium3DTileset) => void;
-  onTileUnload?: () => void;
-  onTileVisible?: (tile: CesiumCesium3DTileset) => void;
+  onTileLoad?: (tile: Cesium3DTile) => void;
+  onTileUnload?: (tile: Cesium3DTile) => void;
+  onTileVisible?: (tile: Cesium3DTile) => void;
 };
 
 export type Cesium3DTilesetOtherProps = EventProps<Cesium3DTileFeature> & {
@@ -76,13 +81,9 @@ const cesiumProps = [
   "clippingPlanes",
   "classificationType",
   "ellipsoid",
-  "imageBasedLightingFactor",
   "lightColor",
   "colorBlendAmount",
   "colorBlendMode",
-  "luminanceAtZenith",
-  "sphericalHarmonicCoefficients",
-  "specularEnvironmentMaps",
   "debugFreezeFrame",
   "debugColorizeTiles",
   "debugWireframe",
@@ -93,11 +94,18 @@ const cesiumProps = [
   "debugShowRenderingStatistics",
   "debugShowMemoryUsage",
   "debugShowUrl",
-  "pointCloudShading",
   "style",
   "backFaceCulling",
   "vectorClassificationOnly",
   "vectorKeepDecodedPositions",
+  "splitDirection",
+  "customShader",
+  "imageBasedLighting",
+  "showCreditsOnScreen",
+  "featureIdLabel",
+  "instanceFeatureIdLabel",
+  "imageBasedLighting",
+  "outlineColor",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -105,6 +113,11 @@ const cesiumReadonlyProps = [
   "showOutline",
   "cullWithChildrenBounds",
   "debugHeatmapTilePropertyName",
+  "enableDebugWireframe",
+  "modelUpAxis",
+  "modelForwardAxis",
+  "projectTo2D",
+  "enableShowOutline",
 ] as const;
 
 export const cesiumEventProps = {
@@ -116,6 +129,8 @@ export const cesiumEventProps = {
   onTileUnload: "tileUnload",
   onTileVisible: "tileVisible",
 } as const;
+
+export const otherProps = ["onReady"] as const;
 
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
@@ -148,6 +163,7 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

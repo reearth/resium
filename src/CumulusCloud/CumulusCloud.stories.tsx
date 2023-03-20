@@ -1,11 +1,11 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { Cartesian2, Cartesian3 } from "cesium";
 
-import Viewer from "../Viewer";
-import CumulusCloud, { CumulusCloudProps } from "./CumulusCloud";
-import CloudCollection from "../CloudCollection";
 import CameraLookAt from "../CameraLookAt";
+import CloudCollection from "../CloudCollection";
+import Viewer from "../Viewer";
+
+import CumulusCloud, { CumulusCloudProps } from "./CumulusCloud";
 
 export default {
   title: "CumulusCloud",

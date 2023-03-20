@@ -1,5 +1,5 @@
+import { Viewer as CesiumViewer, ImageryProvider, Entity } from "cesium";
 import { ReactNode, CSSProperties } from "react";
-import { Viewer as CesiumViewer, ImageryProvider } from "cesium";
 
 import {
   createCesiumComponent,
@@ -8,6 +8,7 @@ import {
   RootEventProps,
   PickCesiumProps,
   Merge,
+  RootComponentInternalProps,
 } from "../core";
 
 /*
@@ -25,10 +26,12 @@ import {
 Everywhere. `Viewer` is a root component.
 */
 
+export type Target = Merge<CesiumViewer, CesiumViewer.ConstructorOptions>;
+
 export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
 export type ViewerCesiumReadonlyProps = Merge<
-  PickCesiumProps<Merge<CesiumViewer, CesiumViewer.ConstructorOptions>, typeof cesiumReadonlyProps>,
+  PickCesiumProps<Target, typeof cesiumReadonlyProps>,
   {
     /** If false, the default imagery layer will be removed. */
     imageryProvider?: ImageryProvider | false;
@@ -36,8 +39,8 @@ export type ViewerCesiumReadonlyProps = Merge<
 >;
 
 export type ViewerCesiumEvents = {
-  onSelectedEntityChange?: () => void;
-  onTrackedEntityChange?: () => void;
+  onSelectedEntityChange?: (entity: Entity) => void;
+  onTrackedEntityChange?: (entity: Entity) => void;
 };
 
 const cesiumProps = [
@@ -88,11 +91,13 @@ const cesiumReadonlyProps = [
   "creditContainer",
   "creditViewport",
   "dataSources",
-  "terrainExaggeration",
   "mapMode2D",
   "projectionPicker",
   "requestRenderMode",
   "maximumRenderTimeChange",
+  "depthPlaneEllipsoidOffset",
+  "msaaSamples",
+  "blurActiveElementOnCanvasFocus",
 ] as const;
 
 export const cesiumEventProps = {
@@ -100,21 +105,24 @@ export const cesiumEventProps = {
   onTrackedEntityChange: "trackedEntityChanged",
 } as const;
 
-export type ViewerOtherProps = RootEventProps & {
-  /** Applied to outer `div` element */
-  className?: string;
-  /** Applied to outer `div` element */
-  id?: string;
-  /** Applied to outer `div` element */
-  style?: CSSProperties;
-  /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
-  full?: boolean;
-  /** All props applied to outer `div` element */
-  containerProps?: any;
-  /** It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself. */
-  extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
-  children?: ReactNode;
-};
+export const otherProps = ["className", "id", "style", "full", "containerProps", "extend"] as const;
+
+export type ViewerOtherProps = RootEventProps &
+  RootComponentInternalProps & {
+    /** Applied to outer `div` element */
+    className?: string;
+    /** Applied to outer `div` element */
+    id?: string;
+    /** Applied to outer `div` element */
+    style?: CSSProperties;
+    /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
+    full?: boolean;
+    /** All props applied to outer `div` element */
+    containerProps?: any;
+    /** It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself. */
+    extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
+    children?: ReactNode;
+  };
 
 export type ViewerProps = ViewerCesiumProps &
   ViewerCesiumReadonlyProps &
@@ -158,7 +166,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
       element.destroy();
     }
   },
-  provide(element, _props, state) {
+  provide(element, _context, props, state) {
     return {
       viewer: element,
       cesiumWidget: element.cesiumWidget,
@@ -169,6 +177,9 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
       imageryLayerCollection: element.scene.globe.imageryLayers,
       primitiveCollection: element.scene.primitives,
       globe: element.scene.globe,
+      __$internal: {
+        onUpdate: props?.onUpdate,
+      },
       [eventManagerContextKey]: state,
     };
   },
@@ -192,6 +203,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   renderContainer: true,
   useCommonEvent: true,
   useRootEvent: true,

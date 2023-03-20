@@ -1,6 +1,12 @@
 import { Primitive as CesiumPrimitive } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import {
+  ConstructorOptions,
+  createCesiumComponent,
+  EventProps,
+  Merge,
+  PickCesiumProps,
+} from "../core";
 
 /*
 @summary
@@ -16,21 +22,19 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type PrimitiveCesiumProps = PickCesiumProps<CesiumPrimitive, typeof cesiumProps>;
+export type Target = Merge<CesiumPrimitive, ConstructorOptions<typeof CesiumPrimitive>>;
 
-export type PrimitiveCesiumReadonlyProps = PickCesiumProps<
-  CesiumPrimitive,
-  typeof cesiumReadonlyProps
->;
+export type PrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
-export type PrimtiiveOtherProps = {
+export type PrimitiveCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+
+export type PrimtiiveOtherProps = EventProps<{ id: string; primitive: CesiumPrimitive }> & {
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/Primitive.html#readyPromise) is fullfilled */
   onReady?: (primitive: CesiumPrimitive) => void;
 };
 
 export type PrimitiveProps = PrimitiveCesiumProps &
   PrimitiveCesiumReadonlyProps &
-  EventProps<{ id: string; primitive: CesiumPrimitive }> &
   PrimtiiveOtherProps;
 
 const cesiumProps = [
@@ -53,6 +57,8 @@ const cesiumReadonlyProps = [
   "vertexCacheOptimize",
 ] as const;
 
+export const otherProps = ["onReady"] as const;
+
 const Primitive = createCesiumComponent<CesiumPrimitive, PrimitiveProps>({
   name: "Primitive",
   create(context, props) {
@@ -74,6 +80,7 @@ const Primitive = createCesiumComponent<CesiumPrimitive, PrimitiveProps>({
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 

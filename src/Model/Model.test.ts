@@ -1,13 +1,19 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { Model } from "cesium";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
-import { ModelProps } from "./Model";
+
+import { ModalOtherProps, ModelProps, Target } from "./Model";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Model, keyof ModelProps>;
-type IgnoredProps = "activeAnimations";
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  Omit<ModelProps, keyof ModalOtherProps>,
+  {},
+  IgnoredProps
+>;
+type IgnoredProps = "id" | "activeAnimations" | "gltf"; // gltf is actually used
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

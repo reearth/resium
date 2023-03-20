@@ -1,5 +1,6 @@
-import { createCameraOperation } from "../core";
 import { Camera } from "cesium";
+
+import { createCameraOperation } from "../core";
 
 // @noCesiumElement
 

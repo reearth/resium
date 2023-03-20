@@ -1,4 +1,5 @@
 import { Clock as CesiumClock, ClockRange, ClockStep, JulianDate } from "cesium";
+
 import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*

@@ -1,5 +1,6 @@
-import { createCesiumComponent, PickCesiumProps } from "../core";
 import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
+
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -91,6 +92,14 @@ const cesiumProps = [
   "undergroundColorAlphaByDistance",
   "terrainExaggeration",
   "terrainExaggerationRelativeHeight",
+  "lambertDiffuseMultiplier",
+  "atmosphereLightIntensity",
+  "atmosphereRayleighCoefficient",
+  "atmosphereMieCoefficient",
+  "atmosphereRayleighScaleHeight",
+  "atmosphereMieScaleHeight",
+  "atmosphereMieAnisotropy",
+  "vertexShadowDarkness",
 ] as const;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({

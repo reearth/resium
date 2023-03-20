@@ -12,18 +12,20 @@ import { createCesiumComponent, PickCesiumProps } from "../core";
 Inside [Viewer](/components/Viewer) component or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type ShadowMapCesiumProps = PickCesiumProps<CesiumShadowMap, typeof cesiumProps>;
+export type Target = CesiumShadowMap;
+
+export type ShadowMapCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type ShadowMapProps = ShadowMapCesiumProps;
 
 const cesiumProps = [
   "darkness",
-  "enabled",
-  "maximumDistance",
-  "normalOffset",
-  "size",
-  "softShadows",
   "fadingEnabled",
+  "maximumDistance",
+  "enabled",
+  "normalOffset",
+  "softShadows",
+  "size",
 ] as const;
 
 const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({

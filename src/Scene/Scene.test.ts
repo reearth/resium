@@ -1,13 +1,20 @@
-import { expectType, TypeEqual } from "ts-expect";
 import { Scene } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, ValueOf } from "../core";
-import { SceneProps, cesiumEventProps } from "./Scene";
+import { UnusedCesiumProps } from "../core";
+
+import { SceneProps, cesiumEventProps, SceneOtherProps } from "./Scene";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Scene, keyof SceneProps | ValueOf<typeof cesiumEventProps>>;
-type IgnoredProps = "postProcessStages";
+type UnusedProps = UnusedCesiumProps<
+  Scene,
+  Omit<SceneProps, keyof SceneOtherProps>,
+  typeof cesiumEventProps,
+  IgnoredProps
+>;
+type IgnoredProps = "postProcessStages" | "mode" | "debugCommandFilter" | "mapMode2D";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

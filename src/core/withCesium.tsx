@@ -1,4 +1,4 @@
-import React, {
+import {
   forwardRef,
   PureComponent,
   PropsWithoutRef,
@@ -6,6 +6,7 @@ import React, {
   ForwardRefExoticComponent,
   ComponentType,
 } from "react";
+
 import { Consumer } from "./context";
 
 export type CesiumProp<C> = {

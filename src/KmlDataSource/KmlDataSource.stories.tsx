@@ -1,11 +1,11 @@
-import React from "react";
-import { Meta, Story } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
+import { Meta, Story } from "@storybook/react";
 import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
 
-import Viewer from "../Viewer";
-import KmlDataSource, { KmlDataSourceProps } from "./KmlDataSource";
 import { events } from "../core/storybook";
+import Viewer from "../Viewer";
+
+import KmlDataSource, { KmlDataSourceProps } from "./KmlDataSource";
 
 export default {
   title: "KmlDataSource",

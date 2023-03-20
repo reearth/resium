@@ -1,13 +1,15 @@
-import { expectType, TypeEqual } from "ts-expect";
 import { Globe } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, ValueOf } from "../core";
+import { UnusedCesiumProps } from "../core";
+
 import { GlobeProps, cesiumEventProps } from "./Globe";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Globe, keyof GlobeProps | ValueOf<typeof cesiumEventProps>>;
+type UnusedProps = UnusedCesiumProps<Globe, GlobeProps, typeof cesiumEventProps, IgnoredProps>;
 type IgnoredProps = "ellipsoid" | "imageryLayers";
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

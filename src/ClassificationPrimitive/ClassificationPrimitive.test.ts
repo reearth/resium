@@ -1,13 +1,23 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { ClassificationPrimitive } from "cesium";
+import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
-import { ClassificationPrimitiveProps } from "./ClassificationPrimitive";
+
+import {
+  Target,
+  ClassificationPrimitiveProps,
+  ClassificationPrimitiveOtherProps,
+} from "./ClassificationPrimitive";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<ClassificationPrimitive, keyof ClassificationPrimitiveProps>;
+type UnusedProps = UnusedCesiumProps<
+  Target,
+  Omit<ClassificationPrimitiveProps, keyof ClassificationPrimitiveOtherProps>,
+  {},
+  IgnoredProps
+>;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

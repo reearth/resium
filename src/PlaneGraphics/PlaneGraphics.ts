@@ -13,10 +13,9 @@ PlaneGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type PlaneGraphicsCesiumProps = PickCesiumProps<
-  Merge<CesiumPlaneGraphics, CesiumPlaneGraphics.ConstructorOptions>,
-  typeof cesiumProps
->;
+export type Target = Merge<CesiumPlaneGraphics, CesiumPlaneGraphics.ConstructorOptions>;
+
+export type PlaneGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PlaneGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;

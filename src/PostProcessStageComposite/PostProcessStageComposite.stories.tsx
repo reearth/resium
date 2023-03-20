@@ -1,11 +1,12 @@
-import React from "react";
 import { Meta, Story } from "@storybook/react";
 import { Cartesian3 } from "cesium";
 
-import Viewer from "../Viewer";
 import Entity from "../Entity";
-import { PostProcessStageComposite, Bloom } from ".";
+import Viewer from "../Viewer";
+
 import { BloomProps } from "./Bloom";
+
+import { PostProcessStageComposite, Bloom } from ".";
 
 export default {
   title: "PostProcessStageComposite",

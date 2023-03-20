@@ -1,19 +1,19 @@
-import React, { createRef, ReactNode } from "react";
-import { Event } from "cesium";
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import { Event } from "cesium";
+import { createRef, ReactNode } from "react";
+import { beforeEach, describe, expect, it, vi, vitest } from "vitest";
 
 import { createCesiumComponent, CesiumComponentRef } from "./component";
 import { Provider } from "./context";
 
 beforeEach(() => {
-  console.warn = jest.fn();
+  console.warn = vi.fn();
 });
 
 describe("core/component", () => {
   it("should create and expose cesium element correctly on initialized", () => {
-    const create = jest.fn(() => "foobar");
-    const value = { hoge: 1 };
+    const create = vi.fn(() => "foobar");
+    const value = { hoge: 1 } as any;
 
     const Component = createCesiumComponent<string, { test: number }>({
       name: "test",
@@ -34,8 +34,8 @@ describe("core/component", () => {
   });
 
   it("should call destroy fn on unmounted", () => {
-    const destroy = jest.fn();
-    const value = { hoge: 1 };
+    const destroy = vi.fn();
+    const value = { hoge: 1 } as any;
 
     const Component = createCesiumComponent<string, { test: number }>({
       name: "test",
@@ -144,13 +144,13 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const createFn = jest.fn((_ctx, props: { foo?: number }) => {
+    const createFn = vi.fn((_ctx, props: { foo?: number }) => {
       if (typeof props.foo === "number") {
         cesiumElement.foo = props.foo;
       }
       return cesiumElement;
     });
-    const destroyFn = jest.fn();
+    const destroyFn = vi.fn();
 
     const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
       name: "test",
@@ -173,11 +173,11 @@ describe("core/component", () => {
   });
 
   it("should call update", () => {
-    const updateFn = jest.fn();
+    const updateFn = vi.fn();
 
-    const Component = createCesiumComponent<"hoge", { foo?: number }>({
+    const Component = createCesiumComponent<{ hoge: "hoge" }, { foo?: number }>({
       name: "test",
-      create: () => "hoge",
+      create: () => ({ hoge: "hoge" }),
       update: updateFn,
     });
 
@@ -188,12 +188,12 @@ describe("core/component", () => {
     rerender(<Component foo={1} />);
 
     expect(updateFn).toBeCalledTimes(1);
-    expect(updateFn).toBeCalledWith("hoge", { foo: 1 }, {}, {});
+    expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
   });
 
   it("should provide context", () => {
-    const create1 = jest.fn(() => "test");
-    const create2 = jest.fn(() => "test");
+    const create1 = vi.fn(() => "test");
+    const create2 = vi.fn(() => "test");
 
     const Component1 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
@@ -201,13 +201,13 @@ describe("core/component", () => {
       provide: (): any => ({ context: "b" }),
     });
 
-    const Component2 = createCesiumComponent<string, unknown>({
+    const Component2 = createCesiumComponent<string, {}>({
       name: "test2",
       create: create2,
     });
 
     render(
-      <Provider value={{ context: "a", context2: "foo" }}>
+      <Provider value={{ context: "a", context2: "foo" } as any}>
         <Component1>
           <Component2 />
         </Component1>
@@ -218,8 +218,49 @@ describe("core/component", () => {
     expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
   });
 
+  it("should invoke onUpdate event when being dirty", () => {
+    const cesiumElement = {
+      foo: 0,
+    };
+    const onUpdate = vitest.fn();
+
+    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumProps: ["foo"],
+    });
+
+    const { rerender } = render(
+      <Provider
+        value={{
+          __$internal: {
+            onUpdate,
+          },
+        }}>
+        <Component />
+      </Provider>,
+    );
+
+    expect(cesiumElement.foo).toBe(0);
+    expect(onUpdate).not.toBeCalled();
+
+    rerender(
+      <Provider
+        value={{
+          __$internal: {
+            onUpdate,
+          },
+        }}>
+        <Component foo={1} />
+      </Provider>,
+    );
+
+    expect(cesiumElement.foo).toBe(1);
+    expect(onUpdate).toBeCalledTimes(1);
+  });
+
   it("should render container", () => {
-    const createFn = jest.fn(() => "foobar");
+    const createFn = vi.fn(() => "foobar");
 
     const Component = createCesiumComponent<string, { className?: string }>({
       name: "test",
@@ -245,12 +286,12 @@ describe("core/component", () => {
   });
 
   it("should keep state", () => {
-    const provideFn = jest.fn();
-    const destroyFn = jest.fn();
+    const provideFn = vi.fn();
+    const destroyFn = vi.fn();
 
     const state = {};
 
-    const Component = createCesiumComponent<string, unknown>({
+    const Component = createCesiumComponent<string, {}>({
       name: "test",
       create: () => ["foobar", state],
       provide: provideFn,
@@ -263,7 +304,12 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(provideFn).toBeCalledWith(expect.anything(), expect.anything(), state);
+    expect(provideFn).toBeCalledWith(
+      expect.anything(),
+      expect.anything(),
+      expect.anything(),
+      state,
+    );
     expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
   });
 
@@ -279,7 +325,7 @@ describe("core/component", () => {
       </Component>,
     );
 
-    expect(screen.queryByTestId("hello")).toBeInTheDocument();
+    expect(screen.getByTestId("hello")).toBeInTheDocument();
 
     const Component2 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",

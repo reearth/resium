@@ -1,11 +1,11 @@
-import React from "react";
+import { action } from "@storybook/addon-actions";
 import { Meta, Story } from "@storybook/react";
 import { Color } from "cesium";
-import { action } from "@storybook/addon-actions";
 
-import Viewer from "../Viewer";
-import GeoJsonDataSource, { GeoJsonDataSourceProps } from "./GeoJsonDataSource";
 import { events } from "../core/storybook";
+import Viewer from "../Viewer";
+
+import GeoJsonDataSource, { GeoJsonDataSourceProps } from "./GeoJsonDataSource";
 
 export default {
   title: "GeoJsonDataSource",

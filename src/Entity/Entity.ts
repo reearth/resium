@@ -1,21 +1,9 @@
+import { Entity as CesiumEntity } from "cesium";
 import { ReactNode } from "react";
-import {
-  Billboard,
-  BillboardCollection,
-  Entity as CesiumEntity,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps, Merge, EventTarget } from "../core";
+
+export type { EventTarget } from "../core";
 
 /*
 @summary
@@ -87,7 +75,7 @@ export type EntityCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type EntityOtherProps = {
+export type EntityOtherProps = EventProps<EventTarget> & {
   children?: ReactNode;
   /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
   selected?: boolean;
@@ -95,25 +83,9 @@ export type EntityOtherProps = {
   tracked?: boolean;
 };
 
-export type EventTarget = {
-  id: CesiumEntity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
-
 export type EntityProps = EntityCesiumProps &
   EntityCesiumReadonlyProps &
   EntityCesiumEvents &
-  EventProps<EventTarget> &
   EntityOtherProps;
 
 const cesiumProps = [
@@ -151,6 +123,8 @@ const cesiumReadonlyProps = ["id"] as const;
 export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
+
+export const otherProps = ["selected", "tracked"] as const;
 
 const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   name: "Entity",
@@ -198,6 +172,7 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

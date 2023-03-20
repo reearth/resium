@@ -35,7 +35,6 @@ const cesiumProps = [
   "height",
   "heightReference",
   "horizontalOrigin",
-  "id",
   "image",
   "pixelOffset",
   "pixelOffsetScaleByDistance",
@@ -48,6 +47,7 @@ const cesiumProps = [
   "translucencyByDistance",
   "verticalOrigin",
   "width",
+  "id",
 ] as const;
 
 const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({

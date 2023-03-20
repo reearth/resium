@@ -6,6 +6,7 @@
     ":semanticCommitScopeDisabled",
     ":automergeMinor",
     ":automergeBranch",
+    ":preserveSemverRanges",
     ":maintainLockFilesWeekly",
     ":enableVulnerabilityAlertsWithLabel(security)"
   ],

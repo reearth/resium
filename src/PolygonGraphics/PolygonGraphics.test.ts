@@ -1,16 +1,19 @@
 import { expectType, TypeEqual } from "ts-expect";
-import { PolygonGraphics } from "cesium";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, Merge, ValueOf } from "../core";
-import { PolygonGraphicsProps, cesiumEventProps } from "./PolygonGraphics";
+import { UnusedCesiumProps } from "../core";
+
+import { PolygonGraphicsProps, cesiumEventProps, Target } from "./PolygonGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
-  Merge<PolygonGraphics, PolygonGraphics.ConstructorOptions>,
-  keyof PolygonGraphicsProps | ValueOf<typeof cesiumEventProps>
+  Target,
+  PolygonGraphicsProps,
+  typeof cesiumEventProps,
+  IgnoredProps
 >;
 type IgnoredProps = never;
 
-expectType<TypeEqual<never, Exclude<UnusedProps, IgnoredProps>>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true);
 
 it("should be compiled", () => {});

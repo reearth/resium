@@ -13,10 +13,9 @@ EllipsoidGraphics can be mounted only inside[Entity](/components/Entity) compone
 and can not be mounted more than once for each entity.
 */
 
-export type EllipsoidGraphicsCesiumProps = PickCesiumProps<
-  Merge<CesiumEllipsoidGraphics, CesiumEllipsoidGraphics.ConstructorOptions>,
-  typeof cesiumProps
->;
+export type Target = Merge<CesiumEllipsoidGraphics, CesiumEllipsoidGraphics.ConstructorOptions>;
+
+export type EllipsoidGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type EllipsoidGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;

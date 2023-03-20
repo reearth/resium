@@ -1,22 +1,15 @@
+import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
+
 import {
-  Billboard,
-  BillboardCollection,
-  CzmlDataSource as CesiumCzmlDataSource,
-  Entity,
-  Label,
-  LabelCollection,
-  Model,
-  ModelMesh,
-  ModelNode,
-  PointPrimitive,
-  PointPrimitiveCollection,
-  Polyline,
-  PolylineCollection,
-  Primitive,
-} from "cesium";
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  MethodOptions2,
+  EventProps,
+  EventTarget,
+} from "../core";
 
-import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps } from "../core";
-
+export type { EventTarget } from "../core";
 /*
 @summary
 `CzmlDataSource` provides the way to load and show CZML data into the scene.
@@ -37,28 +30,13 @@ export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, ty
 
 export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type EventTarget = {
-  id: Entity;
-} & (
-  | { primitive: Primitive }
-  | {
-      primitive: Model;
-      mesh: ModelMesh;
-      node: ModelNode;
-    }
-  | { collection: BillboardCollection; primitive: Billboard }
-  | { collection: LabelCollection; primitive: Label }
-  | { collection: PointPrimitiveCollection; primitive: PointPrimitive }
-  | { collection: PolylineCollection; primitive: Polyline }
-);
-
-export type CzmlDataSourceCesiumEvents = EventProps<EventTarget> & {
+export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
   onError?: (CzmlDataSource: CesiumCzmlDataSource, error: any) => void;
   onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
 };
 
-export type CzmlDataSourceOtherProps = {
+export type CzmlDataSourceOtherProps = EventProps<EventTarget> & {
   /** Calls when the Promise for loading data is fullfilled. */
   onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
   data?: Parameters<CesiumCzmlDataSource["load"]>[0];
@@ -78,6 +56,8 @@ export const cesiumEventProps = {
   onError: "errorEvent",
   onLoading: "loadingEvent",
 } as const;
+
+export const otherProps = ["onLoad", "data"] as const;
 
 const load = (element: CesiumCzmlDataSource, { data, onLoad, ...options }: CzmlDataSourceProps) => {
   if (!data) return;
@@ -133,6 +113,7 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
+  otherProps,
   useCommonEvent: true,
 });
 

@@ -13,7 +13,7 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A ParticleSystem object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-type Target = Merge<CesiumParticleSystem, ConstructorOptions<typeof CesiumParticleSystem>>;
+export type Target = Merge<CesiumParticleSystem, ConstructorOptions<typeof CesiumParticleSystem>>;
 
 export type ParticleSystemCesiumProps = PickCesiumProps<CesiumParticleSystem, typeof cesiumProps>;
 
@@ -86,7 +86,7 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
     }
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed) {
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
   },

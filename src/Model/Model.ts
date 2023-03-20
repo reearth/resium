@@ -1,83 +1,91 @@
-import { Model as CesiumModel, ModelMesh, Primitive, ModelNode } from "cesium";
+import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode } from "cesium";
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  ConstructorOptions,
-  Merge,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
 
-type Target = Merge<
-  Merge<CesiumModel, ConstructorOptions<typeof CesiumModel>>,
-  Parameters<typeof CesiumModel["fromGltf"]>[0]
->;
+export type Target = Merge<CesiumModel, Parameters<(typeof CesiumModel)["fromGltf"]>[0]>;
 
 export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
 
 export type ModelCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type ModalOtherProps = {
+export type ModalOtherProps = EventProps<{
+  id?: string;
+  node: ModelNode;
+  primitive: Primitive;
+}> & {
   /** Calls when the model is completely loaded. */
   onReady?: (model: CesiumModel) => void;
 };
 
-export type ModelProps = ModelCesiumProps &
-  ModelCesiumReadonlyProps &
-  EventProps<{
-    id?: string;
-    mesh: ModelMesh;
-    node: ModelNode;
-    primitive: Primitive;
-  }> &
-  ModalOtherProps;
+export type ModelProps = ModelCesiumProps & ModelCesiumReadonlyProps & ModalOtherProps;
 
 const cesiumProps = [
-  "basePath",
+  "backFaceCulling",
   "clampAnimations",
   "clippingPlanes",
   "color",
   "colorBlendAmount",
   "colorBlendMode",
+  "customShader",
   "debugShowBoundingVolume",
   "debugWireframe",
   "distanceDisplayCondition",
+  "featureIdLabel",
+  "heightReference",
   "id",
-  "imageBasedLightingFactor",
+  "imageBasedLighting",
+  "instanceFeatureIdLabel",
   "lightColor",
   "maximumScale",
   "minimumPixelSize",
   "modelMatrix",
+  "outlineColor",
   "scale",
   "shadows",
   "show",
+  "showCreditsOnScreen",
+  "showOutline",
   "silhouetteColor",
   "silhouetteSize",
-  "luminanceAtZenith",
-  "sphericalHarmonicCoefficients",
-  "specularEnvironmentMaps",
-  "backFaceCulling",
+  "splitDirection",
+  "style",
 ] as const;
 
 const cesiumReadonlyProps = [
   "allowPicking",
   "asynchronous",
+  "basePath",
   "credit",
-  "dequantizeInShader",
+  "enableDebugWireframe",
   "gltf",
   "heightReference",
   "incrementallyLoadTextures",
   "scene",
   "url",
+  "releaseGltfJson",
+  "cull",
+  "opaquePass",
+  "upAxis",
+  "forwardAxis",
+  "content",
+  "scene",
+  "enableShowOutline",
+  "projectTo2D",
+  "classificationType",
 ] as const;
+
+export const otherProps = ["onReady"] as const;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
-  create(context, { url, scene, ...props }) {
-    if (!context.scene || !context.primitiveCollection) return;
-    const element = url
-      ? CesiumModel.fromGltf({ ...props, url })
-      : new CesiumModel({ ...props, scene: scene || context.scene });
+  create(context, { scene, url, colorBlendMode, ...props }) {
+    if (!context.scene || !context.primitiveCollection || !url) return;
+    const element = CesiumModel.fromGltf({
+      ...props,
+      url,
+      colorBlendMode: colorBlendMode as ColorBlendMode,
+      scene: scene || context.scene,
+    });
     if (props.onReady) {
       element.readyPromise.then(props.onReady);
     }
@@ -94,6 +102,7 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
   useCommonEvent: true,
 });
 
