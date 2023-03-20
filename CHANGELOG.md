@@ -1,5 +1,14 @@
 # Changelog
 
+## v1.16.1 - 2022/03/20
+
+- Use automatic JSX Runtime in Vite
+- Fix typo in docs ([#502](https://github.com/reearth/resium/pull/582), [#588](https://github.com/reearth/resium/pull/588))
+- Add index prop to ImageryLayer component
+- Add id prop to Billboard and Label component
+- Rename and fix useCesium context type
+- Update depndencies
+
 ## v1.16.0 - 2022/12/14
 
 - Support Cesium v1.100
