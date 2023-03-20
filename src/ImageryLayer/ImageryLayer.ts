@@ -36,7 +36,9 @@ Either:
 - Inside [ImageryLayerCollection](/components/ImageryLayerCollection) component: same as above
 */
 
-export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>>;
+export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>> & {
+  index?: number;
+};
 
 export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
@@ -64,6 +66,7 @@ const cesiumProps = [
   "dayAlpha",
   "colorToAlpha",
   "colorToAlphaThreshold",
+  "index",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -79,7 +82,7 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
   create(context, props) {
     if (!context.imageryLayerCollection) return;
     const element = new CesiumImageryLayer(props.imageryProvider, props);
-    context.imageryLayerCollection.add(element);
+    context.imageryLayerCollection.add(element, props.index);
     return element;
   },
   destroy(element, context) {
