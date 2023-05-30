@@ -55,7 +55,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     const parent = frame?.contentDocument?.querySelector(".cesium-infoBox-description");
     if (!frame || !parent) return;
 
-    let timeout: number | undefined;
+    let interval: number | undefined;
 
     if (selected) {
       // auto resize
@@ -63,13 +63,23 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
         const height = parent.getBoundingClientRect().height;
         frame.style.height = height + "px";
 
-        timeout = window.setTimeout(() => {
+        interval = window.setInterval(() => {
+          // wait for infobox to become visible.
+          const node = viewer.infoBox.container
+            .querySelector(
+              ".cesium-infoBox.cesium-infoBox-bodyless.cesium-infoBox-visible");
+
+          if (!node) return;
+
+          // clear the interval, the following code only happens once.
+          clearInterval(interval)
+          interval = undefined
+
           // append the description content to infoBox.
           parent.appendChild(c);
+
           // remove cesium-infoBox-bodyless class
-          viewer.infoBox.container
-            .querySelector(".cesium-infoBox.cesium-infoBox-bodyless")
-            ?.classList.remove("cesium-infoBox-bodyless");
+          node.classList.remove("cesium-infoBox-bodyless");
           frame.style.height = parent.getBoundingClientRect().height + "px";
         }, 10);
       }
@@ -77,7 +87,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
       parent.removeChild(c);
     }
 
-    return timeout ? () => clearTimeout(timeout) : undefined;
+    return interval ? () => clearTimeout(interval) : undefined;
   }, [c, container, resizeInfoBox, selected, viewer]);
 
   return c ? createPortal(!container || selected ? children : null, c) : null;
