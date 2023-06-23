@@ -1,27 +1,6 @@
 {
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
-    "config:base",
-    ":timezone(Asia/Tokyo)",
-    ":semanticCommits",
-    ":semanticCommitScopeDisabled",
-    ":automergeMinor",
-    ":automergeBranch",
-    ":preserveSemverRanges",
-    ":maintainLockFilesWeekly",
-    ":enableVulnerabilityAlertsWithLabel(security)"
-  ],
-  "enabledManagers": [
-    "npm"
-  ],
-  "packageRules": [
-    {
-      "packagePatterns": [
-        "*"
-      ],
-      "excludePackagePatterns": [
-        "cesium"
-      ],
-      "enabled": false
-    }
+    "github>reearth/renovate-config"
   ]
 }
