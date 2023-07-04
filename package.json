@@ -54,7 +54,7 @@
     "@types/react": "18.0.28",
     "@vitejs/plugin-react": "3.1.0",
     "c8": "7.13.0",
-    "cesium": "1.103.0",
+    "cesium": "1.107.0",
     "eslint": "8.36.0",
     "eslint-config-reearth": "0.2.1",
     "globby": "13.1.3",
