@@ -12,7 +12,7 @@ type UnusedProps = UnusedCesiumProps<
   typeof cesiumEventProps,
   IgnoredProps
 >;
-type IgnoredProps = "contextOptions"; // contextOptions is actually used
+type IgnoredProps = "contextOptions" | "terrainProvider"; // contextOptions is actually used
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

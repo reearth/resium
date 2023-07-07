@@ -132,7 +132,7 @@ export const cesiumEventProps = {
   onTileVisible: "tileVisible",
 } as const;
 
-export const otherProps = ["onReady", "onError"] as const;
+export const otherProps = ["onReady", "onError", "url"] as const;
 
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",

@@ -86,9 +86,7 @@ const TimeDynamicPointCloud = createCesiumComponent<
       ...props,
       clock: props.clock ?? context.cesiumWidget.clock,
     });
-    if (props.onReady) {
-      element.readyPromise.then(props.onReady);
-    }
+    props.onReady?.(element);
     context.primitiveCollection.add(element);
     return element;
   },

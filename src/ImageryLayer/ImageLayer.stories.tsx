@@ -14,12 +14,10 @@ export const Basic: Story<ImageryLayerProps> = args => (
   <Viewer full>
     <ImageryLayer
       {...args}
-      imageryProvider={
-        new ArcGisMapServerImageryProvider({
-          url: "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
-        })
-      }
+      imageryProvider={ArcGisMapServerImageryProvider.fromUrl(
+        "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      )}
     />
-    <ImageryLayer alpha={0.5} imageryProvider={new IonImageryProvider({ assetId: 3812 })} />
+    <ImageryLayer alpha={0.5} imageryProvider={IonImageryProvider.fromAssetId(3812, {})} />
   </Viewer>
 );

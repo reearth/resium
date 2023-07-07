@@ -74,7 +74,13 @@ const GroundPolylinePrimitive = createCesiumComponent<
     if (!context.primitiveCollection) return;
     const element = new CesiumGroundPolylinePrimitive(props);
     if (props.onReady) {
-      element.readyPromise.then(props.onReady);
+      const handlePostRender = () => {
+        if (element.ready) {
+          props.onReady?.(element);
+          context.scene?.postRender.removeEventListener(handlePostRender);
+        }
+      };
+      context.scene?.postRender.addEventListener(handlePostRender);
     }
     context.primitiveCollection.add(element);
     return element;
