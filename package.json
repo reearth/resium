@@ -71,7 +71,7 @@
     "vite": "4.4.2",
     "vite-plugin-cesium": "1.2.22",
     "vite-plugin-dts": "3.2.0",
-    "vitest": "0.33.0",
+    "vitest": "0.29.2",
     "web-streams-polyfill": "3.2.1"
   }
 }
