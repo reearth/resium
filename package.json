@@ -24,7 +24,7 @@
     "lint": "eslint .",
     "format": "eslint --fix .",
     "storybook": "storybook dev -p 9001",
-    "storybook:build": "build-storybook -o docs/static/examples",
+    "storybook:build": "storybook build -o docs/static/examples",
     "docs": "yarn --cwd docs start",
     "docs:build": "run-s docs:generate storybook:build docs:build2",
     "docs:generate": "ts-node --esm -O '{\"module\":\"ESNext\"}' ./scripts/generator/index.mts",
