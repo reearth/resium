@@ -52,7 +52,7 @@
     "@testing-library/jest-dom": "5.16.5",
     "@testing-library/react": "14.0.0",
     "@types/node": "18.16.19",
-    "@types/react": "18.2.14",
+    "@types/react": "18.0.28",
     "@vitejs/plugin-react": "4.0.2",
     "c8": "8.0.0",
     "cesium": "1.103.0",
