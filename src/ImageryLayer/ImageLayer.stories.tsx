@@ -15,7 +15,7 @@ export const Basic: Story<ImageryLayerProps> = args => (
     <ImageryLayer
       {...args}
       imageryProvider={ArcGisMapServerImageryProvider.fromUrl(
-        "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+        "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
       )}
     />
     <ImageryLayer alpha={0.5} imageryProvider={IonImageryProvider.fromAssetId(3812, {})} />

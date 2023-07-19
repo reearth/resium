@@ -19,7 +19,7 @@ export default {
 
 const shader = `
 uniform sampler2D colorTexture;
-varying vec2 v_textureCoordinates;
+in vec2 v_textureCoordinates;
 const int KERNEL_WIDTH = 16;
 void main(void)
 {
@@ -30,11 +30,11 @@ void main(void)
     {
         for (int j = 0; j < KERNEL_WIDTH; j++)
         {
-            averageValue += texture2D(colorTexture, integralPos + step * vec2(i, j)).rgb;
+            averageValue += texture(colorTexture, integralPos + step * vec2(i, j)).rgb;
         }
     }
     averageValue /= float(KERNEL_WIDTH * KERNEL_WIDTH);
-    gl_FragColor = vec4(averageValue, 1.0);
+    out_FragColor = vec4(averageValue, 1.0);
 }
 `;
 
