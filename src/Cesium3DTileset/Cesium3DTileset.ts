@@ -27,8 +27,7 @@ export type Cesium3DTilesetCesiumProps = PickCesiumProps<CesiumCesium3DTileset, 
 
 export type Cesium3DTilesetCesiumReadonlyProps = PickCesiumProps<
   Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
-  typeof cesiumReadonlyProps,
-  "url"
+  typeof cesiumReadonlyProps
 >;
 
 export type Cesium3DTilesetCesiumEvents = {
@@ -44,6 +43,8 @@ export type Cesium3DTilesetCesiumEvents = {
 export type Cesium3DTilesetOtherProps = EventProps<Cesium3DTileFeature> & {
   /** Calls when the tile set is completely loaded. */
   onReady?: (tileset: CesiumCesium3DTileset) => void;
+  onError?: (err: unknown) => void;
+  url: string;
 };
 
 export type Cesium3DTilesetProps = Cesium3DTilesetCesiumProps &
@@ -106,10 +107,11 @@ const cesiumProps = [
   "instanceFeatureIdLabel",
   "imageBasedLighting",
   "outlineColor",
+  "cacheBytes",
+  "maximumCacheOverflowBytes",
 ] as const;
 
 const cesiumReadonlyProps = [
-  "url",
   "showOutline",
   "cullWithChildrenBounds",
   "debugHeatmapTilePropertyName",
@@ -130,13 +132,21 @@ export const cesiumEventProps = {
   onTileVisible: "tileVisible",
 } as const;
 
-export const otherProps = ["onReady"] as const;
+export const otherProps = ["onReady", "onError", "url"] as const;
 
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
-  create(context, props) {
+  async create(context, props) {
     if (!context.primitiveCollection) return;
-    const element = new CesiumCesium3DTileset(props);
+    let element;
+    try {
+      element = await CesiumCesium3DTileset.fromUrl(props.url, props);
+      props.onReady?.(element);
+    } catch (e) {
+      props.onError?.(e);
+      return;
+    }
+
     if (props.colorBlendAmount) {
       element.colorBlendAmount = props.colorBlendAmount;
     }
@@ -145,9 +155,6 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
     }
     if (props.style) {
       element.style = props.style;
-    }
-    if (props.onReady) {
-      element.readyPromise.then(props.onReady);
     }
     context.primitiveCollection.add(element);
     return element;

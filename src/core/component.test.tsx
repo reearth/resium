@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import { Event } from "cesium";
 import { createRef, ReactNode } from "react";
 import { beforeEach, describe, expect, it, vi, vitest } from "vitest";
@@ -31,6 +31,31 @@ describe("core/component", () => {
     expect(create).toBeCalledWith(value, { test: 1 }, null);
     expect(create).toBeCalledTimes(1);
     expect(ref.current?.cesiumElement).toBe("foobar");
+  });
+
+  it("should create and expose cesium element correctly on initialized asynchronously", async () => {
+    const create = vi.fn(() => Promise.resolve("foobar"));
+    const value = { hoge: 1 } as any;
+
+    const Component = createCesiumComponent<string, { test: number }>({
+      name: "test",
+      create,
+    });
+
+    const ref = createRef<CesiumComponentRef<string>>();
+
+    render(
+      <Provider value={value}>
+        <Component test={1} ref={ref} />
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(ref.current?.cesiumElement).toBe("foobar");
+    });
+
+    expect(create).toBeCalledWith(value, { test: 1 }, null);
+    expect(create).toBeCalledTimes(1);
   });
 
   it("should call destroy fn on unmounted", () => {

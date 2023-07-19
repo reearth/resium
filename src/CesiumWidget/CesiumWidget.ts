@@ -55,11 +55,12 @@ const cesiumProps = [
   "useDefaultRenderLoop",
   "targetFrameRate",
   "useBrowserRecommendedResolution",
+  "creditDisplay",
 ] as const;
 
 const cesiumReadonlyProps = [
   "clock",
-  "imageryProvider",
+  "baseLayer",
   "terrainProvider",
   "skyBox",
   "skyAtmosphere",
@@ -75,6 +76,7 @@ const cesiumReadonlyProps = [
   "creditViewport",
   "shadows",
   "terrainShadows",
+  "terrain",
   "requestRenderMode",
   "maximumRenderTimeChange",
   "msaaSamples",

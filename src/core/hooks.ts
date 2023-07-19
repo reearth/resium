@@ -16,13 +16,15 @@ import { includes, shallowEquals, isDestroyed } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
+type CreateReturnType<Element, State = any> = Element | [Element, State] | undefined;
+
 export type Options<Element, Props extends RootComponentInternalProps, State = any> = {
   name: string;
   create?: (
     ctx: ResiumContext,
     props: Props,
     wrapperRef: HTMLDivElement | null,
-  ) => Element | [Element, State] | undefined;
+  ) => Promise<CreateReturnType<Element, State>> | CreateReturnType<Element, State>;
   destroy?: (
     element: Element,
     ctx: ResiumContext,
@@ -150,9 +152,21 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
-  const mount = useCallback(() => {
+  const mount = useCallback(async () => {
     // Initialize cesium element
-    const result = create?.(ctx, initialProps.current, wrapperRef.current);
+    const maybePromise = create?.(ctx, initialProps.current, wrapperRef.current);
+
+    let result: CreateReturnType<Element, State>;
+    if (
+      maybePromise &&
+      typeof maybePromise === "object" &&
+      typeof (maybePromise as Promise<unknown>).then === "function"
+    ) {
+      result = await maybePromise;
+    } else {
+      result = maybePromise as CreateReturnType<Element, State>;
+    }
+
     if (Array.isArray(result)) {
       element.current = result[0];
       stateRef.current = result[1];
@@ -194,6 +208,8 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     if (useCommonEvent && em && element.current) {
       em.setEvents(useRootEvent ? null : element.current, initialProps.current);
     }
+
+    setMounted(true);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const unmount = useCallback(() => {
@@ -245,7 +261,6 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       // first time
       prevProps.current = propsWC;
       initialProps.current = propsWC;
-      setMounted(true);
       mountedRef.current = true;
     }
   }, [ctx.__$internal, mounted, props, updateProperties]);

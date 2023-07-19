@@ -1,4 +1,4 @@
-import { Viewer as CesiumViewer, ImageryProvider, Entity } from "cesium";
+import { Viewer as CesiumViewer, Entity, TerrainProvider } from "cesium";
 import { ReactNode, CSSProperties } from "react";
 
 import {
@@ -30,13 +30,7 @@ export type Target = Merge<CesiumViewer, CesiumViewer.ConstructorOptions>;
 
 export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
-export type ViewerCesiumReadonlyProps = Merge<
-  PickCesiumProps<Target, typeof cesiumReadonlyProps>,
-  {
-    /** If false, the default imagery layer will be removed. */
-    imageryProvider?: ImageryProvider | false;
-  }
->;
+export type ViewerCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type ViewerCesiumEvents = {
   onSelectedEntityChange?: (entity: Entity) => void;
@@ -44,7 +38,6 @@ export type ViewerCesiumEvents = {
 };
 
 const cesiumProps = [
-  "terrainProvider",
   "terrainShadows",
   "clockTrackedDataSource",
   "targetFrameRate",
@@ -55,9 +48,11 @@ const cesiumProps = [
   "selectedEntity",
   "shadows",
   "useBrowserRecommendedResolution",
+  "creditDisplay",
 ] as const;
 
 const cesiumReadonlyProps = [
+  "baseLayer",
   "animation",
   "baseLayerPicker",
   "fullscreenButton",
@@ -77,7 +72,6 @@ const cesiumReadonlyProps = [
   "imageryProviderViewModels",
   "selectedTerrainProviderViewModel",
   "terrainProviderViewModels",
-  "imageryProvider",
   "skyBox",
   "skyAtmosphere",
   "fullscreenElement",
@@ -98,6 +92,7 @@ const cesiumReadonlyProps = [
   "depthPlaneEllipsoidOffset",
   "msaaSamples",
   "blurActiveElementOnCanvasFocus",
+  "terrain",
 ] as const;
 
 export const cesiumEventProps = {
@@ -105,7 +100,15 @@ export const cesiumEventProps = {
   onTrackedEntityChange: "trackedEntityChanged",
 } as const;
 
-export const otherProps = ["className", "id", "style", "full", "containerProps", "extend"] as const;
+export const otherProps = [
+  "className",
+  "id",
+  "style",
+  "full",
+  "containerProps",
+  "extend",
+  "terrainProvider",
+] as const;
 
 export type ViewerOtherProps = RootEventProps &
   RootComponentInternalProps & {
@@ -122,6 +125,7 @@ export type ViewerOtherProps = RootEventProps &
     /** It is applied in order from the top to Viewer as `viewer.extend(XXX);` after the viewer is mounted. Nothing happens even it is updated by itself. */
     extend?: CesiumViewer.ViewerMixin[] | CesiumViewer.ViewerMixin;
     children?: ReactNode;
+    terrainProvider?: TerrainProvider | Promise<TerrainProvider>;
   };
 
 export type ViewerProps = ViewerCesiumProps &
@@ -131,15 +135,28 @@ export type ViewerProps = ViewerCesiumProps &
 
 const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
   name: "Viewer",
-  create(_context, { imageryProvider, ...props }, wrapper) {
+  async create(_context, { baseLayer, terrainProvider, ...props }, wrapper) {
     if (!wrapper) return;
+
+    let resultTerrainProvider: TerrainProvider;
+    if (
+      terrainProvider &&
+      typeof terrainProvider === "object" &&
+      typeof (terrainProvider as Promise<unknown>).then === "function"
+    ) {
+      resultTerrainProvider = await terrainProvider;
+    } else {
+      resultTerrainProvider = terrainProvider as TerrainProvider;
+    }
+
     const v = new CesiumViewer(wrapper, {
       ...props,
-      imageryProvider: imageryProvider === false ? undefined : imageryProvider,
+      terrainProvider: resultTerrainProvider,
+      baseLayer: baseLayer === false ? undefined : baseLayer,
     });
     if (!v) return;
 
-    if (imageryProvider === false) {
+    if (baseLayer === false) {
       v.imageryLayers.removeAll();
     }
 

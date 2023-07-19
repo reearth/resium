@@ -5,7 +5,7 @@ import {
   SphereEmitter,
   Matrix4,
   Color,
-  createWorldTerrain,
+  createWorldTerrainAsync,
   Math as CesiumMath,
 } from "cesium";
 import { useMemo, useRef, useCallback, FC } from "react";
@@ -89,7 +89,7 @@ const SnowParticle: FC = () => {
 };
 
 export const Snow: Story = () => (
-  <Viewer full shouldAnimate terrainProvider={createWorldTerrain({})}>
+  <Viewer full shouldAnimate terrainProvider={createWorldTerrainAsync({})}>
     <CameraFlyTo
       duration={0}
       destination={pos}

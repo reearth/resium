@@ -1,4 +1,4 @@
-import { ImageryLayer as CesiumImageryLayer } from "cesium";
+import { ImageryLayer as CesiumImageryLayer, ImageryProvider } from "cesium";
 
 import { createCesiumComponent, PickCesiumProps, Merge, ConstructorOptions2 } from "../core";
 
@@ -42,13 +42,15 @@ export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof Cesium
 
 export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
-export type ImageryLayerCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps,
-  "imageryProvider"
->;
+export type ImageryLayerCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type ImageryLayerProps = ImageryLayerCesiumProps & ImageryLayerCesiumReadonlyProps;
+export type ImageryLayerOtherProps = {
+  imageryProvider: ImageryProvider | Promise<ImageryProvider>;
+};
+
+export type ImageryLayerProps = ImageryLayerCesiumProps &
+  ImageryLayerCesiumReadonlyProps &
+  ImageryLayerOtherProps;
 
 const cesiumProps = [
   "alpha",
@@ -70,18 +72,34 @@ const cesiumProps = [
 ] as const;
 
 const cesiumReadonlyProps = [
-  "imageryProvider",
   "rectangle",
   "maximumAnisotropy",
   "minimumTerrainLevel",
   "maximumTerrainLevel",
+  "readyEvent",
 ] as const;
+
+const otherProps = ["imageryProvider"] as const;
 
 const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
   name: "ImageryLayer",
-  create(context, props) {
+  async create(context, props) {
     if (!context.imageryLayerCollection) return;
-    const element = new CesiumImageryLayer(props.imageryProvider, props);
+
+    const maybePromise = props.imageryProvider;
+
+    let result: ImageryProvider;
+    if (
+      maybePromise &&
+      typeof maybePromise === "object" &&
+      typeof (maybePromise as Promise<unknown>).then === "function"
+    ) {
+      result = await maybePromise;
+    } else {
+      result = maybePromise as ImageryProvider;
+    }
+
+    const element = new CesiumImageryLayer(result, props);
     context.imageryLayerCollection.add(element, props.index);
     return element;
   },
@@ -92,6 +110,7 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
   },
   cesiumProps,
   cesiumReadonlyProps,
+  otherProps,
 });
 
 export default ImageryLayer;

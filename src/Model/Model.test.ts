@@ -3,12 +3,12 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { ModalOtherProps, ModelProps, Target } from "./Model";
+import { ModelOtherProps, ModelProps, Target } from "./Model";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   Target,
-  Omit<ModelProps, keyof ModalOtherProps>,
+  Omit<ModelProps, keyof ModelOtherProps>,
   {},
   IgnoredProps
 >;

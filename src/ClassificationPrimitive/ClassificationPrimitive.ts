@@ -70,12 +70,17 @@ const ClassificationPrimitive = createCesiumComponent<
   ClassificationPrimitiveProps
 >({
   name: "ClassificationPrimitive",
-  create(context, props) {
+  async create(context, props) {
     if (!context.primitiveCollection) return;
     const element = new CesiumClassificationPrimitive(props);
     if (props.onReady) {
-      // eslint-disable-next-line @typescript-eslint/no-floating-promises
-      element.readyPromise.then(props.onReady);
+      const handlePostRender = () => {
+        if (element.ready) {
+          props.onReady?.(element);
+          context.scene?.postRender.removeEventListener(handlePostRender);
+        }
+      };
+      context.scene?.postRender.addEventListener(handlePostRender);
     }
     context.primitiveCollection.add(element);
     return element;
