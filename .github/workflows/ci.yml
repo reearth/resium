@@ -47,7 +47,7 @@ jobs:
     steps:
       - uses: actions/setup-node@v3
         with:
-          node-version: 16 # lts/*
+          node-version: lts/*
       - name: Checkout
         uses: actions/checkout@v3
       - name: Get yarn cache directory path
