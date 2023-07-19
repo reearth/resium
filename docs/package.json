@@ -12,7 +12,7 @@
     "clear": "docusaurus clear"
   },
   "engines": {
-    "node": ">=v18.16.1"
+    "node": ">=v18"
   },
   "browserslist": {
     "production": [
