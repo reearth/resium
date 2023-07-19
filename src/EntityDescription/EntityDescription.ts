@@ -65,15 +65,15 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
 
         interval = window.setInterval(() => {
           // wait for infobox to become visible.
-          const node = viewer.infoBox.container
-            .querySelector(
-              ".cesium-infoBox.cesium-infoBox-bodyless.cesium-infoBox-visible");
+          const node = viewer.infoBox.container.querySelector(
+            ".cesium-infoBox.cesium-infoBox-bodyless.cesium-infoBox-visible",
+          );
 
           if (!node) return;
 
           // clear the interval, the following code only happens once.
-          clearInterval(interval)
-          interval = undefined
+          clearInterval(interval);
+          interval = undefined;
 
           // append the description content to infoBox.
           parent.appendChild(c);
