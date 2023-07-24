@@ -37,7 +37,12 @@ export type Options<Element, Props extends RootComponentInternalProps, State = a
     props?: Props,
     state?: State,
   ) => Partial<ResiumContext>;
-  update?: (element: Element, props: Props, prevProps: Props, context: ResiumContext) => void;
+  update?: (
+    element: Element,
+    props: Props,
+    prevProps: Props,
+    context: ResiumContext,
+  ) => void | Promise<void>;
   cesiumProps?: readonly (keyof Props)[];
   cesiumReadonlyProps?: readonly (keyof Props)[];
   cesiumEventProps?: EventkeyMap<Element, Props>;
@@ -80,7 +85,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   // Update properties
   const updateProperties = useCallback(
-    (props: Props) => {
+    async (props: Props) => {
       if (!element.current) return;
       const target: any = element.current;
 
@@ -129,7 +134,14 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       }
 
       if (update && mountedRef.current) {
-        update(element.current, props, prevProps.current, ctx);
+        const maybePromise = update(element.current, props, prevProps.current, ctx);
+        if (
+          maybePromise &&
+          typeof maybePromise === "object" &&
+          typeof (maybePromise as Promise<void>).then === "function"
+        ) {
+          await maybePromise;
+        }
       }
 
       prevProps.current = props;
@@ -175,7 +187,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     }
 
     if (setCesiumPropsAfterCreate) {
-      updateProperties(initialProps.current);
+      await updateProperties(initialProps.current);
     } else {
       // Attach events
       if (element.current && cesiumEventProps) {

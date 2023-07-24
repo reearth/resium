@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, Story } from "@storybook/react";
-import { Transforms, Cartesian3 } from "cesium";
+import { Transforms, Cartesian3, Resource } from "cesium";
 
 import CameraFlyTo from "../CameraFlyTo";
 import { events } from "../core/storybook";
@@ -23,6 +23,21 @@ export const Basic: Story<ModelProps> = args => (
     <Model
       {...args}
       url="Cesium_Air.glb"
+      modelMatrix={modelMatrix}
+      minimumPixelSize={128}
+      maximumScale={20000}
+      onReady={action("onReady")}
+      {...events}
+    />
+  </Viewer>
+);
+
+export const FromPromiseResource: Story<ModelProps> = args => (
+  <Viewer full>
+    <CameraFlyTo destination={cameraDest} duration={0} />
+    <Model
+      {...args}
+      url={Promise.resolve(new Resource("Cesium_Air.glb"))}
       modelMatrix={modelMatrix}
       minimumPixelSize={128}
       maximumScale={20000}
