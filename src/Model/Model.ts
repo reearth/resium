@@ -1,4 +1,4 @@
-import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode } from "cesium";
+import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode, Resource } from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
 
@@ -16,6 +16,7 @@ export type ModelOtherProps = EventProps<{
   /** Calls when the model is completely loaded. */
   onReady?: (model: CesiumModel) => void;
   onError?: (err: unknown) => void;
+  url: string | Resource | Promise<Resource>;
 };
 
 export type ModelProps = ModelCesiumProps & ModelCesiumReadonlyProps & ModelOtherProps;
@@ -62,7 +63,6 @@ const cesiumReadonlyProps = [
   "heightReference",
   "incrementallyLoadTextures",
   "scene",
-  "url",
   "releaseGltfJson",
   "cull",
   "opaquePass",
@@ -79,17 +79,30 @@ const cesiumReadonlyProps = [
   "gltfCallback",
 ] as const;
 
-export const otherProps = ["onReady", "onError"] as const;
+export const otherProps = ["onReady", "onError", "url"] as const;
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
   async create(context, { scene, url, colorBlendMode, ...props }) {
     if (!context.scene || !context.primitiveCollection || !url) return;
+    const maybePromiseURL = url;
+
+    let resultURL: Exclude<ModelProps["url"], Promise<Resource>>;
+    if (
+      maybePromiseURL &&
+      typeof maybePromiseURL === "object" &&
+      typeof (maybePromiseURL as Promise<unknown>).then === "function"
+    ) {
+      resultURL = await maybePromiseURL;
+    } else {
+      resultURL = maybePromiseURL as typeof resultURL;
+    }
+
     let element;
     try {
       element = await CesiumModel.fromGltfAsync({
         ...props,
-        url,
+        url: resultURL,
         colorBlendMode: colorBlendMode as ColorBlendMode,
         scene: scene || context.scene,
       });

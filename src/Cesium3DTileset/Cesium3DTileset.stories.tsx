@@ -1,6 +1,6 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, Story } from "@storybook/react";
-import { Viewer as CesiumViewer, Cesium3DTileStyle } from "cesium";
+import { Viewer as CesiumViewer, Cesium3DTileStyle, IonResource } from "cesium";
 import { useRef } from "react";
 
 import { CesiumComponentRef } from "../core";
@@ -29,6 +29,24 @@ export const Basic: Story<Cesium3DTilesetProps> = args => {
         onReady={tileset => {
           ref.current?.cesiumElement?.zoomTo(tileset);
         }}
+        {...events}
+      />
+    </Viewer>
+  );
+};
+
+export const Resource: Story<Cesium3DTilesetProps> = args => {
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+  return (
+    <Viewer full ref={ref}>
+      <Cesium3DTileset
+        {...args}
+        url={IonResource.fromAssetId(96188)}
+        onAllTilesLoad={action("onAllTilesLoad")}
+        onInitialTilesLoad={action("onInitialTilesLoad")}
+        onTileFailed={action("onTileFailed")}
+        onTileLoad={action("onTileLoad")}
+        onTileUnload={action("onTileUnload")}
         {...events}
       />
     </Viewer>

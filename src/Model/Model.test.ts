@@ -12,7 +12,7 @@ type UnusedProps = UnusedCesiumProps<
   {},
   IgnoredProps
 >;
-type IgnoredProps = "id" | "activeAnimations" | "gltf"; // gltf is actually used
+type IgnoredProps = "id" | "activeAnimations" | "gltf" | "url"; // gltf is actually used
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

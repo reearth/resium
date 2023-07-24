@@ -55,7 +55,11 @@ export const cesiumEventProps = {
   onTileLoadProgress: "tileLoadProgressEvent",
 } as const;
 
-export type GlobeProps = GlobeCesiumProps & GlobeCesiumEvents;
+export type GlobeOtherProps = {
+  terrainProvider?: TerrainProvider | Promise<TerrainProvider>;
+};
+
+export type GlobeProps = GlobeCesiumProps & GlobeCesiumEvents & GlobeOtherProps;
 
 const cesiumProps = [
   "atmosphereBrightnessShift",
@@ -77,7 +81,6 @@ const cesiumProps = [
   "show",
   "showGroundAtmosphere",
   "showWaterEffect",
-  "terrainProvider",
   "tileCacheSize",
   "loadingDescendantLimit",
   "preloadAncestors",
@@ -102,11 +105,28 @@ const cesiumProps = [
   "vertexShadowDarkness",
 ] as const;
 
+const otherProps = ["terrainProvider"] as const;
+
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",
   create: context => context.scene?.globe,
+  update: async (elm, props) => {
+    const maybePromiseTerrainProvider = props.terrainProvider;
+    let resultTerrainProvider: TerrainProvider;
+    if (
+      maybePromiseTerrainProvider &&
+      typeof maybePromiseTerrainProvider === "object" &&
+      typeof (maybePromiseTerrainProvider as Promise<unknown>).then === "function"
+    ) {
+      resultTerrainProvider = await maybePromiseTerrainProvider;
+    } else {
+      resultTerrainProvider = maybePromiseTerrainProvider as TerrainProvider;
+    }
+    elm.terrainProvider = resultTerrainProvider;
+  },
   cesiumProps,
   cesiumEventProps,
+  otherProps,
   setCesiumPropsAfterCreate: true,
 });
 

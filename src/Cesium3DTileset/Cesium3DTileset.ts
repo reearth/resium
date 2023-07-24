@@ -2,6 +2,7 @@ import {
   Cesium3DTileset as CesiumCesium3DTileset,
   Cesium3DTileFeature,
   Cesium3DTile,
+  Resource,
 } from "cesium";
 
 import {
@@ -44,7 +45,7 @@ export type Cesium3DTilesetOtherProps = EventProps<Cesium3DTileFeature> & {
   /** Calls when the tile set is completely loaded. */
   onReady?: (tileset: CesiumCesium3DTileset) => void;
   onError?: (err: unknown) => void;
-  url: string;
+  url: string | Resource | Promise<Resource>;
 };
 
 export type Cesium3DTilesetProps = Cesium3DTilesetCesiumProps &
@@ -138,9 +139,23 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
   name: "Cesium3DTileset",
   async create(context, props) {
     if (!context.primitiveCollection) return;
+
+    const maybePromiseURL = props.url;
+
+    let resultURL: Exclude<Cesium3DTilesetProps["url"], Promise<Resource>>;
+    if (
+      maybePromiseURL &&
+      typeof maybePromiseURL === "object" &&
+      typeof (maybePromiseURL as Promise<unknown>).then === "function"
+    ) {
+      resultURL = await maybePromiseURL;
+    } else {
+      resultURL = maybePromiseURL as typeof resultURL;
+    }
+
     let element;
     try {
-      element = await CesiumCesium3DTileset.fromUrl(props.url, props);
+      element = await CesiumCesium3DTileset.fromUrl(resultURL, props);
       props.onReady?.(element);
     } catch (e) {
       props.onError?.(e);
