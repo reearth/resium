@@ -21,12 +21,12 @@ Then, to use Cesium in webpack environment, preparation is a bit more necessary,
 
 There are some choices. Choose one.
 
-- [create-react-app](#1-create-react-app)
+- [create-react-app](#1-create-react-app) (not recommended)
 - [Next.js](#2-nextjs)
 - webpack
    - [Copy whole Cesium files and load Cesium in HTML](#3-webpack-copy-whole-cesium-files-and-load-cesium-in-html)
    - [Copy only asset files and bundle Cesium normaly except assets](#4-webpack-copy-only-asset-files-and-bundle-cesium-normaly-except-assets)
-- [Vite](#5-vite) (**🚀 easiest and fastest to build as of 2021**)
+- [Vite](#5-vite) (**🚀 recommended**)
 
 When you finish set up, you can import Cesium:
 
@@ -40,7 +40,11 @@ Then advance to [Getting Started](/getting_started).
 `import Cesium from "cesium";` causes an error, as default is not exported from Cesium. Use `import * as Cesium from "cesium";`.
 :::
 
-## 1. create-react-app
+## 1. create-react-app (not recommneded)
+
+:::caution
+Currently create-react-app is not developed actively and craco-cesium is not maintained. We recommend using [Vite](#5-vite) instead of.
+:::
 
 If you are using create-react-app, [craco-cesium](https://github.com/reearth/craco-cesium) is recommended.
 
@@ -321,7 +325,7 @@ import "cesium/Widgets/widgets.css";
 
 :::
 
-## 5. Vite
+## 5. Vite (recommended)
 
 [Vite](https://vitejs.dev/) is one of next generation JavaScript bundler. [vite-plugin-cesium](https://github.com/nshen/vite-plugin-cesium) is recommended to use Cesium with Vite.
 
