@@ -40,7 +40,7 @@ Then advance to [Getting Started](/getting_started).
 `import Cesium from "cesium";` causes an error, as default is not exported from Cesium. Use `import * as Cesium from "cesium";`.
 :::
 
-## 1. create-react-app (not recommneded)
+## 1. create-react-app
 
 :::caution
 Currently create-react-app is not developed actively and craco-cesium is not maintained. We recommend using [Vite](#5-vite) instead of.
@@ -325,7 +325,7 @@ import "cesium/Widgets/widgets.css";
 
 :::
 
-## 5. Vite (recommended)
+## 5. Vite
 
 [Vite](https://vitejs.dev/) is one of next generation JavaScript bundler. [vite-plugin-cesium](https://github.com/nshen/vite-plugin-cesium) is recommended to use Cesium with Vite.
 
