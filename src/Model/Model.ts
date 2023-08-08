@@ -81,6 +81,8 @@ const cesiumReadonlyProps = [
 
 export const otherProps = ["onReady", "onError", "url"] as const;
 
+let readyEventListener: ((model: CesiumModel) => void) | null = null
+
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
   name: "Model",
   async create(context, { scene, url, colorBlendMode, ...props }) {
@@ -98,7 +100,12 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
       resultURL = maybePromiseURL as typeof resultURL;
     }
 
+
     let element;
+
+    readyEventListener = (model: CesiumModel) => {
+      props.onReady?.(model)
+    }
     try {
       element = await CesiumModel.fromGltfAsync({
         ...props,
@@ -106,7 +113,7 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
         colorBlendMode: colorBlendMode as ColorBlendMode,
         scene: scene || context.scene,
       });
-      props.onReady?.(element);
+      element.readyEvent.addEventListener(readyEventListener)
     } catch (e) {
       props.onError?.(e);
       return;
@@ -116,6 +123,9 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
     return element;
   },
   destroy(element, context) {
+    if (readyEventListener) {
+      element.readyEvent.removeEventListener(readyEventListener)
+    }
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
