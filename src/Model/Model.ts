@@ -99,7 +99,6 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
     }
 
     let element;
-
     try {
       element = await CesiumModel.fromGltfAsync({
         ...props,
@@ -115,7 +114,7 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
     context.primitiveCollection.add(element);
     return element;
   },
-  destroy(element, context, _) {
+  destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
