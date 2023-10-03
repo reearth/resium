@@ -106,7 +106,6 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
         colorBlendMode: colorBlendMode as ColorBlendMode,
         scene: scene || context.scene,
       });
-      props.onReady?.(element);
     } catch (e) {
       props.onError?.(e);
       return;
@@ -122,6 +121,9 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
     if (!element.isDestroyed()) {
       element.destroy();
     }
+  },
+  cesiumEventProps: {
+    onReady: "readyEvent",
   },
   cesiumProps,
   cesiumReadonlyProps,
