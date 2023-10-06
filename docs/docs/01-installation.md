@@ -362,4 +362,32 @@ export default defineConfig({
 })
 ```
 
+:::caution
+
+
+If you are using [astro](https://astro.build/)(which is based on vite) to build your project, vite-plugin-cesium uses the [transformIndexHtml](https://github.com/nshen/vite-plugin-cesium/blob/3fb46a510d3c90a7f2c0b9533bdb02f3b45dae4e/src/index.ts#L106-L113) hook that is not supported by astro, see [the issue](https://github.com/withastro/astro/issues/8728) for details. 
+So in order to build resium in the astro project, you need to pay attention to: 
+
+1. In `.astro` file, specify client:only when rendering the root react component
+
+```html
+<Viewer client:only="react" />
+``` 
+
+2. Import the style in react component
+
+```jsx
+import 'cesium/Build/Cesium/Widgets/widgets.css'
+``` 
+
+3. In `.astro` file, add the cesium script to head.
+
+```html
+<head>
+  {import.meta.env.PROD && <script src={`${import.meta.env.BASE_URL}/cesium/Cesium.js`}></script>}
+</head>
+```
+
+:::
+
 That's all!
