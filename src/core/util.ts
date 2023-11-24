@@ -35,3 +35,40 @@ export function isDestroyable(d: any): d is Destroyable {
 export function isDestroyed(d: any) {
   return isDestroyable(d) && d.isDestroyed();
 }
+
+const noop = () => {
+  // noop function
+};
+
+export const cancelablePromise = async <T>(promiseRunner: () => Promise<T>, cancelTokenGetter: (cancelToken: { cancel: () => void }) => void) => {
+  const cancelToken = { cancel: noop };
+
+  const executeToken = { execute: noop };
+
+  const cancelTask = new Promise<{ isCancel: boolean }>((resolve) => {
+      cancelToken.cancel = () => {
+          resolve({ isCancel: true });
+      };
+  });
+
+  const executeTask = new Promise((resolve) => {
+      executeToken.execute = () => {
+          resolve({});
+      };
+  }).then(() => {
+      return promiseRunner();
+  });
+
+  if (cancelTokenGetter) {
+      cancelTokenGetter(cancelToken);
+  }
+
+  Promise.race([cancelTask, Promise.resolve().then(() => ({ isCancel: false }))]).then((result) => {
+      if (result.isCancel) {
+          return;
+      }
+      executeToken.execute();
+  });
+
+  return executeTask;
+};

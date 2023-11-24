@@ -12,7 +12,7 @@ import {
 import { RootComponentInternalProps } from "./component";
 import { ResiumContext, useCesium } from "./context";
 import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
-import { includes, shallowEquals, isDestroyed } from "./util";
+import { includes, shallowEquals, isDestroyed, cancelablePromise } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
@@ -164,20 +164,16 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     [], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
+  const mountCancelTokens:any = useRef([])
+
   const mount = useCallback(async () => {
     // Initialize cesium element
-    const maybePromise = create?.(ctx, initialProps.current, wrapperRef.current);
-
-    let result: CreateReturnType<Element, State>;
-    if (
-      maybePromise &&
-      typeof maybePromise === "object" &&
-      typeof (maybePromise as Promise<unknown>).then === "function"
-    ) {
-      result = await maybePromise;
-    } else {
-      result = maybePromise as CreateReturnType<Element, State>;
-    }
+    const  result: CreateReturnType<Element, State> = await cancelablePromise(() => {
+      return Promise.resolve(create?.(ctx, initialProps.current, wrapperRef.current))
+    },(cancelToken) => {
+      mountCancelTokens.current.push(cancelToken);
+    });
+  
 
     if (Array.isArray(result)) {
       element.current = result[0];
@@ -187,7 +183,11 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     }
 
     if (setCesiumPropsAfterCreate) {
-      await updateProperties(initialProps.current);
+      await cancelablePromise(()=>{
+        return updateProperties(initialProps.current)
+      },(cancelToken)=>{
+        mountCancelTokens.current.push(cancelToken);
+      });
     } else {
       // Attach events
       if (element.current && cesiumEventProps) {
@@ -225,6 +225,13 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const unmount = useCallback(() => {
+
+    // cancel prevTask
+    if (mountCancelTokens.current.length > 0) {
+      mountCancelTokens.current.forEach((cancelToken:any) => cancelToken.cancel());
+      mountCancelTokens.current = [];
+    }
+
     // Destroy cesium element
     if (element.current && destroy) {
       destroy(element.current, ctx, wrapperRef.current, stateRef.current);
