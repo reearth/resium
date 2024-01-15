@@ -48,7 +48,7 @@ Currently create-react-app is not developed actively and craco-cesium is not mai
 
 If you are using create-react-app, [craco-cesium](https://github.com/reearth/craco-cesium) is recommended.
 
-Refer to [the documentation](https://github.com/reearth/craco-cesium#craco-cesium) and [example project](https://github.com/reearth/resium/tree/main/example/create-react-app).
+Refer to [the documentation](https://github.com/reearth/craco-cesium#craco-cesium) and [example project](https://github.com/reearth/resium/tree/main/examples/create-react-app).
 
 ## 2. Next.js
 
