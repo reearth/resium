@@ -19,6 +19,9 @@ const config: StorybookConfig = {
     },
     "@storybook/addon-storysource",
   ],
+  typescript: {
+    reactDocgen: false,
+  },
   viteFinal(config) {
     return mergeConfig(config, {
       base: "",
