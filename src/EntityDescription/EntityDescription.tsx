@@ -90,7 +90,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     return interval ? () => clearTimeout(interval) : undefined;
   }, [c, container, resizeInfoBox, selected, viewer]);
 
-  return c ? createPortal(!container || selected ? children : null, c) : null;
+  return c ? <>{createPortal(<>{!container || selected ? children : null}</>, c)}</> : null;
 };
 
 export default EntityDescription;

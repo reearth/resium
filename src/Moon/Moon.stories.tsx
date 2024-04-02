@@ -1,31 +1,36 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { Ellipsoid, Math as CesiumMath } from "cesium";
 
 import Viewer from "../Viewer";
 
-import Moon, { MoonProps } from "./Moon";
+import Moon from "./Moon";
+
+type Story = StoryObj<typeof Moon>;
 
 export default {
   title: "Moon",
   component: Moon,
 } as Meta;
 
-export const Basic: Story<MoonProps & { radius: number }> = args => (
-  <Viewer full>
-    <Moon
-      {...args}
-      ellipsoid={
-        new Ellipsoid(
-          CesiumMath.LUNAR_RADIUS * args.radius,
-          CesiumMath.LUNAR_RADIUS * args.radius,
-          CesiumMath.LUNAR_RADIUS * args.radius,
-        )
-      }
-    />
-  </Viewer>
-);
-
-Basic.args = {
-  show: true,
-  radius: 10,
+export const Basic: Story = {
+  args: {
+    show: true,
+  },
+  render: args => {
+    const radius = 10;
+    return (
+      <Viewer full>
+        <Moon
+          {...args}
+          ellipsoid={
+            new Ellipsoid(
+              CesiumMath.LUNAR_RADIUS * radius,
+              CesiumMath.LUNAR_RADIUS * radius,
+              CesiumMath.LUNAR_RADIUS * radius,
+            )
+          }
+        />
+      </Viewer>
+    );
+  },
 };

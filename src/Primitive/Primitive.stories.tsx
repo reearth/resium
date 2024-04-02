@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import {
   Cartesian3,
   EllipseGeometry,
@@ -13,7 +13,9 @@ import {
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 
-import Primitive, { PrimitiveProps } from "./Primitive";
+import Primitive from "./Primitive";
+
+type Story = StoryObj<typeof Primitive>;
 
 export default {
   title: "Primitive",
@@ -35,14 +37,18 @@ const appearance = new EllipsoidSurfaceAppearance({
   material: Material.fromType("Checkerboard"),
 });
 
-export const Basic: Story<PrimitiveProps> = args => (
-  <Viewer full>
-    <Primitive {...args} geometryInstances={geometry} appearance={appearance} />
-  </Viewer>
-);
+export const Basic: Story = {
+  render: args => (
+    <Viewer full>
+      <Primitive {...args} geometryInstances={geometry} appearance={appearance} />
+    </Viewer>
+  ),
+};
 
-export const Events: Story<PrimitiveProps> = args => (
-  <Viewer full>
-    <Primitive {...args} geometryInstances={geometry} appearance={appearance} {...events} />
-  </Viewer>
-);
+export const Events: Story = {
+  render: args => (
+    <Viewer full>
+      <Primitive {...args} geometryInstances={geometry} appearance={appearance} {...events} />
+    </Viewer>
+  ),
+};
