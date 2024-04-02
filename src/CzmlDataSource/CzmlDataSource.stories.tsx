@@ -1,11 +1,13 @@
 import { action } from "@storybook/addon-actions";
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { GeoJsonDataSource } from "cesium";
 
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 
-import CzmlDataSource, { CzmlDataSourceProps } from "./CzmlDataSource";
+import CzmlDataSource from "./CzmlDataSource";
+
+type Story = StoryObj<typeof CzmlDataSource>;
 
 export default {
   title: "CzmlDataSource",
@@ -51,10 +53,17 @@ const onLoad = (g: GeoJsonDataSource) => {
   onLoadAction(g);
 };
 
-export const Basic: Story<CzmlDataSourceProps> = args => (
-  <Viewer full>
-    <CzmlDataSource {...args} data={czml} onLoad={onLoad} onError={action("onError")} {...events} />
-  </Viewer>
-);
-
-Basic.args = { show: true };
+export const Basic: Story = {
+  args: { show: true },
+  render: args => (
+    <Viewer full>
+      <CzmlDataSource
+        {...args}
+        data={czml}
+        onLoad={onLoad}
+        onError={action("onError")}
+        {...events}
+      />
+    </Viewer>
+  ),
+};

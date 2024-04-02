@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { Viewer as CesiumViewer } from "cesium";
 import { useRef } from "react";
 
@@ -7,10 +7,10 @@ import Cesium3DTileset from "../Cesium3DTileset";
 import Viewer from "../Viewer";
 
 import { Fxaa as ResiumFxaa } from "./Fxaa";
-import { LensFlareStageProps } from "./LensFlareStage";
-import { PostProcessStageProps } from "./PostProcessStage";
 
 import { PostProcessStage, LensFlareStage, NightVisionStage, BlackAndWhiteStage } from ".";
+
+type Story = StoryObj<typeof PostProcessStage>;
 
 export default {
   title: "PostProcessStage",
@@ -38,63 +38,72 @@ void main(void)
 }
 `;
 
-export const Mosaic: Story<PostProcessStageProps> = args => (
-  <Viewer full>
-    <PostProcessStage {...args} fragmentShader={shader} />
-  </Viewer>
-);
+export const Mosaic: Story = {
+  args: {
+    enabled: true,
+  },
+  render: args => (
+    <Viewer full>
+      <PostProcessStage {...args} fragmentShader={shader} />
+    </Viewer>
+  ),
+};
 
 Mosaic.args = {
   enabled: true,
 };
 
-export const BlackAndWhite: Story<PostProcessStageProps> = args => (
-  <Viewer full>
-    <BlackAndWhiteStage {...args} />
-  </Viewer>
-);
-
-BlackAndWhite.args = {
-  enabled: true,
-};
-
-export const LensFlare: Story<LensFlareStageProps> = args => (
-  <Viewer full>
-    <LensFlareStage {...args} />
-  </Viewer>
-);
-
-LensFlare.args = {
-  enabled: true,
-  intensity: 5,
-};
-
-export const NightVison: Story<PostProcessStageProps> = args => (
-  <Viewer full>
-    <NightVisionStage {...args} />
-  </Viewer>
-);
-
-NightVison.args = {
-  enabled: true,
-};
-
-export const Fxaa: Story<PostProcessStageProps> = args => {
-  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
-  return (
-    <Viewer full ref={ref}>
-      <Cesium3DTileset
-        {...args}
-        url="./tileset/tileset.json"
-        onReady={tileset => {
-          ref.current?.cesiumElement?.zoomTo(tileset);
-        }}
-      />
-      <ResiumFxaa {...args} />
+export const BlackAndWhite: Story = {
+  args: {
+    enabled: true,
+  },
+  render: args => (
+    <Viewer full>
+      <BlackAndWhiteStage {...args} />
     </Viewer>
-  );
+  ),
 };
 
-Fxaa.args = {
-  enabled: true,
+export const LensFlare: StoryObj<typeof LensFlareStage> = {
+  args: {
+    enabled: true,
+    intensity: 5,
+  },
+  render: args => (
+    <Viewer full>
+      <LensFlareStage {...args} />
+    </Viewer>
+  ),
+};
+
+export const NightVison: Story = {
+  args: {
+    enabled: true,
+  },
+  render: args => (
+    <Viewer full>
+      <NightVisionStage {...args} />
+    </Viewer>
+  ),
+};
+
+export const Fxaa: Story = {
+  args: {
+    enabled: true,
+  },
+  render: args => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+    return (
+      <Viewer full ref={ref}>
+        <Cesium3DTileset
+          url="./tileset/tileset.json"
+          onReady={tileset => {
+            ref.current?.cesiumElement?.zoomTo(tileset);
+          }}
+        />
+        <ResiumFxaa {...args} />
+      </Viewer>
+    );
+  },
 };

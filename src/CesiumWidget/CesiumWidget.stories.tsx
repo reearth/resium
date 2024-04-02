@@ -1,14 +1,20 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 
 import { events } from "../core/storybook";
 
-import CesiumWidget, { CesiumWidgetProps } from "./CesiumWidget";
+import CesiumWidget from "./CesiumWidget";
+
+type Story = StoryObj<typeof CesiumWidget>;
 
 export default {
   title: "CesiumWidget",
   component: CesiumWidget,
 } as Meta;
 
-export const Basic: Story<CesiumWidgetProps> = args => <CesiumWidget {...args} full />;
+export const Basic: Story = {
+  render: args => <CesiumWidget {...args} full />,
+};
 
-export const Events: Story<CesiumWidgetProps> = args => <CesiumWidget {...args} full {...events} />;
+export const Events: Story = {
+  render: args => <CesiumWidget {...args} full {...events} />,
+};
