@@ -93,8 +93,6 @@ const cesiumProps = [
   "translucency",
   "undergroundColor",
   "undergroundColorAlphaByDistance",
-  "terrainExaggeration",
-  "terrainExaggerationRelativeHeight",
   "lambertDiffuseMultiplier",
   "atmosphereLightIntensity",
   "atmosphereRayleighCoefficient",

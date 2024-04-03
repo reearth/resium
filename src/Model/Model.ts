@@ -77,6 +77,7 @@ const cesiumReadonlyProps = [
   "readyEvent",
   "texturesReadyEvent",
   "gltfCallback",
+  "enablePick",
 ] as const;
 
 export const otherProps = ["onReady", "onError", "url"] as const;

@@ -108,6 +108,9 @@ const cesiumProps = [
   "msaaSamples",
   "splitPosition",
   "debugCommandFilter",
+  "verticalExaggeration",
+  "verticalExaggerationRelativeHeight",
+  "atmosphere",
 ] as const;
 
 export const cesiumEventProps = {

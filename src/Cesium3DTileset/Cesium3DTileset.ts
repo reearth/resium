@@ -58,7 +58,6 @@ const cesiumProps = [
   "modelMatrix",
   "shadows",
   "maximumScreenSpaceError",
-  "maximumMemoryUsage",
   "cullRequestsWhileMoving",
   "cullRequestsWhileMovingMultiplier",
   "preloadWhenHidden",
@@ -110,6 +109,7 @@ const cesiumProps = [
   "outlineColor",
   "cacheBytes",
   "maximumCacheOverflowBytes",
+  "enableCollision",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -121,6 +121,7 @@ const cesiumReadonlyProps = [
   "modelForwardAxis",
   "projectTo2D",
   "enableShowOutline",
+  "enablePick",
 ] as const;
 
 export const cesiumEventProps = {

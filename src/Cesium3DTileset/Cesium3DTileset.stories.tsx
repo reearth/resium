@@ -1,7 +1,7 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
 import { Viewer as CesiumViewer, Cesium3DTileStyle, IonResource } from "cesium";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 
 import { CesiumComponentRef } from "../core";
 import { events } from "../core/storybook";
@@ -44,18 +44,11 @@ export const Resource: Story = {
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const url = useMemo(() => IonResource.fromAssetId(96188), []);
     return (
       <Viewer full ref={ref}>
-        <Cesium3DTileset
-          {...args}
-          url={IonResource.fromAssetId(96188)}
-          onAllTilesLoad={action("onAllTilesLoad")}
-          onInitialTilesLoad={action("onInitialTilesLoad")}
-          onTileFailed={action("onTileFailed")}
-          onTileLoad={action("onTileLoad")}
-          onTileUnload={action("onTileUnload")}
-          {...events}
-        />
+        <Cesium3DTileset {...args} url={url} />
       </Viewer>
     );
   },
