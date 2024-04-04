@@ -99,6 +99,8 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
       result = maybePromise as ImageryProvider;
     }
 
+    if (!result) return;
+
     const element = new CesiumImageryLayer(result, props);
     context.imageryLayerCollection.add(element, props.index);
     return element;

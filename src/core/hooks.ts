@@ -82,6 +82,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State>();
   const eventManager = ctx?.[eventManagerContextKey];
+  const mountReadyRef = useRef<Promise<void>>();
 
   // Update properties
   const updateProperties = useCallback(
@@ -157,8 +158,8 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
           );
         }
 
-        unmount();
-        mount();
+        await unmount();
+        mountReadyRef.current = mount();
       }
     },
     [], // eslint-disable-line react-hooks/exhaustive-deps
@@ -224,7 +225,12 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     setMounted(true);
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  const unmount = useCallback(() => {
+  const unmount = useCallback(async () => {
+    // Wait mount before unmount
+    if (mountReadyRef.current) {
+      await mountReadyRef.current;
+    }
+
     // Destroy cesium element
     if (element.current && destroy) {
       destroy(element.current, ctx, wrapperRef.current, stateRef.current);
@@ -257,24 +263,29 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   // To prevent re-execution by hot loader, execute only once
   useLayoutEffect(() => {
-    mount();
-    return () => unmount();
+    mountReadyRef.current = mount();
+    return () => {
+      unmount();
+    };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Update properties of cesium element
   useEffect(() => {
-    const propsWC = propsWithChildren(props);
-    if (mounted) {
-      if (!shallowEquals(propsWC, prevProps.current)) {
-        updateProperties(propsWC);
-        ctx.__$internal?.onUpdate?.();
+    const update = async () => {
+      const propsWC = propsWithChildren(props);
+      if (mounted) {
+        if (!shallowEquals(propsWC, prevProps.current)) {
+          await updateProperties(propsWC);
+          ctx.__$internal?.onUpdate?.();
+        }
+      } else {
+        // first time
+        prevProps.current = propsWC;
+        initialProps.current = propsWC;
+        mountedRef.current = true;
       }
-    } else {
-      // first time
-      prevProps.current = propsWC;
-      initialProps.current = propsWC;
-      mountedRef.current = true;
-    }
+    };
+    update();
   }, [ctx.__$internal, mounted, props, updateProperties]);
 
   // Expose cesium element
