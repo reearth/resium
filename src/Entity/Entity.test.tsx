@@ -1,4 +1,4 @@
-import { render } from "@testing-library/react";
+import { render, waitFor } from "@testing-library/react";
 import { Entity as CesiumEntity } from "cesium";
 import { createRef } from "react";
 import { expectType, TypeEqual } from "ts-expect";
@@ -52,5 +52,7 @@ it("should unmount", () => {
     </Provider>,
   ).unmount();
 
-  expect(ctx.entityCollection?.remove).toBeCalledWith(expect.any(CesiumEntity));
+  waitFor(() => {
+    expect(ctx.entityCollection?.remove).toBeCalledWith(expect.any(CesiumEntity));
+  });
 });

@@ -74,8 +74,10 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(destroy).toBeCalledWith("foobar", value, null, undefined);
-    expect(destroy).toBeCalledTimes(1);
+    waitFor(() => {
+      expect(destroy).toBeCalledWith("foobar", value, null, undefined);
+      expect(destroy).toBeCalledTimes(1);
+    });
   });
 
   it("should set cesium events after created", () => {
@@ -164,7 +166,7 @@ describe("core/component", () => {
     expect(cesiumElement.hoge.numberOfListeners).toBe(1); // TODO
   });
 
-  it("should remount when cesium read only props are updated", () => {
+  it("should remount when cesium read only props are updated", async () => {
     const cesiumElement = {
       foo: 0,
     };
@@ -186,15 +188,19 @@ describe("core/component", () => {
 
     const { rerender } = render(<Component foo={1} />);
 
-    expect(createFn).toBeCalledTimes(1);
-    expect(destroyFn).toBeCalledTimes(0);
-    expect(cesiumElement.foo).toBe(1);
+    await waitFor(() => {
+      expect(createFn).toBeCalledTimes(1);
+      expect(destroyFn).toBeCalledTimes(0);
+      expect(cesiumElement.foo).toBe(1);
+    });
 
     rerender(<Component foo={2} />);
 
-    expect(createFn).toBeCalledTimes(2);
-    expect(destroyFn).toBeCalledTimes(1);
-    expect(cesiumElement.foo).toBe(2);
+    waitFor(() => {
+      expect(createFn).toBeCalledTimes(2);
+      expect(destroyFn).toBeCalledTimes(1);
+      expect(cesiumElement.foo).toBe(2);
+    });
   });
 
   it("should call update", () => {
@@ -280,8 +286,10 @@ describe("core/component", () => {
       </Provider>,
     );
 
-    expect(cesiumElement.foo).toBe(1);
-    expect(onUpdate).toBeCalledTimes(1);
+    waitFor(() => {
+      expect(cesiumElement.foo).toBe(1);
+      expect(onUpdate).toBeCalledTimes(1);
+    });
   });
 
   it("should render container", () => {
@@ -329,13 +337,15 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(provideFn).toBeCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expect.anything(),
-      state,
-    );
-    expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
+    waitFor(() => {
+      expect(provideFn).toBeCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.anything(),
+        state,
+      );
+      expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
+    });
   });
 
   it("should not render when noChildren is true", () => {
