@@ -1,10 +1,13 @@
 export function pick<T extends {}, K extends keyof T>(obj: T, keys?: K[]): Pick<T, K> {
   if (!keys) return {} as Pick<T, K>;
-  return entries(obj).reduce((a, [k, v]) => {
-    if (!includes(keys, k)) return a;
-    (a as any)[k] = v;
-    return a;
-  }, {} as Pick<T, K>);
+  return entries(obj).reduce(
+    (a, [k, v]) => {
+      if (!includes(keys, k)) return a;
+      (a as any)[k] = v;
+      return a;
+    },
+    {} as Pick<T, K>,
+  );
 }
 
 export function entries<T extends {}>(obj: T): [keyof T, T[keyof T]][] {
@@ -34,4 +37,13 @@ export function isDestroyable(d: any): d is Destroyable {
 
 export function isDestroyed(d: any) {
   return isDestroyable(d) && d.isDestroyed();
+}
+
+export function isPromise<T>(maybePromise: T | Promise<T>): maybePromise is Promise<T> {
+  return (
+    maybePromise &&
+    typeof maybePromise === "object" &&
+    "then" in maybePromise &&
+    typeof maybePromise.then === "function"
+  );
 }

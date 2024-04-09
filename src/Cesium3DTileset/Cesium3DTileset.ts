@@ -11,6 +11,7 @@ import {
   PickCesiumProps,
   ConstructorOptions,
   Merge,
+  isPromise,
 } from "../core";
 
 /*
@@ -144,11 +145,7 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
     const maybePromiseURL = props.url;
 
     let resultURL: Exclude<Cesium3DTilesetProps["url"], Promise<Resource>>;
-    if (
-      maybePromiseURL &&
-      typeof maybePromiseURL === "object" &&
-      typeof (maybePromiseURL as Promise<unknown>).then === "function"
-    ) {
+    if (isPromise(maybePromiseURL)) {
       resultURL = await maybePromiseURL;
     } else {
       resultURL = maybePromiseURL as typeof resultURL;

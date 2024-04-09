@@ -12,7 +12,7 @@ import {
 import { RootComponentInternalProps } from "./component";
 import { ResiumContext, useCesium } from "./context";
 import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
-import { includes, shallowEquals, isDestroyed } from "./util";
+import { includes, shallowEquals, isDestroyed, isPromise } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
@@ -136,11 +136,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
       if (update && mountedRef.current) {
         const maybePromise = update(element.current, props, prevProps.current, ctx);
-        if (
-          maybePromise &&
-          typeof maybePromise === "object" &&
-          typeof (maybePromise as Promise<void>).then === "function"
-        ) {
+        if (isPromise(maybePromise)) {
           await maybePromise;
         }
       }
@@ -170,11 +166,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     const maybePromise = create?.(ctx, initialProps.current, wrapperRef.current);
 
     let result: CreateReturnType<Element, State>;
-    if (
-      maybePromise &&
-      typeof maybePromise === "object" &&
-      typeof (maybePromise as Promise<unknown>).then === "function"
-    ) {
+    if (isPromise(maybePromise)) {
       result = await maybePromise;
     } else {
       result = maybePromise as CreateReturnType<Element, State>;
