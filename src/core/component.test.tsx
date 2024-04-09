@@ -113,7 +113,7 @@ describe("core/component", () => {
     expect(cesiumElement.foo).toBe(10);
   });
 
-  it("should update cesium props", () => {
+  it("should update cesium props", async () => {
     const cesiumElement = {
       foo: 0,
     };
@@ -126,14 +126,18 @@ describe("core/component", () => {
 
     const { rerender } = render(<Component />);
 
-    expect(cesiumElement.foo).toBe(0);
+    await waitFor(() => {
+      expect(cesiumElement.foo).toBe(0);
+    });
 
     rerender(<Component foo={1} />);
 
-    expect(cesiumElement.foo).toBe(1);
+    await waitFor(() => {
+      expect(cesiumElement.foo).toBe(1);
+    });
   });
 
-  it("should update cesium events", () => {
+  it("should update cesium events", async () => {
     const cesiumElement = {
       foo: new Event(),
       bar: new Event(),
@@ -161,9 +165,11 @@ describe("core/component", () => {
 
     rerender(<Component bar={() => {}} hoge={() => {}} />);
 
-    expect(cesiumElement.foo.numberOfListeners).toBe(0);
-    expect(cesiumElement.bar.numberOfListeners).toBe(1);
-    expect(cesiumElement.hoge.numberOfListeners).toBe(1); // TODO
+    await waitFor(() => {
+      expect(cesiumElement.foo.numberOfListeners).toBe(0);
+      expect(cesiumElement.bar.numberOfListeners).toBe(1);
+      expect(cesiumElement.hoge.numberOfListeners).toBe(1); // TODO
+    });
   });
 
   it("should remount when cesium read only props are updated", async () => {
@@ -203,7 +209,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should call update", () => {
+  it("should call update", async () => {
     const updateFn = vi.fn();
 
     const Component = createCesiumComponent<{ hoge: "hoge" }, { foo?: number }>({
@@ -218,8 +224,10 @@ describe("core/component", () => {
 
     rerender(<Component foo={1} />);
 
-    expect(updateFn).toBeCalledTimes(1);
-    expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
+    await waitFor(() => {
+      expect(updateFn).toBeCalledTimes(1);
+      expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
+    });
   });
 
   it("should provide context", () => {
