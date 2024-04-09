@@ -9,6 +9,7 @@ import {
   PickCesiumProps,
   Merge,
   RootComponentInternalProps,
+  isPromise,
 } from "../core";
 
 /*
@@ -139,11 +140,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
     if (!wrapper) return;
 
     let resultTerrainProvider: TerrainProvider;
-    if (
-      terrainProvider &&
-      typeof terrainProvider === "object" &&
-      typeof (terrainProvider as Promise<unknown>).then === "function"
-    ) {
+    if (isPromise(terrainProvider)) {
       resultTerrainProvider = await terrainProvider;
     } else {
       resultTerrainProvider = terrainProvider as TerrainProvider;
@@ -196,6 +193,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
       globe: element.scene.globe,
       __$internal: {
         onUpdate: props?.onUpdate,
+        imageryLayerWaitingList: [],
       },
       [eventManagerContextKey]: state,
     };

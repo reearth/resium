@@ -1,7 +1,14 @@
 import { Entity as CesiumEntity } from "cesium";
 import { ReactNode } from "react";
 
-import { createCesiumComponent, EventProps, PickCesiumProps, Merge, EventTarget } from "../core";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  Merge,
+  EventTarget,
+  RootComponentInternalProps,
+} from "../core";
 
 export type { EventTarget } from "../core";
 
@@ -75,13 +82,14 @@ export type EntityCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type EntityOtherProps = EventProps<EventTarget> & {
-  children?: ReactNode;
-  /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
-  selected?: boolean;
-  /** If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget. */
-  tracked?: boolean;
-};
+export type EntityOtherProps = RootComponentInternalProps &
+  EventProps<EventTarget> & {
+    children?: ReactNode;
+    /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
+    selected?: boolean;
+    /** If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget. */
+    tracked?: boolean;
+  };
 
 export type EntityProps = EntityCesiumProps &
   EntityCesiumReadonlyProps &
@@ -164,9 +172,12 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
       }
     }
   },
-  provide(element) {
+  provide(element, _ctx, props) {
     return {
       entity: element,
+      __$internal: {
+        onUpdate: props?.onUpdate,
+      },
     };
   },
   cesiumProps,

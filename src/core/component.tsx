@@ -1,3 +1,4 @@
+import { ImageryProvider } from "cesium";
 import {
   forwardRef,
   HTMLAttributes,
@@ -33,6 +34,10 @@ export type CesiumComponentType<Element, Props> = ForwardRefExoticComponent<
 
 export type RootComponentInternalProps = {
   onUpdate?: () => void;
+};
+
+export type RootComponentInternalValues = {
+  imageryLayerWaitingList?: (Promise<ImageryProvider> | ImageryProvider)[];
 };
 
 export const createCesiumComponent = <Element, Props extends {}, State = any>({

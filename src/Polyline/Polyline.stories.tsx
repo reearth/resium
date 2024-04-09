@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { Cartesian3, Transforms } from "cesium";
 
 import CameraFlyTo from "../CameraFlyTo";
@@ -6,7 +6,9 @@ import { events } from "../core/storybook";
 import PolylineCollection from "../PolylineCollection";
 import Viewer from "../Viewer";
 
-import Polyline, { PolylineProps } from "./Polyline";
+import Polyline from "./Polyline";
+
+type Story = StoryObj<typeof Polyline>;
 
 export default {
   title: "Polyline",
@@ -20,24 +22,26 @@ const positions = [
   new Cartesian3(-125, 135, 0),
 ];
 
-export const Basic: Story<PolylineProps> = args => (
-  <Viewer full>
-    <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-      <Polyline {...args} positions={positions} />
-    </PolylineCollection>
-    <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
-  </Viewer>
-);
+export const Basic: Story = {
+  args: { width: 10 },
+  render: args => (
+    <Viewer full>
+      <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+        <Polyline {...args} positions={positions} />
+      </PolylineCollection>
+      <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
+    </Viewer>
+  ),
+};
 
-Basic.args = { width: 10 };
-
-export const Events: Story<PolylineProps> = args => (
-  <Viewer full>
-    <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-      <Polyline {...args} positions={positions} {...events} />
-    </PolylineCollection>
-    <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
-  </Viewer>
-);
-
-Basic.args = { width: 10 };
+export const Events: Story = {
+  args: { width: 10 },
+  render: args => (
+    <Viewer full>
+      <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+        <Polyline {...args} positions={positions} {...events} />
+      </PolylineCollection>
+      <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
+    </Viewer>
+  ),
+};

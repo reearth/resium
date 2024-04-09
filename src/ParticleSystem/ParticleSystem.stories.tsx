@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import {
   Cartesian3,
   Cartesian2,
@@ -15,6 +15,8 @@ import { useCesium } from "../core";
 import Viewer from "../Viewer";
 
 import ParticleSystem from "./ParticleSystem";
+
+type Story = StoryObj<typeof ParticleSystem>;
 
 export default {
   title: "ParticleSystem",
@@ -88,16 +90,18 @@ const SnowParticle: FC = () => {
   );
 };
 
-export const Snow: Story = () => (
-  <Viewer full shouldAnimate terrainProvider={createWorldTerrainAsync({})}>
-    <CameraFlyTo
-      duration={0}
-      destination={pos}
-      orientation={{
-        heading: 4.731089976107251,
-        pitch: -0.32003481981370063,
-      }}
-    />
-    <SnowParticle />
-  </Viewer>
-);
+export const Snow: Story = {
+  render: () => (
+    <Viewer full shouldAnimate terrainProvider={createWorldTerrainAsync({})}>
+      <CameraFlyTo
+        duration={0}
+        destination={pos}
+        orientation={{
+          heading: 4.731089976107251,
+          pitch: -0.32003481981370063,
+        }}
+      />
+      <SnowParticle />
+    </Viewer>
+  ),
+};

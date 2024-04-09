@@ -1,11 +1,13 @@
 import { action } from "@storybook/addon-actions";
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
 
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 
-import KmlDataSource, { KmlDataSourceProps } from "./KmlDataSource";
+import KmlDataSource from "./KmlDataSource";
+
+type Story = StoryObj<typeof KmlDataSource>;
 
 export default {
   title: "KmlDataSource",
@@ -72,10 +74,17 @@ const onLoad = (k: CesiumKmlDataSource) => {
   onLoadAction(k);
 };
 
-export const Basic: Story<KmlDataSourceProps> = args => (
-  <Viewer full>
-    <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action("onError")} {...events} />
-  </Viewer>
-);
-
-Basic.args = { show: true };
+export const Basic: Story = {
+  args: { show: true },
+  render: args => (
+    <Viewer full>
+      <KmlDataSource
+        {...args}
+        data={data}
+        onLoad={onLoad}
+        onError={action("onError")}
+        {...events}
+      />
+    </Viewer>
+  ),
+};

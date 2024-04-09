@@ -1,4 +1,4 @@
-import { Meta, Story } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import {
   HeadingPitchRange,
   Cesium3DTileStyle,
@@ -15,7 +15,9 @@ import { CesiumComponentRef } from "../core";
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
 
-import TimeDynamicPointCloud, { TimeDynamicPointCloudProps } from "./TimeDynamicPointCloud";
+import TimeDynamicPointCloud from "./TimeDynamicPointCloud";
+
+type Story = StoryObj<typeof TimeDynamicPointCloud>;
 
 export default {
   title: "TimeDynamicPointCloud",
@@ -51,27 +53,29 @@ const style = new Cesium3DTileStyle({
   pointSize: 5,
 });
 
-export const Basic: Story<TimeDynamicPointCloudProps> = args => {
-  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
-  return (
-    <Viewer full shouldAnimate ref={ref}>
-      <Clock
-        startTime={start}
-        currentTime={start}
-        stopTime={stop}
-        clockRange={ClockRange.LOOP_STOP}
-      />
-      <TimeDynamicPointCloud
-        {...args}
-        intervals={intervals}
-        style={style}
-        onReady={p => {
-          ref.current?.cesiumElement?.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
-        }}
-        {...events}
-      />
-    </Viewer>
-  );
+export const Basic: Story = {
+  args: { show: true },
+  render: args => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+    return (
+      <Viewer full shouldAnimate ref={ref}>
+        <Clock
+          startTime={start}
+          currentTime={start}
+          stopTime={stop}
+          clockRange={ClockRange.LOOP_STOP}
+        />
+        <TimeDynamicPointCloud
+          {...args}
+          intervals={intervals}
+          style={style}
+          onReady={p => {
+            ref.current?.cesiumElement?.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
+          }}
+          {...events}
+        />
+      </Viewer>
+    );
+  },
 };
-
-Basic.args = { show: true };

@@ -1,6 +1,6 @@
 import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode, Resource } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps, Merge } from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps, Merge, isPromise } from "../core";
 
 export type Target = Merge<CesiumModel, Parameters<(typeof CesiumModel)["fromGltfAsync"]>[0]>;
 
@@ -77,6 +77,7 @@ const cesiumReadonlyProps = [
   "readyEvent",
   "texturesReadyEvent",
   "gltfCallback",
+  "enablePick",
 ] as const;
 
 export const otherProps = ["onReady", "onError", "url"] as const;
@@ -88,11 +89,7 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
     const maybePromiseURL = url;
 
     let resultURL: Exclude<ModelProps["url"], Promise<Resource>>;
-    if (
-      maybePromiseURL &&
-      typeof maybePromiseURL === "object" &&
-      typeof (maybePromiseURL as Promise<unknown>).then === "function"
-    ) {
+    if (isPromise(maybePromiseURL)) {
       resultURL = await maybePromiseURL;
     } else {
       resultURL = maybePromiseURL as typeof resultURL;

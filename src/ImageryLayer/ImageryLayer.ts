@@ -1,6 +1,12 @@
 import { ImageryLayer as CesiumImageryLayer, ImageryProvider } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, ConstructorOptions2 } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  ConstructorOptions2,
+  isPromise,
+} from "../core";
 
 /*
 @summary
@@ -86,18 +92,29 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
   async create(context, props) {
     if (!context.imageryLayerCollection) return;
 
-    const maybePromise = props.imageryProvider;
+    const imageryProvider = isPromise(props.imageryProvider)
+      ? props.imageryProvider
+      : new Promise<ImageryProvider>(r => queueMicrotask(() => r(props.imageryProvider)));
 
-    let result: ImageryProvider;
-    if (
-      maybePromise &&
-      typeof maybePromise === "object" &&
-      typeof (maybePromise as Promise<unknown>).then === "function"
-    ) {
-      result = await maybePromise;
-    } else {
-      result = maybePromise as ImageryProvider;
+    const imageryLayerWaitingList = context.__$internal?.imageryLayerWaitingList?.slice();
+    context.__$internal?.imageryLayerWaitingList
+      ? context.__$internal.imageryLayerWaitingList.push(imageryProvider)
+      : undefined;
+
+    // Make sure keeping the order of imagery layer to specify the index correctly.
+    if (imageryLayerWaitingList) {
+      await Promise.all(imageryLayerWaitingList.filter(v => isPromise(v)));
     }
+
+    const result: ImageryProvider = await imageryProvider;
+
+    // Remove the awaited result from the waiting list.
+    if (context.__$internal?.imageryLayerWaitingList) {
+      context.__$internal.imageryLayerWaitingList =
+        context.__$internal.imageryLayerWaitingList.filter(i => i !== imageryProvider);
+    }
+
+    if (!result) return;
 
     const element = new CesiumImageryLayer(result, props);
     context.imageryLayerCollection.add(element, props.index);
