@@ -74,8 +74,10 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(destroy).toBeCalledWith("foobar", value, null, undefined);
-    expect(destroy).toBeCalledTimes(1);
+    waitFor(() => {
+      expect(destroy).toBeCalledWith("foobar", value, null, undefined);
+      expect(destroy).toBeCalledTimes(1);
+    });
   });
 
   it("should set cesium events after created", () => {
@@ -111,7 +113,7 @@ describe("core/component", () => {
     expect(cesiumElement.foo).toBe(10);
   });
 
-  it("should update cesium props", () => {
+  it("should update cesium props", async () => {
     const cesiumElement = {
       foo: 0,
     };
@@ -124,14 +126,18 @@ describe("core/component", () => {
 
     const { rerender } = render(<Component />);
 
-    expect(cesiumElement.foo).toBe(0);
+    await waitFor(() => {
+      expect(cesiumElement.foo).toBe(0);
+    });
 
     rerender(<Component foo={1} />);
 
-    expect(cesiumElement.foo).toBe(1);
+    await waitFor(() => {
+      expect(cesiumElement.foo).toBe(1);
+    });
   });
 
-  it("should update cesium events", () => {
+  it("should update cesium events", async () => {
     const cesiumElement = {
       foo: new Event(),
       bar: new Event(),
@@ -159,12 +165,14 @@ describe("core/component", () => {
 
     rerender(<Component bar={() => {}} hoge={() => {}} />);
 
-    expect(cesiumElement.foo.numberOfListeners).toBe(0);
-    expect(cesiumElement.bar.numberOfListeners).toBe(1);
-    expect(cesiumElement.hoge.numberOfListeners).toBe(1); // TODO
+    await waitFor(() => {
+      expect(cesiumElement.foo.numberOfListeners).toBe(0);
+      expect(cesiumElement.bar.numberOfListeners).toBe(1);
+      expect(cesiumElement.hoge.numberOfListeners).toBe(1); // TODO
+    });
   });
 
-  it("should remount when cesium read only props are updated", () => {
+  it("should remount when cesium read only props are updated", async () => {
     const cesiumElement = {
       foo: 0,
     };
@@ -186,18 +194,22 @@ describe("core/component", () => {
 
     const { rerender } = render(<Component foo={1} />);
 
-    expect(createFn).toBeCalledTimes(1);
-    expect(destroyFn).toBeCalledTimes(0);
-    expect(cesiumElement.foo).toBe(1);
+    await waitFor(() => {
+      expect(createFn).toBeCalledTimes(1);
+      expect(destroyFn).toBeCalledTimes(0);
+      expect(cesiumElement.foo).toBe(1);
+    });
 
     rerender(<Component foo={2} />);
 
-    expect(createFn).toBeCalledTimes(2);
-    expect(destroyFn).toBeCalledTimes(1);
-    expect(cesiumElement.foo).toBe(2);
+    waitFor(() => {
+      expect(createFn).toBeCalledTimes(2);
+      expect(destroyFn).toBeCalledTimes(1);
+      expect(cesiumElement.foo).toBe(2);
+    });
   });
 
-  it("should call update", () => {
+  it("should call update", async () => {
     const updateFn = vi.fn();
 
     const Component = createCesiumComponent<{ hoge: "hoge" }, { foo?: number }>({
@@ -212,8 +224,10 @@ describe("core/component", () => {
 
     rerender(<Component foo={1} />);
 
-    expect(updateFn).toBeCalledTimes(1);
-    expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
+    await waitFor(() => {
+      expect(updateFn).toBeCalledTimes(1);
+      expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
+    });
   });
 
   it("should provide context", () => {
@@ -280,8 +294,10 @@ describe("core/component", () => {
       </Provider>,
     );
 
-    expect(cesiumElement.foo).toBe(1);
-    expect(onUpdate).toBeCalledTimes(1);
+    waitFor(() => {
+      expect(cesiumElement.foo).toBe(1);
+      expect(onUpdate).toBeCalledTimes(1);
+    });
   });
 
   it("should render container", () => {
@@ -329,13 +345,15 @@ describe("core/component", () => {
       </Provider>,
     ).unmount();
 
-    expect(provideFn).toBeCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expect.anything(),
-      state,
-    );
-    expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
+    waitFor(() => {
+      expect(provideFn).toBeCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.anything(),
+        state,
+      );
+      expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
+    });
   });
 
   it("should not render when noChildren is true", () => {

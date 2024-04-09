@@ -16,7 +16,7 @@ Only inside [LabelCollection](/components/LabelCollection) component.
 A label object will be attached to the parent LabelCollection.
 */
 
-export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps>;
+export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps, "position">;
 
 export type LabelOtherProps = EventProps<{
   collection: LabelCollection;

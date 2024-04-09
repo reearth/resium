@@ -16,7 +16,7 @@ Only inside [BillboardCollection](/components/BillboardCollection) components.
 A billboard object will be attached to the parent BillboardCollection.
 */
 
-export type BillboardCesiumProps = PickCesiumProps<CesiumBillboard, typeof cesiumProps>;
+export type BillboardCesiumProps = PickCesiumProps<CesiumBillboard, typeof cesiumProps, "position">;
 
 export type BillboardOtherProps = EventProps<{
   collection: BillboardCollection;

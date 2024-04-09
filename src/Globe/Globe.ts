@@ -1,6 +1,6 @@
 import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { createCesiumComponent, isPromise, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -93,8 +93,6 @@ const cesiumProps = [
   "translucency",
   "undergroundColor",
   "undergroundColorAlphaByDistance",
-  "terrainExaggeration",
-  "terrainExaggerationRelativeHeight",
   "lambertDiffuseMultiplier",
   "atmosphereLightIntensity",
   "atmosphereRayleighCoefficient",
@@ -113,11 +111,7 @@ const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   update: async (elm, props) => {
     const maybePromiseTerrainProvider = props.terrainProvider;
     let resultTerrainProvider: TerrainProvider;
-    if (
-      maybePromiseTerrainProvider &&
-      typeof maybePromiseTerrainProvider === "object" &&
-      typeof (maybePromiseTerrainProvider as Promise<unknown>).then === "function"
-    ) {
+    if (isPromise(maybePromiseTerrainProvider)) {
       resultTerrainProvider = await maybePromiseTerrainProvider;
     } else {
       resultTerrainProvider = maybePromiseTerrainProvider as TerrainProvider;

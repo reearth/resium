@@ -40,7 +40,8 @@
   },
   "peerDependencies": {
     "cesium": "1.x",
-    "react": ">=18.2.0"
+    "react": ">=18.2.0",
+    "react-dom": ">=18.2.0"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.0.5",
@@ -56,7 +57,7 @@
     "@types/react": "18.2.73",
     "@vitejs/plugin-react": "4.2.1",
     "c8": "9.1.0",
-    "cesium": "1.107.2",
+    "cesium": "1.116.0",
     "eslint": "8.57.0",
     "eslint-config-reearth": "0.3.0",
     "globby": "14.0.1",

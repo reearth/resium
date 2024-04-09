@@ -29,7 +29,7 @@ export type GroundPrimitiveCollectionOtherProps = {
 export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps &
   GroundPrimitiveCollectionOtherProps;
 
-const cesiumProps = ["show", "destroyPrimitives"] as const;
+const cesiumProps = ["show", "destroyPrimitives", "primitiveAdded", "primitiveRemoved"] as const;
 
 const GroundPrimitiveCollection = createCesiumComponent<
   PrimitiveCollection,
