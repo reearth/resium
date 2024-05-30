@@ -83,6 +83,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const stateRef = useRef<State>();
   const eventManager = ctx?.[eventManagerContextKey];
   const mountReadyRef = useRef<Promise<void>>();
+  const unmountReadyRef = useRef<Promise<void>>();
 
   // Update properties
   const updateProperties = useCallback(
@@ -255,9 +256,15 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   // To prevent re-execution by hot loader, execute only once
   useLayoutEffect(() => {
-    mountReadyRef.current = mount();
+    const run = async () => {
+      if (unmountReadyRef.current) {
+        await unmountReadyRef.current;
+      }
+      mountReadyRef.current = mount();
+    };
+    run();
     return () => {
-      unmount();
+      unmountReadyRef.current = unmount();
     };
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
