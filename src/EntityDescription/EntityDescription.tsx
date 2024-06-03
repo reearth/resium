@@ -66,7 +66,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
         interval = window.setInterval(() => {
           // wait for infobox to become visible.
           const node = viewer.infoBox.container.querySelector(
-            ".cesium-infoBox.cesium-infoBox-bodyless.cesium-infoBox-visible",
+            ".cesium-infoBox.cesium-infoBox-visible",
           );
 
           if (!node) return;
@@ -78,7 +78,7 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
           // append the description content to infoBox.
           parent.appendChild(c);
 
-          // remove cesium-infoBox-bodyless class
+          // remove cesium-infoBox-bodyless class if it exists on the infobox.
           node.classList.remove("cesium-infoBox-bodyless");
           frame.style.height = parent.getBoundingClientRect().height + "px";
         }, 10);
