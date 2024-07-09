@@ -51,15 +51,12 @@ export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps
 export type ImageryLayerCesiumReadonlyProps = Omit<
   PickCesiumProps<Target, typeof cesiumReadonlyProps>,
   "imageryProvider"
->;
-
-export type ImageryLayerOtherProps = {
+> & {
   imageryProvider: ImageryProvider | Promise<ImageryProvider>;
 };
 
 export type ImageryLayerProps = ImageryLayerCesiumProps &
-  ImageryLayerCesiumReadonlyProps &
-  ImageryLayerOtherProps;
+  ImageryLayerCesiumReadonlyProps;
 
 const cesiumProps = [
   "alpha",
