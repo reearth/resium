@@ -163,6 +163,9 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   );
 
   const mount = useCallback(async () => {
+    // Wait one tick to resolve Cesium's unmount process.
+    await new Promise(r => queueMicrotask(() => r(undefined)));
+
     // Initialize cesium element
     const maybePromise = create?.(ctx, initialProps.current, wrapperRef.current);
 
@@ -219,6 +222,9 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const unmount = useCallback(async () => {
+    // Wait one tick to resolve Cesium's unmount process.
+    await new Promise(r => queueMicrotask(() => r(undefined)));
+
     // Wait mount before unmount
     if (mountReadyRef.current) {
       await mountReadyRef.current;
@@ -250,7 +256,6 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     stateRef.current = undefined;
     element.current = undefined;
 
-    setMounted(false);
     mountedRef.current = false;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -264,9 +269,12 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     };
     run();
     return () => {
+      // Need to update this state before Cesium is updated,
+      // because Viewer's children must be hidden before it's unmounted.
+      setMounted(false);
       unmountReadyRef.current = unmount();
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [mount, unmount]);
 
   // Update properties of cesium element
   useEffect(() => {

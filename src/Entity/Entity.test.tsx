@@ -37,10 +37,12 @@ it("should mount", async () => {
     </Provider>,
   );
 
-  expect(ctx.entityCollection?.add).toBeCalledWith(expect.any(CesiumEntity));
-  expect(ref.current?.cesiumElement).toBeInstanceOf(CesiumEntity);
-  expect(ref.current?.cesiumElement?.name).toBe("test");
-  expect(ref.current?.cesiumElement?.definitionChanged.numberOfListeners).toBe(1);
+  await waitFor(() => {
+    expect(ctx.entityCollection?.add).toBeCalledWith(expect.any(CesiumEntity));
+    expect(ref.current?.cesiumElement).toBeInstanceOf(CesiumEntity);
+    expect(ref.current?.cesiumElement?.name).toBe("test");
+    expect(ref.current?.cesiumElement?.definitionChanged.numberOfListeners).toBe(1);
+  });
 });
 
 it("should unmount", () => {

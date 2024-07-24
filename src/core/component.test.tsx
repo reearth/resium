@@ -11,7 +11,7 @@ beforeEach(() => {
 });
 
 describe("core/component", () => {
-  it("should create and expose cesium element correctly on initialized", () => {
+  it("should create and expose cesium element correctly on initialized", async () => {
     const create = vi.fn(() => "foobar");
     const value = { hoge: 1 } as any;
 
@@ -28,9 +28,11 @@ describe("core/component", () => {
       </Provider>,
     );
 
-    expect(create).toBeCalledWith(value, { test: 1 }, null);
-    expect(create).toBeCalledTimes(1);
-    expect(ref.current?.cesiumElement).toBe("foobar");
+    await waitFor(() => {
+      expect(create).toBeCalledWith(value, { test: 1 }, null);
+      expect(create).toBeCalledTimes(1);
+      expect(ref.current?.cesiumElement).toBe("foobar");
+    });
   });
 
   it("should create and expose cesium element correctly on initialized asynchronously", async () => {
@@ -80,7 +82,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should set cesium events after created", () => {
+  it("should set cesium events after created", async () => {
     const cesiumElement = {
       hoge: new Event(),
     };
@@ -93,10 +95,12 @@ describe("core/component", () => {
 
     render(<Component bar={() => {}} />);
 
-    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+    await waitFor(() => {
+      expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+    });
   });
 
-  it("should set cesium props after created", () => {
+  it("should set cesium props after created", async () => {
     const cesiumElement = {
       foo: 0,
     };
@@ -110,7 +114,9 @@ describe("core/component", () => {
 
     render(<Component foo={10} />);
 
-    expect(cesiumElement.foo).toBe(10);
+    await waitFor(() => {
+      expect(cesiumElement.foo).toBe(10);
+    });
   });
 
   it("should update cesium props", async () => {
@@ -159,9 +165,11 @@ describe("core/component", () => {
 
     const { rerender } = render(<Component foo={() => {}} hoge={() => {}} />);
 
-    expect(cesiumElement.foo.numberOfListeners).toBe(1);
-    expect(cesiumElement.bar.numberOfListeners).toBe(0);
-    expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+    await waitFor(() => {
+      expect(cesiumElement.foo.numberOfListeners).toBe(1);
+      expect(cesiumElement.bar.numberOfListeners).toBe(0);
+      expect(cesiumElement.hoge.numberOfListeners).toBe(1);
+    });
 
     rerender(<Component bar={() => {}} hoge={() => {}} />);
 
@@ -220,7 +228,9 @@ describe("core/component", () => {
 
     const { rerender } = render(<Component />);
 
-    expect(updateFn).toBeCalledTimes(0);
+    await waitFor(() => {
+      expect(updateFn).toBeCalledTimes(0);
+    });
 
     rerender(<Component foo={1} />);
 
@@ -230,7 +240,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should provide context", () => {
+  it("should provide context", async () => {
     const create1 = vi.fn(() => "test");
     const create2 = vi.fn(() => "test");
 
@@ -253,8 +263,10 @@ describe("core/component", () => {
       </Provider>,
     );
 
-    expect(create1).toBeCalledWith({ context: "a", context2: "foo" }, expect.anything(), null);
-    expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
+    await waitFor(() => {
+      expect(create1).toBeCalledWith({ context: "a", context2: "foo" }, expect.anything(), null);
+      expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
+    });
   });
 
   it("should invoke onUpdate event when being dirty", () => {
@@ -300,7 +312,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should render container", () => {
+  it("should render container", async () => {
     const createFn = vi.fn(() => "foobar");
 
     const Component = createCesiumComponent<string, { className?: string }>({
@@ -316,14 +328,16 @@ describe("core/component", () => {
       </Provider>,
     );
 
-    expect(createFn).toBeCalledWith(
-      expect.anything(),
-      expect.anything(),
-      expect.any(HTMLDivElement),
-    );
-    const containers = screen.getAllByTestId("resium-container");
-    expect(containers.length).toBe(1);
-    expect(containers[0].getAttribute("class")).toBe("hoge");
+    await waitFor(() => {
+      expect(createFn).toBeCalledWith(
+        expect.anything(),
+        expect.anything(),
+        expect.any(HTMLDivElement),
+      );
+      const containers = screen.getAllByTestId("resium-container");
+      expect(containers.length).toBe(1);
+      expect(containers[0].getAttribute("class")).toBe("hoge");
+    });
   });
 
   it("should keep state", () => {
@@ -356,7 +370,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should not render when noChildren is true", () => {
+  it("should not render when noChildren is true", async () => {
     const Component = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
       noChildren: false,
@@ -368,7 +382,9 @@ describe("core/component", () => {
       </Component>,
     );
 
-    expect(screen.getByTestId("hello")).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByTestId("hello")).toBeInTheDocument();
+    });
 
     const Component2 = createCesiumComponent<string, { children?: ReactNode }>({
       name: "test",
@@ -381,6 +397,8 @@ describe("core/component", () => {
       </Component2>,
     );
 
-    expect(screen.queryByTestId("hello")).not.toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.queryByTestId("hello")).not.toBeInTheDocument();
+    });
   });
 });
