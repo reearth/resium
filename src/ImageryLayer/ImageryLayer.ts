@@ -48,15 +48,15 @@ export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof Cesium
 
 export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
-export type ImageryLayerCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
-
-export type ImageryLayerOtherProps = {
+export type ImageryLayerCesiumReadonlyProps = Omit<
+  PickCesiumProps<Target, typeof cesiumReadonlyProps>,
+  "imageryProvider"
+> & {
   imageryProvider: ImageryProvider | Promise<ImageryProvider>;
 };
 
 export type ImageryLayerProps = ImageryLayerCesiumProps &
-  ImageryLayerCesiumReadonlyProps &
-  ImageryLayerOtherProps;
+  ImageryLayerCesiumReadonlyProps;
 
 const cesiumProps = [
   "alpha",
@@ -83,9 +83,8 @@ const cesiumReadonlyProps = [
   "minimumTerrainLevel",
   "maximumTerrainLevel",
   "readyEvent",
+  "imageryProvider",
 ] as const;
-
-const otherProps = ["imageryProvider"] as const;
 
 const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
   name: "ImageryLayer",
@@ -127,7 +126,6 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
   },
   cesiumProps,
   cesiumReadonlyProps,
-  otherProps,
 });
 
 export default ImageryLayer;
