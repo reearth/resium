@@ -1,10 +1,11 @@
 import { action } from "@storybook/addon-actions";
 import { Meta, StoryObj } from "@storybook/react";
-import { CesiumTerrainProvider, IonResource } from "cesium";
+import { CesiumTerrainProvider, EllipsoidTerrainProvider, IonResource } from "cesium";
 
 import Viewer from "../Viewer";
 
 import Globe from "./Globe";
+import { StrictMode } from "react";
 
 type Story = StoryObj<typeof Globe>;
 
@@ -18,6 +19,7 @@ export const Basic: Story = {
     <Viewer full>
       <Globe
         {...args}
+        terrainProvider={new EllipsoidTerrainProvider()}
         onImageryLayersUpdate={action("onImageryLayersUpdate")}
         onTerrainProviderChange={action("onTerrainProviderChange")}
       />
@@ -25,19 +27,21 @@ export const Basic: Story = {
   ),
 };
 
-export const Prmise: Story = {
+export const Promise: Story = {
   args: { enableLighting: true },
   render: args => (
-    <Viewer full>
-      <Globe
-        {...args}
-        terrainProvider={CesiumTerrainProvider.fromUrl(IonResource.fromAssetId(1), {
-          requestVertexNormals: true,
-          requestWaterMask: false,
-        })}
-        onImageryLayersUpdate={action("onImageryLayersUpdate")}
-        onTerrainProviderChange={action("onTerrainProviderChange")}
-      />
-    </Viewer>
+    <StrictMode>
+      <Viewer full>
+        <Globe
+          {...args}
+          terrainProvider={CesiumTerrainProvider.fromUrl(IonResource.fromAssetId(1), {
+            requestVertexNormals: true,
+            requestWaterMask: false,
+          })}
+          onImageryLayersUpdate={action("onImageryLayersUpdate")}
+          onTerrainProviderChange={action("onTerrainProviderChange")}
+        />
+      </Viewer>
+    </StrictMode>
   ),
 };

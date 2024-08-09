@@ -78,7 +78,6 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const initialProps = useRef<Props>(propsWithChildren(props));
   const prevProps = useRef<Props>({} as Props);
   const [mounted, setMounted] = useState(false);
-  const mountedRef = useRef(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State>();
   const eventManager = ctx?.[eventManagerContextKey];
@@ -135,7 +134,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         em.setEvents(useRootEvent ? null : element.current, props);
       }
 
-      if (update && mountedRef.current) {
+      if (update) {
         const maybePromise = update(element.current, props, prevProps.current, ctx);
         if (isPromise(maybePromise)) {
           await maybePromise;
@@ -146,7 +145,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       initialProps.current = props;
 
       // Recreate cesium element when any read-only prop is updated
-      if (mountedRef.current && updatedReadonlyProps.length > 0) {
+      if (updatedReadonlyProps.length > 0) {
         if (process.env.NODE_ENV !== "production") {
           console.warn(
             `Warning: <${name}> is recreated because following read-only props have been updated: ${updatedReadonlyProps.join(
@@ -255,8 +254,6 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     provided.current = undefined;
     stateRef.current = undefined;
     element.current = undefined;
-
-    mountedRef.current = false;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // To prevent re-execution by hot loader, execute only once
@@ -293,7 +290,6 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         // first time
         prevProps.current = propsWC;
         initialProps.current = propsWC;
-        mountedRef.current = true;
       }
     };
     update();
