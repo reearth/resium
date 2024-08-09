@@ -1426,10 +1426,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cesium/engine@^9.0.0":
-  version "9.0.0"
-  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-9.0.0.tgz#74573f52100ef84ba5fcde9cd1084c07f7fe2fa7"
-  integrity sha512-GIeBitHo1t6OwgWnxAsCoHuCcJEfdki2G0hbKfaP87r2EapbnDLBmfxZziscl1ksv7kQiQ6x2FOOSPuV9QFvhA==
+"@cesium/engine@^10.1.0":
+  version "10.1.0"
+  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-10.1.0.tgz#102df08dfeb6b375548c030ef6b33c2d1654bf40"
+  integrity sha512-xwdJEhGYgf6481vhrb80N5DgQZMwWvn08TWE6NXEgOhkZ7WnTCykYoCDNBMj9WQBqTfREk7/e+/RI4Gx2/TlUA==
   dependencies:
     "@tweenjs/tween.js" "^23.1.1"
     "@zip.js/zip.js" "^2.7.34"
@@ -1437,26 +1437,26 @@
     bitmap-sdf "^1.0.3"
     dompurify "^3.0.2"
     draco3d "^1.5.1"
-    earcut "^2.2.4"
+    earcut "^3.0.0"
     grapheme-splitter "^1.0.4"
     jsep "^1.3.8"
     kdbush "^4.0.1"
     ktx-parse "^0.7.0"
     lerc "^2.0.0"
     mersenne-twister "^1.1.0"
-    meshoptimizer "^0.20.0"
+    meshoptimizer "^0.21.0"
     pako "^2.0.4"
     protobufjs "^7.1.0"
-    rbush "^3.0.1"
+    rbush "^4.0.0"
     topojson-client "^3.1.0"
     urijs "^1.19.7"
 
-"@cesium/widgets@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-6.0.0.tgz#be68f2b696bd6239cd37d63abd429e0608a9a0cb"
-  integrity sha512-zq0UqHji4PgPWTVdUB2hNb/FXe60eNDB11oW35/Z3REQfE4LBOkeR/RGck7hBOfYaubMiqwuwOw2lbl54OXzIA==
+"@cesium/widgets@^7.1.0":
+  version "7.1.0"
+  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-7.1.0.tgz#dac268370292779ebbfb95f5623ec43679b209b6"
+  integrity sha512-SZCtaByBrBTssyUpg0Nir34B4wvvu8bKOMOOevv0AzYxfMeYRBX8CH/Ck/5fUJcTcsVmcYHVOqBF339wwKtcag==
   dependencies:
-    "@cesium/engine" "^9.0.0"
+    "@cesium/engine" "^10.1.0"
     nosleep.js "^0.12.0"
 
 "@colors/colors@1.5.0":
@@ -4042,13 +4042,13 @@ caniuse-lite@^1.0.30001587:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001600.tgz#93a3ee17a35aa6a9f0c6ef1b2ab49507d1ab9079"
   integrity sha512-+2S9/2JFhYmYaDpZvo0lKkfvuKIglrx68MwOBqMGHhQsNkLjB5xtc/TGoEPs+MxjSyN/72qer2g97nzR641mOQ==
 
-cesium@1.116.0:
-  version "1.116.0"
-  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.116.0.tgz#34c025babb49dfc4eeb98f9c83c37094a2083388"
-  integrity sha512-RZOOMePztCVb74JU/DTCTfuha7xTsJtEm3FRZeMUXyZABeRhbYjT1GwtAtoaPPJ5/IoqNjLvZnTNJdnU3LVE5g==
+cesium@1.120.0:
+  version "1.120.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.120.0.tgz#35066a5c055b76930d578ca4191eff82e862ce18"
+  integrity sha512-1TkuCgWhhZ+TlNM4Hps08xb+TyNwChkR8MiYNtFior8XIglEvdh+JgPqdI+yfd9M02bjV13HDj5D6muIYsW4uw==
   dependencies:
-    "@cesium/engine" "^9.0.0"
-    "@cesium/widgets" "^6.0.0"
+    "@cesium/engine" "^10.1.0"
+    "@cesium/widgets" "^7.1.0"
 
 chai@^4.3.10:
   version "4.4.1"
@@ -4619,10 +4619,10 @@ duplexify@^3.5.0, duplexify@^3.6.0:
     readable-stream "^2.0.0"
     stream-shift "^1.0.0"
 
-earcut@^2.2.4:
-  version "2.2.4"
-  resolved "https://registry.yarnpkg.com/earcut/-/earcut-2.2.4.tgz#6d02fd4d68160c114825d06890a92ecaae60343a"
-  integrity sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==
+earcut@^3.0.0:
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/earcut/-/earcut-3.0.0.tgz#a8d5bf891224eaea8287201b5e787c6c0318af89"
+  integrity sha512-41Fs7Q/PLq1SDbqjsgcY7GA42T0jvaCNGXgGtsNdvg+Yv8eIu06bxv4/PoREkZ9nMDNwnUSG9OFB9+yv8eKhDg==
 
 eastasianwidth@^0.2.0:
   version "0.2.0"
@@ -6888,10 +6888,10 @@ mersenne-twister@^1.1.0:
   resolved "https://registry.yarnpkg.com/mersenne-twister/-/mersenne-twister-1.1.0.tgz#f916618ee43d7179efcf641bec4531eb9670978a"
   integrity sha512-mUYWsMKNrm4lfygPkL3OfGzOPTR2DBlTkBNHM//F6hGp8cLThY897crAlk3/Jo17LEOOjQUrNAx6DvgO77QJkA==
 
-meshoptimizer@^0.20.0:
-  version "0.20.0"
-  resolved "https://registry.yarnpkg.com/meshoptimizer/-/meshoptimizer-0.20.0.tgz#890eaeafa2b5730a0c58770fdf3b1fe77b746bf5"
-  integrity sha512-olcJ1q+YVnjroRJpCL1Dj5aZxr2JMr2hRutMUwhuHZvpAL7SIZgOT6eMlFF4TbBGSR89tawE/gqB79J/LrW/Nw==
+meshoptimizer@^0.21.0:
+  version "0.21.0"
+  resolved "https://registry.yarnpkg.com/meshoptimizer/-/meshoptimizer-0.21.0.tgz#08ba1e146f3a72be99d0a59ad509c1939eebc357"
+  integrity sha512-WabtlpnK/GgD0GMwYd1fBTfYHf4MIcQPEg6dt7y4GuDcY51RzLSkSNE8ZogD7U3Vs2/fIf4z89TOLpA80EOnhg==
 
 methods@~1.1.2:
   version "1.1.2"
@@ -7775,10 +7775,10 @@ raw-body@2.5.1:
     iconv-lite "0.4.24"
     unpipe "1.0.0"
 
-rbush@^3.0.1:
-  version "3.0.1"
-  resolved "https://registry.yarnpkg.com/rbush/-/rbush-3.0.1.tgz#5fafa8a79b3b9afdfe5008403a720cc1de882ecf"
-  integrity sha512-XRaVO0YecOpEuIvbhbpTrZgoiI6xBlz6hnlr6EHhd+0x9ase6EmeN+hdwwUaJvLcsFFQ8iWVF1GAK1yB0BWi0w==
+rbush@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/rbush/-/rbush-4.0.0.tgz#0536f105aa9d6dc8c0f2be6363a09d474b41cad6"
+  integrity sha512-F5xw+166FYDZI6jEcz+sWEHL5/J+du3kQWkwqWrPKb6iVoLPZh+2KhTS4OoYqrw1v/RO1xQe6WsLwBvrUAlvXw==
   dependencies:
     quickselect "^2.0.0"
 
