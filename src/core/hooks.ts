@@ -135,7 +135,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         em.setEvents(useRootEvent ? null : element.current, props);
       }
 
-      if (update) {
+      if (update && mountedRef.current) {
         const maybePromise = update(element.current, props, prevProps.current, ctx);
         if (isPromise(maybePromise)) {
           await maybePromise;
@@ -155,6 +155,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
           );
         }
 
+        beforeUnmount();
         await unmount();
         mountReadyRef.current = mount();
       }
@@ -218,8 +219,15 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       em.setEvents(useRootEvent ? null : element.current, initialProps.current);
     }
 
-    setMounted(true);
+    if (!unmountReadyRef.current) {
+      setMounted(true);
+    }
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const beforeUnmount = useCallback(() => {
+    setMounted(false);
+    mountedRef.current = false;
+  }, []);
 
   const unmount = useCallback(async () => {
     // Wait one tick to resolve Cesium's unmount process.
@@ -228,6 +236,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     // Wait mount before unmount
     if (mountReadyRef.current) {
       await mountReadyRef.current;
+      mountReadyRef.current = undefined;
     }
 
     // Destroy cesium element
@@ -255,7 +264,6 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     provided.current = undefined;
     stateRef.current = undefined;
     element.current = undefined;
-    mountedRef.current = false;
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // To prevent re-execution by hot loader, execute only once
@@ -263,6 +271,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     const run = async () => {
       if (unmountReadyRef.current) {
         await unmountReadyRef.current;
+        unmountReadyRef.current = undefined;
       }
       mountReadyRef.current = mount();
     };
@@ -270,10 +279,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     return () => {
       // Need to update this state before Cesium is updated,
       // because Viewer's children must be hidden before it's unmounted.
-      setMounted(false);
+      beforeUnmount();
       unmountReadyRef.current = unmount();
     };
-  }, [mount, unmount]);
+  }, [mount, unmount, beforeUnmount]);
 
   // Update properties of cesium element
   useEffect(() => {
@@ -299,9 +308,13 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   }, [ctx.__$internal, mounted, props, updateProperties]);
 
   // Expose cesium element
-  useImperativeHandle(ref, () => ({
-    cesiumElement: element.current,
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      cesiumElement: mounted ? element.current : null,
+    }),
+    [mounted],
+  );
 
   return [provided.current, mounted, wrapperRef];
 };
