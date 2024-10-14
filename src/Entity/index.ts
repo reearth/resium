@@ -1,1 +1,1 @@
-export { default } from "./Entity";
+export { default, type EntityProps } from "./Entity";

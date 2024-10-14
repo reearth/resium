@@ -1,1 +1,4 @@
-export { default } from "./TimeDynamicPointCloud";
+export {
+  default,
+  type TimeDynamicPointCloudProps,
+} from "./TimeDynamicPointCloud";

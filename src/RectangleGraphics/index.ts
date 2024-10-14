@@ -1,1 +1,1 @@
-export { default } from "./RectangleGraphics";
+export { default, type RectangleGraphicsProps } from "./RectangleGraphics";

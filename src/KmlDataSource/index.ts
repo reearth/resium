@@ -1,1 +1,1 @@
-export { default } from "./KmlDataSource";
+export { default, type KmlDataSourceProps } from "./KmlDataSource";

@@ -1,1 +1,1 @@
-export { default } from "./SkyBox";
+export { default, type SkyBoxProps } from "./SkyBox";

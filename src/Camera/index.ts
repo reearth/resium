@@ -1,1 +1,1 @@
-export { default } from "./Camera";
+export { default, type CameraProps } from "./Camera";
