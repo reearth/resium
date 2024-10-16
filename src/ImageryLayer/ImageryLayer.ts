@@ -55,8 +55,7 @@ export type ImageryLayerCesiumReadonlyProps = Omit<
   imageryProvider: ImageryProvider | Promise<ImageryProvider>;
 };
 
-export type ImageryLayerProps = ImageryLayerCesiumProps &
-  ImageryLayerCesiumReadonlyProps;
+export type ImageryLayerProps = ImageryLayerCesiumProps & ImageryLayerCesiumReadonlyProps;
 
 const cesiumProps = [
   "alpha",
@@ -109,8 +108,8 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
 
     // Remove the awaited result from the waiting list.
     if (context.__$internal?.imageryLayerWaitingList) {
-      context.__$internal.imageryLayerWaitingList =
-        context.__$internal.imageryLayerWaitingList.filter(i => i !== imageryProvider);
+      const index = context.__$internal.imageryLayerWaitingList.indexOf(imageryProvider);
+      context.__$internal.imageryLayerWaitingList.splice(index, 1);
     }
 
     if (!result) return;

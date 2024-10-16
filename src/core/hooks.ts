@@ -287,8 +287,8 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   // Update properties of cesium element
   useEffect(() => {
     const update = async () => {
-      if (mountReadyRef.current) {
-        await mountReadyRef.current;
+      if (unmountReadyRef.current) {
+        await unmountReadyRef.current;
       }
 
       const propsWC = propsWithChildren(props);
