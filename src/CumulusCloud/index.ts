@@ -1,1 +1,1 @@
-export { default } from "./CumulusCloud";
+export { default, type CumulusCloudProps } from "./CumulusCloud";

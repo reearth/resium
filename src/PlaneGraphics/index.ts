@@ -1,1 +1,1 @@
-export { default } from "./PlaneGraphics";
+export { default, type PlaneGraphicsProps } from "./PlaneGraphics";

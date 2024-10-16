@@ -1,1 +1,1 @@
-export { default } from "./Polyline";
+export { default, type PolylineProps } from "./Polyline";

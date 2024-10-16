@@ -1,1 +1,1 @@
-export { default } from "./CloudCollection";
+export { default, type CloudCollectionProps } from "./CloudCollection";

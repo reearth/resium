@@ -1,1 +1,1 @@
-export { default } from "./ScreenSpaceEvent";
+export { default, type ScreenSpaceEventProps } from "./ScreenSpaceEvent";

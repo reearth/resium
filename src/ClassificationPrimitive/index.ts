@@ -1,1 +1,4 @@
-export { default } from "./ClassificationPrimitive";
+export {
+  default,
+  type ClassificationPrimitiveProps,
+} from "./ClassificationPrimitive";
