@@ -52,6 +52,11 @@ export type Options<Element, Props extends RootComponentInternalProps, State = a
   useRootEvent?: boolean;
 };
 
+function useForceRedraw(){
+  const [, setRedraw] = useState<boolean>(false)
+  return useCallback(() => setRedraw(a => !a),[])
+}
+
 export const useCesiumComponent = <Element, Props extends RootComponentInternalProps, State = any>(
   {
     name,
@@ -84,6 +89,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const eventManager = ctx?.[eventManagerContextKey];
   const mountReadyRef = useRef<Promise<void>>();
   const unmountReadyRef = useRef<Promise<void>>();
+  const forceRedraw = useForceRedraw()
 
   // Update properties
   const updateProperties = useCallback(
@@ -160,7 +166,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         mountReadyRef.current = mount();
       }
     },
-    [], // eslint-disable-line react-hooks/exhaustive-deps
+    [ctx], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const mount = useCallback(async () => {
@@ -210,6 +216,9 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         ...ctx,
         ...provide(element.current, ctx, props, stateRef.current),
       };
+      //force rerender because chaging a ref does not update the context
+      //changing provided to a useState will result in a rendering loop because of the useLayoutEffect below 
+      forceRedraw()
     }
 
     const em = useRootEvent
@@ -222,7 +231,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     if (!unmountReadyRef.current) {
       setMounted(true);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ctx]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const beforeUnmount = useCallback(() => {
     setMounted(false);
@@ -264,7 +273,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     provided.current = undefined;
     stateRef.current = undefined;
     element.current = undefined;
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ctx]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // To prevent re-execution by hot loader, execute only once
   useLayoutEffect(() => {
@@ -305,7 +314,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       }
     };
     update();
-  }, [ctx.__$internal, mounted, props, updateProperties]);
+  }, [ctx, mounted, props, updateProperties]);
 
   // Expose cesium element
   useImperativeHandle(
