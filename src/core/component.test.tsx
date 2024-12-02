@@ -244,10 +244,11 @@ describe("core/component", () => {
     const create1 = vi.fn(() => "test");
     const create2 = vi.fn(() => "test");
 
-    const Component1 = createCesiumComponent<string, { children?: ReactNode }>({
+    const Component1 = createCesiumComponent<string, { children?: ReactNode, readOnlyProp: boolean }>({
       name: "test",
       create: create1,
-      provide: (): any => ({ context: "b" }),
+      provide: (element, ctx, props): any => ({ context: "b", readOnlyProp: props?.readOnlyProp }),
+      cesiumReadonlyProps: ["readOnlyProp"]
     });
 
     const Component2 = createCesiumComponent<string, {}>({
@@ -255,9 +256,9 @@ describe("core/component", () => {
       create: create2,
     });
 
-    render(
+    const { rerender } = render(
       <Provider value={{ context: "a", context2: "foo" } as any}>
-        <Component1>
+        <Component1 readOnlyProp={false}>
           <Component2 />
         </Component1>
       </Provider>,
@@ -265,7 +266,20 @@ describe("core/component", () => {
 
     await waitFor(() => {
       expect(create1).toBeCalledWith({ context: "a", context2: "foo" }, expect.anything(), null);
-      expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
+      expect(create2).toBeCalledWith({ context: "b", context2: "foo", readOnlyProp: false }, expect.anything(), null);
+    });
+
+    rerender(
+      <Provider value={{ context: "a", context2: "foo" } as any}>
+        <Component1 readOnlyProp={true}>
+          <Component2 />
+        </Component1>
+      </Provider>,
+    );
+
+    await waitFor(() => {
+      expect(create1).toBeCalledWith({ context: "a", context2: "foo" }, expect.anything(), null);
+      expect(create2).toBeCalledWith({ context: "b", context2: "foo", readOnlyProp: true }, expect.anything(), null);
     });
   });
 
