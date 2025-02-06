@@ -40,8 +40,8 @@
   },
   "peerDependencies": {
     "cesium": "1.x",
-    "react": ">=19.x",
-    "react-dom": ">=19.x"
+    "react": ">=18.2.0 <20",
+    "react-dom": ">=18.2.0 <20"
   },
   "devDependencies": {
     "@storybook/addon-essentials": "8.0.5",
