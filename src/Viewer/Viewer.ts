@@ -46,6 +46,7 @@ const cesiumProps = [
   "resolutionScale",
   "allowDataSourcesToSuspendAnimation",
   "trackedEntity",
+  "ellipsoid",
   "selectedEntity",
   "shadows",
   "useBrowserRecommendedResolution",

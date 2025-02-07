@@ -34,6 +34,7 @@ const cesiumProps = [
   "pixelOffset",
   "rotation",
   "alignedAxis",
+  "splitDirection",
   "width",
   "height",
   "color",

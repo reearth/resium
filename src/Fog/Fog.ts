@@ -23,6 +23,10 @@ const cesiumProps = [
   "enabled",
   "minimumBrightness",
   "screenSpaceErrorFactor",
+  "heightScalar",
+  "maxHeight",
+  "visualDensityScalar",
+  "heightFalloff",
   "renderable",
 ] as const;
 

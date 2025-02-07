@@ -32,6 +32,7 @@ const cesiumProps = [
   "distanceDisplayCondition",
   "id",
   "outlineColor",
+  "splitDirection",
   "outlineWidth",
   "pixelSize",
   "position",

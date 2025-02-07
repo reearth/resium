@@ -67,6 +67,8 @@ const cesiumReadonlyProps = [
   "releaseGltfJson",
   "cull",
   "opaquePass",
+  "enableVerticalExaggeration",
+  "environmentMapOptions",
   "upAxis",
   "forwardAxis",
   "content",

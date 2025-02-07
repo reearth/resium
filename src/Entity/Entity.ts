@@ -109,6 +109,7 @@ const cesiumProps = [
   "label",
   "model",
   "name",
+  "trackingReferenceFrame",
   "orientation",
   "path",
   "plane",

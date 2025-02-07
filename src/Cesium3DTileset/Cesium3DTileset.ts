@@ -119,6 +119,7 @@ const cesiumReadonlyProps = [
   "cullWithChildrenBounds",
   "debugHeatmapTilePropertyName",
   "enableDebugWireframe",
+  "environmentMapOptions",
   "modelUpAxis",
   "modelForwardAxis",
   "projectTo2D",

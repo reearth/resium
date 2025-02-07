@@ -30,6 +30,8 @@ const cesiumProps = [
   "enableTilt",
   "enableTranslate",
   "enableZoom",
+  "zoomFactor",
+  "maximumTiltAngle",
   "inertiaSpin",
   "inertiaTranslate",
   "inertiaZoom",

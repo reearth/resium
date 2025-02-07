@@ -37,6 +37,7 @@ const cesiumProps = [
   "horizontalOrigin",
   "image",
   "pixelOffset",
+  "splitDirection",
   "pixelOffsetScaleByDistance",
   "position",
   "rotation",

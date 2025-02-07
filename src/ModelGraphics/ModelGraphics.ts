@@ -33,6 +33,8 @@ const cesiumProps = [
   "runAnimations",
   "clampAnimations",
   "nodeTransformations",
+  "environmentMapOptions",
+  "enableVerticalExaggeration",
   "shadows",
   "heightReference",
   "distanceDisplayCondition",
