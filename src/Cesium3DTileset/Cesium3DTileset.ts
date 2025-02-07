@@ -81,6 +81,7 @@ const cesiumProps = [
   "immediatelyLoadDesiredLevelOfDetail",
   "loadSiblings",
   "clippingPlanes",
+  "clippingPolygons",
   "classificationType",
   "ellipsoid",
   "lightColor",

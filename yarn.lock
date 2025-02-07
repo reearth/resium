@@ -248,40 +248,40 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@cesium/engine@npm:^14.0.0":
-  version: 14.0.0
-  resolution: "@cesium/engine@npm:14.0.0"
+"@cesium/engine@npm:^9.2.0":
+  version: 9.2.0
+  resolution: "@cesium/engine@npm:9.2.0"
   dependencies:
-    "@tweenjs/tween.js": "npm:^25.0.0"
+    "@tweenjs/tween.js": "npm:^23.1.1"
     "@zip.js/zip.js": "npm:^2.7.34"
     autolinker: "npm:^4.0.0"
     bitmap-sdf: "npm:^1.0.3"
     dompurify: "npm:^3.0.2"
     draco3d: "npm:^1.5.1"
-    earcut: "npm:^3.0.0"
+    earcut: "npm:^2.2.4"
     grapheme-splitter: "npm:^1.0.4"
     jsep: "npm:^1.3.8"
     kdbush: "npm:^4.0.1"
     ktx-parse: "npm:^0.7.0"
     lerc: "npm:^2.0.0"
     mersenne-twister: "npm:^1.1.0"
-    meshoptimizer: "npm:^0.22.0"
+    meshoptimizer: "npm:^0.20.0"
     pako: "npm:^2.0.4"
     protobufjs: "npm:^7.1.0"
-    rbush: "npm:3.0.1"
+    rbush: "npm:^3.0.1"
     topojson-client: "npm:^3.1.0"
     urijs: "npm:^1.19.7"
-  checksum: 10c0/e0c9276d84e3af3ad0a5b6e0f8d50a73d315fa5ef31acc43be077eda6f0ff21f5cb50fc667739566cab7db6a4bafbdeced676602c4b644f1df0985eb3d6426d3
+  checksum: 10c0/b5bfa043b9ea10f2abea11c5b04b06589c0b21ef9578ffbfdeb1629627e01995d9bb64866ffb0a51b070d521c6fcd399a67b71c985969df46158d48bcef4908e
   languageName: node
   linkType: hard
 
-"@cesium/widgets@npm:^10.2.0":
-  version: 10.2.0
-  resolution: "@cesium/widgets@npm:10.2.0"
+"@cesium/widgets@npm:^6.1.2":
+  version: 6.1.2
+  resolution: "@cesium/widgets@npm:6.1.2"
   dependencies:
-    "@cesium/engine": "npm:^14.0.0"
+    "@cesium/engine": "npm:^9.2.0"
     nosleep.js: "npm:^0.12.0"
-  checksum: 10c0/735cd4716f6fb07d1d5b1e4fde6f21b8ef9414aa1f64a723592dcdfafdc7052559dec59af4ced44ca3c2d1e673698ad01764ec163ecd905fc608b56b1bfa1807
+  checksum: 10c0/268c4480b89e9edb631eaae21c907e181dd6e4ad3d35699fd3ebbb08f88d520315901c0fd29ce82b8d25cc67b396661287dc15ee9558a9771dfbda178e1883aa
   languageName: node
   linkType: hard
 
@@ -1687,10 +1687,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tweenjs/tween.js@npm:^25.0.0":
-  version: 25.0.0
-  resolution: "@tweenjs/tween.js@npm:25.0.0"
-  checksum: 10c0/372a85913ad088b8d2720e4a5e90469e411e0757b5f3a52da6a7403f1722236b853bc9c78d9437b1f30db61199efe45e7ec40484def2ab1fe7c2334de0673ef3
+"@tweenjs/tween.js@npm:^23.1.1":
+  version: 23.1.3
+  resolution: "@tweenjs/tween.js@npm:23.1.3"
+  checksum: 10c0/811b30f5f0e7409fb41833401c501c2d6f600eb5f43039dd9067a7f70aff6dad5f5ce1233848e13f0b33a269a160d9c133f344d986cbff4f1f6b72ddecd06c89
   languageName: node
   linkType: hard
 
@@ -2860,13 +2860,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"cesium@npm:^1.126.0":
-  version: 1.126.0
-  resolution: "cesium@npm:1.126.0"
+"cesium@npm:1.118":
+  version: 1.118.2
+  resolution: "cesium@npm:1.118.2"
   dependencies:
-    "@cesium/engine": "npm:^14.0.0"
-    "@cesium/widgets": "npm:^10.2.0"
-  checksum: 10c0/184c99472399f8c9627918f8b7354f24cecc3cb850cdc862bf5f42fe6cc1ae5abd34d82c8dec5bde96ae035b5f0ab58fbef99ff38aa3aa7fee034aa2f245703b
+    "@cesium/engine": "npm:^9.2.0"
+    "@cesium/widgets": "npm:^6.1.2"
+  checksum: 10c0/5f6866247e3e7ed95812b4f7079e08681041aeefce27dc49a61820dd54799f2be0278a7bde238a6d25b1fc8b3971891340c979cfda81f1b937798ff5efc52abd
   languageName: node
   linkType: hard
 
@@ -3266,10 +3266,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"earcut@npm:^3.0.0":
-  version: 3.0.1
-  resolution: "earcut@npm:3.0.1"
-  checksum: 10c0/cc1d3ed87a08db1a601b3b836bfb2fe22c8f923dfcfcd7419c64a5d4c270ac6d966d8d1e673cc699f8d69dc32bce84fd6d87136c49431fa35057bd7141627769
+"earcut@npm:^2.2.4":
+  version: 2.2.4
+  resolution: "earcut@npm:2.2.4"
+  checksum: 10c0/01ca51830edd2787819f904ae580087d37351f6048b4565e7add4b3da8a86b7bc19262ab2aa7fdc64129ab03af2d9cec8cccee4d230c82275f97ef285c79aafb
   languageName: node
   linkType: hard
 
@@ -5403,10 +5403,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"meshoptimizer@npm:^0.22.0":
-  version: 0.22.0
-  resolution: "meshoptimizer@npm:0.22.0"
-  checksum: 10c0/df5c10c897a9eea3085cd2ae077dd4b904df3d71855eb3cbaa624d05e62eb4e893b3e2492cae070122561addb90fbfe092c53b7e68fdd391d0009f267af3f348
+"meshoptimizer@npm:^0.20.0":
+  version: 0.20.0
+  resolution: "meshoptimizer@npm:0.20.0"
+  checksum: 10c0/a4ef1a0e6c0454c2faf69602ba45f8aa87102c53de987c711348a73b2faed6627732704bc21c0791ab99494d9fd07b2038abd68754d4e5805c5b2b3f481f8bc3
   languageName: node
   linkType: hard
 
@@ -6203,7 +6203,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"rbush@npm:3.0.1":
+"rbush@npm:^3.0.1":
   version: 3.0.1
   resolution: "rbush@npm:3.0.1"
   dependencies:
@@ -6410,7 +6410,7 @@ __metadata:
     "@types/react-dom": "npm:^19.0.3"
     "@vitejs/plugin-react": "npm:4.3.4"
     c8: "npm:10.1.3"
-    cesium: "npm:^1.126.0"
+    cesium: "npm:1.118"
     eslint: "npm:8.57.0"
     eslint-config-reearth: "npm:0.3.0"
     globby: "npm:14.0.1"

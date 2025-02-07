@@ -68,6 +68,7 @@ const cesiumProps = [
   "backFaceCulling",
   "baseColor",
   "clippingPlanes",
+  "clippingPolygons",
   "depthTestAgainstTerrain",
   "enableLighting",
   "lightingFadeInDistance",

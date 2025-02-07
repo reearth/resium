@@ -47,11 +47,15 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
   defaultProps,
   ...options
 }: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<Element, Props> => {
-  const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, Props> = (props, ref) => {
+  const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, PropsWithoutRef<Props>> = (
+    props,
+    ref,
+  ) => {
     const mergedProps = {
       ...defaultProps,
       ...props,
-    };
+    } as Props;
+
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [provided, mounted, wrapperRef] = useCesiumComponent<Element, Props, State>(
       options,
@@ -66,6 +70,7 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
         ? (mergedProps as PropsWithChildren<Props>).children
         : null
       : null;
+
     const wrappedChildren = renderContainer ? (
       <div
         data-testid="resium-container"
@@ -87,5 +92,5 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
 
   component.displayName = options.name;
 
-  return forwardRef(component);
+  return forwardRef<CesiumComponentRef<Element>, Props>(component);
 };

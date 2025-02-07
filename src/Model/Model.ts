@@ -41,6 +41,7 @@ const cesiumProps = [
   "maximumScale",
   "minimumPixelSize",
   "modelMatrix",
+  "clippingPolygons",
   "outlineColor",
   "scale",
   "shadows",
