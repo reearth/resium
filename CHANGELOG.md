@@ -1,5 +1,12 @@
 # Changelog
 
+## v1.19.0-beta - 2024/02/10
+
+- Support React v19
+- Support Cesium v1.126.0 features
+- Support for Vite 6
+- Update dependencies
+
 ## v1.16.1 - 2022/03/20
 
 - Use automatic JSX Runtime in Vite
