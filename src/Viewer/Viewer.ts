@@ -136,7 +136,7 @@ export type ViewerProps = ViewerCesiumProps &
 
 const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
   name: "Viewer",
-  async create(_context, { baseLayer, terrainProvider, ...props }, wrapper) {
+  async create(_context, { terrainProvider, ...props }, wrapper) {
     if (!wrapper) return;
 
     let resultTerrainProvider: TerrainProvider;
@@ -149,11 +149,10 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
     const v = new CesiumViewer(wrapper, {
       ...props,
       terrainProvider: resultTerrainProvider,
-      baseLayer: baseLayer === false ? undefined : baseLayer,
     });
     if (!v) return;
 
-    if (baseLayer === false) {
+    if (props.baseLayer === false) {
       v.imageryLayers.removeAll();
     }
 
