@@ -52,4 +52,4 @@ export const DisableClick: Story = {
   ),
 };
 
-DisableClick.storyName = "Disable click";
+DisableClick.name = "Disable click";

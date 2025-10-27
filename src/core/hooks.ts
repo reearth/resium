@@ -68,8 +68,8 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   }: Options<Element, Props, State>,
   props: Props,
   ref: any,
-): [Partial<ResiumContext> | undefined, boolean, RefObject<HTMLDivElement>] => {
-  const element = useRef<Element>();
+): [Partial<ResiumContext> | undefined, boolean, RefObject<HTMLDivElement | null>] => {
+  const element = useRef<Element | undefined>(undefined);
   const ctx = useCesium();
   const provided = useRef<Partial<ResiumContext> | undefined>(provide ? {} : undefined);
   const attachedEvents = useRef<{
@@ -80,10 +80,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const stateRef = useRef<State>();
+  const stateRef = useRef<State | undefined>(undefined);
   const eventManager = ctx?.[eventManagerContextKey];
-  const mountReadyRef = useRef<Promise<void>>();
-  const unmountReadyRef = useRef<Promise<void>>();
+  const mountReadyRef = useRef<Promise<void> | undefined>(undefined);
+  const unmountReadyRef = useRef<Promise<void> | undefined>(undefined);
 
   // Update properties
   const updateProperties = useCallback(

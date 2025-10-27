@@ -44,7 +44,7 @@ export const Basic: Story = {
 };
 
 export const UseEntityCluster: Story = {
-  storyName: "Entity cluster",
+  name: "Entity cluster",
   render: args => (
     <Viewer full>
       <CustomDataSource
