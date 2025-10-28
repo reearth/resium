@@ -17,7 +17,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
     return (
@@ -30,7 +30,7 @@ export const Basic: Story = {
           onTileFailed={action("onTileFailed")}
           onTileLoad={action("onTileLoad")}
           onTileUnload={action("onTileUnload")}
-          onReady={tileset => {
+          onReady={(tileset) => {
             ref.current?.cesiumElement?.zoomTo(tileset);
           }}
           {...events}
@@ -41,7 +41,7 @@ export const Basic: Story = {
 };
 
 export const Resource: Story = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -55,7 +55,7 @@ export const Resource: Story = {
 };
 
 export const Style: Story = {
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
     return (
@@ -70,7 +70,7 @@ export const Style: Story = {
               },
             })
           }
-          onReady={tileset => {
+          onReady={(tileset) => {
             ref.current?.cesiumElement?.zoomTo(tileset);
           }}
         />

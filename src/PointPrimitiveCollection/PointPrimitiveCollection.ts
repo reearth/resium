@@ -27,10 +27,15 @@ export type PointPrimitiveCollectionOtherProps = {
   children?: ReactNode;
 };
 
-export type PointPrimitiveCollectionProps = PointPrimitiveCollectionCesiumProps &
-  PointPrimitiveCollectionOtherProps;
+export type PointPrimitiveCollectionProps =
+  PointPrimitiveCollectionCesiumProps & PointPrimitiveCollectionOtherProps;
 
-const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix", "show"] as const;
+const cesiumProps = [
+  "blendOption",
+  "debugShowBoundingVolume",
+  "modelMatrix",
+  "show",
+] as const;
 
 const PointPrimitiveCollection = createCesiumComponent<
   CesiumPointPrimitiveCollection,
@@ -44,7 +49,10 @@ const PointPrimitiveCollection = createCesiumComponent<
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

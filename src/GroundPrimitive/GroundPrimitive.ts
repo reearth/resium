@@ -23,9 +23,15 @@ If this component is inside GroundPrimitiveCollection component, a ground primit
 Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type Target = Merge<CesiumGroundPrimitive, ConstructorOptions<typeof CesiumGroundPrimitive>>;
+export type Target = Merge<
+  CesiumGroundPrimitive,
+  ConstructorOptions<typeof CesiumGroundPrimitive>
+>;
 
-export type GroundPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type GroundPrimitiveCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type GroundPrimitiveCesiumReadonlyProps = PickCesiumProps<
   Target,
@@ -65,7 +71,10 @@ const cesiumReadonlyProps = [
 
 export const otherProps = ["onReady"] as const;
 
-const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
+const GroundPrimitive = createCesiumComponent<
+  CesiumGroundPrimitive,
+  GroundPrimitiveProps
+>({
   name: "GroundPrimitive",
   create(context, props) {
     if (!context.primitiveCollection) return;
@@ -83,7 +92,10 @@ const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimi
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

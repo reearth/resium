@@ -17,7 +17,7 @@ export const Basic: Story = {
     target: Cartesian3.fromDegrees(-123.0744619, 44.0503706, 50),
     offset: new Cartesian3(30, 30, -10),
   },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CameraLookAt {...args} />
     </Viewer>

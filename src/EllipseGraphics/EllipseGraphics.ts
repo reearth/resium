@@ -22,7 +22,8 @@ export type EllipseGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type EllipseGraphicsProps = EllipseGraphicsCesiumProps & EllipseGraphicsCesiumEvents;
+export type EllipseGraphicsProps = EllipseGraphicsCesiumProps &
+  EllipseGraphicsCesiumEvents;
 
 const cesiumProps = [
   "semiMajorAxis",
@@ -51,7 +52,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const EllipseGraphics = createCesiumComponent<CesiumEllipseGraphics, EllipseGraphicsProps>({
+const EllipseGraphics = createCesiumComponent<
+  CesiumEllipseGraphics,
+  EllipseGraphicsProps
+>({
   name: "EllipseGraphics",
   create(context, props) {
     if (!context.entity) return;

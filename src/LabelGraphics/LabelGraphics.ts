@@ -22,7 +22,8 @@ export type LabelGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type LabelGraphicsProps = LabelGraphicsCesiumProps & LabelGraphicsCesiumEvents;
+export type LabelGraphicsProps = LabelGraphicsCesiumProps &
+  LabelGraphicsCesiumEvents;
 
 const cesiumProps = [
   "text",
@@ -52,7 +53,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const LabelGraphics = createCesiumComponent<CesiumLabelGraphics, LabelGraphicsProps>({
+const LabelGraphics = createCesiumComponent<
+  CesiumLabelGraphics,
+  LabelGraphicsProps
+>({
   name: "LabelGraphics",
   create(context, props) {
     if (!context.entity) return;

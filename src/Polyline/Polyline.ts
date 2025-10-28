@@ -22,7 +22,10 @@ Only inside [PolylineCollection](/components/PolylineCollection) component.
 A polyline object will be attached to the parent PolylineCollection.
 */
 
-export type PolylineCesiumProps = PickCesiumProps<CesiumPolyline, typeof cesiumProps> & {
+export type PolylineCesiumProps = PickCesiumProps<
+  CesiumPolyline,
+  typeof cesiumProps
+> & {
   distanceDisplayCondition?: DistanceDisplayCondition;
   id?: any;
   loop?: boolean;
@@ -54,7 +57,10 @@ const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
   name: "Polyline",
   create: (context, props) => context.polylineCollection?.add(props),
   destroy(element, context) {
-    if (context.polylineCollection && !context.polylineCollection.isDestroyed()) {
+    if (
+      context.polylineCollection &&
+      !context.polylineCollection.isDestroyed()
+    ) {
       context.polylineCollection.remove(element);
     }
   },

@@ -3,7 +3,12 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { ViewerProps, cesiumEventProps, Target, ViewerOtherProps } from "./Viewer";
+import {
+  ViewerProps,
+  cesiumEventProps,
+  Target,
+  ViewerOtherProps,
+} from "./Viewer";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

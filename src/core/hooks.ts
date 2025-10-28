@@ -11,20 +11,33 @@ import {
 
 import { RootComponentInternalProps } from "./component";
 import { ResiumContext, useCesium } from "./context";
-import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
+import {
+  EventManager,
+  eventManagerContextKey,
+  eventNames,
+} from "./EventManager";
 import { includes, shallowEquals, isDestroyed, isPromise } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };
 
-type CreateReturnType<Element, State = any> = Element | [Element, State] | undefined;
+type CreateReturnType<Element, State = any> =
+  | Element
+  | [Element, State]
+  | undefined;
 
-export type Options<Element, Props extends RootComponentInternalProps, State = any> = {
+export type Options<
+  Element,
+  Props extends RootComponentInternalProps,
+  State = any,
+> = {
   name: string;
   create?: (
     ctx: ResiumContext,
     props: Props,
     wrapperRef: HTMLDivElement | null,
-  ) => Promise<CreateReturnType<Element, State>> | CreateReturnType<Element, State>;
+  ) =>
+    | Promise<CreateReturnType<Element, State>>
+    | CreateReturnType<Element, State>;
   destroy?: (
     element: Element,
     ctx: ResiumContext,
@@ -52,7 +65,11 @@ export type Options<Element, Props extends RootComponentInternalProps, State = a
   useRootEvent?: boolean;
 };
 
-export const useCesiumComponent = <Element, Props extends RootComponentInternalProps, State = any>(
+export const useCesiumComponent = <
+  Element,
+  Props extends RootComponentInternalProps,
+  State = any,
+>(
   {
     name,
     create,
@@ -68,10 +85,16 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   }: Options<Element, Props, State>,
   props: Props,
   ref: any,
-): [Partial<ResiumContext> | undefined, boolean, RefObject<HTMLDivElement>] => {
-  const element = useRef<Element>();
+): [
+  Partial<ResiumContext> | undefined,
+  boolean,
+  RefObject<HTMLDivElement | null>,
+] => {
+  const element = useRef<Element | undefined>(undefined);
   const ctx = useCesium();
-  const provided = useRef<Partial<ResiumContext> | undefined>(provide ? {} : undefined);
+  const provided = useRef<Partial<ResiumContext> | undefined>(
+    provide ? {} : undefined,
+  );
   const attachedEvents = useRef<{
     [key in keyof Element]?: any;
   }>({});
@@ -80,10 +103,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const stateRef = useRef<State>();
+  const stateRef = useRef<State | undefined>(undefined);
   const eventManager = ctx?.[eventManagerContextKey];
-  const mountReadyRef = useRef<Promise<void>>();
-  const unmountReadyRef = useRef<Promise<void>>();
+  const mountReadyRef = useRef<Promise<void> | undefined>(undefined);
+  const unmountReadyRef = useRef<Promise<void> | undefined>(undefined);
 
   // Update properties
   const updateProperties = useCallback(
@@ -96,10 +119,14 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
       const propDiff = propsKeys
         .concat(
-          (Object.keys(prevProps.current) as (keyof Props)[]).filter(k => !propsKeys.includes(k)),
+          (Object.keys(prevProps.current) as (keyof Props)[]).filter(
+            (k) => !propsKeys.includes(k),
+          ),
         )
-        .filter(k => prevProps.current[k] !== props[k])
-        .map(k => [k, prevProps.current[k], props[k]] as [keyof Props, any, any]);
+        .filter((k) => prevProps.current[k] !== props[k])
+        .map(
+          (k) => [k, prevProps.current[k], props[k]] as [keyof Props, any, any],
+        );
 
       const updatedReadonlyProps: (keyof Props)[] = [];
       for (const [k, prevValue, newValue] of propDiff) {
@@ -123,20 +150,31 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
               eventHandler.addEventListener(newValue);
             }
           }
-        } else if (k !== "children" && !eventNames.includes(k as any) && !otherProps?.includes(k)) {
+        } else if (
+          k !== "children" &&
+          !eventNames.includes(k as any) &&
+          !otherProps?.includes(k)
+        ) {
           target[k] = newValue;
         }
       }
 
       const em = useRootEvent
-        ? (provided.current?.[eventManagerContextKey] as EventManager | undefined)
+        ? (provided.current?.[eventManagerContextKey] as
+            | EventManager
+            | undefined)
         : eventManager;
       if (useCommonEvent && em && element.current) {
         em.setEvents(useRootEvent ? null : element.current, props);
       }
 
       if (update && mountedRef.current) {
-        const maybePromise = update(element.current, props, prevProps.current, ctx);
+        const maybePromise = update(
+          element.current,
+          props,
+          prevProps.current,
+          ctx,
+        );
         if (isPromise(maybePromise)) {
           await maybePromise;
         }
@@ -165,10 +203,14 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   const mount = useCallback(async () => {
     // Wait one tick to resolve Cesium's unmount process.
-    await new Promise(r => queueMicrotask(() => r(undefined)));
+    await new Promise((r) => queueMicrotask(() => r(undefined)));
 
     // Initialize cesium element
-    const maybePromise = create?.(ctx, initialProps.current, wrapperRef.current);
+    const maybePromise = create?.(
+      ctx,
+      initialProps.current,
+      wrapperRef.current,
+    );
 
     let result: CreateReturnType<Element, State>;
     if (isPromise(maybePromise)) {
@@ -190,7 +232,9 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
       // Attach events
       if (element.current && cesiumEventProps) {
         const target: any = element.current;
-        for (const key of Object.keys(initialProps.current) as (keyof Props)[]) {
+        for (const key of Object.keys(
+          initialProps.current,
+        ) as (keyof Props)[]) {
           const eventKey = cesiumEventProps[key];
           if (eventKey) {
             const e: any = initialProps.current[key];
@@ -231,7 +275,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
   const unmount = useCallback(async () => {
     // Wait one tick to resolve Cesium's unmount process.
-    await new Promise(r => queueMicrotask(() => r(undefined)));
+    await new Promise((r) => queueMicrotask(() => r(undefined)));
 
     // Wait mount before unmount
     if (mountReadyRef.current) {
@@ -253,7 +297,9 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
 
     // Detach all events
     if (element.current && !isDestroyed(element.current)) {
-      const attachedEventKeys = Object.keys(attachedEvents.current) as (keyof Element)[];
+      const attachedEventKeys = Object.keys(
+        attachedEvents.current,
+      ) as (keyof Element)[];
       for (const k of attachedEventKeys) {
         const eventHandler: any = element.current[k];
         eventHandler?.removeEventListener?.(attachedEvents.current[k]);

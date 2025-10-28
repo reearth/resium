@@ -9,8 +9,8 @@ import { parseDoc } from "./parser.mjs";
 import { renderDoc } from "./renderer.mjs";
 
 const { createProgram } = ts;
-const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
-const options = process.argv.slice(2).filter(a => a.startsWith("-"));
+const name = process.argv.slice(2).filter((a) => !a.startsWith("-"));
+const options = process.argv.slice(2).filter((a) => a.startsWith("-"));
 const preview = options.includes("--preview") || options.includes("-p");
 const dest = path.join("docs", "docs", "components");
 
@@ -29,7 +29,7 @@ const componentFiles = globbySync([
   "!src/*/test.ts{,x}",
   "!src/*/*.test.ts{,x}",
   "!src/core/**/*",
-]).filter(cf => !name.length || name.includes(path.parse(cf).name));
+]).filter((cf) => !name.length || name.includes(path.parse(cf).name));
 
 if (componentFiles.length > 0) {
   try {
@@ -43,7 +43,7 @@ const program = createProgram(componentFiles, {});
 const tc = program.getTypeChecker();
 
 // generate and write document
-componentFiles.forEach(cf => {
+componentFiles.forEach((cf) => {
   const p = path.parse(cf);
   const name = p.name;
 

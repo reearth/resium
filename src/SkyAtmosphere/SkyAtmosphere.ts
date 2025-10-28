@@ -14,7 +14,10 @@ SkyAtmosphere can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type SkyAtmosphereCesiumProps = PickCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;
+export type SkyAtmosphereCesiumProps = PickCesiumProps<
+  CesiumSkyAtmosphere,
+  typeof cesiumProps
+>;
 
 export type SkyAtmosphereProps = SkyAtmosphereCesiumProps;
 
@@ -32,9 +35,12 @@ const cesiumProps = [
   "atmosphereMieAnisotropy",
 ] as const;
 
-const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmosphereProps>({
+const SkyAtmosphere = createCesiumComponent<
+  CesiumSkyAtmosphere,
+  SkyAtmosphereProps
+>({
   name: "SkyAtmosphere",
-  create: context => context.scene?.skyAtmosphere,
+  create: (context) => context.scene?.skyAtmosphere,
   cesiumProps,
   setCesiumPropsAfterCreate: true,
 });

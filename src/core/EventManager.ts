@@ -190,7 +190,7 @@ export class EventManager {
 
   public clearEvents(element: any) {
     this.hovered = undefined;
-    eventNames.forEach(et => {
+    eventNames.forEach((et) => {
       this.off(element, et);
     });
     this.commit();
@@ -208,12 +208,19 @@ export class EventManager {
       ) {
         this.sshe.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
       } else if (!this.sshe.getInputAction(ScreenSpaceEventType.MOUSE_MOVE)) {
-        this.sshe.setInputAction(this.onMouseMove, ScreenSpaceEventType.MOUSE_MOVE);
+        this.sshe.setInputAction(
+          this.onMouseMove,
+          ScreenSpaceEventType.MOUSE_MOVE,
+        );
       }
     }
 
     entries(this.events).forEach(([et, m]) => {
-      if (et === "onMouseEnter" || et === "onMouseLeave" || et === "onMouseMove") {
+      if (
+        et === "onMouseEnter" ||
+        et === "onMouseLeave" ||
+        et === "onMouseMove"
+      ) {
         return;
       }
 

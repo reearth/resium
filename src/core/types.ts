@@ -31,12 +31,10 @@ export type PickCesiumProps<
   Required extends ArrayKeys<K> = never,
 > = RemoveReadOnlyAndPartial<Pick<T, ArrayKeys<K>>, Required>;
 
-export type ConstructorOptions<T extends new (...args: any[]) => any> = NonNullable<
-  ConstructorParameters<T>[0]
->;
-export type ConstructorOptions2<T extends new (...args: any[]) => any> = NonNullable<
-  ConstructorParameters<T>[1]
->;
+export type ConstructorOptions<T extends new (...args: any[]) => any> =
+  NonNullable<ConstructorParameters<T>[0]>;
+export type ConstructorOptions2<T extends new (...args: any[]) => any> =
+  NonNullable<ConstructorParameters<T>[1]>;
 
 export type StaticMethodOptions<
   T extends { [J in K]: (...args: any[]) => any },
@@ -65,9 +63,11 @@ export type UnusedCesiumProps<
   I extends string = never,
 > = Exclude<InvalidProps<CesiumPureProps<T>, ArrayKeys<keyof K>, E>, I>;
 
-type InvalidProps<T extends string, K extends string, E extends { [e: string]: string } = {}> =
-  | Exclude<T, K | E[keyof E]>
-  | Exclude<K, T | keyof E>;
+type InvalidProps<
+  T extends string,
+  K extends string,
+  E extends { [e: string]: string } = {},
+> = Exclude<T, K | E[keyof E]> | Exclude<K, T | keyof E>;
 
 type CesiumPureProps<T> = Exclude<
   StringOnly<keyof T>,
@@ -83,14 +83,16 @@ type FunctionKeys<T> = {
   [K in keyof T]: T[K] extends (...args: any[]) => any ? K : never;
 }[keyof T];
 
-type IfEquals<X, Y, A = X, B = never> = (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y
-  ? 1
-  : 2
-  ? A
-  : B;
+type IfEquals<X, Y, A = X, B = never> =
+  (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
 
 type ReadonlyKeys<T> = {
-  [P in keyof T]-?: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, never, P>;
+  [P in keyof T]-?: IfEquals<
+    { [Q in P]: T[P] },
+    { -readonly [Q in P]: T[P] },
+    never,
+    P
+  >;
 }[keyof T];
 
 type RemoveReadOnlyAndPartial<T, Required extends keyof T = never> = {

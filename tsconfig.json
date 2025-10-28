@@ -1,13 +1,9 @@
 {
-  "include": ["src",],
+  "include": ["src"],
   "exclude": ["dist"],
   "compilerOptions": {
     "module": "ESNext",
-    "lib": [
-      "DOM",
-      "DOM.Iterable",
-      "ESNext"
-    ],
+    "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "importHelpers": true,
     "declaration": true,
     "sourceMap": true,

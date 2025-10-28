@@ -29,11 +29,20 @@ import {
 Everywhere. `CesiumWidget` is a root component.
 */
 
-export type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
+export type Target = Merge<
+  CesiumCesiumWidget,
+  ConstructorOptions2<typeof CesiumCesiumWidget>
+>;
 
-export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
+export type CesiumWidgetCesiumProps = PickCesiumProps<
+  CesiumCesiumWidget,
+  typeof cesiumProps
+>;
 
-export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+>;
 
 export type CesiumWidgetOtherProps = RootEventProps &
   RootComponentInternalProps & {
@@ -83,13 +92,23 @@ const cesiumReadonlyProps = [
   "blurActiveElementOnCanvasFocus",
 ] as const;
 
-export const otherProps = ["className", "id", "style", "full", "containerProps"] as const;
+export const otherProps = [
+  "className",
+  "id",
+  "style",
+  "full",
+  "containerProps",
+] as const;
 
 export type CesiumWidgetProps = CesiumWidgetCesiumProps &
   CesiumWidgetCesiumReadonlyProps &
   CesiumWidgetOtherProps;
 
-const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps, EventManager>({
+const CesiumWidget = createCesiumComponent<
+  CesiumCesiumWidget,
+  CesiumWidgetProps,
+  EventManager
+>({
   name: "CesiumWidget",
   create(_context, props, container) {
     if (!container) return;

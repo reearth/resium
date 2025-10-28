@@ -1,4 +1,9 @@
-import { Clock as CesiumClock, ClockRange, ClockStep, JulianDate } from "cesium";
+import {
+  Clock as CesiumClock,
+  ClockRange,
+  ClockStep,
+  JulianDate,
+} from "cesium";
 
 import { createCesiumComponent, PickCesiumProps } from "../core";
 
@@ -14,7 +19,10 @@ Clock can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/compo
 Clock can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type ClockCesiumProps = PickCesiumProps<CesiumClock, typeof cesiumProps> & {
+export type ClockCesiumProps = PickCesiumProps<
+  CesiumClock,
+  typeof cesiumProps
+> & {
   canAnimate?: boolean;
   clockRange?: ClockRange;
   clockStep?: ClockStep;
@@ -50,7 +58,7 @@ const cesiumProps = [
 
 const Clock = createCesiumComponent<CesiumClock, ClockProps>({
   name: "Clock",
-  create: ctx => ctx.cesiumWidget?.clock,
+  create: (ctx) => ctx.cesiumWidget?.clock,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

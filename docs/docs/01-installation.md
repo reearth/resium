@@ -24,8 +24,8 @@ There are some choices. Choose one.
 - [create-react-app](#1-create-react-app) (not recommended)
 - [Next.js](#2-nextjs)
 - webpack
-   - [Copy whole Cesium files and load Cesium in HTML](#3-webpack-copy-whole-cesium-files-and-load-cesium-in-html)
-   - [Copy only asset files and bundle Cesium normaly except assets](#4-webpack-copy-only-asset-files-and-bundle-cesium-normaly-except-assets)
+  - [Copy whole Cesium files and load Cesium in HTML](#3-webpack-copy-whole-cesium-files-and-load-cesium-in-html)
+  - [Copy only asset files and bundle Cesium normaly except assets](#4-webpack-copy-only-asset-files-and-bundle-cesium-normaly-except-assets)
 - [Vite](#5-vite) (**🚀 recommended**)
 
 When you finish set up, you can import Cesium:
@@ -56,25 +56,24 @@ See also: [example project](https://github.com/reearth/resium/tree/main/examples
 
 The steps for initializing Next.js are not explained here. We will assume that your Next.js project already exists.
 
-
 ### 2-1. Edit `next.config.js`
 
 Add a webpack define pugin:
 
 ```js
-const webpack = require('webpack');
+const webpack = require("webpack");
 
 module.exports = {
   reactStrictMode: true,
-  webpack: config => {
+  webpack: (config) => {
     config.plugins.push(
       new webpack.DefinePlugin({
-        CESIUM_BASE_URL: JSON.stringify('cesium'),
+        CESIUM_BASE_URL: JSON.stringify("cesium"),
       }),
     );
     return config;
-  }
-}
+  },
+};
 ```
 
 ### 2-2. Set up script to copy Cesium files automatically
@@ -124,25 +123,20 @@ Using `copy-webpack-plugin` in `next.config.js` does not work because the copied
 Cesium cannot be used in SSR, so components using Cesium should be separated from page components. Define your Cesium component in any location other than `pages` directory.
 
 ```jsx title="components/Cesium.js"
-import { Viewer } from 'resium'
+import { Viewer } from "resium";
 
 export default function Cesium() {
-  return (
-    <Viewer full />
-  )
+  return <Viewer full />;
 }
 ```
 
 Then dynamically import components using Cesium with `next/dynamic`. Don't forget `{ ssr: false }` option. Also load Cesium CSS file with `next/head`.
 
 ```jsx title="pages/index.js"
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
-const Cesium = dynamic(
-  () => import('../components/Cesium'),
-  { ssr: false }
-)
+const Cesium = dynamic(() => import("../components/Cesium"), { ssr: false });
 
 export default function Home() {
   return (
@@ -152,7 +146,7 @@ export default function Home() {
       </Head>
       <Cesium />
     </>
-  )
+  );
 }
 ```
 
@@ -181,7 +175,7 @@ Cesium will be loaded in HTML. Notify it to webpack.
 ```js
 {
   externals: {
-    cesium: "Cesium"
+    cesium: "Cesium";
   }
 }
 ```
@@ -223,7 +217,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
     new webpack.DefinePlugin({
       CESIUM_BASE_URL: JSON.stringify("/cesium"),
     }),
-  ]
+  ];
 }
 ```
 
@@ -265,7 +259,10 @@ const CopyWebpackPlugin = require("copy-webpack-plugin");
     new CopyWebpackPlugin({
       patterns: [
         { from: "node_modules/cesium/Build/Cesium/Workers", to: "Workers" },
-        { from: "node_modules/cesium/Build/Cesium/ThirdParty", to: "ThirdParty" },
+        {
+          from: "node_modules/cesium/Build/Cesium/ThirdParty",
+          to: "ThirdParty",
+        },
         { from: "node_modules/cesium/Build/Cesium/Assets", to: "Assets" },
         { from: "node_modules/cesium/Build/Cesium/Widgets", to: "Widgets" },
       ],
@@ -352,14 +349,14 @@ yarn add --dev vite-plugin-cesium
 Then edit `vite.config.js`:
 
 ```js
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-import cesium from 'vite-plugin-cesium';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import cesium from "vite-plugin-cesium";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), cesium()]
-})
+  plugins: [react(), cesium()],
+});
 ```
 
 That's all!

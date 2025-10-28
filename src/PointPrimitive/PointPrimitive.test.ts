@@ -4,7 +4,10 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { PointPrimitiveOtherProps, PointPrimitiveProps } from "./PointPrimitive";
+import {
+  PointPrimitiveOtherProps,
+  PointPrimitiveProps,
+} from "./PointPrimitive";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

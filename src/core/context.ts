@@ -19,7 +19,10 @@ import {
 } from "cesium";
 import { createContext, useContext } from "react";
 
-import { RootComponentInternalProps, RootComponentInternalValues } from "./component";
+import {
+  RootComponentInternalProps,
+  RootComponentInternalValues,
+} from "./component";
 import EventManager, { eventManagerContextKey } from "./EventManager";
 
 export type ResiumContext = {

@@ -29,5 +29,7 @@ export const withCesium = <P, C>(Component: WithContextType<P, C>) =>
   // supports both functional components and class components
   // eslint-disable-next-line react/display-name
   forwardRef<WithContextType<P, C>, P>((props, ref) => (
-    <Consumer>{(value: any) => <Component {...props} ref={ref} cesium={value} />}</Consumer>
+    <Consumer>
+      {(value: any) => <Component {...(props as P)} ref={ref} cesium={value} />}
+    </Consumer>
   ));

@@ -1,6 +1,11 @@
 import { PostProcessStage as CesiumPostProcessStage } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  ConstructorOptions,
+  Merge,
+} from "../core";
 
 /*
 @summary
@@ -49,7 +54,10 @@ export type Target = Merge<
   ConstructorOptions<typeof CesiumPostProcessStage>
 >;
 
-export type PostProcessStageCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type PostProcessStageCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type PostProcessStageCesiumReadonlyProps = PickCesiumProps<
   Target,

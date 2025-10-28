@@ -42,11 +42,17 @@ Either:
 - Inside [ImageryLayerCollection](/components/ImageryLayerCollection) component: same as above
 */
 
-export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>> & {
+export type Target = Merge<
+  CesiumImageryLayer,
+  ConstructorOptions2<typeof CesiumImageryLayer>
+> & {
   index?: number;
 };
 
-export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type ImageryLayerCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type ImageryLayerCesiumReadonlyProps = Omit<
   PickCesiumProps<Target, typeof cesiumReadonlyProps>,
@@ -86,23 +92,29 @@ const cesiumReadonlyProps = [
   "imageryProvider",
 ] as const;
 
-const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
+const ImageryLayer = createCesiumComponent<
+  CesiumImageryLayer,
+  ImageryLayerProps
+>({
   name: "ImageryLayer",
   async create(context, props) {
     if (!context.imageryLayerCollection) return;
 
     const imageryProvider = isPromise(props.imageryProvider)
       ? props.imageryProvider
-      : new Promise<ImageryProvider>(r => queueMicrotask(() => r(props.imageryProvider)));
+      : new Promise<ImageryProvider>((r) =>
+          queueMicrotask(() => r(props.imageryProvider)),
+        );
 
-    const imageryLayerWaitingList = context.__$internal?.imageryLayerWaitingList?.slice();
+    const imageryLayerWaitingList =
+      context.__$internal?.imageryLayerWaitingList?.slice();
     context.__$internal?.imageryLayerWaitingList
       ? context.__$internal.imageryLayerWaitingList.push(imageryProvider)
       : undefined;
 
     // Make sure keeping the order of imagery layer to specify the index correctly.
     if (imageryLayerWaitingList) {
-      await Promise.all(imageryLayerWaitingList.filter(v => isPromise(v)));
+      await Promise.all(imageryLayerWaitingList.filter((v) => isPromise(v)));
     }
 
     const result: ImageryProvider = await imageryProvider;
@@ -110,7 +122,9 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
     // Remove the awaited result from the waiting list.
     if (context.__$internal?.imageryLayerWaitingList) {
       context.__$internal.imageryLayerWaitingList =
-        context.__$internal.imageryLayerWaitingList.filter(i => i !== imageryProvider);
+        context.__$internal.imageryLayerWaitingList.filter(
+          (i) => i !== imageryProvider,
+        );
     }
 
     if (!result) return;

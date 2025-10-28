@@ -14,7 +14,7 @@ export default {
 } as Meta;
 
 export const BloomStory: Story = {
-  storyName: "Bloom",
+  name: "Bloom",
   render: () => (
     <Viewer full>
       <Bloom />

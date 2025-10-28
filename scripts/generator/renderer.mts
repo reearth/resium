@@ -54,7 +54,7 @@ function renderPropTable(props: Prop[] = [], doc: Doc) {
 | Property | Type | Description |
 |--|--|--|
 ${props
-  .map(t => {
+  .map((t) => {
     return `| ${t.name} | ${renderType(t.type)} | ${t.required ? "Required. " : ""}${
       t.mappedCesiumFieldName && !t.desc
         ? `Correspond to [${doc.cesiumElement}#${t.mappedCesiumFieldName}](${getCesiumDocURL(
@@ -74,25 +74,27 @@ function renderType(t: TypeExpr | undefined): string {
     !t
       ? ""
       : !t.cesiumTypes.length
-      ? t.text
-      : t.cesiumTypes
-          .concat()
-          .sort((a, b) => a.start - b.start)
-          .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [
-            s,
-            i === 0 ? undefined : a[i - 1],
-          ])
-          .reduce(
-            (a, [current, prev]) =>
-              a +
-              (prev ? t.text.slice(prev.end, current.start) : t.text.slice(0, current.start)) +
-              `[${getCesiumTypeName(current)}](${getCesiumDocURL(
-                current.name,
-                current.field,
-                current.fieldIsType,
-              )})`,
-            "",
-          ) + t.text.slice(t.cesiumTypes[t.cesiumTypes.length - 1].end),
+        ? t.text
+        : t.cesiumTypes
+            .concat()
+            .sort((a, b) => a.start - b.start)
+            .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [
+              s,
+              i === 0 ? undefined : a[i - 1],
+            ])
+            .reduce(
+              (a, [current, prev]) =>
+                a +
+                (prev
+                  ? t.text.slice(prev.end, current.start)
+                  : t.text.slice(0, current.start)) +
+                `[${getCesiumTypeName(current)}](${getCesiumDocURL(
+                  current.name,
+                  current.field,
+                  current.fieldIsType,
+                )})`,
+              "",
+            ) + t.text.slice(t.cesiumTypes[t.cesiumTypes.length - 1].end),
   );
 }
 

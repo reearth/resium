@@ -27,39 +27,49 @@ export type PolylineCollectionOtherProps = {
   children?: ReactNode;
 };
 
-export type PolylineCollectionProps = PolylineCollectionCesiumProps & PolylineCollectionOtherProps;
+export type PolylineCollectionProps = PolylineCollectionCesiumProps &
+  PolylineCollectionOtherProps;
 
-const cesiumProps = ["debugShowBoundingVolume", "length", "modelMatrix", "show"] as const;
+const cesiumProps = [
+  "debugShowBoundingVolume",
+  "length",
+  "modelMatrix",
+  "show",
+] as const;
 
-const PolylineCollection = createCesiumComponent<CesiumPolylineCollection, PolylineCollectionProps>(
-  {
-    name: "PolylineCollection",
-    create(context, props) {
-      if (!context.primitiveCollection) return;
-      const element = new CesiumPolylineCollection({
-        modelMatrix: props.modelMatrix,
-        debugShowBoundingVolume: props.debugShowBoundingVolume,
-        length: props.length,
-        scene: context.scene,
-      } as any);
-      context.primitiveCollection.add(element);
-      return element;
-    },
-    destroy(element, context) {
-      if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-        context.primitiveCollection.remove(element);
-      }
-      if (!element.isDestroyed()) {
-        element.destroy();
-      }
-    },
-    provide(element) {
-      return {
-        polylineCollection: element,
-      };
-    },
-    cesiumProps,
+const PolylineCollection = createCesiumComponent<
+  CesiumPolylineCollection,
+  PolylineCollectionProps
+>({
+  name: "PolylineCollection",
+  create(context, props) {
+    if (!context.primitiveCollection) return;
+    const element = new CesiumPolylineCollection({
+      modelMatrix: props.modelMatrix,
+      debugShowBoundingVolume: props.debugShowBoundingVolume,
+      length: props.length,
+      scene: context.scene,
+    } as any);
+    context.primitiveCollection.add(element);
+    return element;
   },
-);
+  destroy(element, context) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
+      context.primitiveCollection.remove(element);
+    }
+    if (!element.isDestroyed()) {
+      element.destroy();
+    }
+  },
+  provide(element) {
+    return {
+      polylineCollection: element,
+    };
+  },
+  cesiumProps,
+});
 
 export default PolylineCollection;

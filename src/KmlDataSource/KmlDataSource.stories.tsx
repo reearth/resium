@@ -76,7 +76,7 @@ const onLoad = (k: CesiumKmlDataSource) => {
 
 export const Basic: Story = {
   args: { show: true },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <KmlDataSource
         {...args}

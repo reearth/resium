@@ -18,17 +18,29 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A LabelCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type LabelCollectionCesiumProps = PickCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
+export type LabelCollectionCesiumProps = PickCesiumProps<
+  CesiumLabelCollection,
+  typeof cesiumProps
+>;
 
 export type LabelCollectionOtherProps = {
   children?: ReactNode;
 };
 
-export type LabelCollectionProps = LabelCollectionCesiumProps & LabelCollectionOtherProps;
+export type LabelCollectionProps = LabelCollectionCesiumProps &
+  LabelCollectionOtherProps;
 
-const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix", "show"] as const;
+const cesiumProps = [
+  "blendOption",
+  "debugShowBoundingVolume",
+  "modelMatrix",
+  "show",
+] as const;
 
-const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollectionProps>({
+const LabelCollection = createCesiumComponent<
+  CesiumLabelCollection,
+  LabelCollectionProps
+>({
   name: "LabelCollection",
   create(context, props) {
     if (!context.scene || !context.primitiveCollection) return;
@@ -42,7 +54,10 @@ const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollec
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

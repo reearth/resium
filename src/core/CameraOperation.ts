@@ -13,9 +13,9 @@ export const createCameraOperation = <P>(
   cameraOperationStart: (camera: Camera, props: P, prevProps?: P) => void,
 ): FC<P & CameraOperationProps> => {
   /* eslint-disable react-hooks/rules-of-hooks */
-  const component: FC<P & CameraOperationProps> = props => {
+  const component: FC<P & CameraOperationProps> = (props) => {
     const ctx = useCesium();
-    const prevProps = useRef<P>();
+    const prevProps = useRef<P | undefined>(undefined);
     const first = useRef(false);
 
     useEffect(() => {
@@ -27,7 +27,12 @@ export const createCameraOperation = <P>(
     }, [ctx.camera, props.cancelFlightOnUnmount]);
 
     useEffect(() => {
-      if (ctx.camera && ctx.scene && !ctx.scene.isDestroyed() && (!props.once || !first.current)) {
+      if (
+        ctx.camera &&
+        ctx.scene &&
+        !ctx.scene.isDestroyed() &&
+        (!props.once || !first.current)
+      ) {
         ctx.camera.cancelFlight();
         cameraOperationStart(ctx.camera, props, prevProps.current);
         first.current = true;

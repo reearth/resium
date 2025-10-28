@@ -1,6 +1,11 @@
 import { WallGraphics as CesiumWallGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap, Merge, PickCesiumProps } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  Merge,
+  PickCesiumProps,
+} from "../core";
 
 /*
 @summary
@@ -13,15 +18,22 @@ WallGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumWallGraphics, CesiumWallGraphics.ConstructorOptions>;
+export type Target = Merge<
+  CesiumWallGraphics,
+  CesiumWallGraphics.ConstructorOptions
+>;
 
-export type WallGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type WallGraphicsCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type WallGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type WallGraphicsProps = WallGraphicsCesiumProps & WallGraphicsCesiumEvents;
+export type WallGraphicsProps = WallGraphicsCesiumProps &
+  WallGraphicsCesiumEvents;
 
 const cesiumProps = [
   "positions",
@@ -38,11 +50,17 @@ const cesiumProps = [
   "distanceDisplayCondition",
 ] as const;
 
-export const cesiumEventProps: EventkeyMap<CesiumWallGraphics, WallGraphicsCesiumEvents> = {
+export const cesiumEventProps: EventkeyMap<
+  CesiumWallGraphics,
+  WallGraphicsCesiumEvents
+> = {
   onDefinitionChange: "definitionChanged",
 };
 
-const WallGraphics = createCesiumComponent<CesiumWallGraphics, WallGraphicsProps>({
+const WallGraphics = createCesiumComponent<
+  CesiumWallGraphics,
+  WallGraphicsProps
+>({
   name: "WallGraphics",
   create(context, props) {
     if (!context.entity) return;

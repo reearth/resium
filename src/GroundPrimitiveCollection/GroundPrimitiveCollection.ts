@@ -26,18 +26,23 @@ export type GroundPrimitiveCollectionOtherProps = {
   children?: ReactNode;
 };
 
-export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps &
-  GroundPrimitiveCollectionOtherProps;
+export type GroundPrimitiveCollectionProps =
+  GroundPrimitiveCollectionCesiumProps & GroundPrimitiveCollectionOtherProps;
 
-const cesiumProps = ["show", "destroyPrimitives", "primitiveAdded", "primitiveRemoved"] as const;
+const cesiumProps = [
+  "show",
+  "destroyPrimitives",
+  "primitiveAdded",
+  "primitiveRemoved",
+] as const;
 
 const GroundPrimitiveCollection = createCesiumComponent<
   PrimitiveCollection,
   GroundPrimitiveCollectionProps
 >({
   name: "GroundPrimitiveCollection",
-  create: context => context.scene?.groundPrimitives,
-  provide: element => ({
+  create: (context) => context.scene?.groundPrimitives,
+  provide: (element) => ({
     primitiveCollection: element,
   }),
   cesiumProps,

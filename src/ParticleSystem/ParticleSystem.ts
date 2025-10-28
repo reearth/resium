@@ -1,6 +1,11 @@
 import { ParticleSystem as CesiumParticleSystem } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  ConstructorOptions,
+  Merge,
+} from "../core";
 
 /*
 @summary
@@ -13,11 +18,20 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A ParticleSystem object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type Target = Merge<CesiumParticleSystem, ConstructorOptions<typeof CesiumParticleSystem>>;
+export type Target = Merge<
+  CesiumParticleSystem,
+  ConstructorOptions<typeof CesiumParticleSystem>
+>;
 
-export type ParticleSystemCesiumProps = PickCesiumProps<CesiumParticleSystem, typeof cesiumProps>;
+export type ParticleSystemCesiumProps = PickCesiumProps<
+  CesiumParticleSystem,
+  typeof cesiumProps
+>;
 
-export type ParticleSystemCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+export type ParticleSystemCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+>;
 
 export type ParticleSystemCesiumEvents = {
   onComplete?: () => void;
@@ -72,11 +86,17 @@ export const cesiumEventProps = {
   onUpdate: "updateCallback",
 } as const;
 
-const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSystemProps>({
+const ParticleSystem = createCesiumComponent<
+  CesiumParticleSystem,
+  ParticleSystemProps
+>({
   name: "ParticleSystem",
   create(context, props) {
     if (!context.primitiveCollection) return;
-    const element = new CesiumParticleSystem({ ...props, updateCallback: props.onUpdate });
+    const element = new CesiumParticleSystem({
+      ...props,
+      updateCallback: props.onUpdate,
+    });
     context.primitiveCollection.add(element);
     return element;
   },
@@ -86,7 +106,10 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
     }
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
   },

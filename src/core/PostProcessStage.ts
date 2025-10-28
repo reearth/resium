@@ -9,7 +9,10 @@ import { createCesiumComponent } from "./component";
 import { PickCesiumProps } from "./types";
 import { includes } from "./util";
 
-export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;
+export type PostProcessStageCesiumProps = PickCesiumProps<
+  PostProcessStage,
+  typeof cesiumProps
+>;
 
 export type PostProcessStageProps = PostProcessStageCesiumProps;
 
@@ -42,8 +45,11 @@ export const createPostProcessStage = <UniformProps>(opts: {
       if (props.selected && "selected" in element) {
         element.selected = props.selected;
       }
-      opts.props.forEach(k => {
-        if (!includes(opts.readonlyProps, k) && typeof props[k] !== "undefined") {
+      opts.props.forEach((k) => {
+        if (
+          !includes(opts.readonlyProps, k) &&
+          typeof props[k] !== "undefined"
+        ) {
           element.uniforms[k] = props[k];
         }
       });
@@ -65,7 +71,7 @@ export const createPostProcessStage = <UniformProps>(opts: {
       }
     },
     update(element, props, prevProps) {
-      opts.props.forEach(k => {
+      opts.props.forEach((k) => {
         if (!includes(opts.readonlyProps, k) && props[k] !== prevProps[k]) {
           element.uniforms[k] = props[k];
         }

@@ -14,11 +14,11 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => <Viewer {...args} full />,
+  render: (args) => <Viewer {...args} full />,
 };
 
 export const Events: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer {...args} full {...events}>
       <Entity
         name="test"

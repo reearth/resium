@@ -24,24 +24,34 @@ const positions = [
 
 export const Basic: Story = {
   args: { width: 10 },
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+      <PolylineCollection
+        modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}
+      >
         <Polyline {...args} positions={positions} />
       </PolylineCollection>
-      <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
+      <CameraFlyTo
+        duration={0}
+        destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)}
+      />
     </Viewer>
   ),
 };
 
 export const Events: Story = {
   args: { width: 10 },
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <PolylineCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+      <PolylineCollection
+        modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}
+      >
         <Polyline {...args} positions={positions} {...events} />
       </PolylineCollection>
-      <CameraFlyTo duration={0} destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)} />
+      <CameraFlyTo
+        duration={0}
+        destination={Cartesian3.fromDegrees(-75.6, 40.04, 1000)}
+      />
     </Viewer>
   ),
 };

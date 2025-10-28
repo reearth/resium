@@ -20,7 +20,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CameraFlyTo destination={cameraDest} duration={0} />
       <Model
@@ -37,7 +37,7 @@ export const Basic: Story = {
 };
 
 export const FromPromiseResource: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CameraFlyTo destination={cameraDest} duration={0} />
       <Model

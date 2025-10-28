@@ -22,7 +22,8 @@ export type BillboardGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type BillboardGraphicsProps = BillboardGraphicsCesiumProps & BillboardGraphicsCesiumEvents;
+export type BillboardGraphicsProps = BillboardGraphicsCesiumProps &
+  BillboardGraphicsCesiumEvents;
 
 const cesiumProps = [
   "image",
@@ -51,7 +52,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const BillboardGraphics = createCesiumComponent<CesiumBillboardGraphics, BillboardGraphicsProps>({
+const BillboardGraphics = createCesiumComponent<
+  CesiumBillboardGraphics,
+  BillboardGraphicsProps
+>({
   name: "BillboardGraphics",
   create(context, props) {
     if (!context.entity) return;

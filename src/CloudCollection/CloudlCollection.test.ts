@@ -4,7 +4,10 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { CloudCollectionOtherProps, CloudCollectionProps } from "./CloudCollection";
+import {
+  CloudCollectionOtherProps,
+  CloudCollectionProps,
+} from "./CloudCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

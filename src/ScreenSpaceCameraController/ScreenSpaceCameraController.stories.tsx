@@ -21,7 +21,7 @@ export const Basic: Story = {
     enableTilt: true,
     enableTranslate: true,
   },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <ScreenSpaceCameraController {...args} />
     </Viewer>

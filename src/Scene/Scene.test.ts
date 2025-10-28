@@ -13,7 +13,11 @@ type UnusedProps = UnusedCesiumProps<
   typeof cesiumEventProps,
   IgnoredProps
 >;
-type IgnoredProps = "postProcessStages" | "mode" | "debugCommandFilter" | "mapMode2D";
+type IgnoredProps =
+  | "postProcessStages"
+  | "mode"
+  | "debugCommandFilter"
+  | "mapMode2D";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

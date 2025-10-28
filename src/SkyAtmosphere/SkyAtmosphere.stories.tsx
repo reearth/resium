@@ -12,7 +12,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <SkyAtmosphere {...args} hueShift={1} saturationShift={1} />
     </Viewer>

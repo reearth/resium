@@ -87,7 +87,10 @@ describe("core/component", () => {
       hoge: new Event(),
     };
 
-    const Component = createCesiumComponent<typeof cesiumElement, { bar?: () => void }>({
+    const Component = createCesiumComponent<
+      typeof cesiumElement,
+      { bar?: () => void }
+    >({
       name: "test",
       create: () => cesiumElement,
       cesiumEventProps: { bar: "hoge" },
@@ -105,7 +108,10 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
+    const Component = createCesiumComponent<
+      typeof cesiumElement,
+      { foo?: number }
+    >({
       name: "test",
       create: () => cesiumElement,
       cesiumProps: ["foo"],
@@ -124,7 +130,10 @@ describe("core/component", () => {
       foo: 0,
     };
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
+    const Component = createCesiumComponent<
+      typeof cesiumElement,
+      { foo?: number }
+    >({
       name: "test",
       create: () => cesiumElement,
       cesiumProps: ["foo"],
@@ -193,7 +202,10 @@ describe("core/component", () => {
     });
     const destroyFn = vi.fn();
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
+    const Component = createCesiumComponent<
+      typeof cesiumElement,
+      { foo?: number }
+    >({
       name: "test",
       create: createFn,
       destroy: destroyFn,
@@ -220,11 +232,13 @@ describe("core/component", () => {
   it("should call update", async () => {
     const updateFn = vi.fn();
 
-    const Component = createCesiumComponent<{ hoge: "hoge" }, { foo?: number }>({
-      name: "test",
-      create: () => ({ hoge: "hoge" }),
-      update: updateFn,
-    });
+    const Component = createCesiumComponent<{ hoge: "hoge" }, { foo?: number }>(
+      {
+        name: "test",
+        create: () => ({ hoge: "hoge" }),
+        update: updateFn,
+      },
+    );
 
     const { rerender } = render(<Component />);
 
@@ -236,7 +250,12 @@ describe("core/component", () => {
 
     await waitFor(() => {
       expect(updateFn).toBeCalledTimes(1);
-      expect(updateFn).toBeCalledWith({ hoge: "hoge", foo: 1 }, { foo: 1 }, {}, {});
+      expect(updateFn).toBeCalledWith(
+        { hoge: "hoge", foo: 1 },
+        { foo: 1 },
+        {},
+        {},
+      );
     });
   });
 
@@ -264,8 +283,16 @@ describe("core/component", () => {
     );
 
     await waitFor(() => {
-      expect(create1).toBeCalledWith({ context: "a", context2: "foo" }, expect.anything(), null);
-      expect(create2).toBeCalledWith({ context: "b", context2: "foo" }, expect.anything(), null);
+      expect(create1).toBeCalledWith(
+        { context: "a", context2: "foo" },
+        expect.anything(),
+        null,
+      );
+      expect(create2).toBeCalledWith(
+        { context: "b", context2: "foo" },
+        expect.anything(),
+        null,
+      );
     });
   });
 
@@ -275,7 +302,10 @@ describe("core/component", () => {
     };
     const onUpdate = vitest.fn();
 
-    const Component = createCesiumComponent<typeof cesiumElement, { foo?: number }>({
+    const Component = createCesiumComponent<
+      typeof cesiumElement,
+      { foo?: number }
+    >({
       name: "test",
       create: () => cesiumElement,
       cesiumProps: ["foo"],
@@ -287,7 +317,8 @@ describe("core/component", () => {
           __$internal: {
             onUpdate,
           },
-        }}>
+        }}
+      >
         <Component />
       </Provider>,
     );
@@ -301,7 +332,8 @@ describe("core/component", () => {
           __$internal: {
             onUpdate,
           },
-        }}>
+        }}
+      >
         <Component foo={1} />
       </Provider>,
     );
@@ -366,7 +398,12 @@ describe("core/component", () => {
         expect.anything(),
         state,
       );
-      expect(destroyFn).toBeCalledWith(expect.anything(), expect.anything(), null, state);
+      expect(destroyFn).toBeCalledWith(
+        expect.anything(),
+        expect.anything(),
+        null,
+        state,
+      );
     });
   });
 

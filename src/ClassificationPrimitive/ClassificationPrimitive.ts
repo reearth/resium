@@ -28,18 +28,22 @@ export type Target = Merge<
   ConstructorOptions<typeof CesiumClassificationPrimitive>
 >;
 
-export type ClassificationPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type ClassificationPrimitiveCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type ClassificationPrimitiveCesiumReadonlyProps = PickCesiumProps<
   Target,
   typeof cesiumReadonlyProps
 >;
 
-export type ClassificationPrimitiveOtherProps = EventProps<CesiumClassificationPrimitive> & {
-  // ClassificationPrimitive
-  /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/ClassificationPrimitive.html#readyPromise) is fullfilled */
-  onReady?: (primitive: CesiumClassificationPrimitive) => void;
-};
+export type ClassificationPrimitiveOtherProps =
+  EventProps<CesiumClassificationPrimitive> & {
+    // ClassificationPrimitive
+    /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/ClassificationPrimitive.html#readyPromise) is fullfilled */
+    onReady?: (primitive: CesiumClassificationPrimitive) => void;
+  };
 
 export type ClassificationPrimitiveProps = ClassificationPrimitiveCesiumProps &
   ClassificationPrimitiveCesiumReadonlyProps &
@@ -86,7 +90,10 @@ const ClassificationPrimitive = createCesiumComponent<
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

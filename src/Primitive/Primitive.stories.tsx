@@ -38,17 +38,26 @@ const appearance = new EllipsoidSurfaceAppearance({
 });
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <Primitive {...args} geometryInstances={geometry} appearance={appearance} />
+      <Primitive
+        {...args}
+        geometryInstances={geometry}
+        appearance={appearance}
+      />
     </Viewer>
   ),
 };
 
 export const Events: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <Primitive {...args} geometryInstances={geometry} appearance={appearance} {...events} />
+      <Primitive
+        {...args}
+        geometryInstances={geometry}
+        appearance={appearance}
+        {...events}
+      />
     </Viewer>
   ),
 };

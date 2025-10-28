@@ -30,7 +30,7 @@ const cesiumProps = [
 
 const ShadowMap = createCesiumComponent<CesiumShadowMap, ShadowMapProps>({
   name: "ShadowMap",
-  create: context => context.scene?.shadowMap,
+  create: (context) => context.scene?.shadowMap,
   cesiumProps,
 });
 

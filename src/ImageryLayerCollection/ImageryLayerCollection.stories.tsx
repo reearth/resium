@@ -13,7 +13,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <ImageryLayerCollection
         {...args}

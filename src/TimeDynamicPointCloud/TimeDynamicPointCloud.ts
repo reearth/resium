@@ -80,7 +80,11 @@ const TimeDynamicPointCloud = createCesiumComponent<
 >({
   name: "TimeDynamicPointCloud",
   create(context, props) {
-    if (!context.cesiumWidget || !context.primitiveCollection || !context.cesiumWidget?.clock)
+    if (
+      !context.cesiumWidget ||
+      !context.primitiveCollection ||
+      !context.cesiumWidget?.clock
+    )
       return;
     const element = new CesiumTimeDynamicPointCloud({
       ...props,
@@ -97,7 +101,10 @@ const TimeDynamicPointCloud = createCesiumComponent<
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

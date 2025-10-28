@@ -55,7 +55,7 @@ const onLoad = (g: GeoJsonDataSource) => {
 
 export const Basic: Story = {
   args: { show: true },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CzmlDataSource
         {...args}

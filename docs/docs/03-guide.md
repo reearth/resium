@@ -131,7 +131,6 @@ const Example = () => (
 If `imageryProvider` property is constant, The following is recommended.
 
 ```jsx
-
 import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
 
@@ -154,7 +153,10 @@ import { Viewer, ImageryLayer } from "resium";
 import { ArcGisMapServerImageryProvider } from "cesium";
 
 const ExampleComponent = ({ url }) => {
-  const imageryProvider = useMemo(() => new ArcGisMapServerImageryProvider({ url }), [url]);
+  const imageryProvider = useMemo(
+    () => new ArcGisMapServerImageryProvider({ url }),
+    [url],
+  );
 
   return (
     <Viewer>
@@ -246,7 +248,7 @@ class ExampleComponent extends Component {
   render() {
     return (
       <Viewer
-        ref={e => {
+        ref={(e) => {
           this.viewer = e ? e.cesiumElement : undefined;
         }}
       />
@@ -275,7 +277,7 @@ class ExampleComponent extends Component {
   render() {
     return (
       <Viewer
-        ref={e => {
+        ref={(e) => {
           this.viewer = e ? e.cesiumElement : undefined;
         }}
       />
