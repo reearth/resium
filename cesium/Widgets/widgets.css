@@ -1145,7 +1145,14 @@ span.cesium-projectionPicker-wrapper {
   cursor: pointer;
   width: 100%;
   height: 1.7em;
-  background: linear-gradient(to bottom, rgba(116, 117, 119, 0.8) 0%, rgba(58, 68, 82, 0.8) 11%, rgba(46, 50, 56, 0.8) 46%, rgba(53, 53, 53, 0.8) 81%, rgba(53, 53, 53, 0.8) 100%);
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(116, 117, 119, 0.8) 0%,
+      rgba(58, 68, 82, 0.8) 11%,
+      rgba(46, 50, 56, 0.8) 46%,
+      rgba(53, 53, 53, 0.8) 81%,
+      rgba(53, 53, 53, 0.8) 100%);
 }
 .cesium-timeline-ruler {
   visibility: hidden;
@@ -1306,6 +1313,34 @@ span.cesium-projectionPicker-wrapper {
   box-sizing: border-box;
   overflow-y: auto;
   overflow-x: hidden;
+}
+
+/* packages/widgets/Source/I3SBuildingSceneLayerExplorer/I3SBuildingSceneLayerExplorer.css */
+ul {
+  list-style-type: none;
+}
+.layersList {
+  padding: 0;
+}
+input {
+  margin: 0 3px 0 0;
+}
+.expandItem {
+  cursor: pointer;
+  user-select: none;
+  width: 20px;
+}
+.nested,
+#bsl-wrapper {
+  display: none;
+}
+.active {
+  display: block;
+}
+.li-wrapper {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
 }
 
 /* packages/widgets/Source/widgets.css */

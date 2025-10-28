@@ -1,0 +1,1 @@
+import{c as t}from"./component-P3MpLVno.js";const c={onStop:"onStop",onTick:"onTick"},s=["canAnimate","clockRange","clockStep","currentTime","multiplier","shouldAnimate","startTime","stopTime"],n=t({name:"Clock",create:o=>{var e;return(e=o.cesiumWidget)==null?void 0:e.clock},cesiumProps:s,cesiumEventProps:c,setCesiumPropsAfterCreate:!0}),m=n;export{m as C};
