@@ -5,8 +5,8 @@ import { inspect } from "util";
 import { globbySync } from "globby";
 import ts from "typescript";
 
-import { parseDoc } from "./parser.mjs";
-import { renderDoc } from "./renderer.mjs";
+import { parseDoc } from "./parser.mts";
+import { renderDoc } from "./renderer.mts";
 
 const { createProgram } = ts;
 const name = process.argv.slice(2).filter((a) => !a.startsWith("-"));
