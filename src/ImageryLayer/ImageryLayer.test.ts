@@ -12,7 +12,8 @@ type UnusedProps = UnusedCesiumProps<
   {},
   IgnoredProps
 >;
-type IgnoredProps = "imageryProvider";
+// imageryProvider is handled separately, errorEvent and readyEvent are readonly events
+type IgnoredProps = "imageryProvider" | "errorEvent" | "readyEvent";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

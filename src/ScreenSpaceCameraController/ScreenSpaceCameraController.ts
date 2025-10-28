@@ -46,6 +46,8 @@ const cesiumProps = [
   "translateEventTypes",
   "zoomEventTypes",
   "minimumPickingTerrainDistanceWithInertia",
+  "maximumTiltAngle",
+  "zoomFactor",
 ] as const;
 
 const ScreenSpaceCameraController = createCesiumComponent<

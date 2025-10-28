@@ -88,7 +88,6 @@ const cesiumReadonlyProps = [
   "maximumAnisotropy",
   "minimumTerrainLevel",
   "maximumTerrainLevel",
-  "readyEvent",
   "imageryProvider",
 ] as const;
 

@@ -12,7 +12,8 @@ type UnusedProps = UnusedCesiumProps<
   {},
   IgnoredProps
 >;
-type IgnoredProps = "id" | "activeAnimations" | "gltf" | "url"; // gltf is actually used
+// gltf is actually used, pointCloudShading is readonly in practice, events are readonly
+type IgnoredProps = "id" | "activeAnimations" | "gltf" | "url" | "pointCloudShading" | "errorEvent" | "readyEvent" | "texturesReadyEvent";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

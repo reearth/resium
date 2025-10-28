@@ -101,6 +101,7 @@ const cesiumProps = [
   "atmosphereMieScaleHeight",
   "atmosphereMieAnisotropy",
   "vertexShadowDarkness",
+  "clippingPolygons",
 ] as const;
 
 const otherProps = ["terrainProvider"] as const;

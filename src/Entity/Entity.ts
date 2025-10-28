@@ -125,6 +125,7 @@ const cesiumProps = [
   "rectangle",
   "show",
   "tileset",
+  "trackingReferenceFrame",
   "viewFrom",
   "wall",
 ] as const;
