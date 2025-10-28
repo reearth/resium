@@ -31,7 +31,7 @@ jobs:
       - name: Test
         run: yarn run test
       - name: Codecov
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v5
       - name: Build
         run: yarn run build
       - name: Upload artifacts
