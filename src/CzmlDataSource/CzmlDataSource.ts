@@ -26,9 +26,15 @@ export type Target = Merge<
   MethodOptions2<typeof CesiumCzmlDataSource, "load">
 >;
 
-export type CzmlDataSourceCesiumProps = PickCesiumProps<CesiumCzmlDataSource, typeof cesiumProps>;
+export type CzmlDataSourceCesiumProps = PickCesiumProps<
+  CesiumCzmlDataSource,
+  typeof cesiumProps
+>;
 
-export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+export type CzmlDataSourceCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+>;
 
 export type CzmlDataSourceCesiumEvents = {
   onChange?: (CzmlDataSource: CesiumCzmlDataSource) => void;
@@ -59,16 +65,22 @@ export const cesiumEventProps = {
 
 export const otherProps = ["onLoad", "data"] as const;
 
-const load = (element: CesiumCzmlDataSource, { data, onLoad, ...options }: CzmlDataSourceProps) => {
+const load = (
+  element: CesiumCzmlDataSource,
+  { data, onLoad, ...options }: CzmlDataSourceProps,
+) => {
   if (!data) return;
-  element.load(data, options).then(value => {
+  element.load(data, options).then((value) => {
     if (onLoad) {
       onLoad(value);
     }
   });
 };
 
-const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourceProps>({
+const CzmlDataSource = createCesiumComponent<
+  CesiumCzmlDataSource,
+  CzmlDataSourceProps
+>({
   name: "CzmlDataSource",
   create(context, props) {
     if (!context.dataSourceCollection) return;
@@ -101,7 +113,10 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
     }
   },
   destroy(element, context) {
-    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+    if (
+      context.dataSourceCollection &&
+      !context.dataSourceCollection.isDestroyed()
+    ) {
       context.dataSourceCollection.remove(element);
     }
   },

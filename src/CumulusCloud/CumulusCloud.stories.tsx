@@ -23,11 +23,14 @@ export const Basic: Story = {
     slice: 0.36,
     brightness: 1.0,
   },
-  render: args => {
+  render: (args) => {
     return (
       <Viewer full>
         {args.position && (
-          <CameraLookAt target={args.position} offset={new Cartesian3(30, 30, -10)} />
+          <CameraLookAt
+            target={args.position}
+            offset={new Cartesian3(30, 30, -10)}
+          />
         )}
         <CloudCollection noiseDetail={16} noiseOffset={Cartesian3.ZERO}>
           <CumulusCloud {...args} />

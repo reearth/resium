@@ -3,7 +3,11 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { RectangleGraphicsProps, cesiumEventProps, Target } from "./RectangleGraphics";
+import {
+  RectangleGraphicsProps,
+  cesiumEventProps,
+  Target,
+} from "./RectangleGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

@@ -1,4 +1,8 @@
-import { ScreenSpaceEventType, KeyboardEventModifier, Cartesian2 } from "cesium";
+import {
+  ScreenSpaceEventType,
+  KeyboardEventModifier,
+  Cartesian2,
+} from "cesium";
 import { useEffect, FC } from "react";
 
 import { useCesium } from "../core";
@@ -20,21 +24,39 @@ Only inside [ScreenSpaceEventHandler](/components/ScreenSpaceEventHandler).
 export type ScreenSpaceEventProps = {
   /** If empty, the event will be removed even if there is the default event. */
   action?: (
-    e: { position: Cartesian2 } | { startPosition: Cartesian2; endPosition: Cartesian2 },
+    e:
+      | { position: Cartesian2 }
+      | { startPosition: Cartesian2; endPosition: Cartesian2 },
   ) => void;
   modifier?: KeyboardEventModifier;
   type: ScreenSpaceEventType;
 };
 
-const ScreenSpaceEvent: FC<ScreenSpaceEventProps> = ({ action, modifier, type }) => {
+const ScreenSpaceEvent: FC<ScreenSpaceEventProps> = ({
+  action,
+  modifier,
+  type,
+}) => {
   const ctx = useCesium();
 
   useEffect(() => {
-    if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;
+    if (
+      !ctx.screenSpaceEventHandler ||
+      ctx.screenSpaceEventHandler.isDestroyed()
+    )
+      return;
     if (action) {
-      ctx.screenSpaceEventHandler.setInputAction(action as () => void, type, modifier);
+      ctx.screenSpaceEventHandler.setInputAction(
+        action as () => void,
+        type,
+        modifier,
+      );
       return () => {
-        if (!ctx.screenSpaceEventHandler || ctx.screenSpaceEventHandler.isDestroyed()) return;
+        if (
+          !ctx.screenSpaceEventHandler ||
+          ctx.screenSpaceEventHandler.isDestroyed()
+        )
+          return;
         ctx.screenSpaceEventHandler.removeInputAction(type, modifier);
       };
     } else {

@@ -1,4 +1,7 @@
-import { PointPrimitive as CesiumPointPrimitive, PointPrimitiveCollection } from "cesium";
+import {
+  PointPrimitive as CesiumPointPrimitive,
+  PointPrimitiveCollection,
+} from "cesium";
 
 import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
@@ -16,7 +19,10 @@ Only inside [PointPrimitiveCollection](/components/PointPrimitiveCollection) com
 A point object will be attached to the parent PointPrimitiveCollection.
 */
 
-export type PointPrimitiveCesiumProps = PickCesiumProps<CesiumPointPrimitive, typeof cesiumProps>;
+export type PointPrimitiveCesiumProps = PickCesiumProps<
+  CesiumPointPrimitive,
+  typeof cesiumProps
+>;
 
 export type PointPrimitiveOtherProps = EventProps<{
   collection: PointPrimitiveCollection;
@@ -24,7 +30,8 @@ export type PointPrimitiveOtherProps = EventProps<{
   primitive: CesiumPointPrimitive;
 }>;
 
-export type PointPrimitiveProps = PointPrimitiveCesiumProps & PointPrimitiveOtherProps;
+export type PointPrimitiveProps = PointPrimitiveCesiumProps &
+  PointPrimitiveOtherProps;
 
 const cesiumProps = [
   "color",
@@ -40,11 +47,17 @@ const cesiumProps = [
   "translucencyByDistance",
 ] as const;
 
-const PointPrimitive = createCesiumComponent<CesiumPointPrimitive, PointPrimitiveProps>({
+const PointPrimitive = createCesiumComponent<
+  CesiumPointPrimitive,
+  PointPrimitiveProps
+>({
   name: "PointPrimitive",
   create: (context, props) => context.pointPrimitiveCollection?.add(props),
   destroy(element, context) {
-    if (context.pointPrimitiveCollection && !context.pointPrimitiveCollection.isDestroyed()) {
+    if (
+      context.pointPrimitiveCollection &&
+      !context.pointPrimitiveCollection.isDestroyed()
+    ) {
       context.pointPrimitiveCollection.remove(element);
     }
   },

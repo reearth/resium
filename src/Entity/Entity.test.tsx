@@ -4,9 +4,19 @@ import { createRef } from "react";
 import { expectType, TypeEqual } from "ts-expect";
 import { expect, it, vi } from "vitest";
 
-import { Provider, Merge, UnusedCesiumProps, CesiumComponentRef, ResiumContext } from "../core";
+import {
+  Provider,
+  Merge,
+  UnusedCesiumProps,
+  CesiumComponentRef,
+  ResiumContext,
+} from "../core";
 
-import Entity, { EntityProps, cesiumEventProps, EntityOtherProps } from "./Entity";
+import Entity, {
+  EntityProps,
+  cesiumEventProps,
+  EntityOtherProps,
+} from "./Entity";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -41,7 +51,9 @@ it("should mount", async () => {
     expect(ctx.entityCollection?.add).toBeCalledWith(expect.any(CesiumEntity));
     expect(ref.current?.cesiumElement).toBeInstanceOf(CesiumEntity);
     expect(ref.current?.cesiumElement?.name).toBe("test");
-    expect(ref.current?.cesiumElement?.definitionChanged.numberOfListeners).toBe(1);
+    expect(
+      ref.current?.cesiumElement?.definitionChanged.numberOfListeners,
+    ).toBe(1);
   });
 });
 
@@ -55,6 +67,8 @@ it("should unmount", () => {
   ).unmount();
 
   waitFor(() => {
-    expect(ctx.entityCollection?.remove).toBeCalledWith(expect.any(CesiumEntity));
+    expect(ctx.entityCollection?.remove).toBeCalledWith(
+      expect.any(CesiumEntity),
+    );
   });
 });

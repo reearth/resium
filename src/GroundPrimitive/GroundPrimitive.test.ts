@@ -3,7 +3,11 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { GroundPrimitiveOtherProps, GroundPrimitiveProps, Target } from "./GroundPrimitive";
+import {
+  GroundPrimitiveOtherProps,
+  GroundPrimitiveProps,
+  Target,
+} from "./GroundPrimitive";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

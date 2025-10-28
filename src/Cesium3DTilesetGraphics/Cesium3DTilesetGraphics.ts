@@ -14,7 +14,10 @@ and can not be mounted more than once for each entity.
 */
 
 export type Cesium3DTilesetGraphicsCesiumProps = PickCesiumProps<
-  Merge<CesiumCesium3DTilesetGraphics, CesiumCesium3DTilesetGraphics.ConstructorOptions>,
+  Merge<
+    CesiumCesium3DTilesetGraphics,
+    CesiumCesium3DTilesetGraphics.ConstructorOptions
+  >,
   typeof cesiumProps
 >;
 

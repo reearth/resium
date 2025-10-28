@@ -16,19 +16,25 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <Camera {...args} {...actions("onMoveEnd", "onMoveStart", "onChange")} />
-      <CameraFlyTo duration={5} destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)} />
+      <CameraFlyTo
+        duration={5}
+        destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+      />
     </Viewer>
   ),
 };
 
 export const Strict: Story = {
-  render: args => (
+  render: (args) => (
     <StrictMode>
       <Viewer full>
-        <Camera {...args} {...actions("onMoveEnd", "onMoveStart", "onChange")} />
+        <Camera
+          {...args}
+          {...actions("onMoveEnd", "onMoveStart", "onChange")}
+        />
         <CameraFlyTo
           duration={5}
           destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}

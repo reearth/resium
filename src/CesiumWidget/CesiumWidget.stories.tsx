@@ -12,9 +12,9 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => <CesiumWidget {...args} full />,
+  render: (args) => <CesiumWidget {...args} full />,
 };
 
 export const Events: Story = {
-  render: args => <CesiumWidget {...args} full {...events} />,
+  render: (args) => <CesiumWidget {...args} full {...events} />,
 };

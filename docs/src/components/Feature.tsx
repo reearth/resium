@@ -7,7 +7,15 @@ export function Features({ children }: PropsWithChildren<unknown>) {
   return <div className={styles.features}>{children}</div>;
 }
 
-export function Feature({ title, emoji, desc }: { title?: string; emoji?: string; desc?: string }) {
+export function Feature({
+  title,
+  emoji,
+  desc,
+}: {
+  title?: string;
+  emoji?: string;
+  desc?: string;
+}) {
   return (
     <section className={styles.feature}>
       <h3 className={styles.title}>

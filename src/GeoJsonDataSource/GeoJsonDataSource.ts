@@ -40,7 +40,10 @@ export type GeoJsonDataSourceCesiumReadonlyProps = PickCesiumProps<
 export type GeoJsonDataSourceCesiumEvents = {
   onChange?: (GeoJsonDataSource: CesiumGeoJsonDataSource) => void;
   onError?: (GeoJsonDataSource: CesiumGeoJsonDataSource, error: any) => void;
-  onLoading?: (GeoJsonDataSource: CesiumGeoJsonDataSource, isLoaded: boolean) => void;
+  onLoading?: (
+    GeoJsonDataSource: CesiumGeoJsonDataSource,
+    isLoaded: boolean,
+  ) => void;
 };
 
 export type GeoJsonDataSourceOtherProps = EventProps<EventTarget> & {
@@ -82,14 +85,17 @@ const load = (
   { data, onLoad, ...options }: GeoJsonDataSourceProps,
 ) => {
   if (!data) return;
-  element.load(data, options).then(value => {
+  element.load(data, options).then((value) => {
     if (onLoad) {
       onLoad(value);
     }
   });
 };
 
-const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJsonDataSourceProps>({
+const GeoJsonDataSource = createCesiumComponent<
+  CesiumGeoJsonDataSource,
+  GeoJsonDataSourceProps
+>({
   name: "GeoJsonDataSource",
   create(context, props) {
     if (!context.dataSourceCollection) return;
@@ -129,7 +135,10 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
     }
   },
   destroy(element, context) {
-    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+    if (
+      context.dataSourceCollection &&
+      !context.dataSourceCollection.isDestroyed()
+    ) {
       context.dataSourceCollection.remove(element);
     }
   },

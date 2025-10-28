@@ -20,7 +20,9 @@ export type CesiumComponentOptions<
 > = Options<Element, Props, State> & {
   renderContainer?: boolean;
   noChildren?: boolean;
-  containerProps?: (keyof Props)[] | ((props: Props) => HTMLAttributes<HTMLDivElement>);
+  containerProps?:
+    | (keyof Props)[]
+    | ((props: Props) => HTMLAttributes<HTMLDivElement>);
   defaultProps?: Partial<Props>;
 };
 
@@ -46,7 +48,10 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
   containerProps,
   defaultProps,
   ...options
-}: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<Element, Props> => {
+}: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<
+  Element,
+  Props
+> => {
   const component: ForwardRefRenderFunction<
     CesiumComponentRef<Element>,
     PropsWithoutRef<Props>
@@ -56,11 +61,11 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
       ...props,
     } as Props;
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesiumComponent<Element, Props, State>(
-      options,
-      mergedProps,
-      ref,
-    );
+    const [provided, mounted, wrapperRef] = useCesiumComponent<
+      Element,
+      Props,
+      State
+    >(options, mergedProps, ref);
 
     if (noChildren) return null;
 
@@ -75,7 +80,8 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
         ref={wrapperRef}
         {...(typeof containerProps === "function"
           ? containerProps(mergedProps)
-          : pick(mergedProps, containerProps))}>
+          : pick(mergedProps, containerProps))}
+      >
         {children}
       </div>
     ) : children ? (
@@ -83,7 +89,11 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
     ) : null;
 
     if (provided) {
-      return <CesiumContext.Provider value={provided}>{wrappedChildren}</CesiumContext.Provider>;
+      return (
+        <CesiumContext.Provider value={provided}>
+          {wrappedChildren}
+        </CesiumContext.Provider>
+      );
     }
     return wrappedChildren;
   };

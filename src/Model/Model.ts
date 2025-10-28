@@ -1,12 +1,30 @@
-import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode, Resource } from "cesium";
+import {
+  Model as CesiumModel,
+  Primitive,
+  ModelNode,
+  ColorBlendMode,
+  Resource,
+} from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps, Merge, isPromise } from "../core";
+import {
+  createCesiumComponent,
+  EventProps,
+  PickCesiumProps,
+  Merge,
+  isPromise,
+} from "../core";
 
-export type Target = Merge<CesiumModel, Parameters<(typeof CesiumModel)["fromGltfAsync"]>[0]>;
+export type Target = Merge<
+  CesiumModel,
+  Parameters<(typeof CesiumModel)["fromGltfAsync"]>[0]
+>;
 
 export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
 
-export type ModelCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+export type ModelCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+>;
 
 export type ModelOtherProps = EventProps<{
   id?: string;
@@ -19,7 +37,9 @@ export type ModelOtherProps = EventProps<{
   url: string | Resource | Promise<Resource>;
 };
 
-export type ModelProps = ModelCesiumProps & ModelCesiumReadonlyProps & ModelOtherProps;
+export type ModelProps = ModelCesiumProps &
+  ModelCesiumReadonlyProps &
+  ModelOtherProps;
 
 const cesiumProps = [
   "backFaceCulling",
@@ -112,7 +132,10 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

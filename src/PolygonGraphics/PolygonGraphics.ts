@@ -13,15 +13,22 @@ PolygonGraphics can be mounted only inside[Entity](/components/Entity) component
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>;
+export type Target = Merge<
+  CesiumPolygonGraphics,
+  CesiumPolygonGraphics.ConstructorOptions
+>;
 
-export type PolygonGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type PolygonGraphicsCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type PolygonGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type PolygonGraphicsProps = PolygonGraphicsCesiumProps & PolygonGraphicsCesiumEvents;
+export type PolygonGraphicsProps = PolygonGraphicsCesiumProps &
+  PolygonGraphicsCesiumEvents;
 
 const cesiumProps = [
   "arcType",
@@ -52,7 +59,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGraphicsProps>({
+const PolygonGraphics = createCesiumComponent<
+  CesiumPolygonGraphics,
+  PolygonGraphicsProps
+>({
   name: "PolygonGraphics",
   create(context, props) {
     if (!context.entity) return;

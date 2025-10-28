@@ -27,15 +27,24 @@ export type Target = Merge<
   MethodOptions2<typeof CesiumKmlDataSource, "load">
 >;
 
-export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>;
+export type KmlDataSourceCesiumProps = PickCesiumProps<
+  CesiumKmlDataSource,
+  typeof cesiumProps
+>;
 
-export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
+export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+>;
 
 export type KmlDataSourceCesiumEvents = {
   onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
   onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void;
   onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void;
-  onRefresh?: (kmlDataSource: CesiumKmlDataSource, urlComponent: string) => void;
+  onRefresh?: (
+    kmlDataSource: CesiumKmlDataSource,
+    urlComponent: string,
+  ) => void;
   onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
 };
 
@@ -72,19 +81,26 @@ export const cesiumEventProps = {
 
 export const otherProps = ["onLoad", "data"] as const;
 
-const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
+const load = (
+  element: CesiumKmlDataSource,
+  { data, onLoad, ...options }: KmlDataSourceProps,
+) => {
   if (!data) return;
-  element.load(data, options).then(value => {
+  element.load(data, options).then((value) => {
     if (onLoad) {
       onLoad(value);
     }
   });
 };
 
-const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourceProps>({
+const KmlDataSource = createCesiumComponent<
+  CesiumKmlDataSource,
+  KmlDataSourceProps
+>({
   name: "KmlDataSource",
   create(context, props) {
-    if (!context.scene || !context.dataSourceCollection || !context.scene) return;
+    if (!context.scene || !context.dataSourceCollection || !context.scene)
+      return;
     const element = new CesiumKmlDataSource({
       camera: props.camera || context.scene.camera,
       canvas: props.canvas || context.scene.canvas,
@@ -124,7 +140,10 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
     }
   },
   destroy(element, context) {
-    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+    if (
+      context.dataSourceCollection &&
+      !context.dataSourceCollection.isDestroyed()
+    ) {
       context.dataSourceCollection.remove(element);
     }
   },

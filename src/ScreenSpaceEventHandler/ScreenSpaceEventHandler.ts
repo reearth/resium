@@ -30,8 +30,10 @@ const ScreenSpaceEventHandler = createCesiumComponent<
     return props.useDefault
       ? context.cesiumWidget?.screenSpaceEventHandler
       : context.scene
-      ? new CesiumScreenSpaceEventHandler(context.scene.canvas as HTMLCanvasElement)
-      : undefined;
+        ? new CesiumScreenSpaceEventHandler(
+            context.scene.canvas as HTMLCanvasElement,
+          )
+        : undefined;
   },
   destroy(element) {
     if (!element.isDestroyed()) {

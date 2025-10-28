@@ -15,7 +15,7 @@ export default {
 
 export const Basic: Story = {
   args: { enabled: true },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CameraFlyTo
         destination={Cartesian3.fromDegrees(0, 0, 10000)}

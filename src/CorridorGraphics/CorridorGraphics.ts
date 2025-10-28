@@ -22,7 +22,8 @@ export type CorridorCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type CorridorGraphicsProps = CorridorGraphicsCesiumProps & CorridorCesiumEvents;
+export type CorridorGraphicsProps = CorridorGraphicsCesiumProps &
+  CorridorCesiumEvents;
 
 const cesiumProps = [
   "positions",
@@ -49,7 +50,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const CorridorGraphics = createCesiumComponent<CesiumCorridorGraphics, CorridorGraphicsProps>({
+const CorridorGraphics = createCesiumComponent<
+  CesiumCorridorGraphics,
+  CorridorGraphicsProps
+>({
   name: "CorridorGraphics",
   create(context, props) {
     if (!context.entity) return;

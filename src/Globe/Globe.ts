@@ -107,7 +107,7 @@ const otherProps = ["terrainProvider"] as const;
 
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",
-  create: context => context.scene?.globe,
+  create: (context) => context.scene?.globe,
   update: async (elm, props) => {
     const maybePromiseTerrainProvider = props.terrainProvider;
     let resultTerrainProvider: TerrainProvider;

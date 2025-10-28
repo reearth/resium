@@ -13,7 +13,10 @@ Only inside [CloudCollection](/components/CloudCollection) component.
 A CumulusCloud object will be attached to the parent CloudCollection.
 */
 
-export type CumulusCloudCesiumProps = PickCesiumProps<CesiumCumulusCloud, typeof cesiumProps>;
+export type CumulusCloudCesiumProps = PickCesiumProps<
+  CesiumCumulusCloud,
+  typeof cesiumProps
+>;
 
 export type CumulusCloudProps = CumulusCloudCesiumProps;
 
@@ -27,7 +30,10 @@ const cesiumProps = [
   "color",
 ] as const;
 
-const CumulusCloud = createCesiumComponent<CesiumCumulusCloud, CumulusCloudProps>({
+const CumulusCloud = createCesiumComponent<
+  CesiumCumulusCloud,
+  CumulusCloudProps
+>({
   name: "CumulusCloud",
   create: (context, props) => context.cloudCollection?.add(props),
   destroy(element, context) {

@@ -25,17 +25,26 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A Cesium3DTileset object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type Cesium3DTilesetCesiumProps = PickCesiumProps<CesiumCesium3DTileset, typeof cesiumProps>;
+export type Cesium3DTilesetCesiumProps = PickCesiumProps<
+  CesiumCesium3DTileset,
+  typeof cesiumProps
+>;
 
 export type Cesium3DTilesetCesiumReadonlyProps = PickCesiumProps<
-  Merge<CesiumCesium3DTileset, ConstructorOptions<typeof CesiumCesium3DTileset>>,
+  Merge<
+    CesiumCesium3DTileset,
+    ConstructorOptions<typeof CesiumCesium3DTileset>
+  >,
   typeof cesiumReadonlyProps
 >;
 
 export type Cesium3DTilesetCesiumEvents = {
   onAllTilesLoad?: () => void;
   onInitialTilesLoad?: () => void;
-  onLoadProgress?: (numberOfPendingRequests: number, numberOfTilesProcessing: number) => void;
+  onLoadProgress?: (
+    numberOfPendingRequests: number,
+    numberOfTilesProcessing: number,
+  ) => void;
   onTileFailed?: (error: any) => void;
   onTileLoad?: (tile: Cesium3DTile) => void;
   onTileUnload?: (tile: Cesium3DTile) => void;
@@ -137,7 +146,10 @@ export const cesiumEventProps = {
 
 export const otherProps = ["onReady", "onError", "url"] as const;
 
-const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
+const Cesium3DTileset = createCesiumComponent<
+  CesiumCesium3DTileset,
+  Cesium3DTilesetProps
+>({
   name: "Cesium3DTileset",
   async create(context, props) {
     if (!context.primitiveCollection) return;
@@ -173,7 +185,10 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

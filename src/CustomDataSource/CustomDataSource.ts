@@ -1,7 +1,12 @@
 import { CustomDataSource as CesiumCustomDataSource } from "cesium";
 import { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps, EventProps, EventTarget } from "../core";
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  EventProps,
+  EventTarget,
+} from "../core";
 
 export type { EventTarget } from "../core";
 
@@ -25,7 +30,10 @@ export type CustomDataSourceCesiumProps = PickCesiumProps<
 export type CustomDataSourceCesiumEvents = {
   onChange?: (customDataSource: CesiumCustomDataSource) => void;
   onError?: (customDataSource: CesiumCustomDataSource, error: any) => void;
-  onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
+  onLoading?: (
+    customDataSource: CesiumCustomDataSource,
+    isLoaded: boolean,
+  ) => void;
 };
 
 export type CustomDataSourceOtherProps = EventProps<EventTarget> & {
@@ -36,7 +44,13 @@ export type CustomDataSourceProps = CustomDataSourceCesiumProps &
   CustomDataSourceCesiumEvents &
   CustomDataSourceOtherProps;
 
-const cesiumProps = ["clustering", "name", "show", "clock", "isLoading"] as const;
+const cesiumProps = [
+  "clustering",
+  "name",
+  "show",
+  "clock",
+  "isLoading",
+] as const;
 
 export const cesiumEventProps = {
   onChange: "changedEvent",
@@ -44,7 +58,10 @@ export const cesiumEventProps = {
   onLoading: "loadingEvent",
 } as const;
 
-const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDataSourceProps>({
+const CustomDataSource = createCesiumComponent<
+  CesiumCustomDataSource,
+  CustomDataSourceProps
+>({
   name: "CustomDataSource",
   create(context, props) {
     if (!context.dataSourceCollection) return;
@@ -62,7 +79,10 @@ const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDat
     return element;
   },
   destroy(element, context) {
-    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+    if (
+      context.dataSourceCollection &&
+      !context.dataSourceCollection.isDestroyed()
+    ) {
       context.dataSourceCollection.remove(element);
     }
   },

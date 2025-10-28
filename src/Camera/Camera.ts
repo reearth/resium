@@ -41,7 +41,10 @@ Camera can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/comp
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type CameraCesiumProps = PickCesiumProps<CesiumCamera, typeof cesiumProps>;
+export type CameraCesiumProps = PickCesiumProps<
+  CesiumCamera,
+  typeof cesiumProps
+>;
 
 export type CameraCesiumEvents = {
   onChange?: (areaPercentage: number) => void;
@@ -74,7 +77,7 @@ export const cesiumEventProps = {
 
 const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
   name: "Camera",
-  create: context => context.scene?.camera,
+  create: (context) => context.scene?.camera,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,

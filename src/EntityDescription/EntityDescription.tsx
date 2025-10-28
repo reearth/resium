@@ -32,7 +32,8 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
   const { viewer, entity } = useCesium();
   const [selected, setSelected] = useState(false);
   const c = useMemo(
-    () => container ?? viewer?.infoBox.frame.contentDocument?.createElement("div"),
+    () =>
+      container ?? viewer?.infoBox.frame.contentDocument?.createElement("div"),
     [container, viewer?.infoBox.frame.contentDocument],
   );
 
@@ -52,7 +53,9 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
   useEffect(() => {
     if (container || !c || !viewer) return;
     const frame = viewer.infoBox?.frame;
-    const parent = frame?.contentDocument?.querySelector(".cesium-infoBox-description");
+    const parent = frame?.contentDocument?.querySelector(
+      ".cesium-infoBox-description",
+    );
     if (!frame || !parent) return;
 
     let interval: number | undefined;
@@ -90,7 +93,9 @@ const EntityDescription: FC<EntityDescriptionProps> = ({
     return interval ? () => clearTimeout(interval) : undefined;
   }, [c, container, resizeInfoBox, selected, viewer]);
 
-  return c ? <>{createPortal(<>{!container || selected ? children : null}</>, c)}</> : null;
+  return c ? (
+    <>{createPortal(<>{!container || selected ? children : null}</>, c)}</>
+  ) : null;
 };
 
 export default EntityDescription;

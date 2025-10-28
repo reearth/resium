@@ -16,7 +16,10 @@ It can not be mounted more than once for each Viewer or CesiumWidget.
 
 export type MoonCesiumProps = PickCesiumProps<CesiumMoon, typeof cesiumProps>;
 
-export type MoonCesiumReadonlyProps = PickCesiumProps<CesiumMoon, typeof cesiumReadonlyProps>;
+export type MoonCesiumReadonlyProps = PickCesiumProps<
+  CesiumMoon,
+  typeof cesiumReadonlyProps
+>;
 
 export type MoonProps = MoonCesiumProps & MoonCesiumReadonlyProps;
 

@@ -76,7 +76,10 @@ export type EntityCesiumProps = PickCesiumProps<
   typeof cesiumProps
 >;
 
-export type EntityCesiumReadonlyProps = PickCesiumProps<CesiumEntity, typeof cesiumReadonlyProps>;
+export type EntityCesiumReadonlyProps = PickCesiumProps<
+  CesiumEntity,
+  typeof cesiumReadonlyProps
+>;
 
 export type EntityCesiumEvents = {
   onDefinitionChange?: () => void;

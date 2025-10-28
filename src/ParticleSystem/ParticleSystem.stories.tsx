@@ -23,7 +23,11 @@ export default {
   component: ParticleSystem,
 } as Meta;
 
-const pos = new Cartesian3(277096.634865404, 5647834.481964232, 2985563.7039122293);
+const pos = new Cartesian3(
+  277096.634865404,
+  5647834.481964232,
+  2985563.7039122293,
+);
 const snowAlpha = 1.0;
 const snowRadius = 100000.0;
 
@@ -60,7 +64,10 @@ const SnowParticle: FC = () => {
         particle.velocity,
       );
 
-      const distance = Cartesian3.distance(scene.camera.position, particle.position);
+      const distance = Cartesian3.distance(
+        scene.camera.position,
+        particle.position,
+      );
       if (distance > snowRadius) {
         particle.endColor.alpha = 0.0;
       } else {

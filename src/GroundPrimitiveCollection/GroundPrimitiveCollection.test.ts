@@ -12,7 +12,10 @@ import {
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   PrimitiveCollection,
-  Omit<GroundPrimitiveCollectionProps, keyof GroundPrimitiveCollectionOtherProps>,
+  Omit<
+    GroundPrimitiveCollectionProps,
+    keyof GroundPrimitiveCollectionOtherProps
+  >,
   {},
   IgnoredProps
 >;

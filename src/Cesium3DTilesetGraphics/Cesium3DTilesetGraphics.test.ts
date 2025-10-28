@@ -4,7 +4,10 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps, Merge } from "../core";
 
-import { Cesium3DTilesetGraphicsProps, cesiumEventProps } from "./Cesium3DTilesetGraphics";
+import {
+  Cesium3DTilesetGraphicsProps,
+  cesiumEventProps,
+} from "./Cesium3DTilesetGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

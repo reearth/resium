@@ -7,7 +7,12 @@ import { UnusedCesiumProps } from "../core";
 import { GlobeProps, cesiumEventProps } from "./Globe";
 
 // Unused prop check
-type UnusedProps = UnusedCesiumProps<Globe, GlobeProps, typeof cesiumEventProps, IgnoredProps>;
+type UnusedProps = UnusedCesiumProps<
+  Globe,
+  GlobeProps,
+  typeof cesiumEventProps,
+  IgnoredProps
+>;
 type IgnoredProps = "ellipsoid" | "imageryLayers";
 
 expectType<TypeEqual<never, UnusedProps>>(true);

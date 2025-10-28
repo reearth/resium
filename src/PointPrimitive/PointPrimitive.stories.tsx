@@ -17,10 +17,16 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
-        <PointPrimitive {...args} color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} />
+      <PointPrimitiveCollection
+        modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}
+      >
+        <PointPrimitive
+          {...args}
+          color={Color.ORANGE}
+          position={new Cartesian3(0.0, 0.0, 0.0)}
+        />
         <PointPrimitive
           {...args}
           color={Color.YELLOW}
@@ -42,9 +48,11 @@ export const Basic: Story = {
 };
 
 export const Events: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+      <PointPrimitiveCollection
+        modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}
+      >
         <PointPrimitive
           {...args}
           color={Color.ORANGE}

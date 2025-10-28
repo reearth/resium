@@ -13,7 +13,10 @@ PathGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumPathGraphics, CesiumPathGraphics.ConstructorOptions>;
+export type Target = Merge<
+  CesiumPathGraphics,
+  CesiumPathGraphics.ConstructorOptions
+>;
 
 export type PathGraphicsCesiumProps = PickCesiumProps<
   Merge<CesiumPathGraphics, CesiumPathGraphics.ConstructorOptions>,
@@ -24,7 +27,8 @@ export type PathGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type PathGraphicsProps = PathGraphicsCesiumProps & PathGraphicsCesiumEvents;
+export type PathGraphicsProps = PathGraphicsCesiumProps &
+  PathGraphicsCesiumEvents;
 
 const cesiumProps = [
   "leadTime",
@@ -40,7 +44,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const PathGraphics = createCesiumComponent<CesiumPathGraphics, PathGraphicsProps>({
+const PathGraphics = createCesiumComponent<
+  CesiumPathGraphics,
+  PathGraphicsProps
+>({
   name: "PathGraphics",
   create(context, props) {
     if (!context.entity) return;

@@ -6,7 +6,7 @@ const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const HtmlTagsPlugin = require("html-webpack-tags-plugin");
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 module.exports = (_env, args) => ({
   externals: {
@@ -22,7 +22,7 @@ module.exports = (_env, args) => ({
           loader: "babel-loader",
           options: {
             plugins: args.mode === "production" ? [] : ["react-refresh/babel"],
-          }
+          },
         },
       },
     ],
@@ -40,12 +40,17 @@ module.exports = (_env, args) => ({
       ],
     }),
     new HtmlPlugin({
-      template: "index.html"
+      template: "index.html",
     }),
     new HtmlTagsPlugin({
       append: false,
       tags: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
     }),
-    ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+    ...(args.mode === "production"
+      ? []
+      : [
+          new webpack.HotModuleReplacementPlugin(),
+          new ReactRefreshWebpackPlugin(),
+        ]),
   ],
 });

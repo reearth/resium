@@ -55,7 +55,7 @@ const style = new Cesium3DTileStyle({
 
 export const Basic: Story = {
   args: { show: true },
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
     return (
@@ -70,8 +70,11 @@ export const Basic: Story = {
           {...args}
           intervals={intervals}
           style={style}
-          onReady={p => {
-            ref.current?.cesiumElement?.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
+          onReady={(p) => {
+            ref.current?.cesiumElement?.zoomTo(
+              p,
+              new HeadingPitchRange(0.0, -0.5, 50.0),
+            );
           }}
           {...events}
         />

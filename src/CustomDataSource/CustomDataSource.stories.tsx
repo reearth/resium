@@ -15,7 +15,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CustomDataSource {...args} name="custom" {...events}>
         <Entity
@@ -45,7 +45,7 @@ export const Basic: Story = {
 
 export const UseEntityCluster: Story = {
   name: "Entity cluster",
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <CustomDataSource
         {...args}
@@ -57,7 +57,8 @@ export const UseEntityCluster: Story = {
             minimumClusterSize: 3,
             clusterPoints: true,
           })
-        }>
+        }
+      >
         {new Array(100).fill(0).map((_, i) => (
           <Entity
             key={i}

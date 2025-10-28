@@ -1,6 +1,11 @@
 import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap, PickCesiumProps, Merge } from "../core";
+import {
+  createCesiumComponent,
+  EventkeyMap,
+  PickCesiumProps,
+  Merge,
+} from "../core";
 
 /*
 @summary
@@ -18,7 +23,10 @@ export type Target = Merge<
   CesiumPolylineVolumeGraphics.ConstructorOptions
 >;
 
-export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type PolylineVolumeGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;

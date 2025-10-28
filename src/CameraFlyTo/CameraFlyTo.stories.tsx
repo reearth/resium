@@ -15,23 +15,27 @@ export default {
 
 export const Basic: Story = {
   args: { duration: 5 },
-  render: args => (
+  render: (args) => (
     <Viewer full>
-      <CameraFlyTo {...args} destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)} />
+      <CameraFlyTo
+        {...args}
+        destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+      />
     </Viewer>
   ),
 };
 
 export const Once: Story = {
   args: { duration: 5 },
-  render: args => {
+  render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [once, setOnce] = useState(true);
     return (
       <Viewer full>
         <button
           style={{ position: "absolute", top: "0", left: "0" }}
-          onClick={() => setOnce(o => !o)}>
+          onClick={() => setOnce((o) => !o)}
+        >
           Once: {once.toString()}
         </button>
         <CameraFlyTo

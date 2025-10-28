@@ -31,13 +31,13 @@ const onLoadAction = action("onLoad");
 
 export const Basic: Story = {
   args: { show: true },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <GeoJsonDataSource
         {...args}
         data={data}
         markerColor={Color.RED}
-        onLoad={g => {
+        onLoad={(g) => {
           // You can process the data source here
           g.entities.values[0].name = "Coors Field!";
           onLoadAction(g);

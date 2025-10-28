@@ -13,15 +13,22 @@ PolylineGraphics can be mounted only inside[Entity](/components/Entity) componen
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumPolylineGraphics, CesiumPolylineGraphics.ConstructorOptions>;
+export type Target = Merge<
+  CesiumPolylineGraphics,
+  CesiumPolylineGraphics.ConstructorOptions
+>;
 
-export type PolylineGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type PolylineGraphicsCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type PolylineGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type PolylineGraphicsProps = PolylineGraphicsCesiumProps & PolylineGraphicsCesiumEvents;
+export type PolylineGraphicsProps = PolylineGraphicsCesiumProps &
+  PolylineGraphicsCesiumEvents;
 
 const cesiumProps = [
   "arcType",
@@ -42,7 +49,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const PolylineGraphics = createCesiumComponent<CesiumPolylineGraphics, PolylineGraphicsProps>({
+const PolylineGraphics = createCesiumComponent<
+  CesiumPolylineGraphics,
+  PolylineGraphicsProps
+>({
   name: "PolylineGraphics",
   create(context, props) {
     if (!context.entity) return;

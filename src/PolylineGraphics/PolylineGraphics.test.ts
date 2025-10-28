@@ -3,7 +3,11 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { PolylineGraphicsProps, cesiumEventProps, Target } from "./PolylineGraphics";
+import {
+  PolylineGraphicsProps,
+  cesiumEventProps,
+  Target,
+} from "./PolylineGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

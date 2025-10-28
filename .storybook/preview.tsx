@@ -7,7 +7,7 @@ export const preview: Preview = {
     layout: "fullscreen",
   },
   decorators: [
-    Story => {
+    (Story) => {
       return <Story />;
     },
   ],

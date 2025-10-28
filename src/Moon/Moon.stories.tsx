@@ -16,7 +16,7 @@ export const Basic: Story = {
   args: {
     show: true,
   },
-  render: args => {
+  render: (args) => {
     const radius = 10;
     return (
       <Viewer full>

@@ -4,7 +4,10 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { BillboardCollectionProps, BillboardCollectionOtherProps } from "./BillboardCollection";
+import {
+  BillboardCollectionProps,
+  BillboardCollectionOtherProps,
+} from "./BillboardCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

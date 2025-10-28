@@ -31,7 +31,7 @@ If you want to contribute, follow the [documentation](https://resium.reearth.io/
 
 ### Code Contributors
 
-This project exists thanks to all the people who contribute. 
+This project exists thanks to all the people who contribute.
 <a href="https://github.com/reearth/resium/graphs/contributors"><img src="https://opencollective.com/resium/contributors.svg?width=890&button=false" /></a>
 
 ### Financial Contributors

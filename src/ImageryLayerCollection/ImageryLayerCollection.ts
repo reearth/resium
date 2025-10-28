@@ -1,4 +1,7 @@
-import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
+import {
+  ImageryLayer,
+  ImageryLayerCollection as CesiumImageryLayerCollection,
+} from "cesium";
 
 import { createCesiumComponent, EventkeyMap } from "../core";
 
@@ -38,7 +41,7 @@ const ImageryLayerCollection = createCesiumComponent<
   ImageryLayerCollectionProps
 >({
   name: "ImageryLayerCollection",
-  create: context => context.globe?.imageryLayers,
+  create: (context) => context.globe?.imageryLayers,
   cesiumEventProps,
 });
 

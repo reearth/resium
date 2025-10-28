@@ -15,7 +15,7 @@ export default {
 
 export const Basic: Story = {
   args: { show: true },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <Scene backgroundColor={Color.CORNFLOWERBLUE} />
       <SkyBox {...args} />

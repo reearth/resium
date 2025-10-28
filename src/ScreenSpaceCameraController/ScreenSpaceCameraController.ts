@@ -19,7 +19,8 @@ export type ScreenSpaceCameraControllerCesiumProps = PickCesiumProps<
   typeof cesiumProps
 >;
 
-export type ScreenSpaceCameraControllerProps = ScreenSpaceCameraControllerCesiumProps;
+export type ScreenSpaceCameraControllerProps =
+  ScreenSpaceCameraControllerCesiumProps;
 
 const cesiumProps = [
   "bounceAnimationTime",
@@ -52,7 +53,7 @@ const ScreenSpaceCameraController = createCesiumComponent<
   ScreenSpaceCameraControllerProps
 >({
   name: "ScreenSpaceCameraController",
-  create: context => context.scene?.screenSpaceCameraController,
+  create: (context) => context.scene?.screenSpaceCameraController,
   cesiumProps,
   setCesiumPropsAfterCreate: true,
 });

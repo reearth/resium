@@ -4,7 +4,10 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { PolylineCollectionOtherProps, PolylineCollectionProps } from "./PolylineCollection";
+import {
+  PolylineCollectionOtherProps,
+  PolylineCollectionProps,
+} from "./PolylineCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

@@ -13,15 +13,22 @@ ModelGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumModelGraphics, CesiumModelGraphics.ConstructorOptions>;
+export type Target = Merge<
+  CesiumModelGraphics,
+  CesiumModelGraphics.ConstructorOptions
+>;
 
-export type ModelGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type ModelGraphicsCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type ModelGraphicsCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type ModelGraphicsProps = ModelGraphicsCesiumProps & ModelGraphicsCesiumEvents;
+export type ModelGraphicsProps = ModelGraphicsCesiumProps &
+  ModelGraphicsCesiumEvents;
 
 const cesiumProps = [
   "uri",
@@ -52,7 +59,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const ModelGraphics = createCesiumComponent<CesiumModelGraphics, ModelGraphicsProps>({
+const ModelGraphics = createCesiumComponent<
+  CesiumModelGraphics,
+  ModelGraphicsProps
+>({
   name: "ModelGraphics",
   create(context, props) {
     if (!context.entity) return;

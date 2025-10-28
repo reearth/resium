@@ -28,7 +28,10 @@ export type Target = Merge<
   ConstructorOptions<typeof CesiumGroundPolylinePrimitive>
 >;
 
-export type GroundPolylinePrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
+export type GroundPolylinePrimitiveCesiumProps = PickCesiumProps<
+  Target,
+  typeof cesiumProps
+>;
 
 export type GroundPolylinePrimitiveCesiumReadonlyProps = PickCesiumProps<
   Target,
@@ -86,7 +89,10 @@ const GroundPolylinePrimitive = createCesiumComponent<
     return element;
   },
   destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    if (
+      context.primitiveCollection &&
+      !context.primitiveCollection.isDestroyed()
+    ) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {

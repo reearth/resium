@@ -13,7 +13,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <ImageryLayer
         {...args}
@@ -21,7 +21,10 @@ export const Basic: Story = {
           "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
         )}
       />
-      <ImageryLayer alpha={0.5} imageryProvider={IonImageryProvider.fromAssetId(3812, {})} />
+      <ImageryLayer
+        alpha={0.5}
+        imageryProvider={IonImageryProvider.fromAssetId(3812, {})}
+      />
     </Viewer>
   ),
 };

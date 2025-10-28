@@ -13,7 +13,7 @@ export default {
 
 export const Basic: Story = {
   args: { glowFactor: 2, show: true },
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <Sun {...args} />
     </Viewer>

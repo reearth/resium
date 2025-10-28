@@ -17,7 +17,7 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <LabelCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
         <Label
@@ -50,7 +50,7 @@ export const Basic: Story = {
 };
 
 export const Events: Story = {
-  render: args => (
+  render: (args) => (
     <Viewer full>
       <LabelCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
         <Label

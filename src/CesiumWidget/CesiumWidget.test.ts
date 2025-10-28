@@ -3,7 +3,11 @@ import { it } from "vitest";
 
 import { UnusedCesiumProps } from "../core";
 
-import { Target, CesiumWidgetProps, CesiumWidgetOtherProps } from "./CesiumWidget";
+import {
+  Target,
+  CesiumWidgetProps,
+  CesiumWidgetOtherProps,
+} from "./CesiumWidget";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

@@ -22,7 +22,8 @@ export type CylinderCesiumEvents = {
   onDefinitionChange?: () => void;
 };
 
-export type CylinderGraphicsProps = CylinderGraphicsCesiumProps & CylinderCesiumEvents;
+export type CylinderGraphicsProps = CylinderGraphicsCesiumProps &
+  CylinderCesiumEvents;
 
 const cesiumProps = [
   "heightReference",
@@ -45,7 +46,10 @@ export const cesiumEventProps = {
   onDefinitionChange: "definitionChanged",
 } as const;
 
-const CylinderGraphics = createCesiumComponent<CesiumCylinderGraphics, CylinderGraphicsProps>({
+const CylinderGraphics = createCesiumComponent<
+  CesiumCylinderGraphics,
+  CylinderGraphicsProps
+>({
   name: "CylinderGraphics",
   create(context, props) {
     if (!context.entity) return;
