@@ -27,18 +27,23 @@
     ]
   },
   "dependencies": {
-    "@docusaurus/core": "3.2.0",
-    "@docusaurus/preset-classic": "3.2.0",
+    "@docusaurus/core": "3.9.2",
+    "@docusaurus/preset-classic": "3.9.2",
     "clsx": "2.1.0",
-    "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.2.0",
+    "@docusaurus/module-type-aliases": "3.9.2",
     "@tsconfig/docusaurus": "2.0.3",
-    "@types/react": "18.2.73",
+    "@types/react": "^19.0.0",
     "@types/react-helmet": "6.1.11",
     "@types/react-router-dom": "5.3.3",
     "typescript": "5.4.3"
+  },
+  "resolutions": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@types/react": "^19.0.0"
   }
 }

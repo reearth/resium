@@ -17,7 +17,7 @@ import type {
   DocComment,
   DocProps,
   TypeExpr,
-} from "./types.mjs";
+} from "./types.mts";
 
 const {
   isVariableStatement,

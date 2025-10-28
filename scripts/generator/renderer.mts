@@ -1,4 +1,4 @@
-import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mjs";
+import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mts";
 
 export function renderDoc(doc: Doc) {
   return `---
@@ -14,7 +14,7 @@ ${
 `
 }- **Example**: [${
     doc.name
-  }](https://resium.reearth.io/examples/?path=/story/${doc.name.toLowerCase()}--basic")
+  }](https://resium.reearth.io/examples/?path=/story/${doc.name.toLowerCase()}--basic)
 ${
   doc.scope
     ? `
@@ -102,7 +102,9 @@ function escapeType(t: string) {
   return t
     .replace(/\n/g, "")
     .replace(/ {2,}/g, " ")
-    .replace(/\|/g, "&#124")
+    .replace(/\{/g, "&#123;")
+    .replace(/\}/g, "&#125;")
+    .replace(/\|/g, "&#124;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
