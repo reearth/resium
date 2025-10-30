@@ -44,6 +44,7 @@ const cesiumProps = [
   "position",
   "scaleByDistance",
   "show",
+  "splitDirection",
   "translucencyByDistance",
 ] as const;
 

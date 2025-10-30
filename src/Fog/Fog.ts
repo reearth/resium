@@ -21,9 +21,13 @@ export type FogProps = FogCesiumProps;
 const cesiumProps = [
   "density",
   "enabled",
+  "heightFalloff",
+  "heightScalar",
+  "maxHeight",
   "minimumBrightness",
-  "screenSpaceErrorFactor",
   "renderable",
+  "screenSpaceErrorFactor",
+  "visualDensityScalar",
 ] as const;
 
 const Fog = createCesiumComponent<CesiumFog, FogProps>({

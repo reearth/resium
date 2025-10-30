@@ -79,6 +79,7 @@ const cesiumReadonlyProps = [
   "imageryProviderViewModels",
   "selectedTerrainProviderViewModel",
   "terrainProviderViewModels",
+  "ellipsoid",
   "skyBox",
   "skyAtmosphere",
   "fullscreenElement",
@@ -94,11 +95,11 @@ const cesiumReadonlyProps = [
   "dataSources",
   "mapMode2D",
   "projectionPicker",
+  "blurActiveElementOnCanvasFocus",
   "requestRenderMode",
   "maximumRenderTimeChange",
   "depthPlaneEllipsoidOffset",
   "msaaSamples",
-  "blurActiveElementOnCanvasFocus",
   "terrain",
 ] as const;
 

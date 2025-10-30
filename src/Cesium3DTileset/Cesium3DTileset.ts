@@ -90,8 +90,7 @@ const cesiumProps = [
   "immediatelyLoadDesiredLevelOfDetail",
   "loadSiblings",
   "clippingPlanes",
-  "classificationType",
-  "ellipsoid",
+  "clippingPolygons",
   "lightColor",
   "colorBlendAmount",
   "colorBlendMode",
@@ -107,6 +106,7 @@ const cesiumProps = [
   "debugShowUrl",
   "style",
   "backFaceCulling",
+  "showOutline",
   "vectorClassificationOnly",
   "vectorKeepDecodedPositions",
   "splitDirection",
@@ -115,7 +115,6 @@ const cesiumProps = [
   "showCreditsOnScreen",
   "featureIdLabel",
   "instanceFeatureIdLabel",
-  "imageBasedLighting",
   "outlineColor",
   "cacheBytes",
   "maximumCacheOverflowBytes",
@@ -123,15 +122,20 @@ const cesiumProps = [
 ] as const;
 
 const cesiumReadonlyProps = [
-  "showOutline",
+  "asynchronouslyLoadImagery",
+  "classificationType",
   "cullWithChildrenBounds",
   "debugHeatmapTilePropertyName",
+  "ellipsoid",
   "enableDebugWireframe",
+  "heightReference",
   "modelUpAxis",
   "modelForwardAxis",
   "projectTo2D",
   "enableShowOutline",
   "enablePick",
+  "environmentMapOptions",
+  "scene",
 ] as const;
 
 export const cesiumEventProps = {

@@ -41,6 +41,7 @@ const cesiumProps = [
   "heightReference",
   "distanceDisplayCondition",
   "disableDepthTestDistance",
+  "splitDirection",
 ] as const;
 
 export const cesiumEventProps = {

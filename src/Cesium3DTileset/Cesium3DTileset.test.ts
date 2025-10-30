@@ -17,7 +17,8 @@ type UnusedProps = UnusedCesiumProps<
   typeof cesiumEventProps,
   IgnoredProps
 >;
-type IgnoredProps = never;
+// pointCloudShading exists in constructor options but causes type issues
+type IgnoredProps = "pointCloudShading";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

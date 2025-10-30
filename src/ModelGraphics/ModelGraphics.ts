@@ -53,6 +53,8 @@ const cesiumProps = [
   "lightColor",
   "articulations",
   "customShader",
+  "enableVerticalExaggeration",
+  "environmentMapOptions",
 ] as const;
 
 export const cesiumEventProps = {

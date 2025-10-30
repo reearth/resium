@@ -17,7 +17,8 @@ type UnusedProps = UnusedCesiumProps<
   IgnoredProps
 >;
 // contextOptions is actually used but UnusedCesiumProps omits contextOptions from CesiumWidget props
-type IgnoredProps = "contextOptions";
+// trackedEntityChanged is a readonly event
+type IgnoredProps = "contextOptions" | "trackedEntityChanged";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
