@@ -1,6 +1,6 @@
-import { Moon as CesiumMoon } from "cesium";
+import { Moon as CesiumMoon } from 'cesium'
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { createCesiumComponent, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -14,30 +14,27 @@ Moon can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/compon
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type MoonCesiumProps = PickCesiumProps<CesiumMoon, typeof cesiumProps>;
+export type MoonCesiumProps = PickCesiumProps<CesiumMoon, typeof cesiumProps>
 
-export type MoonCesiumReadonlyProps = PickCesiumProps<
-  CesiumMoon,
-  typeof cesiumReadonlyProps
->;
+export type MoonCesiumReadonlyProps = PickCesiumProps<CesiumMoon, typeof cesiumReadonlyProps>
 
-export type MoonProps = MoonCesiumProps & MoonCesiumReadonlyProps;
+export type MoonProps = MoonCesiumProps & MoonCesiumReadonlyProps
 
-const cesiumProps = ["onlySunLighting", "show", "textureUrl"] as const;
+const cesiumProps = ['onlySunLighting', 'show', 'textureUrl'] as const
 
-const cesiumReadonlyProps = ["ellipsoid"] as const;
+const cesiumReadonlyProps = ['ellipsoid'] as const
 
 const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
-  name: "Moon",
+  name: 'Moon',
   create(context, props) {
-    if (!context.scene) return;
-    const element = new CesiumMoon(props);
-    context.scene.moon = element;
-    return element;
+    if (!context.scene) return
+    const element = new CesiumMoon(props)
+    context.scene.moon = element
+    return element
   },
   destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.moon = new CesiumMoon();
+      context.scene.moon = new CesiumMoon()
     }
     // if (!element.isDestroyed()) {
     //   element.destroy();
@@ -45,6 +42,6 @@ const Moon = createCesiumComponent<CesiumMoon, MoonProps>({
   },
   cesiumProps,
   cesiumReadonlyProps,
-});
+})
 
-export default Moon;
+export default Moon

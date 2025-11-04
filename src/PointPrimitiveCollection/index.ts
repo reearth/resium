@@ -1,4 +1,1 @@
-export {
-  default,
-  type PointPrimitiveCollectionProps,
-} from "./PointPrimitiveCollection";
+export { default, type PointPrimitiveCollectionProps } from './PointPrimitiveCollection'

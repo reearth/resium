@@ -1,6 +1,6 @@
-import { BoxGraphics as CesiumBoxGraphics } from "cesium";
+import { BoxGraphics as CesiumBoxGraphics } from 'cesium'
 
-import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge } from '../core'
 
 /*
 @summary
@@ -16,46 +16,46 @@ and can not be mounted more than once for each entity.
 export type BoxGraphicsCesiumProps = PickCesiumProps<
   Merge<CesiumBoxGraphics, CesiumBoxGraphics.ConstructorOptions>,
   typeof cesiumProps
->;
+>
 
 export type BoxGraphicsCesiumEvents = {
-  onDefinitionChange?: () => void;
-};
+  onDefinitionChange?: () => void
+}
 
-export type BoxGraphicsProps = BoxGraphicsCesiumProps & BoxGraphicsCesiumEvents;
+export type BoxGraphicsProps = BoxGraphicsCesiumProps & BoxGraphicsCesiumEvents
 
 const cesiumProps = [
-  "heightReference",
-  "dimensions",
-  "show",
-  "fill",
-  "material",
-  "outline",
-  "outlineColor",
-  "outlineWidth",
-  "shadows",
-  "distanceDisplayCondition",
-] as const;
+  'heightReference',
+  'dimensions',
+  'show',
+  'fill',
+  'material',
+  'outline',
+  'outlineColor',
+  'outlineWidth',
+  'shadows',
+  'distanceDisplayCondition',
+] as const
 
 export const cesiumEventProps = {
-  onDefinitionChange: "definitionChanged",
-} as const;
+  onDefinitionChange: 'definitionChanged',
+} as const
 
 const BoxGraphics = createCesiumComponent<CesiumBoxGraphics, BoxGraphicsProps>({
-  name: "BoxGraphics",
+  name: 'BoxGraphics',
   create(context, props) {
-    if (!context.entity) return;
-    const element = new CesiumBoxGraphics(props);
-    context.entity.box = element;
-    return element;
+    if (!context.entity) return
+    const element = new CesiumBoxGraphics(props)
+    context.entity.box = element
+    return element
   },
   destroy(_element, context) {
     if (context.entity) {
-      context.entity.box = undefined;
+      context.entity.box = undefined
     }
   },
   cesiumProps,
   cesiumEventProps,
-});
+})
 
-export default BoxGraphics;
+export default BoxGraphics

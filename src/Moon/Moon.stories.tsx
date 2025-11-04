@@ -1,23 +1,23 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Ellipsoid, Math as CesiumMath } from "cesium";
+import { Meta, StoryObj } from '@storybook/react'
+import { Ellipsoid, Math as CesiumMath } from 'cesium'
 
-import Viewer from "../Viewer";
+import Viewer from '../Viewer'
 
-import Moon from "./Moon";
+import Moon from './Moon'
 
-type Story = StoryObj<typeof Moon>;
+type Story = StoryObj<typeof Moon>
 
 export default {
-  title: "Moon",
+  title: 'Moon',
   component: Moon,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   args: {
     show: true,
   },
   render: (args) => {
-    const radius = 10;
+    const radius = 10
     return (
       <Viewer full>
         <Moon
@@ -31,6 +31,6 @@ export const Basic: Story = {
           }
         />
       </Viewer>
-    );
+    )
   },
-};
+}

@@ -1,11 +1,6 @@
-import { PostProcessStageComposite as CesiumPostProcessStageComposite } from "cesium";
+import { PostProcessStageComposite as CesiumPostProcessStageComposite } from 'cesium'
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  ConstructorOptions,
-  Merge,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from '../core'
 
 /*
 @summary
@@ -58,62 +53,46 @@ import { AmbientOcclusion, Bloom } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type Target = Merge<
-  CesiumPostProcessStageComposite,
-  ConstructorOptions<typeof CesiumPostProcessStageComposite>
->;
+export type Target = Merge<CesiumPostProcessStageComposite, ConstructorOptions<typeof CesiumPostProcessStageComposite>>
 
-export type PostProcessStageCompositeCesiumProps = PickCesiumProps<
-  Target,
-  typeof cesiumProps
->;
+export type PostProcessStageCompositeCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
 
-export type PostProcessStageCompositeCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps,
-  "stages"
->;
+export type PostProcessStageCompositeCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps, 'stages'>
 
-export type PostProcessStageCompositeProps =
-  PostProcessStageCompositeCesiumProps &
-    PostProcessStageCompositeCesiumReadonlyProps;
+export type PostProcessStageCompositeProps = PostProcessStageCompositeCesiumProps &
+  PostProcessStageCompositeCesiumReadonlyProps
 
-const cesiumProps = ["enabled", "selected"] as const;
+const cesiumProps = ['enabled', 'selected'] as const
 
-const cesiumReadonlyProps = [
-  "inputPreviousStageTexture",
-  "name",
-  "stages",
-  "uniforms",
-] as const;
+const cesiumReadonlyProps = ['inputPreviousStageTexture', 'name', 'stages', 'uniforms'] as const
 
 export const PostProcessStageComposite = createCesiumComponent<
   CesiumPostProcessStageComposite,
   PostProcessStageCompositeProps
 >({
-  name: "PostProcessStageComposite",
+  name: 'PostProcessStageComposite',
   create(context, props) {
-    if (!context.scene) return;
-    const element = new CesiumPostProcessStageComposite(props);
-    if (typeof props.enabled === "boolean") {
-      element.enabled = props.enabled;
+    if (!context.scene) return
+    const element = new CesiumPostProcessStageComposite(props)
+    if (typeof props.enabled === 'boolean') {
+      element.enabled = props.enabled
     }
     if (props.selected) {
-      element.selected = props.selected;
+      element.selected = props.selected
     }
-    context.scene.postProcessStages.add(element);
-    return element;
+    context.scene.postProcessStages.add(element)
+    return element
   },
   destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.postProcessStages.remove(element);
+      context.scene.postProcessStages.remove(element)
     }
     if (!element.isDestroyed()) {
-      element.destroy();
+      element.destroy()
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
-});
+})
 
-export default PostProcessStageComposite;
+export default PostProcessStageComposite

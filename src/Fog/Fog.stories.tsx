@@ -1,17 +1,17 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Cartesian3, Math as CesiumMath } from "cesium";
+import { Meta, StoryObj } from '@storybook/react'
+import { Cartesian3, Math as CesiumMath } from 'cesium'
 
-import CameraFlyTo from "../CameraFlyTo";
-import Viewer from "../Viewer";
+import CameraFlyTo from '../CameraFlyTo'
+import Viewer from '../Viewer'
 
-import Fog from "./Fog";
+import Fog from './Fog'
 
-type Story = StoryObj<typeof Fog>;
+type Story = StoryObj<typeof Fog>
 
 export default {
-  title: "Fog",
+  title: 'Fog',
   component: Fog,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   args: { enabled: true },
@@ -25,4 +25,4 @@ export const Basic: Story = {
       <Fog {...args} />
     </Viewer>
   ),
-};
+}

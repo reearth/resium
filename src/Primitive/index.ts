@@ -1,1 +1,1 @@
-export { default, type PrimitiveProps } from "./Primitive";
+export { default, type PrimitiveProps } from './Primitive'

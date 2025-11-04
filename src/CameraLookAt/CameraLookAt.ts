@@ -1,6 +1,6 @@
-import { Camera } from "cesium";
+import { Camera } from 'cesium'
 
-import { createCameraOperation } from "../core";
+import { createCameraOperation } from '../core'
 
 // @noCesiumElement
 
@@ -19,15 +19,12 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 */
 
 export type CameraLookAtProps = {
-  target: Parameters<Camera["lookAt"]>[0];
-  offset: Parameters<Camera["lookAt"]>[1];
-};
+  target: Parameters<Camera['lookAt']>[0]
+  offset: Parameters<Camera['lookAt']>[1]
+}
 
-const CameraLookAt = createCameraOperation<CameraLookAtProps>(
-  "CameraLookAt",
-  (camera, { target, offset }) => {
-    camera.lookAt(target, offset);
-  },
-);
+const CameraLookAt = createCameraOperation<CameraLookAtProps>('CameraLookAt', (camera, { target, offset }) => {
+  camera.lookAt(target, offset)
+})
 
-export default CameraLookAt;
+export default CameraLookAt

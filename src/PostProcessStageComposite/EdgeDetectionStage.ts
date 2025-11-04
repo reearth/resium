@@ -1,21 +1,21 @@
 // @ignore
-import { PostProcessStageLibrary, Color } from "cesium";
+import { PostProcessStageLibrary, Color } from 'cesium'
 
-import { createPostProcessStage } from "../core";
+import { createPostProcessStage } from '../core'
 
-import { PostProcessStageCompositeProps } from "./PostProcessStageComposite";
+import { PostProcessStageCompositeProps } from './PostProcessStageComposite'
 
 type Props = {
-  color?: Color;
-  length?: number;
-};
+  color?: Color
+  length?: number
+}
 
-export type EdgeDetectionStageProps = PostProcessStageCompositeProps & Props;
+export type EdgeDetectionStageProps = PostProcessStageCompositeProps & Props
 
 export const EdgeDetectionStage = createPostProcessStage<Props>({
-  name: "EdgeDetectionStage",
-  props: ["color", "length"],
+  name: 'EdgeDetectionStage',
+  props: ['color', 'length'],
   create: () => PostProcessStageLibrary.createEdgeDetectionStage(),
-});
+})
 
-export default EdgeDetectionStage;
+export default EdgeDetectionStage

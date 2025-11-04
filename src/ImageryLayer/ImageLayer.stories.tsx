@@ -1,16 +1,16 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { ArcGisMapServerImageryProvider, IonImageryProvider } from "cesium";
+import { Meta, StoryObj } from '@storybook/react'
+import { ArcGisMapServerImageryProvider, IonImageryProvider } from 'cesium'
 
-import Viewer from "../Viewer";
+import Viewer from '../Viewer'
 
-import ImageryLayer from "./ImageryLayer";
+import ImageryLayer from './ImageryLayer'
 
-type Story = StoryObj<typeof ImageryLayer>;
+type Story = StoryObj<typeof ImageryLayer>
 
 export default {
-  title: "ImageryLayer",
+  title: 'ImageryLayer',
   component: ImageryLayer,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   render: (args) => (
@@ -18,13 +18,10 @@ export const Basic: Story = {
       <ImageryLayer
         {...args}
         imageryProvider={ArcGisMapServerImageryProvider.fromUrl(
-          "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+          'https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer',
         )}
       />
-      <ImageryLayer
-        alpha={0.5}
-        imageryProvider={IonImageryProvider.fromAssetId(3812, {})}
-      />
+      <ImageryLayer alpha={0.5} imageryProvider={IonImageryProvider.fromAssetId(3812, {})} />
     </Viewer>
   ),
-};
+}

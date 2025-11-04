@@ -1,5 +1,5 @@
-import { Entity as CesiumEntity } from "cesium";
-import { ReactNode } from "react";
+import { Entity as CesiumEntity } from 'cesium'
+import { ReactNode } from 'react'
 
 import {
   createCesiumComponent,
@@ -8,9 +8,9 @@ import {
   Merge,
   EventTarget,
   RootComponentInternalProps,
-} from "../core";
+} from '../core'
 
-export type { EventTarget } from "../core";
+export type { EventTarget } from '../core'
 
 /*
 @summary
@@ -74,103 +74,98 @@ Either:
 export type EntityCesiumProps = PickCesiumProps<
   Merge<CesiumEntity, CesiumEntity.ConstructorOptions>,
   typeof cesiumProps
->;
+>
 
-export type EntityCesiumReadonlyProps = PickCesiumProps<
-  CesiumEntity,
-  typeof cesiumReadonlyProps
->;
+export type EntityCesiumReadonlyProps = PickCesiumProps<CesiumEntity, typeof cesiumReadonlyProps>
 
 export type EntityCesiumEvents = {
-  onDefinitionChange?: () => void;
-};
+  onDefinitionChange?: () => void
+}
 
 export type EntityOtherProps = RootComponentInternalProps &
   EventProps<EventTarget> & {
-    children?: ReactNode;
+    children?: ReactNode
     /** If true, the entity will be selected. It works only inside Viewer not CesiumWidget. */
-    selected?: boolean;
+    selected?: boolean
     /** If true, the entity will be tracked by the camera. It works only inside Viewer not CesiumWidget. */
-    tracked?: boolean;
-  };
+    tracked?: boolean
+  }
 
-export type EntityProps = EntityCesiumProps &
-  EntityCesiumReadonlyProps &
-  EntityCesiumEvents &
-  EntityOtherProps;
+export type EntityProps = EntityCesiumProps & EntityCesiumReadonlyProps & EntityCesiumEvents & EntityOtherProps
 
 const cesiumProps = [
-  "availability",
-  "billboard",
-  "box",
-  "corridor",
-  "cylinder",
-  "description",
-  "ellipse",
-  "ellipsoid",
-  "entityCollection",
-  "label",
-  "model",
-  "name",
-  "orientation",
-  "path",
-  "plane",
-  "parent",
-  "point",
-  "polygon",
-  "polyline",
-  "polylineVolume",
-  "position",
-  "properties",
-  "rectangle",
-  "show",
-  "tileset",
-  "viewFrom",
-  "wall",
-] as const;
+  'availability',
+  'billboard',
+  'box',
+  'corridor',
+  'cylinder',
+  'description',
+  'ellipse',
+  'ellipsoid',
+  'entityCollection',
+  'label',
+  'model',
+  'name',
+  'orientation',
+  'path',
+  'plane',
+  'parent',
+  'point',
+  'polygon',
+  'polyline',
+  'polylineVolume',
+  'position',
+  'properties',
+  'rectangle',
+  'show',
+  'tileset',
+  'trackingReferenceFrame',
+  'viewFrom',
+  'wall',
+] as const
 
-const cesiumReadonlyProps = ["id"] as const;
+const cesiumReadonlyProps = ['id'] as const
 
 export const cesiumEventProps = {
-  onDefinitionChange: "definitionChanged",
-} as const;
+  onDefinitionChange: 'definitionChanged',
+} as const
 
-export const otherProps = ["selected", "tracked"] as const;
+export const otherProps = ['selected', 'tracked'] as const
 
 const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
-  name: "Entity",
+  name: 'Entity',
   create(context, props) {
-    if (!context.entityCollection) return;
-    const element = new CesiumEntity(props);
+    if (!context.entityCollection) return
+    const element = new CesiumEntity(props)
     if (context.viewer && props.selected) {
-      context.viewer.selectedEntity = element;
+      context.viewer.selectedEntity = element
     }
     if (context.viewer && props.tracked) {
-      context.viewer.trackedEntity = element;
+      context.viewer.trackedEntity = element
     }
-    context.entityCollection.add(element);
-    return element;
+    context.entityCollection.add(element)
+    return element
   },
   destroy(element, context) {
     if (context.entityCollection) {
-      context.entityCollection.remove(element);
+      context.entityCollection.remove(element)
     }
   },
   update(element, props, prevProps, context) {
     if (context.viewer) {
       if (props.selected !== prevProps.selected) {
         if (props.selected) {
-          context.viewer.selectedEntity = element;
+          context.viewer.selectedEntity = element
         } else if (context.viewer.selectedEntity === element) {
-          context.viewer.selectedEntity = undefined;
+          context.viewer.selectedEntity = undefined
         }
       }
 
       if (props.tracked !== prevProps.tracked) {
         if (props.tracked) {
-          context.viewer.trackedEntity = element;
+          context.viewer.trackedEntity = element
         } else if (context.viewer.trackedEntity === element) {
-          context.viewer.trackedEntity = undefined;
+          context.viewer.trackedEntity = undefined
         }
       }
     }
@@ -181,13 +176,13 @@ const Entity = createCesiumComponent<CesiumEntity, EntityProps>({
       __$internal: {
         onUpdate: props?.onUpdate,
       },
-    };
+    }
   },
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
   otherProps,
   useCommonEvent: true,
-});
+})
 
-export default Entity;
+export default Entity

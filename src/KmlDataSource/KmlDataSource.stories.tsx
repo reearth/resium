@@ -1,18 +1,18 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
-import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
+import { action } from '@storybook/addon-actions'
+import { Meta, StoryObj } from '@storybook/react'
+import { Color, KmlDataSource as CesiumKmlDataSource } from 'cesium'
 
-import { events } from "../core/storybook";
-import Viewer from "../Viewer";
+import { events } from '../core/storybook'
+import Viewer from '../Viewer'
 
-import KmlDataSource from "./KmlDataSource";
+import KmlDataSource from './KmlDataSource'
 
-type Story = StoryObj<typeof KmlDataSource>;
+type Story = StoryObj<typeof KmlDataSource>
 
 export default {
-  title: "KmlDataSource",
+  title: 'KmlDataSource',
   component: KmlDataSource,
-} as Meta;
+} as Meta
 
 const data = new DOMParser().parseFromString(
   `
@@ -60,31 +60,25 @@ const data = new DOMParser().parseFromString(
 </Document>
 </kml>
 `.trim(),
-  "text/xml",
-);
+  'text/xml',
+)
 
-const onLoadAction = action("onLoad");
+const onLoadAction = action('onLoad')
 
 const onLoad = (k: CesiumKmlDataSource) => {
   // You can process the data source here
-  const p = k.entities.values[4].polygon;
+  const p = k.entities.values[4].polygon
   if (p) {
-    p.material = Color.RED as any;
+    p.material = Color.RED as any
   }
-  onLoadAction(k);
-};
+  onLoadAction(k)
+}
 
 export const Basic: Story = {
   args: { show: true },
   render: (args) => (
     <Viewer full>
-      <KmlDataSource
-        {...args}
-        data={data}
-        onLoad={onLoad}
-        onError={action("onError")}
-        {...events}
-      />
+      <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action('onError')} {...events} />
     </Viewer>
   ),
-};
+}

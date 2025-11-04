@@ -1,15 +1,15 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from '@storybook/react'
 
-import Viewer from "../Viewer";
+import Viewer from '../Viewer'
 
-import SkyAtmosphere from "./SkyAtmosphere";
+import SkyAtmosphere from './SkyAtmosphere'
 
-type Story = StoryObj<typeof SkyAtmosphere>;
+type Story = StoryObj<typeof SkyAtmosphere>
 
 export default {
-  title: "SkyAtmosphere",
+  title: 'SkyAtmosphere',
   component: SkyAtmosphere,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   render: (args) => (
@@ -17,4 +17,4 @@ export const Basic: Story = {
       <SkyAtmosphere {...args} hueShift={1} saturationShift={1} />
     </Viewer>
   ),
-};
+}

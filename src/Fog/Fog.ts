@@ -1,6 +1,6 @@
-import { Fog as CesiumFog } from "cesium";
+import { Fog as CesiumFog } from 'cesium'
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { createCesiumComponent, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -14,33 +14,37 @@ Fog can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/compone
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>;
+export type FogCesiumProps = PickCesiumProps<CesiumFog, typeof cesiumProps>
 
-export type FogProps = FogCesiumProps;
+export type FogProps = FogCesiumProps
 
 const cesiumProps = [
-  "density",
-  "enabled",
-  "minimumBrightness",
-  "screenSpaceErrorFactor",
-  "renderable",
-] as const;
+  'density',
+  'enabled',
+  'heightFalloff',
+  'heightScalar',
+  'maxHeight',
+  'minimumBrightness',
+  'renderable',
+  'screenSpaceErrorFactor',
+  'visualDensityScalar',
+] as const
 
 const Fog = createCesiumComponent<CesiumFog, FogProps>({
-  name: "Fog",
+  name: 'Fog',
   create(context) {
-    if (!context.scene) return;
-    const element = new CesiumFog();
-    context.scene.fog = element;
-    return element;
+    if (!context.scene) return
+    const element = new CesiumFog()
+    context.scene.fog = element
+    return element
   },
   destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.fog = new CesiumFog();
+      context.scene.fog = new CesiumFog()
     }
   },
   cesiumProps,
   setCesiumPropsAfterCreate: true,
-});
+})
 
-export default Fog;
+export default Fog

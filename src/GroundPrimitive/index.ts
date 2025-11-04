@@ -1,1 +1,1 @@
-export { default, type GroundPrimitiveProps } from "./GroundPrimitive";
+export { default, type GroundPrimitiveProps } from './GroundPrimitive'

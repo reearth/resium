@@ -1,15 +1,15 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryObj } from '@storybook/react'
 
-import Viewer from "../Viewer";
+import Viewer from '../Viewer'
 
-import Sun from "./Sun";
+import Sun from './Sun'
 
-type Story = StoryObj<typeof Sun>;
+type Story = StoryObj<typeof Sun>
 
 export default {
-  title: "Sun",
+  title: 'Sun',
   component: Sun,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   args: { glowFactor: 2, show: true },
@@ -18,4 +18,4 @@ export const Basic: Story = {
       <Sun {...args} />
     </Viewer>
   ),
-};
+}

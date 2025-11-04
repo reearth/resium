@@ -1,7 +1,7 @@
-import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from "cesium";
-import { ReactNode } from "react";
+import { ScreenSpaceEventHandler as CesiumScreenSpaceEventHandler } from 'cesium'
+import { ReactNode } from 'react'
 
-import { createCesiumComponent } from "../core";
+import { createCesiumComponent } from '../core'
 
 /*
 @summary
@@ -17,34 +17,29 @@ ScreenSpaceEventHandler components with useDefault prop can not be mounted more 
 
 export type ScreenSpaceEventHandlerProps = {
   /** If true, use the default ScreenSpaceEventHandler of the CesiumWidget instead of creating a new ScreenSpaceEventHandler object. This property cannot be changed after mounting. */
-  useDefault?: boolean;
-  children?: ReactNode;
-};
+  useDefault?: boolean
+  children?: ReactNode
+}
 
-const ScreenSpaceEventHandler = createCesiumComponent<
-  CesiumScreenSpaceEventHandler,
-  ScreenSpaceEventHandlerProps
->({
-  name: "ScreenSpaceEventHandler",
+const ScreenSpaceEventHandler = createCesiumComponent<CesiumScreenSpaceEventHandler, ScreenSpaceEventHandlerProps>({
+  name: 'ScreenSpaceEventHandler',
   create(context, props) {
     return props.useDefault
       ? context.cesiumWidget?.screenSpaceEventHandler
       : context.scene
-        ? new CesiumScreenSpaceEventHandler(
-            context.scene.canvas as HTMLCanvasElement,
-          )
-        : undefined;
+        ? new CesiumScreenSpaceEventHandler(context.scene.canvas as HTMLCanvasElement)
+        : undefined
   },
   destroy(element) {
     if (!element.isDestroyed()) {
-      element.destroy();
+      element.destroy()
     }
   },
   provide(element) {
     return {
       screenSpaceEventHandler: element,
-    };
+    }
   },
-});
+})
 
-export default ScreenSpaceEventHandler;
+export default ScreenSpaceEventHandler

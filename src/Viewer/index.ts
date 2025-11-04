@@ -1,1 +1,1 @@
-export { default, type ViewerProps } from "./Viewer";
+export { default, type ViewerProps } from './Viewer'

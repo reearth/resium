@@ -1,5 +1,5 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
+import { action } from '@storybook/addon-actions'
+import { Meta, StoryObj } from '@storybook/react'
 import {
   Cartesian2,
   Cartesian3,
@@ -10,87 +10,80 @@ import {
   PolylineDashMaterialProperty,
   // Rectangle,
   // Math as CesiumMath,
-} from "cesium";
-import { useState, useEffect, useRef, useMemo, FC, StrictMode } from "react";
+} from 'cesium'
+import { useState, useEffect, useRef, useMemo, FC, StrictMode } from 'react'
 
-import BillboardGraphics from "../BillboardGraphics";
-import BoxGraphics from "../BoxGraphics";
-import { events } from "../core/storybook";
-import CorridorGraphics from "../CorridorGraphics";
-import CylinderGraphics from "../CylinderGraphics";
-import EllipseGraphics from "../EllipseGraphics";
-import EllipsoidGraphics from "../EllipsoidGraphics";
-import EntityDescription from "../EntityDescription";
-import LabelGraphics from "../LabelGraphics";
-import ModelGraphics from "../ModelGraphics";
-import PathGraphics from "../PathGraphics";
-import PlaneGraphics from "../PlaneGraphics";
-import PointGraphics from "../PointGraphics";
-import PolygonGraphics from "../PolygonGraphics";
-import PolylineGraphics from "../PolylineGraphics";
-import Viewer from "../Viewer";
+import BillboardGraphics from '../BillboardGraphics'
+import BoxGraphics from '../BoxGraphics'
+import { events } from '../core/storybook'
+import CorridorGraphics from '../CorridorGraphics'
+import CylinderGraphics from '../CylinderGraphics'
+import EllipseGraphics from '../EllipseGraphics'
+import EllipsoidGraphics from '../EllipsoidGraphics'
+import EntityDescription from '../EntityDescription'
+import LabelGraphics from '../LabelGraphics'
+import ModelGraphics from '../ModelGraphics'
+import PathGraphics from '../PathGraphics'
+import PlaneGraphics from '../PlaneGraphics'
+import PointGraphics from '../PointGraphics'
+import PolygonGraphics from '../PolygonGraphics'
+import PolylineGraphics from '../PolylineGraphics'
+import Viewer from '../Viewer'
 
-import Entity, { EntityProps } from "./Entity";
+import Entity, { EntityProps } from './Entity'
 // import PolylineVolumeGraphics from "../PolylineVolumeGraphics";
 // import RectangleGraphics from "../RectangleGraphics";
 // import WallGraphics from "../WallGraphics";
 
-type Story = StoryObj<typeof Entity>;
+type Story = StoryObj<typeof Entity>
 
 export default {
-  title: "Entity",
+  title: 'Entity',
   component: Entity,
-} as Meta;
+} as Meta
 
 const initCanvas = () => {
-  const can = document.createElement("canvas");
-  can.width = 100;
-  can.height = 100;
-  return can;
-};
+  const can = document.createElement('canvas')
+  can.width = 100
+  can.height = 100
+  return can
+}
 
 const renderCanvas = (can: HTMLCanvasElement, p: number) => {
-  const c = can.getContext("2d");
-  if (!c) return;
-  c.clearRect(0, 0, can.width, can.height);
-  c.fillStyle = "rgba(100,0,0,0.8)";
-  c.beginPath();
-  c.arc(
-    can.width / 2,
-    can.height / 2,
-    (p * can.width) / 2,
-    0,
-    Math.PI * 2,
-    false,
-  );
-  c.fill();
-};
+  const c = can.getContext('2d')
+  if (!c) return
+  c.clearRect(0, 0, can.width, can.height)
+  c.fillStyle = 'rgba(100,0,0,0.8)'
+  c.beginPath()
+  c.arc(can.width / 2, can.height / 2, (p * can.width) / 2, 0, Math.PI * 2, false)
+  c.fill()
+}
 
 const CanvasEntity: FC<EntityProps> = (props) => {
-  const c1 = useMemo<HTMLCanvasElement>(initCanvas, []);
-  const c2 = useMemo<HTMLCanvasElement>(initCanvas, []);
-  const [image, setImage] = useState<HTMLCanvasElement>();
-  const progress = useRef(0);
+  const c1 = useMemo<HTMLCanvasElement>(initCanvas, [])
+  const c2 = useMemo<HTMLCanvasElement>(initCanvas, [])
+  const [image, setImage] = useState<HTMLCanvasElement>()
+  const progress = useRef(0)
 
   useEffect(() => {
     const i = window.setInterval(() => {
-      progress.current = Math.min(progress.current + 0.01, 1);
+      progress.current = Math.min(progress.current + 0.01, 1)
       setImage((image) => {
-        const canvas = image === c1 ? c2 : c1;
+        const canvas = image === c1 ? c2 : c1
         if (canvas) {
-          renderCanvas(canvas, progress.current);
+          renderCanvas(canvas, progress.current)
         }
-        return canvas;
-      });
+        return canvas
+      })
       if (progress.current >= 1) {
-        clearInterval(i);
+        clearInterval(i)
       }
-    }, 10);
-    return () => window.clearInterval(i);
-  }, [c1, c2]);
+    }, 10)
+    return () => window.clearInterval(i)
+  }, [c1, c2])
 
-  return <Entity {...props} billboard={{ image }} />;
-};
+  return <Entity {...props} billboard={{ image }} />
+}
 
 export const Basic: Story = {
   render: (args) => (
@@ -104,12 +97,12 @@ export const Basic: Story = {
       />
     </Viewer>
   ),
-};
+}
 
 export const Description: Story = {
   render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [count, setCount] = useState(0);
+    const [count, setCount] = useState(0)
     return (
       <Viewer full>
         <Entity
@@ -138,15 +131,13 @@ export const Description: Story = {
           <EntityDescription>
             <h1>Hello!</h1>
             <p>This is description. It can be described with React!</p>
-            <button onClick={() => setCount((i) => i + 1)}>
-              counter: {count}
-            </button>
+            <button onClick={() => setCount((i) => i + 1)}>counter: {count}</button>
           </EntityDescription>
         </Entity>
       </Viewer>
-    );
+    )
   },
-};
+}
 
 export const SelectedAndTracked: Story = {
   render: (args) => (
@@ -162,19 +153,15 @@ export const SelectedAndTracked: Story = {
       />
     </Viewer>
   ),
-};
+}
 
 export const AnimatedCanvas: Story = {
   render: () => (
     <Viewer full>
-      <CanvasEntity
-        name="test"
-        description="test"
-        position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
-      />
+      <CanvasEntity name="test" description="test" position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)} />
     </Viewer>
   ),
-};
+}
 
 export const Events: Story = {
   render: (args) => (
@@ -189,11 +176,11 @@ export const Events: Story = {
       />
     </Viewer>
   ),
-};
+}
 
 export const Graphics: Story = {
   render: (args) => (
-    <Viewer full onMouseEnter={action("mouseenter")}>
+    <Viewer full onMouseEnter={action('mouseenter')}>
       <Entity
         {...args}
         name="BillboardGraphics"
@@ -209,10 +196,7 @@ export const Graphics: Story = {
         description="BoxGraphics!!"
         position={Cartesian3.fromDegrees(0.0707383, 40.7117244, 100)}
       >
-        <BoxGraphics
-          material={Color.RED}
-          dimensions={new Cartesian3(400000.0, 300000.0, 500000.0)}
-        />
+        <BoxGraphics material={Color.RED} dimensions={new Cartesian3(400000.0, 300000.0, 500000.0)} />
       </Entity>
       <Entity
         {...args}
@@ -222,11 +206,7 @@ export const Graphics: Story = {
       >
         <CorridorGraphics
           material={Color.YELLOW}
-          positions={
-            Cartesian3.fromDegreesArray([
-              -100.0, 40.0, -105.0, 40.0, -105.0, 35.0,
-            ]) as any
-          } // WORKAROUND
+          positions={Cartesian3.fromDegreesArray([-100.0, 40.0, -105.0, 40.0, -105.0, 35.0]) as any} // WORKAROUND
           height={200000.0}
           extrudedHeight={100000.0}
           width={200000.0}
@@ -300,11 +280,7 @@ export const Graphics: Story = {
         description="ModelGraphics!!"
         position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
       >
-        <ModelGraphics
-          uri="Cesium_Air.glb"
-          minimumPixelSize={128}
-          maximumScale={20000}
-        />
+        <ModelGraphics uri="Cesium_Air.glb" minimumPixelSize={128} maximumScale={20000} />
       </Entity>
       <Entity
         {...args}
@@ -312,13 +288,7 @@ export const Graphics: Story = {
         description="PathGraphics!!"
         position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
       >
-        <PathGraphics
-          material={Color.RED}
-          width={8}
-          leadTime={10}
-          trailTime={1000}
-          resolution={5}
-        />
+        <PathGraphics material={Color.RED} width={8} leadTime={10} trailTime={1000} resolution={5} />
       </Entity>
       <Entity
         {...args}
@@ -344,11 +314,7 @@ export const Graphics: Story = {
       </Entity>
       <Entity {...args} name="PolygonGraphics" description="PolygonGraphics!!">
         <PolygonGraphics
-          hierarchy={
-            Cartesian3.fromDegreesArray([
-              -108.0, 42.0, -100.0, 42.0, -104.0, 40.0,
-            ]) as any
-          } // WORKAROUND
+          hierarchy={Cartesian3.fromDegreesArray([-108.0, 42.0, -100.0, 42.0, -104.0, 40.0]) as any} // WORKAROUND
           material={Color.GREEN}
         />
       </Entity>
@@ -359,9 +325,7 @@ export const Graphics: Story = {
         position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
       >
         <PolylineGraphics
-          positions={Cartesian3.fromDegreesArrayHeights([
-            -75, 45, 500000, -125, 45, 500000,
-          ])}
+          positions={Cartesian3.fromDegreesArrayHeights([-75, 45, 500000, -125, 45, 500000])}
           width={4}
           material={
             new PolylineDashMaterialProperty({
@@ -427,12 +391,12 @@ export const Graphics: Story = {
     </Entity> */}
     </Viewer>
   ),
-};
+}
 
 export const Strict: Story = {
   render: (args) => (
     <StrictMode>
-      <Viewer full onMouseEnter={action("mouseenter")}>
+      <Viewer full onMouseEnter={action('mouseenter')}>
         <Entity
           {...args}
           name="BillboardGraphics"
@@ -448,10 +412,7 @@ export const Strict: Story = {
           description="BoxGraphics!!"
           position={Cartesian3.fromDegrees(0.0707383, 40.7117244, 100)}
         >
-          <BoxGraphics
-            material={Color.RED}
-            dimensions={new Cartesian3(400000.0, 300000.0, 500000.0)}
-          />
+          <BoxGraphics material={Color.RED} dimensions={new Cartesian3(400000.0, 300000.0, 500000.0)} />
         </Entity>
         <Entity
           {...args}
@@ -461,11 +422,7 @@ export const Strict: Story = {
         >
           <CorridorGraphics
             material={Color.YELLOW}
-            positions={
-              Cartesian3.fromDegreesArray([
-                -100.0, 40.0, -105.0, 40.0, -105.0, 35.0,
-              ]) as any
-            } // WORKAROUND
+            positions={Cartesian3.fromDegreesArray([-100.0, 40.0, -105.0, 40.0, -105.0, 35.0]) as any} // WORKAROUND
             height={200000.0}
             extrudedHeight={100000.0}
             width={200000.0}
@@ -539,11 +496,7 @@ export const Strict: Story = {
           description="ModelGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
         >
-          <ModelGraphics
-            uri="Cesium_Air.glb"
-            minimumPixelSize={128}
-            maximumScale={20000}
-          />
+          <ModelGraphics uri="Cesium_Air.glb" minimumPixelSize={128} maximumScale={20000} />
         </Entity>
         <Entity
           {...args}
@@ -551,13 +504,7 @@ export const Strict: Story = {
           description="PathGraphics!!"
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
         >
-          <PathGraphics
-            material={Color.RED}
-            width={8}
-            leadTime={10}
-            trailTime={1000}
-            resolution={5}
-          />
+          <PathGraphics material={Color.RED} width={8} leadTime={10} trailTime={1000} resolution={5} />
         </Entity>
         <Entity
           {...args}
@@ -581,17 +528,9 @@ export const Strict: Story = {
         >
           <PointGraphics color={Color.BISQUE} pixelSize={10} />
         </Entity>
-        <Entity
-          {...args}
-          name="PolygonGraphics"
-          description="PolygonGraphics!!"
-        >
+        <Entity {...args} name="PolygonGraphics" description="PolygonGraphics!!">
           <PolygonGraphics
-            hierarchy={
-              Cartesian3.fromDegreesArray([
-                -108.0, 42.0, -100.0, 42.0, -104.0, 40.0,
-              ]) as any
-            } // WORKAROUND
+            hierarchy={Cartesian3.fromDegreesArray([-108.0, 42.0, -100.0, 42.0, -104.0, 40.0]) as any} // WORKAROUND
             material={Color.GREEN}
           />
         </Entity>
@@ -602,9 +541,7 @@ export const Strict: Story = {
           position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)}
         >
           <PolylineGraphics
-            positions={Cartesian3.fromDegreesArrayHeights([
-              -75, 45, 500000, -125, 45, 500000,
-            ])}
+            positions={Cartesian3.fromDegreesArrayHeights([-75, 45, 500000, -125, 45, 500000])}
             width={4}
             material={
               new PolylineDashMaterialProperty({
@@ -671,4 +608,4 @@ export const Strict: Story = {
       </Viewer>
     </StrictMode>
   ),
-};
+}
