@@ -1,6 +1,6 @@
-import { Camera as CesiumCamera } from "cesium";
+import { Camera as CesiumCamera } from 'cesium'
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { createCesiumComponent, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -41,46 +41,43 @@ Camera can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/comp
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type CameraCesiumProps = PickCesiumProps<
-  CesiumCamera,
-  typeof cesiumProps
->;
+export type CameraCesiumProps = PickCesiumProps<CesiumCamera, typeof cesiumProps>
 
 export type CameraCesiumEvents = {
-  onChange?: (areaPercentage: number) => void;
-  onMoveEnd?: () => void;
-  onMoveStart?: () => void;
-};
+  onChange?: (areaPercentage: number) => void
+  onMoveEnd?: () => void
+  onMoveStart?: () => void
+}
 
-export type CameraProps = CameraCesiumProps & CameraCesiumEvents;
+export type CameraProps = CameraCesiumProps & CameraCesiumEvents
 
 const cesiumProps = [
-  "position",
-  "direction",
-  "up",
-  "right",
-  "frustum",
-  "defaultMoveAmount",
-  "defaultLookAmount",
-  "defaultRotateAmount",
-  "defaultZoomAmount",
-  "constrainedAxis",
-  "maximumZoomFactor",
-  "percentageChanged",
-] as const;
+  'position',
+  'direction',
+  'up',
+  'right',
+  'frustum',
+  'defaultMoveAmount',
+  'defaultLookAmount',
+  'defaultRotateAmount',
+  'defaultZoomAmount',
+  'constrainedAxis',
+  'maximumZoomFactor',
+  'percentageChanged',
+] as const
 
 export const cesiumEventProps = {
-  onChange: "changed",
-  onMoveEnd: "moveEnd",
-  onMoveStart: "moveStart",
-} as const;
+  onChange: 'changed',
+  onMoveEnd: 'moveEnd',
+  onMoveStart: 'moveStart',
+} as const
 
 const Camera = createCesiumComponent<CesiumCamera, CameraProps>({
-  name: "Camera",
+  name: 'Camera',
   create: (context) => context.scene?.camera,
   cesiumProps,
   cesiumEventProps,
   setCesiumPropsAfterCreate: true,
-});
+})
 
-export default Camera;
+export default Camera

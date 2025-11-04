@@ -1,53 +1,37 @@
-import { action } from "@storybook/addon-actions";
-import { Meta, StoryObj } from "@storybook/react";
-import {
-  Cartesian3,
-  KeyboardEventModifier,
-  ScreenSpaceEventType,
-} from "cesium";
+import { action } from '@storybook/addon-actions'
+import { Meta, StoryObj } from '@storybook/react'
+import { Cartesian3, KeyboardEventModifier, ScreenSpaceEventType } from 'cesium'
 
-import Entity from "../Entity";
-import ScreenSpaceEvent from "../ScreenSpaceEvent";
-import Viewer from "../Viewer";
+import Entity from '../Entity'
+import ScreenSpaceEvent from '../ScreenSpaceEvent'
+import Viewer from '../Viewer'
 
-import ScreenSpaceEventHandler from "./ScreenSpaceEventHandler";
+import ScreenSpaceEventHandler from './ScreenSpaceEventHandler'
 
-type Story = StoryObj<typeof ScreenSpaceEventHandler>;
+type Story = StoryObj<typeof ScreenSpaceEventHandler>
 
 export default {
-  title: "ScreenSpaceEventHandler",
+  title: 'ScreenSpaceEventHandler',
   component: ScreenSpaceEventHandler,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   render: (args) => (
     <Viewer full>
       <ScreenSpaceEventHandler {...args}>
+        <ScreenSpaceEvent action={action('Left Click')} type={ScreenSpaceEventType.LEFT_CLICK} />
+        <ScreenSpaceEvent action={action('Right Click')} type={ScreenSpaceEventType.RIGHT_CLICK} />
+        <ScreenSpaceEvent action={action('Left Double Click')} type={ScreenSpaceEventType.LEFT_DOUBLE_CLICK} />
         <ScreenSpaceEvent
-          action={action("Left Click")}
-          type={ScreenSpaceEventType.LEFT_CLICK}
-        />
-        <ScreenSpaceEvent
-          action={action("Right Click")}
-          type={ScreenSpaceEventType.RIGHT_CLICK}
-        />
-        <ScreenSpaceEvent
-          action={action("Left Double Click")}
-          type={ScreenSpaceEventType.LEFT_DOUBLE_CLICK}
-        />
-        <ScreenSpaceEvent
-          action={action("Shift + Right Click")}
+          action={action('Shift + Right Click')}
           type={ScreenSpaceEventType.RIGHT_CLICK}
           modifier={KeyboardEventModifier.SHIFT}
         />
-        <ScreenSpaceEvent
-          action={action("Mouse moved")}
-          type={ScreenSpaceEventType.MOUSE_MOVE}
-        />
+        <ScreenSpaceEvent action={action('Mouse moved')} type={ScreenSpaceEventType.MOUSE_MOVE} />
       </ScreenSpaceEventHandler>
     </Viewer>
   ),
-};
+}
 
 export const DisableClick: Story = {
   render: (args) => (
@@ -63,6 +47,6 @@ export const DisableClick: Story = {
       />
     </Viewer>
   ),
-};
+}
 
-DisableClick.name = "Disable click";
+DisableClick.name = 'Disable click'

@@ -1,15 +1,8 @@
-import { KmlDataSource as CesiumKmlDataSource } from "cesium";
+import { KmlDataSource as CesiumKmlDataSource } from 'cesium'
 
-import {
-  createCesiumComponent,
-  PickCesiumProps,
-  Merge,
-  MethodOptions2,
-  EventProps,
-  EventTarget,
-} from "../core";
+import { createCesiumComponent, PickCesiumProps, Merge, MethodOptions2, EventProps, EventTarget } from '../core'
 
-export type { EventTarget } from "../core";
+export type { EventTarget } from '../core'
 
 /*
 @summary
@@ -24,109 +17,93 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 
 export type Target = Merge<
   Merge<CesiumKmlDataSource, CesiumKmlDataSource.LoadOptions>,
-  MethodOptions2<typeof CesiumKmlDataSource, "load">
->;
+  MethodOptions2<typeof CesiumKmlDataSource, 'load'>
+>
 
-export type KmlDataSourceCesiumProps = PickCesiumProps<
-  CesiumKmlDataSource,
-  typeof cesiumProps
->;
+export type KmlDataSourceCesiumProps = PickCesiumProps<CesiumKmlDataSource, typeof cesiumProps>
 
-export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
->;
+export type KmlDataSourceCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>
 
 export type KmlDataSourceCesiumEvents = {
-  onChange?: (kmlDataSource: CesiumKmlDataSource) => void;
-  onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void;
-  onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void;
-  onRefresh?: (
-    kmlDataSource: CesiumKmlDataSource,
-    urlComponent: string,
-  ) => void;
-  onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
-};
+  onChange?: (kmlDataSource: CesiumKmlDataSource) => void
+  onError?: (kmlDataSource: CesiumKmlDataSource, error: any) => void
+  onLoading?: (kmlDataSource: CesiumKmlDataSource, isLoaded: boolean) => void
+  onRefresh?: (kmlDataSource: CesiumKmlDataSource, urlComponent: string) => void
+  onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void
+}
 
 export type KmlDataSourceOtherProps = EventProps<EventTarget> & {
   /** Calls when the Promise for loading data is fullfilled. */
-  onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
-  data?: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
-};
+  onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void
+  data?: Parameters<InstanceType<typeof CesiumKmlDataSource>['load']>[0]
+}
 
 export type KmlDataSourceProps = KmlDataSourceCesiumProps &
   KmlDataSourceCesiumReadonlyProps &
   KmlDataSourceCesiumEvents &
-  KmlDataSourceOtherProps;
+  KmlDataSourceOtherProps
 
-const cesiumProps = ["clustering", "name", "show"] as const;
+const cesiumProps = ['clustering', 'name', 'show'] as const
 
 const cesiumReadonlyProps = [
-  "canvas",
-  "camera",
-  "ellipsoid",
-  "clampToGround",
-  "sourceUri",
-  "credit",
-  "screenOverlayContainer",
-] as const;
+  'canvas',
+  'camera',
+  'ellipsoid',
+  'clampToGround',
+  'sourceUri',
+  'credit',
+  'screenOverlayContainer',
+] as const
 
 export const cesiumEventProps = {
-  onChange: "changedEvent",
-  onError: "errorEvent",
-  onLoading: "loadingEvent",
-  onRefresh: "refreshEvent",
-  onUnsupportedNode: "unsupportedNodeEvent",
-} as const;
+  onChange: 'changedEvent',
+  onError: 'errorEvent',
+  onLoading: 'loadingEvent',
+  onRefresh: 'refreshEvent',
+  onUnsupportedNode: 'unsupportedNodeEvent',
+} as const
 
-export const otherProps = ["onLoad", "data"] as const;
+export const otherProps = ['onLoad', 'data'] as const
 
-const load = (
-  element: CesiumKmlDataSource,
-  { data, onLoad, ...options }: KmlDataSourceProps,
-) => {
-  if (!data) return;
+const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
+  if (!data) return
   element.load(data, options).then((value) => {
     if (onLoad) {
-      onLoad(value);
+      onLoad(value)
     }
-  });
-};
+  })
+}
 
-const KmlDataSource = createCesiumComponent<
-  CesiumKmlDataSource,
-  KmlDataSourceProps
->({
-  name: "KmlDataSource",
+const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourceProps>({
+  name: 'KmlDataSource',
   create(context, props) {
-    if (!context.scene || !context.dataSourceCollection || !context.scene)
-      return;
+    if (!context.scene || !context.dataSourceCollection || !context.scene) return
     const element = new CesiumKmlDataSource({
       camera: props.camera || context.scene.camera,
       canvas: props.canvas || context.scene.canvas,
       ellipsoid: props.ellipsoid,
       credit: props.credit,
-    });
+    })
     if (props.clustering) {
-      element.clustering = props.clustering;
+      element.clustering = props.clustering
     }
-    if (typeof props.show === "boolean") {
-      element.show = props.show;
+    if (typeof props.show === 'boolean') {
+      element.show = props.show
     }
-    if (typeof props.name !== "undefined") {
-      element.name = props.name;
+    if (typeof props.name !== 'undefined') {
+      element.name = props.name
     }
-    context.dataSourceCollection.add(element);
+    context.dataSourceCollection.add(element)
     if (props.data) {
-      load(element, props);
+      load(element, props)
     }
-    return element;
+    return element
   },
   update(element, props, prevProps) {
     if (!props.data) {
-      element.show = false;
+      element.show = false
     } else if (prevProps.show !== props.show) {
-      element.show = typeof props.show === "boolean" ? props.show : true;
+      element.show = typeof props.show === 'boolean' ? props.show : true
     }
     if (
       props.data &&
@@ -136,27 +113,24 @@ const KmlDataSource = createCesiumComponent<
         prevProps.sourceUri !== props.sourceUri ||
         prevProps.credit !== props.credit)
     ) {
-      load(element, props);
+      load(element, props)
     }
   },
   destroy(element, context) {
-    if (
-      context.dataSourceCollection &&
-      !context.dataSourceCollection.isDestroyed()
-    ) {
-      context.dataSourceCollection.remove(element);
+    if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
+      context.dataSourceCollection.remove(element)
     }
   },
   provide(element) {
     return {
       dataSource: element,
-    };
+    }
   },
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
   otherProps,
   useCommonEvent: true,
-});
+})
 
-export default KmlDataSource;
+export default KmlDataSource

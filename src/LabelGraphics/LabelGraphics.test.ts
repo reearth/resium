@@ -1,10 +1,10 @@
-import { LabelGraphics } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
-import { it } from "vitest";
+import { LabelGraphics } from 'cesium'
+import { expectType, TypeEqual } from 'ts-expect'
+import { it } from 'vitest'
 
-import { UnusedCesiumProps, Merge } from "../core";
+import { UnusedCesiumProps, Merge } from '../core'
 
-import { LabelGraphicsProps, cesiumEventProps } from "./LabelGraphics";
+import { LabelGraphicsProps, cesiumEventProps } from './LabelGraphics'
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -12,9 +12,9 @@ type UnusedProps = UnusedCesiumProps<
   LabelGraphicsProps,
   typeof cesiumEventProps,
   IgnoredProps
->;
-type IgnoredProps = never;
+>
+type IgnoredProps = never
 
-expectType<TypeEqual<never, UnusedProps>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true)
 
-it("should be compiled", () => {});
+it('should be compiled', () => {})

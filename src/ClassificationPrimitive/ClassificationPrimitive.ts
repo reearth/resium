@@ -1,12 +1,6 @@
-import { ClassificationPrimitive as CesiumClassificationPrimitive } from "cesium";
+import { ClassificationPrimitive as CesiumClassificationPrimitive } from 'cesium'
 
-import {
-  ConstructorOptions,
-  createCesiumComponent,
-  EventProps,
-  Merge,
-  PickCesiumProps,
-} from "../core";
+import { ConstructorOptions, createCesiumComponent, EventProps, Merge, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -23,87 +17,66 @@ If this component is inside GroundPrimitiveCollection component, a classificatio
 Otherwise, a classification primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type Target = Merge<
-  CesiumClassificationPrimitive,
-  ConstructorOptions<typeof CesiumClassificationPrimitive>
->;
+export type Target = Merge<CesiumClassificationPrimitive, ConstructorOptions<typeof CesiumClassificationPrimitive>>
 
-export type ClassificationPrimitiveCesiumProps = PickCesiumProps<
-  Target,
-  typeof cesiumProps
->;
+export type ClassificationPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
 
-export type ClassificationPrimitiveCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
->;
+export type ClassificationPrimitiveCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>
 
-export type ClassificationPrimitiveOtherProps =
-  EventProps<CesiumClassificationPrimitive> & {
-    // ClassificationPrimitive
-    /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/ClassificationPrimitive.html#readyPromise) is fullfilled */
-    onReady?: (primitive: CesiumClassificationPrimitive) => void;
-  };
+export type ClassificationPrimitiveOtherProps = EventProps<CesiumClassificationPrimitive> & {
+  // ClassificationPrimitive
+  /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/ClassificationPrimitive.html#readyPromise) is fullfilled */
+  onReady?: (primitive: CesiumClassificationPrimitive) => void
+}
 
 export type ClassificationPrimitiveProps = ClassificationPrimitiveCesiumProps &
   ClassificationPrimitiveCesiumReadonlyProps &
-  ClassificationPrimitiveOtherProps;
+  ClassificationPrimitiveOtherProps
 
-const cesiumProps = [
-  "classificationType",
-  "debugShowBoundingVolume",
-  "debugShowShadowVolume",
-  "show",
-] as const;
+const cesiumProps = ['classificationType', 'debugShowBoundingVolume', 'debugShowShadowVolume', 'show'] as const
 
 const cesiumReadonlyProps = [
-  "allowPicking",
-  "asynchronous",
-  "compressVertices",
-  "geometryInstances",
-  "interleave",
-  "releaseGeometryInstances",
-  "vertexCacheOptimize",
-  "appearance",
-] as const;
+  'allowPicking',
+  'asynchronous',
+  'compressVertices',
+  'geometryInstances',
+  'interleave',
+  'releaseGeometryInstances',
+  'vertexCacheOptimize',
+  'appearance',
+] as const
 
-export const otherProps = ["onReady"] as const;
+export const otherProps = ['onReady'] as const
 
-const ClassificationPrimitive = createCesiumComponent<
-  CesiumClassificationPrimitive,
-  ClassificationPrimitiveProps
->({
-  name: "ClassificationPrimitive",
+const ClassificationPrimitive = createCesiumComponent<CesiumClassificationPrimitive, ClassificationPrimitiveProps>({
+  name: 'ClassificationPrimitive',
   async create(context, props) {
-    if (!context.primitiveCollection) return;
-    const element = new CesiumClassificationPrimitive(props);
+    if (!context.primitiveCollection) return
+    const element = new CesiumClassificationPrimitive(props)
     if (props.onReady) {
       const handlePostRender = () => {
         if (element.ready) {
-          props.onReady?.(element);
-          context.scene?.postRender.removeEventListener(handlePostRender);
+          props.onReady?.(element)
+          context.scene?.postRender.removeEventListener(handlePostRender)
         }
-      };
-      context.scene?.postRender.addEventListener(handlePostRender);
+      }
+      context.scene?.postRender.addEventListener(handlePostRender)
     }
-    context.primitiveCollection.add(element);
-    return element;
+    context.primitiveCollection.add(element)
+    return element
   },
   destroy(element, context) {
-    if (
-      context.primitiveCollection &&
-      !context.primitiveCollection.isDestroyed()
-    ) {
-      context.primitiveCollection.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element)
     }
     if (!element.isDestroyed()) {
-      element.destroy();
+      element.destroy()
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
   otherProps,
   useCommonEvent: true,
-});
+})
 
-export default ClassificationPrimitive;
+export default ClassificationPrimitive

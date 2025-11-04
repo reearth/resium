@@ -1,13 +1,9 @@
-import { expectType, TypeEqual } from "ts-expect";
-import { it } from "vitest";
+import { expectType, TypeEqual } from 'ts-expect'
+import { it } from 'vitest'
 
-import { UnusedCesiumProps } from "../core";
+import { UnusedCesiumProps } from '../core'
 
-import {
-  GroundPolylinePrimitiveOtherProps,
-  GroundPolylinePrimitiveProps,
-  Target,
-} from "./GroundPolylinePrimitive";
+import { GroundPolylinePrimitiveOtherProps, GroundPolylinePrimitiveProps, Target } from './GroundPolylinePrimitive'
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -15,9 +11,9 @@ type UnusedProps = UnusedCesiumProps<
   Omit<GroundPolylinePrimitiveProps, keyof GroundPolylinePrimitiveOtherProps>,
   {},
   IgnoredProps
->;
-type IgnoredProps = "onReady";
+>
+type IgnoredProps = 'onReady'
 
-expectType<TypeEqual<never, UnusedProps>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true)
 
-it("should be compiled", () => {});
+it('should be compiled', () => {})

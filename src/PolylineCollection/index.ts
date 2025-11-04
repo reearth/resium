@@ -1,1 +1,1 @@
-export { default, type PolylineCollectionProps } from "./PolylineCollection";
+export { default, type PolylineCollectionProps } from './PolylineCollection'

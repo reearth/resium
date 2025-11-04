@@ -1,1 +1,1 @@
-export { default, type SunProps } from "./Sun";
+export { default, type SunProps } from './Sun'

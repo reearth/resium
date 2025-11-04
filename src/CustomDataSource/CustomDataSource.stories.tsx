@@ -1,18 +1,18 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Cartesian3, Color, EntityCluster } from "cesium";
+import { Meta, StoryObj } from '@storybook/react'
+import { Cartesian3, Color, EntityCluster } from 'cesium'
 
-import { events } from "../core/storybook";
-import Entity from "../Entity";
-import Viewer from "../Viewer";
+import { events } from '../core/storybook'
+import Entity from '../Entity'
+import Viewer from '../Viewer'
 
-import CustomDataSource from "./CustomDataSource";
+import CustomDataSource from './CustomDataSource'
 
-type Story = StoryObj<typeof CustomDataSource>;
+type Story = StoryObj<typeof CustomDataSource>
 
 export default {
-  title: "CustomDataSource",
+  title: 'CustomDataSource',
   component: CustomDataSource,
-} as Meta;
+} as Meta
 
 export const Basic: Story = {
   render: (args) => (
@@ -41,10 +41,10 @@ export const Basic: Story = {
       />
     </Viewer>
   ),
-};
+}
 
 export const UseEntityCluster: Story = {
-  name: "Entity cluster",
+  name: 'Entity cluster',
   render: (args) => (
     <Viewer full>
       <CustomDataSource
@@ -62,15 +62,11 @@ export const UseEntityCluster: Story = {
         {new Array(100).fill(0).map((_, i) => (
           <Entity
             key={i}
-            position={Cartesian3.fromDegrees(
-              Math.random() * 180 - 90,
-              Math.random() * 360 - 180,
-              100,
-            )}
+            position={Cartesian3.fromDegrees(Math.random() * 180 - 90, Math.random() * 360 - 180, 100)}
             point={{ pixelSize: 10, color: Color.RED }}
           />
         ))}
       </CustomDataSource>
     </Viewer>
   ),
-};
+}

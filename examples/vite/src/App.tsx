@@ -1,5 +1,5 @@
-import { Cartesian3, Color } from "cesium";
-import { Viewer, Entity } from "resium";
+import { Cartesian3, Color } from 'cesium'
+import { Viewer, Entity } from 'resium'
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         description="hoge"
       />
     </Viewer>
-  );
+  )
 }
 
-export default App;
+export default App

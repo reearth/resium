@@ -1,26 +1,21 @@
-import { Meta, StoryObj } from "@storybook/react";
-import { Viewer as CesiumViewer } from "cesium";
-import { useRef } from "react";
+import { Meta, StoryObj } from '@storybook/react'
+import { Viewer as CesiumViewer } from 'cesium'
+import { useRef } from 'react'
 
-import { CesiumComponentRef } from "..";
-import Cesium3DTileset from "../Cesium3DTileset";
-import Viewer from "../Viewer";
+import { CesiumComponentRef } from '..'
+import Cesium3DTileset from '../Cesium3DTileset'
+import Viewer from '../Viewer'
 
-import { Fxaa as ResiumFxaa } from "./Fxaa";
+import { Fxaa as ResiumFxaa } from './Fxaa'
 
-import {
-  PostProcessStage,
-  LensFlareStage,
-  NightVisionStage,
-  BlackAndWhiteStage,
-} from ".";
+import { PostProcessStage, LensFlareStage, NightVisionStage, BlackAndWhiteStage } from '.'
 
-type Story = StoryObj<typeof PostProcessStage>;
+type Story = StoryObj<typeof PostProcessStage>
 
 export default {
-  title: "PostProcessStage",
+  title: 'PostProcessStage',
   component: PostProcessStage,
-} as Meta;
+} as Meta
 
 const shader = `
 uniform sampler2D colorTexture;
@@ -41,7 +36,7 @@ void main(void)
     averageValue /= float(KERNEL_WIDTH * KERNEL_WIDTH);
     out_FragColor = vec4(averageValue, 1.0);
 }
-`;
+`
 
 export const Mosaic: Story = {
   args: {
@@ -52,11 +47,11 @@ export const Mosaic: Story = {
       <PostProcessStage {...args} fragmentShader={shader} />
     </Viewer>
   ),
-};
+}
 
 Mosaic.args = {
   enabled: true,
-};
+}
 
 export const BlackAndWhite: Story = {
   args: {
@@ -67,7 +62,7 @@ export const BlackAndWhite: Story = {
       <BlackAndWhiteStage {...args} />
     </Viewer>
   ),
-};
+}
 
 export const LensFlare: StoryObj<typeof LensFlareStage> = {
   args: {
@@ -79,7 +74,7 @@ export const LensFlare: StoryObj<typeof LensFlareStage> = {
       <LensFlareStage {...args} />
     </Viewer>
   ),
-};
+}
 
 export const NightVison: Story = {
   args: {
@@ -90,7 +85,7 @@ export const NightVison: Story = {
       <NightVisionStage {...args} />
     </Viewer>
   ),
-};
+}
 
 export const Fxaa: Story = {
   args: {
@@ -98,17 +93,17 @@ export const Fxaa: Story = {
   },
   render: (args) => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+    const ref = useRef<CesiumComponentRef<CesiumViewer>>(null)
     return (
       <Viewer full ref={ref}>
         <Cesium3DTileset
           url="./tileset/tileset.json"
           onReady={(tileset) => {
-            ref.current?.cesiumElement?.zoomTo(tileset);
+            ref.current?.cesiumElement?.zoomTo(tileset)
           }}
         />
         <ResiumFxaa {...args} />
       </Viewer>
-    );
+    )
   },
-};
+}

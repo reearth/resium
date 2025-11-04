@@ -1,153 +1,130 @@
-import {
-  Model as CesiumModel,
-  Primitive,
-  ModelNode,
-  ColorBlendMode,
-  Resource,
-} from "cesium";
+import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode, Resource } from 'cesium'
 
-import {
-  createCesiumComponent,
-  EventProps,
-  PickCesiumProps,
-  Merge,
-  isPromise,
-} from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps, Merge, isPromise } from '../core'
 
-export type Target = Merge<
-  CesiumModel,
-  Parameters<(typeof CesiumModel)["fromGltfAsync"]>[0]
->;
+export type Target = Merge<CesiumModel, Parameters<(typeof CesiumModel)['fromGltfAsync']>[0]>
 
-export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>;
+export type ModelCesiumProps = PickCesiumProps<CesiumModel, typeof cesiumProps>
 
-export type ModelCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
->;
+export type ModelCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>
 
 export type ModelOtherProps = EventProps<{
-  id?: string;
-  node: ModelNode;
-  primitive: Primitive;
+  id?: string
+  node: ModelNode
+  primitive: Primitive
 }> & {
   /** Calls when the model is completely loaded. */
-  onReady?: (model: CesiumModel) => void;
-  onError?: (err: unknown) => void;
-  url: string | Resource | Promise<Resource>;
-};
+  onReady?: (model: CesiumModel) => void
+  onError?: (err: unknown) => void
+  url: string | Resource | Promise<Resource>
+}
 
-export type ModelProps = ModelCesiumProps &
-  ModelCesiumReadonlyProps &
-  ModelOtherProps;
+export type ModelProps = ModelCesiumProps & ModelCesiumReadonlyProps & ModelOtherProps
 
 const cesiumProps = [
-  "backFaceCulling",
-  "clampAnimations",
-  "clippingPlanes",
-  "clippingPolygons",
-  "color",
-  "colorBlendAmount",
-  "colorBlendMode",
-  "customShader",
-  "debugShowBoundingVolume",
-  "debugWireframe",
-  "distanceDisplayCondition",
-  "enableVerticalExaggeration",
-  "featureIdLabel",
-  "heightReference",
-  "id",
-  "imageBasedLighting",
-  "instanceFeatureIdLabel",
-  "lightColor",
-  "maximumScale",
-  "minimumPixelSize",
-  "modelMatrix",
-  "outlineColor",
-  "scale",
-  "shadows",
-  "show",
-  "showCreditsOnScreen",
-  "showOutline",
-  "silhouetteColor",
-  "silhouetteSize",
-  "splitDirection",
-  "style",
-  "pointCloudShading",
-] as const;
+  'backFaceCulling',
+  'clampAnimations',
+  'clippingPlanes',
+  'clippingPolygons',
+  'color',
+  'colorBlendAmount',
+  'colorBlendMode',
+  'customShader',
+  'debugShowBoundingVolume',
+  'debugWireframe',
+  'distanceDisplayCondition',
+  'enableVerticalExaggeration',
+  'featureIdLabel',
+  'heightReference',
+  'id',
+  'imageBasedLighting',
+  'instanceFeatureIdLabel',
+  'lightColor',
+  'maximumScale',
+  'minimumPixelSize',
+  'modelMatrix',
+  'outlineColor',
+  'scale',
+  'shadows',
+  'show',
+  'showCreditsOnScreen',
+  'showOutline',
+  'silhouetteColor',
+  'silhouetteSize',
+  'splitDirection',
+  'style',
+  'pointCloudShading',
+] as const
 
 const cesiumReadonlyProps = [
-  "allowPicking",
-  "asynchronous",
-  "basePath",
-  "credit",
-  "enableDebugWireframe",
-  "gltf",
-  "incrementallyLoadTextures",
-  "scene",
-  "releaseGltfJson",
-  "cull",
-  "opaquePass",
-  "upAxis",
-  "forwardAxis",
-  "content",
-  "enableShowOutline",
-  "projectTo2D",
-  "classificationType",
-  "gltfCallback",
-  "enablePick",
-  "environmentMapOptions",
-] as const;
+  'allowPicking',
+  'asynchronous',
+  'basePath',
+  'credit',
+  'enableDebugWireframe',
+  'gltf',
+  'incrementallyLoadTextures',
+  'scene',
+  'releaseGltfJson',
+  'cull',
+  'opaquePass',
+  'upAxis',
+  'forwardAxis',
+  'content',
+  'enableShowOutline',
+  'projectTo2D',
+  'classificationType',
+  'gltfCallback',
+  'enablePick',
+  'environmentMapOptions',
+] as const
 
-export const otherProps = ["onReady", "onError", "url"] as const;
+export const otherProps = ['onReady', 'onError', 'url'] as const
 
 const Model = createCesiumComponent<CesiumModel, ModelProps>({
-  name: "Model",
+  name: 'Model',
   async create(context, { scene, url, colorBlendMode, ...props }) {
-    if (!context.scene || !context.primitiveCollection || !url) return;
-    const maybePromiseURL = url;
+    if (!context.scene || !context.primitiveCollection || !url) return
+    const maybePromiseURL = url
 
-    let resultURL: Exclude<ModelProps["url"], Promise<Resource>>;
+    let resultURL: Exclude<ModelProps['url'], Promise<Resource>>
     if (isPromise(maybePromiseURL)) {
-      resultURL = await maybePromiseURL;
+      resultURL = await maybePromiseURL
     } else {
-      resultURL = maybePromiseURL as typeof resultURL;
+      resultURL = maybePromiseURL as typeof resultURL
     }
 
-    let element;
+    let element
     try {
       element = await CesiumModel.fromGltfAsync({
         ...props,
         url: resultURL,
         colorBlendMode: colorBlendMode as ColorBlendMode,
         scene: scene || context.scene,
-      });
+      })
     } catch (e) {
-      props.onError?.(e);
-      return;
+      props.onError?.(e)
+      return
     }
 
-    context.primitiveCollection.add(element);
-    return element;
+    context.primitiveCollection.add(element)
+    return element
   },
   destroy(element, context) {
-    if (
-      context.primitiveCollection &&
-      !context.primitiveCollection.isDestroyed()
-    ) {
-      context.primitiveCollection.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element)
     }
     if (!element.isDestroyed()) {
-      element.destroy();
+      element.destroy()
     }
   },
   cesiumEventProps: {
-    onReady: "readyEvent",
+    onReady: 'readyEvent',
   },
   cesiumProps,
   cesiumReadonlyProps,
   otherProps,
   useCommonEvent: true,
-});
+})
 
-export default Model;
+export default Model

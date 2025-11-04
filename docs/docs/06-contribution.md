@@ -47,8 +47,8 @@ If `test` is a variable property:
 ```ts
 const cesiumProps = [
   // ...
-  "test", // <== Add a new property name
-] as const;
+  'test', // <== Add a new property name
+] as const
 ```
 
 All is done!
@@ -58,8 +58,8 @@ If `test` is a read only property:
 ```ts
 const cesiumReadonlyProps = [
   // ...
-  "test", // <== Add a new property name
-];
+  'test', // <== Add a new property name
+]
 ```
 
 If `test` is an event property:
@@ -72,16 +72,16 @@ If `test` is an event property:
 ```ts
 export type ViewerEventProps = {
   // ...
-  onTest?: () => void; // <=== Add a new property type
-};
+  onTest?: () => void // <=== Add a new property type
+}
 ```
 
 and
 
 ```ts
 export const cesiumEventProps: EventKeyMap<Viewer, ViewerProps> = {
-  onTest: "test", // <== Add a new property name mapping
-};
+  onTest: 'test', // <== Add a new property name mapping
+}
 ```
 
 ## Adding unit tests for components

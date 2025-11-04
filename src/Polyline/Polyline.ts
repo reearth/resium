@@ -1,12 +1,6 @@
-import {
-  Material,
-  Cartesian3,
-  DistanceDisplayCondition,
-  Polyline as CesiumPolyline,
-  PolylineCollection,
-} from "cesium";
+import { Material, Cartesian3, DistanceDisplayCondition, Polyline as CesiumPolyline, PolylineCollection } from 'cesium'
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -22,50 +16,36 @@ Only inside [PolylineCollection](/components/PolylineCollection) component.
 A polyline object will be attached to the parent PolylineCollection.
 */
 
-export type PolylineCesiumProps = PickCesiumProps<
-  CesiumPolyline,
-  typeof cesiumProps
-> & {
-  distanceDisplayCondition?: DistanceDisplayCondition;
-  id?: any;
-  loop?: boolean;
-  material?: Material;
-  positions?: Cartesian3[];
-  show?: boolean;
-  width?: number;
-};
+export type PolylineCesiumProps = PickCesiumProps<CesiumPolyline, typeof cesiumProps> & {
+  distanceDisplayCondition?: DistanceDisplayCondition
+  id?: any
+  loop?: boolean
+  material?: Material
+  positions?: Cartesian3[]
+  show?: boolean
+  width?: number
+}
 
 export type PolylineOtherProps = EventProps<{
-  collection: PolylineCollection;
-  id: string | undefined;
-  primitive: CesiumPolyline;
-}>;
+  collection: PolylineCollection
+  id: string | undefined
+  primitive: CesiumPolyline
+}>
 
-export type PolylineProps = PolylineCesiumProps & PolylineOtherProps;
+export type PolylineProps = PolylineCesiumProps & PolylineOtherProps
 
-const cesiumProps = [
-  "distanceDisplayCondition",
-  "id",
-  "loop",
-  "material",
-  "positions",
-  "show",
-  "width",
-] as const;
+const cesiumProps = ['distanceDisplayCondition', 'id', 'loop', 'material', 'positions', 'show', 'width'] as const
 
 const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
-  name: "Polyline",
+  name: 'Polyline',
   create: (context, props) => context.polylineCollection?.add(props),
   destroy(element, context) {
-    if (
-      context.polylineCollection &&
-      !context.polylineCollection.isDestroyed()
-    ) {
-      context.polylineCollection.remove(element);
+    if (context.polylineCollection && !context.polylineCollection.isDestroyed()) {
+      context.polylineCollection.remove(element)
     }
   },
   cesiumProps,
   useCommonEvent: true,
-});
+})
 
-export default Polyline;
+export default Polyline

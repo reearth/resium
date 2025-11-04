@@ -10,28 +10,28 @@ title: Advanced
 `useCesium` hooks is available with Resium:
 
 ```jsx
-import { useCesium } from "resium";
+import { useCesium } from 'resium'
 
 const ExampleComponent = () => {
-  const { viewer } = useCesium();
-  return <p>Cesium Viewer object is{viewer ? "" : " not"} provided here.</p>;
-};
+  const { viewer } = useCesium()
+  return <p>Cesium Viewer object is{viewer ? '' : ' not'} provided here.</p>
+}
 
-export default ExampleComponent;
+export default ExampleComponent
 ```
 
 In TypeScript:
 
 ```tsx
-import { Viewer } from "cesium";
-import { useCesium } from "resium";
+import { Viewer } from 'cesium'
+import { useCesium } from 'resium'
 
 const ExampleComponent = () => {
-  const { viewer } = useCesium();
-  return <p>Cesium Viewer object is{viewer ? "" : " not"} provided here.</p>;
-};
+  const { viewer } = useCesium()
+  return <p>Cesium Viewer object is{viewer ? '' : ' not'} provided here.</p>
+}
 
-export default ExampleComponent;
+export default ExampleComponent
 ```
 
 Structure of the context is [here](https://github.com/reearth/resium/blob/master/src/core/context.ts#L22).

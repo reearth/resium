@@ -19,13 +19,13 @@ import {
   ModelNode,
   GroundPolylinePrimitive,
   GroundPrimitive,
-} from "cesium";
+} from 'cesium'
 
-import { entries, includes } from "./util";
+import { entries, includes } from './util'
 
-export const eventManagerContextKey = "__RESIUM_EVENT_MANAGER";
+export const eventManagerContextKey = '__RESIUM_EVENT_MANAGER'
 
-export type EventType = keyof RootEventProps;
+export type EventType = keyof RootEventProps
 
 export type RootEventTarget =
   | Cesium3DTileFeature
@@ -35,9 +35,9 @@ export type RootEventTarget =
         | PointPrimitiveCollection
         | LabelCollection
         | BillboardCollection
-        | PolylineCollection;
-      id?: Entity | string;
-      node?: ModelNode;
+        | PolylineCollection
+      id?: Entity | string
+      node?: ModelNode
       primitive?:
         | Primitive
         | PointPrimitive
@@ -46,61 +46,61 @@ export type RootEventTarget =
         | Polyline
         | TimeDynamicPointCloud
         | GroundPolylinePrimitive
-        | GroundPrimitive;
-    };
+        | GroundPrimitive
+    }
 
 export type EventProps<T> = {
-  onClick?: (movement: CesiumMovementEvent, target: T) => void;
-  onDoubleClick?: (movement: CesiumMovementEvent, target: T) => void;
-  onMouseDown?: (movement: CesiumMovementEvent, target: T) => void;
-  onMouseUp?: (movement: CesiumMovementEvent, target: T) => void;
-  onMiddleClick?: (movement: CesiumMovementEvent, target: T) => void;
-  onMiddleDown?: (movement: CesiumMovementEvent, target: T) => void;
-  onMiddleUp?: (movement: CesiumMovementEvent, target: T) => void;
-  onMouseMove?: (movement: CesiumMovementEvent, target: T) => void;
-  onPinchEnd?: (movement: CesiumMovementEvent, target: T) => void;
-  onPinchMove?: (movement: CesiumMovementEvent, target: T) => void;
-  onPinchStart?: (movement: CesiumMovementEvent, target: T) => void;
-  onRightClick?: (movement: CesiumMovementEvent, target: T) => void;
-  onRightDown?: (movement: CesiumMovementEvent, target: T) => void;
-  onRightUp?: (movement: CesiumMovementEvent, target: T) => void;
-  onMouseEnter?: (movement: CesiumMovementEvent, target: T) => void;
-  onMouseLeave?: (movement: CesiumMovementEvent, target: T) => void;
-};
+  onClick?: (movement: CesiumMovementEvent, target: T) => void
+  onDoubleClick?: (movement: CesiumMovementEvent, target: T) => void
+  onMouseDown?: (movement: CesiumMovementEvent, target: T) => void
+  onMouseUp?: (movement: CesiumMovementEvent, target: T) => void
+  onMiddleClick?: (movement: CesiumMovementEvent, target: T) => void
+  onMiddleDown?: (movement: CesiumMovementEvent, target: T) => void
+  onMiddleUp?: (movement: CesiumMovementEvent, target: T) => void
+  onMouseMove?: (movement: CesiumMovementEvent, target: T) => void
+  onPinchEnd?: (movement: CesiumMovementEvent, target: T) => void
+  onPinchMove?: (movement: CesiumMovementEvent, target: T) => void
+  onPinchStart?: (movement: CesiumMovementEvent, target: T) => void
+  onRightClick?: (movement: CesiumMovementEvent, target: T) => void
+  onRightDown?: (movement: CesiumMovementEvent, target: T) => void
+  onRightUp?: (movement: CesiumMovementEvent, target: T) => void
+  onMouseEnter?: (movement: CesiumMovementEvent, target: T) => void
+  onMouseLeave?: (movement: CesiumMovementEvent, target: T) => void
+}
 
 export type RootEventProps = EventProps<RootEventTarget> & {
-  onWheel?: (delta: number) => void;
-};
+  onWheel?: (delta: number) => void
+}
 
-type EventMap<T> = { [k in EventType]: T };
+type EventMap<T> = { [k in EventType]: T }
 
 export type CesiumMovementEvent = {
-  position?: Cartesian2;
-  startPosition?: Cartesian2;
-  endPosition?: Cartesian2;
-};
+  position?: Cartesian2
+  startPosition?: Cartesian2
+  endPosition?: Cartesian2
+}
 
-export type Callback<T = any> = (e: CesiumMovementEvent, source: T) => void;
+export type Callback<T = any> = (e: CesiumMovementEvent, source: T) => void
 
 export const eventNames: EventType[] = [
-  "onClick",
-  "onDoubleClick",
-  "onMouseDown",
-  "onMouseUp",
-  "onMiddleClick",
-  "onMiddleDown",
-  "onMiddleUp",
-  "onMouseMove",
-  "onPinchEnd",
-  "onPinchMove",
-  "onPinchStart",
-  "onRightClick",
-  "onRightDown",
-  "onRightUp",
-  "onWheel",
-  "onMouseEnter",
-  "onMouseLeave",
-];
+  'onClick',
+  'onDoubleClick',
+  'onMouseDown',
+  'onMouseUp',
+  'onMiddleClick',
+  'onMiddleDown',
+  'onMiddleUp',
+  'onMouseMove',
+  'onPinchEnd',
+  'onPinchMove',
+  'onPinchStart',
+  'onRightClick',
+  'onRightDown',
+  'onRightUp',
+  'onWheel',
+  'onMouseEnter',
+  'onMouseLeave',
+]
 
 export class EventManager {
   private static eventTypeMap: EventMap<ScreenSpaceEventType> = {
@@ -121,10 +121,10 @@ export class EventManager {
     onWheel: ScreenSpaceEventType.WHEEL,
     onMouseEnter: ScreenSpaceEventType.MOUSE_MOVE,
     onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
-  };
+  }
 
-  private scene: Scene | undefined;
-  private sshe: ScreenSpaceEventHandler;
+  private scene: Scene | undefined
+  private sshe: ScreenSpaceEventHandler
   private events: EventMap<Map<any, Callback>> = {
     onClick: new Map(),
     onDoubleClick: new Map(),
@@ -143,62 +143,62 @@ export class EventManager {
     onWheel: new Map(),
     onMouseEnter: new Map(),
     onMouseLeave: new Map(),
-  };
-  private hovered: any = undefined;
+  }
+  private hovered: any = undefined
 
   public constructor(scene?: Scene) {
-    this.scene = scene;
-    this.sshe = new ScreenSpaceEventHandler(scene?.canvas);
+    this.scene = scene
+    this.sshe = new ScreenSpaceEventHandler(scene?.canvas)
   }
 
   public destroy() {
-    this.hovered = undefined;
+    this.hovered = undefined
     if (!this.sshe.isDestroyed()) {
-      this.sshe.destroy();
+      this.sshe.destroy()
     }
   }
 
   public isDestroyed() {
-    return this.sshe.isDestroyed();
+    return this.sshe.isDestroyed()
   }
 
   public on(element: any, type: EventType, cb: Callback) {
-    if (element && type === "onWheel") return;
-    this.events[type].set(element, cb);
+    if (element && type === 'onWheel') return
+    this.events[type].set(element, cb)
   }
 
   public off(element: any, type: EventType) {
-    this.events[type].delete(element);
+    this.events[type].delete(element)
     if (this.hovered === element) {
-      this.hovered = undefined;
+      this.hovered = undefined
     }
   }
 
   public setEvents(element: any, props: any) {
     entries(props).forEach(([k, v]) => {
-      const et = k as EventType;
+      const et = k as EventType
       if (includes(eventNames, et)) {
         if (v) {
-          this.on(element, et, v);
+          this.on(element, et, v)
         } else {
-          this.off(element, et);
+          this.off(element, et)
         }
       }
-    });
-    this.commit();
+    })
+    this.commit()
   }
 
   public clearEvents(element: any) {
-    this.hovered = undefined;
+    this.hovered = undefined
     eventNames.forEach((et) => {
-      this.off(element, et);
-    });
-    this.commit();
+      this.off(element, et)
+    })
+    this.commit()
   }
 
   public commit() {
-    const sshe = this.sshe;
-    const destroyed = this.sshe.isDestroyed();
+    const sshe = this.sshe
+    const destroyed = this.sshe.isDestroyed()
 
     if (!destroyed) {
       if (
@@ -206,38 +206,31 @@ export class EventManager {
         this.events.onMouseLeave.size === 0 &&
         this.events.onMouseMove.size === 0
       ) {
-        this.sshe.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE);
+        this.sshe.removeInputAction(ScreenSpaceEventType.MOUSE_MOVE)
       } else if (!this.sshe.getInputAction(ScreenSpaceEventType.MOUSE_MOVE)) {
-        this.sshe.setInputAction(
-          this.onMouseMove,
-          ScreenSpaceEventType.MOUSE_MOVE,
-        );
+        this.sshe.setInputAction(this.onMouseMove, ScreenSpaceEventType.MOUSE_MOVE)
       }
     }
 
     entries(this.events).forEach(([et, m]) => {
-      if (
-        et === "onMouseEnter" ||
-        et === "onMouseLeave" ||
-        et === "onMouseMove"
-      ) {
-        return;
+      if (et === 'onMouseEnter' || et === 'onMouseLeave' || et === 'onMouseMove') {
+        return
       }
 
-      const cesiumEventType = EventManager.eventTypeMap[et];
+      const cesiumEventType = EventManager.eventTypeMap[et]
 
       if (!destroyed) {
         if (m.size === 0) {
-          sshe.removeInputAction(cesiumEventType);
+          sshe.removeInputAction(cesiumEventType)
         } else if (!sshe.getInputAction(cesiumEventType)) {
-          sshe.setInputAction(this.eventCallback(et), cesiumEventType);
+          sshe.setInputAction(this.eventCallback(et), cesiumEventType)
         }
       }
-    });
+    })
   }
 
   public getScreenSpaceEventHandler() {
-    return this.sshe;
+    return this.sshe
   }
 
   private getEventCallback(type: EventType, picked: any) {
@@ -246,46 +239,46 @@ export class EventManager {
       : this.events[type].get(picked.id) || // Entity
           this.events[type].get(picked.id?.entityCollection?.owner) || // Entity in DataSource
           this.events[type].get(picked.primitive) || // Primitive
-          this.events[type].get(picked.tileset); // Cesium3DTileFeature
+          this.events[type].get(picked.tileset) // Cesium3DTileFeature
   }
 
   private onMouseMove = (e: CesiumMovementEvent) => {
-    const picked = this.pick(e.endPosition);
+    const picked = this.pick(e.endPosition)
 
     if (this.hovered !== picked) {
       if (this.hovered) {
-        this.getEventCallback("onMouseLeave", this.hovered)?.(e, this.hovered);
-        this.getEventCallback("onMouseLeave", null)?.(e, this.hovered);
+        this.getEventCallback('onMouseLeave', this.hovered)?.(e, this.hovered)
+        this.getEventCallback('onMouseLeave', null)?.(e, this.hovered)
       }
 
       if (picked) {
-        this.getEventCallback("onMouseEnter", picked)?.(e, picked);
-        this.getEventCallback("onMouseEnter", null)?.(e, picked);
+        this.getEventCallback('onMouseEnter', picked)?.(e, picked)
+        this.getEventCallback('onMouseEnter', null)?.(e, picked)
       }
     }
 
     if (picked) {
-      this.getEventCallback("onMouseMove", picked)?.(e, picked);
+      this.getEventCallback('onMouseMove', picked)?.(e, picked)
     }
-    this.getEventCallback("onMouseMove", null)?.(e, picked);
+    this.getEventCallback('onMouseMove', null)?.(e, picked)
 
-    this.hovered = picked;
-  };
+    this.hovered = picked
+  }
 
   private eventCallback = (et: EventType) => {
     return (e: any) => {
-      const picked = this.pick(e?.position);
+      const picked = this.pick(e?.position)
       if (picked) {
-        this.getEventCallback(et, picked)?.(e, picked);
+        this.getEventCallback(et, picked)?.(e, picked)
       }
-      this.getEventCallback(et, null)?.(e, picked);
-    };
-  };
+      this.getEventCallback(et, null)?.(e, picked)
+    }
+  }
 
   private pick(pos?: Cartesian2): any | undefined {
-    if (!pos) return undefined;
-    return this.scene?.pick(pos);
+    if (!pos) return undefined
+    return this.scene?.pick(pos)
   }
 }
 
-export default EventManager;
+export default EventManager

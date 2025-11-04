@@ -1,12 +1,6 @@
-import { GroundPolylinePrimitive as CesiumGroundPolylinePrimitive } from "cesium";
+import { GroundPolylinePrimitive as CesiumGroundPolylinePrimitive } from 'cesium'
 
-import {
-  EventProps,
-  createCesiumComponent,
-  PickCesiumProps,
-  Merge,
-  ConstructorOptions,
-} from "../core";
+import { EventProps, createCesiumComponent, PickCesiumProps, Merge, ConstructorOptions } from '../core'
 
 /*
 @summary
@@ -23,86 +17,71 @@ If this component is inside GroundPrimitiveCollection component, a ground primit
 Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type Target = Merge<
-  CesiumGroundPolylinePrimitive,
-  ConstructorOptions<typeof CesiumGroundPolylinePrimitive>
->;
+export type Target = Merge<CesiumGroundPolylinePrimitive, ConstructorOptions<typeof CesiumGroundPolylinePrimitive>>
 
-export type GroundPolylinePrimitiveCesiumProps = PickCesiumProps<
-  Target,
-  typeof cesiumProps
->;
+export type GroundPolylinePrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
 
-export type GroundPolylinePrimitiveCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
->;
+export type GroundPolylinePrimitiveCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>
 
 export type GroundPolylinePrimitiveOtherProps = EventProps<{
-  id: string;
-  primitive: CesiumGroundPolylinePrimitive; // TODO: validate type
+  id: string
+  primitive: CesiumGroundPolylinePrimitive // TODO: validate type
 }> & {
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/GroundPolylinePrimitive.html#readyPromise) is fullfilled */
-  onReady?: (primitive: CesiumGroundPolylinePrimitive) => void;
-};
+  onReady?: (primitive: CesiumGroundPolylinePrimitive) => void
+}
 
 export type GroundPolylinePrimitiveProps = GroundPolylinePrimitiveCesiumProps &
   GroundPolylinePrimitiveCesiumReadonlyProps &
-  GroundPolylinePrimitiveOtherProps;
+  GroundPolylinePrimitiveOtherProps
 
 const cesiumProps = [
-  "appearance",
-  "classificationType",
-  "debugShowBoundingVolume",
-  "debugShowShadowVolume",
-  "show",
-] as const;
+  'appearance',
+  'classificationType',
+  'debugShowBoundingVolume',
+  'debugShowShadowVolume',
+  'show',
+] as const
 
 const cesiumReadonlyProps = [
-  "allowPicking",
-  "asynchronous",
-  "geometryInstances",
-  "interleave",
-  "releaseGeometryInstances",
-] as const;
+  'allowPicking',
+  'asynchronous',
+  'geometryInstances',
+  'interleave',
+  'releaseGeometryInstances',
+] as const
 
-export const otherProps = ["onReady"] as const;
+export const otherProps = ['onReady'] as const
 
-const GroundPolylinePrimitive = createCesiumComponent<
-  CesiumGroundPolylinePrimitive,
-  GroundPolylinePrimitiveProps
->({
-  name: "GroundPolylinePrimitive",
+const GroundPolylinePrimitive = createCesiumComponent<CesiumGroundPolylinePrimitive, GroundPolylinePrimitiveProps>({
+  name: 'GroundPolylinePrimitive',
   create(context, props) {
-    if (!context.primitiveCollection) return;
-    const element = new CesiumGroundPolylinePrimitive(props);
+    if (!context.primitiveCollection) return
+    const element = new CesiumGroundPolylinePrimitive(props)
     if (props.onReady) {
       const handlePostRender = () => {
         if (element.ready) {
-          props.onReady?.(element);
-          context.scene?.postRender.removeEventListener(handlePostRender);
+          props.onReady?.(element)
+          context.scene?.postRender.removeEventListener(handlePostRender)
         }
-      };
-      context.scene?.postRender.addEventListener(handlePostRender);
+      }
+      context.scene?.postRender.addEventListener(handlePostRender)
     }
-    context.primitiveCollection.add(element);
-    return element;
+    context.primitiveCollection.add(element)
+    return element
   },
   destroy(element, context) {
-    if (
-      context.primitiveCollection &&
-      !context.primitiveCollection.isDestroyed()
-    ) {
-      context.primitiveCollection.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element)
     }
     if (!element.isDestroyed()) {
-      element.destroy();
+      element.destroy()
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
   otherProps,
   useCommonEvent: true,
-});
+})
 
-export default GroundPolylinePrimitive;
+export default GroundPolylinePrimitive

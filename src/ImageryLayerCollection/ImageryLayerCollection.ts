@@ -1,9 +1,6 @@
-import {
-  ImageryLayer,
-  ImageryLayerCollection as CesiumImageryLayerCollection,
-} from "cesium";
+import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from 'cesium'
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import { createCesiumComponent, EventkeyMap } from '../core'
 
 /*
 @summary
@@ -18,31 +15,25 @@ This component refers to the single ImageryLayerCollection of them, so can not b
 */
 
 export type ImageryLayerCollectionCesiumEvents = {
-  onLayerAdd?: (layer: ImageryLayer, index: number) => void;
-  onLayerMove?: (layer: ImageryLayer, index: number) => void;
-  onLayerRemove?: (layer: ImageryLayer, index: number) => void;
-  onLayerShowOrHide?: (layer: ImageryLayer, index: number) => void;
-};
+  onLayerAdd?: (layer: ImageryLayer, index: number) => void
+  onLayerMove?: (layer: ImageryLayer, index: number) => void
+  onLayerRemove?: (layer: ImageryLayer, index: number) => void
+  onLayerShowOrHide?: (layer: ImageryLayer, index: number) => void
+}
 
-export type ImageryLayerCollectionProps = ImageryLayerCollectionCesiumEvents;
+export type ImageryLayerCollectionProps = ImageryLayerCollectionCesiumEvents
 
-export const cesiumEventProps: EventkeyMap<
-  CesiumImageryLayerCollection,
-  ImageryLayerCollectionCesiumEvents
-> = {
-  onLayerAdd: "layerAdded",
-  onLayerMove: "layerMoved",
-  onLayerRemove: "layerRemoved",
-  onLayerShowOrHide: "layerShownOrHidden",
-};
+export const cesiumEventProps: EventkeyMap<CesiumImageryLayerCollection, ImageryLayerCollectionCesiumEvents> = {
+  onLayerAdd: 'layerAdded',
+  onLayerMove: 'layerMoved',
+  onLayerRemove: 'layerRemoved',
+  onLayerShowOrHide: 'layerShownOrHidden',
+}
 
-const ImageryLayerCollection = createCesiumComponent<
-  CesiumImageryLayerCollection,
-  ImageryLayerCollectionProps
->({
-  name: "ImageryLayerCollection",
+const ImageryLayerCollection = createCesiumComponent<CesiumImageryLayerCollection, ImageryLayerCollectionProps>({
+  name: 'ImageryLayerCollection',
   create: (context) => context.globe?.imageryLayers,
   cesiumEventProps,
-});
+})
 
-export default ImageryLayerCollection;
+export default ImageryLayerCollection

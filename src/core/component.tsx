@@ -1,4 +1,4 @@
-import { ImageryProvider } from "cesium";
+import { ImageryProvider } from 'cesium'
 import {
   forwardRef,
   HTMLAttributes,
@@ -7,40 +7,38 @@ import {
   RefAttributes,
   ForwardRefRenderFunction,
   PropsWithChildren,
-} from "react";
+} from 'react'
 
-import { CesiumContext } from "./context";
-import { useCesiumComponent, Options } from "./hooks";
-import { pick } from "./util";
+import { CesiumContext } from './context'
+import { useCesiumComponent, Options } from './hooks'
+import { pick } from './util'
 
-export type CesiumComponentOptions<
+export type CesiumComponentOptions<Element, Props extends RootComponentInternalProps, State = any> = Options<
   Element,
-  Props extends RootComponentInternalProps,
-  State = any,
-> = Options<Element, Props, State> & {
-  renderContainer?: boolean;
-  noChildren?: boolean;
-  containerProps?:
-    | (keyof Props)[]
-    | ((props: Props) => HTMLAttributes<HTMLDivElement>);
-  defaultProps?: Partial<Props>;
-};
+  Props,
+  State
+> & {
+  renderContainer?: boolean
+  noChildren?: boolean
+  containerProps?: (keyof Props)[] | ((props: Props) => HTMLAttributes<HTMLDivElement>)
+  defaultProps?: Partial<Props>
+}
 
 export type CesiumComponentRef<Element> = {
-  cesiumElement?: Element;
-};
+  cesiumElement?: Element
+}
 
 export type CesiumComponentType<Element, Props> = ForwardRefExoticComponent<
   PropsWithoutRef<Props> & RefAttributes<CesiumComponentRef<Element>>
->;
+>
 
 export type RootComponentInternalProps = {
-  onUpdate?: () => void;
-};
+  onUpdate?: () => void
+}
 
 export type RootComponentInternalValues = {
-  imageryLayerWaitingList?: (Promise<ImageryProvider> | ImageryProvider)[];
-};
+  imageryLayerWaitingList?: (Promise<ImageryProvider> | ImageryProvider)[]
+}
 
 export const createCesiumComponent = <Element, Props extends {}, State = any>({
   renderContainer,
@@ -48,57 +46,41 @@ export const createCesiumComponent = <Element, Props extends {}, State = any>({
   containerProps,
   defaultProps,
   ...options
-}: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<
-  Element,
-  Props
-> => {
-  const component: ForwardRefRenderFunction<
-    CesiumComponentRef<Element>,
-    PropsWithoutRef<Props>
-  > = (props, ref) => {
+}: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<Element, Props> => {
+  const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, PropsWithoutRef<Props>> = (props, ref) => {
     const mergedProps = {
       ...defaultProps,
       ...props,
-    } as Props;
+    } as Props
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const [provided, mounted, wrapperRef] = useCesiumComponent<
-      Element,
-      Props,
-      State
-    >(options, mergedProps, ref);
+    const [provided, mounted, wrapperRef] = useCesiumComponent<Element, Props, State>(options, mergedProps, ref)
 
-    if (noChildren) return null;
+    if (noChildren) return null
 
     const children = mounted
-      ? "children" in mergedProps
+      ? 'children' in mergedProps
         ? (mergedProps as PropsWithChildren<Props>).children
         : null
-      : null;
+      : null
     const wrappedChildren = renderContainer ? (
       <div
         data-testid="resium-container"
         ref={wrapperRef}
-        {...(typeof containerProps === "function"
-          ? containerProps(mergedProps)
-          : pick(mergedProps, containerProps))}
+        {...(typeof containerProps === 'function' ? containerProps(mergedProps) : pick(mergedProps, containerProps))}
       >
         {children}
       </div>
     ) : children ? (
       <>{children}</>
-    ) : null;
+    ) : null
 
     if (provided) {
-      return (
-        <CesiumContext.Provider value={provided}>
-          {wrappedChildren}
-        </CesiumContext.Provider>
-      );
+      return <CesiumContext.Provider value={provided}>{wrappedChildren}</CesiumContext.Provider>
     }
-    return wrappedChildren;
-  };
+    return wrappedChildren
+  }
 
-  component.displayName = options.name;
+  component.displayName = options.name
 
-  return forwardRef(component);
-};
+  return forwardRef(component)
+}

@@ -1,14 +1,9 @@
-import { expectType, TypeEqual } from "ts-expect";
-import { it } from "vitest";
+import { expectType, TypeEqual } from 'ts-expect'
+import { it } from 'vitest'
 
-import { UnusedCesiumProps } from "../core";
+import { UnusedCesiumProps } from '../core'
 
-import {
-  Target,
-  KmlDataSourceProps,
-  cesiumEventProps,
-  KmlDataSourceOtherProps,
-} from "./KmlDataSource";
+import { Target, KmlDataSourceProps, cesiumEventProps, KmlDataSourceOtherProps } from './KmlDataSource'
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -16,9 +11,9 @@ type UnusedProps = UnusedCesiumProps<
   Omit<KmlDataSourceProps, keyof KmlDataSourceOtherProps>,
   typeof cesiumEventProps,
   IgnoredProps
->;
-type IgnoredProps = "entities" | "isLoading" | "clock" | "kmlTours";
+>
+type IgnoredProps = 'entities' | 'isLoading' | 'clock' | 'kmlTours'
 
-expectType<TypeEqual<never, UnusedProps>>(true);
+expectType<TypeEqual<never, UnusedProps>>(true)
 
-it("should be compiled", () => {});
+it('should be compiled', () => {})

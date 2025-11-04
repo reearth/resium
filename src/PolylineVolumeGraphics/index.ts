@@ -1,4 +1,1 @@
-export {
-  default,
-  type PolylineVolumeGraphicsProps,
-} from "./PolylineVolumeGraphics";
+export { default, type PolylineVolumeGraphicsProps } from './PolylineVolumeGraphics'

@@ -1,6 +1,6 @@
-import { Billboard as CesiumBillboard, BillboardCollection } from "cesium";
+import { Billboard as CesiumBillboard, BillboardCollection } from 'cesium'
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import { createCesiumComponent, EventProps, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -16,60 +16,53 @@ Only inside [BillboardCollection](/components/BillboardCollection) components.
 A billboard object will be attached to the parent BillboardCollection.
 */
 
-export type BillboardCesiumProps = PickCesiumProps<
-  CesiumBillboard,
-  typeof cesiumProps,
-  "position"
->;
+export type BillboardCesiumProps = PickCesiumProps<CesiumBillboard, typeof cesiumProps, 'position'>
 
 export type BillboardOtherProps = EventProps<{
-  collection: BillboardCollection;
-  id: string | undefined;
-  primitive: CesiumBillboard;
-}>;
+  collection: BillboardCollection
+  id: string | undefined
+  primitive: CesiumBillboard
+}>
 
-export type BillboardProps = BillboardCesiumProps & BillboardOtherProps;
+export type BillboardProps = BillboardCesiumProps & BillboardOtherProps
 
 const cesiumProps = [
-  "alignedAxis",
-  "color",
-  "disableDepthTestDistance",
-  "distanceDisplayCondition",
-  "eyeOffset",
-  "height",
-  "heightReference",
-  "horizontalOrigin",
-  "image",
-  "pixelOffset",
-  "pixelOffsetScaleByDistance",
-  "position",
-  "rotation",
-  "scale",
-  "scaleByDistance",
-  "show",
-  "sizeInMeters",
-  "splitDirection",
-  "translucencyByDistance",
-  "verticalOrigin",
-  "width",
-  "id",
-] as const;
+  'alignedAxis',
+  'color',
+  'disableDepthTestDistance',
+  'distanceDisplayCondition',
+  'eyeOffset',
+  'height',
+  'heightReference',
+  'horizontalOrigin',
+  'image',
+  'pixelOffset',
+  'pixelOffsetScaleByDistance',
+  'position',
+  'rotation',
+  'scale',
+  'scaleByDistance',
+  'show',
+  'sizeInMeters',
+  'splitDirection',
+  'translucencyByDistance',
+  'verticalOrigin',
+  'width',
+  'id',
+] as const
 
 const Billboard = createCesiumComponent<CesiumBillboard, BillboardProps>({
-  name: "Billboard",
+  name: 'Billboard',
   create(context, props) {
-    return context.billboardCollection?.add(props);
+    return context.billboardCollection?.add(props)
   },
   destroy(element, context) {
-    if (
-      context.billboardCollection &&
-      !context.billboardCollection.isDestroyed()
-    ) {
-      context.billboardCollection.remove(element);
+    if (context.billboardCollection && !context.billboardCollection.isDestroyed()) {
+      context.billboardCollection.remove(element)
     }
   },
   cesiumProps,
   useCommonEvent: true,
-});
+})
 
-export default Billboard;
+export default Billboard

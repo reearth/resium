@@ -1,7 +1,7 @@
-import { BillboardCollection as CesiumBillboardCollection } from "cesium";
-import { ReactNode } from "react";
+import { BillboardCollection as CesiumBillboardCollection } from 'cesium'
+import { ReactNode } from 'react'
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import { createCesiumComponent, PickCesiumProps } from '../core'
 
 /*
 @summary
@@ -18,59 +18,43 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A BillboardColleciton object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type BillboardCollectionCesiumProps = PickCesiumProps<
-  CesiumBillboardCollection,
-  typeof cesiumProps
->;
+export type BillboardCollectionCesiumProps = PickCesiumProps<CesiumBillboardCollection, typeof cesiumProps>
 
 export type BillboardCollectionOtherProps = {
-  children?: ReactNode;
-};
+  children?: ReactNode
+}
 
-export type BillboardCollectionProps = BillboardCollectionCesiumProps &
-  BillboardCollectionOtherProps;
+export type BillboardCollectionProps = BillboardCollectionCesiumProps & BillboardCollectionOtherProps
 
-const cesiumProps = [
-  "blendOption",
-  "debugShowBoundingVolume",
-  "debugShowTextureAtlas",
-  "modelMatrix",
-  "show",
-] as const;
+const cesiumProps = ['blendOption', 'debugShowBoundingVolume', 'debugShowTextureAtlas', 'modelMatrix', 'show'] as const
 
-const BillboardCollection = createCesiumComponent<
-  CesiumBillboardCollection,
-  BillboardCollectionProps
->({
-  name: "BillboardCollection",
+const BillboardCollection = createCesiumComponent<CesiumBillboardCollection, BillboardCollectionProps>({
+  name: 'BillboardCollection',
   create(context, props) {
-    if (!context.primitiveCollection) return;
+    if (!context.primitiveCollection) return
     const element = new CesiumBillboardCollection({
       modelMatrix: props.modelMatrix,
       debugShowBoundingVolume: props.debugShowBoundingVolume,
       scene: context.scene,
       blendOption: props.blendOption,
-    });
-    context.primitiveCollection.add(element);
-    return element;
+    })
+    context.primitiveCollection.add(element)
+    return element
   },
   destroy(element, context) {
-    if (
-      context.primitiveCollection &&
-      !context.primitiveCollection.isDestroyed()
-    ) {
-      context.primitiveCollection.remove(element);
+    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+      context.primitiveCollection.remove(element)
     }
     if (!element.isDestroyed()) {
-      element.destroy();
+      element.destroy()
     }
   },
   provide(element) {
     return {
       billboardCollection: element,
-    };
+    }
   },
   cesiumProps,
-});
+})
 
-export default BillboardCollection;
+export default BillboardCollection

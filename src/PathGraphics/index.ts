@@ -1,1 +1,1 @@
-export { default, type PathGraphicsProps } from "./PathGraphics";
+export { default, type PathGraphicsProps } from './PathGraphics'
