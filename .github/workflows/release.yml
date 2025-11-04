@@ -20,6 +20,8 @@ jobs:
   prepare-release:
     name: Prepare Release PR
     runs-on: ubuntu-latest
+    # Temporarily disabled for testing on feature branch
+    # if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/create-github-app-token@d72941d797fd3113feb6b93fd0dec494b13a2547 # v1.12.0
         id: app-token
