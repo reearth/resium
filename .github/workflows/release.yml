@@ -27,7 +27,7 @@ jobs:
         id: generate-token
         uses: tibdex/github-app-token@v2
         with:
-          app_id: ${{ secrets.GH_APP_ID }}
+          app_id: ${{ vars.GH_APP_ID }}
           private_key: ${{ secrets.GH_APP_PRIVATE_KEY }}
       - name: Checkout
         uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
