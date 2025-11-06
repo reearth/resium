@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.19.0 - 2025-11-06
+
+### chore
+
+- Use organization variable for GH_APP_ID ([#717](https://github.com/reearth/resium/pull/717)) [`316814`](https://github.com/reearth/resium/commit/316814)
+- Add Automated Release Workflow ([#716](https://github.com/reearth/resium/pull/716)) [`6d4a73`](https://github.com/reearth/resium/commit/6d4a73)
+- Upgrade Cesium from 1.116.0 to 1.134.1 ([#714](https://github.com/reearth/resium/pull/714)) [`c73f86`](https://github.com/reearth/resium/commit/c73f86)
+
+### 
+
+- Delete branch if it already exists before creating the release PR ([#718](https://github.com/reearth/resium/pull/718)) [`14ef0e`](https://github.com/reearth/resium/commit/14ef0e)
+
 ## v1.16.1 - 2022/03/20
 
 - Use automatic JSX Runtime in Vite
