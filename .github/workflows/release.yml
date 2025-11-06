@@ -70,6 +70,12 @@ jobs:
         run: |
           # Create release branch
           BRANCH="chore/release-${VERSION}"
+
+          # Delete existing branch if it exists (locally and remotely)
+          git branch -D $BRANCH 2>/dev/null || true
+          git push origin --delete $BRANCH 2>/dev/null || true
+
+          # Create new release branch
           git checkout -b $BRANCH
 
           # Remove temporary changelog file
