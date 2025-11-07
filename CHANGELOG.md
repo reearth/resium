@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.19.0 - 2025-11-07
+
+- Upgrade Cesium from 1.116.0 to 1.134.1 ([#714](https://github.com/reearth/resium/pull/714)) [`c73f86`](https://github.com/reearth/resium/commit/c73f86)
+
 ## v1.16.1 - 2022/03/20
 
 - Use automatic JSX Runtime in Vite
