@@ -1,5 +1,5 @@
-import { CesiumWidget as CesiumCesiumWidget } from 'cesium'
-import { CSSProperties, ReactNode } from 'react'
+import { CesiumWidget as CesiumCesiumWidget } from "cesium";
+import { CSSProperties, ReactNode } from "react";
 
 import {
   createCesiumComponent,
@@ -10,7 +10,7 @@ import {
   Merge,
   ConstructorOptions2,
   RootComponentInternalProps,
-} from '../core'
+} from "../core";
 
 /*
 @summary
@@ -29,93 +29,95 @@ import {
 Everywhere. `CesiumWidget` is a root component.
 */
 
-export type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>
+export type Target = Merge<CesiumCesiumWidget, ConstructorOptions2<typeof CesiumCesiumWidget>>;
 
-export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>
+export type CesiumWidgetCesiumProps = PickCesiumProps<CesiumCesiumWidget, typeof cesiumProps>;
 
-export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>
+export type CesiumWidgetCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type CesiumWidgetOtherProps = RootEventProps &
   RootComponentInternalProps & {
     /** Applied to outer `div` element */
-    className?: string
+    className?: string;
     /** Applied to outer `div` element */
-    id?: string
+    id?: string;
     /** Applied to outer `div` element */
-    style?: CSSProperties
+    style?: CSSProperties;
     /** Same as `style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}` if it is true. */
-    full?: boolean
+    full?: boolean;
     /** All props applied to outer `div` element */
-    containerProps?: any
-    children?: ReactNode
-  }
+    containerProps?: any;
+    children?: ReactNode;
+  };
 
 const cesiumProps = [
-  'resolutionScale',
-  'useDefaultRenderLoop',
-  'targetFrameRate',
-  'useBrowserRecommendedResolution',
-  'allowDataSourcesToSuspendAnimation',
-  'trackedEntity',
-  'clockTrackedDataSource',
-  'terrainProvider',
-  'creditDisplay',
-] as const
+  "resolutionScale",
+  "useDefaultRenderLoop",
+  "targetFrameRate",
+  "useBrowserRecommendedResolution",
+  "allowDataSourcesToSuspendAnimation",
+  "trackedEntity",
+  "clockTrackedDataSource",
+  "terrainProvider",
+  "creditDisplay",
+] as const;
 
 const cesiumReadonlyProps = [
-  'clock',
-  'shouldAnimate',
-  'ellipsoid',
-  'baseLayer',
-  'skyBox',
-  'skyAtmosphere',
-  'sceneMode',
-  'scene3DOnly',
-  'orderIndependentTranslucency',
-  'mapMode2D',
-  'mapProjection',
-  'globe',
-  'showRenderLoopErrors',
-  'automaticallyTrackDataSourceClocks',
-  'contextOptions',
-  'creditContainer',
-  'creditViewport',
-  'dataSources',
-  'shadows',
-  'terrainShadows',
-  'terrain',
-  'requestRenderMode',
-  'maximumRenderTimeChange',
-  'msaaSamples',
-  'blurActiveElementOnCanvasFocus',
-] as const
+  "clock",
+  "shouldAnimate",
+  "ellipsoid",
+  "baseLayer",
+  "skyBox",
+  "skyAtmosphere",
+  "sceneMode",
+  "scene3DOnly",
+  "orderIndependentTranslucency",
+  "mapMode2D",
+  "mapProjection",
+  "globe",
+  "showRenderLoopErrors",
+  "automaticallyTrackDataSourceClocks",
+  "contextOptions",
+  "creditContainer",
+  "creditViewport",
+  "dataSources",
+  "shadows",
+  "terrainShadows",
+  "terrain",
+  "requestRenderMode",
+  "maximumRenderTimeChange",
+  "msaaSamples",
+  "blurActiveElementOnCanvasFocus",
+] as const;
 
-export const otherProps = ['className', 'id', 'style', 'full', 'containerProps'] as const
+export const otherProps = ["className", "id", "style", "full", "containerProps"] as const;
 
-export type CesiumWidgetProps = CesiumWidgetCesiumProps & CesiumWidgetCesiumReadonlyProps & CesiumWidgetOtherProps
+export type CesiumWidgetProps = CesiumWidgetCesiumProps &
+  CesiumWidgetCesiumReadonlyProps &
+  CesiumWidgetOtherProps;
 
 const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps, EventManager>({
-  name: 'CesiumWidget',
+  name: "CesiumWidget",
   create(_context, props, container) {
-    if (!container) return
-    const v = new CesiumCesiumWidget(container, props)
-    if (!v) return
+    if (!container) return;
+    const v = new CesiumCesiumWidget(container, props);
+    if (!v) return;
 
-    if (typeof props.resolutionScale === 'number') {
-      v.resolutionScale = props.resolutionScale
+    if (typeof props.resolutionScale === "number") {
+      v.resolutionScale = props.resolutionScale;
     }
 
     // common event manager for managing events of Entity and Primitives
-    const eventManager = new EventManager(v.scene)
+    const eventManager = new EventManager(v.scene);
 
-    return [v, eventManager]
+    return [v, eventManager];
   },
   destroy(element, _context, _ref, state) {
     if (state && !state.isDestroyed()) {
-      state.destroy()
+      state.destroy();
     }
     if (!element.isDestroyed()) {
-      element.destroy()
+      element.destroy();
     }
   },
   provide(element, _context, props, state) {
@@ -130,7 +132,7 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
         onUpdate: props?.onUpdate,
       },
       [eventManagerContextKey]: state,
-    }
+    };
   },
   containerProps: ({ id, className, style, full, containerProps }) => ({
     className,
@@ -138,11 +140,11 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
     style: {
       ...(full
         ? {
-            position: 'absolute',
-            bottom: '0',
-            left: '0',
-            right: '0',
-            top: '0',
+            position: "absolute",
+            bottom: "0",
+            left: "0",
+            right: "0",
+            top: "0",
           }
         : {}),
       ...style,
@@ -155,6 +157,6 @@ const CesiumWidget = createCesiumComponent<CesiumCesiumWidget, CesiumWidgetProps
   renderContainer: true,
   useCommonEvent: true,
   useRootEvent: true,
-})
+});
 
-export default CesiumWidget
+export default CesiumWidget;

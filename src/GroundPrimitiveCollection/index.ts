@@ -1,1 +1,1 @@
-export { default, type GroundPrimitiveCollectionProps } from './GroundPrimitiveCollection'
+export { default, type GroundPrimitiveCollectionProps } from "./GroundPrimitiveCollection";

@@ -1,15 +1,15 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from "@storybook/react";
 
-import Viewer from '../Viewer'
+import Viewer from "../Viewer";
 
-import ScreenSpaceCameraController from './ScreenSpaceCameraController'
+import ScreenSpaceCameraController from "./ScreenSpaceCameraController";
 
-type Story = StoryObj<typeof ScreenSpaceCameraController>
+type Story = StoryObj<typeof ScreenSpaceCameraController>;
 
 export default {
-  title: 'ScreenSpaceCameraController',
+  title: "ScreenSpaceCameraController",
   component: ScreenSpaceCameraController,
-} as Meta
+} as Meta;
 
 export const Basic: Story = {
   args: {
@@ -21,9 +21,9 @@ export const Basic: Story = {
     enableTilt: true,
     enableTranslate: true,
   },
-  render: (args) => (
+  render: args => (
     <Viewer full>
       <ScreenSpaceCameraController {...args} />
     </Viewer>
   ),
-}
+};

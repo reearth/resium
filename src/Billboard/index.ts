@@ -1,1 +1,1 @@
-export { default, type BillboardProps } from './Billboard'
+export { default, type BillboardProps } from "./Billboard";

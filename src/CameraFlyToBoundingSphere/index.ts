@@ -1,1 +1,1 @@
-export { default, type CameraFlyToBoundingSphereProps } from './CameraFlyToBoundingSphere'
+export { default, type CameraFlyToBoundingSphereProps } from "./CameraFlyToBoundingSphere";

@@ -1,6 +1,6 @@
-import { ScreenSpaceCameraController as CesiumScreenSpaceCameraController } from 'cesium'
+import { ScreenSpaceCameraController as CesiumScreenSpaceCameraController } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -17,46 +17,46 @@ It can not be mounted more than once for each Viewer or CesiumWidget.
 export type ScreenSpaceCameraControllerCesiumProps = PickCesiumProps<
   CesiumScreenSpaceCameraController,
   typeof cesiumProps
->
+>;
 
-export type ScreenSpaceCameraControllerProps = ScreenSpaceCameraControllerCesiumProps
+export type ScreenSpaceCameraControllerProps = ScreenSpaceCameraControllerCesiumProps;
 
 const cesiumProps = [
-  'bounceAnimationTime',
-  'enableCollisionDetection',
-  'enableInputs',
-  'enableLook',
-  'enableRotate',
-  'enableTilt',
-  'enableTranslate',
-  'enableZoom',
-  'inertiaSpin',
-  'inertiaTranslate',
-  'inertiaZoom',
-  'lookEventTypes',
-  'maximumMovementRatio',
-  'maximumZoomDistance',
-  'minimumCollisionTerrainHeight',
-  'minimumPickingTerrainHeight',
-  'minimumTrackBallHeight',
-  'minimumZoomDistance',
-  'rotateEventTypes',
-  'tiltEventTypes',
-  'translateEventTypes',
-  'zoomEventTypes',
-  'minimumPickingTerrainDistanceWithInertia',
-  'maximumTiltAngle',
-  'zoomFactor',
-] as const
+  "bounceAnimationTime",
+  "enableCollisionDetection",
+  "enableInputs",
+  "enableLook",
+  "enableRotate",
+  "enableTilt",
+  "enableTranslate",
+  "enableZoom",
+  "inertiaSpin",
+  "inertiaTranslate",
+  "inertiaZoom",
+  "lookEventTypes",
+  "maximumMovementRatio",
+  "maximumZoomDistance",
+  "minimumCollisionTerrainHeight",
+  "minimumPickingTerrainHeight",
+  "minimumTrackBallHeight",
+  "minimumZoomDistance",
+  "rotateEventTypes",
+  "tiltEventTypes",
+  "translateEventTypes",
+  "zoomEventTypes",
+  "minimumPickingTerrainDistanceWithInertia",
+  "maximumTiltAngle",
+  "zoomFactor",
+] as const;
 
 const ScreenSpaceCameraController = createCesiumComponent<
   CesiumScreenSpaceCameraController,
   ScreenSpaceCameraControllerProps
 >({
-  name: 'ScreenSpaceCameraController',
-  create: (context) => context.scene?.screenSpaceCameraController,
+  name: "ScreenSpaceCameraController",
+  create: context => context.scene?.screenSpaceCameraController,
   cesiumProps,
   setCesiumPropsAfterCreate: true,
-})
+});
 
-export default ScreenSpaceCameraController
+export default ScreenSpaceCameraController;

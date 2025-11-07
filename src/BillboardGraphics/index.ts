@@ -1,1 +1,1 @@
-export { default, type BillboardGraphicsProps } from './BillboardGraphics'
+export { default, type BillboardGraphicsProps } from "./BillboardGraphics";

@@ -1,1 +1,1 @@
-export { default, type PointGraphicsProps } from './PointGraphics'
+export { default, type PointGraphicsProps } from "./PointGraphics";

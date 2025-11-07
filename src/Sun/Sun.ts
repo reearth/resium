@@ -1,6 +1,6 @@
-import { Sun as CesiumSun } from 'cesium'
+import { Sun as CesiumSun } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -14,27 +14,27 @@ Sun can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget](/compone
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type SunCesiumProps = PickCesiumProps<CesiumSun, typeof cesiumProps>
+export type SunCesiumProps = PickCesiumProps<CesiumSun, typeof cesiumProps>;
 
-export type SunProps = SunCesiumProps
+export type SunProps = SunCesiumProps;
 
-const cesiumProps = ['glowFactor', 'show'] as const
+const cesiumProps = ["glowFactor", "show"] as const;
 
 const Sun = createCesiumComponent<CesiumSun, SunProps>({
-  name: 'Sun',
+  name: "Sun",
   create(context) {
-    if (!context.scene) return
-    const element = new CesiumSun()
-    context.scene.sun = element
-    return element
+    if (!context.scene) return;
+    const element = new CesiumSun();
+    context.scene.sun = element;
+    return element;
   },
   destroy(_element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.sun = new CesiumSun()
+      context.scene.sun = new CesiumSun();
     }
   },
   cesiumProps,
   setCesiumPropsAfterCreate: true,
-})
+});
 
-export default Sun
+export default Sun;

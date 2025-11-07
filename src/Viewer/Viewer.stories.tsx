@@ -1,24 +1,24 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { Cartesian3 } from 'cesium'
+import { Meta, StoryObj } from "@storybook/react";
+import { Cartesian3 } from "cesium";
 
-import { events } from '../core/storybook'
-import Entity from '../Entity'
+import { events } from "../core/storybook";
+import Entity from "../Entity";
 
-import Viewer from './Viewer'
+import Viewer from "./Viewer";
 
-type Story = StoryObj<typeof Viewer>
+type Story = StoryObj<typeof Viewer>;
 
 export default {
-  title: 'Viewer',
+  title: "Viewer",
   component: Viewer,
-} as Meta
+} as Meta;
 
 export const Basic: Story = {
-  render: (args) => <Viewer {...args} full />,
-}
+  render: args => <Viewer {...args} full />,
+};
 
 export const Events: Story = {
-  render: (args) => (
+  render: args => (
     <Viewer {...args} full {...events}>
       <Entity
         name="test"
@@ -28,4 +28,4 @@ export const Events: Story = {
       />
     </Viewer>
   ),
-}
+};

@@ -1,1 +1,1 @@
-export { default, type EllipsoidGraphicsProps } from './EllipsoidGraphics'
+export { default, type EllipsoidGraphicsProps } from "./EllipsoidGraphics";

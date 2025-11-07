@@ -1,6 +1,6 @@
-import { PolygonGraphics as CesiumPolygonGraphics } from 'cesium'
+import { PolygonGraphics as CesiumPolygonGraphics } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge } from '../core'
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -13,60 +13,60 @@ PolygonGraphics can be mounted only inside[Entity](/components/Entity) component
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>
+export type Target = Merge<CesiumPolygonGraphics, CesiumPolygonGraphics.ConstructorOptions>;
 
-export type PolygonGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type PolygonGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PolygonGraphicsCesiumEvents = {
-  onDefinitionChange?: () => void
-}
+  onDefinitionChange?: () => void;
+};
 
-export type PolygonGraphicsProps = PolygonGraphicsCesiumProps & PolygonGraphicsCesiumEvents
+export type PolygonGraphicsProps = PolygonGraphicsCesiumProps & PolygonGraphicsCesiumEvents;
 
 const cesiumProps = [
-  'arcType',
-  'hierarchy',
-  'height',
-  'heightReference',
-  'extrudedHeight',
-  'extrudedHeightReference',
-  'show',
-  'fill',
-  'material',
-  'outline',
-  'outlineColor',
-  'outlineWidth',
-  'stRotation',
-  'granularity',
-  'perPositionHeight',
-  'closeTop',
-  'closeBottom',
-  'shadows',
-  'distanceDisplayCondition',
-  'zIndex',
-  'classificationType',
-  'textureCoordinates',
-] as const
+  "arcType",
+  "hierarchy",
+  "height",
+  "heightReference",
+  "extrudedHeight",
+  "extrudedHeightReference",
+  "show",
+  "fill",
+  "material",
+  "outline",
+  "outlineColor",
+  "outlineWidth",
+  "stRotation",
+  "granularity",
+  "perPositionHeight",
+  "closeTop",
+  "closeBottom",
+  "shadows",
+  "distanceDisplayCondition",
+  "zIndex",
+  "classificationType",
+  "textureCoordinates",
+] as const;
 
 export const cesiumEventProps = {
-  onDefinitionChange: 'definitionChanged',
-} as const
+  onDefinitionChange: "definitionChanged",
+} as const;
 
 const PolygonGraphics = createCesiumComponent<CesiumPolygonGraphics, PolygonGraphicsProps>({
-  name: 'PolygonGraphics',
+  name: "PolygonGraphics",
   create(context, props) {
-    if (!context.entity) return
-    const element = new CesiumPolygonGraphics(props)
-    context.entity.polygon = element
-    return element
+    if (!context.entity) return;
+    const element = new CesiumPolygonGraphics(props);
+    context.entity.polygon = element;
+    return element;
   },
   destroy(_element, context) {
     if (context.entity) {
-      context.entity.polygon = undefined
+      context.entity.polygon = undefined;
     }
   },
   cesiumProps,
   cesiumEventProps,
-})
+});
 
-export default PolygonGraphics
+export default PolygonGraphics;

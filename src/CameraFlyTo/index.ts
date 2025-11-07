@@ -1,1 +1,1 @@
-export { default, type CameraFlyToProps } from './CameraFlyTo'
+export { default, type CameraFlyToProps } from "./CameraFlyTo";

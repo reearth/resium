@@ -1,1 +1,1 @@
-export { default, type ModelProps } from './Model'
+export { default, type ModelProps } from "./Model";

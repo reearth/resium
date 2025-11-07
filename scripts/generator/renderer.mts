@@ -1,4 +1,4 @@
-import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from './types.mts'
+import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mts";
 
 export function renderDoc(doc: Doc) {
   return `---
@@ -6,10 +6,10 @@ title: ${doc.name}
 ---
 
 # ${doc.name}
-${doc.summary ? `\n${doc.summary}\n` : ''}
+${doc.summary ? `\n${doc.summary}\n` : ""}
 ${
   doc.noCesiumElement
-    ? ''
+    ? ""
     : `- **Cesium element**: [${doc.cesiumElement}](${getCesiumDocURL(doc.cesiumElement)})
 `
 }- **Example**: [${doc.name}](https://resium.reearth.io/examples/?path=/story/${doc.name.toLowerCase()}--basic)
@@ -20,7 +20,7 @@ ${
 
 ${doc.scope}
 `
-    : ''
+    : ""
 }
 ## Properties
 
@@ -43,7 +43,7 @@ ${renderPropTable(doc.cesiumEvents, doc)}
 ${renderPropTable(doc.otherProps, doc)}`
     : renderPropTable(doc.props, doc)
 }
-`
+`;
 }
 
 function renderPropTable(props: Prop[] = [], doc: Doc) {
@@ -52,56 +52,59 @@ function renderPropTable(props: Prop[] = [], doc: Doc) {
 | Property | Type | Description |
 |--|--|--|
 ${props
-  .map((t) => {
-    return `| ${t.name} | ${renderType(t.type)} | ${t.required ? 'Required. ' : ''}${
+  .map(t => {
+    return `| ${t.name} | ${renderType(t.type)} | ${t.required ? "Required. " : ""}${
       t.mappedCesiumFieldName && !t.desc
         ? `Correspond to [${doc.cesiumElement}#${t.mappedCesiumFieldName}](${getCesiumDocURL(
             doc.cesiumElement,
             t.mappedCesiumFieldName,
           )})`
-        : t.desc || ''
-    } |`
+        : t.desc || ""
+    } |`;
   })
-  .join('\n')}
+  .join("\n")}
 `.trim()
-    : 'N/A'
+    : "N/A";
 }
 
 function renderType(t: TypeExpr | undefined): string {
   return escapeType(
     !t
-      ? ''
+      ? ""
       : !t.cesiumTypes.length
         ? t.text
         : t.cesiumTypes
             .concat()
             .sort((a, b) => a.start - b.start)
-            .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [s, i === 0 ? undefined : a[i - 1]])
+            .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [
+              s,
+              i === 0 ? undefined : a[i - 1],
+            ])
             .reduce(
               (a, [current, prev]) =>
                 a +
                 (prev ? t.text.slice(prev.end, current.start) : t.text.slice(0, current.start)) +
                 `[${getCesiumTypeName(current)}](${getCesiumDocURL(current.name, current.field, current.fieldIsType)})`,
-              '',
+              "",
             ) + t.text.slice(t.cesiumTypes[t.cesiumTypes.length - 1].end),
-  )
+  );
 }
 
 function escapeType(t: string) {
   return t
-    .replace(/\n/g, '')
-    .replace(/ {2,}/g, ' ')
-    .replace(/\{/g, '&#123;')
-    .replace(/\}/g, '&#125;')
-    .replace(/\|/g, '&#124;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
+    .replace(/\n/g, "")
+    .replace(/ {2,}/g, " ")
+    .replace(/\{/g, "&#123;")
+    .replace(/\}/g, "&#125;")
+    .replace(/\|/g, "&#124;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
 }
 
 function getCesiumTypeName(t: CesiumTypeExpr) {
-  return `${t.name}${t.field ? `.${t.field}` : ''}`
+  return `${t.name}${t.field ? `.${t.field}` : ""}`;
 }
 
 function getCesiumDocURL(name: string, field?: string, fieldIsType?: boolean) {
-  return `https://cesium.com/docs/cesiumjs-ref-doc/${name}.html${field ? `#${fieldIsType ? '.' : ''}${field}` : ''}`
+  return `https://cesium.com/docs/cesiumjs-ref-doc/${name}.html${field ? `#${fieldIsType ? "." : ""}${field}` : ""}`;
 }

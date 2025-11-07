@@ -1,12 +1,12 @@
 // @ignore
-import { PostProcessStageLibrary } from 'cesium'
+import { PostProcessStageLibrary } from "cesium";
 
-import { createPostProcessStage } from '../core'
+import { createPostProcessStage } from "../core";
 
 export const NightVisionStage = createPostProcessStage<unknown>({
-  name: 'NightVisionStage',
+  name: "NightVisionStage",
   props: [],
   create: () => PostProcessStageLibrary.createNightVisionStage(),
-})
+});
 
-export default NightVisionStage
+export default NightVisionStage;

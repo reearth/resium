@@ -1,18 +1,18 @@
-import { Meta, StoryObj } from '@storybook/react'
-import { Cartesian2, Cartesian3 } from 'cesium'
+import { Meta, StoryObj } from "@storybook/react";
+import { Cartesian2, Cartesian3 } from "cesium";
 
-import CameraLookAt from '../CameraLookAt'
-import CloudCollection from '../CloudCollection'
-import Viewer from '../Viewer'
+import CameraLookAt from "../CameraLookAt";
+import CloudCollection from "../CloudCollection";
+import Viewer from "../Viewer";
 
-import CumulusCloud from './CumulusCloud'
+import CumulusCloud from "./CumulusCloud";
 
-type Story = StoryObj<typeof CumulusCloud>
+type Story = StoryObj<typeof CumulusCloud>;
 
 export default {
-  title: 'CumulusCloud',
+  title: "CumulusCloud",
   component: CumulusCloud,
-} as Meta
+} as Meta;
 
 export const Basic: Story = {
   args: {
@@ -23,14 +23,16 @@ export const Basic: Story = {
     slice: 0.36,
     brightness: 1.0,
   },
-  render: (args) => {
+  render: args => {
     return (
       <Viewer full>
-        {args.position && <CameraLookAt target={args.position} offset={new Cartesian3(30, 30, -10)} />}
+        {args.position && (
+          <CameraLookAt target={args.position} offset={new Cartesian3(30, 30, -10)} />
+        )}
         <CloudCollection noiseDetail={16} noiseOffset={Cartesian3.ZERO}>
           <CumulusCloud {...args} />
         </CloudCollection>
       </Viewer>
-    )
+    );
   },
-}
+};

@@ -1,9 +1,9 @@
-import { CustomDataSource as CesiumCustomDataSource } from 'cesium'
-import { ReactNode } from 'react'
+import { CustomDataSource as CesiumCustomDataSource } from "cesium";
+import { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps, EventProps, EventTarget } from '../core'
+import { createCesiumComponent, PickCesiumProps, EventProps, EventTarget } from "../core";
 
-export type { EventTarget } from '../core'
+export type { EventTarget } from "../core";
 
 /*
 @summary
@@ -17,61 +17,64 @@ It can have some Entity components as children.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type CustomDataSourceCesiumProps = PickCesiumProps<CesiumCustomDataSource, typeof cesiumProps>
+export type CustomDataSourceCesiumProps = PickCesiumProps<
+  CesiumCustomDataSource,
+  typeof cesiumProps
+>;
 
 export type CustomDataSourceCesiumEvents = {
-  onChange?: (customDataSource: CesiumCustomDataSource) => void
-  onError?: (customDataSource: CesiumCustomDataSource, error: any) => void
-  onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void
-}
+  onChange?: (customDataSource: CesiumCustomDataSource) => void;
+  onError?: (customDataSource: CesiumCustomDataSource, error: any) => void;
+  onLoading?: (customDataSource: CesiumCustomDataSource, isLoaded: boolean) => void;
+};
 
 export type CustomDataSourceOtherProps = EventProps<EventTarget> & {
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
 export type CustomDataSourceProps = CustomDataSourceCesiumProps &
   CustomDataSourceCesiumEvents &
-  CustomDataSourceOtherProps
+  CustomDataSourceOtherProps;
 
-const cesiumProps = ['clustering', 'name', 'show', 'clock', 'isLoading'] as const
+const cesiumProps = ["clustering", "name", "show", "clock", "isLoading"] as const;
 
 export const cesiumEventProps = {
-  onChange: 'changedEvent',
-  onError: 'errorEvent',
-  onLoading: 'loadingEvent',
-} as const
+  onChange: "changedEvent",
+  onError: "errorEvent",
+  onLoading: "loadingEvent",
+} as const;
 
 const CustomDataSource = createCesiumComponent<CesiumCustomDataSource, CustomDataSourceProps>({
-  name: 'CustomDataSource',
+  name: "CustomDataSource",
   create(context, props) {
-    if (!context.dataSourceCollection) return
-    const element = new CesiumCustomDataSource(props.name)
+    if (!context.dataSourceCollection) return;
+    const element = new CesiumCustomDataSource(props.name);
     if (props.clustering) {
-      element.clustering = props.clustering
+      element.clustering = props.clustering;
     }
-    if (typeof props.show === 'boolean') {
-      element.show = props.show
+    if (typeof props.show === "boolean") {
+      element.show = props.show;
     }
-    if (typeof props.clock !== 'undefined') {
-      element.clock = props.clock
+    if (typeof props.clock !== "undefined") {
+      element.clock = props.clock;
     }
-    context.dataSourceCollection.add(element)
-    return element
+    context.dataSourceCollection.add(element);
+    return element;
   },
   destroy(element, context) {
     if (context.dataSourceCollection && !context.dataSourceCollection.isDestroyed()) {
-      context.dataSourceCollection.remove(element)
+      context.dataSourceCollection.remove(element);
     }
   },
   provide(element) {
     return {
       entityCollection: element.entities,
       dataSource: element,
-    }
+    };
   },
   cesiumProps,
   cesiumEventProps,
   useCommonEvent: true,
-})
+});
 
-export default CustomDataSource
+export default CustomDataSource;

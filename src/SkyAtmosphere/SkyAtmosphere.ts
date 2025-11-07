@@ -1,6 +1,6 @@
-import { SkyAtmosphere as CesiumSkyAtmosphere } from 'cesium'
+import { SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -14,29 +14,29 @@ SkyAtmosphere can be mounted inside[Viewer](/components/Viewer) or [CesiumWidget
 It can not be mounted more than once for each Viewer or CesiumWidget.
 */
 
-export type SkyAtmosphereCesiumProps = PickCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>
+export type SkyAtmosphereCesiumProps = PickCesiumProps<CesiumSkyAtmosphere, typeof cesiumProps>;
 
-export type SkyAtmosphereProps = SkyAtmosphereCesiumProps
+export type SkyAtmosphereProps = SkyAtmosphereCesiumProps;
 
 const cesiumProps = [
-  'brightnessShift',
-  'hueShift',
-  'saturationShift',
-  'show',
-  'perFragmentAtmosphere',
-  'atmosphereLightIntensity',
-  'atmosphereRayleighCoefficient',
-  'atmosphereMieCoefficient',
-  'atmosphereRayleighScaleHeight',
-  'atmosphereMieScaleHeight',
-  'atmosphereMieAnisotropy',
-] as const
+  "brightnessShift",
+  "hueShift",
+  "saturationShift",
+  "show",
+  "perFragmentAtmosphere",
+  "atmosphereLightIntensity",
+  "atmosphereRayleighCoefficient",
+  "atmosphereMieCoefficient",
+  "atmosphereRayleighScaleHeight",
+  "atmosphereMieScaleHeight",
+  "atmosphereMieAnisotropy",
+] as const;
 
 const SkyAtmosphere = createCesiumComponent<CesiumSkyAtmosphere, SkyAtmosphereProps>({
-  name: 'SkyAtmosphere',
-  create: (context) => context.scene?.skyAtmosphere,
+  name: "SkyAtmosphere",
+  create: context => context.scene?.skyAtmosphere,
   cesiumProps,
   setCesiumPropsAfterCreate: true,
-})
+});
 
-export default SkyAtmosphere
+export default SkyAtmosphere;

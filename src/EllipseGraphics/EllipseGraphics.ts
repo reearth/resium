@@ -1,6 +1,6 @@
-import { EllipseGraphics as CesiumEllipseGraphics } from 'cesium'
+import { EllipseGraphics as CesiumEllipseGraphics } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge } from '../core'
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -16,56 +16,56 @@ and can not be mounted more than once for each entity.
 export type EllipseGraphicsCesiumProps = PickCesiumProps<
   Merge<CesiumEllipseGraphics, CesiumEllipseGraphics.ConstructorOptions>,
   typeof cesiumProps
->
+>;
 
 export type EllipseGraphicsCesiumEvents = {
-  onDefinitionChange?: () => void
-}
+  onDefinitionChange?: () => void;
+};
 
-export type EllipseGraphicsProps = EllipseGraphicsCesiumProps & EllipseGraphicsCesiumEvents
+export type EllipseGraphicsProps = EllipseGraphicsCesiumProps & EllipseGraphicsCesiumEvents;
 
 const cesiumProps = [
-  'semiMajorAxis',
-  'semiMinorAxis',
-  'height',
-  'heightReference',
-  'extrudedHeight',
-  'show',
-  'fill',
-  'material',
-  'outline',
-  'outlineColor',
-  'outlineWidth',
-  'numberOfVerticalLines',
-  'rotation',
-  'stRotation',
-  'granularity',
-  'shadows',
-  'distanceDisplayCondition',
-  'zIndex',
-  'classificationType',
-  'extrudedHeightReference',
-] as const
+  "semiMajorAxis",
+  "semiMinorAxis",
+  "height",
+  "heightReference",
+  "extrudedHeight",
+  "show",
+  "fill",
+  "material",
+  "outline",
+  "outlineColor",
+  "outlineWidth",
+  "numberOfVerticalLines",
+  "rotation",
+  "stRotation",
+  "granularity",
+  "shadows",
+  "distanceDisplayCondition",
+  "zIndex",
+  "classificationType",
+  "extrudedHeightReference",
+] as const;
 
 export const cesiumEventProps = {
-  onDefinitionChange: 'definitionChanged',
-} as const
+  onDefinitionChange: "definitionChanged",
+} as const;
 
 const EllipseGraphics = createCesiumComponent<CesiumEllipseGraphics, EllipseGraphicsProps>({
-  name: 'EllipseGraphics',
+  name: "EllipseGraphics",
   create(context, props) {
-    if (!context.entity) return
-    const element = new CesiumEllipseGraphics(props)
-    context.entity.ellipse = element
-    return element
+    if (!context.entity) return;
+    const element = new CesiumEllipseGraphics(props);
+    context.entity.ellipse = element;
+    return element;
   },
   destroy(_element, context) {
     if (context.entity) {
-      context.entity.ellipse = undefined
+      context.entity.ellipse = undefined;
     }
   },
   cesiumProps,
   cesiumEventProps,
-})
+});
 
-export default EllipseGraphics
+export default EllipseGraphics;

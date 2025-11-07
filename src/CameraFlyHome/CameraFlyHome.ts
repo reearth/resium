@@ -1,4 +1,4 @@
-import { createCameraOperation } from '../core'
+import { createCameraOperation } from "../core";
 
 // @noCesiumElement
 
@@ -20,15 +20,18 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 
 export type CameraFlyHomeProps = {
   /** Duration of camera flight (second) */
-  duration: number
+  duration: number;
   /** If true, cancel camera flight if this component is unmounted. Default value is false. */
-  cancelFlightOnUnmount?: boolean
+  cancelFlightOnUnmount?: boolean;
   /** If true, camera flight will be executed only once time. */
-  once?: boolean
-}
+  once?: boolean;
+};
 
-const CameraFlyHome = createCameraOperation<CameraFlyHomeProps>('CameraFlyHome', (camera, { duration }) => {
-  camera.flyHome(duration)
-})
+const CameraFlyHome = createCameraOperation<CameraFlyHomeProps>(
+  "CameraFlyHome",
+  (camera, { duration }) => {
+    camera.flyHome(duration);
+  },
+);
 
-export default CameraFlyHome
+export default CameraFlyHome;

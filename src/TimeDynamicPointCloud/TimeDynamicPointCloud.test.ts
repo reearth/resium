@@ -1,14 +1,14 @@
-import { expectType, TypeEqual } from 'ts-expect'
-import { it } from 'vitest'
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps } from '../core'
+import { UnusedCesiumProps } from "../core";
 
 import {
   TimeDynamicPointCloudProps,
   cesiumEventProps,
   Target,
   TimeDynamicPointCloudOtherProps,
-} from './TimeDynamicPointCloud'
+} from "./TimeDynamicPointCloud";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -16,9 +16,9 @@ type UnusedProps = UnusedCesiumProps<
   Omit<TimeDynamicPointCloudProps, keyof TimeDynamicPointCloudOtherProps>,
   typeof cesiumEventProps,
   IgnoredProps
->
-type IgnoredProps = 'shading' // shading is actually used
+>;
+type IgnoredProps = "shading"; // shading is actually used
 
-expectType<TypeEqual<never, UnusedProps>>(true)
+expectType<TypeEqual<never, UnusedProps>>(true);
 
-it('should be compiled', () => {})
+it("should be compiled", () => {});

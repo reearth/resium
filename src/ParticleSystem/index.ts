@@ -1,1 +1,1 @@
-export { default, type ParticleSystemProps } from './ParticleSystem'
+export { default, type ParticleSystemProps } from "./ParticleSystem";

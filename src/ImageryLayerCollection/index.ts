@@ -1,1 +1,1 @@
-export { default, type ImageryLayerCollectionProps } from './ImageryLayerCollection'
+export { default, type ImageryLayerCollectionProps } from "./ImageryLayerCollection";

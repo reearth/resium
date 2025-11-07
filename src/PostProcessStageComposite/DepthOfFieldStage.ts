@@ -1,23 +1,23 @@
 // @ignore
-import { PostProcessStageLibrary } from 'cesium'
+import { PostProcessStageLibrary } from "cesium";
 
-import { createPostProcessStage } from '../core'
+import { createPostProcessStage } from "../core";
 
-import { PostProcessStageCompositeProps } from './PostProcessStageComposite'
+import { PostProcessStageCompositeProps } from "./PostProcessStageComposite";
 
 type Props = {
-  focalDistance?: number
-  delta?: number
-  sigma?: number
-  stepSize?: number
-}
+  focalDistance?: number;
+  delta?: number;
+  sigma?: number;
+  stepSize?: number;
+};
 
-export type DepthOfFieldStageProps = PostProcessStageCompositeProps & Props
+export type DepthOfFieldStageProps = PostProcessStageCompositeProps & Props;
 
 export const DepthOfFieldStage = createPostProcessStage<Props>({
-  name: 'DepthOfFieldStage',
-  props: ['delta', 'focalDistance', 'sigma', 'stepSize'],
+  name: "DepthOfFieldStage",
+  props: ["delta", "focalDistance", "sigma", "stepSize"],
   create: () => PostProcessStageLibrary.createDepthOfFieldStage(),
-})
+});
 
-export default DepthOfFieldStage
+export default DepthOfFieldStage;

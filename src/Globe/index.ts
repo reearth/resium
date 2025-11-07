@@ -1,1 +1,1 @@
-export { default, type GlobeProps } from './Globe'
+export { default, type GlobeProps } from "./Globe";

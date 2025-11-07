@@ -1,1 +1,1 @@
-export { default, type CustomDataSourceProps } from './CustomDataSource'
+export { default, type CustomDataSourceProps } from "./CustomDataSource";

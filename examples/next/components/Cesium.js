@@ -1,9 +1,9 @@
-import { Cartesian3, Color } from 'cesium'
-import { useState } from 'react'
-import { Entity, Viewer } from 'resium'
+import { Cartesian3, Color } from "cesium";
+import { useState } from "react";
+import { Entity, Viewer } from "resium";
 
 export default function Cesium() {
-  const [flag, setFlag] = useState(false)
+  const [flag, setFlag] = useState(false);
 
   return (
     <Viewer full>
@@ -12,7 +12,7 @@ export default function Cesium() {
         position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
         point={{ pixelSize: 20, color: Color.WHITE }}
         description="hoge"
-        onClick={() => setFlag((f) => !f)}
+        onClick={() => setFlag(f => !f)}
       />
       {flag && (
         <Entity
@@ -21,5 +21,5 @@ export default function Cesium() {
         />
       )}
     </Viewer>
-  )
+  );
 }

@@ -1,6 +1,12 @@
-import { GroundPrimitive as CesiumGroundPrimitive } from 'cesium'
+import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
 
-import { ConstructorOptions, createCesiumComponent, EventProps, Merge, PickCesiumProps } from '../core'
+import {
+  ConstructorOptions,
+  createCesiumComponent,
+  EventProps,
+  Merge,
+  PickCesiumProps,
+} from "../core";
 
 /*
 @summary
@@ -17,74 +23,77 @@ If this component is inside GroundPrimitiveCollection component, a ground primit
 Otherwise, a primitive object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type Target = Merge<CesiumGroundPrimitive, ConstructorOptions<typeof CesiumGroundPrimitive>>
+export type Target = Merge<CesiumGroundPrimitive, ConstructorOptions<typeof CesiumGroundPrimitive>>;
 
-export type GroundPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type GroundPrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
-export type GroundPrimitiveCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>
+export type GroundPrimitiveCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps
+>;
 
 export type GroundPrimitiveOtherProps = EventProps<{
-  id: string
-  primitive: CesiumGroundPrimitive // TODO: validate type
+  id: string;
+  primitive: CesiumGroundPrimitive; // TODO: validate type
 }> & {
   // GroundPrimitive
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/GroundPrimitive.html#readyPromise) is fullfilled */
-  onReady?: (primitive: CesiumGroundPrimitive) => void
-}
+  onReady?: (primitive: CesiumGroundPrimitive) => void;
+};
 
 export type GroundPrimitiveProps = GroundPrimitiveCesiumProps &
   GroundPrimitiveCesiumReadonlyProps &
-  GroundPrimitiveOtherProps
+  GroundPrimitiveOtherProps;
 
 const cesiumProps = [
-  'appearance',
-  'classificationType',
-  'debugShowBoundingVolume',
-  'debugShowShadowVolume',
-  'show',
-] as const
+  "appearance",
+  "classificationType",
+  "debugShowBoundingVolume",
+  "debugShowShadowVolume",
+  "show",
+] as const;
 
 const cesiumReadonlyProps = [
-  'allowPicking',
-  'asynchronous',
-  'compressVertices',
-  'geometryInstances',
-  'interleave',
-  'releaseGeometryInstances',
-  'vertexCacheOptimize',
-] as const
+  "allowPicking",
+  "asynchronous",
+  "compressVertices",
+  "geometryInstances",
+  "interleave",
+  "releaseGeometryInstances",
+  "vertexCacheOptimize",
+] as const;
 
-export const otherProps = ['onReady'] as const
+export const otherProps = ["onReady"] as const;
 
 const GroundPrimitive = createCesiumComponent<CesiumGroundPrimitive, GroundPrimitiveProps>({
-  name: 'GroundPrimitive',
+  name: "GroundPrimitive",
   create(context, props) {
-    if (!context.primitiveCollection) return
-    const element = new CesiumGroundPrimitive(props)
+    if (!context.primitiveCollection) return;
+    const element = new CesiumGroundPrimitive(props);
     if (props.onReady) {
       const handlePostRender = () => {
         if (element.ready) {
-          props.onReady?.(element)
-          context.scene?.postRender.removeEventListener(handlePostRender)
+          props.onReady?.(element);
+          context.scene?.postRender.removeEventListener(handlePostRender);
         }
-      }
-      context.scene?.postRender.addEventListener(handlePostRender)
+      };
+      context.scene?.postRender.addEventListener(handlePostRender);
     }
-    context.primitiveCollection.add(element)
-    return element
+    context.primitiveCollection.add(element);
+    return element;
   },
   destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-      context.primitiveCollection.remove(element)
+      context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {
-      element.destroy()
+      element.destroy();
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
   otherProps,
   useCommonEvent: true,
-})
+});
 
-export default GroundPrimitive
+export default GroundPrimitive;

@@ -1,10 +1,10 @@
 // @ignore
-import { createPostProcessStage } from '../core'
+import { createPostProcessStage } from "../core";
 
 export const Fxaa = createPostProcessStage<unknown>({
-  name: 'Fxaa',
+  name: "Fxaa",
   create: (_props, collection) => collection.fxaa,
   props: [],
-})
+});
 
-export default Fxaa
+export default Fxaa;

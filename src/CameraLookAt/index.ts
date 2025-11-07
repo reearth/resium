@@ -1,1 +1,1 @@
-export { default, type CameraLookAtProps } from './CameraLookAt'
+export { default, type CameraLookAtProps } from "./CameraLookAt";

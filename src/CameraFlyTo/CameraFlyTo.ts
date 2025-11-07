@@ -1,6 +1,6 @@
-import { Camera } from 'cesium'
+import { Camera } from "cesium";
 
-import { createCameraOperation } from '../core'
+import { createCameraOperation } from "../core";
 
 // @noCesiumElement
 
@@ -20,23 +20,23 @@ See also: [Camera#flyTo](https://cesium.com/docs/cesiumjs-ref-doc/Camera.html?cl
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Options = Parameters<Camera['flyTo']>[0]
+type Options = Parameters<Camera["flyTo"]>[0];
 
-export type CameraFlyToProps = Omit<Options, 'complete' | 'cancel'> & {
-  onComplete?: Options['complete']
-  onCancel?: Options['cancel']
+export type CameraFlyToProps = Omit<Options, "complete" | "cancel"> & {
+  onComplete?: Options["complete"];
+  onCancel?: Options["cancel"];
   /** If true, cancel camera flight if this component is unmounted. Default value is false. */
-  cancelFlightOnUnmount?: boolean
+  cancelFlightOnUnmount?: boolean;
   /** If true, camera flight will be executed only once time. */
-  once?: boolean
-}
+  once?: boolean;
+};
 
 const CameraFlyTo = createCameraOperation<CameraFlyToProps>(
-  'CameraFlyTo',
+  "CameraFlyTo",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (camera, { onComplete, onCancel, ...props }) => {
-    camera.flyTo({ ...props, complete: onComplete, cancel: onCancel })
+    camera.flyTo({ ...props, complete: onComplete, cancel: onCancel });
   },
-)
+);
 
-export default CameraFlyTo
+export default CameraFlyTo;

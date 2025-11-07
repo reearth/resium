@@ -1,32 +1,37 @@
-import { action } from '@storybook/addon-actions'
-import { Meta, StoryObj } from '@storybook/react'
-import { CesiumTerrainProvider, EllipsoidTerrainProvider, IonResource, Viewer as CesiumViewer } from 'cesium'
-import { StrictMode, useEffect, useRef } from 'react'
+import { action } from "@storybook/addon-actions";
+import { Meta, StoryObj } from "@storybook/react";
+import {
+  CesiumTerrainProvider,
+  EllipsoidTerrainProvider,
+  IonResource,
+  Viewer as CesiumViewer,
+} from "cesium";
+import { StrictMode, useEffect, useRef } from "react";
 
-import { CesiumComponentRef } from '../core'
-import Viewer from '../Viewer'
+import { CesiumComponentRef } from "../core";
+import Viewer from "../Viewer";
 
-import Globe from './Globe'
+import Globe from "./Globe";
 
-type Story = StoryObj<typeof Globe>
+type Story = StoryObj<typeof Globe>;
 
 export default {
-  title: 'Globe',
+  title: "Globe",
   component: Globe,
-} as Meta
+} as Meta;
 
 export const Basic: Story = {
-  render: (args) => (
+  render: args => (
     <Viewer full>
       <Globe
         {...args}
         terrainProvider={new EllipsoidTerrainProvider()}
-        onImageryLayersUpdate={action('onImageryLayersUpdate')}
-        onTerrainProviderChange={action('onTerrainProviderChange')}
+        onImageryLayersUpdate={action("onImageryLayersUpdate")}
+        onTerrainProviderChange={action("onTerrainProviderChange")}
       />
     </Viewer>
   ),
-}
+};
 
 export const Promise: Story = {
   args: { enableLighting: true, isTerrainEnabled: false } as any,
@@ -43,13 +48,13 @@ export const Promise: Story = {
                 })
               : new EllipsoidTerrainProvider()
           }
-          onImageryLayersUpdate={action('onImageryLayersUpdate')}
-          onTerrainProviderChange={action('onTerrainProviderChange')}
+          onImageryLayersUpdate={action("onImageryLayersUpdate")}
+          onTerrainProviderChange={action("onTerrainProviderChange")}
         />
       </Viewer>
     </StrictMode>
   ),
-}
+};
 
 export const PromiseStrict: Story = {
   args: { enableLighting: true, isTerrainEnabled: false } as any,
@@ -66,20 +71,20 @@ export const PromiseStrict: Story = {
                 })
               : new EllipsoidTerrainProvider()
           }
-          onImageryLayersUpdate={action('onImageryLayersUpdate')}
-          onTerrainProviderChange={action('onTerrainProviderChange')}
+          onImageryLayersUpdate={action("onImageryLayersUpdate")}
+          onTerrainProviderChange={action("onTerrainProviderChange")}
         />
       </Viewer>
     </StrictMode>
   ),
-}
+};
 
 const DynamicComp = ({ isTerrainEnabled, ...args }: any) => {
-  const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null)
+  const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   useEffect(() => {
     const run = async () => {
       if (!viewerRef.current?.cesiumElement) {
-        return
+        return;
       }
 
       viewerRef.current.cesiumElement.terrainProvider = isTerrainEnabled
@@ -87,34 +92,34 @@ const DynamicComp = ({ isTerrainEnabled, ...args }: any) => {
             requestVertexNormals: true,
             requestWaterMask: false,
           })
-        : new EllipsoidTerrainProvider()
-    }
-    run()
-  }, [viewerRef, isTerrainEnabled])
+        : new EllipsoidTerrainProvider();
+    };
+    run();
+  }, [viewerRef, isTerrainEnabled]);
 
   return (
     <Viewer full ref={viewerRef}>
       <Globe
         {...args}
-        onImageryLayersUpdate={action('onImageryLayersUpdate')}
-        onTerrainProviderChange={action('onTerrainProviderChange')}
+        onImageryLayersUpdate={action("onImageryLayersUpdate")}
+        onTerrainProviderChange={action("onTerrainProviderChange")}
       />
     </Viewer>
-  )
-}
+  );
+};
 export const Dynamic: Story = {
   args: { enableLighting: true, isTerrainEnabled: false } as any,
   render: ({ ...args }: any) => <DynamicComp {...args} />,
-}
+};
 
 const DynamicStrictComp = ({ isTerrainEnabled, ...args }: any) => {
-  const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null)
+  const viewerRef = useRef<CesiumComponentRef<CesiumViewer> | null>(null);
   useEffect(() => {
     const run = () => {
       // TODO: Remove this setTimeout in  strict mode.
       setTimeout(async () => {
         if (!viewerRef.current?.cesiumElement) {
-          return
+          return;
         }
 
         viewerRef.current.cesiumElement.terrainProvider = isTerrainEnabled
@@ -122,23 +127,23 @@ const DynamicStrictComp = ({ isTerrainEnabled, ...args }: any) => {
               requestVertexNormals: true,
               requestWaterMask: false,
             })
-          : new EllipsoidTerrainProvider()
-      }, 1)
-    }
-    run()
-  }, [viewerRef, isTerrainEnabled])
+          : new EllipsoidTerrainProvider();
+      }, 1);
+    };
+    run();
+  }, [viewerRef, isTerrainEnabled]);
 
   return (
     <Viewer full ref={viewerRef}>
       <Globe
         {...args}
-        onImageryLayersUpdate={action('onImageryLayersUpdate')}
-        onTerrainProviderChange={action('onTerrainProviderChange')}
+        onImageryLayersUpdate={action("onImageryLayersUpdate")}
+        onTerrainProviderChange={action("onTerrainProviderChange")}
       />
     </Viewer>
-  )
-}
+  );
+};
 export const DynamicStrict: Story = {
   args: { enableLighting: true, isTerrainEnabled: false } as any,
   render: ({ ...args }: any) => <DynamicStrictComp {...args} />,
-}
+};

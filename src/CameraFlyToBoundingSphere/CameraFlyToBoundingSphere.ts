@@ -1,6 +1,6 @@
-import { Camera } from 'cesium'
+import { Camera } from "cesium";
 
-import { createCameraOperation, StaticMethodOptions2 } from '../core'
+import { createCameraOperation, StaticMethodOptions2 } from "../core";
 
 // @noCesiumElement
 
@@ -20,28 +20,28 @@ See also: [Camera#flyToBoundingSphere](https://cesium.com/docs/cesiumjs-ref-doc/
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-type Options = StaticMethodOptions2<Camera, 'flyToBoundingSphere'>
+type Options = StaticMethodOptions2<Camera, "flyToBoundingSphere">;
 
-export type CameraFlyToBoundingSphereProps = Omit<Options, 'complete' | 'cancel'> & {
-  boundingSphere: Parameters<Camera['flyToBoundingSphere']>[0]
-  onComplete?: Options['complete']
-  onCancel?: Options['cancel']
+export type CameraFlyToBoundingSphereProps = Omit<Options, "complete" | "cancel"> & {
+  boundingSphere: Parameters<Camera["flyToBoundingSphere"]>[0];
+  onComplete?: Options["complete"];
+  onCancel?: Options["cancel"];
   /** If true, cancel camera flight if this component is unmounted. Default value is false. */
-  cancelFlightOnUnmount?: boolean
+  cancelFlightOnUnmount?: boolean;
   /** If true, camera flight will be executed only once time. */
-  once?: boolean
-}
+  once?: boolean;
+};
 
 const CameraFlyToBoundingSphere = createCameraOperation<CameraFlyToBoundingSphereProps>(
-  'CameraFlyToBoundingSphere',
+  "CameraFlyToBoundingSphere",
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   (camera, { boundingSphere, onComplete, onCancel, ...props }) => {
     camera.flyToBoundingSphere(boundingSphere, {
       ...props,
       complete: onComplete,
       cancel: onCancel,
-    })
+    });
   },
-)
+);
 
-export default CameraFlyToBoundingSphere
+export default CameraFlyToBoundingSphere;

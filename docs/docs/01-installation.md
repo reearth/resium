@@ -31,7 +31,7 @@ There are some choices. Choose one.
 When you finish set up, you can import Cesium:
 
 ```js
-import { Cartesian3 } from 'cesium'
+import { Cartesian3 } from "cesium";
 ```
 
 Then advance to [Getting Started](/getting_started).
@@ -61,19 +61,19 @@ The steps for initializing Next.js are not explained here. We will assume that y
 Add a webpack define pugin:
 
 ```js
-const webpack = require('webpack')
+const webpack = require("webpack");
 
 module.exports = {
   reactStrictMode: true,
-  webpack: (config) => {
+  webpack: config => {
     config.plugins.push(
       new webpack.DefinePlugin({
-        CESIUM_BASE_URL: JSON.stringify('cesium'),
+        CESIUM_BASE_URL: JSON.stringify("cesium"),
       }),
-    )
-    return config
+    );
+    return config;
   },
-}
+};
 ```
 
 ### 2-2. Set up script to copy Cesium files automatically
@@ -123,20 +123,20 @@ Using `copy-webpack-plugin` in `next.config.js` does not work because the copied
 Cesium cannot be used in SSR, so components using Cesium should be separated from page components. Define your Cesium component in any location other than `pages` directory.
 
 ```jsx title="components/Cesium.js"
-import { Viewer } from 'resium'
+import { Viewer } from "resium";
 
 export default function Cesium() {
-  return <Viewer full />
+  return <Viewer full />;
 }
 ```
 
 Then dynamically import components using Cesium with `next/dynamic`. Don't forget `{ ssr: false }` option. Also load Cesium CSS file with `next/head`.
 
 ```jsx title="pages/index.js"
-import Head from 'next/head'
-import dynamic from 'next/dynamic'
+import Head from "next/head";
+import dynamic from "next/dynamic";
 
-const Cesium = dynamic(() => import('../components/Cesium'), { ssr: false })
+const Cesium = dynamic(() => import("../components/Cesium"), { ssr: false });
 
 export default function Home() {
   return (
@@ -146,7 +146,7 @@ export default function Home() {
       </Head>
       <Cesium />
     </>
-  )
+  );
 }
 ```
 
@@ -175,7 +175,7 @@ Cesium will be loaded in HTML. Notify it to webpack.
 ```js
 {
   externals: {
-    cesium: 'Cesium'
+    cesium: "Cesium";
   }
 }
 ```
@@ -189,10 +189,10 @@ When cesium is loaded, webpack uses `window.Cesium` instead of loading source fi
 - Notify Cesium to its path with webpack define plugin
 
 ```js
-const webpack = require('webpack')
-const HtmlPlugin = require('html-webpack-plugin')
-const HtmlTagsPlugin = require('html-webpack-tags-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require("webpack");
+const HtmlPlugin = require("html-webpack-plugin");
+const HtmlTagsPlugin = require("html-webpack-tags-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```
 
 ```js
@@ -202,22 +202,22 @@ const CopyWebpackPlugin = require('copy-webpack-plugin')
     new CopyWebpackPlugin({
       patterns: [
         {
-          from: 'node_modules/cesium/Build/Cesium',
-          to: 'cesium',
+          from: "node_modules/cesium/Build/Cesium",
+          to: "cesium",
         },
       ],
     }),
     new HtmlPlugin({
-      template: 'index.html',
+      template: "index.html",
     }),
     new HtmlTagsPlugin({
       append: false,
-      tags: ['cesium/Widgets/widgets.css', 'cesium/Cesium.js'],
+      tags: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
     }),
     new webpack.DefinePlugin({
-      CESIUM_BASE_URL: JSON.stringify('/cesium'),
+      CESIUM_BASE_URL: JSON.stringify("/cesium"),
     }),
-  ]
+  ];
 }
 ```
 
@@ -245,32 +245,32 @@ Then, edit your webpack configuration.
 - Cesium refers to `CESIUM_BASE_URL` to find asset files
 
 ```js
-const webpack = require('webpack')
-const HtmlPlugin = require('html-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
+const webpack = require("webpack");
+const HtmlPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
 ```
 
 ```js
 {
   plugins: [
     new HtmlPlugin({
-      template: 'index.html',
+      template: "index.html",
     }),
     new CopyWebpackPlugin({
       patterns: [
-        { from: 'node_modules/cesium/Build/Cesium/Workers', to: 'Workers' },
+        { from: "node_modules/cesium/Build/Cesium/Workers", to: "Workers" },
         {
-          from: 'node_modules/cesium/Build/Cesium/ThirdParty',
-          to: 'ThirdParty',
+          from: "node_modules/cesium/Build/Cesium/ThirdParty",
+          to: "ThirdParty",
         },
-        { from: 'node_modules/cesium/Build/Cesium/Assets', to: 'Assets' },
-        { from: 'node_modules/cesium/Build/Cesium/Widgets', to: 'Widgets' },
+        { from: "node_modules/cesium/Build/Cesium/Assets", to: "Assets" },
+        { from: "node_modules/cesium/Build/Cesium/Widgets", to: "Widgets" },
       ],
     }),
     new webpack.DefinePlugin({
-      CESIUM_BASE_URL: JSON.stringify(''),
+      CESIUM_BASE_URL: JSON.stringify(""),
     }),
-  ]
+  ];
 }
 ```
 
@@ -285,17 +285,17 @@ Note: If `publicPath` in webpack config is changed, `CESIUM_BASE_URL` may have t
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: 'babel-loader',
+        use: "babel-loader",
       },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: ["style-loader", "css-loader"],
       },
       {
         test: /\.(png|gif|jpg|jpeg|svg|xml|json)$/,
-        use: ['url-loader'],
+        use: ["url-loader"],
       },
-    ]
+    ];
   }
 }
 ```
@@ -317,7 +317,7 @@ Tips: Using `html-webpack-tags-plugin` is also OK!
 [As reported on GitHub issues](https://github.com/CesiumGS/cesium/issues/9212), adding import statement to your entry JS (e.g. index.js) does not work for now:
 
 ```js
-import 'cesium/Widgets/widgets.css'
+import "cesium/Widgets/widgets.css";
 ```
 
 :::
@@ -349,14 +349,14 @@ yarn add --dev vite-plugin-cesium
 Then edit `vite.config.js`:
 
 ```js
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import cesium from 'vite-plugin-cesium'
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import cesium from "vite-plugin-cesium";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [react(), cesium()],
-})
+});
 ```
 
 That's all!

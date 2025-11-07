@@ -1,10 +1,10 @@
-import { CylinderGraphics } from 'cesium'
-import { expectType, TypeEqual } from 'ts-expect'
-import { it } from 'vitest'
+import { CylinderGraphics } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { Merge, UnusedCesiumProps } from '../core'
+import { Merge, UnusedCesiumProps } from "../core";
 
-import { cesiumEventProps, CylinderGraphicsProps } from './CylinderGraphics'
+import { cesiumEventProps, CylinderGraphicsProps } from "./CylinderGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -12,9 +12,9 @@ type UnusedProps = UnusedCesiumProps<
   CylinderGraphicsProps,
   typeof cesiumEventProps,
   IgnoredProps
->
-type IgnoredProps = never
+>;
+type IgnoredProps = never;
 
-expectType<TypeEqual<never, UnusedProps>>(true)
+expectType<TypeEqual<never, UnusedProps>>(true);
 
-it('should be compiled', () => {})
+it("should be compiled", () => {});
