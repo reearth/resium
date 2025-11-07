@@ -20,8 +20,7 @@ jobs:
   prepare-release:
     name: Prepare Release PR
     runs-on: ubuntu-latest
-    # Temporarily disabled for testing on feature branch
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Generate token
         id: generate-token
