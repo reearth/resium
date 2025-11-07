@@ -20,8 +20,7 @@ jobs:
   prepare-release:
     name: Prepare Release PR
     runs-on: ubuntu-latest
-    # Temporarily disabled for testing on feature branch
-    # if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main'
     steps:
       - name: Generate token
         id: generate-token
@@ -62,6 +61,15 @@ jobs:
         with:
           name: changelog-${{ steps.changelog.outputs.version }}
           path: CHANGELOG_latest.md
+      - name: Update package.json version
+        run: |
+          if [ "${{ github.event.inputs.version }}" = "custom" ]; then
+            # For custom versions, use the exact version provided
+            npm version "${{ github.event.inputs.custom_version }}" --no-git-tag-version
+          else
+            # For patch/minor/major, let npm calculate the new version
+            npm version "${{ github.event.inputs.version }}" --no-git-tag-version
+          fi
       - name: Create release branch and PR
         env:
           VERSION: ${{ github.event.inputs.version == 'custom' && github.event.inputs.custom_version || steps.changelog.outputs.version }}
