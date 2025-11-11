@@ -251,7 +251,7 @@ import { IonResource } from "cesium";
 function App() {
   let viewer; // This will be raw Cesium's Viewer object.
 
-  const handleReady = tileset => {
+  const handleReady = (tileset) => {
     if (viewer) {
       viewer.zoomTo(tileset);
     }
@@ -260,11 +260,14 @@ function App() {
   return (
     <Viewer
       full
-      ref={e => {
+      ref={(e) => {
         viewer = e && e.cesiumElement;
       }}
     >
-      <Cesium3DTileset url={IonResource.fromAssetId(5714)} onReady={handleReady} />
+      <Cesium3DTileset
+        url={IonResource.fromAssetId(5714)}
+        onReady={handleReady}
+      />
     </Viewer>
   );
 }

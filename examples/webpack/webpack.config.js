@@ -46,6 +46,11 @@ module.exports = (_env, args) => ({
       append: false,
       tags: ["cesium/Widgets/widgets.css", "cesium/Cesium.js"],
     }),
-    ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+    ...(args.mode === "production"
+      ? []
+      : [
+          new webpack.HotModuleReplacementPlugin(),
+          new ReactRefreshWebpackPlugin(),
+        ]),
   ],
 });

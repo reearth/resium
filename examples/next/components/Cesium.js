@@ -12,7 +12,7 @@ export default function Cesium() {
         position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
         point={{ pixelSize: 20, color: Color.WHITE }}
         description="hoge"
-        onClick={() => setFlag(f => !f)}
+        onClick={() => setFlag((f) => !f)}
       />
       {flag && (
         <Entity

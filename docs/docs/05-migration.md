@@ -154,7 +154,7 @@ Before:
 ```jsx
 const Component = () => (
   <Viewer
-    onMount={viewer => {
+    onMount={(viewer) => {
       // some code
     }}
   />

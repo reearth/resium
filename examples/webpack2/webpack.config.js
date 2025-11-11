@@ -51,7 +51,12 @@ module.exports = (_env, args) => ({
     new HtmlPlugin({
       template: "index.html",
     }),
-    ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+    ...(args.mode === "production"
+      ? []
+      : [
+          new webpack.HotModuleReplacementPlugin(),
+          new ReactRefreshWebpackPlugin(),
+        ]),
   ],
   resolve: {
     fallback: { https: false, zlib: false, http: false, url: false },
