@@ -14,9 +14,9 @@ import{j as e}from"./jsx-runtime-BjG_zV1W.js";import{r as g}from"./index-yIsmwZO
     const [once, setOnce] = useState(true);
     return <Viewer full>
         <button style={{
-        position: 'absolute',
-        top: '0',
-        left: '0'
+        position: "absolute",
+        top: "0",
+        left: "0"
       }} onClick={() => setOnce(o => !o)}>
           Once: {once.toString()}
         </button>

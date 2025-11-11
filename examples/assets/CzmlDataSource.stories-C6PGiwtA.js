@@ -3,6 +3,6 @@ import{j as t}from"./jsx-runtime-BjG_zV1W.js";import{a as l}from"./index-CjDrOnr
     show: true
   },
   render: args => <Viewer full>
-      <CzmlDataSource {...args} data={czml} onLoad={onLoad} onError={action('onError')} {...events} />
+      <CzmlDataSource {...args} data={czml} onLoad={onLoad} onError={action("onError")} {...events} />
     </Viewer>
 }`,...(c=(s=a.parameters)==null?void 0:s.docs)==null?void 0:c.source}}};const U=["Basic"];export{a as Basic,U as __namedExportsOrder,M as default};

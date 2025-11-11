@@ -17,7 +17,7 @@ import{j as o}from"./jsx-runtime-BjG_zV1W.js";import{e as u}from"./storybook-lrz
     }} />
     </Viewer>
 }`,...(l=(m=n.parameters)==null?void 0:m.docs)==null?void 0:l.source}}};var d,C,p;s.parameters={...s.parameters,docs:{...(d=s.parameters)==null?void 0:d.docs,source:{originalSource:`{
-  name: 'Entity cluster',
+  name: "Entity cluster",
   render: args => <Viewer full>
       <CustomDataSource {...args} {...events} clustering={new EntityCluster({
       enabled: true,

@@ -47,6 +47,6 @@ import{j as r}from"./jsx-runtime-BjG_zV1W.js";import{a as m}from"./index-CjDrOnr
     show: true
   },
   render: args => <Viewer full>
-      <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action('onError')} {...events} />
+      <KmlDataSource {...args} data={data} onLoad={onLoad} onError={action("onError")} {...events} />
     </Viewer>
 }`,...(s=(c=n.parameters)==null?void 0:c.docs)==null?void 0:s.source}}};const b=["Basic"];export{n as Basic,b as __namedExportsOrder,V as default};

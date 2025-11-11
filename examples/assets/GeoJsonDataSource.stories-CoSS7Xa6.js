@@ -5,8 +5,8 @@ import{j as t}from"./jsx-runtime-BjG_zV1W.js";import{a as d}from"./index-CjDrOnr
   render: args => <Viewer full>
       <GeoJsonDataSource {...args} data={data} markerColor={Color.RED} onLoad={g => {
       // You can process the data source here
-      g.entities.values[0].name = 'Coors Field!';
+      g.entities.values[0].name = "Coors Field!";
       onLoadAction(g);
-    }} onError={action('onError')} {...events} />
+    }} onError={action("onError")} {...events} />
     </Viewer>
 }`,...(c=(s=a.parameters)==null?void 0:s.docs)==null?void 0:c.source}}};const V=["Basic"];export{a as Basic,V as __namedExportsOrder,T as default};
