@@ -1,7 +1,7 @@
-import { CloudCollection as CesiumCloudCollection } from 'cesium'
-import { ReactNode } from 'react'
+import { CloudCollection as CesiumCloudCollection } from "cesium";
+import { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 // @cesiumElement CloudCollection
 
@@ -17,37 +17,43 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A CloudCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type CloudCollectionCesiumProps = PickCesiumProps<CesiumCloudCollection, typeof cesiumProps>
+export type CloudCollectionCesiumProps = PickCesiumProps<CesiumCloudCollection, typeof cesiumProps>;
 
 export type CloudCollectionOtherProps = {
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
-export type CloudCollectionProps = CloudCollectionCesiumProps & CloudCollectionOtherProps
+export type CloudCollectionProps = CloudCollectionCesiumProps & CloudCollectionOtherProps;
 
-const cesiumProps = ['noiseDetail', 'noiseOffset', 'show', 'debugBillboards', 'debugEllipsoids'] as const
+const cesiumProps = [
+  "noiseDetail",
+  "noiseOffset",
+  "show",
+  "debugBillboards",
+  "debugEllipsoids",
+] as const;
 
 const CloudCollection = createCesiumComponent<CesiumCloudCollection, CloudCollectionProps>({
-  name: 'CloudCollection',
-  create: (context) => {
-    if (!context.primitiveCollection) return
-    const collection = new CesiumCloudCollection()
-    context.primitiveCollection.add(collection)
-    return collection
+  name: "CloudCollection",
+  create: context => {
+    if (!context.primitiveCollection) return;
+    const collection = new CesiumCloudCollection();
+    context.primitiveCollection.add(collection);
+    return collection;
   },
   destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-      context.primitiveCollection.remove(element)
+      context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {
-      element.destroy()
+      element.destroy();
     }
   },
-  provide: (cloudCollection) => ({
+  provide: cloudCollection => ({
     cloudCollection,
   }),
   cesiumProps,
   setCesiumPropsAfterCreate: true,
-})
+});
 
-export default CloudCollection
+export default CloudCollection;

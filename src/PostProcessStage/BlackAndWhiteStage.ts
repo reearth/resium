@@ -1,18 +1,18 @@
 // @ignore
-import { PostProcessStageLibrary } from 'cesium'
+import { PostProcessStageLibrary } from "cesium";
 
-import { createPostProcessStage } from '../core'
+import { createPostProcessStage } from "../core";
 
-import { PostProcessStageProps } from './PostProcessStage'
+import { PostProcessStageProps } from "./PostProcessStage";
 
-type Props = { gradations?: number }
+type Props = { gradations?: number };
 
-export type BlackAndWhiteStageProps = PostProcessStageProps & Props
+export type BlackAndWhiteStageProps = PostProcessStageProps & Props;
 
 export const BlackAndWhiteStage = createPostProcessStage<Props>({
-  name: 'BlackAndWhiteStage',
-  props: ['gradations'],
+  name: "BlackAndWhiteStage",
+  props: ["gradations"],
   create: () => PostProcessStageLibrary.createBlackAndWhiteStage(),
-})
+});
 
-export default BlackAndWhiteStage
+export default BlackAndWhiteStage;

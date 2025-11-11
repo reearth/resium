@@ -10,7 +10,7 @@ After [installation](/installation), let's create a hello world application.
 You can import all resium components as following.
 
 ```jsx
-import { Viewer } from 'resium'
+import { Viewer } from "resium";
 ```
 
 ## The simplest Resium application
@@ -22,29 +22,29 @@ Just as Cesium's root object is `Viewer`, `<Viewer>` is also a root component in
 `app.js`:
 
 ```jsx
-import { Viewer } from 'resium'
+import { Viewer } from "resium";
 
 function App() {
-  return <Viewer />
+  return <Viewer />;
 }
 
-export default App
+export default App;
 ```
 
 `index.js`:
 
 ```jsx
-import ReactDOM from 'react-dom/client'
-import App from './app'
+import ReactDOM from "react-dom/client";
+import App from "./app";
 
-const root = ReactDOM.createRoot(document.getElementById('wrapper'))
-root.render(<App />)
+const root = ReactDOM.createRoot(document.getElementById("wrapper"));
+root.render(<App />);
 ```
 
 This is almost equivalent to:
 
 ```js
-const viewer = new Cesium.Viewer('wrapper')
+const viewer = new Cesium.Viewer("wrapper");
 ```
 
 But the viewer is displayed small because it does not have its own size.
@@ -60,7 +60,7 @@ This is equivalent to:
 ```jsx
 <Viewer
   style={{
-    position: 'absolute',
+    position: "absolute",
     top: 0,
     left: 0,
     right: 0,
@@ -82,32 +82,32 @@ Next, let's display an entity on Cesium. Entity component is available in resium
 Entity has many way to visualize geograohical data. Here let's try to use PointGraphics.
 
 ```jsx
-import { Viewer, Entity } from 'resium'
-import { Cartesian3 } from 'cesium'
+import { Viewer, Entity } from "resium";
+import { Cartesian3 } from "cesium";
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)
-const pointGraphics = { pixelSize: 10 }
+const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
+const pointGraphics = { pixelSize: 10 };
 
 function App() {
   return (
     <Viewer full>
       <Entity position={position} point={pointGraphics} />
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 This is equivalent to:
 
 ```js
-const viewer = new Cesium.Viewer('wrapper')
+const viewer = new Cesium.Viewer("wrapper");
 const entity = new Cesium.Entity({
   position: Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100),
   point: { pixelSize: 10 },
-})
-viewer.entities.add(entity)
+});
+viewer.entities.add(entity);
 ```
 
 If HMR is enabled, it fully works in resium, so entity is updated without reloading the page when the source code is changed!
@@ -115,10 +115,10 @@ If HMR is enabled, it fully works in resium, so entity is updated without reload
 The following is also the same. It uses `PointGraphics` component. This enables updating graphic properties with minimal cost.
 
 ```jsx
-import { Viewer, Entity, PointGraphics } from 'resium'
-import { Cartesian3 } from 'cesium'
+import { Viewer, Entity, PointGraphics } from "resium";
+import { Cartesian3 } from "cesium";
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)
+const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 function App() {
   return (
@@ -127,10 +127,10 @@ function App() {
         <PointGraphics pixelSize={10} />
       </Entity>
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 ## Displaying description of an entity
@@ -138,10 +138,10 @@ export default App
 The following example is displaying a simple name and description of the entity.
 
 ```jsx
-import { Viewer, Entity, PointGraphics } from 'resium'
-import { Cartesian3 } from 'cesium'
+import { Viewer, Entity, PointGraphics } from "resium";
+import { Cartesian3 } from "cesium";
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)
+const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 function App() {
   return (
@@ -150,19 +150,19 @@ function App() {
         <PointGraphics pixelSize={10} />
       </Entity>
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 If you want to render rich description, `EntityDescription` component is the best. It enables using JSX in the description of entities!
 
 ```jsx
-import { Viewer, Entity, PointGraphics, EntityDescription } from 'resium'
-import { Cartesian3 } from 'cesium'
+import { Viewer, Entity, PointGraphics, EntityDescription } from "resium";
+import { Cartesian3 } from "cesium";
 
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)
+const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 function App() {
   return (
@@ -175,10 +175,10 @@ function App() {
         </EntityDescription>
       </Entity>
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 ## Adding Cesium world terrain
@@ -186,11 +186,11 @@ export default App
 `terrainProvider` prop of `Viewer` is available.
 
 ```jsx
-import { Viewer, Entity, PointGraphics, EntityDescription } from 'resium'
-import { Cartesian3, createWorldTerrain } from 'cesium'
+import { Viewer, Entity, PointGraphics, EntityDescription } from "resium";
+import { Cartesian3, createWorldTerrain } from "cesium";
 
-const terrainProvider = createWorldTerrain()
-const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)
+const terrainProvider = createWorldTerrain();
+const position = Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100);
 
 function App() {
   return (
@@ -203,10 +203,10 @@ function App() {
         </EntityDescription>
       </Entity>
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 ## Loading your own data
@@ -214,62 +214,65 @@ export default App
 Cesium and resium support KML, GeoJSON, TopoJSON, and CZML. Let's load and display your own data!
 
 ```jsx
-import { Viewer, GeoJsonDataSource, KmlDataSource } from 'resium'
+import { Viewer, GeoJsonDataSource, KmlDataSource } from "resium";
 
 const data = {
-  type: 'Feature',
+  type: "Feature",
   properties: {
-    name: 'Coors Field',
-    amenity: 'Baseball Stadium',
-    popupContent: 'This is where the Rockies play!',
+    name: "Coors Field",
+    amenity: "Baseball Stadium",
+    popupContent: "This is where the Rockies play!",
   },
   geometry: {
-    type: 'Point',
+    type: "Point",
     coordinates: [-104.99404, 39.75621],
   },
-}
+};
 
 function App() {
   return (
     <Viewer full>
-      <GeoJsonDataSource data={'your_geo_json.geojson'} />
-      <KmlDataSource data={'your_geo_json.kml'} />
+      <GeoJsonDataSource data={"your_geo_json.geojson"} />
+      <KmlDataSource data={"your_geo_json.kml"} />
       <GeoJsonDataSource data={data} />
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 3D tiles is also available.
 
 ```jsx
-import { Viewer, Cesium3DTileset } from 'resium'
-import { IonResource } from 'cesium'
+import { Viewer, Cesium3DTileset } from "resium";
+import { IonResource } from "cesium";
 
 function App() {
-  let viewer // This will be raw Cesium's Viewer object.
+  let viewer; // This will be raw Cesium's Viewer object.
 
   const handleReady = (tileset) => {
     if (viewer) {
-      viewer.zoomTo(tileset)
+      viewer.zoomTo(tileset);
     }
-  }
+  };
 
   return (
     <Viewer
       full
       ref={(e) => {
-        viewer = e && e.cesiumElement
+        viewer = e && e.cesiumElement;
       }}
     >
-      <Cesium3DTileset url={IonResource.fromAssetId(5714)} onReady={handleReady} />
+      <Cesium3DTileset
+        url={IonResource.fromAssetId(5714)}
+        onReady={handleReady}
+      />
     </Viewer>
-  )
+  );
 }
 
-export default App
+export default App;
 ```
 
 ## What's next?

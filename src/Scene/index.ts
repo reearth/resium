@@ -1,1 +1,1 @@
-export { default, type SceneProps } from './Scene'
+export { default, type SceneProps } from "./Scene";

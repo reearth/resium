@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from '@storybook/react'
+import { Meta, StoryObj } from "@storybook/react";
 import {
   Cartesian3,
   EllipseGeometry,
@@ -8,19 +8,19 @@ import {
   Math as CesiumMath,
   VertexFormat,
   Geometry,
-} from 'cesium'
+} from "cesium";
 
-import { events } from '../core/storybook'
-import Viewer from '../Viewer'
+import { events } from "../core/storybook";
+import Viewer from "../Viewer";
 
-import Primitive from './Primitive'
+import Primitive from "./Primitive";
 
-type Story = StoryObj<typeof Primitive>
+type Story = StoryObj<typeof Primitive>;
 
 export default {
-  title: 'Primitive',
+  title: "Primitive",
   component: Primitive,
-} as Meta
+} as Meta;
 
 const geometry = new GeometryInstance({
   geometry: new EllipseGeometry({
@@ -30,25 +30,25 @@ const geometry = new GeometryInstance({
     rotation: CesiumMath.PI_OVER_FOUR,
     vertexFormat: VertexFormat.POSITION_AND_ST,
   }) as Geometry,
-  id: 'id',
-})
+  id: "id",
+});
 
 const appearance = new EllipsoidSurfaceAppearance({
-  material: Material.fromType('Checkerboard'),
-})
+  material: Material.fromType("Checkerboard"),
+});
 
 export const Basic: Story = {
-  render: (args) => (
+  render: args => (
     <Viewer full>
       <Primitive {...args} geometryInstances={geometry} appearance={appearance} />
     </Viewer>
   ),
-}
+};
 
 export const Events: Story = {
-  render: (args) => (
+  render: args => (
     <Viewer full>
       <Primitive {...args} geometryInstances={geometry} appearance={appearance} {...events} />
     </Viewer>
   ),
-}
+};

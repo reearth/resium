@@ -1,7 +1,7 @@
-import { PrimitiveCollection } from 'cesium'
-import { ReactNode } from 'react'
+import { PrimitiveCollection } from "cesium";
+import { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 // @cesiumElement PrimitiveCollection
 
@@ -17,24 +17,31 @@ It can have some GroundPrimitive components as children.
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type GroundPrimitiveCollectionCesiumProps = PickCesiumProps<PrimitiveCollection, typeof cesiumProps>
+export type GroundPrimitiveCollectionCesiumProps = PickCesiumProps<
+  PrimitiveCollection,
+  typeof cesiumProps
+>;
 
 export type GroundPrimitiveCollectionOtherProps = {
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
-export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps & GroundPrimitiveCollectionOtherProps
+export type GroundPrimitiveCollectionProps = GroundPrimitiveCollectionCesiumProps &
+  GroundPrimitiveCollectionOtherProps;
 
-const cesiumProps = ['show', 'destroyPrimitives', 'primitiveAdded', 'primitiveRemoved'] as const
+const cesiumProps = ["show", "destroyPrimitives", "primitiveAdded", "primitiveRemoved"] as const;
 
-const GroundPrimitiveCollection = createCesiumComponent<PrimitiveCollection, GroundPrimitiveCollectionProps>({
-  name: 'GroundPrimitiveCollection',
-  create: (context) => context.scene?.groundPrimitives,
-  provide: (element) => ({
+const GroundPrimitiveCollection = createCesiumComponent<
+  PrimitiveCollection,
+  GroundPrimitiveCollectionProps
+>({
+  name: "GroundPrimitiveCollection",
+  create: context => context.scene?.groundPrimitives,
+  provide: element => ({
     primitiveCollection: element,
   }),
   cesiumProps,
   setCesiumPropsAfterCreate: true,
-})
+});
 
-export default GroundPrimitiveCollection
+export default GroundPrimitiveCollection;

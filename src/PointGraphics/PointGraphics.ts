@@ -1,6 +1,6 @@
-import { PointGraphics as CesiumPointGraphics } from 'cesium'
+import { PointGraphics as CesiumPointGraphics } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge } from '../core'
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -13,49 +13,49 @@ PointGraphics can be mounted only inside[Entity](/components/Entity) components,
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumPointGraphics, CesiumPointGraphics.ConstructorOptions>
+export type Target = Merge<CesiumPointGraphics, CesiumPointGraphics.ConstructorOptions>;
 
-export type PointGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type PointGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PointGraphicsCesiumEvents = {
-  onDefinitionChange?: () => void
-}
+  onDefinitionChange?: () => void;
+};
 
-export type PointGraphicsProps = PointGraphicsCesiumProps & PointGraphicsCesiumEvents
+export type PointGraphicsProps = PointGraphicsCesiumProps & PointGraphicsCesiumEvents;
 
 const cesiumProps = [
-  'color',
-  'pixelSize',
-  'outlineColor',
-  'outlineWidth',
-  'show',
-  'scaleByDistance',
-  'translucencyByDistance',
-  'heightReference',
-  'distanceDisplayCondition',
-  'disableDepthTestDistance',
-  'splitDirection',
-] as const
+  "color",
+  "pixelSize",
+  "outlineColor",
+  "outlineWidth",
+  "show",
+  "scaleByDistance",
+  "translucencyByDistance",
+  "heightReference",
+  "distanceDisplayCondition",
+  "disableDepthTestDistance",
+  "splitDirection",
+] as const;
 
 export const cesiumEventProps = {
-  onDefinitionChange: 'definitionChanged',
-} as const
+  onDefinitionChange: "definitionChanged",
+} as const;
 
 const PointGraphics = createCesiumComponent<CesiumPointGraphics, PointGraphicsProps>({
-  name: 'PointGraphics',
+  name: "PointGraphics",
   create(context, props) {
-    if (!context.entity) return
-    const element = new CesiumPointGraphics(props)
-    context.entity.point = element
-    return element
+    if (!context.entity) return;
+    const element = new CesiumPointGraphics(props);
+    context.entity.point = element;
+    return element;
   },
   destroy(_element, context) {
     if (context.entity) {
-      context.entity.point = undefined
+      context.entity.point = undefined;
     }
   },
   cesiumProps,
   cesiumEventProps,
-})
+});
 
-export default PointGraphics
+export default PointGraphics;

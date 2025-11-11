@@ -23,7 +23,7 @@
     "coverage": "vitest run --coverage",
     "type": "tsc",
     "lint": "eslint .",
-    "format": "prettier --write .",
+    "format": "eslint . --fix",
     "storybook": "storybook dev -p 9001",
     "storybook:build": "storybook build -o docs/static/examples",
     "docs": "yarn --cwd docs start",

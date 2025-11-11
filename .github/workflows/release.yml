@@ -39,10 +39,10 @@ jobs:
           git config --global user.email "${{ github.actor }}@users.noreply.github.com"
           git config --global pull.rebase false
       - name: Setup Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v6
         with:
           node-version: lts/*
-          cache: 'yarn'
+          cache: "yarn"
       - name: Install dependencies
         run: yarn install --frozen-lockfile
       - name: Run tests
@@ -64,7 +64,7 @@ jobs:
           latest: CHANGELOG_latest.md
           from: v${{ steps.current_version.outputs.current }}
       - name: Upload latest CHANGELOG
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        uses: actions/upload-artifact@v5
         with:
           name: changelog-${{ steps.changelog.outputs.version }}
           path: CHANGELOG_latest.md

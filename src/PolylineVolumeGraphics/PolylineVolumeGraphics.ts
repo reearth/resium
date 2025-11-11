@@ -1,6 +1,6 @@
-import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from 'cesium'
+import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap, PickCesiumProps, Merge } from '../core'
+import { createCesiumComponent, EventkeyMap, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -13,50 +13,60 @@ PolylineVolumeGraphics can be mounted only inside[Entity](/components/Entity) co
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumPolylineVolumeGraphics, CesiumPolylineVolumeGraphics.ConstructorOptions>
+export type Target = Merge<
+  CesiumPolylineVolumeGraphics,
+  CesiumPolylineVolumeGraphics.ConstructorOptions
+>;
 
-export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type PolylineVolumeGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PolylineVolumeGraphicsCesiumEvents = {
-  onDefinitionChange?: () => void
-}
+  onDefinitionChange?: () => void;
+};
 
-export type PolylineVolumeGraphicsProps = PolylineVolumeGraphicsCesiumProps & PolylineVolumeGraphicsCesiumEvents
+export type PolylineVolumeGraphicsProps = PolylineVolumeGraphicsCesiumProps &
+  PolylineVolumeGraphicsCesiumEvents;
 
 const cesiumProps = [
-  'positions',
-  'shape',
-  'cornerType',
-  'show',
-  'fill',
-  'material',
-  'outline',
-  'outlineColor',
-  'outlineWidth',
-  'granularity',
-  'shadows',
-  'distanceDisplayCondition',
-] as const
+  "positions",
+  "shape",
+  "cornerType",
+  "show",
+  "fill",
+  "material",
+  "outline",
+  "outlineColor",
+  "outlineWidth",
+  "granularity",
+  "shadows",
+  "distanceDisplayCondition",
+] as const;
 
-export const cesiumEventProps: EventkeyMap<CesiumPolylineVolumeGraphics, PolylineVolumeGraphicsCesiumEvents> = {
-  onDefinitionChange: 'definitionChanged',
-}
+export const cesiumEventProps: EventkeyMap<
+  CesiumPolylineVolumeGraphics,
+  PolylineVolumeGraphicsCesiumEvents
+> = {
+  onDefinitionChange: "definitionChanged",
+};
 
-const PolylineVolumeGraphics = createCesiumComponent<CesiumPolylineVolumeGraphics, PolylineVolumeGraphicsProps>({
-  name: 'PolylineVolumeGraphics',
+const PolylineVolumeGraphics = createCesiumComponent<
+  CesiumPolylineVolumeGraphics,
+  PolylineVolumeGraphicsProps
+>({
+  name: "PolylineVolumeGraphics",
   create(context, props) {
-    if (!context.entity) return
-    const element = new CesiumPolylineVolumeGraphics(props)
-    context.entity.polylineVolume = element
-    return element
+    if (!context.entity) return;
+    const element = new CesiumPolylineVolumeGraphics(props);
+    context.entity.polylineVolume = element;
+    return element;
   },
   destroy(_contextelement, context) {
     if (context.entity) {
-      context.entity.polylineVolume = undefined
+      context.entity.polylineVolume = undefined;
     }
   },
   cesiumProps,
   cesiumEventProps,
-})
+});
 
-export default PolylineVolumeGraphics
+export default PolylineVolumeGraphics;

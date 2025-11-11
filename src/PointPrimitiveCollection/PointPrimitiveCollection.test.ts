@@ -1,10 +1,13 @@
-import { PointPrimitiveCollection } from 'cesium'
-import { expectType, TypeEqual } from 'ts-expect'
-import { it } from 'vitest'
+import { PointPrimitiveCollection } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps } from '../core'
+import { UnusedCesiumProps } from "../core";
 
-import { PointPrimitiveCollectionOtherProps, PointPrimitiveCollectionProps } from './PointPrimitiveCollection'
+import {
+  PointPrimitiveCollectionOtherProps,
+  PointPrimitiveCollectionProps,
+} from "./PointPrimitiveCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -12,9 +15,9 @@ type UnusedProps = UnusedCesiumProps<
   Omit<PointPrimitiveCollectionProps, keyof PointPrimitiveCollectionOtherProps>,
   {},
   IgnoredProps
->
-type IgnoredProps = 'length'
+>;
+type IgnoredProps = "length";
 
-expectType<TypeEqual<never, UnusedProps>>(true)
+expectType<TypeEqual<never, UnusedProps>>(true);
 
-it('should be compiled', () => {})
+it("should be compiled", () => {});

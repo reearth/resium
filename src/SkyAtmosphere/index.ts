@@ -1,1 +1,1 @@
-export { default, type SkyAtmosphereProps } from './SkyAtmosphere'
+export { default, type SkyAtmosphereProps } from "./SkyAtmosphere";

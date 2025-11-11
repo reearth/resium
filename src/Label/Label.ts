@@ -1,6 +1,6 @@
-import { Label as CesiumLabel, LabelCollection } from 'cesium'
+import { Label as CesiumLabel, LabelCollection } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from '../core'
+import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -16,51 +16,51 @@ Only inside [LabelCollection](/components/LabelCollection) component.
 A label object will be attached to the parent LabelCollection.
 */
 
-export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps, 'position'>
+export type LabelCesiumProps = PickCesiumProps<CesiumLabel, typeof cesiumProps, "position">;
 
 export type LabelOtherProps = EventProps<{
-  collection: LabelCollection
-  primitive: CesiumLabel
-}>
+  collection: LabelCollection;
+  primitive: CesiumLabel;
+}>;
 
-export type LabelProps = LabelCesiumProps & LabelOtherProps
+export type LabelProps = LabelCesiumProps & LabelOtherProps;
 
 const cesiumProps = [
-  'backgroundColor',
-  'backgroundPadding',
-  'disableDepthTestDistance',
-  'distanceDisplayCondition',
-  'eyeOffset',
-  'fillColor',
-  'font',
-  'heightReference',
-  'horizontalOrigin',
-  'id',
-  'outlineColor',
-  'outlineWidth',
-  'pixelOffset',
-  'pixelOffsetScaleByDistance',
-  'position',
-  'scale',
-  'scaleByDistance',
-  'show',
-  'showBackground',
-  'style',
-  'text',
-  'translucencyByDistance',
-  'verticalOrigin',
-] as const
+  "backgroundColor",
+  "backgroundPadding",
+  "disableDepthTestDistance",
+  "distanceDisplayCondition",
+  "eyeOffset",
+  "fillColor",
+  "font",
+  "heightReference",
+  "horizontalOrigin",
+  "id",
+  "outlineColor",
+  "outlineWidth",
+  "pixelOffset",
+  "pixelOffsetScaleByDistance",
+  "position",
+  "scale",
+  "scaleByDistance",
+  "show",
+  "showBackground",
+  "style",
+  "text",
+  "translucencyByDistance",
+  "verticalOrigin",
+] as const;
 
 const Label = createCesiumComponent<CesiumLabel, LabelProps>({
-  name: 'Label',
+  name: "Label",
   create: (context, props) => context.labelCollection?.add(props),
   destroy(element, context) {
     if (context.labelCollection && !context.labelCollection.isDestroyed()) {
-      context.labelCollection.remove(element)
+      context.labelCollection.remove(element);
     }
   },
   cesiumProps,
   useCommonEvent: true,
-})
+});
 
-export default Label
+export default Label;

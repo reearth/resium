@@ -1,1 +1,1 @@
-export { default, type ScreenSpaceEventHandlerProps } from './ScreenSpaceEventHandler'
+export { default, type ScreenSpaceEventHandlerProps } from "./ScreenSpaceEventHandler";

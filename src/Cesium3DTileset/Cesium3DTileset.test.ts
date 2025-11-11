@@ -1,10 +1,14 @@
-import { Cesium3DTileset } from 'cesium'
-import { expectType, TypeEqual } from 'ts-expect'
-import { it } from 'vitest'
+import { Cesium3DTileset } from "cesium";
+import { expectType, TypeEqual } from "ts-expect";
+import { it } from "vitest";
 
-import { UnusedCesiumProps, Merge, ConstructorOptions } from '../core'
+import { UnusedCesiumProps, Merge, ConstructorOptions } from "../core";
 
-import { Cesium3DTilesetProps, cesiumEventProps, Cesium3DTilesetOtherProps } from './Cesium3DTileset'
+import {
+  Cesium3DTilesetProps,
+  cesiumEventProps,
+  Cesium3DTilesetOtherProps,
+} from "./Cesium3DTileset";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
@@ -12,10 +16,10 @@ type UnusedProps = UnusedCesiumProps<
   Omit<Cesium3DTilesetProps, keyof Cesium3DTilesetOtherProps>,
   typeof cesiumEventProps,
   IgnoredProps
->
+>;
 // pointCloudShading exists in constructor options but causes type issues
-type IgnoredProps = 'pointCloudShading'
+type IgnoredProps = "pointCloudShading";
 
-expectType<TypeEqual<never, UnusedProps>>(true)
+expectType<TypeEqual<never, UnusedProps>>(true);
 
-it('should be compiled', () => {})
+it("should be compiled", () => {});

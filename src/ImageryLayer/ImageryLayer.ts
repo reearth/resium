@@ -1,6 +1,12 @@
-import { ImageryLayer as CesiumImageryLayer, ImageryProvider } from 'cesium'
+import { ImageryLayer as CesiumImageryLayer, ImageryProvider } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge, ConstructorOptions2, isPromise } from '../core'
+import {
+  createCesiumComponent,
+  PickCesiumProps,
+  Merge,
+  ConstructorOptions2,
+  isPromise,
+} from "../core";
 
 /*
 @summary
@@ -37,88 +43,87 @@ Either:
 */
 
 export type Target = Merge<CesiumImageryLayer, ConstructorOptions2<typeof CesiumImageryLayer>> & {
-  index?: number
-}
+  index?: number;
+};
 
-export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type ImageryLayerCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type ImageryLayerCesiumReadonlyProps = Omit<
   PickCesiumProps<Target, typeof cesiumReadonlyProps>,
-  'imageryProvider'
+  "imageryProvider"
 > & {
-  imageryProvider: ImageryProvider | Promise<ImageryProvider>
-}
+  imageryProvider: ImageryProvider | Promise<ImageryProvider>;
+};
 
-export type ImageryLayerProps = ImageryLayerCesiumProps & ImageryLayerCesiumReadonlyProps
+export type ImageryLayerProps = ImageryLayerCesiumProps & ImageryLayerCesiumReadonlyProps;
 
 const cesiumProps = [
-  'alpha',
-  'brightness',
-  'contrast',
-  'hue',
-  'saturation',
-  'gamma',
-  'splitDirection',
-  'minificationFilter',
-  'magnificationFilter',
-  'cutoutRectangle',
-  'show',
-  'nightAlpha',
-  'dayAlpha',
-  'colorToAlpha',
-  'colorToAlphaThreshold',
-  'index',
-] as const
+  "alpha",
+  "brightness",
+  "contrast",
+  "hue",
+  "saturation",
+  "gamma",
+  "splitDirection",
+  "minificationFilter",
+  "magnificationFilter",
+  "cutoutRectangle",
+  "show",
+  "nightAlpha",
+  "dayAlpha",
+  "colorToAlpha",
+  "colorToAlphaThreshold",
+  "index",
+] as const;
 
 const cesiumReadonlyProps = [
-  'rectangle',
-  'maximumAnisotropy',
-  'minimumTerrainLevel',
-  'maximumTerrainLevel',
-  'imageryProvider',
-] as const
+  "rectangle",
+  "maximumAnisotropy",
+  "minimumTerrainLevel",
+  "maximumTerrainLevel",
+  "imageryProvider",
+] as const;
 
 const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps>({
-  name: 'ImageryLayer',
+  name: "ImageryLayer",
   async create(context, props) {
-    if (!context.imageryLayerCollection) return
+    if (!context.imageryLayerCollection) return;
 
     const imageryProvider = isPromise(props.imageryProvider)
       ? props.imageryProvider
-      : new Promise<ImageryProvider>((r) => queueMicrotask(() => r(props.imageryProvider)))
+      : new Promise<ImageryProvider>(r => queueMicrotask(() => r(props.imageryProvider)));
 
-    const imageryLayerWaitingList = context.__$internal?.imageryLayerWaitingList?.slice()
+    const imageryLayerWaitingList = context.__$internal?.imageryLayerWaitingList?.slice();
     context.__$internal?.imageryLayerWaitingList
       ? context.__$internal.imageryLayerWaitingList.push(imageryProvider)
-      : undefined
+      : undefined;
 
     // Make sure keeping the order of imagery layer to specify the index correctly.
     if (imageryLayerWaitingList) {
-      await Promise.all(imageryLayerWaitingList.filter((v) => isPromise(v)))
+      await Promise.all(imageryLayerWaitingList.filter(v => isPromise(v)));
     }
 
-    const result: ImageryProvider = await imageryProvider
+    const result: ImageryProvider = await imageryProvider;
 
     // Remove the awaited result from the waiting list.
     if (context.__$internal?.imageryLayerWaitingList) {
-      context.__$internal.imageryLayerWaitingList = context.__$internal.imageryLayerWaitingList.filter(
-        (i) => i !== imageryProvider,
-      )
+      context.__$internal.imageryLayerWaitingList =
+        context.__$internal.imageryLayerWaitingList.filter(i => i !== imageryProvider);
     }
 
-    if (!result) return
+    if (!result) return;
 
-    const element = new CesiumImageryLayer(result, props)
-    context.imageryLayerCollection.add(element, props.index)
-    return element
+    const element = new CesiumImageryLayer(result, props);
+    context.imageryLayerCollection.add(element, props.index);
+    return element;
   },
   destroy(element, context) {
     if (context.imageryLayerCollection) {
-      context.imageryLayerCollection.remove(element)
+      context.imageryLayerCollection.remove(element);
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
-})
+});
 
-export default ImageryLayer
+export default ImageryLayer;

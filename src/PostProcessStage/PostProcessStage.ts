@@ -1,6 +1,6 @@
-import { PostProcessStage as CesiumPostProcessStage } from 'cesium'
+import { PostProcessStage as CesiumPostProcessStage } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from '../core'
+import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
 
 /*
 @summary
@@ -44,53 +44,64 @@ import { LensFlareStage } from "resium";
 Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) components.
 */
 
-export type Target = Merge<CesiumPostProcessStage, ConstructorOptions<typeof CesiumPostProcessStage>>
+export type Target = Merge<
+  CesiumPostProcessStage,
+  ConstructorOptions<typeof CesiumPostProcessStage>
+>;
 
-export type PostProcessStageCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type PostProcessStageCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
-export type PostProcessStageCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps, 'fragmentShader'>
+export type PostProcessStageCesiumReadonlyProps = PickCesiumProps<
+  Target,
+  typeof cesiumReadonlyProps,
+  "fragmentShader"
+>;
 
-export type PostProcessStageProps = PostProcessStageCesiumProps & PostProcessStageCesiumReadonlyProps
+export type PostProcessStageProps = PostProcessStageCesiumProps &
+  PostProcessStageCesiumReadonlyProps;
 
-const cesiumProps = ['enabled', 'selected'] as const
+const cesiumProps = ["enabled", "selected"] as const;
 
 const cesiumReadonlyProps = [
-  'clearColor',
-  'forcePowerOfTwo',
-  'fragmentShader',
-  'name',
-  'pixelDatatype',
-  'pixelFormat',
-  'sampleMode',
-  'scissorRectangle',
-  'textureScale',
-  'uniforms',
-] as const
+  "clearColor",
+  "forcePowerOfTwo",
+  "fragmentShader",
+  "name",
+  "pixelDatatype",
+  "pixelFormat",
+  "sampleMode",
+  "scissorRectangle",
+  "textureScale",
+  "uniforms",
+] as const;
 
-export const PostProcessStage = createCesiumComponent<CesiumPostProcessStage, PostProcessStageProps>({
-  name: 'PostProcessStage',
+export const PostProcessStage = createCesiumComponent<
+  CesiumPostProcessStage,
+  PostProcessStageProps
+>({
+  name: "PostProcessStage",
   create(context, props) {
-    if (!context.scene) return
-    const element = new CesiumPostProcessStage(props)
-    if (typeof props.enabled === 'boolean') {
-      element.enabled = props.enabled
+    if (!context.scene) return;
+    const element = new CesiumPostProcessStage(props);
+    if (typeof props.enabled === "boolean") {
+      element.enabled = props.enabled;
     }
     if (props.selected) {
-      element.selected = props.selected
+      element.selected = props.selected;
     }
-    context.scene.postProcessStages.add(element)
-    return element
+    context.scene.postProcessStages.add(element);
+    return element;
   },
   destroy(element, context) {
     if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.postProcessStages.remove(element)
+      context.scene.postProcessStages.remove(element);
     }
     if (!element.isDestroyed()) {
-      element.destroy()
+      element.destroy();
     }
   },
   cesiumProps,
   cesiumReadonlyProps,
-})
+});
 
-export default PostProcessStage
+export default PostProcessStage;

@@ -71,14 +71,14 @@ Some components' properties are mistakenly typed and they are fixed, but that in
 You can still add a type argument, but you can also omit it.
 
 ```ts
-import { Viewer } from 'cesium'
-import { useCesium } from 'resium'
+import { Viewer } from "cesium";
+import { useCesium } from "resium";
 
 // before
-const { viewer } = useCesium<{ viewer?: Viewer }>()
+const { viewer } = useCesium<{ viewer?: Viewer }>();
 
 // after
-const { viewer } = useCesium()
+const { viewer } = useCesium();
 ```
 
 ## v1.9
@@ -102,7 +102,7 @@ Children of Entity component are no longer rendered as description. Use `EntityD
 Before:
 
 ```jsx
-import { Viewer, Entity } from 'resium'
+import { Viewer, Entity } from "resium";
 
 const Component = () => (
   <Viewer>
@@ -111,13 +111,13 @@ const Component = () => (
       <p>This is test</p>
     </Entity>
   </Viewer>
-)
+);
 ```
 
 After:
 
 ```jsx
-import { Viewer, Entity, EntityDescription } from 'resium'
+import { Viewer, Entity, EntityDescription } from "resium";
 
 const Component = () => (
   <Viewer>
@@ -128,7 +128,7 @@ const Component = () => (
       </EntityDescription>
     </Entity>
   </Viewer>
-)
+);
 ```
 
 Now only `EntityDescription` depends on `react-dom`.
@@ -158,7 +158,7 @@ const Component = () => (
       // some code
     }}
   />
-)
+);
 ```
 
 After:

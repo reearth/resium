@@ -1,1 +1,1 @@
-export { default, type GeoJsonDataSourceProps } from './GeoJsonDataSource'
+export { default, type GeoJsonDataSourceProps } from "./GeoJsonDataSource";

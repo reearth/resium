@@ -1,1 +1,1 @@
-export { default, type FogProps } from './Fog'
+export { default, type FogProps } from "./Fog";

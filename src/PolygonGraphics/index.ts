@@ -1,1 +1,1 @@
-export { default, type PolygonGraphicsProps } from './PolygonGraphics'
+export { default, type PolygonGraphicsProps } from "./PolygonGraphics";

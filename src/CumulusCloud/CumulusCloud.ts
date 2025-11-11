@@ -1,6 +1,6 @@
-import { CumulusCloud as CesiumCumulusCloud } from 'cesium'
+import { CumulusCloud as CesiumCumulusCloud } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -13,21 +13,29 @@ Only inside [CloudCollection](/components/CloudCollection) component.
 A CumulusCloud object will be attached to the parent CloudCollection.
 */
 
-export type CumulusCloudCesiumProps = PickCesiumProps<CesiumCumulusCloud, typeof cesiumProps>
+export type CumulusCloudCesiumProps = PickCesiumProps<CesiumCumulusCloud, typeof cesiumProps>;
 
-export type CumulusCloudProps = CumulusCloudCesiumProps
+export type CumulusCloudProps = CumulusCloudCesiumProps;
 
-const cesiumProps = ['show', 'position', 'scale', 'maximumSize', 'slice', 'brightness', 'color'] as const
+const cesiumProps = [
+  "show",
+  "position",
+  "scale",
+  "maximumSize",
+  "slice",
+  "brightness",
+  "color",
+] as const;
 
 const CumulusCloud = createCesiumComponent<CesiumCumulusCloud, CumulusCloudProps>({
-  name: 'CumulusCloud',
+  name: "CumulusCloud",
   create: (context, props) => context.cloudCollection?.add(props),
   destroy(element, context) {
     if (context.cloudCollection && !context.cloudCollection.isDestroyed()) {
-      context.cloudCollection.remove(element)
+      context.cloudCollection.remove(element);
     }
   },
   cesiumProps,
-})
+});
 
-export default CumulusCloud
+export default CumulusCloud;

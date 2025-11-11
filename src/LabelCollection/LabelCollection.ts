@@ -1,7 +1,7 @@
-import { LabelCollection as CesiumLabelCollection } from 'cesium'
-import { ReactNode } from 'react'
+import { LabelCollection as CesiumLabelCollection } from "cesium";
+import { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from '../core'
+import { createCesiumComponent, PickCesiumProps } from "../core";
 
 /*
 @summary
@@ -18,43 +18,43 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A LabelCollection object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
-export type LabelCollectionCesiumProps = PickCesiumProps<CesiumLabelCollection, typeof cesiumProps>
+export type LabelCollectionCesiumProps = PickCesiumProps<CesiumLabelCollection, typeof cesiumProps>;
 
 export type LabelCollectionOtherProps = {
-  children?: ReactNode
-}
+  children?: ReactNode;
+};
 
-export type LabelCollectionProps = LabelCollectionCesiumProps & LabelCollectionOtherProps
+export type LabelCollectionProps = LabelCollectionCesiumProps & LabelCollectionOtherProps;
 
-const cesiumProps = ['blendOption', 'debugShowBoundingVolume', 'modelMatrix', 'show'] as const
+const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix", "show"] as const;
 
 const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollectionProps>({
-  name: 'LabelCollection',
+  name: "LabelCollection",
   create(context, props) {
-    if (!context.scene || !context.primitiveCollection) return
+    if (!context.scene || !context.primitiveCollection) return;
     const element = new CesiumLabelCollection({
       scene: context.scene,
       modelMatrix: props.modelMatrix,
       blendOption: props.blendOption,
       debugShowBoundingVolume: props.debugShowBoundingVolume,
-    })
-    context.primitiveCollection.add(element)
-    return element
+    });
+    context.primitiveCollection.add(element);
+    return element;
   },
   destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-      context.primitiveCollection.remove(element)
+      context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {
-      element.destroy()
+      element.destroy();
     }
   },
   provide(element) {
     return {
       labelCollection: element,
-    }
+    };
   },
   cesiumProps,
-})
+});
 
-export default LabelCollection
+export default LabelCollection;

@@ -1,9 +1,9 @@
-import { Cartesian3, Color } from 'cesium'
-import { useState } from 'react'
-import { Entity, Viewer } from 'resium'
+import { Cartesian3, Color } from "cesium";
+import { useState } from "react";
+import { Entity, Viewer } from "resium";
 
 export default function Cesium() {
-  const [flag, setFlag] = useState(false)
+  const [flag, setFlag] = useState(false);
 
   return (
     <Viewer full>
@@ -21,5 +21,5 @@ export default function Cesium() {
         />
       )}
     </Viewer>
-  )
+  );
 }

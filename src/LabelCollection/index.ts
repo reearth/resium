@@ -1,1 +1,1 @@
-export { default, type LabelCollectionProps } from './LabelCollection'
+export { default, type LabelCollectionProps } from "./LabelCollection";

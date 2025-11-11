@@ -1,6 +1,6 @@
-import { RectangleGraphics as CesiumRectangleGraphics } from 'cesium'
+import { RectangleGraphics as CesiumRectangleGraphics } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge } from '../core'
+import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
 
 /*
 @summary
@@ -13,56 +13,56 @@ RectangleGraphics can be mounted only inside[Entity](/components/Entity) compone
 and can not be mounted more than once for each entity.
 */
 
-export type Target = Merge<CesiumRectangleGraphics, CesiumRectangleGraphics.ConstructorOptions>
+export type Target = Merge<CesiumRectangleGraphics, CesiumRectangleGraphics.ConstructorOptions>;
 
-export type RectangleGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>
+export type RectangleGraphicsCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type RectangleGraphicsCesiumEvents = {
-  onDefinitionChange?: () => void
-}
+  onDefinitionChange?: () => void;
+};
 
-export type RectangleGraphicsProps = RectangleGraphicsCesiumProps & RectangleGraphicsCesiumEvents
+export type RectangleGraphicsProps = RectangleGraphicsCesiumProps & RectangleGraphicsCesiumEvents;
 
 const cesiumProps = [
-  'classificationType',
-  'coordinates',
-  'height',
-  'heightReference',
-  'extrudedHeight',
-  'extrudedHeightReference',
-  'show',
-  'fill',
-  'material',
-  'outline',
-  'outlineColor',
-  'outlineWidth',
-  'rotation',
-  'stRotation',
-  'granularity',
-  'shadows',
-  'distanceDisplayCondition',
-  'zIndex',
-] as const
+  "classificationType",
+  "coordinates",
+  "height",
+  "heightReference",
+  "extrudedHeight",
+  "extrudedHeightReference",
+  "show",
+  "fill",
+  "material",
+  "outline",
+  "outlineColor",
+  "outlineWidth",
+  "rotation",
+  "stRotation",
+  "granularity",
+  "shadows",
+  "distanceDisplayCondition",
+  "zIndex",
+] as const;
 
 export const cesiumEventProps = {
-  onDefinitionChange: 'definitionChanged',
-} as const
+  onDefinitionChange: "definitionChanged",
+} as const;
 
 const RectangleGraphics = createCesiumComponent<CesiumRectangleGraphics, RectangleGraphicsProps>({
-  name: 'RectangleGraphics',
+  name: "RectangleGraphics",
   create(context, props) {
-    if (!context.entity) return
-    const element = new CesiumRectangleGraphics(props)
-    context.entity.rectangle = element
-    return element
+    if (!context.entity) return;
+    const element = new CesiumRectangleGraphics(props);
+    context.entity.rectangle = element;
+    return element;
   },
   destroy(_element, context) {
     if (context.entity) {
-      context.entity.rectangle = undefined
+      context.entity.rectangle = undefined;
     }
   },
   cesiumProps,
   cesiumEventProps,
-})
+});
 
-export default RectangleGraphics
+export default RectangleGraphics;

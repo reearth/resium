@@ -1,1 +1,1 @@
-export { default, type CesiumWidgetProps } from './CesiumWidget'
+export { default, type CesiumWidgetProps } from "./CesiumWidget";

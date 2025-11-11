@@ -1,10 +1,10 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import React, { PropsWithChildren } from 'react'
+import React, { PropsWithChildren } from "react";
 
-import styles from './Feature.module.css'
+import styles from "./Feature.module.css";
 
 export function Features({ children }: PropsWithChildren<unknown>) {
-  return <div className={styles.features}>{children}</div>
+  return <div className={styles.features}>{children}</div>;
 }
 
 export function Feature({ title, emoji, desc }: { title?: string; emoji?: string; desc?: string }) {
@@ -16,5 +16,5 @@ export function Feature({ title, emoji, desc }: { title?: string; emoji?: string
       </h3>
       <p className={styles.desc}>{desc}</p>
     </section>
-  )
+  );
 }

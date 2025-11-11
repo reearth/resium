@@ -34,10 +34,10 @@ If `Entity` component is mounted under `Viewer` component, an Entity object is a
 is equivalent to
 
 ```js
-const viewer = new Cesium.Viewer()
-const entity = new Cesium.Entity()
+const viewer = new Cesium.Viewer();
+const entity = new Cesium.Entity();
 
-viewer.entities.add(entity)
+viewer.entities.add(entity);
 ```
 
 If `Entity` component is mounted under `CustomDataSource` component, an Entity object is added to `CustomDataSource#entities`. At that time, the CustomDataSource object is added to `Viewer#dataSources`. Of course `CustomDataSource` component should be under `Viewer` component.
@@ -53,12 +53,12 @@ If `Entity` component is mounted under `CustomDataSource` component, an Entity o
 is equivalent to
 
 ```js
-const viewer = new Cesium.Viewer()
-const dataSource = new Cesium.CustomDataSource()
-const entity = new Cesium.Entity()
+const viewer = new Cesium.Viewer();
+const dataSource = new Cesium.CustomDataSource();
+const entity = new Cesium.Entity();
 
-customDataSource.entities.add(entity)
-viewer.dataSources.add(dataSource)
+customDataSource.entities.add(entity);
+viewer.dataSources.add(dataSource);
 ```
 
 Such cases are also in other components. For details, refer to "Availability" in the document of each component.
@@ -120,47 +120,50 @@ const Example = () => (
     <ImageryLayer
       imageryProvider={
         new ArcGisMapServerImageryProvider({
-          url: '//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer',
+          url: "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
         })
       }
     />
   </Viewer>
-)
+);
 ```
 
 If `imageryProvider` property is constant, The following is recommended.
 
 ```jsx
-import { Viewer, ImageryLayer } from 'resium'
-import { ArcGisMapServerImageryProvider } from 'cesium'
+import { Viewer, ImageryLayer } from "resium";
+import { ArcGisMapServerImageryProvider } from "cesium";
 
 const imageryProvider = new ArcGisMapServerImageryProvider({
-  url: '//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer',
-})
+  url: "//services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+});
 
 const ExampleComponent = () => (
   <Viewer>
     <ImageryLayer imageryProvider={imageryProvider} />
   </Viewer>
-)
+);
 ```
 
 If `imageryProvider` property is variable, use `useMemo` hooks:
 
 ```jsx
-import { useMemo } from 'react'
-import { Viewer, ImageryLayer } from 'resium'
-import { ArcGisMapServerImageryProvider } from 'cesium'
+import { useMemo } from "react";
+import { Viewer, ImageryLayer } from "resium";
+import { ArcGisMapServerImageryProvider } from "cesium";
 
 const ExampleComponent = ({ url }) => {
-  const imageryProvider = useMemo(() => new ArcGisMapServerImageryProvider({ url }), [url])
+  const imageryProvider = useMemo(
+    () => new ArcGisMapServerImageryProvider({ url }),
+    [url],
+  );
 
   return (
     <Viewer>
       <ImageryLayer imageryProvider={imageryProvider} />
     </Viewer>
-  )
-}
+  );
+};
 ```
 
 ### Cesium events
@@ -188,42 +191,42 @@ Note: `cesiumElement` property in the ref object can be `undefined`: e.g. when a
 Function component:
 
 ```jsx
-import { useEffect, useRef } from 'react'
-import { Viewer } from 'resium'
+import { useEffect, useRef } from "react";
+import { Viewer } from "resium";
 
 const ExampleComponent = () => {
-  const ref = useRef(null)
+  const ref = useRef(null);
 
   useEffect(() => {
     if (ref.current && ref.current.cesiumElement) {
       // ref.current.cesiumElement is Cesium's Viewer
       // DO SOMETHING
     }
-  }, [])
+  }, []);
 
-  return <Viewer ref={ref} />
-}
+  return <Viewer ref={ref} />;
+};
 ```
 
 Function component in TypeScript:
 
 ```tsx
-import { useEffect, useRef } from 'react'
-import { Viewer as CesiumViewer } from 'cesium'
-import { Viewer, CesiumComponentRef } from 'resium'
+import { useEffect, useRef } from "react";
+import { Viewer as CesiumViewer } from "cesium";
+import { Viewer, CesiumComponentRef } from "resium";
 
 const ExampleComponent = () => {
-  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null)
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
 
   useEffect(() => {
     if (ref.current?.cesiumElement) {
       // ref.current.cesiumElement is Cesium's Viewer
       // DO SOMETHING
     }
-  }, [])
+  }, []);
 
-  return <Viewer ref={ref} />
-}
+  return <Viewer ref={ref} />;
+};
 ```
 
 ### Way 2: use a function (class component)
@@ -231,8 +234,8 @@ const ExampleComponent = () => {
 Class component:
 
 ```jsx
-import { Component } from 'react'
-import { Viewer } from 'resium'
+import { Component } from "react";
+import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
   componentDidMount() {
@@ -246,10 +249,10 @@ class ExampleComponent extends Component {
     return (
       <Viewer
         ref={(e) => {
-          this.viewer = e ? e.cesiumElement : undefined
+          this.viewer = e ? e.cesiumElement : undefined;
         }}
       />
-    )
+    );
   }
 }
 ```
@@ -257,12 +260,12 @@ class ExampleComponent extends Component {
 Class component in TypeScript:
 
 ```tsx
-import { Component } from 'react'
-import { Viewer as CesiumViewer } from 'cesium'
-import { Viewer } from 'resium'
+import { Component } from "react";
+import { Viewer as CesiumViewer } from "cesium";
+import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
-  private viewer: CesiumViewer | undefined
+  private viewer: CesiumViewer | undefined;
 
   componentDidMount() {
     if (this.viewer) {
@@ -275,10 +278,10 @@ class ExampleComponent extends Component {
     return (
       <Viewer
         ref={(e) => {
-          this.viewer = e ? e.cesiumElement : undefined
+          this.viewer = e ? e.cesiumElement : undefined;
         }}
       />
-    )
+    );
   }
 }
 ```
@@ -288,13 +291,13 @@ class ExampleComponent extends Component {
 Class component:
 
 ```jsx
-import { Component, createRef } from 'react'
-import { Viewer } from 'resium'
+import { Component, createRef } from "react";
+import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
   constructor(props) {
-    super(props)
-    this.ref = createRef()
+    super(props);
+    this.ref = createRef();
   }
 
   componentDidMount() {
@@ -305,7 +308,7 @@ class ExampleComponent extends Component {
   }
 
   render() {
-    return <Viewer ref={this.ref} />
+    return <Viewer ref={this.ref} />;
   }
 }
 ```
@@ -313,12 +316,12 @@ class ExampleComponent extends Component {
 Class component in TypeScript:
 
 ```tsx
-import { Component, createRef } from 'react'
-import { Viewer as CesiumViewer } from 'cesium'
-import { Viewer } from 'resium'
+import { Component, createRef } from "react";
+import { Viewer as CesiumViewer } from "cesium";
+import { Viewer } from "resium";
 
 class ExampleComponent extends Component {
-  private ref = createRef<CesiumViewer | undefined>()
+  private ref = createRef<CesiumViewer | undefined>();
 
   componentDidMount() {
     if (this.ref.current?.cesiumElement) {
@@ -328,7 +331,7 @@ class ExampleComponent extends Component {
   }
 
   render() {
-    return <Viewer ref={this.ref} />
+    return <Viewer ref={this.ref} />;
   }
 }
 ```
