@@ -49,6 +49,12 @@ jobs:
         run: yarn test --run
       - name: Build
         run: yarn build
+      - name: Get current version from package.json
+        id: current_version
+        run: |
+          CURRENT_VERSION=$(node -p "require('./package.json').version")
+          echo "current=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+          echo "Current version: $CURRENT_VERSION"
       - id: changelog
         name: Generate CHANGELOG
         uses: reearth/changelog-action@main
@@ -56,6 +62,7 @@ jobs:
           version: ${{ github.event.inputs.version == 'custom' && github.event.inputs.custom_version || github.event.inputs.version }}
           repo: ${{ github.repository }}
           latest: CHANGELOG_latest.md
+          from: v${{ steps.current_version.outputs.current }}
       - name: Upload latest CHANGELOG
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         with:
