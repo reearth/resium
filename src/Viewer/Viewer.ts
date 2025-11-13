@@ -150,7 +150,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
     const v = new CesiumViewer(wrapper, {
       ...props,
       terrainProvider: resultTerrainProvider,
-      baseLayer: baseLayer === false ? undefined : baseLayer,
+      baseLayer: baseLayer ?? undefined,
     });
     if (!v) return;
 
