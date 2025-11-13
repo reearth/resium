@@ -29,15 +29,9 @@ Everywhere. `Viewer` is a root component.
 
 export type Target = Merge<CesiumViewer, CesiumViewer.ConstructorOptions>;
 
-export type ViewerCesiumProps = PickCesiumProps<
-  CesiumViewer,
-  typeof cesiumProps
->;
+export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps>;
 
-export type ViewerCesiumReadonlyProps = PickCesiumProps<
-  Target,
-  typeof cesiumReadonlyProps
->;
+export type ViewerCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type ViewerCesiumEvents = {
   onSelectedEntityChange?: (entity: Entity) => void;
@@ -166,7 +160,7 @@ const Viewer = createCesiumComponent<CesiumViewer, ViewerProps, EventManager>({
 
     if (v && props.extend) {
       if (Array.isArray(props.extend)) {
-        props.extend.forEach((e) => {
+        props.extend.forEach(e => {
           v.extend(e, {});
         });
       } else {
