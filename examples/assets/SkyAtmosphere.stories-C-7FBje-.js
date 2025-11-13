@@ -1,0 +1,5 @@
+import{j as s}from"./jsx-runtime-BjG_zV1W.js";import{c as h}from"./component-P3MpLVno.js";import{V as n}from"./Viewer-3OWF8io8.js";import"./index-yIsmwZOr.js";const p=["brightnessShift","hueShift","saturationShift","show","perFragmentAtmosphere","atmosphereLightIntensity","atmosphereRayleighCoefficient","atmosphereMieCoefficient","atmosphereRayleighScaleHeight","atmosphereMieScaleHeight","atmosphereMieAnisotropy"],c=h({name:"SkyAtmosphere",create:t=>{var r;return(r=t.scene)==null?void 0:r.skyAtmosphere},cesiumProps:p,setCesiumPropsAfterCreate:!0}),m=c,y={title:"SkyAtmosphere",component:m},e={render:t=>s.jsx(n,{full:!0,children:s.jsx(m,{...t,hueShift:1,saturationShift:1})})};var o,i,a;e.parameters={...e.parameters,docs:{...(o=e.parameters)==null?void 0:o.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <SkyAtmosphere {...args} hueShift={1} saturationShift={1} />
+    </Viewer>
+}`,...(a=(i=e.parameters)==null?void 0:i.docs)==null?void 0:a.source}}};const g=["Basic"];export{e as Basic,g as __namedExportsOrder,y as default};

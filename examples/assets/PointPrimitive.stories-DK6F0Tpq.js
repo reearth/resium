@@ -1,0 +1,16 @@
+import{j as o}from"./jsx-runtime-BjG_zV1W.js";import{e as w}from"./storybook-lrzrXzR7.js";import{c as d}from"./component-P3MpLVno.js";import{V as P}from"./Viewer-3OWF8io8.js";import"./index-CjDrOnrV.js";import"./v4-Dz_GI0CC.js";import"./index-yIsmwZOr.js";const f=["blendOption","debugShowBoundingVolume","modelMatrix","show"],x=d({name:"PointPrimitveCollection",create(i,e){if(!i.primitiveCollection)return;const t=new Cesium.PointPrimitiveCollection(e);return i.primitiveCollection.add(t),t},destroy(i,e){e.primitiveCollection&&!e.primitiveCollection.isDestroyed()&&e.primitiveCollection.remove(i),i.isDestroyed()||i.destroy()},provide(i){return{pointPrimitiveCollection:i}},cesiumProps:f}),u=x,E=["color","disableDepthTestDistance","distanceDisplayCondition","id","outlineColor","outlineWidth","pixelSize","position","scaleByDistance","show","splitDirection","translucencyByDistance"],h=d({name:"PointPrimitive",create:(i,e)=>{var t;return(t=i.pointPrimitiveCollection)==null?void 0:t.add(e)},destroy(i,e){e.pointPrimitiveCollection&&!e.pointPrimitiveCollection.isDestroyed()&&e.pointPrimitiveCollection.remove(i)},cesiumProps:E,useCommonEvent:!0}),r=h,v=Cesium.Cartesian3.fromDegrees(-75.59777,40.03883),O={title:"PointPrimitive",component:r},n={render:i=>o.jsx(P,{full:!0,children:o.jsxs(u,{modelMatrix:Cesium.Transforms.eastNorthUpToFixedFrame(v),children:[o.jsx(r,{...i,color:Cesium.Color.ORANGE,position:new Cesium.Cartesian3(0,0,0)}),o.jsx(r,{...i,color:Cesium.Color.YELLOW,position:new Cesium.Cartesian3(1e6,0,0)}),o.jsx(r,{...i,color:Cesium.Color.GREEN,position:new Cesium.Cartesian3(0,1e6,0)}),o.jsx(r,{...i,color:Cesium.Color.CYAN,position:new Cesium.Cartesian3(0,0,1e6)})]})})},s={render:i=>o.jsx(P,{full:!0,children:o.jsx(u,{modelMatrix:Cesium.Transforms.eastNorthUpToFixedFrame(v),children:o.jsx(r,{...i,color:Cesium.Color.ORANGE,position:new Cesium.Cartesian3(0,0,0),...w})})})};var m,l,a;n.parameters={...n.parameters,docs:{...(m=n.parameters)==null?void 0:m.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+        <PointPrimitive {...args} color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} />
+        <PointPrimitive {...args} color={Color.YELLOW} position={new Cartesian3(1000000.0, 0.0, 0.0)} />
+        <PointPrimitive {...args} color={Color.GREEN} position={new Cartesian3(0.0, 1000000.0, 0.0)} />
+        <PointPrimitive {...args} color={Color.CYAN} position={new Cartesian3(0.0, 0.0, 1000000.0)} />
+      </PointPrimitiveCollection>
+    </Viewer>
+}`,...(a=(l=n.parameters)==null?void 0:l.docs)==null?void 0:a.source}}};var c,C,p;s.parameters={...s.parameters,docs:{...(c=s.parameters)==null?void 0:c.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+        <PointPrimitive {...args} color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} {...events} />
+      </PointPrimitiveCollection>
+    </Viewer>
+}`,...(p=(C=s.parameters)==null?void 0:C.docs)==null?void 0:p.source}}};const R=["Basic","Events"];export{n as Basic,s as Events,R as __namedExportsOrder,O as default};
