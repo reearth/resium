@@ -9,11 +9,22 @@
 ### 
 
 - Chore&#x2F;fix lint warnings ([#722](https://github.com/reearth/resium/pull/722)) [`889c9a`](https://github.com/reearth/resium/commit/889c9a)
-- Use package.json as the source of truth and not the github tags for release preparation ([#723](https://github.com/reearth/resium/pull/723)) [`463f5b`](https://github.com/reearth/resium/commit/463f5b)
 
 ## 1.19.0 - 2025-11-07
 
 - Upgrade Cesium from 1.116.0 to 1.134.1 ([#714](https://github.com/reearth/resium/pull/714)) [`c73f86`](https://github.com/reearth/resium/commit/c73f86)
+
+## v1.18.4 - 2024-10-28
+
+- Upgrade to React 19 ([#710](https://github.com/reearth/resium/pull/710)) [`269067`](https://github.com/reearth/resium/commit/269067)
+  - Update React and React-DOM to 19.0.0
+  - Update @types/react to 19.0.0
+  - Upgrade Storybook to 8.6.14 for React 19 support
+  - Fix useRef type strictness for React 19
+  - Update forwardRef type signatures
+  - Migrate Storybook config to ES modules
+- Refactor import statements to use .mts extensions ([#711](https://github.com/reearth/resium/pull/711)) [`39cba1`](https://github.com/reearth/resium/commit/39cba1)
+- Update yarn build command to fix CI errors ([#712](https://github.com/reearth/resium/pull/712)) [`6d1880`](https://github.com/reearth/resium/commit/6d1880)
 
 ## v1.16.1 - 2022/03/20
 
