@@ -5,7 +5,6 @@
 ### bugfix
 
 - Fix Bing Maps Network Request Issue ([#724](https://github.com/reearth/resium/pull/724)) [`a6ea92`](https://github.com/reearth/resium/commit/a6ea92) 
-
 - Chore&#x2F;fix lint warnings ([#722](https://github.com/reearth/resium/pull/722)) [`889c9a`](https://github.com/reearth/resium/commit/889c9a)
 
 ## 1.19.0 - 2025-11-07
