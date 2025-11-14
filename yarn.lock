@@ -309,10 +309,10 @@
   resolved "https://registry.yarnpkg.com/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz#75a2e8b51cb758a7553d6804a5932d7aace75c39"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cesium/engine@^21.0.1":
-  version "21.0.1"
-  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-21.0.1.tgz#316edc19a84a045ee304912c3a2f7bf5d7b8e20a"
-  integrity sha512-V4MEHOcYMcg+zCxrPjPAVpUyJxmIw6K9qPz5Fd2fnYPoMSPV7FJsiZYoFns03yoPHOPIeqnXQNspZKLX5Xzgfw==
+"@cesium/engine@^22.0.0":
+  version "22.0.0"
+  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-22.0.0.tgz#2dba2957bb474547ad741fe0c2858466ec4e44b7"
+  integrity sha512-7hYwgzu5MYD7TryiZoXz6EvNk6YaBgT1y10L8iHQcKwmv6EPone46C8YGBerYb3uUHR21qmbmDWMSN7xGpBUiw==
   dependencies:
     "@cesium/wasm-splats" "^0.1.0-alpha.2"
     "@spz-loader/core" "0.3.0"
@@ -341,12 +341,12 @@
   resolved "https://registry.yarnpkg.com/@cesium/wasm-splats/-/wasm-splats-0.1.0-alpha.2.tgz#f2d0d717d46f5f3d6d923549e90fb5ab4d429cab"
   integrity sha512-t9pMkknv31hhIbLpMa8yPvmqfpvs5UkUjgqlQv9SeO8VerCXOYnyP8/486BDaFrztM0A7FMbRjsXtNeKvqQghA==
 
-"@cesium/widgets@^13.2.1":
-  version "13.2.1"
-  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-13.2.1.tgz#4b6f4f163aa3ca2474bfbdbeedc15f82abce98ec"
-  integrity sha512-VwJvw4UmEyK9slrDUImVcz3GFs5FDITH21BOiTVMSWuSsoqVDtMV0vTsoggFpIIqdYj6usHZjKuDnD9BT3vZAQ==
+"@cesium/widgets@^14.0.0":
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-14.0.0.tgz#71ca88d63bd589d00f663914cc702866f95a5922"
+  integrity sha512-XjYHO2nBPJ0I6qZTTOZ7RnM0OUWgWxtwgc6QCQnOUifR98VEZfDZjQywIlt3nhIXTTcc8EaYhfYsym73n169zQ==
   dependencies:
-    "@cesium/engine" "^21.0.1"
+    "@cesium/engine" "^22.0.0"
     nosleep.js "^0.12.0"
 
 "@cspotcode/source-map-support@^0.8.0":
@@ -2105,13 +2105,13 @@ caniuse-lite@^1.0.30001587:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001600.tgz#93a3ee17a35aa6a9f0c6ef1b2ab49507d1ab9079"
   integrity sha512-+2S9/2JFhYmYaDpZvo0lKkfvuKIglrx68MwOBqMGHhQsNkLjB5xtc/TGoEPs+MxjSyN/72qer2g97nzR641mOQ==
 
-cesium@1.134.1:
-  version "1.134.1"
-  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.134.1.tgz#b5369211ecbb6788a0477ba43e6527b6f2a51e1b"
-  integrity sha512-5gbpwdFRV4zwujGeX/xlrItx2xbI20ZM+rKMUwdKc5dfLqt3uVEVzFewm+lOKLGLRJRBcH7XbDgqtmD63l18Yw==
+cesium@1.135.0:
+  version "1.135.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.135.0.tgz#12f5cf50470bc782ee14a51dfeeaf9b1a8b8eb98"
+  integrity sha512-U0OuU9pim7ezTns0OVVw199NdMhJzuZWKRKRwQdRbBQH74Q8pmU0FLpQ/Xv94pzvCqJxxqdtziM2JGHa43xzcg==
   dependencies:
-    "@cesium/engine" "^21.0.1"
-    "@cesium/widgets" "^13.2.1"
+    "@cesium/engine" "^22.0.0"
+    "@cesium/widgets" "^14.0.0"
 
 chai@^4.3.10:
   version "4.4.1"
