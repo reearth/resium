@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.19.1 - 2025-11-14
+
+### bugfix
+
+- Fix Bing Maps Network Request Issue ([#724](https://github.com/reearth/resium/pull/724)) [`a6ea92`](https://github.com/reearth/resium/commit/a6ea92)
+
+### 
+
+- Chore&#x2F;fix lint warnings ([#722](https://github.com/reearth/resium/pull/722)) [`889c9a`](https://github.com/reearth/resium/commit/889c9a)
+- Use package.json as the source of truth and not the github tags for release preparation ([#723](https://github.com/reearth/resium/pull/723)) [`463f5b`](https://github.com/reearth/resium/commit/463f5b)
+
 ## 1.19.0 - 2025-11-07
 
 - Upgrade Cesium from 1.116.0 to 1.134.1 ([#714](https://github.com/reearth/resium/pull/714)) [`c73f86`](https://github.com/reearth/resium/commit/c73f86)
