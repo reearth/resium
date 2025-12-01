@@ -23,7 +23,7 @@ class Test {
 
 // Test class for optional properties (similar to Cesium 1.135.0 changes)
 class TestWithOptional {
-  requiredProp: string = "test";
+  requiredProp = "test";
   optionalProp: number | undefined;
   readonly readOnlyProp = true;
   method() {
@@ -33,8 +33,8 @@ class TestWithOptional {
 
 // Test class for private properties (starting with underscore)
 class TestWithPrivate {
-  publicProp: string = "public";
-  _privateProp: number = 42;
+  publicProp = "public";
+  _privateProp = 42;
   readonly readOnlyProp = true;
   method() {
     return 1;

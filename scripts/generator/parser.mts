@@ -195,7 +195,7 @@ export function getLeadingComment(node: Node) {
   const nodeStart = node.getStart();
   const comment: string[] = [];
   let start = 0;
-  // eslint-disable-next-line no-constant-condition
+   
   while (true) {
     const comments = getLeadingCommentRanges(text, start);
     if (comments?.[0]) {

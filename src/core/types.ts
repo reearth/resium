@@ -39,33 +39,33 @@ export type ConstructorOptions2<T extends new (...args: any[]) => any> = NonNull
 >;
 
 export type StaticMethodOptions<
-  T extends { [J in K]: (...args: any[]) => any },
+  T extends Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<T[K]>[0]>;
 
 export type StaticMethodOptions2<
-  T extends { [J in K]: (...args: any[]) => any },
+  T extends Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<T[K]>[1]>;
 
 export type MethodOptions<
-  T extends new (...args: any) => any & { [J in K]: (...args: any[]) => any },
+  T extends new (...args: any) => any & Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<InstanceType<T>[K]>[0]>;
 
 export type MethodOptions2<
-  T extends new (...args: any) => any & { [J in K]: (...args: any[]) => any },
+  T extends new (...args: any) => any & Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<InstanceType<T>[K]>[1]>;
 
 export type UnusedCesiumProps<
   T,
   K,
-  E extends { [e: string]: string } = {},
+  E extends Record<string, string> = {},
   I extends string = never,
 > = Exclude<InvalidProps<CesiumPureProps<T>, ArrayKeys<keyof K>, E>, I>;
 
-type InvalidProps<T extends string, K extends string, E extends { [e: string]: string } = {}> =
+type InvalidProps<T extends string, K extends string, E extends Record<string, string> = {}> =
   | Exclude<T, K | E[keyof E]>
   | Exclude<K, T | keyof E>;
 
