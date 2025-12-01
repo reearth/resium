@@ -8,11 +8,21 @@ export default [
       "dist",
       "examples",
       "coverage",
-      "docs/build",
-      "docs/static",
-      "docs/.docusaurus", // Generated Docusaurus files
+      "docs/**", // Docusaurus docs use CommonJS
+      ".storybook/**", // Storybook config
+      "**/*.stories.tsx", // Storybook stories
+      "src/core/storybook.tsx", // Storybook utility
     ],
   },
   // Base config for all files
   ...reearth(),
+  // Override for test files - allow {} type in type tests
+  {
+    files: ["**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/consistent-indexed-object-style": "off",
+      "@typescript-eslint/no-dynamic-delete": "off",
+    },
+  },
 ];

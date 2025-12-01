@@ -47,6 +47,9 @@ type TestOptions = {
 
 const keys = ["hoge", "foo", "bar"] as const;
 const readOnlyKeys: string[] = ["hoge", "foo", "bar"];
+// Suppress unused vars - these are used for type testing
+void keys;
+void readOnlyKeys;
 
 expectType<TypeEqual<ArrayKeys<[1, 2] | 1 | ["hoge"] | "foo" | undefined | null>, "hoge" | "foo">>(
   true,

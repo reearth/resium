@@ -61,10 +61,12 @@ export type MethodOptions2<
 export type UnusedCesiumProps<
   T,
   K,
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
   E extends Record<string, string> = {},
   I extends string = never,
 > = Exclude<InvalidProps<CesiumPureProps<T>, ArrayKeys<keyof K>, E>, I>;
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 type InvalidProps<T extends string, K extends string, E extends Record<string, string> = {}> =
   | Exclude<T, K | E[keyof E]>
   | Exclude<K, T | keyof E>;
@@ -89,7 +91,9 @@ type FunctionKeys<T> = {
 type IfEquals<X, Y, A = X, B = never> =
   (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
 
+// MUST use mapped type syntax (not Record) for IfEquals to work correctly
 type ReadonlyKeys<T> = {
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   [P in keyof T]-?: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, never, P>;
 }[keyof T];
 

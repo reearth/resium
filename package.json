@@ -1,16 +1,17 @@
 {
   "name": "resium",
   "version": "1.19.1",
+  "type": "module",
   "description": "React component library for Cesium",
   "source": "./src/index.ts",
-  "main": "./dist/resium.umd.js",
-  "module": "./dist/resium.mjs",
+  "main": "./dist/resium.umd.cjs",
+  "module": "./dist/resium.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/resium.mjs",
-      "require": "./dist/resium.umd.js"
+      "import": "./dist/resium.js",
+      "require": "./dist/resium.umd.cjs"
     }
   },
   "repository": "https://github.com/reearth/resium.git",

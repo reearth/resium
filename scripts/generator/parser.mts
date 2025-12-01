@@ -162,7 +162,6 @@ function parseDocComment(node: Node): DocComment | undefined {
   return doc;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function getDesc(s: Symbol | undefined, tc: TypeChecker) {
   return s
     ?.getDocumentationComment(tc)
