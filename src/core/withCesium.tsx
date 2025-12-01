@@ -13,8 +13,9 @@ export type CesiumProp<C> = {
   cesium: C;
 };
 
-export interface CesiumInsideComponentType<E, P = any>
-  extends PureComponent<WithContextProps<P, any>> {
+export interface CesiumInsideComponentType<E, P = any> extends PureComponent<
+  WithContextProps<P, any>
+> {
   cesiumElement: E;
 }
 
