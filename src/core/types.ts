@@ -71,8 +71,11 @@ type InvalidProps<T extends string, K extends string, E extends { [e: string]: s
 
 type CesiumPureProps<T> = Exclude<
   StringOnly<keyof T>,
-  FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>> | "prototype"
+  FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>> | "prototype" | PrivateKeys<T>
 >;
+type PrivateKeys<T> = {
+  [K in keyof T]: K extends `_${string}` ? K : never;
+}[keyof T];
 type StringOnly<K> = K extends string ? K : never;
 
 type CesiumEventKeys<T> = {
