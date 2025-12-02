@@ -40,6 +40,10 @@ export { default as Fog, type FogProps } from "./Fog";
 export { default as GeoJsonDataSource, type GeoJsonDataSourceProps } from "./GeoJsonDataSource";
 export { default as Globe, type GlobeProps } from "./Globe";
 export {
+  default as Google2DImageryProvider,
+  type Google2DImageryProviderProps,
+} from "./Google2DImageryProvider";
+export {
   default as GroundPolylinePrimitive,
   type GroundPolylinePrimitiveProps,
 } from "./GroundPolylinePrimitive";
