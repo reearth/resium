@@ -20,6 +20,10 @@ export {
   default as Cesium3DTilesetGraphics,
   type Cesium3DTilesetGraphicsProps,
 } from "./Cesium3DTilesetGraphics";
+export {
+  default as Cesium3DTilesTerrainProvider,
+  type Cesium3DTilesTerrainProviderProps,
+} from "./Cesium3DTilesTerrainProvider";
 export { default as CesiumWidget, type CesiumWidgetProps } from "./CesiumWidget";
 export {
   default as ClassificationPrimitive,
