@@ -40,7 +40,7 @@ export type RootComponentInternalValues = {
   imageryLayerWaitingList?: (Promise<ImageryProvider> | ImageryProvider)[];
 };
 
-export const createCesiumComponent = <Element, Props extends {}, State = any>({
+export const createCesiumComponent = <Element, Props extends object, State = any>({
   renderContainer,
   noChildren,
   containerProps,

@@ -32,8 +32,8 @@ const componentFiles = globbySync([
 if (componentFiles.length > 0) {
   try {
     fs.mkdirSync(dest);
-  } catch (err) {
-    // ignore
+  } catch {
+    // ignore - directory may already exist
   }
 }
 

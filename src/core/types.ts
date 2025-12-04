@@ -39,40 +39,45 @@ export type ConstructorOptions2<T extends new (...args: any[]) => any> = NonNull
 >;
 
 export type StaticMethodOptions<
-  T extends { [J in K]: (...args: any[]) => any },
+  T extends Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<T[K]>[0]>;
 
 export type StaticMethodOptions2<
-  T extends { [J in K]: (...args: any[]) => any },
+  T extends Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<T[K]>[1]>;
 
 export type MethodOptions<
-  T extends new (...args: any) => any & { [J in K]: (...args: any[]) => any },
+  T extends new (...args: any) => any & Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<InstanceType<T>[K]>[0]>;
 
 export type MethodOptions2<
-  T extends new (...args: any) => any & { [J in K]: (...args: any[]) => any },
+  T extends new (...args: any) => any & Record<K, (...args: any[]) => any>,
   K extends keyof T,
 > = NonNullable<Parameters<InstanceType<T>[K]>[1]>;
 
 export type UnusedCesiumProps<
   T,
   K,
-  E extends { [e: string]: string } = {},
+  // eslint-disable-next-line @typescript-eslint/no-empty-object-type
+  E extends Record<string, string> = {},
   I extends string = never,
 > = Exclude<InvalidProps<CesiumPureProps<T>, ArrayKeys<keyof K>, E>, I>;
 
-type InvalidProps<T extends string, K extends string, E extends { [e: string]: string } = {}> =
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+type InvalidProps<T extends string, K extends string, E extends Record<string, string> = {}> =
   | Exclude<T, K | E[keyof E]>
   | Exclude<K, T | keyof E>;
 
 type CesiumPureProps<T> = Exclude<
   StringOnly<keyof T>,
-  FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>> | "prototype"
+  FunctionKeys<T> | Exclude<ReadonlyKeys<T>, CesiumEventKeys<T>> | "prototype" | PrivateKeys<T>
 >;
+type PrivateKeys<T> = {
+  [K in keyof T]: K extends `_${string}` ? K : never;
+}[keyof T];
 type StringOnly<K> = K extends string ? K : never;
 
 type CesiumEventKeys<T> = {
@@ -86,7 +91,9 @@ type FunctionKeys<T> = {
 type IfEquals<X, Y, A = X, B = never> =
   (<T>() => T extends X ? 1 : 2) extends <T>() => T extends Y ? 1 : 2 ? A : B;
 
+// MUST use mapped type syntax (not Record) for IfEquals to work correctly
 type ReadonlyKeys<T> = {
+  // eslint-disable-next-line @typescript-eslint/consistent-indexed-object-style
   [P in keyof T]-?: IfEquals<{ [Q in P]: T[P] }, { -readonly [Q in P]: T[P] }, never, P>;
 }[keyof T];
 

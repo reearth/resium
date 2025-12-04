@@ -72,7 +72,7 @@ export type RootEventProps = EventProps<RootEventTarget> & {
   onWheel?: (delta: number) => void;
 };
 
-type EventMap<T> = { [k in EventType]: T };
+type EventMap<T> = Record<EventType, T>;
 
 export type CesiumMovementEvent = {
   position?: Cartesian2;

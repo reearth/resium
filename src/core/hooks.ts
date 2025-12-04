@@ -116,6 +116,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
             } else if (typeof newValue === "undefined") {
               // deleted
               eventHandler.removeEventListener(prevValue);
+              // eslint-disable-next-line @typescript-eslint/no-dynamic-delete
               delete attachedEvents.current[cesiumKey];
             } else {
               // updated

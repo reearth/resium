@@ -21,12 +21,35 @@ class Test {
   }
 }
 
+// Test class for optional properties (similar to Cesium 1.135.0 changes)
+class TestWithOptional {
+  requiredProp = "test";
+  optionalProp: number | undefined;
+  readonly readOnlyProp = true;
+  method() {
+    return 1;
+  }
+}
+
+// Test class for private properties (starting with underscore)
+class TestWithPrivate {
+  publicProp = "public";
+  _privateProp = 42;
+  readonly readOnlyProp = true;
+  method() {
+    return 1;
+  }
+}
+
 type TestOptions = {
   hoge?: string | number;
 };
 
 const keys = ["hoge", "foo", "bar"] as const;
 const readOnlyKeys: string[] = ["hoge", "foo", "bar"];
+// Suppress unused vars - these are used for type testing
+void keys;
+void readOnlyKeys;
 
 expectType<TypeEqual<ArrayKeys<[1, 2] | 1 | ["hoge"] | "foo" | undefined | null>, "hoge" | "foo">>(
   true,
@@ -58,5 +81,22 @@ expectType<TypeOf<PickCesiumProps<Merge<Test, TestOptions>, "hoge">, { hoge?: st
 expectType<
   TypeOf<PickCesiumProps<UnionMerge<Test, TestOptions>, "hoge">, { hoge?: string | number | null }>
 >(true);
+
+// Test UnusedCesiumProps with optional properties
+expectType<
+  TypeEqual<UnusedCesiumProps<TestWithOptional, { requiredProp: string; optionalProp: number }>, never>
+>(true);
+expectType<
+  TypeEqual<UnusedCesiumProps<TestWithOptional, { requiredProp: string }>, "optionalProp">
+>(true);
+
+// Test UnusedCesiumProps with private properties (should be automatically filtered)
+expectType<
+  TypeEqual<UnusedCesiumProps<TestWithPrivate, { publicProp: string }>, never>
+>(true);
+expectType<
+  TypeEqual<UnusedCesiumProps<TestWithPrivate, {}>, "publicProp">
+>(true);
+// _privateProp should NOT appear as unused since it's filtered by PrivateKeys
 
 it("should be compiled", () => {});

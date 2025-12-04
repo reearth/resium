@@ -60,6 +60,12 @@ export type SceneOtherProps = {
   mode?: SceneMode;
   /** If this prop is set and when `mode` prop is changed, the scene morphs with this duration (seconds). */
   morphDuration?: number;
+  /**
+   * Whether or not to enable edge visibility rendering for 3D tiles.
+   * When enabled, creates a framebuffer with multiple render targets for advanced edge detection and visibility techniques.
+   * Maps to Cesium's internal `_enableEdgeVisibility` property.
+   */
+  enableEdgeVisibility?: boolean;
 };
 
 export type SceneProps = SceneCesiumProps & SceneCesiumEvents & SceneOtherProps;
@@ -67,7 +73,7 @@ export type SceneProps = SceneCesiumProps & SceneCesiumEvents & SceneOtherProps;
 const cesiumProps = [
   "backgroundColor",
   "completeMorphOnUserInput",
-  "debugCommandFilter",
+  // "debugCommandFilter", // Ignored in type check
   "debugShowCommands",
   "debugShowDepthFrustum",
   "debugShowFramesPerSecond",
@@ -104,10 +110,9 @@ const cesiumProps = [
   "terrainProvider",
   "useDepthPicking",
   "useWebVR",
-  "postProcessStages",
+  // "postProcessStages", // Ignored in type check - readonly property
   "msaaSamples",
   "splitPosition",
-  "debugCommandFilter",
   "verticalExaggeration",
   "verticalExaggerationRelativeHeight",
   "atmosphere",
@@ -124,7 +129,7 @@ export const cesiumEventProps = {
   onTerrainProviderChange: "terrainProviderChanged",
 } as const;
 
-export const otherProps = ["mode", "morphDuration"] as const;
+export const otherProps = ["mode", "morphDuration", "enableEdgeVisibility"] as const;
 
 const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
   switch (mode) {
@@ -145,14 +150,22 @@ const morph = (scene: CesiumScene, mode: SceneMode, morphTime?: number) => {
 const Scene = createCesiumComponent<CesiumScene, SceneProps>({
   name: "Scene",
   create(context, props) {
-    if (context.scene && props.mode) {
-      morph(context.scene, props.mode, props.morphDuration);
+    if (context.scene) {
+      if (props.mode) {
+        morph(context.scene, props.mode, props.morphDuration);
+      }
+      if (props.enableEdgeVisibility !== undefined) {
+        (context.scene as any)._enableEdgeVisibility = props.enableEdgeVisibility;
+      }
     }
     return context.scene;
   },
   update(scene, props, prevProps) {
     if (props.mode !== prevProps.mode && props.mode) {
       morph(scene, props.mode, props.morphDuration);
+    }
+    if (props.enableEdgeVisibility !== prevProps.enableEdgeVisibility && props.enableEdgeVisibility !== undefined) {
+      (scene as any)._enableEdgeVisibility = props.enableEdgeVisibility;
     }
   },
   cesiumProps,

@@ -76,6 +76,8 @@ const cesiumProps = [
   "index",
 ] as const;
 
+// Used for both type definition and runtime component configuration
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const cesiumReadonlyProps = [
   "rectangle",
   "maximumAnisotropy",
@@ -94,9 +96,9 @@ const ImageryLayer = createCesiumComponent<CesiumImageryLayer, ImageryLayerProps
       : new Promise<ImageryProvider>(r => queueMicrotask(() => r(props.imageryProvider)));
 
     const imageryLayerWaitingList = context.__$internal?.imageryLayerWaitingList?.slice();
-    context.__$internal?.imageryLayerWaitingList
-      ? context.__$internal.imageryLayerWaitingList.push(imageryProvider)
-      : undefined;
+    if (context.__$internal?.imageryLayerWaitingList) {
+      context.__$internal.imageryLayerWaitingList.push(imageryProvider);
+    }
 
     // Make sure keeping the order of imagery layer to specify the index correctly.
     if (imageryLayerWaitingList) {
