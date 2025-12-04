@@ -30,7 +30,7 @@
     "docs": "yarn --cwd docs start",
     "docs:build": "run-s build docs:generate storybook:build docs:build2",
     "docs:generate": "ts-node --esm -O '{\"module\":\"ESNext\"}' ./scripts/generator/index.mts",
-    "docs:build2": "mv docs/static/examples/cesium docs/static/ && yarn --cwd docs build"
+    "docs:build2": "test -d docs/static/examples/cesium && mv docs/static/examples/cesium docs/static/ || true && yarn --cwd docs build"
   },
   "files": [
     "src",
