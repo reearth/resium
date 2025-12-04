@@ -5,6 +5,7 @@
 ### chore
 
 - Upgrade Cesium to 1.135 and Other outdated packages ([#728](https://github.com/reearth/resium/pull/728)) [`806bd8`](https://github.com/reearth/resium/commit/806bd8)
+- Upgrade React to 19.2.1 to address critical security vulnerability in React 19.0.0
 
 ### fix
 
