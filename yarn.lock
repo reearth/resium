@@ -309,10 +309,10 @@
   resolved "https://registry.npmjs.org/@bcoe/v8-coverage/-/v8-coverage-0.2.3.tgz"
   integrity sha512-0hYQ8SB4Db5zvZB4axdMHGwEaQjkZzFjQiN9LVYvIFB2nSUHW9tYpxWriPrWDASIxiaXax83REcLxuSdnGPZtw==
 
-"@cesium/engine@^22.0.0":
-  version "22.0.0"
-  resolved "https://registry.npmjs.org/@cesium/engine/-/engine-22.0.0.tgz"
-  integrity sha512-7hYwgzu5MYD7TryiZoXz6EvNk6YaBgT1y10L8iHQcKwmv6EPone46C8YGBerYb3uUHR21qmbmDWMSN7xGpBUiw==
+"@cesium/engine@^22.1.0":
+  version "22.1.0"
+  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-22.1.0.tgz#cc2c994e107f53f351af302d2b28812455905bc1"
+  integrity sha512-grL8/wiIkKLFG+FrizORhUTMpOcFMFawa0fmLH3I/1K46TcDQn6Gom+qrcGqbJoc4diYM75xsAC9M8Yajgh4rQ==
   dependencies:
     "@cesium/wasm-splats" "^0.1.0-alpha.2"
     "@spz-loader/core" "0.3.0"
@@ -320,7 +320,7 @@
     "@zip.js/zip.js" "^2.8.1"
     autolinker "^4.0.0"
     bitmap-sdf "^1.0.3"
-    dompurify "^3.0.2"
+    dompurify "^3.3.0"
     draco3d "^1.5.1"
     earcut "^3.0.0"
     grapheme-splitter "^1.0.4"
@@ -341,12 +341,12 @@
   resolved "https://registry.npmjs.org/@cesium/wasm-splats/-/wasm-splats-0.1.0-alpha.2.tgz"
   integrity sha512-t9pMkknv31hhIbLpMa8yPvmqfpvs5UkUjgqlQv9SeO8VerCXOYnyP8/486BDaFrztM0A7FMbRjsXtNeKvqQghA==
 
-"@cesium/widgets@^14.0.0":
-  version "14.0.0"
-  resolved "https://registry.npmjs.org/@cesium/widgets/-/widgets-14.0.0.tgz"
-  integrity sha512-XjYHO2nBPJ0I6qZTTOZ7RnM0OUWgWxtwgc6QCQnOUifR98VEZfDZjQywIlt3nhIXTTcc8EaYhfYsym73n169zQ==
+"@cesium/widgets@^14.1.0":
+  version "14.1.0"
+  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-14.1.0.tgz#9a68ec2a52f8fc60d5c75b74eee48f1ea1b6cc55"
+  integrity sha512-/8xJTi95XZrdkmJGABEHuQLu2ZarJ59J4V21dmgU/GJAFoqnjPlqFaFajx5XBZzRufGFYW1vGsq9BMqbdOJn5Q==
   dependencies:
-    "@cesium/engine" "^22.0.0"
+    "@cesium/engine" "^22.1.0"
     nosleep.js "^0.12.0"
 
 "@cspotcode/source-map-support@^0.8.0":
@@ -2134,13 +2134,13 @@ caniuse-lite@^1.0.30001587:
   resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001600.tgz"
   integrity sha512-+2S9/2JFhYmYaDpZvo0lKkfvuKIglrx68MwOBqMGHhQsNkLjB5xtc/TGoEPs+MxjSyN/72qer2g97nzR641mOQ==
 
-cesium@^1.135.0:
-  version "1.135.0"
-  resolved "https://registry.npmjs.org/cesium/-/cesium-1.135.0.tgz"
-  integrity sha512-U0OuU9pim7ezTns0OVVw199NdMhJzuZWKRKRwQdRbBQH74Q8pmU0FLpQ/Xv94pzvCqJxxqdtziM2JGHa43xzcg==
+cesium@^1.136.0:
+  version "1.136.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.136.0.tgz#4e91753029272b246c3f66be9c1eb9ccdc0bcbca"
+  integrity sha512-sHSFNNLgrgJQxpdLxdmjytT7qfs8dkn23tpPnXKweqvynQn+yAybepK6AwzYBbKQ017qBkrS/Wb4DORIFcjjhQ==
   dependencies:
-    "@cesium/engine" "^22.0.0"
-    "@cesium/widgets" "^14.0.0"
+    "@cesium/engine" "^22.1.0"
+    "@cesium/widgets" "^14.1.0"
 
 chai@^4.3.10:
   version "4.4.1"
@@ -2450,9 +2450,9 @@ dom-accessibility-api@^0.6.3:
   resolved "https://registry.npmjs.org/dom-accessibility-api/-/dom-accessibility-api-0.6.3.tgz"
   integrity sha512-7ZgogeTnjuHbo+ct10G9Ffp0mif17idi0IyWNVA/wcwcm7NPOD/WEHVP3n7n3MhXqxoIYm8d6MuZohYWIZ4T3w==
 
-dompurify@^3.0.2:
+dompurify@^3.3.0:
   version "3.3.0"
-  resolved "https://registry.npmjs.org/dompurify/-/dompurify-3.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/dompurify/-/dompurify-3.3.0.tgz#aaaadbb83d87e1c2fbb066452416359e5b62ec97"
   integrity sha512-r+f6MYR1gGN1eJv0TVQbhA7if/U7P87cdPl3HN5rikqaBSBxLiCb/b9O+2eG0cxz0ghyU+mU1QkbsOwERMYlWQ==
   optionalDependencies:
     "@types/trusted-types" "^2.0.7"
