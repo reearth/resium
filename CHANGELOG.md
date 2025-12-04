@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.19.2 - 2025-12-04
+
+### chore
+
+- Upgrade Cesium to 1.135 and Other outdated packages ([#728](https://github.com/reearth/resium/pull/728)) [`806bd8`](https://github.com/reearth/resium/commit/806bd8)
+- Upgrade React to 19.2.1 to address critical security vulnerability in React 19.0.0
+
+### fix
+
+- Fix docs build ([#729](https://github.com/reearth/resium/pull/729)) [`c45c60`](https://github.com/reearth/resium/commit/c45c60)
+
 ## 1.19.1 - 2025-11-14
 
 ### bugfix
