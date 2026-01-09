@@ -26,11 +26,11 @@
     "lint": "eslint .",
     "format": "eslint . --fix",
     "storybook": "storybook dev -p 9001",
-    "storybook:build": "storybook build -o docs/static/examples",
+    "storybook:build": "storybook build -o docs/static/examples && cp -r node_modules/cesium/Build/Cesium docs/static/examples/cesium",
     "docs": "yarn --cwd docs start",
     "docs:build": "run-s build docs:generate storybook:build docs:build2",
     "docs:generate": "ts-node --esm -O '{\"module\":\"ESNext\"}' ./scripts/generator/index.mts",
-    "docs:build2": "sh -c 'if [ -d docs/static/examples/cesium ]; then mv docs/static/examples/cesium docs/static/; fi' && yarn --cwd docs build"
+    "docs:build2": "yarn --cwd docs build"
   },
   "files": [
     "src",
