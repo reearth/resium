@@ -64,7 +64,7 @@ jobs:
           latest: CHANGELOG_latest.md
           from: v${{ steps.current_version.outputs.current }}
       - name: Upload latest CHANGELOG
-        uses: actions/upload-artifact@v5
+        uses: actions/upload-artifact@v6
         with:
           name: changelog-${{ steps.changelog.outputs.version }}
           path: CHANGELOG_latest.md
