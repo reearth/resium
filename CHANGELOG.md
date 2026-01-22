@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.19.3 - 2026-01-22
+
+### chore
+
+- Update dependencies to the latest  ([#739](https://github.com/reearth/resium/pull/739)) [`211ab7`](https://github.com/reearth/resium/commit/211ab7)
+- Copy Cesium files to Storybook output directory [`ef0898`](https://github.com/reearth/resium/commit/ef0898)
+
+### fix
+
+- Use absolute path for Cesium base URL in Storybook [`8a0d9c`](https://github.com/reearth/resium/commit/8a0d9c)
+
 ## 1.19.2 - 2025-12-04
 
 ### chore

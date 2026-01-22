@@ -1,6 +1,6 @@
 {
   "name": "resium",
-  "version": "1.19.2",
+  "version": "1.19.3",
   "type": "module",
   "description": "React component library for Cesium",
   "source": "./src/index.ts",
