@@ -68,7 +68,7 @@
     "eslint": "9.39.2",
     "eslint-config-reearth": "0.3.8",
     "globby": "16.1.0",
-    "jsdom": "24.0.0",
+    "jsdom": "27.4.0",
     "npm-run-all2": "8.0.4",
     "prettier": "^3.8.0",
     "react": "^19.2.3",
@@ -79,7 +79,7 @@
     "typescript": "5.9.3",
     "vite": "5.2.7",
     "vite-plugin-cesium": "^1.2.23",
-    "vite-plugin-dts": "3.8.1",
+    "vite-plugin-dts": "4.5.4",
     "vitest": "1.4.0",
     "web-streams-polyfill": "^4.2.0"
   }
