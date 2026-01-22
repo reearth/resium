@@ -1,4 +1,4 @@
-import { actions } from "@storybook/addon-actions";
+import { actions } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
 import { Cartesian3 } from "cesium";
 import { StrictMode } from "react";

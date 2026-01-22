@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
 
 import Viewer from "../Viewer";
