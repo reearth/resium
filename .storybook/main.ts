@@ -10,15 +10,7 @@ const config: StorybookConfig = {
   },
   framework: "@storybook/react-vite",
   staticDirs: ["./public"],
-  addons: [
-    {
-      name: "@storybook/addon-essentials",
-      options: {
-        backgrounds: false,
-      },
-    },
-    "@storybook/addon-storysource",
-  ],
+  addons: [],
   typescript: {
     reactDocgen: false,
   },

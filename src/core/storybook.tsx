@@ -1,4 +1,4 @@
-import { actions } from "@storybook/addon-actions";
+import { actions } from "storybook/actions";
 
 export const events = actions(
   "onClick",

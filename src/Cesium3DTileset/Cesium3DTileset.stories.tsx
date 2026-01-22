@@ -1,4 +1,4 @@
-import { action } from "@storybook/addon-actions";
+import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
 import { Viewer as CesiumViewer, Cesium3DTileStyle, IonResource } from "cesium";
 import { useMemo, useRef } from "react";
