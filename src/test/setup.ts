@@ -8,7 +8,6 @@ import "web-streams-polyfill/polyfill";
 
 declare global {
   namespace Vi {
-    interface JestAssertion<T = any>
-      extends jest.Matchers<void, T>, TestingLibraryMatchers<T, void> {}
+    type JestAssertion<T = any> = jest.Matchers<void, T> & TestingLibraryMatchers<T, void>;
   }
 }
