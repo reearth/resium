@@ -1,5 +1,0 @@
-import{j as a}from"./iframe-C6gT_53K.js";import{c as t}from"./component-JLmv1WeE.js";import{V as y}from"./Viewer-BpQEPut0.js";import"./preload-helper-PPVm8Dsz.js";const i={onLayerAdd:"layerAdded",onLayerMove:"layerMoved",onLayerRemove:"layerRemoved",onLayerShowOrHide:"layerShownOrHidden"},n=t({name:"ImageryLayerCollection",create:r=>r.globe?.imageryLayers,cesiumEventProps:i}),{action:e}=__STORYBOOK_MODULE_ACTIONS__,L={title:"ImageryLayerCollection",component:n},o={render:r=>a.jsx(y,{full:!0,children:a.jsx(n,{...r,onLayerAdd:e("onLayerAdd"),onLayerMove:e("onLayerMove"),onLayerRemove:e("onLayerRemove"),onLayerShowOrHide:e("onLayerShowOrHide")})})};o.parameters={...o.parameters,docs:{...o.parameters?.docs,source:{originalSource:`{
-  render: args => <Viewer full>
-      <ImageryLayerCollection {...args} onLayerAdd={action("onLayerAdd")} onLayerMove={action("onLayerMove")} onLayerRemove={action("onLayerRemove")} onLayerShowOrHide={action("onLayerShowOrHide")} />
-    </Viewer>
-}`,...o.parameters?.docs?.source}}};const l=["Basic"];export{o as Basic,l as __namedExportsOrder,L as default};

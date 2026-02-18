@@ -1,1 +1,0 @@
-import{c as o}from"./component-JLmv1WeE.js";const t={onStop:"onStop",onTick:"onTick"},c=["canAnimate","clockRange","clockStep","currentTime","multiplier","shouldAnimate","startTime","stopTime"],i=o({name:"Clock",create:e=>e.cesiumWidget?.clock,cesiumProps:c,cesiumEventProps:t,setCesiumPropsAfterCreate:!0});export{i as C};

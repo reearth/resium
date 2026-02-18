@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.137.0
+ * Version 1.138.0
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -23,4 +23,4 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-import{a as f}from"./chunk-ITDFUUP5.js";import{a as c}from"./chunk-QM7HI6IF.js";import"./chunk-4UHVCH4T.js";import{b as i}from"./chunk-5ELDAYCN.js";import"./chunk-6WLI3422.js";import{a as n}from"./chunk-G2EMNOST.js";import"./chunk-4VFKVGYI.js";import"./chunk-3WJNS2B6.js";import"./chunk-XCN226AA.js";var w=new n,T=new n,a=[new n,new n,new n],d=new c;function b(t,r){let l=new Float64Array(t.aabbs),m=Array.from({length:4},(e,o)=>{let s=n.unpack(l,o*6,w),B=n.unpack(l,o*6+3,T);return c.fromCorners(s,B,new c)}),g=new Float64Array(t.inverseTransform),p=i.unpack(g,0,new i),u=new Uint32Array(t.triangleIndices),A=new Float32Array(t.trianglePositions),y=Array.from({length:4},()=>[]);for(let e=0;e<u.length;e++){n.unpack(A,e*9,a[0]),n.unpack(A,e*9+3,a[1]),n.unpack(A,e*9+6,a[2]);let o=h(p,a);for(let s=0;s<4;s++)m[s].intersectAxisAlignedBoundingBox(o)&&y[s].push(u[e])}return{intersectingTrianglesArrays:y.map(e=>{let o=new Uint32Array(e);return r.push(o.buffer),o.buffer})}}function h(t,r){return i.multiplyByPoint(t,r[0],r[0]),i.multiplyByPoint(t,r[1],r[1]),i.multiplyByPoint(t,r[2],r[2]),c.fromPoints(r,d)}var M=f(b);export{M as default};
+import{a as y}from"./chunk-BUKMP3AW.js";import{a as c}from"./chunk-D5QCMU6T.js";import"./chunk-GQG3G4OP.js";import{b as a}from"./chunk-V62DYOIH.js";import"./chunk-YQTAAITT.js";import{a as n}from"./chunk-TODZU3UG.js";import"./chunk-3XRQCEHV.js";import"./chunk-VIWNLE3Z.js";import"./chunk-4TAASUQ2.js";var b=new n,d=new n,A=[new n,new n,new n],x=new c,f=new n(.5,.5,.5),p=new n(-.5,-.5,-.5);function h(e,r){let o=new Float64Array(e.aabbs),g=Array.from({length:4},(t,i)=>{let s=n.unpack(o,i*6,b),B=n.unpack(o,i*6+3,d);return c.fromCorners(s,B,new c)}),w=new Float64Array(e.inverseTransform),T=a.unpack(w,0,new a),u=new Uint32Array(e.triangleIndices),m=new Float64Array(e.trianglePositions),l=Array.from({length:4},()=>[]);for(let t=0;t<u.length;t++){n.unpack(m,t*9,A[0]),n.unpack(m,t*9+3,A[1]),n.unpack(m,t*9+6,A[2]);let i=k(T,A);for(let s=0;s<4;s++)g[s].intersectAxisAlignedBoundingBox(i)&&l[s].push(u[t])}return{intersectingTrianglesArrays:l.map(t=>{let i=new Uint32Array(t);return r.push(i.buffer),i.buffer})}}function k(e,r){a.multiplyByPoint(e,r[0],r[0]),a.multiplyByPoint(e,r[1],r[1]),a.multiplyByPoint(e,r[2],r[2]);let o=c.fromPoints(r,x);return n.clamp(o.minimum,p,f,o.minimum),n.clamp(o.maximum,p,f,o.maximum),o}var P=y(h);export{P as default};
