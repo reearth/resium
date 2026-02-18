@@ -40,7 +40,7 @@
     "node": ">=20.19.0"
   },
   "peerDependencies": {
-    "cesium": "1.x",
+    "cesium": "1.138.0",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0"
   },
