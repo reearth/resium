@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.19.4 - 2026-02-18
+
+### chore
+
+- Update Packages Feb 2026 ([#743](https://github.com/reearth/resium/pull/743)) [`fce026`](https://github.com/reearth/resium/commit/fce026)
+
 ## 1.19.3 - 2026-01-22
 
 ### chore
