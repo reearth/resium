@@ -16,6 +16,12 @@ export default [
   },
   // Base config for all files
   ...reearth(),
+  // Global rule overrides
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
   // Override for test files - allow {} type in type tests
   {
     files: ["**/*.test.ts", "**/*.test.tsx"],

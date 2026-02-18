@@ -77,7 +77,6 @@ const cesiumProps = [
 ] as const;
 
 // Used for both type definition and runtime component configuration
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const cesiumReadonlyProps = [
   "rectangle",
   "maximumAnisotropy",
