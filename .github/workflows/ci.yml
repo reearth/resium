@@ -35,7 +35,7 @@ jobs:
       - name: Build
         run: yarn run build
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6.0.0
+        uses: actions/upload-artifact@v7.0.0
         with:
           name: dist
           path: dist/**/*
