@@ -32,6 +32,7 @@ export {
 export { default as Clock, type ClockProps } from "./Clock";
 export { default as CloudCollection, type CloudCollectionProps } from "./CloudCollection";
 export { default as CorridorGraphics, type CorridorGraphicsProps } from "./CorridorGraphics";
+export { default as CubeMapPanorama, type CubeMapPanoramaProps } from "./CubeMapPanorama";
 export { default as CumulusCloud, type CumulusCloudProps } from "./CumulusCloud";
 export { default as CustomDataSource, type CustomDataSourceProps } from "./CustomDataSource";
 export { default as CylinderGraphics, type CylinderGraphicsProps } from "./CylinderGraphics";
@@ -39,6 +40,10 @@ export { default as CzmlDataSource, type CzmlDataSourceProps } from "./CzmlDataS
 export { default as EllipseGraphics, type EllipseGraphicsProps } from "./EllipseGraphics";
 export { default as EllipsoidGraphics, type EllipsoidGraphicsProps } from "./EllipsoidGraphics";
 export { default as Entity, type EntityProps } from "./Entity";
+export {
+  default as EquirectangularPanorama,
+  type EquirectangularPanoramaProps,
+} from "./EquirectangularPanorama";
 export { default as EntityDescription, type EntityDescriptionProps } from "./EntityDescription";
 export { default as Fog, type FogProps } from "./Fog";
 export { default as GeoJsonDataSource, type GeoJsonDataSourceProps } from "./GeoJsonDataSource";
