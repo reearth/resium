@@ -31,6 +31,8 @@ export type CubeMapPanoramaProps = CubeMapPanoramaCesiumProps & CubeMapPanoramaC
 
 const cesiumProps = ["show", "sources"] as const;
 
+const cesiumReadonlyProps = ["transform", "credit"] as const;
+
 const CubeMapPanorama = createCesiumComponent<CesiumCubeMapPanorama, CubeMapPanoramaProps>({
   name: "CubeMapPanorama",
   create(context, props) {
@@ -54,6 +56,7 @@ const CubeMapPanorama = createCesiumComponent<CesiumCubeMapPanorama, CubeMapPano
   },
   setCesiumPropsAfterCreate: true,
   cesiumProps,
+  cesiumReadonlyProps,
 });
 
 export default CubeMapPanorama;

@@ -43,6 +43,8 @@ export type EquirectangularPanoramaProps = EquirectangularPanoramaCesiumProps &
 
 const cesiumProps = ["show"] as const;
 
+const cesiumReadonlyProps = ["transform", "image", "radius", "repeatHorizontal", "repeatVertical", "credit"] as const;
+
 const EquirectangularPanorama = createCesiumComponent<
   CesiumEquirectangularPanorama,
   EquirectangularPanoramaProps
@@ -71,6 +73,7 @@ const EquirectangularPanorama = createCesiumComponent<
   },
   setCesiumPropsAfterCreate: true,
   cesiumProps,
+  cesiumReadonlyProps,
 });
 
 export default EquirectangularPanorama;
