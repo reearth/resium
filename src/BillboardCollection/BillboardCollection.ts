@@ -70,6 +70,7 @@ const BillboardCollection = createCesiumComponent<
     };
   },
   cesiumProps,
+  setCesiumPropsAfterCreate: true,
 });
 
 export default BillboardCollection;
