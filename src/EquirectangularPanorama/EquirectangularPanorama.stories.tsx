@@ -53,6 +53,19 @@ export const Basic: Story = {
   ),
 };
 
+// SmallRadius: camera positioned outside a 100m sphere so the panorama is visible as an object
+// in the scene — clearly distinct from Basic where the camera is inside the default 100km sphere
+export const SmallRadius: Story = {
+  render: () => (
+    <Viewer full>
+      {/* Keep the globe visible so the sphere is visible against the terrain */}
+      <CameraLookAt target={position} offset={new HeadingPitchRange(0, CesiumMath.toRadians(-20), 400)} />
+      <ScreenSpaceCameraController enableTranslate={false} enableZoom={false} />
+      <EquirectangularPanorama transform={transform} image={image} radius={100} show />
+    </Viewer>
+  ),
+};
+
 // repeatHorizontal / repeatVertical tile the image across the sphere — visually distinct from Basic
 export const TextureRepeat: Story = {
   render: () => (
