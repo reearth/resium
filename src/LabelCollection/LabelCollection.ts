@@ -26,7 +26,7 @@ export type LabelCollectionOtherProps = {
 
 export type LabelCollectionProps = LabelCollectionCesiumProps & LabelCollectionOtherProps;
 
-const cesiumProps = ["blendOption", "debugShowBoundingVolume", "modelMatrix", "show"] as const;
+const cesiumProps = ["blendOption", "coarseDepthTestDistance", "debugShowBoundingVolume", "modelMatrix", "show", "threePointDepthTestDistance"] as const;
 
 const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollectionProps>({
   name: "LabelCollection",
