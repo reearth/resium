@@ -80,7 +80,7 @@ jobs:
       - name: Create release branch and PR
         env:
           VERSION: ${{ github.event.inputs.version == 'custom' && github.event.inputs.custom_version || steps.changelog.outputs.version }}
-          TAG: v${{ github.event.inputs.version == 'custom' && github.event.inputs.custom_version || steps.changelog.outputs.version }}
+          TAG: ${{ github.event.inputs.version == 'custom' && format('v{0}', github.event.inputs.custom_version) || steps.changelog.outputs.version }}
           GH_TOKEN: ${{ steps.generate-token.outputs.token }}
         run: |
           # Create release branch
