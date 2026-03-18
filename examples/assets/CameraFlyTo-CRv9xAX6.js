@@ -1,0 +1,1 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{s as t,t as n}from"./core-D7dEvFYR.js";var r,i=e((()=>{n(),r=t(`CameraFlyTo`,(e,{onComplete:t,onCancel:n,...r})=>{e.flyTo({...r,complete:t,cancel:n})})}));export{i as n,r as t};

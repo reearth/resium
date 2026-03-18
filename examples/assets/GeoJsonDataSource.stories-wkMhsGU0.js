@@ -1,0 +1,12 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./iframe-D4wvS9R9.js";import{r as n,t as r}from"./core-D7dEvFYR.js";import{n as i,t as a}from"./storybook-D8QIrnEB.js";import{t as o}from"./Viewer-DBW4on7w.js";import{t as s}from"./Viewer--AfqXkNC.js";var c,l,u,d,f,p,m=e((()=>{r(),c=[`clustering`,`name`,`show`],l=[`clampToGround`,`sourceUri`,`credit`,`markerSize`,`markerSymbol`,`markerColor`,`stroke`,`strokeWidth`,`fill`,`describe`],u={onChange:`changedEvent`,onError:`errorEvent`,onLoading:`loadingEvent`},d=[`onLoad`,`data`],f=(e,{data:t,onLoad:n,...r})=>{t&&e.load(t,r).then(e=>{n&&n(e)})},p=n({name:`GeoJsonDataSource`,create(e,t){if(!e.dataSourceCollection)return;let n=new Cesium.GeoJsonDataSource(t.name);return t.clustering&&(n.clustering=t.clustering),typeof t.show==`boolean`&&(n.show=t.show),e.dataSourceCollection.add(n),t.data&&f(n,t),n},update(e,t,n){t.data?n.show!==t.show&&(e.show=typeof t.show==`boolean`?t.show:!0):e.show=!1,t.data&&(n.data!==t.data||n.clampToGround!==t.clampToGround||n.sourceUri!==t.sourceUri||n.credit!==t.credit||n.markerSize!==t.markerSize||n.markerSymbol!==t.markerSymbol||n.markerColor!==t.markerColor||n.stroke!==t.stroke||n.strokeWidth!==t.strokeWidth||n.fill!==t.fill)&&f(e,t)},destroy(e,t){t.dataSourceCollection&&!t.dataSourceCollection.isDestroyed()&&t.dataSourceCollection.remove(e)},provide(e){return{dataSource:e}},cesiumProps:c,cesiumReadonlyProps:l,cesiumEventProps:u,otherProps:d,useCommonEvent:!0})})),h,g,_,v,y,b,x;e((()=>{i(),s(),m(),h=t(),{action:g}=__STORYBOOK_MODULE_ACTIONS__,_={title:`GeoJsonDataSource`,component:p},v={type:`Feature`,properties:{name:`Coors Field`,amenity:`Baseball Stadium`,popupContent:`This is where the Rockies play!`},geometry:{type:`Point`,coordinates:[-104.99404,39.75621]}},y=g(`onLoad`),b={args:{show:!0},render:e=>(0,h.jsx)(o,{full:!0,children:(0,h.jsx)(p,{...e,data:v,markerColor:Cesium.Color.RED,onLoad:e=>{e.entities.values[0].name=`Coors Field!`,y(e)},onError:g(`onError`),...a})})},b.parameters={...b.parameters,docs:{...b.parameters?.docs,source:{originalSource:`{
+  args: {
+    show: true
+  },
+  render: args => <Viewer full>
+      <GeoJsonDataSource {...args} data={data} markerColor={Color.RED} onLoad={g => {
+      // You can process the data source here
+      g.entities.values[0].name = "Coors Field!";
+      onLoadAction(g);
+    }} onError={action("onError")} {...events} />
+    </Viewer>
+}`,...b.parameters?.docs?.source}}},x=[`Basic`]}))();export{b as Basic,x as __namedExportsOrder,_ as default};

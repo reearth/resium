@@ -1,0 +1,14 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./iframe-D4wvS9R9.js";import{r as n,t as r}from"./core-D7dEvFYR.js";import{t as i}from"./Viewer-DBW4on7w.js";import{t as a}from"./Viewer--AfqXkNC.js";import{t as o}from"./CameraLookAt-RHojvsds.js";import{t as s}from"./Globe-B_mA33Av.js";import{t as c}from"./Globe-BnegU5oh.js";import{t as l}from"./CameraLookAt-BXdm-Ldh.js";import{t as u}from"./ScreenSpaceCameraController-Dq7DLOop.js";import{t as d}from"./ScreenSpaceCameraController-xe4h4kLv.js";var f,p=e((()=>{r(),f=n({name:`CubeMapPanorama`,create(e,t){if(!e.primitiveCollection)return;let n=new Cesium.CubeMapPanorama({sources:t.sources,show:t.show,transform:t.transform,credit:t.credit});return e.primitiveCollection.add(n),n},destroy(e,t){t.primitiveCollection&&!t.primitiveCollection.isDestroyed()&&t.primitiveCollection.remove(e),e.isDestroyed()||e.destroy()},setCesiumPropsAfterCreate:!0,cesiumProps:[`show`,`sources`],cesiumReadonlyProps:[`transform`,`credit`]})})),m,h,g,_,v,y,b;e((()=>{l(),c(),d(),a(),p(),m=t(),h={positiveX:`https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posx.jpg`,negativeX:`https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negx.jpg`,positiveY:`https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posy.jpg`,negativeY:`https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negy.jpg`,positiveZ:`https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/posz.jpg`,negativeZ:`https://raw.githubusercontent.com/mrdoob/three.js/dev/examples/textures/cube/Park2/negz.jpg`},g=Cesium.Cartesian3.fromDegrees(-122.4175,37.655,0),_=Cesium.Matrix4.getMatrix3(Cesium.Transforms.localFrameToFixedFrameGenerator(`north`,`down`)(g,Cesium.Ellipsoid.default),new Cesium.Matrix3),v={title:`CubeMapPanorama`,component:f},y={args:{show:!0},render:e=>(0,m.jsxs)(i,{full:!0,children:[(0,m.jsx)(s,{show:!1}),(0,m.jsx)(o,{target:g,offset:new Cesium.HeadingPitchRange(0,0,2)}),(0,m.jsx)(u,{enableTranslate:!1,enableZoom:!1}),(0,m.jsx)(f,{...e,sources:h,transform:_})]})},y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  args: {
+    show: true
+  },
+  render: args => <Viewer full>
+      {/* Hide the globe so the panorama renders as the background */}
+      <Globe show={false} />
+      {/* Place the camera inside the cube map (range = 2m) */}
+      <CameraLookAt target={position} offset={new HeadingPitchRange(0, 0, 2)} />
+      {/* Prevent panning away from the panorama */}
+      <ScreenSpaceCameraController enableTranslate={false} enableZoom={false} />
+      <CubeMapPanorama {...args} sources={parkSources} transform={transform} />
+    </Viewer>
+}`,...y.parameters?.docs?.source}}},b=[`Basic`]}))();export{y as Basic,b as __namedExportsOrder,v as default};

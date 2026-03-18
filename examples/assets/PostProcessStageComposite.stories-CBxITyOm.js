@@ -1,0 +1,9 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./iframe-D4wvS9R9.js";import{n,r,t as i}from"./core-D7dEvFYR.js";import{t as a}from"./Viewer-DBW4on7w.js";import{t as o}from"./Viewer--AfqXkNC.js";import{t as s}from"./Entity-CArr64hW.js";import{t as c}from"./Entity-D2wIALCp.js";var l,u,d,f=e((()=>{i(),l=[`enabled`,`selected`],u=[`inputPreviousStageTexture`,`name`,`stages`,`uniforms`],d=r({name:`PostProcessStageComposite`,create(e,t){if(!e.scene)return;let n=new Cesium.PostProcessStageComposite(t);return typeof t.enabled==`boolean`&&(n.enabled=t.enabled),t.selected&&(n.selected=t.selected),e.scene.postProcessStages.add(n),n},destroy(e,t){t.scene&&!t.scene.isDestroyed()&&t.scene.postProcessStages.remove(e),e.isDestroyed()||e.destroy()},cesiumProps:l,cesiumReadonlyProps:u})})),p,m=e((()=>{i(),p=n({name:`Bloom`,create:(e,t)=>t.bloom,props:[`brightness`,`contrast`,`delta`,`glowOnly`,`sigma`,`stepSize`],noMount:!0})})),h=e((()=>{f(),m()})),g,_,v,y;e((()=>{c(),o(),h(),g=t(),_={title:`PostProcessStageComposite`,component:d},v={name:`Bloom`,render:()=>(0,g.jsxs)(a,{full:!0,children:[(0,g.jsx)(p,{}),(0,g.jsx)(s,{position:Cesium.Cartesian3.fromDegrees(-74.0707383,40.7117244,100),model:{uri:`Cesium_Air.glb`},tracked:!0})]})},v.parameters={...v.parameters,docs:{...v.parameters?.docs,source:{originalSource:`{
+  name: "Bloom",
+  render: () => <Viewer full>
+      <Bloom />
+      <Entity position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)} model={{
+      uri: "Cesium_Air.glb"
+    }} tracked />
+    </Viewer>
+}`,...v.parameters?.docs?.source}}},y=[`BloomStory`]}))();export{v as BloomStory,y as __namedExportsOrder,_ as default};

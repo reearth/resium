@@ -1,0 +1,16 @@
+import{n as e}from"./chunk-BneVvdWh.js";import{t}from"./iframe-D4wvS9R9.js";import{r as n,t as r}from"./core-D7dEvFYR.js";import{n as i,t as a}from"./storybook-D8QIrnEB.js";import{t as o}from"./Viewer-DBW4on7w.js";import{t as s}from"./Viewer--AfqXkNC.js";var c,l=e((()=>{r(),c=n({name:`PointPrimitveCollection`,create(e,t){if(!e.primitiveCollection)return;let n=new Cesium.PointPrimitiveCollection(t);return e.primitiveCollection.add(n),n},destroy(e,t){t.primitiveCollection&&!t.primitiveCollection.isDestroyed()&&t.primitiveCollection.remove(e),e.isDestroyed()||e.destroy()},provide(e){return{pointPrimitiveCollection:e}},cesiumProps:[`blendOption`,`debugShowBoundingVolume`,`modelMatrix`,`show`]})})),u=e((()=>{l()})),d,f=e((()=>{r(),d=n({name:`PointPrimitive`,create:(e,t)=>e.pointPrimitiveCollection?.add(t),destroy(e,t){t.pointPrimitiveCollection&&!t.pointPrimitiveCollection.isDestroyed()&&t.pointPrimitiveCollection.remove(e)},cesiumProps:[`color`,`disableDepthTestDistance`,`distanceDisplayCondition`,`id`,`outlineColor`,`outlineWidth`,`pixelSize`,`position`,`scaleByDistance`,`show`,`splitDirection`,`translucencyByDistance`],useCommonEvent:!0})})),p,m,h,g,_,v;e((()=>{i(),u(),s(),f(),p=t(),m=Cesium.Cartesian3.fromDegrees(-75.59777,40.03883),h={title:`PointPrimitive`,component:d},g={render:e=>(0,p.jsx)(o,{full:!0,children:(0,p.jsxs)(c,{modelMatrix:Cesium.Transforms.eastNorthUpToFixedFrame(m),children:[(0,p.jsx)(d,{...e,color:Cesium.Color.ORANGE,position:new Cesium.Cartesian3(0,0,0)}),(0,p.jsx)(d,{...e,color:Cesium.Color.YELLOW,position:new Cesium.Cartesian3(1e6,0,0)}),(0,p.jsx)(d,{...e,color:Cesium.Color.GREEN,position:new Cesium.Cartesian3(0,1e6,0)}),(0,p.jsx)(d,{...e,color:Cesium.Color.CYAN,position:new Cesium.Cartesian3(0,0,1e6)})]})})},_={render:e=>(0,p.jsx)(o,{full:!0,children:(0,p.jsx)(c,{modelMatrix:Cesium.Transforms.eastNorthUpToFixedFrame(m),children:(0,p.jsx)(d,{...e,color:Cesium.Color.ORANGE,position:new Cesium.Cartesian3(0,0,0),...a})})})},g.parameters={...g.parameters,docs:{...g.parameters?.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+        <PointPrimitive {...args} color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} />
+        <PointPrimitive {...args} color={Color.YELLOW} position={new Cartesian3(1000000.0, 0.0, 0.0)} />
+        <PointPrimitive {...args} color={Color.GREEN} position={new Cartesian3(0.0, 1000000.0, 0.0)} />
+        <PointPrimitive {...args} color={Color.CYAN} position={new Cartesian3(0.0, 0.0, 1000000.0)} />
+      </PointPrimitiveCollection>
+    </Viewer>
+}`,...g.parameters?.docs?.source}}},_.parameters={..._.parameters,docs:{..._.parameters?.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <PointPrimitiveCollection modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}>
+        <PointPrimitive {...args} color={Color.ORANGE} position={new Cartesian3(0.0, 0.0, 0.0)} {...events} />
+      </PointPrimitiveCollection>
+    </Viewer>
+}`,..._.parameters?.docs?.source}}},v=[`Basic`,`Events`]}))();export{g as Basic,_ as Events,v as __namedExportsOrder,h as default};
