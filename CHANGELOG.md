@@ -6,13 +6,10 @@
 
 - Update packages march 2026 ([#747](https://github.com/reearth/resium/pull/747)) [`7ec5cc`](https://github.com/reearth/resium/commit/7ec5cc)
 
-### feat
+### feature
 
 - Panorama from Cesium 1.139 ([#749](https://github.com/reearth/resium/pull/749)) [`4a9fa4`](https://github.com/reearth/resium/commit/4a9fa4)
 
-### 
-
-- Fix release PR generation ([#751](https://github.com/reearth/resium/pull/751)) [`1b4425`](https://github.com/reearth/resium/commit/1b4425)
 
 ## 1.19.4 - 2026-02-18
 
