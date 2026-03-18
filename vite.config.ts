@@ -19,7 +19,7 @@ export default defineConfig({
       entry: "src/index.ts",
       name: "Resium",
     },
-    rollupOptions: {
+    rolldownOptions: {
       external: ["cesium", "react", "react-dom"],
       output: {
         globals: {

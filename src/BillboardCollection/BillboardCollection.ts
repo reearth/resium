@@ -32,10 +32,12 @@ export type BillboardCollectionProps = BillboardCollectionCesiumProps &
 
 const cesiumProps = [
   "blendOption",
+  "coarseDepthTestDistance",
   "debugShowBoundingVolume",
   "debugShowTextureAtlas",
   "modelMatrix",
   "show",
+  "threePointDepthTestDistance",
 ] as const;
 
 const BillboardCollection = createCesiumComponent<
@@ -68,6 +70,7 @@ const BillboardCollection = createCesiumComponent<
     };
   },
   cesiumProps,
+  setCesiumPropsAfterCreate: true,
 });
 
 export default BillboardCollection;
