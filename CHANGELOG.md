@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.20.0 - 2026-03-18
+
+### chore
+
+- Update packages march 2026 ([#747](https://github.com/reearth/resium/pull/747)) [`7ec5cc`](https://github.com/reearth/resium/commit/7ec5cc)
+
+### feat
+
+- Panorama from Cesium 1.139 ([#749](https://github.com/reearth/resium/pull/749)) [`4a9fa4`](https://github.com/reearth/resium/commit/4a9fa4)
+
 ## 1.19.4 - 2026-02-18
 
 ### chore
