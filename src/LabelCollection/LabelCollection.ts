@@ -55,6 +55,7 @@ const LabelCollection = createCesiumComponent<CesiumLabelCollection, LabelCollec
     };
   },
   cesiumProps,
+  setCesiumPropsAfterCreate: true,
 });
 
 export default LabelCollection;
