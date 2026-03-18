@@ -37,17 +37,17 @@
     "dist"
   ],
   "engines": {
-    "node": ">=20.19.0"
+    "node": ">=24.14.0"
   },
   "peerDependencies": {
     "cesium": "1.x",
-    "react": ">=18.2.0",
-    "react-dom": ">=18.2.0"
+    "react": ">=19.2.4",
+    "react-dom": ">=19.2.4"
   },
   "resolutions": {
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "@types/react": "^19.0.0"
+    "react": ">=19.2.4",
+    "react-dom": ">=19.2.4",
+    "@types/react": "^19.2.14"
   },
   "devDependencies": {
     "@storybook/builder-vite": "10.2.19",
@@ -62,7 +62,7 @@
     "@vitejs/plugin-react": "6.0.1",
     "c8": "11.0.0",
     "cesium": "1.139.1",
-    "eslint": "9.39.4",
+    "eslint": "10.0.3",
     "eslint-config-reearth": "0.3.8",
     "globby": "16.1.1",
     "jsdom": "29.0.0",
