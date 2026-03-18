@@ -3056,7 +3056,7 @@ Component Stack:${errorInfo.componentStack}`)
     return { hasError: !0, error };
   }
   componentDidCatch(error, errorInfo) {
-    console.error("Storybook Manager UI Error:", error), console.error("Component Stack:", errorInfo.componentStack), this.setState({ errorInfo });
+    console.error("Storybook Manager UI Error:", error), console.error("Component Stack:", errorInfo.componentStack), this.setState({ errorInfo }), typeof globalThis.sendTelemetryError == "function" && globalThis.sendTelemetryError(error);
   }
   render() {
     let { hasError, error, errorInfo } = this.state, { children } = this.props;
@@ -18701,8 +18701,8 @@ init_react();
 
 // src/manager/components/sidebar/TagsFilterPanel.tsx
 init_react();
-var groupByType = (filters) => filters.reduce(
-  (acc, filter) => (acc[filter.type] = acc[filter.type] || [], acc[filter.type].push(filter), acc),
+var groupByType = (filters) => filters.filter(Boolean).reduce(
+  (acc, filter) => (acc[filter.type] ??= [], acc[filter.type].push(filter), acc),
   {}
 ), Wrapper7 = styled.div({
   minWidth: 240,

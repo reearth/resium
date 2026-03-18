@@ -1,1 +1,0 @@
-const{actions:o}=__STORYBOOK_MODULE_ACTIONS__,n=o("onClick","onDoubleClick","onMouseDown","onMouseUp","onMiddleClick","onMiddleDown","onMiddleUp","onMouseMove","onPinchEnd","onPinchMove","onPinchStart","onRightClick","onRightDown","onRightUp","onMouseEnter","onMouseLeave");export{n as e};
