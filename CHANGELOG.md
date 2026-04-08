@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.20.1 - 2026-04-08
+
+### fix
+
+- Externalize react&#x2F;jsx-runtime to prevent require() in ESM output ([#758](https://github.com/reearth/resium/pull/758)) [`cdc805`](https://github.com/reearth/resium/commit/cdc805)
+
 ## 1.20.0 - 2026-03-18
 
 ### chore
