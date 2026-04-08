@@ -17,7 +17,7 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v5.0.3
+      - uses: actions/cache@v5.0.4
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
@@ -31,7 +31,7 @@ jobs:
       - name: Test
         run: yarn run test
       - name: Codecov
-        uses: codecov/codecov-action@v5.5.2
+        uses: codecov/codecov-action@v5.5.4
       - name: Build
         run: yarn run build
       - name: Upload artifacts
@@ -54,7 +54,7 @@ jobs:
       - name: Get yarn cache directory path
         id: yarn-cache-dir-path
         run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
-      - uses: actions/cache@v5.0.3
+      - uses: actions/cache@v5.0.4
         id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
           path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
