@@ -18,16 +18,10 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       name: "Resium",
+      formats: ["es", "cjs"],
     },
     rolldownOptions: {
-      external: ["cesium", "react", "react-dom"],
-      output: {
-        globals: {
-          cesium: "Cesium",
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
+      external: ["cesium", "react", "react/jsx-runtime", "react-dom", "react-dom/client"],
     },
   },
   test: {
