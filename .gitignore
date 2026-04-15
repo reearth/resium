@@ -6,3 +6,4 @@ node_modules
 /example/package-lock.json
 /example/yarn.lock
 /Users
+.worktrees/
