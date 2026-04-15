@@ -252,13 +252,13 @@
   dependencies:
     css-tree "^3.0.0"
 
-"@cesium/engine@^23.0.1":
-  version "23.0.1"
-  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-23.0.1.tgz#dd2007a924510d4625418cc758ad8524010fc35d"
-  integrity sha512-67Wki33c2mgAH/xKVTai35ZxCTgZ7oFCW1SQAqsfLb/zCBCA24+QZKjL02n2fO6Hlpq6ds6JZRBi44DRcNP9FA==
+"@cesium/engine@^24.0.0":
+  version "24.0.0"
+  resolved "https://registry.yarnpkg.com/@cesium/engine/-/engine-24.0.0.tgz#7817f2d593106f159e38b3bd9b9638f12aa5569e"
+  integrity sha512-zJ2gl0tyw/FFhBtvp6UYw+0JQJb2J9EiTJYvVSndc6+6qPR5GHLFzFjA1msLLxucfcpc7uI9R2pXNEPluheR/g==
   dependencies:
     "@cesium/wasm-splats" "^0.1.0-alpha.2"
-    "@spz-loader/core" "0.3.0"
+    "@spz-loader/core" "0.3.1"
     "@tweenjs/tween.js" "^25.0.0"
     "@zip.js/zip.js" "^2.8.1"
     autolinker "^4.0.0"
@@ -284,12 +284,12 @@
   resolved "https://registry.npmjs.org/@cesium/wasm-splats/-/wasm-splats-0.1.0-alpha.2.tgz"
   integrity sha512-t9pMkknv31hhIbLpMa8yPvmqfpvs5UkUjgqlQv9SeO8VerCXOYnyP8/486BDaFrztM0A7FMbRjsXtNeKvqQghA==
 
-"@cesium/widgets@^14.4.1":
-  version "14.4.1"
-  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-14.4.1.tgz#72146edafc3b571546e8982f05aaa5218a37b352"
-  integrity sha512-2zT5JECBE59n4ow1RRRvhwlhjSb7a7gmo38bc6yewiKiVnTmYaavLuabA3+CnTihK71UD/HxjPzwPF0GCl2UGg==
+"@cesium/widgets@^14.5.0":
+  version "14.5.0"
+  resolved "https://registry.yarnpkg.com/@cesium/widgets/-/widgets-14.5.0.tgz#034bce2408f8755b6d07e49805fa6c8b39e0ad97"
+  integrity sha512-h/hKVooXyOtUQJUtrfyBFGMIXb+Q3RLwqE6FzXfzyC0JQuuThLXCz8nRzCPbyiRuAR/aAYT/jbbhQrUxfiWqhQ==
   dependencies:
-    "@cesium/engine" "^23.0.1"
+    "@cesium/engine" "^24.0.0"
     nosleep.js "^0.12.0"
 
 "@cspotcode/source-map-support@^0.8.0":
@@ -1008,10 +1008,10 @@
   resolved "https://registry.yarnpkg.com/@sindresorhus/merge-streams/-/merge-streams-4.0.0.tgz#abb11d99aeb6d27f1b563c38147a72d50058e339"
   integrity sha512-tlqY9xq5ukxTUZBmoOp+m61cqwQD5pHJtFY3Mn8CA8ps6yghLH/Hw8UPdqg4OLmFW3IFlcXnQNmo/dh8HzXYIQ==
 
-"@spz-loader/core@0.3.0":
-  version "0.3.0"
-  resolved "https://registry.npmjs.org/@spz-loader/core/-/core-0.3.0.tgz"
-  integrity sha512-sbStwMHb/MIE29st7rRuMYWqhX1UmLSFzdpyGtUZUXLkFNIuYKblzjQdtiet8bau8sUf21uL1DQ451zuySGmcA==
+"@spz-loader/core@0.3.1":
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/@spz-loader/core/-/core-0.3.1.tgz#3337d4753f60908c30ae94b5599020f18056a18e"
+  integrity sha512-8qJ1WIBXaJu8HjnJAjYniE0kYcr0kCe5Hp7kDzYiGVvvd7zyrOBwbF5imoW5mvwx1Qba0hxGEK5R9jEoaHKJFA==
 
 "@standard-schema/spec@^1.1.0":
   version "1.1.0"
@@ -1971,13 +1971,13 @@ caniuse-lite@^1.0.30001759:
   resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001765.tgz#4a78d8a797fd4124ebaab2043df942eb091648ee"
   integrity sha512-LWcNtSyZrakjECqmpP4qdg0MMGdN368D7X8XvvAqOcqMv0RxnlqVKZl2V6/mBR68oYMxOZPLw/gO7DuisMHUvQ==
 
-cesium@1.139.1:
-  version "1.139.1"
-  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.139.1.tgz#6905bca81344488f586be774679d7b9241f5b059"
-  integrity sha512-Wj7OGuozqHgkj+Ij0B9j+YUQxiviEKf4AKfOC8bp84UcyyY9r92EfRWXiePP4Or6MI7OaM3YkGtGSaLRXhNvLg==
+cesium@1.140.0:
+  version "1.140.0"
+  resolved "https://registry.yarnpkg.com/cesium/-/cesium-1.140.0.tgz#b5ebb731e95b14992fdff54890f69b08661d05fc"
+  integrity sha512-3RvW0rvZWuXiS6regtNE5u9vt0uXohgpsRBIo6Qc922IIIamkitYiEdr4fg+u4qX4EoK9xS3BosCza7iPOExEQ==
   dependencies:
-    "@cesium/engine" "^23.0.1"
-    "@cesium/widgets" "^14.4.1"
+    "@cesium/engine" "^24.0.0"
+    "@cesium/widgets" "^14.5.0"
 
 chai@^5.2.0:
   version "5.3.3"

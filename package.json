@@ -62,7 +62,7 @@
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "6.0.1",
     "c8": "11.0.0",
-    "cesium": "1.139.1",
+    "cesium": "1.140.0",
     "eslint": "9.39.4",
     "eslint-config-reearth": "0.3.8",
     "globby": "16.2.0",

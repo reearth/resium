@@ -34,6 +34,7 @@ const cesiumProps = [
   "material",
   "resolution",
   "distanceDisplayCondition",
+  "relativeTo",
 ] as const;
 
 export const cesiumEventProps = {
