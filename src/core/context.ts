@@ -16,6 +16,9 @@ import {
   PolylineCollection,
   PointPrimitiveCollection,
   CloudCollection,
+  BufferPointCollection,
+  BufferPolylineCollection,
+  BufferPolygonCollection,
 } from "cesium";
 import { createContext, useContext } from "react";
 
@@ -40,6 +43,9 @@ export type ResiumContext = {
   polylineCollection?: PolylineCollection;
   pointPrimitiveCollection?: PointPrimitiveCollection;
   cloudCollection?: CloudCollection;
+  bufferPointCollection?: BufferPointCollection;
+  bufferPolylineCollection?: BufferPolylineCollection;
+  bufferPolygonCollection?: BufferPolygonCollection;
   __$internal?: RootComponentInternalProps & RootComponentInternalValues;
   [eventManagerContextKey]?: EventManager;
 };
