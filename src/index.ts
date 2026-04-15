@@ -7,6 +7,21 @@ export {
 } from "./BillboardCollection";
 export { default as BillboardGraphics, type BillboardGraphicsProps } from "./BillboardGraphics";
 export { default as BoxGraphics, type BoxGraphicsProps } from "./BoxGraphics";
+export { default as BufferPoint, type BufferPointProps } from "./BufferPoint";
+export {
+  default as BufferPointCollection,
+  type BufferPointCollectionProps,
+} from "./BufferPointCollection";
+export { default as BufferPolygon, type BufferPolygonProps } from "./BufferPolygon";
+export {
+  default as BufferPolygonCollection,
+  type BufferPolygonCollectionProps,
+} from "./BufferPolygonCollection";
+export { default as BufferPolyline, type BufferPolylineProps } from "./BufferPolyline";
+export {
+  default as BufferPolylineCollection,
+  type BufferPolylineCollectionProps,
+} from "./BufferPolylineCollection";
 export { default as Camera, type CameraProps } from "./Camera";
 export { default as CameraFlyHome, type CameraFlyHomeProps } from "./CameraFlyHome";
 export { default as CameraFlyTo, type CameraFlyToProps } from "./CameraFlyTo";
@@ -139,4 +154,8 @@ export {
   type TimeDynamicPointCloudProps,
 } from "./TimeDynamicPointCloud";
 export { default as Viewer, type ViewerProps } from "./Viewer";
+export {
+  default as WebMapTileServiceImageryProvider,
+  type WebMapTileServiceImageryProviderProps,
+} from "./WebMapTileServiceImageryProvider";
 export { default as WallGraphics, type WallGraphicsProps } from "./WallGraphics";
