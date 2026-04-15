@@ -247,7 +247,13 @@ Note: `release.yml` pins `actions/checkout` by commit SHA (`de0fac2e4500dabe0009
 
 ---
 
-## 5. Changelog Entry (for CHANGELOG.md)
+## 5. Cleanup
+
+Once all implementation tasks are complete and verified, delete this spec file (`docs/superpowers/specs/2026-04-15-cesium-1140-maintenance-design.md`) as part of the final commit.
+
+---
+
+## 6. Changelog Entry (for CHANGELOG.md)
 
 ```
 ### Features
