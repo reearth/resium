@@ -16,7 +16,7 @@ type UnusedProps = UnusedCesiumProps<
   {},
   IgnoredProps
 >;
-type IgnoredProps = "length";
+type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
