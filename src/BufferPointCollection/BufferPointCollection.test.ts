@@ -9,6 +9,7 @@ import {
   BufferPointCollectionProps,
 } from "./BufferPointCollection";
 
+// Unused prop check
 type UnusedProps = UnusedCesiumProps<
   BufferPointCollection,
   Omit<BufferPointCollectionProps, keyof BufferPointCollectionOtherProps | "primitiveCountMax">,
