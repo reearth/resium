@@ -170,7 +170,7 @@ All six components and their prop types are added to `src/index.ts`.
 
 ---
 
-## 2. Updates to Existing Components
+## 2. Existing Component Updates & New Imagery Provider
 
 ### 2.1 `PathGraphics`
 
@@ -178,18 +178,30 @@ All six components and their prop types are added to `src/index.ts`.
 
 Add `relativeTo` to the `cesiumProps` array. This is a mutable property — no constructor changes required.
 
-### 2.2 `WebMapTileServiceImageryProvider`
+### 2.2 `WebMapTileServiceImageryProvider` (new component)
 
-**File:** `src/WebMapTileServiceImageryProvider/WebMapTileServiceImageryProvider.ts` (or equivalent)
+**Directory:** `src/WebMapTileServiceImageryProvider/`
+**Files:** `WebMapTileServiceImageryProvider.ts`, `index.ts`, `WebMapTileServiceImageryProvider.stories.tsx`, `WebMapTileServiceImageryProvider.test.ts`
 
-Add new props from Cesium 1.140.0:
+`WebMapTileServiceImageryProvider` does not currently exist in resium (only `Google2DImageryProvider` is wrapped). This release creates it, including the new Cesium 1.140.0 props at launch.
+
+**Scope:** Passed as the `imageryProvider` prop on `<ImageryLayer>`, following the same pattern as `Google2DImageryProvider`.
+
+**Props (Cesium 1.140.0 baseline):**
 
 | Prop | Kind |
 |---|---|
-| `enablePickFeatures` | mutable → `cesiumProps` |
+| `url` | constructor-only → `cesiumReadonlyProps` |
+| `layer` | constructor-only → `cesiumReadonlyProps` |
+| `style` | constructor-only → `cesiumReadonlyProps` |
+| `format` | constructor-only → `cesiumReadonlyProps` |
+| `tileMatrixSetID` | constructor-only → `cesiumReadonlyProps` |
 | `getFeatureInfoFormats` | constructor-only → `cesiumReadonlyProps` |
 | `getFeatureInfoUrl` | constructor-only → `cesiumReadonlyProps` |
 | `getFeatureInfoParameters` | constructor-only → `cesiumReadonlyProps` |
+| `enablePickFeatures` | mutable → `cesiumProps` |
+
+Export added to `src/index.ts`.
 
 ---
 
@@ -235,7 +247,7 @@ Note: `release.yml` pins `actions/checkout` by commit SHA (`de0fac2e4500dabe0009
 - Add BufferPolylineCollection and BufferPolyline components (Cesium 1.140.0)
 - Add BufferPolygonCollection and BufferPolygon components (Cesium 1.140.0)
 - Add PathGraphics.relativeTo prop (Cesium 1.140.0)
-- Add enablePickFeatures, getFeatureInfoFormats, getFeatureInfoUrl, getFeatureInfoParameters props to WebMapTileServiceImageryProvider (Cesium 1.140.0)
+- Add WebMapTileServiceImageryProvider component with enablePickFeatures, getFeatureInfoFormats, getFeatureInfoUrl, getFeatureInfoParameters support (Cesium 1.140.0)
 
 ### Maintenance
 - Upgrade Cesium to 1.140.0
