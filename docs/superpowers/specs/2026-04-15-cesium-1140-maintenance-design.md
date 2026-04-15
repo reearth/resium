@@ -4,6 +4,14 @@
 **Target version:** resium v1.21.0
 **Cesium upgrade:** 1.139.1 → 1.140.0
 
+## Branch
+
+All work is done on a new branch created before any file changes:
+
+```
+git checkout -b chore/cesium-1140-maintenance
+```
+
 ## Overview
 
 Maintenance release to support CesiumJS 1.140.0. Covers six new React components wrapping the Buffer* primitive collection APIs, prop additions to two existing components, and dependency/CI action upgrades.
