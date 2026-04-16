@@ -32,6 +32,8 @@ export const NasaGibsTrueColor: Story = {
             format: "image/jpeg",
             tilingScheme: new GeographicTilingScheme(),
             maximumLevel: 5,
+            // GIBS MODIS layers require a TIME dimension in every tile request
+            dimensions: { TIME: "2025-01-01" },
           })
         }
       />

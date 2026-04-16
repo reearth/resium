@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Cartesian3 } from "cesium";
+import { BufferPolylineMaterial, Cartesian3, Color } from "cesium";
 
 import BufferPolylineCollection from "../BufferPolylineCollection";
 import Viewer from "../Viewer";
@@ -22,7 +22,11 @@ export const Basic: Story = {
   render: args => (
     <Viewer full>
       <BufferPolylineCollection primitiveCountMax={1} vertexCountMax={2}>
-        <BufferPolyline {...args} positions={positions} />
+        <BufferPolyline
+          {...args}
+          positions={positions}
+          material={new BufferPolylineMaterial({ color: Color.YELLOW, width: 5 })}
+        />
       </BufferPolylineCollection>
     </Viewer>
   ),

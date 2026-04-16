@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Cartesian3 } from "cesium";
+import { BufferPolygonMaterial, Cartesian3, Color } from "cesium";
 
 import BufferPolygonCollection from "../BufferPolygonCollection";
 import Viewer from "../Viewer";
@@ -29,7 +29,12 @@ export const Basic: Story = {
         vertexCountMax={3}
         triangleCountMax={3}
       >
-        <BufferPolygon {...args} positions={positions} triangles={triangles} />
+        <BufferPolygon
+          {...args}
+          positions={positions}
+          triangles={triangles}
+          material={new BufferPolygonMaterial({ color: Color.CYAN })}
+        />
       </BufferPolygonCollection>
     </Viewer>
   ),

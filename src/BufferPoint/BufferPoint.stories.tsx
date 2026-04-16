@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Cartesian3, Transforms } from "cesium";
+import { BufferPointMaterial, Cartesian3, Color, Transforms } from "cesium";
 
 import BufferPointCollection from "../BufferPointCollection";
 import Viewer from "../Viewer";
@@ -22,10 +22,26 @@ export const Basic: Story = {
         primitiveCountMax={4}
         modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}
       >
-        <BufferPoint {...args} position={new Cartesian3(0, 0, 0)} />
-        <BufferPoint {...args} position={new Cartesian3(1000000, 0, 0)} />
-        <BufferPoint {...args} position={new Cartesian3(0, 1000000, 0)} />
-        <BufferPoint {...args} position={new Cartesian3(0, 0, 1000000)} />
+        <BufferPoint
+          {...args}
+          position={new Cartesian3(0, 0, 0)}
+          material={new BufferPointMaterial({ color: Color.ORANGE, size: 20 })}
+        />
+        <BufferPoint
+          {...args}
+          position={new Cartesian3(1000000, 0, 0)}
+          material={new BufferPointMaterial({ color: Color.YELLOW, size: 20 })}
+        />
+        <BufferPoint
+          {...args}
+          position={new Cartesian3(0, 1000000, 0)}
+          material={new BufferPointMaterial({ color: Color.GREEN, size: 20 })}
+        />
+        <BufferPoint
+          {...args}
+          position={new Cartesian3(0, 0, 1000000)}
+          material={new BufferPointMaterial({ color: Color.CYAN, size: 20 })}
+        />
       </BufferPointCollection>
     </Viewer>
   ),
