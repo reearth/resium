@@ -1,14 +1,18 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Credit, WebMapTileServiceImageryProvider as CesiumWebMapTileServiceImageryProvider } from "cesium";
+import {
+  Credit,
+  WebMapTileServiceImageryProvider as CesiumWebMapTileServiceImageryProvider,
+  WebMercatorTilingScheme,
+} from "cesium";
 
 import ImageryLayer from "../ImageryLayer";
 import Viewer from "../Viewer";
 
-// U.S. Geological Survey National Map — shaded relief with bathymetry
-// Public domain, global coverage, no API key or TIME dimension required.
-// This endpoint is also used in Cesium's own official documentation examples.
-const USGS_URL =
-  "https://basemap.nationalmap.gov/arcgis/rest/services/USGSShadedReliefOnly/MapServer/WMTS";
+// ESRI World Imagery — public satellite basemap, no API key or TIME required.
+// Uses the GoogleMapsCompatible (EPSG:3857) tile matrix set with standard
+// Web Mercator tiling — no custom scheme needed.
+const ESRI_WMTS_URL =
+  "https://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/WMTS";
 
 type Story = StoryObj<typeof ImageryLayer>;
 
@@ -17,19 +21,20 @@ export default {
   component: ImageryLayer,
 } as Meta;
 
-export const UsgsNationalMapShadedRelief: Story = {
+export const EsriWorldImagery: Story = {
   render: () => (
     <Viewer full>
       <ImageryLayer
         imageryProvider={
           new CesiumWebMapTileServiceImageryProvider({
-            url: USGS_URL,
-            layer: "USGSShadedReliefOnly",
+            url: ESRI_WMTS_URL,
+            layer: "World_Imagery",
             style: "default",
             format: "image/jpeg",
-            tileMatrixSetID: "default028mm",
+            tileMatrixSetID: "GoogleMapsCompatible",
+            tilingScheme: new WebMercatorTilingScheme(),
             maximumLevel: 19,
-            credit: new Credit("U. S. Geological Survey"),
+            credit: new Credit("Powered by Esri"),
           })
         }
       />
