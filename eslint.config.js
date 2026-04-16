@@ -8,6 +8,7 @@ export default [
       "dist",
       "examples",
       "coverage",
+      ".claude/**", // Git worktrees and Claude session files
       "docs/**", // Docusaurus docs use CommonJS
       ".storybook/**", // Storybook config
       "**/*.stories.tsx", // Storybook stories

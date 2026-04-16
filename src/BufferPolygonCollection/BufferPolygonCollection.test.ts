@@ -1,7 +1,9 @@
 import { BufferPolygonCollection } from "cesium";
 import { expectType, TypeEqual } from "ts-expect";
 import { it } from "vitest";
+
 import { UnusedCesiumProps } from "../core";
+
 import { BufferPolygonCollectionOtherProps, BufferPolygonCollectionProps } from "./BufferPolygonCollection";
 
 type ConstructorOnlyProps = "primitiveCountMax" | "vertexCountMax" | "holeCountMax" | "triangleCountMax" | "positionDatatype" | "allowPicking";

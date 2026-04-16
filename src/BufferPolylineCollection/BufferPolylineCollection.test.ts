@@ -1,7 +1,9 @@
 import { BufferPolylineCollection } from "cesium";
 import { expectType, TypeEqual } from "ts-expect";
 import { it } from "vitest";
+
 import { UnusedCesiumProps } from "../core";
+
 import { BufferPolylineCollectionOtherProps, BufferPolylineCollectionProps } from "./BufferPolylineCollection";
 
 // Unused prop check
