@@ -30,8 +30,14 @@ export const NasaGibsTrueColor: Story = {
             style: "default",
             tileMatrixSetID: "250m",
             format: "image/jpeg",
+            tileWidth: 512,
+            tileHeight: 512,
             tilingScheme: new GeographicTilingScheme(),
-            maximumLevel: 5,
+            // GIBS 250m level 0 is a single 1×1 tile; level 1 is the first 2×1
+            // level that matches Cesium's GeographicTilingScheme level 0, so we
+            // shift the matrix IDs up by one.
+            tileMatrixLabels: ["1", "2", "3", "4", "5", "6", "7", "8"],
+            maximumLevel: 7,
             // GIBS MODIS layers require a TIME dimension in every tile request
             dimensions: { TIME: "2025-01-01" },
           })
