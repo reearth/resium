@@ -1,12 +1,16 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { BufferPointMaterial, Cartesian3, Color, Transforms } from "cesium";
+import { BufferPointMaterial, Cartesian3, Color } from "cesium";
 
 import BufferPointCollection from "../BufferPointCollection";
 import Viewer from "../Viewer";
 
 import BufferPoint from "./BufferPoint";
 
-const center = Cartesian3.fromDegrees(-75.59777, 40.03883);
+// Direct ECEF surface positions — no modelMatrix needed.
+const p1 = Cartesian3.fromDegrees(-75.59777, 40.03883);
+const p2 = Cartesian3.fromDegrees(-74.5, 40.03883);
+const p3 = Cartesian3.fromDegrees(-75.59777, 40.8);
+const p4 = Cartesian3.fromDegrees(-74.5, 40.8);
 
 type Story = StoryObj<typeof BufferPoint>;
 
@@ -16,30 +20,27 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
-  render: args => (
+  render: () => (
     <Viewer full>
-      <BufferPointCollection
-        primitiveCountMax={4}
-        modelMatrix={Transforms.eastNorthUpToFixedFrame(center)}
-      >
+      <BufferPointCollection primitiveCountMax={4}>
         <BufferPoint
-          {...args}
-          position={new Cartesian3(0, 0, 0)}
+          show
+          position={p1}
           material={new BufferPointMaterial({ color: Color.ORANGE, size: 20 })}
         />
         <BufferPoint
-          {...args}
-          position={new Cartesian3(1000000, 0, 0)}
+          show
+          position={p2}
           material={new BufferPointMaterial({ color: Color.YELLOW, size: 20 })}
         />
         <BufferPoint
-          {...args}
-          position={new Cartesian3(0, 1000000, 0)}
+          show
+          position={p3}
           material={new BufferPointMaterial({ color: Color.GREEN, size: 20 })}
         />
         <BufferPoint
-          {...args}
-          position={new Cartesian3(0, 0, 1000000)}
+          show
+          position={p4}
           material={new BufferPointMaterial({ color: Color.CYAN, size: 20 })}
         />
       </BufferPointCollection>
