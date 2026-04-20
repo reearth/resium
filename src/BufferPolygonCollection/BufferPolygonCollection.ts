@@ -93,6 +93,7 @@ const BufferPolygonCollection = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  setCesiumPropsAfterCreate: true,
 });
 
 export default BufferPolygonCollection;

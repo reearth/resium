@@ -73,6 +73,7 @@ const BufferPolylineCollection = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  setCesiumPropsAfterCreate: true,
 });
 
 export default BufferPolylineCollection;
