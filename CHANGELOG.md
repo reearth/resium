@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.21.0 - 2026-04-20
+
+### chore
+
+- Upgrade Cesium to 1.140.0 and add new components ([#763](https://github.com/reearth/resium/pull/763)) [`396403`](https://github.com/reearth/resium/commit/396403)
+
 ## 1.20.1 - 2026-04-08
 
 ### fix
