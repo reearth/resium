@@ -70,6 +70,7 @@ const BufferPointCollection = createCesiumComponent<
   },
   cesiumProps,
   cesiumReadonlyProps,
+  setCesiumPropsAfterCreate: true,
 });
 
 export default BufferPointCollection;
