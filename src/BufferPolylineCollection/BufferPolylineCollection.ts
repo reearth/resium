@@ -40,7 +40,7 @@ export type BufferPolylineCollectionProps = BufferPolylineCollectionCesiumProps 
   BufferPolylineCollectionConstructorProps &
   BufferPolylineCollectionOtherProps;
 
-const cesiumProps = ["show", "debugShowBoundingVolume", "modelMatrix"] as const;
+const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
 
 const cesiumReadonlyProps = ["primitiveCountMax", "vertexCountMax"] as const;
 

@@ -49,7 +49,7 @@ export type BufferPolygonCollectionProps = BufferPolygonCollectionCesiumProps &
   BufferPolygonCollectionConstructorProps &
   BufferPolygonCollectionOtherProps;
 
-const cesiumProps = ["show", "debugShowBoundingVolume", "modelMatrix"] as const;
+const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
 
 const cesiumReadonlyProps = [
   "primitiveCountMax",

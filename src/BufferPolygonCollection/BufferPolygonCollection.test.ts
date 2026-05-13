@@ -15,7 +15,9 @@ type UnusedProps = UnusedCesiumProps<
   {},
   IgnoredProps
 >;
-type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC";
+// modelMatrix, boundingVolume, boundingVolumeWC are readonly on Cesium's
+// BufferPrimitiveCollection (Cesium 1.141+) and cannot be wired up reactively.
+type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC" | "modelMatrix";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
