@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.21.1 - 2026-05-13
+
+### chore
+
+- Upgrade Cesium to 1.141.0 ([#769](https://github.com/reearth/resium/pull/769)) [`6b3559`](https://github.com/reearth/resium/commit/6b3559)
+- Bump dev deps, harden CI, add Trusted-Publishing release workflow ([#768](https://github.com/reearth/resium/pull/768)) [`a57d3b`](https://github.com/reearth/resium/commit/a57d3b)
+
 ## 1.21.0 - 2026-04-20
 
 ### chore
