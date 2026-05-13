@@ -51,10 +51,16 @@ jobs:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
           cache: "yarn"
-      - name: Upgrade npm to a Trusted-Publishing-capable version
+      - name: Activate npm via corepack
         # Trusted Publishing needs npm >=11.5.1; Node 22 ships npm 10.x.
+        # We cannot use `npm install -g npm@<version>` to upgrade because the
+        # bundled npm@10.x in some Node 22.x patch releases has a broken
+        # @npmcli/arborist tree (missing `promise-retry`) and crashes during
+        # any global install. corepack fetches a fresh npm binary directly,
+        # bypassing the broken self-upgrade path.
         run: |
-          npm install -g npm@latest
+          corepack enable npm
+          corepack prepare npm@11.5.1 --activate
           npm --version
       - name: Install dependencies
         run: yarn install --frozen-lockfile
