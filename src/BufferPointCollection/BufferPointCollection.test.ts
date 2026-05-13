@@ -12,7 +12,10 @@ import {
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   BufferPointCollection,
-  Omit<BufferPointCollectionProps, keyof BufferPointCollectionOtherProps | "primitiveCountMax">,
+  Omit<
+    BufferPointCollectionProps,
+    keyof BufferPointCollectionOtherProps | "primitiveCountMax" | "modelMatrix"
+  >,
   {},
   IgnoredProps
 >;

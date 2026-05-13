@@ -1,5 +1,6 @@
 import {
   BufferPolylineCollection as CesiumBufferPolylineCollection,
+  Matrix4,
 } from "cesium";
 import { ReactNode } from "react";
 
@@ -30,6 +31,12 @@ export type BufferPolylineCollectionConstructorProps = {
   primitiveCountMax?: number;
   /** The maximum number of vertices across all polylines in this collection. Fixed at creation time. */
   vertexCountMax?: number;
+  /**
+   * Model-to-world transform applied to every polyline. Fixed at creation time —
+   * Cesium 1.141 made the property readonly post-construction. To animate, hold
+   * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
+   */
+  modelMatrix?: Matrix4;
 };
 
 export type BufferPolylineCollectionOtherProps = {
@@ -40,9 +47,9 @@ export type BufferPolylineCollectionProps = BufferPolylineCollectionCesiumProps 
   BufferPolylineCollectionConstructorProps &
   BufferPolylineCollectionOtherProps;
 
-const cesiumProps = ["show", "debugShowBoundingVolume", "modelMatrix"] as const;
+const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
 
-const cesiumReadonlyProps = ["primitiveCountMax", "vertexCountMax"] as const;
+const cesiumReadonlyProps = ["primitiveCountMax", "vertexCountMax", "modelMatrix"] as const;
 
 const BufferPolylineCollection = createCesiumComponent<
   CesiumBufferPolylineCollection,
@@ -54,6 +61,7 @@ const BufferPolylineCollection = createCesiumComponent<
     const element = new CesiumBufferPolylineCollection({
       primitiveCountMax: props.primitiveCountMax,
       vertexCountMax: props.vertexCountMax,
+      modelMatrix: props.modelMatrix,
     });
     context.primitiveCollection.add(element);
     return element;

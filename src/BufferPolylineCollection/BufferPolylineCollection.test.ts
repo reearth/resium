@@ -9,7 +9,10 @@ import { BufferPolylineCollectionOtherProps, BufferPolylineCollectionProps } fro
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   BufferPolylineCollection,
-  Omit<BufferPolylineCollectionProps, keyof BufferPolylineCollectionOtherProps | "primitiveCountMax" | "vertexCountMax">,
+  Omit<
+    BufferPolylineCollectionProps,
+    keyof BufferPolylineCollectionOtherProps | "primitiveCountMax" | "vertexCountMax" | "modelMatrix"
+  >,
   {},
   IgnoredProps
 >;

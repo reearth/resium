@@ -6,7 +6,7 @@ import { UnusedCesiumProps } from "../core";
 
 import { BufferPolygonCollectionOtherProps, BufferPolygonCollectionProps } from "./BufferPolygonCollection";
 
-type ConstructorOnlyProps = "primitiveCountMax" | "vertexCountMax" | "holeCountMax" | "triangleCountMax" | "positionDatatype" | "allowPicking";
+type ConstructorOnlyProps = "primitiveCountMax" | "vertexCountMax" | "holeCountMax" | "triangleCountMax" | "positionDatatype" | "allowPicking" | "modelMatrix";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

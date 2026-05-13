@@ -1,5 +1,6 @@
 import {
   BufferPointCollection as CesiumBufferPointCollection,
+  Matrix4,
 } from "cesium";
 import { ReactNode } from "react";
 
@@ -28,7 +29,21 @@ export type BufferPointCollectionCesiumProps = PickCesiumProps<
 export type BufferPointCollectionConstructorProps = {
   /** The maximum number of points this collection can hold. Fixed at creation time. */
   primitiveCountMax?: number;
+  /**
+   * Model-to-world transform applied to every point. Fixed at creation time —
+   * Cesium 1.141 made the property readonly post-construction. To animate, hold
+   * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
+   */
+  modelMatrix?: Matrix4;
 };
+
+// Cesium 1.141's BufferPointCollection subclass constructor type omits the
+// inherited `modelMatrix` option even though the base class accepts it at
+// runtime via super(). Widen the constructor option type so we can forward
+// the prop without losing typechecking on the rest of the options.
+type BufferPointCollectionCtorOptions = ConstructorParameters<
+  typeof CesiumBufferPointCollection
+>[0] & { modelMatrix?: Matrix4 };
 
 export type BufferPointCollectionOtherProps = {
   children?: ReactNode;
@@ -38,9 +53,9 @@ export type BufferPointCollectionProps = BufferPointCollectionCesiumProps &
   BufferPointCollectionConstructorProps &
   BufferPointCollectionOtherProps;
 
-const cesiumProps = ["show", "debugShowBoundingVolume", "modelMatrix"] as const;
+const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
 
-const cesiumReadonlyProps = ["primitiveCountMax"] as const;
+const cesiumReadonlyProps = ["primitiveCountMax", "modelMatrix"] as const;
 
 const BufferPointCollection = createCesiumComponent<
   CesiumBufferPointCollection,
@@ -51,7 +66,8 @@ const BufferPointCollection = createCesiumComponent<
     if (!context.primitiveCollection) return;
     const element = new CesiumBufferPointCollection({
       primitiveCountMax: props.primitiveCountMax,
-    });
+      modelMatrix: props.modelMatrix,
+    } as BufferPointCollectionCtorOptions);
     context.primitiveCollection.add(element);
     return element;
   },
