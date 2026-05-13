@@ -1,6 +1,7 @@
 import {
   BufferPolygonCollection as CesiumBufferPolygonCollection,
   ComponentDatatype,
+  Matrix4,
 } from "cesium";
 import { ReactNode } from "react";
 
@@ -39,7 +40,21 @@ export type BufferPolygonCollectionConstructorProps = {
   positionDatatype?: ComponentDatatype;
   /** Whether primitives in the collection can be picked. Fixed at creation time. */
   allowPicking?: boolean;
+  /**
+   * Model-to-world transform applied to every polygon. Fixed at creation time —
+   * Cesium 1.141 made the property readonly post-construction. To animate, hold
+   * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
+   */
+  modelMatrix?: Matrix4;
 };
+
+// Cesium 1.141's BufferPolygonCollection subclass constructor type omits the
+// inherited `modelMatrix` option even though the base class accepts it at
+// runtime via super(). Widen the constructor option type so we can forward
+// the prop without losing typechecking on the rest of the options.
+type BufferPolygonCollectionCtorOptions = ConstructorParameters<
+  typeof CesiumBufferPolygonCollection
+>[0] & { modelMatrix?: Matrix4 };
 
 export type BufferPolygonCollectionOtherProps = {
   children?: ReactNode;
@@ -58,6 +73,7 @@ const cesiumReadonlyProps = [
   "triangleCountMax",
   "positionDatatype",
   "allowPicking",
+  "modelMatrix",
 ] as const;
 
 const BufferPolygonCollection = createCesiumComponent<
@@ -74,7 +90,8 @@ const BufferPolygonCollection = createCesiumComponent<
       triangleCountMax: props.triangleCountMax,
       positionDatatype: props.positionDatatype,
       allowPicking: props.allowPicking,
-    });
+      modelMatrix: props.modelMatrix,
+    } as BufferPolygonCollectionCtorOptions);
     context.primitiveCollection.add(element);
     return element;
   },

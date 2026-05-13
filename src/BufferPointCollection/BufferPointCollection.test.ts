@@ -12,13 +12,14 @@ import {
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   BufferPointCollection,
-  Omit<BufferPointCollectionProps, keyof BufferPointCollectionOtherProps | "primitiveCountMax">,
+  Omit<
+    BufferPointCollectionProps,
+    keyof BufferPointCollectionOtherProps | "primitiveCountMax" | "modelMatrix"
+  >,
   {},
   IgnoredProps
 >;
-// modelMatrix, boundingVolume, boundingVolumeWC are readonly on Cesium's
-// BufferPrimitiveCollection (Cesium 1.141+) and cannot be wired up reactively.
-type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC" | "modelMatrix";
+type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 

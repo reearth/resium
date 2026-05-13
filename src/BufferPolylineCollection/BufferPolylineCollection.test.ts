@@ -9,13 +9,14 @@ import { BufferPolylineCollectionOtherProps, BufferPolylineCollectionProps } fro
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
   BufferPolylineCollection,
-  Omit<BufferPolylineCollectionProps, keyof BufferPolylineCollectionOtherProps | "primitiveCountMax" | "vertexCountMax">,
+  Omit<
+    BufferPolylineCollectionProps,
+    keyof BufferPolylineCollectionOtherProps | "primitiveCountMax" | "vertexCountMax" | "modelMatrix"
+  >,
   {},
   IgnoredProps
 >;
-// modelMatrix, boundingVolume, boundingVolumeWC are readonly on Cesium's
-// BufferPrimitiveCollection (Cesium 1.141+) and cannot be wired up reactively.
-type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC" | "modelMatrix";
+type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
