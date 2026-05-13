@@ -16,6 +16,13 @@
 #   4. Approve the `npm-publish` environment in the run page.
 #   5. npm receives the package with a provenance attestation; anyone can
 #      verify with `npm audit signatures`.
+#
+# Dist-tag selection:
+#   Stable tags like `v1.22.0` publish to the default `latest` dist-tag —
+#   `npm install resium` picks them up automatically.
+#   Pre-release tags like `v1.22.0-rc.0` or `v2.0.0-beta.1` (anything with a
+#   hyphen) publish to the `next` dist-tag instead, so they don't replace
+#   `latest`. Users opt in via `npm install resium@next`.
 
 name: Publish
 
@@ -66,4 +73,13 @@ jobs:
       - name: Build
         run: yarn build
       - name: Publish to npm with provenance
-        run: npm publish --provenance --access public
+        # Pre-release tags (vX.Y.Z-foo) go to the `next` dist-tag so they
+        # don't replace `latest`. Stable tags (vX.Y.Z) go to `latest`.
+        run: |
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then
+            echo "Pre-release detected; publishing to dist-tag 'next'"
+            npm publish --provenance --access public --tag next
+          else
+            echo "Stable release; publishing to dist-tag 'latest'"
+            npm publish --provenance --access public
+          fi
