@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.21.1 - 2026-05-13
+
+### chore
+
+- Upgrade Cesium to 1.141.0 ([#769](https://github.com/reearth/resium/pull/769)) [`6b3559`](https://github.com/reearth/resium/commit/6b3559)
+- Bump dev deps, harden CI, add Trusted-Publishing release workflow ([#768](https://github.com/reearth/resium/pull/768)) [`a57d3b`](https://github.com/reearth/resium/commit/a57d3b)
+
+#### Note
+
+- Cesium upgraded to 1.141. As a side effect, modelMatrix on BufferPointCollection / BufferPolygonCollection / BufferPolylineCollection is now applied at construction only — reactive updates after mount no longer propagate (Cesium 1.141 made the underlying property readonly). To animate, hold a ref and mutate the Matrix4 in place via Matrix4.clone(next, ref.current.modelMatrix).
+
+- Node engines: Cesium 1.141 raised its own minimum Node version to 22. Resium itself continues to support Node ≥20.19, but if you upgrade your cesium dependency to 1.141, you'll see an engines warning during install until you move to Node 22. Pin cesium to 1.140 if you need to stay on Node 20.
+
 ## 1.21.0 - 2026-04-20
 
 ### chore
@@ -23,7 +36,6 @@
 
 - Panorama from Cesium 1.139 ([#749](https://github.com/reearth/resium/pull/749)) [`4a9fa4`](https://github.com/reearth/resium/commit/4a9fa4)
 
-
 ## 1.19.4 - 2026-02-18
 
 ### chore
@@ -39,7 +51,7 @@
 
 ### chore
 
-- Update dependencies to the latest  ([#739](https://github.com/reearth/resium/pull/739)) [`211ab7`](https://github.com/reearth/resium/commit/211ab7)
+- Update dependencies to the latest ([#739](https://github.com/reearth/resium/pull/739)) [`211ab7`](https://github.com/reearth/resium/commit/211ab7)
 - Copy Cesium files to Storybook output directory [`ef0898`](https://github.com/reearth/resium/commit/ef0898)
 
 ### fix
@@ -61,7 +73,7 @@
 
 ### bugfix
 
-- Fix Bing Maps Network Request Issue ([#724](https://github.com/reearth/resium/pull/724)) [`a6ea92`](https://github.com/reearth/resium/commit/a6ea92) 
+- Fix Bing Maps Network Request Issue ([#724](https://github.com/reearth/resium/pull/724)) [`a6ea92`](https://github.com/reearth/resium/commit/a6ea92)
 - Chore&#x2F;fix lint warnings ([#722](https://github.com/reearth/resium/pull/722)) [`889c9a`](https://github.com/reearth/resium/commit/889c9a)
 
 ## 1.19.0 - 2025-11-07
