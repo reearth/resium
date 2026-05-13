@@ -1,1 +1,0 @@
-import{n as e}from"./chunk-BneVvdWh.js";var t,n,r=e((()=>{({actions:t}=__STORYBOOK_MODULE_ACTIONS__),n=t(`onClick`,`onDoubleClick`,`onMouseDown`,`onMouseUp`,`onMiddleClick`,`onMiddleDown`,`onMiddleUp`,`onMouseMove`,`onPinchEnd`,`onPinchMove`,`onPinchStart`,`onRightClick`,`onRightDown`,`onRightUp`,`onMouseEnter`,`onMouseLeave`)}));export{r as n,n as t};
