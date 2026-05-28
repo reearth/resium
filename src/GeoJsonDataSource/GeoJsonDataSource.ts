@@ -1,4 +1,4 @@
-import { GeoJsonDataSource as CesiumGeoJsonDataSource } from "cesium";
+import { GeoJsonDataSource as CesiumGeoJsonDataSource, Resource } from "cesium";
 
 import {
   createCesiumComponent,
@@ -7,6 +7,8 @@ import {
   MethodOptions2,
   EventProps,
   EventTarget,
+  useSuspendedResource,
+  SuspenseProps,
 } from "../core";
 
 export type { EventTarget } from "../core";
@@ -43,11 +45,12 @@ export type GeoJsonDataSourceCesiumEvents = {
   onLoading?: (GeoJsonDataSource: CesiumGeoJsonDataSource, isLoaded: boolean) => void;
 };
 
-export type GeoJsonDataSourceOtherProps = EventProps<EventTarget> & {
-  /** Calls when the Promise for loading data is fullfilled. */
-  onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
-  data?: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
-};
+export type GeoJsonDataSourceOtherProps = EventProps<EventTarget> &
+  SuspenseProps & {
+    /** Calls when the Promise for loading data is fullfilled. */
+    onLoad?: (GeoJsonDataSouce: CesiumGeoJsonDataSource) => void;
+    data?: Parameters<InstanceType<typeof CesiumGeoJsonDataSource>["load"]>[0];
+  };
 
 export type GeoJsonDataSourceProps = GeoJsonDataSourceCesiumProps &
   GeoJsonDataSourceCesiumReadonlyProps &
@@ -75,7 +78,16 @@ export const cesiumEventProps = {
   onLoading: "loadingEvent",
 } as const;
 
-export const otherProps = ["onLoad", "data"] as const;
+export const otherProps = ["onLoad", "data", "suspense", "cacheKey"] as const;
+
+const useResource = (
+  props: GeoJsonDataSourceProps,
+): Partial<GeoJsonDataSourceProps> | undefined => {
+  const resolved = useSuspendedResource("geojson", props.data, props, url =>
+    Resource.fetchJson({ url }),
+  );
+  return resolved ? { data: resolved } : undefined;
+};
 
 const load = (
   element: CesiumGeoJsonDataSource,
@@ -138,6 +150,7 @@ const GeoJsonDataSource = createCesiumComponent<CesiumGeoJsonDataSource, GeoJson
       dataSource: element,
     };
   },
+  useResource,
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,
