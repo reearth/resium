@@ -1,0 +1,6 @@
+import{n as e}from"./chunk-DnJy8xQt.js";import{t}from"./iframe-BwrxWfGF.js";import{t as n}from"./Viewer-BagSEOJ5.js";import{t as r}from"./Viewer-CjLeMOA2.js";import{n as i,t as a}from"./ImageryLayer-DZYCkSQA.js";var o,s,c,l;e((()=>{r(),i(),o=t(),s={title:`ImageryLayer`,component:a},c={render:e=>(0,o.jsxs)(n,{full:!0,children:[(0,o.jsx)(a,{...e,imageryProvider:Cesium.ArcGisMapServerImageryProvider.fromUrl(`https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer`)}),(0,o.jsx)(a,{alpha:.5,imageryProvider:Cesium.IonImageryProvider.fromAssetId(3812,{})})]})},c.parameters={...c.parameters,docs:{...c.parameters?.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <ImageryLayer {...args} imageryProvider={ArcGisMapServerImageryProvider.fromUrl("https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer")} />
+      <ImageryLayer alpha={0.5} imageryProvider={IonImageryProvider.fromAssetId(3812, {})} />
+    </Viewer>
+}`,...c.parameters?.docs?.source}}},l=[`Basic`]}))();export{c as Basic,l as __namedExportsOrder,s as default};
