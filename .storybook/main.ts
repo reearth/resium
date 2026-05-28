@@ -17,6 +17,15 @@ const config: StorybookConfig = {
     reactDocgen: false,
   },
   viteFinal(config) {
+    // The project's vite.config.ts adds vite-plugin-dts (rollupTypes) for the
+    // library build. Storybook inherits it but doesn't need type declarations,
+    // and its api-extractor step breaks the Storybook build, so drop it here.
+    config.plugins = (config.plugins ?? []).filter(plugin => {
+      const name =
+        plugin && typeof plugin === "object" && "name" in plugin ? String(plugin.name) : "";
+      return !name.includes("dts");
+    });
+
     // vite-plugin-cesium copies Cesium assets to `path.join(root, build.outDir)`.
     // Storybook passes an absolute `build.outDir`, and path.join mis-joins two
     // absolute paths into a doubled `<root>/Users/.../<outDir>` directory, leaking
