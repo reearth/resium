@@ -36,6 +36,43 @@ Resium requires an editor supporting TypeScript, ESLint, and Yarn.
 - To start storybook: `yarn storybook`
 - To build: `yarn build`
 
+## Visual regression testing (VRT)
+
+Resium has an opt-in VRT pipeline that screenshots Cesium-backed Storybook stories and compares them against baselines to catch unintended rendering changes.
+
+It renders deterministically on the CPU (Chromium + SwiftShader software rendering) so screenshots are byte-stable: stories use Cesium's bundled offline imagery (Natural Earth II), a fixed clock and camera, and disabled antialiasing/atmosphere/sun. Only stories tagged `vrt` are captured.
+
+### Running locally
+
+```bash
+yarn playwright install chromium   # first time only
+yarn storybook:build:vrt           # build Storybook
+yarn vrt:update                    # create local baselines
+yarn vrt                           # compare against them
+```
+
+Note: local (macOS) renders will not match CI (Linux) pixel-for-pixel. Local runs are for a quick visual check; CI is the source of truth.
+
+### How baselines are stored
+
+Baselines live on an orphan branch `vrt-baselines` (not in the main tree). The CI workflow (`.github/workflows/vrt.yml`) restores them on every PR, compares, and uploads diff images as artifacts on failure. Baselines must be generated in CI, never committed from a local machine.
+
+### Updating baselines after an intentional visual change
+
+When you intentionally change how something renders, the VRT check will fail with a diff. To accept the new look:
+
+1. Push your change; let the VRT check run.
+2. Download the `vrt-diffs` artifact from the failed run and confirm the diff is the change you expect (no accidental regressions).
+3. Regenerate baselines in CI: **Actions → vrt → Run workflow**, pick your branch, and enable **update**. (Or `gh workflow run vrt.yml --ref <branch> -f update=true`.) This re-renders in CI and republishes `vrt-baselines`.
+4. Re-run the PR's VRT check (`gh run rerun <run-id> --failed`); it should now pass.
+5. Merge. Optionally re-run the update on `main` afterwards so the baselines reflect the merged state.
+
+`vrt-baselines` is shared across all PRs, so update it right before merge to avoid showing false diffs on other open PRs.
+
+### Adding a new VRT story
+
+Add stories under `src/__vrt__/`, wrap content in `VrtViewer` (the deterministic viewer), and tag the story (or meta) with `vrt`.
+
 ## Adding new properties to a component
 
 It is very easy to add a new typical property to a Cesium component. Your PR welcome!

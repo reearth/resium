@@ -1,0 +1,69 @@
+name: vrt
+on:
+  pull_request:
+  workflow_dispatch:
+    inputs:
+      update:
+        description: "Regenerate baselines and publish them to the vrt-baselines branch"
+        type: boolean
+        default: false
+
+permissions:
+  contents: write
+
+jobs:
+  vrt:
+    name: VRT
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        with:
+          node-version: lts/*
+      - name: Checkout
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "dir=$(yarn cache dir)" >> $GITHUB_OUTPUT
+      - uses: actions/cache@27d5ce7f107fe9357f9df03efb73ab90386fccae # v5.0.5
+        with:
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - name: Install
+        run: yarn install --frozen-lockfile
+      - name: Install Playwright (Chromium, software rendering)
+        run: npx playwright install --with-deps chromium
+      - name: Restore baselines from orphan branch
+        run: |
+          git fetch origin vrt-baselines:vrt-baselines 2>/dev/null || echo "no baseline branch yet"
+          if git rev-parse --verify vrt-baselines >/dev/null 2>&1; then
+            rm -rf vrt/__image_snapshots__
+            mkdir -p vrt/__image_snapshots__
+            git archive vrt-baselines | tar -x -C vrt/__image_snapshots__
+            echo "restored $(ls vrt/__image_snapshots__ | wc -l) baseline(s)"
+          else
+            echo "no baselines yet; this run will create them"
+          fi
+      - name: Build Storybook
+        run: yarn storybook:build:vrt
+      - name: Run VRT
+        run: ${{ (github.event_name == 'workflow_dispatch' && inputs.update) && 'yarn vrt:update' || 'yarn vrt' }}
+      - name: Upload diffs on failure
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: vrt-diffs
+          path: |
+            vrt/__diff_output__/**
+            vrt/__received_output__/**
+          if-no-files-found: ignore
+      - name: Publish baselines to orphan branch
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.update }}
+        uses: peaceiris/actions-gh-pages@84c30a85c19949d7eee79c4ff27748b70285e453 # v4.1.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: vrt-baselines
+          publish_dir: vrt/__image_snapshots__
+          force_orphan: true
+          commit_message: "chore(vrt): update baselines"

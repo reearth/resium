@@ -11,6 +11,8 @@ export default [
       ".worktrees/**", // Git worktrees
       ".claude/**", // Claude session files (including .claude/worktrees/)
       "docs/**", // Docusaurus docs use CommonJS
+      "storybook-static/**", // Storybook/VRT build output
+      "vrt/**", // VRT snapshots and diff output
       ".storybook/**", // Storybook config
       "**/*.stories.tsx", // Storybook stories
       "src/core/storybook.tsx", // Storybook utility
