@@ -1,6 +1,7 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
 import { Color, KmlDataSource as CesiumKmlDataSource } from "cesium";
+import { Suspense } from "react";
 
 import { events } from "../core/storybook";
 import Viewer from "../Viewer";
@@ -14,8 +15,7 @@ export default {
   component: KmlDataSource,
 } as Meta;
 
-const data = new DOMParser().parseFromString(
-  `
+const kml = `
 <?xml version="1.0" encoding="utf-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2">
 <Document>
@@ -59,9 +59,9 @@ const data = new DOMParser().parseFromString(
   </Placemark>
 </Document>
 </kml>
-`.trim(),
-  "text/xml",
-);
+`.trim();
+
+const data = new DOMParser().parseFromString(kml, "text/xml");
 
 const onLoadAction = action("onLoad");
 
@@ -85,6 +85,37 @@ export const Basic: Story = {
         onError={action("onError")}
         {...events}
       />
+    </Viewer>
+  ),
+};
+
+// A real URL is required for the suspense prop to take effect. KML/KMZ is fetched
+// as a Blob. A blob URL keeps this story self-contained (no external network).
+const dataUrl = URL.createObjectURL(
+  new Blob([kml], { type: "application/vnd.google-earth.kml+xml" }),
+);
+
+const Loading = () => (
+  <div style={{ position: "absolute", top: 8, left: 8, padding: "4px 8px", background: "#000a", color: "#fff" }}>
+    Loading…
+  </div>
+);
+
+export const SuspenseStory: Story = {
+  name: "Suspense",
+  args: { show: true },
+  render: args => (
+    <Viewer full>
+      <Suspense fallback={<Loading />}>
+        <KmlDataSource
+          {...args}
+          data={dataUrl}
+          suspense
+          onLoad={onLoad}
+          onError={action("onError")}
+          {...events}
+        />
+      </Suspense>
     </Viewer>
   ),
 };
