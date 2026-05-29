@@ -1,9 +1,6 @@
 ---
-id: contribution
 title: Contribution
 ---
-
-# Contribution
 
 Your contribution welcome!
 
@@ -71,7 +68,7 @@ When you intentionally change how something renders, the VRT check will fail wit
 
 ### Adding a new VRT story
 
-Add stories under `src/__vrt__/`, wrap content in `VrtViewer` (the deterministic viewer), and tag the story (or meta) with `vrt`.
+Colocate VRT stories with the component as `src/<Component>/<Component>.vrt.stories.tsx`, wrap the content in `VrtViewer` (the deterministic viewer, imported from `src/__vrt__/`), and tag the story (or its meta) with `vrt`.
 
 ## Adding new properties to a component
 

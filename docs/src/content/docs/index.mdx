@@ -1,0 +1,50 @@
+---
+title: Resium
+description: React components for 🌍 Cesium
+template: splash
+hero:
+  title: Resium
+  tagline: React components for 🌍 Cesium
+  actions:
+    - text: Get Started
+      link: /installation/
+      icon: right-arrow
+      variant: primary
+    - text: Examples
+      link: https://resium.reearth.io/examples/
+      icon: external
+      variant: secondary
+    - text: GitHub
+      link: https://github.com/reearth/resium
+      icon: github
+      variant: minimal
+---
+
+import { Card, CardGrid } from "@astrojs/starlight/components";
+
+```jsx
+<Viewer full>
+  <Entity
+    name="tokyo"
+    description="test"
+    position={Cartesian3.fromDegrees(139.767052, 35.681167, 100)}
+  />
+</Viewer>
+```
+
+![Screenshot](/screenshot.png)
+
+![Usage](/usage.gif)
+
+<CardGrid>
+  <Card title="🌏 Declarative Cesium">
+    Let's create a high maintainability Cesium application with React today!
+  </Card>
+  <Card title="👨🏻‍💻 Blazing Fast Development">
+    Resium brings hot module replacement to Cesium, which dramatically improves
+    your development speed!
+  </Card>
+  <Card title="💪 Strongly Typed">
+    Resium fully supports TypeScript. Type definitions are built-in!
+  </Card>
+</CardGrid>

@@ -12,7 +12,7 @@ const { createProgram } = ts;
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
 const options = process.argv.slice(2).filter(a => a.startsWith("-"));
 const preview = options.includes("--preview") || options.includes("-p");
-const dest = path.join("docs", "docs", "components");
+const dest = path.join("docs", "src", "content", "docs", "components");
 
 console.log(
   `Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}${preview ? " (preview)" : ""}`,
@@ -31,7 +31,7 @@ const componentFiles = globbySync([
 
 if (componentFiles.length > 0) {
   try {
-    fs.mkdirSync(dest);
+    fs.mkdirSync(dest, { recursive: true });
   } catch {
     // ignore - directory may already exist
   }
@@ -57,7 +57,12 @@ componentFiles.forEach(cf => {
   }
   if (doc) {
     const result = renderDoc(doc);
-    fs.writeFileSync(path.join(dest, `${name}.mdx`), result);
+    // Output plain Markdown (`.md`): these pages contain no JSX/imports, and Astro's
+    // MDX pipeline does not enable GFM tables by default (Markdown does), so `.md`
+    // keeps the property tables rendering correctly.
+    // Lowercase the filename so its slug matches the lowercased internal links
+    // (Starlight routes are case-sensitive; keeping everything lowercase avoids broken links).
+    fs.writeFileSync(path.join(dest, `${name.toLowerCase()}.md`), result);
   }
 });
 

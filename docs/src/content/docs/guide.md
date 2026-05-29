@@ -1,9 +1,6 @@
 ---
-id: guide
 title: Guide
 ---
-
-# Guide
 
 ## Component Lifecycle
 

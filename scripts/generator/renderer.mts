@@ -1,11 +1,11 @@
 import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mts";
 
 export function renderDoc(doc: Doc) {
-  return `---
+  // Starlight renders the frontmatter `title` as the page's H1 automatically,
+  // so we don't emit an explicit `# ${doc.name}` heading here (it would duplicate it).
+  const out = `---
 title: ${doc.name}
 ---
-
-# ${doc.name}
 ${doc.summary ? `\n${doc.summary}\n` : ""}
 ${
   doc.noCesiumElement
@@ -52,6 +52,11 @@ ${renderPropTable(doc.otherProps, doc)}`
     : renderPropTable(doc.props, doc)
 }
 `;
+
+  // Normalize internal component links to lowercase so they match the lowercased
+  // page slugs (the `@summary`/`@scope` annotations mix `/components/Entity` and
+  // `/components/entity`). Cesium doc URLs and other links are left untouched.
+  return out.replace(/(\]\(\/components\/)([A-Za-z0-9]+)/g, (_, prefix, name) => prefix + name.toLowerCase());
 }
 
 function renderPropTable(props: Prop[] = [], doc: Doc) {

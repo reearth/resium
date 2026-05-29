@@ -1,9 +1,6 @@
 ---
-id: advanced
 title: Advanced
 ---
-
-# Advanced
 
 ## Get Cesium context with your component
 

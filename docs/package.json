@@ -2,48 +2,20 @@
   "name": "resium-docs",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "docusaurus": "docusaurus",
-    "start": "docusaurus start",
-    "build": "docusaurus build",
-    "swizzle": "docusaurus swizzle",
-    "deploy": "docusaurus deploy",
-    "serve": "docusaurus serve",
-    "clear": "docusaurus clear"
+    "start": "astro dev",
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
   },
   "engines": {
     "node": ">=20.12.0"
   },
-  "browserslist": {
-    "production": [
-      ">0.5%",
-      "not dead",
-      "not op_mini all"
-    ],
-    "development": [
-      "last 1 chrome version",
-      "last 1 firefox version",
-      "last 1 safari version"
-    ]
-  },
   "dependencies": {
-    "@docusaurus/core": "3.10.1",
-    "@docusaurus/preset-classic": "3.10.1",
-    "clsx": "2.1.1",
-    "react": "19.2.6",
-    "react-dom": "19.2.6"
-  },
-  "devDependencies": {
-    "@docusaurus/module-type-aliases": "3.10.1",
-    "@tsconfig/docusaurus": "2.0.9",
-    "@types/react": "19.2.14",
-    "@types/react-helmet": "6.1.11",
-    "@types/react-router-dom": "5.3.3",
-    "typescript": "5.9.3"
-  },
-  "resolutions": {
-    "react": "19.2.6",
-    "react-dom": "19.2.6",
-    "@types/react": "19.2.14"
+    "@astrojs/starlight": "0.39.2",
+    "astro": "6.4.2",
+    "sharp": "0.34.5"
   }
 }

@@ -1,9 +1,6 @@
 ---
-id: migration
 title: Migration Guide
 ---
-
-# Migration Guide
 
 ## v1.14
 
