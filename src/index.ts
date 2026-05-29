@@ -68,6 +68,10 @@ export {
   type Google2DImageryProviderProps,
 } from "./Google2DImageryProvider";
 export {
+  default as GooglePhotorealistic3DTileset,
+  type GooglePhotorealistic3DTilesetProps,
+} from "./GooglePhotorealistic3DTileset";
+export {
   default as GroundPolylinePrimitive,
   type GroundPolylinePrimitiveProps,
 } from "./GroundPolylinePrimitive";
