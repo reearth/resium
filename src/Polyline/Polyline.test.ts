@@ -1,10 +1,11 @@
-import { Polyline } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { Polyline } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { PolylineOtherProps, PolylineProps } from "./Polyline";
+import type { PolylineOtherProps, PolylineProps } from "./Polyline";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

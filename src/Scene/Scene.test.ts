@@ -1,10 +1,11 @@
-import { Scene } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { Scene } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { SceneProps, cesiumEventProps, SceneOtherProps } from "./Scene";
+import type { SceneProps, cesiumEventProps, SceneOtherProps } from "./Scene";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

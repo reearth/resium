@@ -1,4 +1,6 @@
 import { Event as CesiumEvent } from "cesium";
+import type {
+  RefObject} from "react";
 import {
   useEffect,
   useRef,
@@ -6,13 +8,14 @@ import {
   useState,
   useReducer,
   useCallback,
-  useLayoutEffect,
-  RefObject,
+  useLayoutEffect
 } from "react";
 
-import { RootComponentInternalProps } from "./component";
-import { ResiumContext, useCesium } from "./context";
-import { EventManager, eventManagerContextKey, eventNames } from "./EventManager";
+import type { RootComponentInternalProps } from "./component";
+import type { ResiumContext} from "./context";
+import { useCesium } from "./context";
+import type { EventManager} from "./EventManager";
+import { eventManagerContextKey, eventNames } from "./EventManager";
 import { includes, shallowEquals, isDestroyed, isPromise } from "./util";
 
 export type EventkeyMap<T, P> = { [K in keyof P]?: keyof T };

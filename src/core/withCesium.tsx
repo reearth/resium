@@ -1,10 +1,11 @@
-import {
-  forwardRef,
+import type {
   PureComponent,
   PropsWithoutRef,
   RefAttributes,
   ForwardRefExoticComponent,
-  ComponentType,
+  ComponentType} from "react";
+import {
+  forwardRef
 } from "react";
 
 import { Consumer } from "./context";

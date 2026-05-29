@@ -1,15 +1,16 @@
 import { CesiumWidget as CesiumCesiumWidget } from "cesium";
-import { CSSProperties, ReactNode } from "react";
+import type { CSSProperties, ReactNode } from "react";
 
-import {
-  createCesiumComponent,
-  EventManager,
-  eventManagerContextKey,
+import type {
   RootEventProps,
   PickCesiumProps,
   Merge,
   ConstructorOptions2,
-  RootComponentInternalProps,
+  RootComponentInternalProps} from "../core";
+import {
+  createCesiumComponent,
+  EventManager,
+  eventManagerContextKey
 } from "../core";
 
 /*

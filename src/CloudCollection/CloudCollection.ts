@@ -1,7 +1,8 @@
 import { CloudCollection as CesiumCloudCollection } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 // @cesiumElement CloudCollection
 

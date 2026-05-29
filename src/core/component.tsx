@@ -1,16 +1,18 @@
-import { ImageryProvider } from "cesium";
-import {
-  forwardRef,
+import type { ImageryProvider } from "cesium";
+import type {
   HTMLAttributes,
   ForwardRefExoticComponent,
   PropsWithoutRef,
   RefAttributes,
   ForwardRefRenderFunction,
-  PropsWithChildren,
+  PropsWithChildren} from "react";
+import {
+  forwardRef
 } from "react";
 
 import { CesiumContext } from "./context";
-import { useCesiumComponent, Options } from "./hooks";
+import type { Options } from "./hooks";
+import { useCesiumComponent } from "./hooks";
 import { pick } from "./util";
 
 export type CesiumComponentOptions<

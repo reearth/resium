@@ -1,9 +1,11 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { Event } from "cesium";
-import { createRef, ReactNode } from "react";
+import type { ReactNode } from "react";
+import { createRef } from "react";
 import { beforeEach, describe, expect, it, vi, vitest } from "vitest";
 
-import { createCesiumComponent, CesiumComponentRef } from "./component";
+import type { CesiumComponentRef } from "./component";
+import { createCesiumComponent } from "./component";
 import { Provider } from "./context";
 
 beforeEach(() => {

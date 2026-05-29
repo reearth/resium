@@ -1,9 +1,10 @@
-import { PostProcessStage } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { PostProcessStage } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { PostProcessStageProps } from "./PostProcessStage";
-import { UnusedCesiumProps } from "./types";
+import type { PostProcessStageProps } from "./PostProcessStage";
+import type { UnusedCesiumProps } from "./types";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<PostProcessStage, PostProcessStageProps>;

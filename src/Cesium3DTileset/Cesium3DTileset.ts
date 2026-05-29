@@ -1,16 +1,18 @@
-import {
-  Cesium3DTileset as CesiumCesium3DTileset,
+import type {
   Cesium3DTileFeature,
   Cesium3DTile,
-  Resource,
+  Resource} from "cesium";
+import {
+  Cesium3DTileset as CesiumCesium3DTileset
 } from "cesium";
 
-import {
-  createCesiumComponent,
+import type {
   EventProps,
   PickCesiumProps,
   ConstructorOptions,
-  Merge,
+  Merge} from "../core";
+import {
+  createCesiumComponent,
   isPromise,
 } from "../core";
 

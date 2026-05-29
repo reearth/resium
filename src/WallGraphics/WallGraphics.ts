@@ -1,6 +1,7 @@
 import { WallGraphics as CesiumWallGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap, Merge, PickCesiumProps } from "../core";
+import type { EventkeyMap, Merge, PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

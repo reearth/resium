@@ -1,7 +1,8 @@
-import { Viewer as CesiumViewer } from "cesium";
-import { ReactNode, useEffect, useMemo, useRef } from "react";
+import type { Viewer as CesiumViewer } from "cesium";
+import type { ReactNode} from "react";
+import { useEffect, useMemo, useRef } from "react";
 
-import { CesiumComponentRef } from "../core";
+import type { CesiumComponentRef } from "../core";
 import Viewer from "../Viewer";
 
 import { applyDeterminism, offlineBaseLayer, signalWhenStable } from "./deterministic";

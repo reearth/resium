@@ -1,10 +1,11 @@
-import { Sun } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { Sun } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { SunProps } from "./Sun";
+import type { SunProps } from "./Sun";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<Sun, SunProps, {}, IgnoredProps>;

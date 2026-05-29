@@ -1,11 +1,12 @@
 import { GroundPolylinePrimitive as CesiumGroundPolylinePrimitive } from "cesium";
 
-import {
+import type {
   EventProps,
-  createCesiumComponent,
   PickCesiumProps,
   Merge,
-  ConstructorOptions,
+  ConstructorOptions} from "../core";
+import {
+  createCesiumComponent
 } from "../core";
 
 /*

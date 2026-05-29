@@ -1,10 +1,11 @@
-import { BufferPolygonCollection } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { BufferPolygonCollection } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { BufferPolygonCollectionOtherProps, BufferPolygonCollectionProps } from "./BufferPolygonCollection";
+import type { BufferPolygonCollectionOtherProps, BufferPolygonCollectionProps } from "./BufferPolygonCollection";
 
 type ConstructorOnlyProps = "primitiveCountMax" | "vertexCountMax" | "holeCountMax" | "triangleCountMax" | "positionDatatype" | "allowPicking" | "modelMatrix";
 

@@ -1,6 +1,7 @@
-import { Billboard as CesiumBillboard, BillboardCollection } from "cesium";
+import type { Billboard as CesiumBillboard, BillboardCollection } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import type { EventProps, PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

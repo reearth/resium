@@ -1,7 +1,8 @@
-import {
-  BufferPolygon as CesiumBufferPolygon,
+import type {
   BufferPolygonMaterial,
-  TypedArray,
+  TypedArray} from "cesium";
+import {
+  BufferPolygon as CesiumBufferPolygon
 } from "cesium";
 
 import { createCesiumComponent } from "../core";

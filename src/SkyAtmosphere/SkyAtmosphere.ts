@@ -1,6 +1,7 @@
-import { SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
+import type { SkyAtmosphere as CesiumSkyAtmosphere } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

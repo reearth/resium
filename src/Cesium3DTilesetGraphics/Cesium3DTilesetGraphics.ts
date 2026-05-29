@@ -1,6 +1,7 @@
 import { Cesium3DTilesetGraphics as CesiumCesium3DTilesetGraphics } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, Merge } from "../core";
+import type { PickCesiumProps, Merge } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

@@ -1,5 +1,6 @@
-import { Camera } from "cesium";
-import { useEffect, useRef, FC } from "react";
+import type { Camera } from "cesium";
+import type { FC } from "react";
+import { useEffect, useRef } from "react";
 
 import { useCesium } from "./context";
 

@@ -1,6 +1,8 @@
-import { Model as CesiumModel, Primitive, ModelNode, ColorBlendMode, Resource } from "cesium";
+import type { Primitive, ModelNode, ColorBlendMode, Resource } from "cesium";
+import { Model as CesiumModel } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps, Merge, isPromise } from "../core";
+import type { EventProps, PickCesiumProps, Merge} from "../core";
+import { createCesiumComponent, isPromise } from "../core";
 
 export type Target = Merge<CesiumModel, Parameters<(typeof CesiumModel)["fromGltfAsync"]>[0]>;
 

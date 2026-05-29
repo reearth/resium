@@ -1,10 +1,11 @@
+import type {
+  Viewer as CesiumViewer} from "cesium";
 import {
   Cartesian3,
   Color,
   ImageryLayer,
   JulianDate,
   TileMapServiceImageryProvider,
-  Viewer as CesiumViewer,
   buildModuleUrl,
 } from "cesium";
 

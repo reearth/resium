@@ -1,11 +1,12 @@
 import { GroundPrimitive as CesiumGroundPrimitive } from "cesium";
 
-import {
+import type {
   ConstructorOptions,
-  createCesiumComponent,
   EventProps,
   Merge,
-  PickCesiumProps,
+  PickCesiumProps} from "../core";
+import {
+  createCesiumComponent
 } from "../core";
 
 /*

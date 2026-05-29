@@ -1,10 +1,11 @@
-import { SkyAtmosphere } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { SkyAtmosphere } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { SkyAtmosphereProps } from "./SkyAtmosphere";
+import type { SkyAtmosphereProps } from "./SkyAtmosphere";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<SkyAtmosphere, SkyAtmosphereProps, {}, IgnoredProps>;

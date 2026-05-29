@@ -1,10 +1,11 @@
-import { Cesium3DTileset } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { Cesium3DTileset } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps, Merge, ConstructorOptions } from "../core";
+import type { UnusedCesiumProps, Merge, ConstructorOptions } from "../core";
 
-import {
+import type {
   Cesium3DTilesetProps,
   cesiumEventProps,
   Cesium3DTilesetOtherProps,

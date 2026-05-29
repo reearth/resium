@@ -1,6 +1,7 @@
-import { ShadowMap as CesiumShadowMap } from "cesium";
+import type { ShadowMap as CesiumShadowMap } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

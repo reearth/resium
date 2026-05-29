@@ -1,14 +1,16 @@
-import { Viewer as CesiumViewer, Entity, TerrainProvider } from "cesium";
-import { ReactNode, CSSProperties } from "react";
+import type { Entity, TerrainProvider } from "cesium";
+import { Viewer as CesiumViewer } from "cesium";
+import type { ReactNode, CSSProperties } from "react";
 
+import type {
+  RootEventProps,
+  PickCesiumProps,
+  Merge,
+  RootComponentInternalProps} from "../core";
 import {
   createCesiumComponent,
   EventManager,
   eventManagerContextKey,
-  RootEventProps,
-  PickCesiumProps,
-  Merge,
-  RootComponentInternalProps,
   isPromise,
 } from "../core";
 

@@ -1,7 +1,7 @@
 // @ignore
 import { createPostProcessStage } from "../core";
 
-import { PostProcessStageCompositeProps } from "./PostProcessStageComposite";
+import type { PostProcessStageCompositeProps } from "./PostProcessStageComposite";
 
 type Props = {
   intensity?: number;

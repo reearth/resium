@@ -1,9 +1,10 @@
-import { expectType, TypeEqual } from "ts-expect";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { PolylineGraphicsProps, cesiumEventProps, Target } from "./PolylineGraphics";
+import type { PolylineGraphicsProps, cesiumEventProps, Target } from "./PolylineGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

@@ -1,6 +1,7 @@
-import { PointPrimitive as CesiumPointPrimitive, PointPrimitiveCollection } from "cesium";
+import type { PointPrimitive as CesiumPointPrimitive, PointPrimitiveCollection } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import type { EventProps, PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

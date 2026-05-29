@@ -1,10 +1,11 @@
-import { CorridorGraphics } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { CorridorGraphics } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { Merge, UnusedCesiumProps } from "../core";
+import type { Merge, UnusedCesiumProps } from "../core";
 
-import { cesiumEventProps, CorridorGraphicsProps } from "./CorridorGraphics";
+import type { cesiumEventProps, CorridorGraphicsProps } from "./CorridorGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

@@ -1,10 +1,12 @@
-import {
+import type {
   Credit,
-  EquirectangularPanorama as CesiumEquirectangularPanorama,
-  Matrix4,
+  Matrix4} from "cesium";
+import {
+  EquirectangularPanorama as CesiumEquirectangularPanorama
 } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary
