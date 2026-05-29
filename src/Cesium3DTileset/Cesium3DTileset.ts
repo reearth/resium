@@ -27,6 +27,38 @@ Inside [Viewer](/components/Viewer) or [CesiumWidget](/components/CesiumWidget) 
 A Cesium3DTileset object will be attached to the PrimitiveCollection of the Viewer or CesiumWidget.
 */
 
+/*
+@example
+A `Cesium3DTileset` is loaded asynchronously, so it has no bounding sphere yet during the first render. To fly/zoom the camera to the tileset once it is completely loaded, use the `onReady` callback, which receives the loaded `Cesium3DTileset`:
+
+```tsx
+import { useRef } from "react";
+import { Viewer as CesiumViewer } from "cesium";
+import { Viewer, Cesium3DTileset, CesiumComponentRef } from "resium";
+
+const ExampleComponent = () => {
+  const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+
+  return (
+    <Viewer full ref={ref}>
+      <Cesium3DTileset
+        url="./tileset/tileset.json"
+        onReady={tileset => {
+          ref.current?.cesiumElement?.zoomTo(tileset);
+        }}
+      />
+    </Viewer>
+  );
+};
+```
+
+:::note
+
+The deprecated `Cesium3DTileset.readyPromise` has been removed from CesiumJS, so it no longer resolves. Use the `onReady` prop instead.
+
+:::
+*/
+
 export type Cesium3DTilesetCesiumProps = PickCesiumProps<CesiumCesium3DTileset, typeof cesiumProps>;
 
 export type Cesium3DTilesetCesiumReadonlyProps = PickCesiumProps<

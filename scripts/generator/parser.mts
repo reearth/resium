@@ -149,6 +149,11 @@ function parseDocComment(node: Node): DocComment | undefined {
           scope: c.replace(/^ *?@scope/, "").trim(),
         };
       }
+      if (/^ *?@example/.test(c)) {
+        return {
+          example: c.replace(/^ *?@example/, "").trim(),
+        };
+      }
       if (/^ *?@ignore/.test(c)) {
         return {
           ignored: true,
