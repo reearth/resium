@@ -1,5 +1,53 @@
 # Changelog
 
+## 1.22.0 - 2026-05-29
+
+### core
+
+#### fix
+
+- Recreate children with the new context when a parent is recreated ([#775](https://github.com/reearth/resium/pull/775)) [`287977`](https://github.com/reearth/resium/commit/287977)
+
+### deps
+
+#### chore
+
+- Update dev&#x2F;build dependencies (supersedes [#754](https://github.com/reearth/resium/pull/754)) ([#777](https://github.com/reearth/resium/pull/777)) [`f21161`](https://github.com/reearth/resium/commit/f21161)
+- Upgrade ESLint to 10 + eslint-config-reearth 0.4.0 ([#776](https://github.com/reearth/resium/pull/776)) [`deef7c`](https://github.com/reearth/resium/commit/deef7c)
+
+### vrt
+
+#### feat
+
+- Migrate VRT to reg-suit with GitHub Releases backend [`651727`](https://github.com/reearth/resium/commit/651727)
+
+#### fix
+
+- Check out PR head branch so reg-keygen can detect the branch [`22286e`](https://github.com/reearth/resium/commit/22286e)
+- Include hidden files when uploading reg-suit report [`9b13bd`](https://github.com/reearth/resium/commit/9b13bd)
+
+### 
+
+#### chore
+
+- Update dependency node to v24 ([#770](https://github.com/reearth/resium/pull/770)) [`faa5cf`](https://github.com/reearth/resium/commit/faa5cf)
+
+#### ci
+
+- Checkout before setup-node so node-version-file can be read [`fbf5a9`](https://github.com/reearth/resium/commit/fbf5a9)
+- Auto-tag releases on PR merge and pin Node via .node-version [`6cb48d`](https://github.com/reearth/resium/commit/6cb48d)
+
+#### docs
+
+- Point screenshot&#x2F;usage image URLs at main [`49ef0e`](https://github.com/reearth/resium/commit/49ef0e)
+- Remove donation&#x2F;sponsorship content and disable GitHub Sponsors [`4ff4cd`](https://github.com/reearth/resium/commit/4ff4cd)
+- Fix broken CI badge and logo URLs (master-&gt;main, ci workflow) [`2eeabd`](https://github.com/reearth/resium/commit/2eeabd)
+
+#### feat
+
+- Add opt-in React Suspense support to data sources ([#773](https://github.com/reearth/resium/pull/773)) [`cfd8c3`](https://github.com/reearth/resium/commit/cfd8c3)
+- Add Storybook visual regression testing (VRT) ([#774](https://github.com/reearth/resium/pull/774)) [`118a50`](https://github.com/reearth/resium/commit/118a50)
+
 ## 1.21.1 - 2026-05-13
 
 ### chore
