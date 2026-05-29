@@ -54,4 +54,6 @@ jobs:
         with:
           name: reg-report
           path: .reg/**
+          # `.reg` is a dotfile dir, so its contents count as hidden files.
+          include-hidden-files: true
           if-no-files-found: ignore
