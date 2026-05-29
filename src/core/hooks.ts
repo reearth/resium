@@ -275,6 +275,12 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     }
 
     attachedEvents.current = {};
+    // Reset prevProps so the next mount's updateProperties re-detects every prop
+    // (including stable event-handler references) as newly added and re-attaches
+    // them. Without this, after a StrictMode unmount+remount, the diff in
+    // updateProperties would see no change and events would not be re-attached
+    // (#736, #680).
+    prevProps.current = {} as Props;
     provided.current = undefined;
     stateRef.current = undefined;
     element.current = undefined;

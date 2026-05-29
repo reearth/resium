@@ -173,7 +173,14 @@ export const cesiumEventProps = {
   onTileVisible: "tileVisible",
 } as const;
 
-export const otherProps = ["onReady", "onError", "url"] as const;
+export const otherProps = ["onReady", "onError"] as const;
+
+// `url` is consumed directly inside `create()` (it is not a real Cesium property),
+// but it is treated as a read-only prop so that changing it at runtime makes the
+// core destroy and recreate the tileset (re-running `fromUrl`). It is kept out of
+// the `Cesium3DTilesetCesiumReadonlyProps` type because it does not exist on the
+// Cesium class.
+const cesiumReadonlyPropsWithUrl = [...cesiumReadonlyProps, "url"] as const;
 
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
@@ -219,7 +226,7 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
     }
   },
   cesiumProps,
-  cesiumReadonlyProps,
+  cesiumReadonlyProps: cesiumReadonlyPropsWithUrl,
   cesiumEventProps,
   otherProps,
   useCommonEvent: true,

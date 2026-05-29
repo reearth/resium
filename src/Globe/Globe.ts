@@ -110,7 +110,8 @@ const otherProps = ["terrainProvider"] as const;
 const Globe = createCesiumComponent<CesiumGlobe, GlobeProps>({
   name: "Globe",
   create: context => context.scene?.globe,
-  update: async (elm, props) => {
+  update: async (elm, props, prevProps) => {
+    if (props.terrainProvider === prevProps.terrainProvider) return;
     const maybePromiseTerrainProvider = props.terrainProvider;
     let resultTerrainProvider: TerrainProvider;
     if (isPromise(maybePromiseTerrainProvider)) {
