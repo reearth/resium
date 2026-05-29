@@ -21,6 +21,14 @@ ${
 ${doc.scope}
 `
     : ""
+}${
+  doc.example
+    ? `
+## Example
+
+${doc.example}
+`
+    : ""
 }
 ## Properties
 

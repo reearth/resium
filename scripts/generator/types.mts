@@ -11,6 +11,7 @@ export type DocComment = {
   cesiumElement?: string;
   summary?: string;
   scope?: string;
+  example?: string;
   ignored?: boolean;
 };
 

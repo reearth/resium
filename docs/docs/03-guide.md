@@ -186,6 +186,20 @@ To know what is a Cesium element of each component, refer to "Cesium element" in
 
 Note: `cesiumElement` property in the ref object can be `undefined`: e.g. when an initialization error is occurred. Please check if it's not `undefined` when using `cesiumElement`.
 
+:::caution
+
+**Why is `cesiumElement` `undefined` right after rendering?**
+
+A Cesium element is **not** created during the first render, and for root components such as `Viewer` the initialization is even asynchronous. So `ref.current.cesiumElement` is `undefined` (or the ref itself is `null`) until initialization finishes. Once the element is ready, Resium triggers a re-render and the ref is populated.
+
+In practice this means:
+
+- Read `cesiumElement` inside `useEffect`, event handlers, or other callbacks — **not** during render.
+- Do not assume it is available synchronously right after `<Viewer />` is mounted.
+- If you need to react to the element becoming available, copy it into state from an effect, or read it from a child component with the [`useCesium`](#accessing-the-cesium-element-from-descendant-components) hook.
+
+:::
+
 ### Way 1: useRef hooks (function component)
 
 Function component:
@@ -335,6 +349,31 @@ class ExampleComponent extends Component {
   }
 }
 ```
+
+## Accessing the Cesium element from descendant components
+
+Instead of a `ref`, components rendered **inside** `Viewer` / `CesiumWidget` can read the current Cesium objects from React context with the `useCesium` hook:
+
+```jsx
+import { Viewer, useCesium } from "resium";
+
+const Inner = () => {
+  const { viewer, scene, camera } = useCesium();
+  // `viewer` is Cesium's Viewer, available because this runs inside <Viewer>.
+  // DO SOMETHING
+  return null;
+};
+
+const ExampleComponent = () => (
+  <Viewer>
+    <Inner />
+  </Viewer>
+);
+```
+
+`useCesium` reads the closest Resium context, so it returns Cesium objects **only** when it is called from a component mounted **under** a root component (`Viewer` or `CesiumWidget`).
+
+Calling `useCesium` in the **same** component that renders `<Viewer>` (i.e. the parent) returns an empty object, because the context provider lives inside `Viewer`. In that case the values will always be `undefined`. To fix this, move the logic into a child component as shown above, or use a `ref` instead.
 
 ## Limitations
 
