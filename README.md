@@ -21,9 +21,9 @@ React component library for 🌏[Cesium](https://cesium.com/)
 </Viewer>
 ```
 
-![Screenshot](https://raw.githubusercontent.com/reearth/resium/master/docs/static/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/reearth/resium/main/docs/static/screenshot.png)
 
-![Usage](https://raw.githubusercontent.com/reearth/resium/master/docs/static/usage.gif)
+![Usage](https://raw.githubusercontent.com/reearth/resium/main/docs/static/usage.gif)
 
 ## Contributors
 
