@@ -1,0 +1,1 @@
+import{n as e}from"./chunk-DnJy8xQt.js";import{c as t,t as n}from"./core-Dq34WhAX.js";var r,i=e((()=>{n(),r=t(`CameraLookAt`,(e,{target:t,offset:n})=>{e.lookAt(t,n)})}));export{i as n,r as t};
