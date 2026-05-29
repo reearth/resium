@@ -4,6 +4,7 @@ import {
   useRef,
   useImperativeHandle,
   useState,
+  useReducer,
   useCallback,
   useLayoutEffect,
   RefObject,
@@ -79,6 +80,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
   const prevProps = useRef<Props>({} as Props);
   const [mounted, setMounted] = useState(false);
   const mountedRef = useRef(false);
+  // Bumped after a recreation re-assigns `provided.current`, to force a render
+  // so the new context reaches consumers. `setMounted(true)` can't do this on
+  // its own: during a recreation `mounted` is already `true`, so it's a no-op.
+  const [, forceRender] = useReducer((c: number) => c + 1, 0);
   const wrapperRef = useRef<HTMLDivElement>(null);
   const stateRef = useRef<State | undefined>(undefined);
   const eventManager = ctx?.[eventManagerContextKey];
@@ -161,7 +166,10 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         mountReadyRef.current = mount();
       }
     },
-    [], // eslint-disable-line react-hooks/exhaustive-deps
+    // `ctx` is a dependency so that when a parent is recreated (a read-only
+    // prop change) and provides a new context, this callback closes over the
+    // new context instead of the stale one. See the layout effect below.
+    [ctx], // eslint-disable-line react-hooks/exhaustive-deps
   );
 
   const mount = useCallback(async () => {
@@ -211,6 +219,8 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
         ...ctx,
         ...provide(element.current, ctx, props, stateRef.current),
       };
+      // Re-render so the freshly provided context propagates to consumers.
+      forceRender();
     }
 
     const em = useRootEvent
@@ -223,7 +233,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     if (!unmountReadyRef.current) {
       setMounted(true);
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ctx]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const beforeUnmount = useCallback(() => {
     setMounted(false);
@@ -265,9 +275,13 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     provided.current = undefined;
     stateRef.current = undefined;
     element.current = undefined;
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [ctx]); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // To prevent re-execution by hot loader, execute only once
+  // Mount on first render, and re-run when `mount`/`unmount` change — which,
+  // thanks to their `[ctx]` dependency, happens when a parent is recreated and
+  // provides a new context. That tears down the stale Cesium element (attached
+  // to the destroyed parent) and recreates it against the new one, cascading
+  // down the tree. See issues #661 and #685.
   useLayoutEffect(() => {
     const run = async () => {
       if (unmountReadyRef.current) {
