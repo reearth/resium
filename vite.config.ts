@@ -26,7 +26,14 @@ export default defineConfig({
   },
   test: {
     environment: "jsdom",
-    exclude: [...configDefaults.exclude, "docs/**/*", "examples/**/*"],
+    exclude: [
+      ...configDefaults.exclude,
+      "**/docs/**",
+      "**/examples/**",
+      // Ignore git worktrees created by AI agents (e.g. under .claude/worktrees),
+      // otherwise their nested copies of examples/docs get picked up as tests.
+      "**/.claude/**",
+    ],
     setupFiles: ["src/test/setup.ts"],
     coverage: {
       reporter: ["text", "json"],
