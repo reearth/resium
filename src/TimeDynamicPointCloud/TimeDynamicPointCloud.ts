@@ -1,12 +1,13 @@
 import { TimeDynamicPointCloud as CesiumTimeDynamicPointCloud } from "cesium";
 
-import {
-  createCesiumComponent,
+import type {
   EventkeyMap,
   PickCesiumProps,
   ConstructorOptions,
   Merge,
-  EventProps,
+  EventProps} from "../core";
+import {
+  createCesiumComponent
 } from "../core";
 
 /*

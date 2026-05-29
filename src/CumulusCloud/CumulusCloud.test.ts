@@ -1,10 +1,11 @@
-import { CumulusCloud } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { CumulusCloud } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { CumulusCloudProps } from "./CumulusCloud";
+import type { CumulusCloudProps } from "./CumulusCloud";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<CumulusCloud, CumulusCloudProps, {}, IgnoredProps>;

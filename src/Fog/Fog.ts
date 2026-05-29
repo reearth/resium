@@ -1,6 +1,7 @@
 import { Fog as CesiumFog } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

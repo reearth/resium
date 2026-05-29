@@ -1,5 +1,5 @@
 import { render } from "@testing-library/react";
-import { FC } from "react";
+import type { FC } from "react";
 import { describe, expect, it, vi } from "vitest";
 
 import { createCameraOperation } from "./CameraOperation";

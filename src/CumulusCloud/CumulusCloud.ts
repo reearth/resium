@@ -1,6 +1,7 @@
-import { CumulusCloud as CesiumCumulusCloud } from "cesium";
+import type { CumulusCloud as CesiumCumulusCloud } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

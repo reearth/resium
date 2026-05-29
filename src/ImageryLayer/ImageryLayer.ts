@@ -1,10 +1,12 @@
-import { ImageryLayer as CesiumImageryLayer, ImageryProvider } from "cesium";
+import type { ImageryProvider } from "cesium";
+import { ImageryLayer as CesiumImageryLayer } from "cesium";
 
-import {
-  createCesiumComponent,
+import type {
   PickCesiumProps,
   Merge,
-  ConstructorOptions2,
+  ConstructorOptions2} from "../core";
+import {
+  createCesiumComponent,
   isPromise,
 } from "../core";
 

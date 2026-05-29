@@ -1,10 +1,11 @@
-import { BoxGraphics } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { BoxGraphics } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps, Merge } from "../core";
+import type { UnusedCesiumProps, Merge } from "../core";
 
-import { BoxGraphicsProps, cesiumEventProps } from "./BoxGraphics";
+import type { BoxGraphicsProps, cesiumEventProps } from "./BoxGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

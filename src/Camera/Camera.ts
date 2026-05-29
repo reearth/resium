@@ -1,6 +1,7 @@
-import { Camera as CesiumCamera } from "cesium";
+import type { Camera as CesiumCamera } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

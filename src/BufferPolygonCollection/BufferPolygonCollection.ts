@@ -1,11 +1,13 @@
-import {
-  BufferPolygonCollection as CesiumBufferPolygonCollection,
+import type {
   ComponentDatatype,
-  Matrix4,
+  Matrix4} from "cesium";
+import {
+  BufferPolygonCollection as CesiumBufferPolygonCollection
 } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

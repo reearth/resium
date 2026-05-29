@@ -1,6 +1,7 @@
 import { PostProcessStage as CesiumPostProcessStage } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
+import type { PickCesiumProps, ConstructorOptions, Merge } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

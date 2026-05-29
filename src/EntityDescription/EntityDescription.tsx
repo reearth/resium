@@ -1,5 +1,6 @@
-import { Entity } from "cesium";
-import { useEffect, useState, useMemo, FC, PropsWithChildren } from "react";
+import type { Entity } from "cesium";
+import type { FC, PropsWithChildren } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { createPortal } from "react-dom";
 
 import { useCesium } from "../core";

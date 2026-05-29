@@ -1,4 +1,4 @@
-import {
+import type {
   PostProcessStageCollection,
   PostProcessStage,
   PostProcessStageComposite,
@@ -6,7 +6,7 @@ import {
 } from "cesium";
 
 import { createCesiumComponent } from "./component";
-import { PickCesiumProps } from "./types";
+import type { PickCesiumProps } from "./types";
 import { includes } from "./util";
 
 export type PostProcessStageCesiumProps = PickCesiumProps<PostProcessStage, typeof cesiumProps>;

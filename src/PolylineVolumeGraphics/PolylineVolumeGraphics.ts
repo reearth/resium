@@ -1,6 +1,7 @@
 import { PolylineVolumeGraphics as CesiumPolylineVolumeGraphics } from "cesium";
 
-import { createCesiumComponent, EventkeyMap, PickCesiumProps, Merge } from "../core";
+import type { EventkeyMap, PickCesiumProps, Merge } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

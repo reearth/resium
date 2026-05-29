@@ -1,11 +1,12 @@
 import { ClassificationPrimitive as CesiumClassificationPrimitive } from "cesium";
 
-import {
+import type {
   ConstructorOptions,
-  createCesiumComponent,
   EventProps,
   Merge,
-  PickCesiumProps,
+  PickCesiumProps} from "../core";
+import {
+  createCesiumComponent
 } from "../core";
 
 /*

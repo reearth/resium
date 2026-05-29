@@ -1,7 +1,8 @@
-import {
-  BufferPoint as CesiumBufferPoint,
+import type {
   BufferPointMaterial,
-  Cartesian3,
+  Cartesian3} from "cesium";
+import {
+  BufferPoint as CesiumBufferPoint
 } from "cesium";
 
 import { createCesiumComponent } from "../core";

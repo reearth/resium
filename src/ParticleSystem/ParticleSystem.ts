@@ -1,6 +1,7 @@
 import { ParticleSystem as CesiumParticleSystem } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps, ConstructorOptions, Merge } from "../core";
+import type { PickCesiumProps, ConstructorOptions, Merge } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary
@@ -57,8 +58,9 @@ const cesiumProps = [
   "sizeInMeters",
 ] as const;
 
-// Used for both type definition and runtime component configuration
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+// Used only to derive ParticleSystemCesiumReadonlyProps below via `typeof`;
+// the runtime value is intentionally unused.
+// eslint-disable-next-line @typescript-eslint/no-unused-vars, no-useless-assignment
 const cesiumReadonlyProps = [
   "color",
   "imageSize",

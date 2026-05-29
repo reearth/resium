@@ -1,7 +1,8 @@
-import { expectType, TypeEqual, TypeOf } from "ts-expect";
+import type { TypeEqual, TypeOf } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import {
+import type {
   ConstructorOptions,
   UnusedCesiumProps,
   PickCesiumProps,

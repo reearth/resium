@@ -1,4 +1,4 @@
-import {
+import type {
   Material,
   Cartesian3,
   DistanceDisplayCondition,
@@ -6,7 +6,8 @@ import {
   PolylineCollection,
 } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import type { EventProps, PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

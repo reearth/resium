@@ -1,5 +1,6 @@
-import { ScreenSpaceEventType, KeyboardEventModifier, Cartesian2 } from "cesium";
-import { useEffect, FC } from "react";
+import type { ScreenSpaceEventType, KeyboardEventModifier, Cartesian2 } from "cesium";
+import type { FC } from "react";
+import { useEffect } from "react";
 
 import { useCesium } from "../core";
 

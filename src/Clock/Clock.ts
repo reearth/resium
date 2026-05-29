@@ -1,6 +1,7 @@
-import { Clock as CesiumClock, ClockRange, ClockStep, JulianDate } from "cesium";
+import type { Clock as CesiumClock, ClockRange, ClockStep, JulianDate } from "cesium";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

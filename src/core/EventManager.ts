@@ -1,6 +1,4 @@
-import {
-  ScreenSpaceEventType,
-  ScreenSpaceEventHandler,
+import type {
   Scene,
   Cartesian2,
   Primitive,
@@ -18,7 +16,10 @@ import {
   TimeDynamicPointCloud,
   ModelNode,
   GroundPolylinePrimitive,
-  GroundPrimitive,
+  GroundPrimitive} from "cesium";
+import {
+  ScreenSpaceEventType,
+  ScreenSpaceEventHandler
 } from "cesium";
 
 import { entries, includes } from "./util";

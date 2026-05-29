@@ -1,6 +1,7 @@
-import { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
+import type { ImageryLayer, ImageryLayerCollection as CesiumImageryLayerCollection } from "cesium";
 
-import { createCesiumComponent, EventkeyMap } from "../core";
+import type { EventkeyMap } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

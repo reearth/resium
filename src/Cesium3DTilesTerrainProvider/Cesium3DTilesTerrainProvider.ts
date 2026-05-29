@@ -1,10 +1,11 @@
-import {
-  Cesium3DTilesTerrainProvider as CesiumCesium3DTilesTerrainProvider,
+import type {
   Credit,
   Ellipsoid,
-  Resource,
+  Resource} from "cesium";
+import {
+  Cesium3DTilesTerrainProvider as CesiumCesium3DTilesTerrainProvider
 } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { createCesiumComponent } from "../core";
 

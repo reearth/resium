@@ -1,7 +1,8 @@
 import { CustomDataSource as CesiumCustomDataSource } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps, EventProps, EventTarget } from "../core";
+import type { PickCesiumProps, EventProps, EventTarget } from "../core";
+import { createCesiumComponent } from "../core";
 
 export type { EventTarget } from "../core";
 

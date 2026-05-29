@@ -24,6 +24,14 @@ export default [
   {
     rules: {
       "@typescript-eslint/no-explicit-any": "off",
+      // React Compiler rules (eslint-plugin-react-hooks v7) assume pure,
+      // immutable components. Resium is a thin imperative wrapper around
+      // Cesium: it mutates Cesium objects in place and exposes elements via
+      // refs by design, so these rules don't apply. The classic hooks rules
+      // (rules-of-hooks, exhaustive-deps) stay enabled.
+      "react-hooks/immutability": "off",
+      "react-hooks/refs": "off",
+      "react-hooks/preserve-manual-memoization": "off",
     },
   },
   // Override for test files - allow {} type in type tests

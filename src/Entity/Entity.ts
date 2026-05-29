@@ -1,13 +1,14 @@
 import { Entity as CesiumEntity } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
-import {
-  createCesiumComponent,
+import type {
   EventProps,
   PickCesiumProps,
   Merge,
   EventTarget,
-  RootComponentInternalProps,
+  RootComponentInternalProps} from "../core";
+import {
+  createCesiumComponent
 } from "../core";
 
 export type { EventTarget } from "../core";

@@ -1,10 +1,11 @@
-import { ScreenSpaceCameraController } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { ScreenSpaceCameraController } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { ScreenSpaceCameraControllerProps } from "./ScreenSpaceCameraController";
+import type { ScreenSpaceCameraControllerProps } from "./ScreenSpaceCameraController";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

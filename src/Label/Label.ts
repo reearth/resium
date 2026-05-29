@@ -1,6 +1,7 @@
-import { Label as CesiumLabel, LabelCollection } from "cesium";
+import type { Label as CesiumLabel, LabelCollection } from "cesium";
 
-import { createCesiumComponent, EventProps, PickCesiumProps } from "../core";
+import type { EventProps, PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

@@ -1,6 +1,7 @@
-import { Globe as CesiumGlobe, TerrainProvider } from "cesium";
+import type { Globe as CesiumGlobe, TerrainProvider } from "cesium";
 
-import { createCesiumComponent, isPromise, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent, isPromise } from "../core";
 
 /*
 @summary

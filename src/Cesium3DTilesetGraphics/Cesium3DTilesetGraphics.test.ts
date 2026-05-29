@@ -1,10 +1,11 @@
-import { Cesium3DTilesetGraphics } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { Cesium3DTilesetGraphics } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps, Merge } from "../core";
+import type { UnusedCesiumProps, Merge } from "../core";
 
-import { Cesium3DTilesetGraphicsProps, cesiumEventProps } from "./Cesium3DTilesetGraphics";
+import type { Cesium3DTilesetGraphicsProps, cesiumEventProps } from "./Cesium3DTilesetGraphics";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

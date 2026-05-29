@@ -1,6 +1,7 @@
-import { SkyBox as CesiumSkyBox } from "cesium";
+import type { SkyBox as CesiumSkyBox } from "cesium";
 
-import { ConstructorOptions, createCesiumComponent, Merge, PickCesiumProps } from "../core";
+import type { ConstructorOptions, Merge, PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 /*
 @summary

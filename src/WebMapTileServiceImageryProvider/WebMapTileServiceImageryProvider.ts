@@ -1,13 +1,14 @@
-import {
-  WebMapTileServiceImageryProvider as CesiumWebMapTileServiceImageryProvider,
+import type {
   Credit,
   Ellipsoid,
   GetFeatureInfoFormat,
   Rectangle,
   Resource,
-  TilingScheme,
+  TilingScheme} from "cesium";
+import {
+  WebMapTileServiceImageryProvider as CesiumWebMapTileServiceImageryProvider
 } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { createCesiumComponent } from "../core";
 

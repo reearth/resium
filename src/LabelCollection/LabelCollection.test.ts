@@ -1,10 +1,11 @@
-import { LabelCollection } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { LabelCollection } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { LabelCollectionOtherProps, LabelCollectionProps } from "./LabelCollection";
+import type { LabelCollectionOtherProps, LabelCollectionProps } from "./LabelCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

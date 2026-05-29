@@ -1,7 +1,8 @@
-import { PrimitiveCollection } from "cesium";
-import { ReactNode } from "react";
+import type { PrimitiveCollection } from "cesium";
+import type { ReactNode } from "react";
 
-import { createCesiumComponent, PickCesiumProps } from "../core";
+import type { PickCesiumProps } from "../core";
+import { createCesiumComponent } from "../core";
 
 // @cesiumElement PrimitiveCollection
 

@@ -1,10 +1,11 @@
-import {
-  Google2DImageryProvider as CesiumGoogle2DImageryProvider,
+import type {
   Credit,
   Ellipsoid,
-  Rectangle,
+  Rectangle} from "cesium";
+import {
+  Google2DImageryProvider as CesiumGoogle2DImageryProvider
 } from "cesium";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 import { createCesiumComponent } from "../core";
 

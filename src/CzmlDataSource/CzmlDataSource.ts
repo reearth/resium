@@ -1,14 +1,15 @@
 import { CzmlDataSource as CesiumCzmlDataSource, Resource } from "cesium";
 
-import {
-  createCesiumComponent,
+import type {
   PickCesiumProps,
   Merge,
   MethodOptions2,
   EventProps,
   EventTarget,
-  useSuspendedResource,
-  SuspenseProps,
+  SuspenseProps} from "../core";
+import {
+  createCesiumComponent,
+  useSuspendedResource
 } from "../core";
 
 export type { EventTarget } from "../core";

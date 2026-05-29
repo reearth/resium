@@ -1,10 +1,11 @@
-import { CloudCollection } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { CloudCollection } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { CloudCollectionOtherProps, CloudCollectionProps } from "./CloudCollection";
+import type { CloudCollectionOtherProps, CloudCollectionProps } from "./CloudCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<

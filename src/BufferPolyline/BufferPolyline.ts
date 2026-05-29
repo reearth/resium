@@ -1,7 +1,8 @@
-import {
-  BufferPolyline as CesiumBufferPolyline,
+import type {
   BufferPolylineMaterial,
-  TypedArray,
+  TypedArray} from "cesium";
+import {
+  BufferPolyline as CesiumBufferPolyline
 } from "cesium";
 
 import { createCesiumComponent } from "../core";

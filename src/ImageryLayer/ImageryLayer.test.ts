@@ -1,9 +1,10 @@
-import { expectType, TypeEqual } from "ts-expect";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { ImageryLayerProps, Target } from "./ImageryLayer";
+import type { ImageryLayerProps, Target } from "./ImageryLayer";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<Target, ImageryLayerProps, {}, IgnoredProps>;

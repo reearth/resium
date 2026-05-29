@@ -1,4 +1,4 @@
-import {
+import type {
   Viewer,
   CesiumWidget,
   Scene,
@@ -22,8 +22,9 @@ import {
 } from "cesium";
 import { createContext, useContext } from "react";
 
-import { RootComponentInternalProps, RootComponentInternalValues } from "./component";
-import EventManager, { eventManagerContextKey } from "./EventManager";
+import type { RootComponentInternalProps, RootComponentInternalValues } from "./component";
+import type { eventManagerContextKey } from "./EventManager";
+import type EventManager from "./EventManager";
 
 export type ResiumContext = {
   viewer?: Viewer;

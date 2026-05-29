@@ -1,4 +1,4 @@
-import { Camera } from "cesium";
+import type { Camera } from "cesium";
 
 import { createCameraOperation } from "../core";
 

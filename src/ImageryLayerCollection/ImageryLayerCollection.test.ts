@@ -1,10 +1,11 @@
-import { ImageryLayerCollection } from "cesium";
-import { expectType, TypeEqual } from "ts-expect";
+import type { ImageryLayerCollection } from "cesium";
+import type { TypeEqual } from "ts-expect";
+import { expectType } from "ts-expect";
 import { it } from "vitest";
 
-import { UnusedCesiumProps } from "../core";
+import type { UnusedCesiumProps } from "../core";
 
-import { cesiumEventProps, ImageryLayerCollectionProps } from "./ImageryLayerCollection";
+import type { cesiumEventProps, ImageryLayerCollectionProps } from "./ImageryLayerCollection";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<
