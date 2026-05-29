@@ -6,19 +6,13 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "postinstall": "symlink-dir node_modules/cesium/Build/Cesium public/cesium"
+    "postinstall": "node -e \"require('fs').cpSync('node_modules/cesium/Build/Cesium','public/cesium',{recursive:true})\""
   },
   "dependencies": {
-    "cesium": "1.101.0",
-    "next": "13.1.6",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
-    "resium": "^1.16.0"
-  },
-  "devDependencies": {
-    "eslint": "8.33.0",
-    "eslint-config-next": "13.1.6",
-    "symlink-dir": "^5.1.0"
+    "cesium": "1.141.0",
+    "next": "16.2.6",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "resium": "1.22.0"
   }
 }

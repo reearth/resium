@@ -1,12 +1,11 @@
 # Dependencies
 /node_modules
 
-# Production
-/build
+# Build output (deployed to GitHub Pages)
+/dist
 
-# Generated files
-.docusaurus
-.cache-loader
+# Astro
+.astro
 
 # Misc
 .DS_Store
@@ -19,7 +18,8 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-# resium
-/docs/components/*.mdx
-/static/examples/
-/static/cesium/
+# resium: generated API docs (see scripts/generator)
+/src/content/docs/components/*.md
+
+# resium: Storybook examples built by `yarn storybook:build`
+/public/examples/

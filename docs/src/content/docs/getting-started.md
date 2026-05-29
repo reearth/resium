@@ -1,9 +1,6 @@
 ---
-id: getting_started
 title: Getting Started
 ---
-
-# Getting Started
 
 After [installation](/installation), let's create a hello world application.
 

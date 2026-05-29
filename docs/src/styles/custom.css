@@ -1,0 +1,12 @@
+/* Resium brand accent (the teal previously used by the Docusaurus theme). */
+:root {
+  --sl-color-accent-low: #11352c;
+  --sl-color-accent: #1fa590;
+  --sl-color-accent-high: #92e0d0;
+}
+
+:root[data-theme="light"] {
+  --sl-color-accent-low: #c0eee4;
+  --sl-color-accent: #1a8870;
+  --sl-color-accent-high: #143b32;
+}
