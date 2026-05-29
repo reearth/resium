@@ -74,6 +74,71 @@ const cesiumProps = ["enabled", "selected"] as const;
 
 const cesiumReadonlyProps = ["inputPreviousStageTexture", "name", "stages", "uniforms"] as const;
 
+type CompositeInternals = { _stages?: unknown[] };
+type StageInternals = { name?: string; _textureCache?: unknown; _index?: unknown };
+type CollectionInternals = {
+  remove(stage: CesiumPostProcessStageComposite): boolean;
+  _stageNames?: Record<string, unknown>;
+};
+
+/**
+ * Removes a resium-owned `PostProcessStageComposite` from the scene's
+ * `PostProcessStageCollection` and destroys it WITHOUT destroying the
+ * user-supplied child `PostProcessStage` instances passed via the `stages` prop.
+ *
+ * resium creates and owns the composite, but it does NOT own the child stages.
+ * Both `PostProcessStageCollection.remove(stage)` and
+ * `PostProcessStageComposite.destroy()` unconditionally destroy every child
+ * stage (Cesium offers no `destroy=false` flag). Under React StrictMode
+ * (mount -> unmount -> remount), the throwaway first unmount would destroy the
+ * user-owned stages, so the real remount reuses already-destroyed stages and
+ * throws "This object was destroyed, i.e., destroy() was called." (same class
+ * of bug as #602).
+ *
+ * The composite stores the user's stages in its internal `_stages` array, which
+ * is the SAME array reference passed in props (`this._stages = options.stages`).
+ * When the collection adds the composite, `add` walks into the children and
+ * registers each one in the collection's `_stageNames` map and stamps
+ * `child._textureCache`. We:
+ *  1. snapshot the children and replace the composite's `_stages` with a fresh
+ *     empty array (NOT emptying the user's array in place) so neither `remove`
+ *     nor `destroy` cascades into the children;
+ *  2. `remove` the (now child-less) composite, which frees the composite's own
+ *     name and slot;
+ *  3. reverse the per-child registration that `add` performed (delete the name
+ *     entry and clear `_textureCache`/`_index`), leaving the user-owned stages
+ *     intact and re-addable on the next mount.
+ *
+ * @internal exported for testing.
+ */
+export const removeCompositeWithoutDestroyingChildren = (
+  element: CesiumPostProcessStageComposite,
+  collection: CollectionInternals | undefined,
+): void => {
+  const internal = element as unknown as CompositeInternals;
+  const children = Array.isArray(internal._stages) ? internal._stages.slice() : [];
+  // Replace (do not mutate) the array: `_stages` aliases the user's `stages`
+  // prop array, so emptying it in place would corrupt the caller's array.
+  internal._stages = [];
+
+  if (collection) {
+    collection.remove(element);
+    const stageNames = collection._stageNames;
+    for (const child of children) {
+      const c = child as StageInternals;
+      if (stageNames && typeof c.name === "string") {
+        Reflect.deleteProperty(stageNames, c.name);
+      }
+      c._textureCache = undefined;
+      c._index = undefined;
+    }
+  }
+
+  if (!element.isDestroyed()) {
+    element.destroy();
+  }
+};
+
 export const PostProcessStageComposite = createCesiumComponent<
   CesiumPostProcessStageComposite,
   PostProcessStageCompositeProps
@@ -92,12 +157,11 @@ export const PostProcessStageComposite = createCesiumComponent<
     return element;
   },
   destroy(element, context) {
-    if (context.scene && !context.scene.isDestroyed()) {
-      context.scene.postProcessStages.remove(element);
-    }
-    if (!element.isDestroyed()) {
-      element.destroy();
-    }
+    const collection =
+      context.scene && !context.scene.isDestroyed()
+        ? (context.scene.postProcessStages as unknown as CollectionInternals)
+        : undefined;
+    removeCompositeWithoutDestroyingChildren(element, collection);
   },
   cesiumProps,
   cesiumReadonlyProps,
