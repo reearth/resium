@@ -22,7 +22,9 @@ import {
 
 /*
 @example
+```jsx
 <CesiumWidget full />
+```
 */
 
 /*
