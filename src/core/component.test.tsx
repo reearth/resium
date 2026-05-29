@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import { Event } from "cesium";
 import type { ReactNode } from "react";
-import { createRef } from "react";
+import { createRef, StrictMode } from "react";
 import { beforeEach, describe, expect, it, vi, vitest } from "vitest";
 
 import type { CesiumComponentRef } from "./component";
@@ -118,6 +118,39 @@ describe("core/component", () => {
 
     await waitFor(() => {
       expect(cesiumElement.foo).toBe(10);
+    });
+  });
+
+  it("should re-attach cesium events after a StrictMode remount with setCesiumPropsAfterCreate", async () => {
+    // Regression test for #736 / #680: under StrictMode the component is mounted,
+    // unmounted, then remounted. For setCesiumPropsAfterCreate components the
+    // second mount goes through updateProperties(initialProps), which diffs
+    // against prevProps. If prevProps is not reset on unmount, the stable event
+    // handler reference is treated as unchanged and the listener is never
+    // re-attached, leaving numberOfListeners at 0.
+    const cesiumElement = {
+      hoge: new Event(),
+    };
+
+    // A stable handler reference shared across mounts (as in real usage where
+    // the same callback prop is passed on every render).
+    const handler = () => {};
+
+    const Component = createCesiumComponent<typeof cesiumElement, { bar?: () => void }>({
+      name: "test",
+      create: () => cesiumElement,
+      cesiumEventProps: { bar: "hoge" },
+      setCesiumPropsAfterCreate: true,
+    });
+
+    render(
+      <StrictMode>
+        <Component bar={handler} />
+      </StrictMode>,
+    );
+
+    await waitFor(() => {
+      expect(cesiumElement.hoge.numberOfListeners).toBe(1);
     });
   });
 
