@@ -1,3 +1,4 @@
+import { Color, Material as CesiumMaterial } from "cesium";
 import type {
   Material,
   Cartesian3,
@@ -51,11 +52,38 @@ const cesiumProps = [
   "width",
 ] as const;
 
-const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps>({
+// Cesium's `PolylineCollection.remove` calls `Polyline._destroy`, which
+// unconditionally destroys the polyline's current `material`. When the user
+// passes their own `Material` instance via the `material` prop, Cesium destroys
+// that user-owned instance on unmount. Under React StrictMode (mount → unmount
+// → remount), the throwaway first mount destroys the shared material, and the
+// real second mount then reuses an already-destroyed material, throwing
+// "This object was destroyed, i.e., destroy() was called." (#602)
+//
+// resium creates the polyline but does not own the `Material` passed as a prop,
+// so it must not let Cesium destroy it. Before removing the polyline we swap in
+// a throwaway material so Cesium destroys that instead, leaving the user's
+// material intact.
+type PolylineState = { userMaterial: boolean };
+
+const Polyline = createCesiumComponent<CesiumPolyline, PolylineProps, PolylineState>({
   name: "Polyline",
-  create: (context, props) => context.polylineCollection?.add(props),
-  destroy(element, context) {
+  create: (context, props) => {
+    const element = context.polylineCollection?.add(props);
+    if (!element) return undefined;
+    return [element, { userMaterial: !!props.material }];
+  },
+  destroy(element, context, _wrapperRef, state) {
     if (context.polylineCollection && !context.polylineCollection.isDestroyed()) {
+      // Detach the user-owned material so Cesium destroys a throwaway instead.
+      if (state?.userMaterial) {
+        const material = element.material;
+        if (material && !material.isDestroyed()) {
+          element.material = CesiumMaterial.fromType(CesiumMaterial.ColorType, {
+            color: new Color(1.0, 1.0, 1.0, 1.0),
+          });
+        }
+      }
       context.polylineCollection.remove(element);
     }
   },
