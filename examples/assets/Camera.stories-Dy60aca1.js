@@ -1,0 +1,13 @@
+import{i as e,s as t}from"./preload-helper-xPQekRTU.js";import{n,t as r}from"./iframe-Co89mBoI.js";import{o as i,t as a}from"./core-BxKpaXN9.js";import{t as o}from"./Viewer-DhNArJQ_.js";import{t as s}from"./Viewer-akLBly8J.js";import{t as c}from"./CameraFlyTo-B9Lm0KgM.js";import{t as l}from"./CameraFlyTo-DbEUh9KQ.js";var u,d,f,p=e((()=>{a(),u=[`position`,`direction`,`up`,`right`,`frustum`,`defaultMoveAmount`,`defaultLookAmount`,`defaultRotateAmount`,`defaultZoomAmount`,`constrainedAxis`,`maximumZoomFactor`,`percentageChanged`],d={onChange:`changed`,onMoveEnd:`moveEnd`,onMoveStart:`moveStart`},f=i({name:`Camera`,create:e=>e.scene?.camera,cesiumProps:u,cesiumEventProps:d,setCesiumPropsAfterCreate:!0})})),m,h,g,_,v,y,b;e((()=>{m=t(n(),1),l(),s(),p(),h=r(),{actions:g}=__STORYBOOK_MODULE_ACTIONS__,_={title:`Camera`,component:f},v={render:e=>(0,h.jsxs)(o,{full:!0,children:[(0,h.jsx)(f,{...e,...g(`onMoveEnd`,`onMoveStart`,`onChange`)}),(0,h.jsx)(c,{duration:5,destination:Cesium.Cartesian3.fromDegrees(139.767052,35.681167,100)})]})},y={render:e=>(0,h.jsx)(m.StrictMode,{children:(0,h.jsxs)(o,{full:!0,children:[(0,h.jsx)(f,{...e,...g(`onMoveEnd`,`onMoveStart`,`onChange`)}),(0,h.jsx)(c,{duration:5,destination:Cesium.Cartesian3.fromDegrees(139.767052,35.681167,100)})]})})},v.parameters={...v.parameters,docs:{...v.parameters?.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <Camera {...args} {...actions("onMoveEnd", "onMoveStart", "onChange")} />
+      <CameraFlyTo duration={5} destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)} />
+    </Viewer>
+}`,...v.parameters?.docs?.source}}},y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  render: args => <StrictMode>
+      <Viewer full>
+        <Camera {...args} {...actions("onMoveEnd", "onMoveStart", "onChange")} />
+        <CameraFlyTo duration={5} destination={Cartesian3.fromDegrees(139.767052, 35.681167, 100)} />
+      </Viewer>
+    </StrictMode>
+}`,...y.parameters?.docs?.source}}},b=[`Basic`,`Strict`]}))();export{v as Basic,y as Strict,b as __namedExportsOrder,_ as default};
