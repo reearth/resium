@@ -9,4 +9,5 @@ node_modules
 /Users
 .worktrees/
 /storybook-static
-/vrt
+/__screenshots__
+/.reg
