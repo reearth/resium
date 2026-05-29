@@ -21,7 +21,9 @@ import {
 
 /*
 @example
+```jsx
 <Viewer full animation={false} timeline={false} />
+```
 */
 
 /*
