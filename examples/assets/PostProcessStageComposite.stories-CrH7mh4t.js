@@ -1,0 +1,9 @@
+import{i as e}from"./preload-helper-xPQekRTU.js";import{t}from"./iframe-CnOtSqsU.js";import{i as n,o as r,t as i}from"./core-BDAwn2p7.js";import{t as a}from"./Viewer-QmAkC9jI.js";import{t as o}from"./Viewer-CZKdeXI1.js";import{t as s}from"./Entity-BpHcNQDz.js";import{t as c}from"./Entity-CMGwSjGf.js";var l,u,d,f,p=e((()=>{i(),l=[`enabled`,`selected`],u=[`inputPreviousStageTexture`,`name`,`stages`,`uniforms`],d=(e,t)=>{let n=e,r=Array.isArray(n._stages)?n._stages.slice():[];if(n._stages=[],t){t.remove(e);let n=t._stageNames;for(let e of r){let t=e;n&&typeof t.name==`string`&&Reflect.deleteProperty(n,t.name),t._textureCache=void 0,t._index=void 0}}e.isDestroyed()||e.destroy()},f=r({name:`PostProcessStageComposite`,create(e,t){if(!e.scene)return;let n=new Cesium.PostProcessStageComposite(t);return typeof t.enabled==`boolean`&&(n.enabled=t.enabled),t.selected&&(n.selected=t.selected),e.scene.postProcessStages.add(n),n},destroy(e,t){d(e,t.scene&&!t.scene.isDestroyed()?t.scene.postProcessStages:void 0)},cesiumProps:l,cesiumReadonlyProps:u})})),m,h=e((()=>{i(),m=n({name:`Bloom`,create:(e,t)=>t.bloom,props:[`brightness`,`contrast`,`delta`,`glowOnly`,`sigma`,`stepSize`],noMount:!0})})),g=e((()=>{p(),h()})),_,v,y,b;e((()=>{c(),o(),g(),_=t(),v={title:`PostProcessStageComposite`,component:f},y={name:`Bloom`,render:()=>(0,_.jsxs)(a,{full:!0,children:[(0,_.jsx)(m,{}),(0,_.jsx)(s,{position:Cesium.Cartesian3.fromDegrees(-74.0707383,40.7117244,100),model:{uri:`Cesium_Air.glb`},tracked:!0})]})},y.parameters={...y.parameters,docs:{...y.parameters?.docs,source:{originalSource:`{
+  name: "Bloom",
+  render: () => <Viewer full>
+      <Bloom />
+      <Entity position={Cartesian3.fromDegrees(-74.0707383, 40.7117244, 100)} model={{
+      uri: "Cesium_Air.glb"
+    }} tracked />
+    </Viewer>
+}`,...y.parameters?.docs?.source}}},b=[`BloomStory`]}))();export{y as BloomStory,b as __namedExportsOrder,v as default};
