@@ -17,7 +17,7 @@ export default {
 } as Meta;
 
 // An API key may be required to load Google Photorealistic 3D Tiles.
-// Set it globally via `Cesium.GoogleMaps.defaultApiKey` or pass the `key` prop.
+// Set it globally via `Cesium.GoogleMaps.defaultApiKey` or pass the `apiKey` prop.
 export const Basic: Story = {
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks

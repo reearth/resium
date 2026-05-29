@@ -24,7 +24,8 @@ This component asynchronously creates a Cesium3DTileset via Cesium's
 PrimitiveCollection of the Viewer or CesiumWidget.
 
 An API key may be required. Set it globally via `Cesium.GoogleMaps.defaultApiKey`,
-or pass it through the `key` prop.
+or pass it through the `apiKey` prop. (It is named `apiKey`, not `key`, because
+`key` is a reserved React prop and would never reach the component.)
 
 ```jsx
 import { useRef } from "react";
@@ -79,8 +80,8 @@ export type GooglePhotorealistic3DTilesetOtherProps = EventProps<Cesium3DTileFea
   onReady?: (tileset: CesiumCesium3DTileset) => void;
   /** Calls when an error occurs while creating the tile set. */
   onError?: (err: unknown) => void;
-  /** The API key to access Google Photorealistic 3D Tiles. If not provided, uses GoogleMaps.defaultApiKey. */
-  key?: string;
+  /** The API key to access Google Photorealistic 3D Tiles. If not provided, uses GoogleMaps.defaultApiKey. (Named `apiKey` because `key` is reserved by React.) */
+  apiKey?: string;
   /** Whether to use the tiles only with the Google geocoder. */
   onlyUsingWithGoogleGeocoder?: true;
 };
@@ -175,7 +176,7 @@ export const cesiumEventProps = {
   onTileVisible: "tileVisible",
 } as const;
 
-export const otherProps = ["onReady", "onError", "key", "onlyUsingWithGoogleGeocoder"] as const;
+export const otherProps = ["onReady", "onError", "apiKey", "onlyUsingWithGoogleGeocoder"] as const;
 
 const GooglePhotorealistic3DTileset = createCesiumComponent<
   CesiumCesium3DTileset,
@@ -185,10 +186,10 @@ const GooglePhotorealistic3DTileset = createCesiumComponent<
   async create(context, props) {
     if (!context.primitiveCollection) return;
 
-    const { key, onlyUsingWithGoogleGeocoder } = props;
+    const { apiKey, onlyUsingWithGoogleGeocoder } = props;
     const apiOptions: { key?: string; onlyUsingWithGoogleGeocoder?: true } = {};
-    if (key !== undefined) {
-      apiOptions.key = key;
+    if (apiKey !== undefined) {
+      apiOptions.key = apiKey;
     }
     if (onlyUsingWithGoogleGeocoder !== undefined) {
       apiOptions.onlyUsingWithGoogleGeocoder = onlyUsingWithGoogleGeocoder;
