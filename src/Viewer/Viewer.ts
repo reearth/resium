@@ -36,8 +36,8 @@ export type ViewerCesiumProps = PickCesiumProps<CesiumViewer, typeof cesiumProps
 export type ViewerCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
 export type ViewerCesiumEvents = {
-  onSelectedEntityChange?: (entity: Entity) => void;
-  onTrackedEntityChange?: (entity: Entity) => void;
+  onSelectedEntityChange?: (entity: Entity | undefined) => void;
+  onTrackedEntityChange?: (entity: Entity | undefined) => void;
 };
 
 const cesiumProps = [
