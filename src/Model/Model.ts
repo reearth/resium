@@ -117,6 +117,16 @@ const Model = createCesiumComponent<CesiumModel, ModelProps>({
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {
+      // clippingPlanes/clippingPolygons are user-supplied props. The Cesium setters call
+      // ClippingPlane(Polygon)Collection.setOwner, transferring ownership to the Model
+      // (sets _owner = this), so Model.destroy()'s `owner === this` guard passes and would
+      // destroy the user's collection (@cesium/engine Model.js:2834-2854). The public
+      // setters also destroy the previously-owned collection (setOwner: ClippingPlane-
+      // Collection.js:671), so we cannot detach via them. Instead null the private fields
+      // directly so Cesium leaves the user-owned collections intact. resium never creates
+      // these itself, so any present collection came from props.
+      (element as { _clippingPlanes?: unknown })._clippingPlanes = undefined;
+      (element as { _clippingPolygons?: unknown })._clippingPolygons = undefined;
       element.destroy();
     }
   },

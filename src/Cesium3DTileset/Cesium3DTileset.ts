@@ -182,6 +182,31 @@ export const otherProps = ["onReady", "onError"] as const;
 // Cesium class.
 const cesiumReadonlyPropsWithUrl = [...cesiumReadonlyProps, "url"] as const;
 
+/**
+ * `clippingPlanes` and `clippingPolygons` are user-supplied props. Cesium's
+ * `Cesium3DTileset.destroy()` unconditionally destroys these collections, and
+ * assigning them via the public setter would also destroy them (the setter
+ * calls `ClippingPlaneCollection.setOwner`, which destroys the previously owned
+ * collection). Cesium only populates the private `_clippingPlanes` /
+ * `_clippingPolygons` references when the user passed a collection (it creates
+ * no internal defaults), so we detach them by nulling the private references
+ * directly before `destroy()`, leaving the destroy cascade with nothing to
+ * destroy. This prevents resium from destroying Cesium objects it received as
+ * props (same class of bug as #602), which would break reuse under React
+ * StrictMode.
+ *
+ * See @cesium/engine Cesium3DTileset.js (constructor ~L823-839, destroy
+ * ~L3615-3617) and ClippingPlaneCollection.setOwner (~L661-683).
+ */
+export const detachUserOwnedClipping = (element: CesiumCesium3DTileset): void => {
+  const e = element as unknown as {
+    _clippingPlanes?: unknown;
+    _clippingPolygons?: unknown;
+  };
+  e._clippingPlanes = undefined;
+  e._clippingPolygons = undefined;
+};
+
 const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTilesetProps>({
   name: "Cesium3DTileset",
   async create(context, props) {
@@ -222,6 +247,7 @@ const Cesium3DTileset = createCesiumComponent<CesiumCesium3DTileset, Cesium3DTil
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {
+      detachUserOwnedClipping(element);
       element.destroy();
     }
   },

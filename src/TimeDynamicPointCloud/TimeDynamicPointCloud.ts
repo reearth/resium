@@ -95,13 +95,26 @@ const TimeDynamicPointCloud = createCesiumComponent<
       element.frameChanged.addEventListener(handleFrameChanged);
     }
     context.primitiveCollection.add(element);
-    return element;
+    // Remember whether clippingPlanes was user-supplied so that on unmount we can
+    // detach it before destroy() to avoid destroying the user-owned collection.
+    return [element, { userClippingPlanes: !!props.clippingPlanes }];
   },
-  destroy(element, context) {
+  destroy(element, context, _wrapperRef, state) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
       context.primitiveCollection.remove(element);
     }
     if (!element.isDestroyed()) {
+      // Cesium's TimeDynamicPointCloud.destroy() unconditionally destroys its
+      // clippingPlanes (@cesium/engine/Source/Scene/TimeDynamicPointCloud.js#L798),
+      // and the clippingPlanes setter destroys the previously-owned collection too
+      // (ClippingPlaneCollection.setOwner, ClippingPlaneCollection.js#L671).
+      // When clippingPlanes was supplied by the user, detach it by nulling the
+      // private _clippingPlanes field directly (assigning via the public setter
+      // would also destroy it) so element.destroy() won't destroy the
+      // user-owned collection (same class of issue as #602).
+      if (state?.userClippingPlanes) {
+        (element as unknown as { _clippingPlanes?: unknown })._clippingPlanes = undefined;
+      }
       element.destroy();
     }
   },
