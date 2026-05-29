@@ -20,6 +20,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          # On pull_request, checkout defaults to a detached merge ref, which
+          # breaks reg-keygen-git-hash-plugin ("can't detect branch name").
+          # Check out the PR head branch instead; empty on push, which falls
+          # back to the default ref.
+          ref: ${{ github.head_ref }}
           # reg-keygen-git-hash-plugin walks the git history to find the base
           # commit, so it needs the full history rather than a shallow clone.
           fetch-depth: 0
