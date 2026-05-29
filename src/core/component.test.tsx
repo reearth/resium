@@ -269,6 +269,53 @@ describe("core/component", () => {
     });
   });
 
+  it("should recreate children with the new context when parent is recreated by a readonly prop change", async () => {
+    let n = 0;
+    const create1 = vi.fn(() => `parent${n++}`);
+    const create2 = vi.fn(() => "child");
+    const destroy2 = vi.fn();
+
+    const Parent = createCesiumComponent<string, { children?: ReactNode; recreate?: number }>({
+      name: "parent",
+      create: create1,
+      cesiumReadonlyProps: ["recreate"],
+      provide: (element): any => ({ parent: element }),
+    });
+
+    const Child = createCesiumComponent<string, Record<string, never>>({
+      name: "child",
+      create: create2,
+      destroy: destroy2,
+    });
+
+    const { rerender } = render(
+      <Parent recreate={0}>
+        <Child />
+      </Parent>,
+    );
+
+    await waitFor(() => {
+      expect(create1).toBeCalledTimes(1);
+      expect(create2).toHaveBeenLastCalledWith({ parent: "parent0" }, expect.anything(), null);
+    });
+
+    // Changing a readonly prop recreates the parent, which provides a new
+    // context (a new `parent` element). Children must tear down and re-create
+    // against it (issues #661 and #685) — exactly once, not repeatedly.
+    rerender(
+      <Parent recreate={1}>
+        <Child />
+      </Parent>,
+    );
+
+    await waitFor(() => {
+      expect(create1).toBeCalledTimes(2);
+      expect(create2).toBeCalledTimes(2);
+      expect(destroy2).toBeCalledTimes(1);
+      expect(create2).toHaveBeenLastCalledWith({ parent: "parent1" }, expect.anything(), null);
+    });
+  });
+
   it("should invoke onUpdate event when being dirty", () => {
     const cesiumElement = {
       foo: 0,
