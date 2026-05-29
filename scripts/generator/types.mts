@@ -4,9 +4,7 @@ export type Doc = {
 } & DocProps &
   DocComment;
 
-export type DocProps = {
-  [kind in PropKind]?: Prop[];
-};
+export type DocProps = Partial<Record<PropKind, Prop[]>>;
 
 export type DocComment = {
   noCesiumElement?: boolean;

@@ -1,1 +1,1 @@
-export { default } from "./ShadowMap";
+export { default, type ShadowMapProps } from "./ShadowMap";

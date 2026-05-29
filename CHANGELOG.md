@@ -1,5 +1,97 @@
 # Changelog
 
+## 1.21.1 - 2026-05-13
+
+### chore
+
+- Upgrade Cesium to 1.141.0 ([#769](https://github.com/reearth/resium/pull/769)) [`6b3559`](https://github.com/reearth/resium/commit/6b3559)
+- Bump dev deps, harden CI, add Trusted-Publishing release workflow ([#768](https://github.com/reearth/resium/pull/768)) [`a57d3b`](https://github.com/reearth/resium/commit/a57d3b)
+
+#### Note
+
+- Cesium upgraded to 1.141. As a side effect, modelMatrix on BufferPointCollection / BufferPolygonCollection / BufferPolylineCollection is now applied at construction only — reactive updates after mount no longer propagate (Cesium 1.141 made the underlying property readonly). To animate, hold a ref and mutate the Matrix4 in place via Matrix4.clone(next, ref.current.modelMatrix).
+
+- Node engines: Cesium 1.141 raised its own minimum Node version to 22. Resium itself continues to support Node ≥20.19, but if you upgrade your cesium dependency to 1.141, you'll see an engines warning during install until you move to Node 22. Pin cesium to 1.140 if you need to stay on Node 20.
+
+## 1.21.0 - 2026-04-20
+
+### chore
+
+- Address post-merge review feedback on Cesium 1.140.0 PR ([#766](https://github.com/reearth/resium/pull/766)) [`14a54f`](https://github.com/reearth/resium/commit/14a54f)
+- Upgrade Cesium to 1.140.0 and add new components ([#763](https://github.com/reearth/resium/pull/763)) [`396403`](https://github.com/reearth/resium/commit/396403)
+
+## 1.20.1 - 2026-04-08
+
+### fix
+
+- Externalize react&#x2F;jsx-runtime to prevent require() in ESM output ([#758](https://github.com/reearth/resium/pull/758)) [`cdc805`](https://github.com/reearth/resium/commit/cdc805)
+
+## 1.20.0 - 2026-03-18
+
+### chore
+
+- Update packages march 2026 ([#747](https://github.com/reearth/resium/pull/747)) [`7ec5cc`](https://github.com/reearth/resium/commit/7ec5cc)
+
+### feature
+
+- Panorama from Cesium 1.139 ([#749](https://github.com/reearth/resium/pull/749)) [`4a9fa4`](https://github.com/reearth/resium/commit/4a9fa4)
+
+## 1.19.4 - 2026-02-18
+
+### chore
+
+- Update Packages Feb 2026 ([#743](https://github.com/reearth/resium/pull/743)) [`fce026`](https://github.com/reearth/resium/commit/fce026)
+  - Upgrade Storybook ecosystem to 10.2.8
+  - Upgrade React/React DOM to 19.2.4
+  - Upgrade Cesium to 1.138.0
+  - Upgrade jsdom to 28.1.0
+  - Upgrade Vitest to 4.0.18
+
+## 1.19.3 - 2026-01-22
+
+### chore
+
+- Update dependencies to the latest ([#739](https://github.com/reearth/resium/pull/739)) [`211ab7`](https://github.com/reearth/resium/commit/211ab7)
+- Copy Cesium files to Storybook output directory [`ef0898`](https://github.com/reearth/resium/commit/ef0898)
+
+### fix
+
+- Use absolute path for Cesium base URL in Storybook [`8a0d9c`](https://github.com/reearth/resium/commit/8a0d9c)
+
+## 1.19.2 - 2025-12-04
+
+### chore
+
+- Upgrade Cesium to 1.135 and Other outdated packages ([#728](https://github.com/reearth/resium/pull/728)) [`806bd8`](https://github.com/reearth/resium/commit/806bd8)
+- Upgrade React to 19.2.1 to address critical security vulnerability in React 19.0.0
+
+### fix
+
+- Fix docs build ([#729](https://github.com/reearth/resium/pull/729)) [`c45c60`](https://github.com/reearth/resium/commit/c45c60)
+
+## 1.19.1 - 2025-11-14
+
+### bugfix
+
+- Fix Bing Maps Network Request Issue ([#724](https://github.com/reearth/resium/pull/724)) [`a6ea92`](https://github.com/reearth/resium/commit/a6ea92)
+- Chore&#x2F;fix lint warnings ([#722](https://github.com/reearth/resium/pull/722)) [`889c9a`](https://github.com/reearth/resium/commit/889c9a)
+
+## 1.19.0 - 2025-11-07
+
+- Upgrade Cesium from 1.116.0 to 1.134.1 ([#714](https://github.com/reearth/resium/pull/714)) [`c73f86`](https://github.com/reearth/resium/commit/c73f86)
+
+## v1.18.4 - 2024-10-28
+
+- Upgrade to React 19 ([#710](https://github.com/reearth/resium/pull/710)) [`269067`](https://github.com/reearth/resium/commit/269067)
+  - Update React and React-DOM to 19.0.0
+  - Update @types/react to 19.0.0
+  - Upgrade Storybook to 8.6.14 for React 19 support
+  - Fix useRef type strictness for React 19
+  - Update forwardRef type signatures
+  - Migrate Storybook config to ES modules
+- Refactor import statements to use .mts extensions ([#711](https://github.com/reearth/resium/pull/711)) [`39cba1`](https://github.com/reearth/resium/commit/39cba1)
+- Update yarn build command to fix CI errors ([#712](https://github.com/reearth/resium/pull/712)) [`6d1880`](https://github.com/reearth/resium/commit/6d1880)
+
 ## v1.16.1 - 2022/03/20
 
 - Use automatic JSX Runtime in Vite

@@ -1,1 +1,1 @@
-export { default } from "./ModelGraphics";
+export { default, type ModelGraphicsProps } from "./ModelGraphics";

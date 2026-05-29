@@ -3,7 +3,7 @@ import { parse } from "path";
 import ts from "typescript";
 import type { Node, SourceFile, TypeChecker, Type, Symbol, Expression } from "typescript";
 
-import type { Prop, Doc, PropKind, DocComment, DocProps, TypeExpr } from "./types.mjs";
+import type { Prop, Doc, PropKind, DocComment, DocProps, TypeExpr } from "./types.mts";
 
 const {
   isVariableStatement,
@@ -77,14 +77,14 @@ function parsePropDeclaration(
     name + "CesiumProps" === nodeName
       ? "cesiumProps"
       : name + "CesiumReadonlyProps" === nodeName
-      ? "cesiumReadonlyProps"
-      : name + "CesiumEvents" === nodeName
-      ? "cesiumEvents"
-      : name + "OtherProps" === nodeName
-      ? "otherProps"
-      : name + "Props" === nodeName
-      ? "props"
-      : undefined;
+        ? "cesiumReadonlyProps"
+        : name + "CesiumEvents" === nodeName
+          ? "cesiumEvents"
+          : name + "OtherProps" === nodeName
+            ? "otherProps"
+            : name + "Props" === nodeName
+              ? "props"
+              : undefined;
   if (!key) return;
 
   const props = tc
@@ -162,7 +162,6 @@ function parseDocComment(node: Node): DocComment | undefined {
   return doc;
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
 function getDesc(s: Symbol | undefined, tc: TypeChecker) {
   return s
     ?.getDocumentationComment(tc)
@@ -195,7 +194,7 @@ export function getLeadingComment(node: Node) {
   const nodeStart = node.getStart();
   const comment: string[] = [];
   let start = 0;
-  // eslint-disable-next-line no-constant-condition
+   
   while (true) {
     const comments = getLeadingCommentRanges(text, start);
     if (comments?.[0]) {

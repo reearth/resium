@@ -44,6 +44,7 @@ const cesiumProps = [
   "scaleByDistance",
   "show",
   "sizeInMeters",
+  "splitDirection",
   "translucencyByDistance",
   "verticalOrigin",
   "width",

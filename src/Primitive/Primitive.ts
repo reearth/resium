@@ -28,7 +28,10 @@ export type PrimitiveCesiumProps = PickCesiumProps<Target, typeof cesiumProps>;
 
 export type PrimitiveCesiumReadonlyProps = PickCesiumProps<Target, typeof cesiumReadonlyProps>;
 
-export type PrimtiiveOtherProps = EventProps<{ id: string; primitive: CesiumPrimitive }> & {
+export type PrimtiiveOtherProps = EventProps<{
+  id: string;
+  primitive: CesiumPrimitive;
+}> & {
   /** Calls when [Primitive#readyPromise](https://cesium.com/docs/cesiumjs-ref-doc/Primitive.html#readyPromise) is fullfilled */
   onReady?: (primitive: CesiumPrimitive) => void;
 };

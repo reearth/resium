@@ -1,0 +1,38 @@
+import reearth from "eslint-config-reearth";
+
+export default [
+  // Ignore patterns (equivalent to .eslintignore)
+  {
+    ignores: [
+      "node_modules",
+      "dist",
+      "examples",
+      "coverage",
+      ".worktrees/**", // Git worktrees
+      ".claude/**", // Claude session files (including .claude/worktrees/)
+      "docs/**", // Docusaurus docs use CommonJS
+      "storybook-static/**", // Storybook/VRT build output
+      "vrt/**", // VRT snapshots and diff output
+      ".storybook/**", // Storybook config
+      "**/*.stories.tsx", // Storybook stories
+      "src/core/storybook.tsx", // Storybook utility
+    ],
+  },
+  // Base config for all files
+  ...reearth(),
+  // Global rule overrides
+  {
+    rules: {
+      "@typescript-eslint/no-explicit-any": "off",
+    },
+  },
+  // Override for test files - allow {} type in type tests
+  {
+    files: ["**/*.test.ts", "**/*.test.tsx"],
+    rules: {
+      "@typescript-eslint/no-empty-object-type": "off",
+      "@typescript-eslint/consistent-indexed-object-style": "off",
+      "@typescript-eslint/no-dynamic-delete": "off",
+    },
+  },
+];

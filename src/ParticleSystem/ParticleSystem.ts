@@ -57,6 +57,8 @@ const cesiumProps = [
   "sizeInMeters",
 ] as const;
 
+// Used for both type definition and runtime component configuration
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const cesiumReadonlyProps = [
   "color",
   "imageSize",
@@ -76,7 +78,10 @@ const ParticleSystem = createCesiumComponent<CesiumParticleSystem, ParticleSyste
   name: "ParticleSystem",
   create(context, props) {
     if (!context.primitiveCollection) return;
-    const element = new CesiumParticleSystem({ ...props, updateCallback: props.onUpdate });
+    const element = new CesiumParticleSystem({
+      ...props,
+      updateCallback: props.onUpdate,
+    });
     context.primitiveCollection.add(element);
     return element;
   },

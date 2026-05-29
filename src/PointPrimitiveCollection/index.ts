@@ -1,1 +1,1 @@
-export { default } from "./PointPrimitiveCollection";
+export { default, type PointPrimitiveCollectionProps } from "./PointPrimitiveCollection";

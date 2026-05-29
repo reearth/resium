@@ -34,7 +34,7 @@ export type CameraFlyToBoundingSphereProps = Omit<Options, "complete" | "cancel"
 
 const CameraFlyToBoundingSphere = createCameraOperation<CameraFlyToBoundingSphereProps>(
   "CameraFlyToBoundingSphere",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   (camera, { boundingSphere, onComplete, onCancel, ...props }) => {
     camera.flyToBoundingSphere(boundingSphere, {
       ...props,

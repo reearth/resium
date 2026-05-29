@@ -22,6 +22,13 @@ export type CesiumComponentOptions<
   noChildren?: boolean;
   containerProps?: (keyof Props)[] | ((props: Props) => HTMLAttributes<HTMLDivElement>);
   defaultProps?: Partial<Props>;
+  /**
+   * Render-phase hook to resolve prop overrides before the Cesium element is
+   * created. Use this together with `useCesiumResource` to integrate async
+   * resource loading with React Suspense. Returns a partial props object that
+   * is merged over the incoming props.
+   */
+  useResource?: (props: Props) => Partial<Props> | undefined;
 };
 
 export type CesiumComponentRef<Element> = {
@@ -40,18 +47,28 @@ export type RootComponentInternalValues = {
   imageryLayerWaitingList?: (Promise<ImageryProvider> | ImageryProvider)[];
 };
 
-export const createCesiumComponent = <Element, Props extends {}, State = any>({
+const noResource = (): undefined => undefined;
+
+export const createCesiumComponent = <Element, Props extends object, State = any>({
   renderContainer,
   noChildren,
   containerProps,
   defaultProps,
+  useResource = noResource,
   ...options
 }: CesiumComponentOptions<Element, Props, State>): CesiumComponentType<Element, Props> => {
-  const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, Props> = (props, ref) => {
-    const mergedProps = {
+  const component: ForwardRefRenderFunction<CesiumComponentRef<Element>, PropsWithoutRef<Props>> = (
+    props,
+    ref,
+  ) => {
+    const baseProps = {
       ...defaultProps,
       ...props,
-    };
+    } as Props;
+    // May suspend (throw a promise) to integrate async loading with <Suspense>.
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const resolved = useResource(baseProps);
+    const mergedProps = resolved ? ({ ...baseProps, ...resolved } as Props) : baseProps;
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const [provided, mounted, wrapperRef] = useCesiumComponent<Element, Props, State>(
       options,

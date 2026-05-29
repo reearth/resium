@@ -1,7 +1,13 @@
 node_modules
 *.log
+.DS_Store
 /dist
 /coverage
 /examples/build
 /example/package-lock.json
 /example/yarn.lock
+/Users
+.worktrees/
+/storybook-static
+/__screenshots__
+/.reg

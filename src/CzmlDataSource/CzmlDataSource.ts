@@ -1,4 +1,4 @@
-import { CzmlDataSource as CesiumCzmlDataSource } from "cesium";
+import { CzmlDataSource as CesiumCzmlDataSource, Resource } from "cesium";
 
 import {
   createCesiumComponent,
@@ -7,6 +7,8 @@ import {
   MethodOptions2,
   EventProps,
   EventTarget,
+  useSuspendedResource,
+  SuspenseProps,
 } from "../core";
 
 export type { EventTarget } from "../core";
@@ -36,11 +38,12 @@ export type CzmlDataSourceCesiumEvents = {
   onLoading?: (CzmlDataSource: CesiumCzmlDataSource, isLoaded: boolean) => void;
 };
 
-export type CzmlDataSourceOtherProps = EventProps<EventTarget> & {
-  /** Calls when the Promise for loading data is fullfilled. */
-  onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
-  data?: Parameters<CesiumCzmlDataSource["load"]>[0];
-};
+export type CzmlDataSourceOtherProps = EventProps<EventTarget> &
+  SuspenseProps & {
+    /** Calls when the Promise for loading data is fullfilled. */
+    onLoad?: (CzmlDataSouce: CesiumCzmlDataSource) => void;
+    data?: Parameters<CesiumCzmlDataSource["load"]>[0];
+  };
 
 export type CzmlDataSourceProps = CzmlDataSourceCesiumProps &
   CzmlDataSourceCesiumReadonlyProps &
@@ -57,7 +60,16 @@ export const cesiumEventProps = {
   onLoading: "loadingEvent",
 } as const;
 
-export const otherProps = ["onLoad", "data"] as const;
+export const otherProps = ["onLoad", "data", "suspense", "cacheKey"] as const;
+
+const useResource = (
+  props: CzmlDataSourceProps,
+): Partial<CzmlDataSourceProps> | undefined => {
+  const resolved = useSuspendedResource("czml", props.data, props, url =>
+    Resource.fetchJson({ url }),
+  );
+  return resolved ? { data: resolved } : undefined;
+};
 
 const load = (element: CesiumCzmlDataSource, { data, onLoad, ...options }: CzmlDataSourceProps) => {
   if (!data) return;
@@ -110,6 +122,7 @@ const CzmlDataSource = createCesiumComponent<CesiumCzmlDataSource, CzmlDataSourc
       dataSource: element,
     };
   },
+  useResource,
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,

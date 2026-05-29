@@ -1,1 +1,1 @@
-export { default } from "./PolylineGraphics";
+export { default, type PolylineGraphicsProps } from "./PolylineGraphics";

@@ -33,7 +33,7 @@ export type CameraFlyToProps = Omit<Options, "complete" | "cancel"> & {
 
 const CameraFlyTo = createCameraOperation<CameraFlyToProps>(
   "CameraFlyTo",
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+   
   (camera, { onComplete, onCancel, ...props }) => {
     camera.flyTo({ ...props, complete: onComplete, cancel: onCancel });
   },

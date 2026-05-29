@@ -1,4 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ 
 import React, { PropsWithChildren } from "react";
 
 import styles from "./Feature.module.css";

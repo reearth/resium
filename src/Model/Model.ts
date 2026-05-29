@@ -25,6 +25,7 @@ const cesiumProps = [
   "backFaceCulling",
   "clampAnimations",
   "clippingPlanes",
+  "clippingPolygons",
   "color",
   "colorBlendAmount",
   "colorBlendMode",
@@ -32,6 +33,7 @@ const cesiumProps = [
   "debugShowBoundingVolume",
   "debugWireframe",
   "distanceDisplayCondition",
+  "enableVerticalExaggeration",
   "featureIdLabel",
   "heightReference",
   "id",
@@ -51,6 +53,7 @@ const cesiumProps = [
   "silhouetteSize",
   "splitDirection",
   "style",
+  "pointCloudShading",
 ] as const;
 
 const cesiumReadonlyProps = [
@@ -60,7 +63,6 @@ const cesiumReadonlyProps = [
   "credit",
   "enableDebugWireframe",
   "gltf",
-  "heightReference",
   "incrementallyLoadTextures",
   "scene",
   "releaseGltfJson",
@@ -69,15 +71,12 @@ const cesiumReadonlyProps = [
   "upAxis",
   "forwardAxis",
   "content",
-  "scene",
   "enableShowOutline",
   "projectTo2D",
   "classificationType",
-  "errorEvent",
-  "readyEvent",
-  "texturesReadyEvent",
   "gltfCallback",
   "enablePick",
+  "environmentMapOptions",
 ] as const;
 
 export const otherProps = ["onReady", "onError", "url"] as const;

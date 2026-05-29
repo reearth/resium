@@ -1,1 +1,1 @@
-export { default } from "./EllipseGraphics";
+export { default, type EllipseGraphicsProps } from "./EllipseGraphics";

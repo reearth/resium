@@ -1,1 +1,1 @@
-export { default } from "./WallGraphics";
+export { default, type WallGraphicsProps } from "./WallGraphics";

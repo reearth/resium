@@ -1,1 +1,1 @@
-export { default } from "./CzmlDataSource";
+export { default, type CzmlDataSourceProps } from "./CzmlDataSource";

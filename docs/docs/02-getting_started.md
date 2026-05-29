@@ -82,7 +82,6 @@ Next, let's display an entity on Cesium. Entity component is available in resium
 Entity has many way to visualize geograohical data. Here let's try to use PointGraphics.
 
 ```jsx
-
 import { Viewer, Entity } from "resium";
 import { Cartesian3 } from "cesium";
 
@@ -116,7 +115,6 @@ If HMR is enabled, it fully works in resium, so entity is updated without reload
 The following is also the same. It uses `PointGraphics` component. This enables updating graphic properties with minimal cost.
 
 ```jsx
-
 import { Viewer, Entity, PointGraphics } from "resium";
 import { Cartesian3 } from "cesium";
 
@@ -140,7 +138,6 @@ export default App;
 The following example is displaying a simple name and description of the entity.
 
 ```jsx
-
 import { Viewer, Entity, PointGraphics } from "resium";
 import { Cartesian3 } from "cesium";
 
@@ -162,7 +159,6 @@ export default App;
 If you want to render rich description, `EntityDescription` component is the best. It enables using JSX in the description of entities!
 
 ```jsx
-
 import { Viewer, Entity, PointGraphics, EntityDescription } from "resium";
 import { Cartesian3 } from "cesium";
 
@@ -190,7 +186,6 @@ export default App;
 `terrainProvider` prop of `Viewer` is available.
 
 ```jsx
-
 import { Viewer, Entity, PointGraphics, EntityDescription } from "resium";
 import { Cartesian3, createWorldTerrain } from "cesium";
 
@@ -219,7 +214,6 @@ export default App;
 Cesium and resium support KML, GeoJSON, TopoJSON, and CZML. Let's load and display your own data!
 
 ```jsx
-
 import { Viewer, GeoJsonDataSource, KmlDataSource } from "resium";
 
 const data = {
@@ -251,14 +245,13 @@ export default App;
 3D tiles is also available.
 
 ```jsx
-
 import { Viewer, Cesium3DTileset } from "resium";
 import { IonResource } from "cesium";
 
 function App() {
   let viewer; // This will be raw Cesium's Viewer object.
 
-  const handleReady = tileset => {
+  const handleReady = (tileset) => {
     if (viewer) {
       viewer.zoomTo(tileset);
     }
@@ -267,10 +260,14 @@ function App() {
   return (
     <Viewer
       full
-      ref={e => {
+      ref={(e) => {
         viewer = e && e.cesiumElement;
-      }}>
-      <Cesium3DTileset url={IonResource.fromAssetId(5714)} onReady={handleReady} />
+      }}
+    >
+      <Cesium3DTileset
+        url={IonResource.fromAssetId(5714)}
+        onReady={handleReady}
+      />
     </Viewer>
   );
 }

@@ -1,4 +1,4 @@
-import { KmlDataSource as CesiumKmlDataSource } from "cesium";
+import { KmlDataSource as CesiumKmlDataSource, Resource } from "cesium";
 
 import {
   createCesiumComponent,
@@ -7,6 +7,8 @@ import {
   MethodOptions2,
   EventProps,
   EventTarget,
+  useSuspendedResource,
+  SuspenseProps,
 } from "../core";
 
 export type { EventTarget } from "../core";
@@ -39,11 +41,12 @@ export type KmlDataSourceCesiumEvents = {
   onUnsupportedNode?: (kmlDataSource: CesiumKmlDataSource) => void;
 };
 
-export type KmlDataSourceOtherProps = EventProps<EventTarget> & {
-  /** Calls when the Promise for loading data is fullfilled. */
-  onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
-  data?: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
-};
+export type KmlDataSourceOtherProps = EventProps<EventTarget> &
+  SuspenseProps & {
+    /** Calls when the Promise for loading data is fullfilled. */
+    onLoad?: (kmlDataSouce: CesiumKmlDataSource) => void;
+    data?: Parameters<InstanceType<typeof CesiumKmlDataSource>["load"]>[0];
+  };
 
 export type KmlDataSourceProps = KmlDataSourceCesiumProps &
   KmlDataSourceCesiumReadonlyProps &
@@ -70,7 +73,17 @@ export const cesiumEventProps = {
   onUnsupportedNode: "unsupportedNodeEvent",
 } as const;
 
-export const otherProps = ["onLoad", "data"] as const;
+export const otherProps = ["onLoad", "data", "suspense", "cacheKey"] as const;
+
+const useResource = (
+  props: KmlDataSourceProps,
+): Partial<KmlDataSourceProps> | undefined => {
+  // KML/KMZ is XML/zip, not JSON: fetch as a Blob and let load() parse it.
+  const resolved = useSuspendedResource("kml", props.data, props, url =>
+    Resource.fetchBlob({ url }),
+  );
+  return resolved ? { data: resolved } : undefined;
+};
 
 const load = (element: CesiumKmlDataSource, { data, onLoad, ...options }: KmlDataSourceProps) => {
   if (!data) return;
@@ -133,6 +146,7 @@ const KmlDataSource = createCesiumComponent<CesiumKmlDataSource, KmlDataSourcePr
       dataSource: element,
     };
   },
+  useResource,
   cesiumProps,
   cesiumReadonlyProps,
   cesiumEventProps,

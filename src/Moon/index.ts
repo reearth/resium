@@ -1,1 +1,1 @@
-export { default } from "./Moon";
+export { default, type MoonProps } from "./Moon";

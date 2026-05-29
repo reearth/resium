@@ -5,7 +5,7 @@ const path = require("path");
 const webpack = require("webpack");
 const HtmlPlugin = require("html-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const ReactRefreshWebpackPlugin = require("@pmmmwh/react-refresh-webpack-plugin");
 
 // See also: https://github.com/CesiumGS/cesium-webpack-example
 
@@ -20,7 +20,7 @@ module.exports = (_env, args) => ({
           loader: "babel-loader",
           options: {
             plugins: args.mode === "production" ? [] : ["react-refresh/babel"],
-          }
+          },
         },
       },
       {
@@ -40,17 +40,25 @@ module.exports = (_env, args) => ({
     new CopyPlugin({
       patterns: [
         { from: "node_modules/cesium/Build/Cesium/Workers", to: "Workers" },
-        { from: "node_modules/cesium/Build/Cesium/ThirdParty", to: "ThirdParty" },
+        {
+          from: "node_modules/cesium/Build/Cesium/ThirdParty",
+          to: "ThirdParty",
+        },
         { from: "node_modules/cesium/Build/Cesium/Assets", to: "Assets" },
         { from: "node_modules/cesium/Build/Cesium/Widgets", to: "Widgets" },
       ],
     }),
     new HtmlPlugin({
-      template: "index.html"
+      template: "index.html",
     }),
-    ...(args.mode === "production" ? [] : [new webpack.HotModuleReplacementPlugin(), new ReactRefreshWebpackPlugin()]),
+    ...(args.mode === "production"
+      ? []
+      : [
+          new webpack.HotModuleReplacementPlugin(),
+          new ReactRefreshWebpackPlugin(),
+        ]),
   ],
   resolve: {
-    fallback: { https: false, zlib: false, http: false, url: false }
-  }
+    fallback: { https: false, zlib: false, http: false, url: false },
+  },
 });

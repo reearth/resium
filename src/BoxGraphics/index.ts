@@ -1,1 +1,1 @@
-export { default } from "./BoxGraphics";
+export { default, type BoxGraphicsProps } from "./BoxGraphics";

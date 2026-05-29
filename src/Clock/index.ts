@@ -1,1 +1,1 @@
-export { default } from "./Clock";
+export { default, type ClockProps } from "./Clock";

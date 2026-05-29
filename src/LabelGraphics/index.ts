@@ -1,1 +1,1 @@
-export { default } from "./LabelGraphics";
+export { default, type LabelGraphicsProps } from "./LabelGraphics";

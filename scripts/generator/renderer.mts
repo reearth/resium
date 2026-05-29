@@ -1,4 +1,4 @@
-import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mjs";
+import type { Doc, Prop, TypeExpr, CesiumTypeExpr } from "./types.mts";
 
 export function renderDoc(doc: Doc) {
   return `---
@@ -12,9 +12,7 @@ ${
     ? ""
     : `- **Cesium element**: [${doc.cesiumElement}](${getCesiumDocURL(doc.cesiumElement)})
 `
-}- **Example**: [${
-    doc.name
-  }](https://resium.reearth.io/examples/?path=/story/${doc.name.toLowerCase()}--basic")
+}- **Example**: [${doc.name}](https://resium.reearth.io/examples/?path=/story/${doc.name.toLowerCase()}--basic)
 ${
   doc.scope
     ? `
@@ -74,25 +72,21 @@ function renderType(t: TypeExpr | undefined): string {
     !t
       ? ""
       : !t.cesiumTypes.length
-      ? t.text
-      : t.cesiumTypes
-          .concat()
-          .sort((a, b) => a.start - b.start)
-          .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [
-            s,
-            i === 0 ? undefined : a[i - 1],
-          ])
-          .reduce(
-            (a, [current, prev]) =>
-              a +
-              (prev ? t.text.slice(prev.end, current.start) : t.text.slice(0, current.start)) +
-              `[${getCesiumTypeName(current)}](${getCesiumDocURL(
-                current.name,
-                current.field,
-                current.fieldIsType,
-              )})`,
-            "",
-          ) + t.text.slice(t.cesiumTypes[t.cesiumTypes.length - 1].end),
+        ? t.text
+        : t.cesiumTypes
+            .concat()
+            .sort((a, b) => a.start - b.start)
+            .map<[CesiumTypeExpr, CesiumTypeExpr | undefined]>((s, i, a) => [
+              s,
+              i === 0 ? undefined : a[i - 1],
+            ])
+            .reduce(
+              (a, [current, prev]) =>
+                a +
+                (prev ? t.text.slice(prev.end, current.start) : t.text.slice(0, current.start)) +
+                `[${getCesiumTypeName(current)}](${getCesiumDocURL(current.name, current.field, current.fieldIsType)})`,
+              "",
+            ) + t.text.slice(t.cesiumTypes[t.cesiumTypes.length - 1].end),
   );
 }
 
@@ -100,7 +94,9 @@ function escapeType(t: string) {
   return t
     .replace(/\n/g, "")
     .replace(/ {2,}/g, " ")
-    .replace(/\|/g, "&#124")
+    .replace(/\{/g, "&#123;")
+    .replace(/\}/g, "&#125;")
+    .replace(/\|/g, "&#124;")
     .replace(/</g, "&lt;")
     .replace(/>/g, "&gt;");
 }
@@ -110,7 +106,5 @@ function getCesiumTypeName(t: CesiumTypeExpr) {
 }
 
 function getCesiumDocURL(name: string, field?: string, fieldIsType?: boolean) {
-  return `https://cesium.com/docs/cesiumjs-ref-doc/${name}.html${
-    field ? `#${fieldIsType ? "." : ""}${field}` : ""
-  }`;
+  return `https://cesium.com/docs/cesiumjs-ref-doc/${name}.html${field ? `#${fieldIsType ? "." : ""}${field}` : ""}`;
 }

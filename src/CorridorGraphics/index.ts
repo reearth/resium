@@ -1,1 +1,1 @@
-export { default } from "./CorridorGraphics";
+export { default, type CorridorGraphicsProps } from "./CorridorGraphics";

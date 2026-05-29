@@ -1,1 +1,1 @@
-export { default } from "./GroundPolylinePrimitive";
+export { default, type GroundPolylinePrimitiveProps } from "./GroundPolylinePrimitive";

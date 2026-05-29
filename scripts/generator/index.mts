@@ -5,8 +5,8 @@ import { inspect } from "util";
 import { globbySync } from "globby";
 import ts from "typescript";
 
-import { parseDoc } from "./parser.mjs";
-import { renderDoc } from "./renderer.mjs";
+import { parseDoc } from "./parser.mts";
+import { renderDoc } from "./renderer.mts";
 
 const { createProgram } = ts;
 const name = process.argv.slice(2).filter(a => !a.startsWith("-"));
@@ -15,9 +15,7 @@ const preview = options.includes("--preview") || options.includes("-p");
 const dest = path.join("docs", "docs", "components");
 
 console.log(
-  `Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}${
-    preview ? " (preview)" : ""
-  }`,
+  `Generating documents...${name.length > 0 ? `: ${name.join(", ")}` : ""}${preview ? " (preview)" : ""}`,
 );
 
 // list component paths
@@ -34,8 +32,8 @@ const componentFiles = globbySync([
 if (componentFiles.length > 0) {
   try {
     fs.mkdirSync(dest);
-  } catch (err) {
-    // ignore
+  } catch {
+    // ignore - directory may already exist
   }
 }
 

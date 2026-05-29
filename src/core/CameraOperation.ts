@@ -15,7 +15,7 @@ export const createCameraOperation = <P>(
   /* eslint-disable react-hooks/rules-of-hooks */
   const component: FC<P & CameraOperationProps> = props => {
     const ctx = useCesium();
-    const prevProps = useRef<P>();
+    const prevProps = useRef<P | undefined>(undefined);
     const first = useRef(false);
 
     useEffect(() => {

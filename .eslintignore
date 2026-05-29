@@ -1,7 +1,0 @@
-node_modules
-/dist
-/examples
-/coverage
-/docs/build
-/docs/static
-!.storybook

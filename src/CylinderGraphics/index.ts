@@ -1,1 +1,1 @@
-export { default } from "./CylinderGraphics";
+export { default, type CylinderGraphicsProps } from "./CylinderGraphics";

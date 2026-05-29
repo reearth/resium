@@ -7,7 +7,8 @@ import { ImageryLayerProps, Target } from "./ImageryLayer";
 
 // Unused prop check
 type UnusedProps = UnusedCesiumProps<Target, ImageryLayerProps, {}, IgnoredProps>;
-type IgnoredProps = "imageryProvider";
+// imageryProvider is handled separately, errorEvent and readyEvent are readonly events
+type IgnoredProps = "imageryProvider" | "errorEvent" | "readyEvent";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
