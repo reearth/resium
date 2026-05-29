@@ -19,8 +19,7 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
-    "target": "ESNext",
-    "downlevelIteration": true
+    "target": "ESNext"
   },
   "ts-node": {
     "compilerOptions": {
