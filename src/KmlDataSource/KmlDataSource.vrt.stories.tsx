@@ -19,10 +19,20 @@ export default meta;
 
 type Story = StoryObj;
 
+// A styled polygon (not a Point) so it renders offline: Cesium's default KML
+// placemark icon is fetched from the network, which is unavailable in CI, but a
+// PolyStyle/LineStyle color is drawn as vector geometry with no external assets.
 const kml = `<?xml version="1.0" encoding="UTF-8"?>
 <kml xmlns="http://www.opengis.net/kml/2.2"><Document>
-  <Placemark><name>A</name><Point><coordinates>-100,40,0</coordinates></Point></Placemark>
-  <Placemark><name>B</name><Point><coordinates>-90,35,0</coordinates></Point></Placemark>
+  <Placemark>
+    <Style>
+      <LineStyle><color>ff00ffff</color><width>3</width></LineStyle>
+      <PolyStyle><color>7f00ff00</color></PolyStyle>
+    </Style>
+    <Polygon><outerBoundaryIs><LinearRing><coordinates>
+      -110,45,0 -90,45,0 -90,35,0 -110,35,0 -110,45,0
+    </coordinates></LinearRing></outerBoundaryIs></Polygon>
+  </Placemark>
 </Document></kml>`;
 
 // The suspense story exercises the opt-in Suspense data-loading path: `data` is
