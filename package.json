@@ -81,7 +81,7 @@
     "react-dom": "19.2.6",
     "reg-keygen-git-hash-plugin": "0.14.5",
     "reg-notify-github-plugin": "0.14.5",
-    "reg-publish-github-plugin": "0.2.0",
+    "reg-publish-github-plugin": "0.3.0",
     "reg-suit": "0.14.5",
     "storybook": "10.4.1",
     "ts-expect": "1.3.0",

@@ -7690,10 +7690,10 @@ reg-notify-github-plugin@0.14.5:
     reg-suit-util "^0.14.3"
     tiny-commit-walker "^1.1.2"
 
-reg-publish-github-plugin@0.2.0:
-  version "0.2.0"
-  resolved "https://registry.yarnpkg.com/reg-publish-github-plugin/-/reg-publish-github-plugin-0.2.0.tgz#9d244974da2f7137fde7e4818fab4ab5b0f4c50f"
-  integrity sha512-E/MFmk3jXo7sFn7DJtczO/5pG3SHIPj5hmCTssO74+xvqUJufj7vi2HDu91ueWtdnIUzaOK10PjKAiXigBirgg==
+reg-publish-github-plugin@0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/reg-publish-github-plugin/-/reg-publish-github-plugin-0.3.0.tgz#663e626f595454393a7c7d3974cb6f1898272bb6"
+  integrity sha512-P0agf6hbYOJG3AYKtdU25mnlXyi9aS0RODDUBgPlKeJoAK9kcyGyzxEUIBLdIrm/MwNgSFAtyMNqoWmJdGUw5w==
   dependencies:
     "@octokit/rest" "^21.0.2"
     adm-zip "^0.5.16"

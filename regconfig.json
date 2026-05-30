@@ -10,7 +10,8 @@
       "backend": "releases",
       "tagName": "reg-snapshots",
       "retentionDays": 30,
-      "retentionCount": 10
+      "retentionCount": 10,
+      "protectedRetentionCount": 20
     },
     "reg-notify-github-plugin": {
       "clientId": "${REG_NOTIFY_CLIENT_ID}",
