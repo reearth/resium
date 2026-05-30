@@ -1,4 +1,4 @@
-![Resium](https://raw.githubusercontent.com/reearth/resium/main/docs/static/resium.gif)
+![Resium](https://raw.githubusercontent.com/reearth/resium/main/docs/public/resium.gif)
 
 [![ci](https://github.com/reearth/resium/actions/workflows/ci.yml/badge.svg)](https://github.com/reearth/resium/actions/workflows/ci.yml) [![npm version](https://badge.fury.io/js/resium.svg)](https://badge.fury.io/js/resium)
 
@@ -21,9 +21,9 @@ React component library for 🌏[Cesium](https://cesium.com/)
 </Viewer>
 ```
 
-![Screenshot](https://raw.githubusercontent.com/reearth/resium/main/docs/static/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/reearth/resium/main/docs/public/screenshot.png)
 
-![Usage](https://raw.githubusercontent.com/reearth/resium/main/docs/static/usage.gif)
+![Usage](https://raw.githubusercontent.com/reearth/resium/main/docs/public/usage.gif)
 
 ## Contributors
 
