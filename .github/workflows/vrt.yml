@@ -53,6 +53,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REG_NOTIFY_CLIENT_ID: ${{ vars.REG_NOTIFY_CLIENT_ID }}
+          # Pin snapshots published from main so the retentionCount cap never
+          # evicts a baseline; PR snapshots stay ephemeral and churn within it.
+          REG_PUBLISH_PROTECTED: ${{ github.ref == 'refs/heads/main' }}
       - name: Upload reg-suit report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
