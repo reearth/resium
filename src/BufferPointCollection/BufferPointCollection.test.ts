@@ -15,12 +15,16 @@ type UnusedProps = UnusedCesiumProps<
   BufferPointCollection,
   Omit<
     BufferPointCollectionProps,
-    keyof BufferPointCollectionOtherProps | "primitiveCountMax" | "modelMatrix"
+    | keyof BufferPointCollectionOtherProps
+    | "primitiveCountMax"
+    | "modelMatrix"
+    | "boundingVolume"
+    | "blendOption"
   >,
   {},
   IgnoredProps
 >;
-type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC";
+type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolumeWC";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
