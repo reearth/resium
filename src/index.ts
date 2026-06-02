@@ -62,6 +62,10 @@ export {
 export { default as EntityDescription, type EntityDescriptionProps } from "./EntityDescription";
 export { default as Fog, type FogProps } from "./Fog";
 export { default as GeoJsonDataSource, type GeoJsonDataSourceProps } from "./GeoJsonDataSource";
+export {
+  default as GeoJsonPrimitive,
+  type GeoJsonPrimitiveProps,
+} from "./GeoJsonPrimitive";
 export { default as Globe, type GlobeProps } from "./Globe";
 export {
   default as Google2DImageryProvider,
