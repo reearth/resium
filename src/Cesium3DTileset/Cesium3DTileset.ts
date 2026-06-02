@@ -108,6 +108,7 @@ const cesiumProps = [
   "dynamicScreenSpaceErrorDensity",
   "dynamicScreenSpaceErrorFactor",
   "dynamicScreenSpaceErrorHeightFalloff",
+  "edgeDisplayMode",
   "skipLevelOfDetail",
   "baseScreenSpaceError",
   "skipScreenSpaceErrorFactor",

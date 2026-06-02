@@ -35,6 +35,7 @@ const cesiumProps = [
   "debugShowBoundingVolume",
   "debugWireframe",
   "distanceDisplayCondition",
+  "edgeDisplayMode",
   "enableVerticalExaggeration",
   "featureIdLabel",
   "heightReference",
