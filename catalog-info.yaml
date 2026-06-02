@@ -1,0 +1,25 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: resium
+  namespace: reearth
+  description: React components for 🌏 Cesium
+  annotations:
+    github.com/project-slug: reearth/resium
+  links:
+  - url: https://github.com/reearth/resium
+    title: GitHub
+    icon: github
+  - url: https://resium.reearth.io
+    title: Website
+    icon: web
+  tags:
+  - typescript
+  - react
+  - cesium
+  - javascript
+  - map
+spec:
+  type: service
+  lifecycle: production
+  owner: reearth/lib
