@@ -87,29 +87,27 @@ const MVTDataProvider = createCesiumComponent<MVTDataProviderShape, MVTDataProvi
     try {
       // Cesium 1.142's MVTDataProvider.fromUrl is typed `void` in the d.ts.
       // At runtime it returns Promise<MVTDataProvider>. Cast to the augmented shape.
-      element = (await (CesiumMVTDataProvider.fromUrl(url, {
+      element = await (CesiumMVTDataProvider.fromUrl(url, {
         minZoom,
         maxZoom,
         extent,
         featureIdProperty,
-      }) as unknown as Promise<MVTDataProviderShape>));
+      }) as unknown as Promise<MVTDataProviderShape>);
       onReady?.(element);
     } catch (e) {
       onError?.(e);
       return;
     }
 
-    // MVTDataProvider isn't a Cesium `Primitive` in the type hierarchy, but the
-    // primitive collection accepts any object with an `update(frameState)` method.
-    context.primitiveCollection.add(element as unknown as object);
+    context.primitiveCollection.add(element);
     return element;
   },
   destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-      context.primitiveCollection.remove(element as unknown as object);
-    }
-    if (!element.isDestroyed()) {
-      element.destroy();
+      // PrimitiveCollection.remove() calls destroy() on removed primitives when
+      // destroyPrimitives is true (the default on Viewer/CesiumWidget). No need
+      // to call element.destroy() ourselves.
+      context.primitiveCollection.remove(element);
     }
   },
   cesiumProps,

@@ -99,6 +99,7 @@ export { default as Moon, type MoonProps } from "./Moon";
 export {
   default as MVTDataProvider,
   type MVTDataProviderProps,
+  getTileset,
 } from "./MVTDataProvider";
 export { default as ParticleSystem, type ParticleSystemProps } from "./ParticleSystem";
 export { default as PathGraphics, type PathGraphicsProps } from "./PathGraphics";
