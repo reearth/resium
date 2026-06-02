@@ -2,6 +2,27 @@
 title: Migration Guide
 ---
 
+## v1.23
+
+### `BufferPointCollection` / `BufferPolylineCollection` / `BufferPolygonCollection` — `boundingVolume` is interpreted in world space
+
+Cesium 1.142 changed the semantic of `boundingVolume` on these three collections from local/model space to **world space**. Resium now exposes `boundingVolume` as a constructor prop, so this affects any consumer who passes a precomputed bounding volume:
+
+```jsx
+// Before (Cesium <=1.141, when reaching the underlying primitive via ref):
+// boundingVolume was implicitly local-space, transformed by `modelMatrix`.
+
+// Now (Cesium 1.142+, via Resium's new prop):
+<BufferPointCollection
+  primitiveCountMax={positions.length}
+  modelMatrix={modelMatrix}
+  // Apply the same modelMatrix to the bounding volume that you apply to the points.
+  boundingVolume={worldSpaceBoundingSphere}
+/>
+```
+
+If you do not pass `boundingVolume`, Cesium computes it for you each frame — unchanged behavior. Upstream change: [CesiumGS/cesium#13477](https://github.com/CesiumGS/cesium/pull/13477).
+
 ## v1.14
 
 ### Event handlers no longer receive an entity and primitive directly
