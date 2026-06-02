@@ -9,7 +9,7 @@ import { createCesiumComponent, useSuspendedResource } from "../core";
 // node_modules/cesium/Source/Cesium.d.ts ~L34084-34124. The runtime members
 // exist in GeoJsonPrimitive.js (constructor ~L79, destroy ~L352). Augment
 // locally so PickCesiumProps can reflect `show` as a live wrapper prop.
-type GeoJsonPrimitiveShape = CesiumGeoJsonPrimitive & { show: boolean };
+export type GeoJsonPrimitiveShape = CesiumGeoJsonPrimitive & { show: boolean };
 
 /*
 @summary
