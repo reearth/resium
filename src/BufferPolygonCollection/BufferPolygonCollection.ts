@@ -1,6 +1,4 @@
-import type {
-  ComponentDatatype,
-  Matrix4} from "cesium";
+import type { BlendOption, BoundingSphere, ComponentDatatype, Matrix4 } from "cesium";
 import {
   BufferPolygonCollection as CesiumBufferPolygonCollection
 } from "cesium";
@@ -48,6 +46,18 @@ export type BufferPolygonCollectionConstructorProps = {
    * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
    */
   modelMatrix?: Matrix4;
+  /**
+   * Precomputed bounding volume. **Interpreted in world space** (Cesium 1.142+);
+   * apply the same `modelMatrix` to the bounding volume that you apply to the
+   * polygons. Fixed at creation time.
+   */
+  boundingVolume?: BoundingSphere;
+  /**
+   * Blending mode for the collection. Pair with an alpha-aware
+   * `BufferPrimitiveMaterial` to render translucent polygons. Fixed at
+   * creation time.
+   */
+  blendOption?: BlendOption;
 };
 
 // Cesium 1.141's BufferPolygonCollection subclass constructor type omits the
@@ -56,7 +66,11 @@ export type BufferPolygonCollectionConstructorProps = {
 // the prop without losing typechecking on the rest of the options.
 type BufferPolygonCollectionCtorOptions = ConstructorParameters<
   typeof CesiumBufferPolygonCollection
->[0] & { modelMatrix?: Matrix4 };
+>[0] & {
+  modelMatrix?: Matrix4;
+  boundingVolume?: BoundingSphere;
+  blendOption?: BlendOption;
+};
 
 export type BufferPolygonCollectionOtherProps = {
   children?: ReactNode;
@@ -76,6 +90,8 @@ const cesiumReadonlyProps = [
   "positionDatatype",
   "allowPicking",
   "modelMatrix",
+  "boundingVolume",
+  "blendOption",
 ] as const;
 
 const BufferPolygonCollection = createCesiumComponent<
@@ -93,6 +109,8 @@ const BufferPolygonCollection = createCesiumComponent<
       positionDatatype: props.positionDatatype,
       allowPicking: props.allowPicking,
       modelMatrix: props.modelMatrix,
+      boundingVolume: props.boundingVolume,
+      blendOption: props.blendOption,
     } as BufferPolygonCollectionCtorOptions);
     context.primitiveCollection.add(element);
     return element;
