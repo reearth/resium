@@ -1,10 +1,13 @@
 import { GeoJsonPrimitive as CesiumGeoJsonPrimitive, Resource } from "cesium";
+import type { GeoJsonPrimitiveConstructorOptions } from "cesium";
 
 import type { EventProps, PickCesiumProps, SuspenseProps } from "../core";
 import { createCesiumComponent, useSuspendedResource } from "../core";
 
 // Cesium 1.142 ships `GeoJsonPrimitive` as @experimental and its .d.ts omits the
-// runtime instance properties (notably `show`) from the class shape. Augment
+// runtime instance properties (notably `show`) from the class shape — see
+// node_modules/cesium/Source/Cesium.d.ts ~L34084-34124. The runtime members
+// exist in GeoJsonPrimitive.js (constructor ~L79, destroy ~L352). Augment
 // locally so PickCesiumProps can reflect `show` as a live wrapper prop.
 type GeoJsonPrimitiveShape = CesiumGeoJsonPrimitive & { show: boolean };
 
@@ -30,19 +33,11 @@ export type GeoJsonPrimitiveCesiumProps = PickCesiumProps<
 
 export type GeoJsonPrimitiveCesiumReadonlyProps = {
   /** Ellipsoid used to project GeoJSON coordinates. Fixed at creation time. */
-  ellipsoid?: ConstructorParameters<typeof CesiumGeoJsonPrimitive>[0] extends infer O
-    ? O extends { ellipsoid?: infer E }
-      ? E
-      : never
-    : never;
+  ellipsoid?: GeoJsonPrimitiveConstructorOptions["ellipsoid"];
   /** Whether features in the primitive can be picked. Fixed at creation time. */
   allowPicking?: boolean;
   /** Factory invoked to build the picked-object payload. Fixed at creation time. */
-  pickObjectFactory?: ConstructorParameters<typeof CesiumGeoJsonPrimitive>[0] extends infer O
-    ? O extends { pickObjectFactory?: infer F }
-      ? F
-      : never
-    : never;
+  pickObjectFactory?: GeoJsonPrimitiveConstructorOptions["pickObjectFactory"];
 };
 
 export type GeoJsonPrimitiveOtherProps = EventProps<unknown> &
@@ -65,6 +60,13 @@ const cesiumProps = ["show"] as const;
 
 const cesiumReadonlyProps = ["ellipsoid", "allowPicking", "pickObjectFactory"] as const;
 
+// `url` and `data` are user-supplied props (not real Cesium properties), but
+// they are treated as read-only so that changing either at runtime makes the
+// core destroy and recreate the primitive. They are NOT added to the typed
+// `GeoJsonPrimitiveCesiumReadonlyProps` (they live in `OtherProps`) — this
+// const is just the runtime trigger list.
+const cesiumReadonlyPropsWithUrlOrData = [...cesiumReadonlyProps, "url", "data"] as const;
+
 export const otherProps = ["url", "data", "onReady", "onError", "suspense", "cacheKey"] as const;
 
 const useResource = (
@@ -73,7 +75,9 @@ const useResource = (
   const resolved = useSuspendedResource("geojson-primitive", props.url ?? props.data, props, url =>
     Resource.fetchJson({ url }),
   );
-  return resolved ? { data: resolved as object } : undefined;
+  // When Suspense has resolved a URL into JSON, drop `url` so create() takes the
+  // synchronous `data` path instead of refetching via fromUrl().
+  return resolved ? { data: resolved as object, url: undefined } : undefined;
 };
 
 const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPrimitiveProps>({
@@ -86,12 +90,12 @@ const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPri
     let element: GeoJsonPrimitiveShape;
     try {
       if (url) {
-        element = (await (CesiumGeoJsonPrimitive as unknown as {
-          fromUrl: (
-            url: string | Resource,
-            options?: Record<string, unknown>,
-          ) => Promise<CesiumGeoJsonPrimitive>;
-        }).fromUrl(url, { ellipsoid, allowPicking, pickObjectFactory, show })) as GeoJsonPrimitiveShape;
+        element = (await CesiumGeoJsonPrimitive.fromUrl(url, {
+          ellipsoid,
+          allowPicking,
+          pickObjectFactory,
+          show,
+        })) as GeoJsonPrimitiveShape;
       } else if (data) {
         element = new CesiumGeoJsonPrimitive({
           geoJson: data,
@@ -99,7 +103,7 @@ const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPri
           allowPicking,
           pickObjectFactory,
           show,
-        } as ConstructorParameters<typeof CesiumGeoJsonPrimitive>[0]) as GeoJsonPrimitiveShape;
+        } as GeoJsonPrimitiveConstructorOptions) as GeoJsonPrimitiveShape;
       } else {
         return;
       }
@@ -122,7 +126,7 @@ const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPri
   },
   useResource,
   cesiumProps,
-  cesiumReadonlyProps,
+  cesiumReadonlyProps: cesiumReadonlyPropsWithUrlOrData,
   otherProps,
   useCommonEvent: true,
 });
