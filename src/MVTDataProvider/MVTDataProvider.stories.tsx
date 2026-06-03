@@ -23,23 +23,22 @@ export default {
 } as Meta;
 
 /**
- * Bring-your-own-URL demo for `MVTDataProvider`. Paste a `{z}/{x}/{y}` MVT URL
- * (with API key if your provider requires one) into the `url` control to mount
- * the wrapper against real tiles.
+ * Loads OpenFreeMap's planet-scale OpenMapTiles vector tile set by default and
+ * renders it over the Cesium globe. Paste a different `{z}/{x}/{y}` MVT URL
+ * (e.g. your MapTiler/Mapbox key URL) into the `url` control to swap data sources.
  *
- * No default URL is shipped because every free public MVT endpoint we evaluated
- * is fragile — Protomaps' demo path now returns 403, MapLibre's demotiles is
- * only z0–z5 and crashes the browser at higher zoom, OpenFreeMap is a
- * community-hosted endpoint that can rotate. This mirrors how the
- * `GooglePhotorealistic3DTileset` story expects consumers to bring their own
- * API key.
+ * The default URL (`tiles.openfreemap.org/planet/latest/`) is OpenFreeMap's
+ * officially-stable `latest` alias against the OpenMapTiles schema, full zoom
+ * coverage z0–z14, no API key. Falls back to a bring-your-own-URL empty state
+ * if you clear the `url` arg.
  *
  * Network-dependent — does not run under VRT (no `vrt` tag).
  */
 export const Basic: Story = {
   args: {
-    // Empty by default — see the JSDoc above for why. Paste your own URL in the controls panel.
-    url: "",
+    // OpenFreeMap planet/latest alias — public OpenMapTiles dataset, no API key required,
+    // documented as the stable alias by the OpenFreeMap project (https://openfreemap.org).
+    url: "https://tiles.openfreemap.org/planet/latest/{z}/{x}/{y}.pbf",
     maxZoom: 14,
   },
   render: args => {
@@ -71,11 +70,9 @@ export const Basic: Story = {
               <code>{"https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key=YOUR_KEY"}</code>
             </p>
             <p style={{ opacity: 0.6, fontSize: 12, lineHeight: 1.5, marginTop: 16 }}>
-              No default URL is shipped — every free public MVT endpoint we
-              evaluated either requires authentication or proved unstable. This
-              mirrors how the <code>GooglePhotorealistic3DTileset</code> story
-              expects you to set <code>GoogleMaps.defaultApiKey</code> or pass
-              an <code>apiKey</code> prop.
+              The story ships with an OpenFreeMap default; clear the URL arg
+              to see this overlay, or paste your own keyed URL (Mapbox,
+              MapTiler, Protomaps, etc.) to test against your provider.
             </p>
           </div>
         </div>
