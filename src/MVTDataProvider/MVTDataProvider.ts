@@ -104,10 +104,14 @@ const MVTDataProvider = createCesiumComponent<MVTDataProviderShape, MVTDataProvi
   },
   destroy(element, context) {
     if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-      // PrimitiveCollection.remove() calls destroy() on removed primitives when
-      // destroyPrimitives is true (the default on Viewer/CesiumWidget). No need
-      // to call element.destroy() ourselves.
       context.primitiveCollection.remove(element);
+    }
+    // Explicit destroy guards the edge case where the provider is mounted into
+    // a PrimitiveCollection with destroyPrimitives=false (in which case
+    // remove() does not call destroy()). isDestroyed/destroy are part of the
+    // augmented shape and present at runtime via UrlTemplate3DTilesDataProvider.
+    if (!element.isDestroyed()) {
+      element.destroy();
     }
   },
   cesiumProps,

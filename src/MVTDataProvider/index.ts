@@ -1,1 +1,6 @@
-export { default, type MVTDataProviderProps, getTileset } from "./MVTDataProvider";
+export {
+  default,
+  type MVTDataProviderProps,
+  type MVTDataProviderShape,
+  getTileset,
+} from "./MVTDataProvider";

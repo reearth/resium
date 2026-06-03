@@ -46,7 +46,7 @@ export type GeoJsonPrimitiveOtherProps = EventProps<unknown> &
     url?: string | Resource;
     /** Inline GeoJSON FeatureCollection. Mutually exclusive with `url`. */
     data?: object;
-    /** Fires once the primitive is constructed and added to the scene. */
+    /** Fires once the primitive is constructed, before it is attached to the scene's primitive collection. */
     onReady?: (primitive: GeoJsonPrimitiveShape) => void;
     /** Fires if `fromUrl` rejects or the inline GeoJSON fails to parse. */
     onError?: (err: unknown) => void;

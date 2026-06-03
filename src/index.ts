@@ -65,6 +65,7 @@ export { default as GeoJsonDataSource, type GeoJsonDataSourceProps } from "./Geo
 export {
   default as GeoJsonPrimitive,
   type GeoJsonPrimitiveProps,
+  type GeoJsonPrimitiveShape,
 } from "./GeoJsonPrimitive";
 export { default as Globe, type GlobeProps } from "./Globe";
 export {
@@ -99,6 +100,7 @@ export { default as Moon, type MoonProps } from "./Moon";
 export {
   default as MVTDataProvider,
   type MVTDataProviderProps,
+  type MVTDataProviderShape,
   getTileset,
 } from "./MVTDataProvider";
 export { default as ParticleSystem, type ParticleSystemProps } from "./ParticleSystem";

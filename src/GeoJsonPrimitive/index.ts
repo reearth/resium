@@ -1,1 +1,5 @@
-export { default, type GeoJsonPrimitiveProps } from "./GeoJsonPrimitive";
+export {
+  default,
+  type GeoJsonPrimitiveProps,
+  type GeoJsonPrimitiveShape,
+} from "./GeoJsonPrimitive";
