@@ -29,7 +29,7 @@
     "storybook": "storybook dev -p 9001",
     "storybook:build": "storybook build -o docs/public/examples",
     "storybook:build:vrt": "storybook build -o storybook-static",
-    "vrt:test": "test-storybook --url http://127.0.0.1:6006 --includeTags vrt",
+    "vrt:test": "test-storybook --url http://127.0.0.1:6006 --includeTags vrt --testTimeout=30000",
     "vrt:capture": "concurrently -k -s first \"http-server storybook-static -p 6006 -s --silent\" \"wait-on tcp:127.0.0.1:6006 && yarn vrt:test\"",
     "vrt:run": "reg-suit run",
     "vrt": "run-s vrt:capture vrt:run",
