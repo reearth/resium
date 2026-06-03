@@ -1,12 +1,17 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
-import { Cartesian3, Viewer as CesiumViewer } from "cesium";
+import {
+  Cartesian3,
+  Cesium3DTileStyle,
+  Rectangle,
+  Viewer as CesiumViewer,
+} from "cesium";
 import { useRef } from "react";
 
 import { CesiumComponentRef } from "../core";
 import Viewer from "../Viewer";
 
-import MVTDataProvider from "./MVTDataProvider";
+import MVTDataProvider, { getTileset } from "./MVTDataProvider";
 
 type Story = StoryObj<typeof MVTDataProvider>;
 
@@ -22,24 +27,36 @@ export default {
   },
 } as Meta;
 
+// Constrain the demo to a small area (Manhattan, NYC) so the experimental
+// MVTDataProvider doesn't try to load planet-scale data into the browser.
+// Without an `extent`, Cesium's tile-selection traverses the whole world tree
+// and pegs the iframe even on modest datasets — see the JSDoc on `Basic` below.
+const NYC_EXTENT = Rectangle.fromDegrees(-74.05, 40.65, -73.85, 40.85);
+const NYC_VIEW = Cartesian3.fromDegrees(-73.95, 40.75, 50_000);
+
 /**
- * Loads OpenFreeMap's planet-scale OpenMapTiles vector tile set by default and
- * renders it over the Cesium globe. Paste a different `{z}/{x}/{y}` MVT URL
- * (e.g. your MapTiler/Mapbox key URL) into the `url` control to swap data sources.
+ * Loads OpenFreeMap's OpenMapTiles dataset for the Manhattan area and renders
+ * features with a visible blue style.
  *
- * The default URL (`tiles.openfreemap.org/planet/latest/`) is OpenFreeMap's
- * officially-stable `latest` alias against the OpenMapTiles schema, full zoom
- * coverage z0–z14, no API key. Falls back to a bring-your-own-URL empty state
- * if you clear the `url` arg.
+ * **About the constraints:** Cesium 1.142's `MVTDataProvider` is `@experimental`
+ * and not yet performance-tuned for planet-scale rendering. Two constraints are
+ * required for a smooth demo:
  *
- * Network-dependent — does not run under VRT (no `vrt` tag).
+ * 1. **`extent`** — restrict the tile tree to a small geographic region.
+ *    Without this, Cesium fetches tiles across the whole globe and the iframe
+ *    becomes unresponsive.
+ * 2. **`Cesium3DTileStyle`** — apply per-feature color/show via the internal
+ *    tileset (reached through `getTileset(provider)`). Without a style,
+ *    decoded MVT features have no visible fill and you see nothing.
+ *
+ * Paste a different `{z}/{x}/{y}` MVT URL into the `url` control to swap data
+ * sources (e.g. your MapTiler/Mapbox key URL). Network-dependent — does not
+ * run under VRT.
  */
 export const Basic: Story = {
   args: {
-    // OpenFreeMap planet/latest alias — public OpenMapTiles dataset, no API key required,
-    // documented as the stable alias by the OpenFreeMap project (https://openfreemap.org).
     url: "https://tiles.openfreemap.org/planet/latest/{z}/{x}/{y}.pbf",
-    maxZoom: 14,
+    maxZoom: 12,
   },
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -70,9 +87,8 @@ export const Basic: Story = {
               <code>{"https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key=YOUR_KEY"}</code>
             </p>
             <p style={{ opacity: 0.6, fontSize: 12, lineHeight: 1.5, marginTop: 16 }}>
-              The story ships with an OpenFreeMap default; clear the URL arg
-              to see this overlay, or paste your own keyed URL (Mapbox,
-              MapTiler, Protomaps, etc.) to test against your provider.
+              The story ships with an OpenFreeMap default + Manhattan extent;
+              clear the URL arg to see this overlay.
             </p>
           </div>
         </div>
@@ -83,11 +99,18 @@ export const Basic: Story = {
         <MVTDataProvider
           {...args}
           url={args.url}
+          extent={NYC_EXTENT}
           onReady={provider => {
             action("onReady")(provider);
-            // Fly to a global view so the tileset extent is visible regardless of where it loads first.
+            const tileset = getTileset(provider);
+            if (tileset) {
+              tileset.style = new Cesium3DTileStyle({
+                color: "color('#3388ff', 0.6)",
+                show: true,
+              });
+            }
             viewerRef.current?.cesiumElement?.camera.flyTo({
-              destination: Cartesian3.fromDegrees(0, 0, 25_000_000),
+              destination: NYC_VIEW,
               duration: 0,
             });
           }}
