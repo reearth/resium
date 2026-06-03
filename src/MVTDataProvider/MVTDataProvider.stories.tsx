@@ -23,22 +23,23 @@ export default {
 } as Meta;
 
 /**
- * Loads a public MVT endpoint and shows the resulting tileset over a global view.
+ * Bring-your-own-URL demo for `MVTDataProvider`. Paste a `{z}/{x}/{y}` MVT URL
+ * (with API key if your provider requires one) into the `url` control to mount
+ * the wrapper against real tiles.
  *
- * Defaults to MapLibre's curated demo basemap (no API key required, public test dataset).
- * To test against your own tiles, paste a `{z}/{x}/{y}.pbf|.mvt` URL into the
- * `url` control — most production vector tile services (Mapbox, MapTiler,
- * Protomaps, ESRI) require an API key in the URL.
+ * No default URL is shipped because every free public MVT endpoint we evaluated
+ * is fragile — Protomaps' demo path now returns 403, MapLibre's demotiles is
+ * only z0–z5 and crashes the browser at higher zoom, OpenFreeMap is a
+ * community-hosted endpoint that can rotate. This mirrors how the
+ * `GooglePhotorealistic3DTileset` story expects consumers to bring their own
+ * API key.
  *
  * Network-dependent — does not run under VRT (no `vrt` tag).
  */
 export const Basic: Story = {
   args: {
-    // MapLibre's demo basemap — public test dataset specifically for examples like this.
-    // If MapLibre rotates this URL, swap to e.g.
-    //   https://tiles.openfreemap.org/planet/20240429_001001_pt/{z}/{x}/{y}.pbf
-    // or paste your own keyed URL via the controls panel.
-    url: "https://demotiles.maplibre.org/tiles/{z}/{x}/{y}.pbf",
+    // Empty by default — see the JSDoc above for why. Paste your own URL in the controls panel.
+    url: "",
     maxZoom: 14,
   },
   render: args => {
@@ -59,10 +60,22 @@ export const Basic: Story = {
             padding: 24,
             textAlign: "center",
           }}>
-          <div>
-            <p>Paste an MVT URL into the <code>url</code> control to test the wrapper.</p>
-            <p style={{ opacity: 0.7, fontSize: 12, marginTop: 12 }}>
-              Example: <code>{"https://your-host.example/tiles/{z}/{x}/{y}.pbf?key=YOUR_KEY"}</code>
+          <div style={{ maxWidth: 540 }}>
+            <p style={{ fontSize: 16, marginBottom: 16 }}>
+              Paste an MVT URL into the <code>url</code> control to mount the
+              wrapper against real tiles.
+            </p>
+            <p style={{ opacity: 0.8, fontSize: 13, lineHeight: 1.5 }}>
+              Example shape (your endpoint and key):
+              <br />
+              <code>{"https://api.maptiler.com/tiles/v3/{z}/{x}/{y}.pbf?key=YOUR_KEY"}</code>
+            </p>
+            <p style={{ opacity: 0.6, fontSize: 12, lineHeight: 1.5, marginTop: 16 }}>
+              No default URL is shipped — every free public MVT endpoint we
+              evaluated either requires authentication or proved unstable. This
+              mirrors how the <code>GooglePhotorealistic3DTileset</code> story
+              expects you to set <code>GoogleMaps.defaultApiKey</code> or pass
+              an <code>apiKey</code> prop.
             </p>
           </div>
         </div>
