@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import {
   Cartesian3,
   Cesium3DTileStyle,
+  Math as CesiumMath,
   Rectangle,
   Viewer as CesiumViewer,
 } from "cesium";
@@ -32,15 +33,61 @@ export default {
 // Without an `extent`, Cesium's tile-selection traverses the whole world tree
 // and pegs the iframe even on modest datasets — see the JSDoc on `Basic` below.
 const NYC_EXTENT = Rectangle.fromDegrees(-74.05, 40.65, -73.85, 40.85);
-const NYC_VIEW = Cartesian3.fromDegrees(-73.95, 40.75, 50_000);
+
+// Oblique camera over lower Manhattan looking north — shows the 3D extruded
+// buildings (OpenMapTiles' building features carry a `height` property; the
+// MVT→3D Tiles conversion preserves it) rather than a flat top-down blob.
+const NYC_VIEW = Cartesian3.fromDegrees(-74.0, 40.68, 2500);
+const NYC_ORIENTATION = {
+  heading: 0,
+  pitch: CesiumMath.toRadians(-25),
+  roll: 0,
+};
+
+// Per-feature-class styling built around OpenMapTiles' `class` property
+// (preserved through the MVT→3D Tiles conversion as EXT_structural_metadata
+// per the 1.142 changelog). Without this, every feature comes through with
+// no visible fill and the viewer renders an empty tile tree.
+const VECTOR_TILE_STYLE = new Cesium3DTileStyle({
+  color: {
+    conditions: [
+      // Buildings get a warm tan; alpha=1 so extrusions read as solid
+      ["${class} === 'building'", "color('#bcaa90', 1.0)"],
+      // Water layers (ocean, river, lake, sea, bay)
+      [
+        "regExp('^(water|ocean|river|lake|sea|bay|stream)$').test(${class})",
+        "color('#3892c4', 0.85)",
+      ],
+      // Green spaces (park, wood, forest, grass, farmland, cemetery)
+      [
+        "regExp('^(park|wood|forest|grass|farmland|cemetery|playground|garden|nature_reserve)$').test(${class})",
+        "color('#7cc26b', 0.7)",
+      ],
+      // Major roads (motorway, trunk, primary, secondary, tertiary)
+      [
+        "regExp('^(motorway|trunk|primary|secondary|tertiary|major)$').test(${class})",
+        "color('#fbd870', 0.95)",
+      ],
+      // Built-up urban landuse
+      [
+        "regExp('^(residential|commercial|industrial|retail|school|hospital|university)$').test(${class})",
+        "color('#dec8a8', 0.55)",
+      ],
+      // Default: light beige (fallback for unclassified features)
+      ["true", "color('#e8d8c0', 0.45)"],
+    ],
+  },
+});
 
 /**
  * Loads OpenFreeMap's OpenMapTiles dataset for the Manhattan area and renders
- * features with a visible blue style.
+ * features styled per OpenMapTiles `class` (water blue, parks green, buildings
+ * tan, major roads yellow, urban landuse beige). Camera is an oblique view from
+ * lower Manhattan looking north so 3D-extruded building footprints are visible.
  *
  * **About the constraints:** Cesium 1.142's `MVTDataProvider` is `@experimental`
- * and not yet performance-tuned for planet-scale rendering. Two constraints are
- * required for a smooth demo:
+ * and not yet performance-tuned for planet-scale rendering. Three things are
+ * required for a useful demo:
  *
  * 1. **`extent`** — restrict the tile tree to a small geographic region.
  *    Without this, Cesium fetches tiles across the whole globe and the iframe
@@ -48,6 +95,8 @@ const NYC_VIEW = Cartesian3.fromDegrees(-73.95, 40.75, 50_000);
  * 2. **`Cesium3DTileStyle`** — apply per-feature color/show via the internal
  *    tileset (reached through `getTileset(provider)`). Without a style,
  *    decoded MVT features have no visible fill and you see nothing.
+ * 3. **Oblique camera** — a top-down view collapses 3D buildings into flat
+ *    polygons; pitching the camera shows the extrusion.
  *
  * Paste a different `{z}/{x}/{y}` MVT URL into the `url` control to swap data
  * sources (e.g. your MapTiler/Mapbox key URL). Network-dependent — does not
@@ -104,13 +153,11 @@ export const Basic: Story = {
             action("onReady")(provider);
             const tileset = getTileset(provider);
             if (tileset) {
-              tileset.style = new Cesium3DTileStyle({
-                color: "color('#3388ff', 0.6)",
-                show: true,
-              });
+              tileset.style = VECTOR_TILE_STYLE;
             }
             viewerRef.current?.cesiumElement?.camera.flyTo({
               destination: NYC_VIEW,
+              orientation: NYC_ORIENTATION,
               duration: 0,
             });
           }}
