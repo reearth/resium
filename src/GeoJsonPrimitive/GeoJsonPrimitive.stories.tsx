@@ -114,25 +114,29 @@ export const Inline: Story = {
 };
 
 /**
- * Loads Cesium's sample GeoJSON (a FeatureCollection of US state polygons) and
- * applies a visible polygon fill in `onReady`. Without the post-mount styling,
- * the polygons would decode and load correctly but render with no fill — you'd
- * see an empty globe.
+ * Loads Cesium's `simplestyles.geojson` sample — a FeatureCollection of 154
+ * Point features arranged in a small grid near (0°, 0°). Applies a visible
+ * point material in `onReady` so the grid actually renders.
+ *
+ * (The Cesium sample dataset URL used to point at `sampleGeoJson.json`, which
+ * 404s in the current CesiumGS/cesium repo. `simplestyles.geojson` is the
+ * still-present alternative.)
  */
 export const FromUrl: Story = {
   render: args => (
     <Viewer full>
-      <CameraFlyTo destination={Cartesian3.fromDegrees(-95.0, 40.0, 5_000_000)} duration={0} />
+      <CameraFlyTo destination={Cartesian3.fromDegrees(0.7, -0.5, 500_000)} duration={0} />
       <GeoJsonPrimitive
         {...args}
-        url="https://raw.githubusercontent.com/CesiumGS/cesium/main/Apps/SampleData/sampleGeoJson.json"
+        url="https://raw.githubusercontent.com/CesiumGS/cesium/main/Apps/SampleData/simplestyles.geojson"
         onReady={primitive => {
           action("onReady")(primitive);
           applyVisibleStyle(primitive, {
-            polygonMaterial: new BufferPolygonMaterial({
-              color: Color.fromBytes(51, 136, 255, 153), // translucent blue
+            pointMaterial: new BufferPointMaterial({
+              size: 16,
+              color: Color.CYAN,
               outlineColor: Color.WHITE,
-              outlineWidth: 1,
+              outlineWidth: 2,
             }),
           });
         }}
