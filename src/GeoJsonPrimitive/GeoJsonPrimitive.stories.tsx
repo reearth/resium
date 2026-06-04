@@ -4,6 +4,7 @@ import {
   BufferPointMaterial,
   BufferPolygonMaterial,
   BufferPolylineMaterial,
+  BufferPrimitive,
   Cartesian3,
   Color,
 } from "cesium";
@@ -58,22 +59,22 @@ function applyVisibleStyle(
   },
 ): void {
   const { pointMaterial, polylineMaterial, polygonMaterial } = opts;
-  const points = primitive.points;
-  if (points && pointMaterial) {
-    for (let i = 0; i < points.length; i++) {
-      points.get(i).material = pointMaterial;
-    }
-  }
-  const polylines = primitive.polylines;
-  if (polylines && polylineMaterial) {
-    for (let i = 0; i < polylines.length; i++) {
-      polylines.get(i).material = polylineMaterial;
-    }
-  }
-  const polygons = primitive.polygons;
-  if (polygons && polygonMaterial) {
-    for (let i = 0; i < polygons.length; i++) {
-      polygons.get(i).material = polygonMaterial;
+  // Cesium's BufferPrimitiveCollection.get(index, result) writes onto a
+  // reusable BufferPrimitive cursor — this is the documented iteration shape.
+  const cursor = new BufferPrimitive();
+  const collections = [
+    [primitive.points, pointMaterial] as const,
+    [primitive.polylines, polylineMaterial] as const,
+    [primitive.polygons, polygonMaterial] as const,
+  ];
+  for (const [collection, material] of collections) {
+    if (!collection || !material) continue;
+    // primitiveCount is the public count getter on BufferPrimitiveCollection —
+    // its d.ts surface omits `length`/`size`/array indexing.
+    const count = (collection as unknown as { primitiveCount: number }).primitiveCount;
+    for (let i = 0; i < count; i++) {
+      collection.get(i, cursor);
+      cursor.setMaterial(material);
     }
   }
 }
