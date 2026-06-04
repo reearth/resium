@@ -8,6 +8,7 @@ import {
   Cartesian3,
   Color,
 } from "cesium";
+import { useMemo } from "react";
 
 import CameraFlyTo from "../CameraFlyTo";
 import Viewer from "../Viewer";
@@ -114,34 +115,53 @@ export const Inline: Story = {
 };
 
 /**
- * Loads Cesium's `simplestyles.geojson` sample — a FeatureCollection of 154
- * Point features arranged in a small grid near (0°, 0°). Applies a visible
- * point material in `onReady` so the grid actually renders.
+ * Loads a GeoJSON FeatureCollection from a **blob URL** generated at story-init
+ * time and renders it over the central United States. The blob carries an
+ * 11x11 grid of Point features centered on (-95°, 40°) at 0.2° spacing — same
+ * URL-fetching codepath as a real HTTPS endpoint, but self-contained so no
+ * external service can break this story.
  *
- * (The Cesium sample dataset URL used to point at `sampleGeoJson.json`, which
- * 404s in the current CesiumGS/cesium repo. `simplestyles.geojson` is the
- * still-present alternative.)
+ * The blob URL is memoized so re-renders don't refetch / rebuild the primitive.
  */
 export const FromUrl: Story = {
-  render: args => (
-    <Viewer full>
-      <CameraFlyTo destination={Cartesian3.fromDegrees(0.7, -0.5, 500_000)} duration={0} />
-      <GeoJsonPrimitive
-        {...args}
-        url="https://raw.githubusercontent.com/CesiumGS/cesium/main/Apps/SampleData/simplestyles.geojson"
-        onReady={primitive => {
-          action("onReady")(primitive);
-          applyVisibleStyle(primitive, {
-            pointMaterial: new BufferPointMaterial({
-              size: 16,
-              color: Color.CYAN,
-              outlineColor: Color.WHITE,
-              outlineWidth: 2,
-            }),
+  render: args => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const url = useMemo(() => {
+      const features = [];
+      for (let lon = -96; lon <= -94; lon += 0.2) {
+        for (let lat = 39; lat <= 41; lat += 0.2) {
+          features.push({
+            type: "Feature" as const,
+            geometry: { type: "Point" as const, coordinates: [lon, lat] },
+            properties: {},
           });
-        }}
-        onError={action("onError")}
-      />
-    </Viewer>
-  ),
+        }
+      }
+      const fc = { type: "FeatureCollection" as const, features };
+      return URL.createObjectURL(
+        new Blob([JSON.stringify(fc)], { type: "application/json" }),
+      );
+    }, []);
+    return (
+      <Viewer full>
+        <CameraFlyTo destination={Cartesian3.fromDegrees(-95.0, 40.0, 600_000)} duration={0} />
+        <GeoJsonPrimitive
+          {...args}
+          url={url}
+          onReady={primitive => {
+            action("onReady")(primitive);
+            applyVisibleStyle(primitive, {
+              pointMaterial: new BufferPointMaterial({
+                size: 14,
+                color: Color.CYAN,
+                outlineColor: Color.WHITE,
+                outlineWidth: 2,
+              }),
+            });
+          }}
+          onError={action("onError")}
+        />
+      </Viewer>
+    );
+  },
 };
