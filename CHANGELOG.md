@@ -1,5 +1,42 @@
 # Changelog
 
+## 1.23.0 - 2026-06-05
+
+### docs
+
+#### fix
+
+- Wrap Viewer&#x2F;CesiumWidget @example JSX in code fences ([#783](https://github.com/reearth/resium/pull/783)) [`31fa9b`](https://github.com/reearth/resium/commit/31fa9b)
+
+### vrt
+
+#### ci
+
+- Cap pinned baselines with protectedRetentionCount [`198f3a`](https://github.com/reearth/resium/commit/198f3a)
+- Pin main snapshots and cap PR snapshots at 10 [`42ecfa`](https://github.com/reearth/resium/commit/42ecfa)
+
+### 
+
+#### chore
+
+- Add Backstage catalog-info.yaml ([#786](https://github.com/reearth/resium/pull/786)) [`395147`](https://github.com/reearth/resium/commit/395147)
+
+#### docs
+
+- Fix broken README image links after docs migration [`5fb4a5`](https://github.com/reearth/resium/commit/5fb4a5)
+- Migrate documentation site from Docusaurus to Astro Starlight ([#784](https://github.com/reearth/resium/pull/784)) [`b3b80f`](https://github.com/reearth/resium/commit/b3b80f)
+- Clarify cesiumElement ref timing, useCesium scope, and tileset zoom ([#779](https://github.com/reearth/resium/pull/779)) [`f869c5`](https://github.com/reearth/resium/commit/f869c5)
+
+#### feat
+
+- Support Cesium 1.142 — vector tiles, GeoJSON primitives, edge mode, blend option, multi-key modifier ([#787](https://github.com/reearth/resium/pull/787)) [`0a50be`](https://github.com/reearth/resium/commit/0a50be)
+- Add GooglePhotorealistic3DTileset component ([#781](https://github.com/reearth/resium/pull/781)) [`7e4f3e`](https://github.com/reearth/resium/commit/7e4f3e)
+
+#### fix
+
+- Ownership&#x2F;destroy bugs (clippingPlanes&#x2F;clippingPolygons, composite stages) + onSelectedEntityChange type ([#782](https://github.com/reearth/resium/pull/782)) [`2a5eee`](https://github.com/reearth/resium/commit/2a5eee)
+- Resolve real bugs (Globe terrain, StrictMode events, tileset url, Polyline material, Clock timeline) ([#780](https://github.com/reearth/resium/pull/780)) [`5be3dd`](https://github.com/reearth/resium/commit/5be3dd)
+
 ## 1.22.0 - 2026-05-29
 
 ### core
