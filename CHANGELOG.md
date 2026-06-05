@@ -1,5 +1,35 @@
 # Changelog
 
+## 1.23.0 - 2026-06-05
+
+> **Heads up — `boundingVolume` is now world-space.** Cesium 1.142 changed the semantic of `boundingVolume` on `BufferPointCollection` / `BufferPolylineCollection` / `BufferPolygonCollection` from local/model space to **world space**. Resium now exposes `boundingVolume` as a constructor prop, so consumers passing a precomputed bounding volume must recompute it in world coordinates. See the [v1.23 migration guide](https://resium.reearth.io/migration/) for details.
+
+### feat
+
+- Support Cesium 1.142 — vector tiles (`MVTDataProvider`), GeoJSON primitives (`GeoJsonPrimitive`), `edgeDisplayMode`, `blendOption`, multi-key modifier on `ScreenSpaceEvent` ([#787](https://github.com/reearth/resium/pull/787)) [`0a50be`](https://github.com/reearth/resium/commit/0a50be)
+- Add `GooglePhotorealistic3DTileset` component ([#781](https://github.com/reearth/resium/pull/781)) [`7e4f3e`](https://github.com/reearth/resium/commit/7e4f3e)
+
+### fix
+
+- Ownership/destroy bugs (clippingPlanes/clippingPolygons, composite stages) + onSelectedEntityChange type ([#782](https://github.com/reearth/resium/pull/782)) [`2a5eee`](https://github.com/reearth/resium/commit/2a5eee)
+- Resolve real bugs (Globe terrain, StrictMode events, tileset url, Polyline material, Clock timeline) ([#780](https://github.com/reearth/resium/pull/780)) [`5be3dd`](https://github.com/reearth/resium/commit/5be3dd)
+
+### docs
+
+- Migrate documentation site from Docusaurus to Astro Starlight ([#784](https://github.com/reearth/resium/pull/784)) [`b3b80f`](https://github.com/reearth/resium/commit/b3b80f)
+- Clarify cesiumElement ref timing, useCesium scope, and tileset zoom ([#779](https://github.com/reearth/resium/pull/779)) [`f869c5`](https://github.com/reearth/resium/commit/f869c5)
+- Wrap Viewer/CesiumWidget @example JSX in code fences ([#783](https://github.com/reearth/resium/pull/783)) [`31fa9b`](https://github.com/reearth/resium/commit/31fa9b)
+- Fix broken README image links after docs migration [`5fb4a5`](https://github.com/reearth/resium/commit/5fb4a5)
+
+### chore
+
+- Add Backstage catalog-info.yaml ([#786](https://github.com/reearth/resium/pull/786)) [`395147`](https://github.com/reearth/resium/commit/395147)
+
+### ci
+
+- Cap pinned VRT baselines with protectedRetentionCount [`198f3a`](https://github.com/reearth/resium/commit/198f3a)
+- Pin main VRT snapshots and cap PR snapshots at 10 [`42ecfa`](https://github.com/reearth/resium/commit/42ecfa)
+
 ## 1.22.0 - 2026-05-29
 
 ### core
