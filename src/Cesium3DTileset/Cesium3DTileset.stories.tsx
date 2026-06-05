@@ -1,6 +1,6 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
-import { Viewer as CesiumViewer, Cesium3DTileStyle, IonResource } from "cesium";
+import { Viewer as CesiumViewer, Cesium3DTileStyle, IonResource, EdgeDisplayMode } from "cesium";
 import { useMemo, useRef } from "react";
 
 import { CesiumComponentRef } from "../core";
@@ -70,6 +70,32 @@ export const Style: Story = {
               },
             })
           }
+          onReady={tileset => {
+            ref.current?.cesiumElement?.zoomTo(tileset);
+          }}
+        />
+      </Viewer>
+    );
+  },
+};
+
+/**
+ * Demonstrates the new `edgeDisplayMode` prop (Cesium 1.142+). Visible effect
+ * requires source tilesets containing the `EXT_mesh_primitive_edge_visibility`
+ * glTF extension. Most demo tilesets do not include edge data, so this story
+ * documents the prop wiring; swap `url` for an edge-equipped tileset locally
+ * to see CAD-style wireframe rendering.
+ */
+export const EdgeDisplay: Story = {
+  render: args => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+    return (
+      <Viewer full ref={ref}>
+        <Cesium3DTileset
+          {...args}
+          url="./tileset/tileset.json"
+          edgeDisplayMode={EdgeDisplayMode.SURFACES_AND_EDGES}
           onReady={tileset => {
             ref.current?.cesiumElement?.zoomTo(tileset);
           }}

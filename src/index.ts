@@ -62,6 +62,11 @@ export {
 export { default as EntityDescription, type EntityDescriptionProps } from "./EntityDescription";
 export { default as Fog, type FogProps } from "./Fog";
 export { default as GeoJsonDataSource, type GeoJsonDataSourceProps } from "./GeoJsonDataSource";
+export {
+  default as GeoJsonPrimitive,
+  type GeoJsonPrimitiveProps,
+  type GeoJsonPrimitiveShape,
+} from "./GeoJsonPrimitive";
 export { default as Globe, type GlobeProps } from "./Globe";
 export {
   default as Google2DImageryProvider,
@@ -92,6 +97,12 @@ export { default as LabelGraphics, type LabelGraphicsProps } from "./LabelGraphi
 export { default as Model, type ModelProps } from "./Model";
 export { default as ModelGraphics, type ModelGraphicsProps } from "./ModelGraphics";
 export { default as Moon, type MoonProps } from "./Moon";
+export {
+  default as MVTDataProvider,
+  type MVTDataProviderProps,
+  type MVTDataProviderShape,
+  getTileset,
+} from "./MVTDataProvider";
 export { default as ParticleSystem, type ParticleSystemProps } from "./ParticleSystem";
 export { default as PathGraphics, type PathGraphicsProps } from "./PathGraphics";
 export { default as PlaneGraphics, type PlaneGraphicsProps } from "./PlaneGraphics";

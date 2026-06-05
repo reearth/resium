@@ -1,5 +1,4 @@
-import type {
-  Matrix4} from "cesium";
+import type { BlendOption, BoundingSphere, Matrix4 } from "cesium";
 import {
   BufferPointCollection as CesiumBufferPointCollection
 } from "cesium";
@@ -37,6 +36,20 @@ export type BufferPointCollectionConstructorProps = {
    * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
    */
   modelMatrix?: Matrix4;
+  /**
+   * Precomputed bounding volume. **Interpreted in world space** (Cesium 1.142+);
+   * apply the same `modelMatrix` to the bounding volume that you apply to the
+   * points. Providing this skips the per-frame recompute cost on large animated
+   * collections. Fixed at creation time.
+   */
+  boundingVolume?: BoundingSphere;
+  /**
+   * Blending mode for the collection. Use `BlendOption.OPAQUE_AND_TRANSLUCENT`
+   * (or `TRANSLUCENT`) together with a `BufferPrimitiveMaterial` whose
+   * `color.alpha`/`outlineColor.alpha` is less than 1 to render translucent
+   * points. Fixed at creation time.
+   */
+  blendOption?: BlendOption;
 };
 
 // Cesium 1.141's BufferPointCollection subclass constructor type omits the
@@ -45,7 +58,7 @@ export type BufferPointCollectionConstructorProps = {
 // the prop without losing typechecking on the rest of the options.
 type BufferPointCollectionCtorOptions = ConstructorParameters<
   typeof CesiumBufferPointCollection
->[0] & { modelMatrix?: Matrix4 };
+>[0] & { modelMatrix?: Matrix4; boundingVolume?: BoundingSphere; blendOption?: BlendOption };
 
 export type BufferPointCollectionOtherProps = {
   children?: ReactNode;
@@ -57,7 +70,12 @@ export type BufferPointCollectionProps = BufferPointCollectionCesiumProps &
 
 const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
 
-const cesiumReadonlyProps = ["primitiveCountMax", "modelMatrix"] as const;
+const cesiumReadonlyProps = [
+  "primitiveCountMax",
+  "modelMatrix",
+  "boundingVolume",
+  "blendOption",
+] as const;
 
 const BufferPointCollection = createCesiumComponent<
   CesiumBufferPointCollection,
@@ -69,6 +87,8 @@ const BufferPointCollection = createCesiumComponent<
     const element = new CesiumBufferPointCollection({
       primitiveCountMax: props.primitiveCountMax,
       modelMatrix: props.modelMatrix,
+      boundingVolume: props.boundingVolume,
+      blendOption: props.blendOption,
     } as BufferPointCollectionCtorOptions);
     context.primitiveCollection.add(element);
     return element;

@@ -1,5 +1,4 @@
-import type {
-  Matrix4} from "cesium";
+import type { BlendOption, BoundingSphere, Matrix4 } from "cesium";
 import {
   BufferPolylineCollection as CesiumBufferPolylineCollection
 } from "cesium";
@@ -39,6 +38,18 @@ export type BufferPolylineCollectionConstructorProps = {
    * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
    */
   modelMatrix?: Matrix4;
+  /**
+   * Precomputed bounding volume. **Interpreted in world space** (Cesium 1.142+);
+   * apply the same `modelMatrix` to the bounding volume that you apply to the
+   * polylines. Fixed at creation time.
+   */
+  boundingVolume?: BoundingSphere;
+  /**
+   * Blending mode for the collection. Pair with an alpha-aware
+   * `BufferPrimitiveMaterial` to render translucent polylines. Fixed at
+   * creation time.
+   */
+  blendOption?: BlendOption;
 };
 
 export type BufferPolylineCollectionOtherProps = {
@@ -51,7 +62,13 @@ export type BufferPolylineCollectionProps = BufferPolylineCollectionCesiumProps 
 
 const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
 
-const cesiumReadonlyProps = ["primitiveCountMax", "vertexCountMax", "modelMatrix"] as const;
+const cesiumReadonlyProps = [
+  "primitiveCountMax",
+  "vertexCountMax",
+  "modelMatrix",
+  "boundingVolume",
+  "blendOption",
+] as const;
 
 const BufferPolylineCollection = createCesiumComponent<
   CesiumBufferPolylineCollection,
@@ -64,6 +81,8 @@ const BufferPolylineCollection = createCesiumComponent<
       primitiveCountMax: props.primitiveCountMax,
       vertexCountMax: props.vertexCountMax,
       modelMatrix: props.modelMatrix,
+      boundingVolume: props.boundingVolume,
+      blendOption: props.blendOption,
     });
     context.primitiveCollection.add(element);
     return element;

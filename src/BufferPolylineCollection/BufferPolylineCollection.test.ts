@@ -12,12 +12,17 @@ type UnusedProps = UnusedCesiumProps<
   BufferPolylineCollection,
   Omit<
     BufferPolylineCollectionProps,
-    keyof BufferPolylineCollectionOtherProps | "primitiveCountMax" | "vertexCountMax" | "modelMatrix"
+    | keyof BufferPolylineCollectionOtherProps
+    | "primitiveCountMax"
+    | "vertexCountMax"
+    | "modelMatrix"
+    | "boundingVolume"
+    | "blendOption"
   >,
   {},
   IgnoredProps
 >;
-type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolume" | "boundingVolumeWC";
+type IgnoredProps = "length" | "DEFAULT_CAPACITY" | "boundingVolumeWC";
 
 expectType<TypeEqual<never, UnusedProps>>(true);
 
