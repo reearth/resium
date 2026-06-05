@@ -1,0 +1,5 @@
+import{i as e}from"./preload-helper-xPQekRTU.js";import{t}from"./iframe-D8yiWHZa.js";import{o as n,t as r}from"./core-Xtl2H-6c.js";import{t as i}from"./Viewer-BlJPjoxY.js";import{t as a}from"./Viewer-BkOwuFvD.js";var o,s=e((()=>{r(),o=n({name:`SkyAtmosphere`,create:e=>e.scene?.skyAtmosphere,cesiumProps:[`brightnessShift`,`hueShift`,`saturationShift`,`show`,`perFragmentAtmosphere`,`atmosphereLightIntensity`,`atmosphereRayleighCoefficient`,`atmosphereMieCoefficient`,`atmosphereRayleighScaleHeight`,`atmosphereMieScaleHeight`,`atmosphereMieAnisotropy`],setCesiumPropsAfterCreate:!0})})),c,l,u,d;e((()=>{a(),s(),c=t(),l={title:`SkyAtmosphere`,component:o},u={render:e=>(0,c.jsx)(i,{full:!0,children:(0,c.jsx)(o,{...e,hueShift:1,saturationShift:1})})},u.parameters={...u.parameters,docs:{...u.parameters?.docs,source:{originalSource:`{
+  render: args => <Viewer full>
+      <SkyAtmosphere {...args} hueShift={1} saturationShift={1} />
+    </Viewer>
+}`,...u.parameters?.docs?.source}}},d=[`Basic`]}))();export{u as Basic,d as __namedExportsOrder,l as default};

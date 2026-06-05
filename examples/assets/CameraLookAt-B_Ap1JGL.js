@@ -1,0 +1,1 @@
+import{i as e}from"./preload-helper-xPQekRTU.js";import{p as t,t as n}from"./core-Xtl2H-6c.js";var r,i=e((()=>{n(),r=t(`CameraLookAt`,(e,{target:t,offset:n})=>{e.lookAt(t,n)})}));export{i as n,r as t};
