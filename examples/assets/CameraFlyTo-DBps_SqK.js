@@ -1,0 +1,1 @@
+import{i as e}from"./preload-helper-xPQekRTU.js";import{p as t,t as n}from"./core-BUm37Lpy.js";var r,i=e((()=>{n(),r=t(`CameraFlyTo`,(e,{onComplete:t,onCancel:n,...r})=>{e.flyTo({...r,complete:t,cancel:n})})}));export{i as n,r as t};

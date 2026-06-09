@@ -1,0 +1,6 @@
+import{i as e}from"./preload-helper-xPQekRTU.js";import{t}from"./iframe-DBcQOIHP.js";import{t as n}from"./CameraFlyTo-DBps_SqK.js";import{t as r}from"./CameraFlyTo-CLNGVUsf.js";import{n as i,t as a}from"./VrtViewer-CQmvS0KB.js";import{n as o,t as s}from"./GeoJsonPrimitive-CVwzXmAQ.js";var c,l,u,d,f;e((()=>{r(),i(),o(),c=t(),l={type:`FeatureCollection`,features:[{type:`Feature`,geometry:{type:`Point`,coordinates:[-95,40]},properties:{}},{type:`Feature`,geometry:{type:`LineString`,coordinates:[[-96,39.5],[-94,40.5]]},properties:{}},{type:`Feature`,geometry:{type:`Polygon`,coordinates:[[[-95.6,39.8],[-94.4,39.8],[-94.4,40.2],[-95.6,40.2],[-95.6,39.8]]]},properties:{}}]},u={title:`VRT/GeoJsonPrimitive`,component:s,tags:[`vrt`]},d={render:()=>(0,c.jsxs)(a,{children:[(0,c.jsx)(n,{destination:Cesium.Cartesian3.fromDegrees(-95,40,15e5),duration:0}),(0,c.jsx)(s,{data:l})]})},d.parameters={...d.parameters,docs:{...d.parameters?.docs,source:{originalSource:`{
+  render: () => <VrtViewer>
+      <CameraFlyTo destination={Cartesian3.fromDegrees(-95.0, 40.0, 1_500_000)} duration={0} />
+      <GeoJsonPrimitive data={inlineGeoJson} />
+    </VrtViewer>
+}`,...d.parameters?.docs?.source}}},f=[`Default`]}))();export{d as Default,f as __namedExportsOrder,u as default};
