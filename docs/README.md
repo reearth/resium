@@ -19,7 +19,7 @@ from the TypeScript source annotations by `scripts/generator`. Regenerate them
 from the repository root:
 
 ```console
-yarn docs:generate
+npm run docs:generate
 ```
 
 Do not edit those files by hand — they are git-ignored and overwritten on every build.
@@ -29,14 +29,14 @@ Do not edit those files by hand — they are git-ignored and overwritten on ever
 Install dependencies (from this `docs/` directory):
 
 ```console
-yarn install
+npm install
 ```
 
 Generate the component docs and start the dev server (from the repository root):
 
 ```console
-yarn docs:generate
-yarn docs
+npm run docs:generate
+npm run docs
 ```
 
 ## Build
@@ -45,7 +45,7 @@ The full documentation site (library build + generated API docs + Storybook
 examples + Astro build) is produced from the repository root:
 
 ```console
-yarn docs:build
+npm run docs:build
 ```
 
 The static output is written to `docs/dist/` and deployed to GitHub Pages by CI.

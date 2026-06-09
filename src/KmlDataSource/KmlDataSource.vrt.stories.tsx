@@ -7,7 +7,7 @@ import KmlDataSource from "./KmlDataSource";
 
 /**
  * Stories tagged `vrt` are rendered deterministically (see `src/__vrt__`) so the
- * test runner can compare screenshots. Run `yarn storybook:build:vrt` then `yarn vrt`.
+ * test runner can compare screenshots. Run `npm run storybook:build:vrt` then `npm run vrt`.
  */
 const meta: Meta = {
   title: "VRT/KmlDataSource",

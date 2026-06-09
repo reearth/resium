@@ -6,8 +6,6 @@ Install `cesium` and `resium`:
 
 ```bash
 npm install --save cesium resium
-# OR
-yarn add cesium resium
 ```
 
 :::note
@@ -42,8 +40,6 @@ Create a new Vite project (select the "react" template):
 
 ```bash
 npm create vite@latest example -- --template react
-# OR
-yarn create vite example --template react
 ```
 
 Then install Cesium, Resium, and [vite-plugin-cesium](https://github.com/nshen/vite-plugin-cesium):
@@ -51,9 +47,6 @@ Then install Cesium, Resium, and [vite-plugin-cesium](https://github.com/nshen/v
 ```bash
 npm install --save cesium resium
 npm install --save-dev vite-plugin-cesium
-# OR
-yarn add cesium resium
-yarn add --dev vite-plugin-cesium
 ```
 
 Then edit `vite.config.js`:
@@ -91,8 +84,6 @@ Cesium loads its built assets (workers, third-party libraries, widget images) at
 
 ```bash
 npm install
-# OR
-yarn
 ```
 
 ```text title=".gitignore"
@@ -191,8 +182,6 @@ See also: [example project](https://github.com/reearth/resium/tree/main/examples
 
 ```bash
 npm install --save-dev copy-webpack-plugin html-webpack-plugin html-webpack-tags-plugin
-# OR
-yarn add copy-webpack-plugin html-webpack-plugin html-webpack-tags-plugin
 ```
 
 Then, edit your webpack configuration.
@@ -262,8 +251,6 @@ See also: [example project](https://github.com/reearth/resium/tree/main/examples
 
 ```bash
 npm install --save-dev html-webpack-plugin copy-webpack-plugin css-loader style-loader url-loader
-# OR
-yarn add --dev html-webpack-plugin copy-webpack-plugin css-loader style-loader url-loader
 ```
 
 Then, edit your webpack configuration.

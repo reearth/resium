@@ -51,7 +51,7 @@ jobs:
           # the bundled npm is still 10.x, so we upgrade it via corepack below.
           node-version-file: ".node-version"
           registry-url: "https://registry.npmjs.org"
-          cache: "yarn"
+          cache: "npm"
       - name: Activate npm via corepack
         # Trusted Publishing needs npm >=11.5.1; Node 22 ships npm 10.x.
         # We cannot use `npm install -g npm@<version>` to upgrade because the
@@ -64,7 +64,7 @@ jobs:
           corepack prepare npm@11.5.1 --activate
           npm --version
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Verify tag matches package.json version
         # The release PR already bumped package.json. We just sanity-check
         # that the pushed tag matches, then publish — no version mutation
@@ -78,7 +78,7 @@ jobs:
           fi
           echo "Publishing version $PKG_VERSION"
       - name: Build
-        run: yarn build
+        run: npm run build
       - name: Publish to npm with provenance
         # Pre-release tags (vX.Y.Z-foo) go to the `next` dist-tag so they
         # don't replace `latest`. Stable tags (vX.Y.Z) go to `latest`.

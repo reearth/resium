@@ -21,5 +21,5 @@ yarn-error.log*
 # resium: generated API docs (see scripts/generator)
 /src/content/docs/components/*.md
 
-# resium: Storybook examples built by `yarn storybook:build`
+# resium: Storybook examples built by `npm run storybook:build`
 /public/examples/

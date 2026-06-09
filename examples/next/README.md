@@ -13,8 +13,8 @@ This is bundler-agnostic — it works with both Turbopack (the Next.js default) 
 ## Getting Started
 
 ```bash
-yarn install   # runs postinstall to link public/cesium
-yarn dev
+npm install   # runs postinstall to link public/cesium
+npm run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000).
