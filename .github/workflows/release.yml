@@ -46,13 +46,13 @@ jobs:
         uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
         with:
           node-version-file: ".node-version"
-          cache: "yarn"
+          cache: "npm"
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: npm ci
       - name: Run tests
-        run: yarn test --run
+        run: npm test -- --run
       - name: Build
-        run: yarn build
+        run: npm run build
       - name: Get current version from package.json
         id: current_version
         run: |
@@ -100,8 +100,8 @@ jobs:
           # Remove temporary changelog file
           rm CHANGELOG_latest.md
 
-          # Commit changes
-          git add CHANGELOG.md package.json
+          # Commit changes (npm version updates package-lock.json too)
+          git add CHANGELOG.md package.json package-lock.json
           git commit -m "chore: release ${TAG}"
 
           # Push branch

@@ -20,18 +20,18 @@ Please open a issue in [GitHub issues](https://github.com/reearth/resium/issues)
 
 ## Start hacking
 
-Resium requires an editor supporting TypeScript, ESLint, and Yarn.
+Resium requires an editor supporting TypeScript and ESLint.
 
 1. Fork [resium repository](https://github.com/reearth/resium).
 2. Clone a new repository made with forking.
-3. Install modules with `yarn` command.
+3. Install modules with `npm install` command.
 4. Let's develop!
 5. Commit and push your changes.
 6. Make a new [pull request](https://github.com/reearth/resium/pulls) in resium repository.
 
-- To run test: `yarn test`
-- To start storybook: `yarn storybook`
-- To build: `yarn build`
+- To run test: `npm test`
+- To start storybook: `npm run storybook`
+- To build: `npm run build`
 
 ## Visual regression testing (VRT)
 
@@ -42,10 +42,10 @@ It renders deterministically on the CPU (Chromium + SwiftShader software renderi
 ### Running locally
 
 ```bash
-yarn playwright install chromium   # first time only
-yarn storybook:build:vrt           # build Storybook
-yarn vrt:update                    # create local baselines
-yarn vrt                           # compare against them
+npx playwright install chromium      # first time only
+npm run storybook:build:vrt          # build Storybook
+npm run vrt:update                   # create local baselines
+npm run vrt                          # compare against them
 ```
 
 Note: local (macOS) renders will not match CI (Linux) pixel-for-pixel. Local runs are for a quick visual check; CI is the source of truth.
