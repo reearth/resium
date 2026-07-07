@@ -245,11 +245,19 @@ describe("core/component", () => {
 
     rerender(<Component foo={2} />);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(createFn).toBeCalledTimes(2);
       expect(destroyFn).toBeCalledTimes(1);
       expect(cesiumElement.foo).toBe(2);
     });
+
+    rerender(<Component foo={3} />);
+
+    await waitFor(() => {
+      expect(createFn).toBeCalledTimes(3);
+      expect(destroyFn).toBeCalledTimes(2);
+      expect(cesiumElement.foo).toBe(3);
+    })
   });
 
   it("should call update", async () => {
