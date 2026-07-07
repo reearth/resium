@@ -33,6 +33,7 @@ const cesiumProps = [
   "show",
   "width",
   "material",
+  "materialMode",
   "resolution",
   "distanceDisplayCondition",
   "relativeTo",
