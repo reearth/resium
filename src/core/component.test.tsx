@@ -215,7 +215,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should remount when cesium read only props are updated on subsequent rerenders", async () => {
+  it("should remount on every cesium read only prop update", async () => {
     const cesiumElement = {
       foo: 0,
     };
