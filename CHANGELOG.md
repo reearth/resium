@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.24.0 - 2026-07-09
+
+### chore
+
+- Upgrade to Cesium 1.143 + monthly dep and CI action refresh ([#797](https://github.com/reearth/resium/pull/797)) [`d1df46`](https://github.com/reearth/resium/commit/d1df46)
+- Migrate package manager from Yarn to npm ([#791](https://github.com/reearth/resium/pull/791)) [`733400`](https://github.com/reearth/resium/commit/733400)
+
 ## 1.23.0 - 2026-06-05
 
 > **Heads up — `boundingVolume` is now world-space.** Cesium 1.142 changed the semantic of `boundingVolume` on `BufferPointCollection` / `BufferPolylineCollection` / `BufferPolygonCollection` from local/model space to **world space**. Resium now exposes `boundingVolume` as a constructor prop, so consumers passing a precomputed bounding volume must recompute it in world coordinates. See the [v1.23 migration guide](https://resium.reearth.io/migration/) for details.
