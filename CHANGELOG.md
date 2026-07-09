@@ -2,9 +2,12 @@
 
 ## 1.24.0 - 2026-07-09
 
+### feat
+
+- Support Cesium 1.143 — new `PathGraphics.materialMode` prop (`WHOLE` | `PORTIONS`) for per-segment path materials. Bundled with monthly dev-dep refresh, Astro 6→7 docs bump, and CI action bumps (`actions/checkout` v7, `codecov` v7) ([#797](https://github.com/reearth/resium/pull/797)) [`d1df46`](https://github.com/reearth/resium/commit/d1df46)
+
 ### chore
 
-- Upgrade to Cesium 1.143 + monthly dep and CI action refresh ([#797](https://github.com/reearth/resium/pull/797)) [`d1df46`](https://github.com/reearth/resium/commit/d1df46)
 - Migrate package manager from Yarn to npm ([#791](https://github.com/reearth/resium/pull/791)) [`733400`](https://github.com/reearth/resium/commit/733400)
 
 ## 1.23.0 - 2026-06-05
