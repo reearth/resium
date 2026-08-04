@@ -1,9 +1,12 @@
 import { render, waitFor } from "@testing-library/react";
+import type { ScreenSpaceTiltOrbitCameraController as CesiumScreenSpaceTiltOrbitCameraController } from "cesium";
 import { MouseButton } from "cesium";
+import { createRef } from "react";
 import { expect, it, vi } from "vitest";
 
 import ScreenSpaceTiltOrbitCameraController from "../ScreenSpaceTiltOrbitCameraController";
 
+import type { CesiumComponentRef } from "./component";
 import { CesiumContext } from "./context";
 
 function makeContext() {
@@ -114,14 +117,32 @@ it("re-creates the controller when dragInputs changes", async () => {
   expect(registerController.mock.calls[1][0].dragInputs).toEqual([{ button: MouseButton.RIGHT }]);
 });
 
-it("does nothing when there is no widget in context", async () => {
-  const { registerController } = makeContext();
+it("does not register when the widget has no container", async () => {
+  const { ctx, registerController } = makeContext();
+  // Reachable mock: the widget is in context, only the container is missing.
+  ctx.cesiumWidget.container = undefined;
+  const ref = createRef<CesiumComponentRef<CesiumScreenSpaceTiltOrbitCameraController>>();
 
   render(
-    <CesiumContext.Provider value={{} as any}>
-      <ScreenSpaceTiltOrbitCameraController />
+    <CesiumContext.Provider value={ctx}>
+      <ScreenSpaceTiltOrbitCameraController ref={ref} />
     </CesiumContext.Provider>,
   );
 
-  await waitFor(() => expect(registerController).not.toHaveBeenCalled());
+  await waitFor(() => expect(ref.current).not.toBeNull());
+  expect(registerController).not.toHaveBeenCalled();
+  expect(ref.current?.cesiumElement).toBeFalsy();
+});
+
+it("creates no controller when there is no widget in context", async () => {
+  const ref = createRef<CesiumComponentRef<CesiumScreenSpaceTiltOrbitCameraController>>();
+
+  render(
+    <CesiumContext.Provider value={{} as any}>
+      <ScreenSpaceTiltOrbitCameraController ref={ref} />
+    </CesiumContext.Provider>,
+  );
+
+  await waitFor(() => expect(ref.current).not.toBeNull());
+  expect(ref.current?.cesiumElement).toBeFalsy();
 });
