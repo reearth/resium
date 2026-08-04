@@ -20,10 +20,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          # Check out the PR head SHA from its head repo so fork PRs whose branch
-          # is named `main` don't accidentally resolve to the base repo's main.
-          # Also avoids the auto-generated merge ref, which reg-keygen can't parse.
-          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          # Check out the PR head branch from its head repo so fork PRs whose
+          # branch is named `main` don't resolve against the base repo. Use the
+          # branch name (not SHA) so reg-keygen sees HEAD attached to a branch
+          # rather than detached — it errors otherwise.
+          ref: ${{ github.head_ref || github.ref }}
           repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           # reg-keygen walks git history to find the base commit — needs full history.
           fetch-depth: 0
