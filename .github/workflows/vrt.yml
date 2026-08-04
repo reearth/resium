@@ -20,11 +20,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
         with:
-          # On pull_request, checkout defaults to a detached merge ref, which
-          # breaks reg-keygen-git-hash-plugin ("can't detect branch name").
-          # Check out the PR head branch instead; empty on push, which falls
-          # back to the default ref.
-          ref: ${{ github.head_ref }}
+          # Check out the PR head commit directly from its head repo. This works
+          # for same-repo AND fork PRs — the previous `ref: ${{ github.head_ref }}`
+          # broke on fork PRs whose branch happened to be named `main`, because
+          # actions/checkout resolved the ref against the base repo, checking out
+          # base main instead of the fork's PR branch. It also avoids the
+          # auto-generated merge ref, which reg-keygen-git-hash-plugin can't
+          # reason about ("can't detect branch name").
+          # On push events, both pull_request expressions are null so we fall
+          # back to the workflow's default ref + base repo.
+          ref: ${{ github.event.pull_request.head.sha || github.ref }}
+          repository: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
           # reg-keygen-git-hash-plugin walks the git history to find the base
           # commit, so it needs the full history rather than a shallow clone.
           fetch-depth: 0
