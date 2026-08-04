@@ -18,14 +18,18 @@ export default {
 
 // Drag to pan. Looking mostly down pans across the map; tilt towards the horizon and the
 // same drag pans vertically instead. `angleThreshold` is where it switches over.
+//
+// Starts ~15 degrees off nadir, comfortably inside the default 45 degree threshold, so
+// it opens in map-pan mode. Tilt up past the threshold to feel it hand over to elevator
+// panning — starting at the threshold itself would make the switch ambiguous.
 export const Basic: Story = {
   args: { angleThreshold: CesiumMath.toRadians(45) },
   render: args => (
     <Viewer full>
       <ScreenSpaceCameraController enableInputs={false} enableCollisionDetection={false} />
       <CameraFlyTo
-        destination={Cartesian3.fromDegrees(139.767, 35.681, 3000)}
-        orientation={{ pitch: CesiumMath.toRadians(-45) }}
+        destination={Cartesian3.fromDegrees(139.767, 35.681, 4000)}
+        orientation={{ pitch: CesiumMath.toRadians(-75) }}
         duration={0}
       />
       <HybridScreenSpacePanCameraController {...args} />
@@ -43,8 +47,8 @@ export const CombinedInspectionCamera: Story = {
     <Viewer full>
       <ScreenSpaceCameraController enableInputs={false} enableCollisionDetection={false} />
       <CameraFlyTo
-        destination={Cartesian3.fromDegrees(139.767, 35.681, 3000)}
-        orientation={{ pitch: CesiumMath.toRadians(-45) }}
+        destination={Cartesian3.fromDegrees(139.767, 35.681, 2500)}
+        orientation={{ pitch: CesiumMath.toRadians(-35) }}
         duration={0}
       />
       <HybridScreenSpacePanCameraController {...args} />

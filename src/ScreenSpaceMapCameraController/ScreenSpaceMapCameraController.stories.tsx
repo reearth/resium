@@ -16,14 +16,17 @@ export default {
 
 // Drag to pan across the map. The world position picked when the drag starts stays
 // under the pointer.
+//
+// Starts looking straight down, which is the regime this controller is built for —
+// panning reads as sliding a map around underneath you.
 export const Basic: Story = {
   args: { panSpeed: 1, inertiaEnabled: true, inertialDecay: 0.9 },
   render: args => (
     <Viewer full>
       <ScreenSpaceCameraController enableInputs={false} />
       <CameraFlyTo
-        destination={Cartesian3.fromDegrees(139.767, 35.681, 3000)}
-        orientation={{ pitch: CesiumMath.toRadians(-45) }}
+        destination={Cartesian3.fromDegrees(139.767, 35.681, 6000)}
+        orientation={{ pitch: CesiumMath.toRadians(-90) }}
         duration={0}
       />
       <ScreenSpaceMapCameraController {...args} />

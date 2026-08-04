@@ -16,14 +16,17 @@ export default {
 
 // Drag with the right mouse button to tilt and orbit. `useDragPosition` pivots around
 // the position under the pointer instead of the center of the screen.
+//
+// Starts oblique: tilting and orbiting are only visible when the camera has an angle
+// to swing through, so neither the overhead nor the near-horizon view would show it.
 export const Basic: Story = {
-  args: { tiltEnabled: true, orbitEnabled: true, useDragPosition: true, dampingEnabled: true },
+  args: { tiltEnabled: false, orbitEnabled: false, useDragPosition: true, dampingEnabled: true },
   render: args => (
     <Viewer full>
       <ScreenSpaceCameraController enableInputs={false} enableCollisionDetection={false} />
       <CameraFlyTo
-        destination={Cartesian3.fromDegrees(139.767, 35.681, 3000)}
-        orientation={{ pitch: CesiumMath.toRadians(-45) }}
+        destination={Cartesian3.fromDegrees(139.767, 35.681, 2500)}
+        orientation={{ pitch: CesiumMath.toRadians(-35) }}
         duration={0}
       />
       <ScreenSpaceTiltOrbitCameraController {...args} />
