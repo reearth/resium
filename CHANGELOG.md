@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.25.0 - 2026-08-07
+
+### ci
+
+#### fix
+
+- Correct VRT checkout for fork PRs ([#803](https://github.com/reearth/resium/pull/803)) [`5ed468`](https://github.com/reearth/resium/commit/5ed468)
+
+### 
+
+#### feat
+
+- Cesium 1.144 composable camera controllers + monthly maintenance ([#802](https://github.com/reearth/resium/pull/802)) [`992ce8`](https://github.com/reearth/resium/commit/992ce8)
+
+#### 
+
+- Fix:  readOnly prop updates in Component not properly propagating ([#796](https://github.com/reearth/resium/pull/796)) [`95a3a7`](https://github.com/reearth/resium/commit/95a3a7)
+
 ## 1.24.0 - 2026-07-09
 
 ### feat
