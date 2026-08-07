@@ -1,4 +1,4 @@
-import type { Viewer as CesiumViewer } from "cesium";
+import type { Cartesian3, Viewer as CesiumViewer } from "cesium";
 import type { ReactNode} from "react";
 import { useEffect, useMemo, useRef } from "react";
 
@@ -9,6 +9,13 @@ import { applyDeterminism, offlineBaseLayer, signalWhenStable } from "./determin
 
 export type VrtViewerProps = {
   children?: ReactNode;
+  /**
+   * Camera destination used for the deterministic initial view. Defaults to a
+   * globe-scale view of North America. Stories that need to see small features
+   * must set this instead of layering a `<CameraFlyTo>` — child camera effects
+   * race the setup effect and the winner has flipped across Cesium versions.
+   */
+  defaultView?: Cartesian3;
 };
 
 /**
@@ -16,7 +23,7 @@ export type VrtViewerProps = {
  * imagery, fixed clock/camera, no antialiasing or atmosphere, and a readiness
  * flag exposed on `window` once the scene is stable.
  */
-const VrtViewer = ({ children }: VrtViewerProps) => {
+const VrtViewer = ({ children, defaultView }: VrtViewerProps) => {
   const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
   const baseLayer = useMemo(() => offlineBaseLayer(), []);
 
@@ -30,7 +37,7 @@ const VrtViewer = ({ children }: VrtViewerProps) => {
         raf = requestAnimationFrame(start);
         return;
       }
-      applyDeterminism(viewer);
+      applyDeterminism(viewer, defaultView);
       cleanup = signalWhenStable(viewer);
     };
     start();
@@ -39,7 +46,7 @@ const VrtViewer = ({ children }: VrtViewerProps) => {
       cancelAnimationFrame(raf);
       cleanup();
     };
-  }, []);
+  }, [defaultView]);
 
   return (
     <Viewer

@@ -31,11 +31,21 @@ export const offlineBaseLayer = (): ImageryLayer =>
 
 const FIXED_TIME = JulianDate.fromIso8601("2020-01-01T00:00:00Z");
 
+const DEFAULT_VIEW = Cartesian3.fromDegrees(-100, 40, 15_000_000);
+
 /**
  * Removes every known source of frame-to-frame and machine-to-machine variance
  * so that screenshots are byte-stable under software (SwiftShader) rendering.
+ * Also positions the camera at `defaultView` (or a globe-scale fallback) — this
+ * is the single source of truth for the deterministic view; stories should
+ * override via `<VrtViewer defaultView={...}>` rather than layering a
+ * `<CameraFlyTo>` on top, which races the setup effect and is order-dependent
+ * across Cesium versions.
  */
-export const applyDeterminism = (viewer: CesiumViewer): void => {
+export const applyDeterminism = (
+  viewer: CesiumViewer,
+  defaultView: Cartesian3 = DEFAULT_VIEW,
+): void => {
   const { scene, clock, camera } = viewer;
 
   clock.shouldAnimate = false;
@@ -54,9 +64,7 @@ export const applyDeterminism = (viewer: CesiumViewer): void => {
   viewer.resolutionScale = 1;
   viewer.useBrowserRecommendedResolution = true;
 
-  camera.setView({
-    destination: Cartesian3.fromDegrees(-100, 40, 15_000_000),
-  });
+  camera.setView({ destination: defaultView });
 };
 
 /**
