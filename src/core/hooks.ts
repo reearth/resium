@@ -234,6 +234,7 @@ export const useCesiumComponent = <Element, Props extends RootComponentInternalP
     }
 
     if (!unmountReadyRef.current) {
+      mountedRef.current = true;
       setMounted(true);
     }
   }, [ctx]); // eslint-disable-line react-hooks/exhaustive-deps

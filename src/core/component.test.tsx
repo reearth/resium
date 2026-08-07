@@ -215,7 +215,7 @@ describe("core/component", () => {
     });
   });
 
-  it("should remount when cesium read only props are updated", async () => {
+  it("should remount on every cesium read only prop update", async () => {
     const cesiumElement = {
       foo: 0,
     };
@@ -245,10 +245,18 @@ describe("core/component", () => {
 
     rerender(<Component foo={2} />);
 
-    waitFor(() => {
+    await waitFor(() => {
       expect(createFn).toBeCalledTimes(2);
       expect(destroyFn).toBeCalledTimes(1);
       expect(cesiumElement.foo).toBe(2);
+    });
+
+    rerender(<Component foo={3} />);
+
+    await waitFor(() => {
+      expect(createFn).toBeCalledTimes(3);
+      expect(destroyFn).toBeCalledTimes(2);
+      expect(cesiumElement.foo).toBe(3);
     });
   });
 
