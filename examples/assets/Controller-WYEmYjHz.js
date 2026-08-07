@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";var t,n,r;function i(){return(i=e((()=>{t=e=>e.cesiumWidget?.container,n=(e,n,r)=>{let i=e.cesiumWidget,a=t(e);return!i||!a?!1:(i.scene.controllerHost.registerController(n,a,r),!0)},r=(e,n)=>{let r=e.cesiumWidget,i=t(e);!r||!i||r.isDestroyed()||r.scene.controllerHost.unregisterController(n,i)}})))()}export{n,r,i as t};
