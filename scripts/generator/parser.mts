@@ -171,7 +171,9 @@ function getDesc(s: Symbol | undefined, tc: TypeChecker) {
   return s
     ?.getDocumentationComment(tc)
     .filter(c => c.kind === "text")
-    .map(c => c.text.replace(/\n/g, ""))
+    // Collapse the newlines of a wrapped JSDoc comment into single spaces.
+    // Stripping them outright would run the words either side together.
+    .map(c => c.text.replace(/\s*\n\s*/g, " "))
     .join("");
 }
 

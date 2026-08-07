@@ -85,6 +85,10 @@ export {
   default as GroundPrimitiveCollection,
   type GroundPrimitiveCollectionProps,
 } from "./GroundPrimitiveCollection";
+export {
+  default as HybridScreenSpacePanCameraController,
+  type HybridScreenSpacePanCameraControllerProps,
+} from "./HybridScreenSpacePanCameraController";
 export { default as ImageryLayer, type ImageryLayerProps } from "./ImageryLayer";
 export {
   default as ImageryLayerCollection,
@@ -155,6 +159,22 @@ export {
   default as ScreenSpaceCameraController,
   type ScreenSpaceCameraControllerProps,
 } from "./ScreenSpaceCameraController";
+export {
+  default as ScreenSpaceElevatorCameraController,
+  type ScreenSpaceElevatorCameraControllerProps,
+} from "./ScreenSpaceElevatorCameraController";
+export {
+  default as ScreenSpaceMapCameraController,
+  type ScreenSpaceMapCameraControllerProps,
+} from "./ScreenSpaceMapCameraController";
+export {
+  default as ScreenSpaceTiltOrbitCameraController,
+  type ScreenSpaceTiltOrbitCameraControllerProps,
+} from "./ScreenSpaceTiltOrbitCameraController";
+export {
+  default as ScreenSpaceZoomCameraController,
+  type ScreenSpaceZoomCameraControllerProps,
+} from "./ScreenSpaceZoomCameraController";
 export { default as ScreenSpaceEvent, type ScreenSpaceEventProps } from "./ScreenSpaceEvent";
 export {
   default as ScreenSpaceEventHandler,

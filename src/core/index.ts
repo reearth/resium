@@ -1,6 +1,7 @@
 export * from "./CameraOperation";
 export * from "./component";
 export * from "./context";
+export * from "./Controller";
 export * from "./EventManager";
 export * from "./hooks";
 export * from "./PostProcessStage";

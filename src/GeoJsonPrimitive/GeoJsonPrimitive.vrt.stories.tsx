@@ -1,12 +1,13 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Cartesian3 } from "cesium";
 
-import CameraFlyTo from "../CameraFlyTo";
 import VrtViewer from "../__vrt__/VrtViewer";
 
 import GeoJsonPrimitive from "./GeoJsonPrimitive";
 
 type Story = StoryObj<typeof GeoJsonPrimitive>;
+
+const CENTRAL_US_CLOSE = Cartesian3.fromDegrees(-95.0, 40.0, 1_500_000);
 
 const inlineGeoJson = {
   type: "FeatureCollection",
@@ -54,8 +55,7 @@ export default {
 
 export const Default: Story = {
   render: () => (
-    <VrtViewer>
-      <CameraFlyTo destination={Cartesian3.fromDegrees(-95.0, 40.0, 1_500_000)} duration={0} />
+    <VrtViewer defaultView={CENTRAL_US_CLOSE}>
       <GeoJsonPrimitive data={inlineGeoJson} />
     </VrtViewer>
   ),
