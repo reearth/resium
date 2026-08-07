@@ -2,21 +2,17 @@
 
 ## 1.25.0 - 2026-08-07
 
+### feat
+
+- Support Cesium 1.144 — five new composable camera controllers (`HybridScreenSpacePan`, `ScreenSpaceElevator`, `ScreenSpaceMap`, `ScreenSpaceTiltOrbit`, `ScreenSpaceZoom`) plus a `Controller` context wired into `Viewer.addController` / `Scene.controllerHost`. Bundled with monthly dev-dep refresh and Astro 7.1 docs bump ([#802](https://github.com/reearth/resium/pull/802)) [`992ce8`](https://github.com/reearth/resium/commit/992ce8)
+
+### fix
+
+- Ensure readonly prop updates propagate on every rerender, not just the first — closes a latent recreation-loop bug in `useCesiumComponent`. Community contribution — thanks @squeakyrino! ([#796](https://github.com/reearth/resium/pull/796)) [`95a3a7`](https://github.com/reearth/resium/commit/95a3a7)
+
 ### ci
 
-#### fix
-
-- Correct VRT checkout for fork PRs ([#803](https://github.com/reearth/resium/pull/803)) [`5ed468`](https://github.com/reearth/resium/commit/5ed468)
-
-### 
-
-#### feat
-
-- Cesium 1.144 composable camera controllers + monthly maintenance ([#802](https://github.com/reearth/resium/pull/802)) [`992ce8`](https://github.com/reearth/resium/commit/992ce8)
-
-#### 
-
-- Fix:  readOnly prop updates in Component not properly propagating ([#796](https://github.com/reearth/resium/pull/796)) [`95a3a7`](https://github.com/reearth/resium/commit/95a3a7)
+- Correct VRT checkout for fork PRs so external contributions run against the right code and reg-suit finds the right baseline ([#803](https://github.com/reearth/resium/pull/803)) [`5ed468`](https://github.com/reearth/resium/commit/5ed468)
 
 ## 1.24.0 - 2026-07-09
 
