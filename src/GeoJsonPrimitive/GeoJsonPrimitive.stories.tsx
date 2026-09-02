@@ -167,19 +167,17 @@ export const FromUrl: Story = {
   },
 };
 
-// Same shapes as `inlineGeoJson`, but with a 40 km altitude on every coordinate
-// (GeoJSON positions accept an optional third element). Under the default
-// `heightReference` these render 40 km up; under a clamping value the primitive
-// is draped onto the surface, which is what makes the prop's effect visible
-// without a terrain provider.
+// A LineString and a Polygon, every coordinate carrying a 40 km altitude.
+// Under the default `heightReference` these render 40 km up; under a clamping
+// value they are draped onto the surface, which is what makes the prop's effect
+// visible without a terrain provider.
+//
+// Deliberately no Point feature: Cesium 1.145's `GeoJsonPrimitive` cannot clamp
+// points (see the `Draped` story notes), so including one would leave it
+// floating while everything else dropped — and would trip a console warning.
 const highAltitudeGeoJson = {
   type: "FeatureCollection",
   features: [
-    {
-      type: "Feature",
-      geometry: { type: "Point", coordinates: [-95.0, 40.0, 40_000] },
-      properties: { id: "p1" },
-    },
     {
       type: "Feature",
       geometry: {
@@ -191,20 +189,43 @@ const highAltitudeGeoJson = {
       },
       properties: { id: "l1" },
     },
+    {
+      type: "Feature",
+      geometry: {
+        type: "Polygon",
+        coordinates: [
+          [
+            [-95.6, 39.7, 40_000],
+            [-94.4, 39.7, 40_000],
+            [-95.0, 40.3, 40_000],
+            [-95.6, 39.7, 40_000],
+          ],
+        ],
+      },
+      properties: { id: "poly1" },
+    },
   ],
 };
 
 /**
  * Draping — demonstrates the `heightReference` prop (Cesium 1.145+). Every
- * coordinate in this FeatureCollection carries a 40 km altitude, but
+ * coordinate here carries a 40 km altitude, but
  * `HeightReference.CLAMP_TO_GROUND` drapes the decoded geometry onto the
- * surface, so it renders on the globe instead of floating above it.
+ * surface, so it renders on the globe instead of floating above it. Compare
+ * against `Inline`, which draws its geometry as ordinary un-draped primitives.
  *
  * Cesium requires a `Scene` alongside a clamping `heightReference`; resium
  * supplies the enclosing `Viewer`/`CesiumWidget` scene automatically, so
  * there is no `scene` prop to pass. With a real terrain or 3D Tiles provider
  * mounted, `CLAMP_TO_TERRAIN` / `CLAMP_TO_3D_TILE` target those surfaces
  * specifically; `CLAMP_TO_GROUND` targets both.
+ *
+ * **Draping covers polylines and polygons, not points.** As of 1.145
+ * `GeoJsonPrimitive` builds its `BufferPointCollection` without a
+ * `heightReference` and never routes points through the scene's vector
+ * provider, so `Point` features keep their original heights and Cesium logs a
+ * one-time `"Clamped HeightReference unsupported on BufferPointCollection"`
+ * warning. This story therefore uses a LineString and a Polygon only.
  *
  * Materials are still applied in `onReady` — draping changes where geometry
  * lands, not whether it has a visible style.
@@ -220,15 +241,12 @@ export const Draped: Story = {
         onReady={primitive => {
           action("onReady")(primitive);
           applyVisibleStyle(primitive, {
-            pointMaterial: new BufferPointMaterial({
-              size: 18,
-              color: Color.ORANGE,
-              outlineColor: Color.WHITE,
-              outlineWidth: 2,
-            }),
             polylineMaterial: new BufferPolylineMaterial({
               width: 4,
               color: Color.ORANGE,
+            }),
+            polygonMaterial: new BufferPolygonMaterial({
+              color: Color.ORANGE.withAlpha(0.5),
             }),
           });
         }}

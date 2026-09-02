@@ -44,6 +44,14 @@ export type GeoJsonPrimitiveCesiumReadonlyProps = {
    * and `CLAMP_TO_GROUND` onto both. Cesium requires a `Scene` for clamping
    * values; resium supplies the enclosing `Viewer`/`CesiumWidget` scene
    * automatically. Fixed at creation time.
+   *
+   * **Polylines and polygons only.** As of Cesium 1.145 `GeoJsonPrimitive`
+   * does not support clamped points: it builds its `BufferPointCollection`
+   * without a `heightReference` and never routes points through the scene's
+   * vector provider, so `Point`/`MultiPoint` features keep their original
+   * heights. A FeatureCollection carrying points plus a clamping value also
+   * makes Cesium log a one-time
+   * `"Clamped HeightReference unsupported on BufferPointCollection"` warning.
    */
   heightReference?: HeightReference;
 };
