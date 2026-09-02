@@ -76,7 +76,7 @@ function parsePropDeclaration(
   const key: PropKind | undefined =
     name + "CesiumProps" === nodeName
       ? "cesiumProps"
-      : name + "CesiumReadonlyProps" === nodeName
+      : name + "CesiumReadonlyProps" === nodeName || name + "ConstructorProps" === nodeName
         ? "cesiumReadonlyProps"
         : name + "CesiumEvents" === nodeName
           ? "cesiumEvents"
