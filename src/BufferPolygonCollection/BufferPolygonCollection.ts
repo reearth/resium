@@ -1,4 +1,10 @@
-import type { BlendOption, BoundingSphere, ComponentDatatype, Matrix4 } from "cesium";
+import type {
+  BlendOption,
+  BoundingSphere,
+  ComponentDatatype,
+  HeightReference,
+  Matrix4,
+} from "cesium";
 import {
   BufferPolygonCollection as CesiumBufferPolygonCollection
 } from "cesium";
@@ -58,6 +64,13 @@ export type BufferPolygonCollectionConstructorProps = {
    * creation time.
    */
   blendOption?: BlendOption;
+  /**
+   * When set to a clamping value, the whole collection is draped onto terrain
+   * and/or 3D Tiles (Cesium 1.145+) instead of being drawn as geometry of its
+   * own. `CLAMP_TO_TERRAIN` drapes onto terrain, `CLAMP_TO_3D_TILE` onto 3D
+   * Tiles, and `CLAMP_TO_GROUND` onto both. Fixed at creation time.
+   */
+  heightReference?: HeightReference;
 };
 
 // Cesium 1.141's BufferPolygonCollection subclass constructor type omits the
@@ -92,6 +105,7 @@ const cesiumReadonlyProps = [
   "modelMatrix",
   "boundingVolume",
   "blendOption",
+  "heightReference",
 ] as const;
 
 const BufferPolygonCollection = createCesiumComponent<
@@ -111,6 +125,7 @@ const BufferPolygonCollection = createCesiumComponent<
       modelMatrix: props.modelMatrix,
       boundingVolume: props.boundingVolume,
       blendOption: props.blendOption,
+      heightReference: props.heightReference,
     } as BufferPolygonCollectionCtorOptions);
     context.primitiveCollection.add(element);
     return element;

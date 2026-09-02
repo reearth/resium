@@ -1,4 +1,4 @@
-import type { BlendOption, BoundingSphere, Matrix4 } from "cesium";
+import type { BlendOption, BoundingSphere, HeightReference, Matrix4 } from "cesium";
 import {
   BufferPolylineCollection as CesiumBufferPolylineCollection
 } from "cesium";
@@ -50,6 +50,21 @@ export type BufferPolylineCollectionConstructorProps = {
    * creation time.
    */
   blendOption?: BlendOption;
+  /**
+   * When set to a clamping value, the whole collection is draped onto terrain
+   * and/or 3D Tiles (Cesium 1.145+) instead of being drawn as geometry of its
+   * own. `CLAMP_TO_TERRAIN` drapes onto terrain, `CLAMP_TO_3D_TILE` onto 3D
+   * Tiles, and `CLAMP_TO_GROUND` onto both. Fixed at creation time.
+   */
+  heightReference?: HeightReference;
+  /**
+   * Unit for `BufferPolyline` widths in this collection (Cesium 1.145+):
+   * `"pixels"` on screen (the default), or `"meters"` in world space. Under a
+   * clamped `heightReference` those meters are measured on the ellipsoid
+   * surface, so elevation and terrain slope stretch the drawn width. Fixed at
+   * creation time.
+   */
+  widthUnits?: "pixels" | "meters";
 };
 
 export type BufferPolylineCollectionOtherProps = {
@@ -68,6 +83,8 @@ const cesiumReadonlyProps = [
   "modelMatrix",
   "boundingVolume",
   "blendOption",
+  "heightReference",
+  "widthUnits",
 ] as const;
 
 const BufferPolylineCollection = createCesiumComponent<
@@ -83,6 +100,8 @@ const BufferPolylineCollection = createCesiumComponent<
       modelMatrix: props.modelMatrix,
       boundingVolume: props.boundingVolume,
       blendOption: props.blendOption,
+      heightReference: props.heightReference,
+      widthUnits: props.widthUnits,
     });
     context.primitiveCollection.add(element);
     return element;

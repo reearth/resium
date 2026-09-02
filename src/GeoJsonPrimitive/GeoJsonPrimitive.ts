@@ -1,5 +1,5 @@
 import { GeoJsonPrimitive as CesiumGeoJsonPrimitive, Resource } from "cesium";
-import type { GeoJsonPrimitiveConstructorOptions } from "cesium";
+import type { GeoJsonPrimitiveConstructorOptions, HeightReference } from "cesium";
 
 import type { EventProps, PickCesiumProps, SuspenseProps } from "../core";
 import { createCesiumComponent, useSuspendedResource } from "../core";
@@ -38,6 +38,14 @@ export type GeoJsonPrimitiveCesiumReadonlyProps = {
   allowPicking?: boolean;
   /** Factory invoked to build the picked-object payload. Fixed at creation time. */
   pickObjectFactory?: GeoJsonPrimitiveConstructorOptions["pickObjectFactory"];
+  /**
+   * Drapes the loaded GeoJSON onto terrain and/or 3D Tiles (Cesium 1.145+).
+   * `CLAMP_TO_TERRAIN` drapes onto terrain, `CLAMP_TO_3D_TILE` onto 3D Tiles,
+   * and `CLAMP_TO_GROUND` onto both. Cesium requires a `Scene` for clamping
+   * values; resium supplies the enclosing `Viewer`/`CesiumWidget` scene
+   * automatically. Fixed at creation time.
+   */
+  heightReference?: HeightReference;
 };
 
 export type GeoJsonPrimitiveOtherProps = EventProps<unknown> &
@@ -58,7 +66,12 @@ export type GeoJsonPrimitiveProps = GeoJsonPrimitiveCesiumProps &
 
 const cesiumProps = ["show"] as const;
 
-const cesiumReadonlyProps = ["ellipsoid", "allowPicking", "pickObjectFactory"] as const;
+const cesiumReadonlyProps = [
+  "ellipsoid",
+  "allowPicking",
+  "pickObjectFactory",
+  "heightReference",
+] as const;
 
 // `url` and `data` are user-supplied props (not real Cesium properties), but
 // they are treated as read-only so that changing either at runtime makes the
@@ -85,7 +98,23 @@ const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPri
   async create(context, props) {
     if (!context.primitiveCollection) return;
 
-    const { url, data, ellipsoid, allowPicking, pickObjectFactory, show, onReady, onError } = props;
+    const {
+      url,
+      data,
+      ellipsoid,
+      allowPicking,
+      pickObjectFactory,
+      heightReference,
+      show,
+      onReady,
+      onError,
+    } = props;
+
+    // Cesium throws if a clamping `heightReference` is given without a scene.
+    // Only forward it when the caller actually asked for draping, so the
+    // non-clamped path keeps its existing (scene-free) behaviour.
+    const draping =
+      heightReference !== undefined ? { heightReference, scene: context.scene } : undefined;
 
     let element: GeoJsonPrimitiveShape;
     try {
@@ -95,6 +124,7 @@ const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPri
           allowPicking,
           pickObjectFactory,
           show,
+          ...draping,
         })) as GeoJsonPrimitiveShape;
       } else if (data) {
         element = new CesiumGeoJsonPrimitive({
@@ -103,6 +133,7 @@ const GeoJsonPrimitive = createCesiumComponent<GeoJsonPrimitiveShape, GeoJsonPri
           allowPicking,
           pickObjectFactory,
           show,
+          ...draping,
         } as GeoJsonPrimitiveConstructorOptions) as GeoJsonPrimitiveShape;
       } else {
         return;

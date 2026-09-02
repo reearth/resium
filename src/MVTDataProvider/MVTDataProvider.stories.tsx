@@ -3,6 +3,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import {
   Cartesian3,
   Cesium3DTileStyle,
+  HeightReference,
   Math as CesiumMath,
   Rectangle,
   Viewer as CesiumViewer,
@@ -24,6 +25,12 @@ export default {
       control: "text",
       description:
         "MVT URL template ({z}/{x}/{y}). Most production vector tile services require an API key — paste your own key URL here to test against a known dataset.",
+    },
+    heightReference: {
+      control: "select",
+      options: [undefined, HeightReference.CLAMP_TO_TERRAIN, HeightReference.CLAMP_TO_3D_TILE, HeightReference.CLAMP_TO_GROUND],
+      description:
+        "Drapes the decoded features onto terrain and/or 3D Tiles (Cesium 1.145+) instead of drawing them as geometry of their own. CLAMP_TO_TERRAIN targets terrain, CLAMP_TO_3D_TILE targets 3D Tiles, CLAMP_TO_GROUND targets both. Cesium requires a Scene for clamping values; resium supplies the enclosing Viewer/CesiumWidget scene automatically, so there is no `scene` prop. Draping is most visible with a real terrain provider mounted — against the default ellipsoid the flattened result looks much like the undraped one.",
     },
   },
 } as Meta;
