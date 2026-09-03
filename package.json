@@ -20,7 +20,7 @@
   "sideEffects": false,
   "scripts": {
     "build": "tsc && vite build",
-    "postbuild": "node --input-type=module -e \"await import('./dist/resium.js')\"",
+    "postbuild": "node --input-type=module -e \"await import('./dist/resium.js')\" && node scripts/check-bundle.mjs",
     "test": "vitest",
     "coverage": "vitest run --coverage",
     "type": "tsc",
