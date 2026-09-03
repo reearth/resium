@@ -1,0 +1,5 @@
+import{n as e}from"./iframe-aHNciSD_.js";import{n as t,t as n}from"./VrtViewer-tua6Lc7j.js";import{n as r,t as i}from"./GeoJsonPrimitive-HQLifBSw.js";import{n as a}from"./rolldown-runtime-DkW27tQK.js";var o,s,c,l,u,d;function f(){return(f=a((()=>{t(),r(),o=e(),s=Cesium.Cartesian3.fromDegrees(-95,40,15e5),c={type:`FeatureCollection`,features:[{type:`Feature`,geometry:{type:`Point`,coordinates:[-95,40]},properties:{}},{type:`Feature`,geometry:{type:`LineString`,coordinates:[[-96,39.5],[-94,40.5]]},properties:{}},{type:`Feature`,geometry:{type:`Polygon`,coordinates:[[[-95.6,39.8],[-94.4,39.8],[-94.4,40.2],[-95.6,40.2],[-95.6,39.8]]]},properties:{}}]},l={title:`VRT/GeoJsonPrimitive`,component:i,tags:[`vrt`]},u={render:()=>(0,o.jsx)(n,{defaultView:s,children:(0,o.jsx)(i,{data:c})})},u.parameters={...u.parameters,docs:{...u.parameters?.docs,source:{originalSource:`{
+  render: () => <VrtViewer defaultView={CENTRAL_US_CLOSE}>
+      <GeoJsonPrimitive data={inlineGeoJson} />
+    </VrtViewer>
+}`,...u.parameters?.docs?.source}}},d=[`Default`]})))()}f();export{u as Default,d as __namedExportsOrder,l as default};

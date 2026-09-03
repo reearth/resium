@@ -1,0 +1,15 @@
+import{n as e,r as t}from"./iframe-aHNciSD_.js";import{n,t as r}from"./component-rCHsMFAP.js";import{n as i,t as a}from"./storybook--8pSha1L.js";import{n as o,t as s}from"./Viewer-DoIIFFlc.js";import{n as c,t as l}from"./Clock-zs0FH5_J.js";import{n as u}from"./rolldown-runtime-DkW27tQK.js";var d,f,p,m,h;function g(){return(g=u((()=>{n(),d=[`clippingPlanes`,`maximumMemoryUsage`,`modelMatrix`,`shadows`,`show`,`style`,`intervals`],f=[`clock`,`shading`],p=[`onReady`],m={onFrameChange:`frameChanged`},h=r({name:`TimeDynamicPointCloud`,create(e,t){if(!e.cesiumWidget||!e.primitiveCollection||!e.cesiumWidget?.clock)return;let n=new Cesium.TimeDynamicPointCloud({...t,clock:t.clock??e.cesiumWidget.clock});if(t.onReady){let e=()=>{t.onReady?.(n),n.frameChanged.removeEventListener(e)};n.frameChanged.addEventListener(e)}return e.primitiveCollection.add(n),[n,{userClippingPlanes:!!t.clippingPlanes}]},destroy(e,t,n,r){t.primitiveCollection&&!t.primitiveCollection.isDestroyed()&&t.primitiveCollection.remove(e),e.isDestroyed()||(r?.userClippingPlanes&&(e._clippingPlanes=void 0),e.destroy())},cesiumProps:d,cesiumReadonlyProps:f,cesiumEventProps:m,otherProps:p,useCommonEvent:!0})})))()}var _,v,y,b,x,S,C,w,T,E,D;function O(){return(O=u((()=>{_=t(),c(),i(),o(),g(),v=e(),y={title:`TimeDynamicPointCloud`,component:h},b=[`pointcloud/0.pnts`,`pointcloud/1.pnts`,`pointcloud/2.pnts`,`pointcloud/3.pnts`,`pointcloud/4.pnts`],x=[`2018-07-19T15:18:00Z`,`2018-07-19T15:18:00.5Z`,`2018-07-19T15:18:01Z`,`2018-07-19T15:18:01.5Z`,`2018-07-19T15:18:02Z`,`2018-07-19T15:18:02.5Z`],S=Cesium.JulianDate.fromIso8601(x[0]),C=Cesium.JulianDate.fromIso8601(x[x.length-1]),w=Cesium.TimeIntervalCollection.fromIso8601DateArray({iso8601Dates:x,dataCallback:(e,t)=>({uri:b[t]})}),T=new Cesium.Cesium3DTileStyle({pointSize:5}),E={args:{show:!0},render:e=>{let t=(0,_.useRef)(null);return(0,v.jsxs)(s,{full:!0,shouldAnimate:!0,ref:t,children:[(0,v.jsx)(l,{startTime:S,currentTime:S,stopTime:C,clockRange:Cesium.ClockRange.LOOP_STOP}),(0,v.jsx)(h,{...e,intervals:w,style:T,onReady:e=>{t.current?.cesiumElement?.zoomTo(e,new Cesium.HeadingPitchRange(0,-.5,50))},...a})]})}},E.parameters={...E.parameters,docs:{...E.parameters?.docs,source:{originalSource:`{
+  args: {
+    show: true
+  },
+  render: args => {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);
+    return <Viewer full shouldAnimate ref={ref}>
+        <Clock startTime={start} currentTime={start} stopTime={stop} clockRange={ClockRange.LOOP_STOP} />
+        <TimeDynamicPointCloud {...args} intervals={intervals} style={style} onReady={p => {
+        ref.current?.cesiumElement?.zoomTo(p, new HeadingPitchRange(0.0, -0.5, 50.0));
+      }} {...events} />
+      </Viewer>;
+  }
+}`,...E.parameters?.docs?.source}}},D=[`Basic`]})))()}O();export{E as Basic,D as __namedExportsOrder,y as default};
