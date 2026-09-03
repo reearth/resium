@@ -2,10 +2,8 @@ import { describe, expect, it } from "vitest";
 
 import { findCollisions, importAliases } from "./check-bundle.mjs";
 
-// These fixtures are trimmed from real resium bundles. The ones marked "#806"
-// are the exact shapes that shipped broken across 1.21.1–1.25.0, so if the
-// detection logic ever stops recognising them the guard would silently pass
-// and the bug could ship again.
+// Fixtures are the real shapes that shipped broken in #806. Without these, a
+// regression in the matching would let the guard pass silently.
 describe("importAliases", () => {
   it("collects ESM named import aliases", () => {
     const aliases = importAliases(

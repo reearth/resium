@@ -103,18 +103,10 @@ export const eventNames: EventType[] = [
   "onMouseLeave",
 ];
 
-// Deliberately a module-level constant rather than a `static` member of
-// EventManager. A `EventManager.eventTypeMap` lookup from inside the class body
-// is a self-reference, which makes the bundler emit a named class expression
-// (`X = class e { ... e.eventTypeMap ... }`). The minifier then picks a name
-// that can collide with an import alias at module scope — `createContext as e`
-// from React, as it happened. Webpack (Next.js 12) does not honour the inner
-// class-name binding when it rewrites imports, so the lookup resolved to the
-// React namespace and `<Viewer>` threw "Cannot read properties of undefined
-// (reading 'onClick')" on mount for every consumer on that toolchain. See #806.
-// A module-level constant removes the self-reference, so no inner class name is
-// emitted and the collision cannot arise. `scripts/check-bundle.mjs` enforces
-// this on the built output.
+// Module-level, not a `static` member: referencing the class by name from
+// inside its own body makes the bundler emit `class e {...}`, which collided
+// with React's `createContext as e` import and broke Webpack consumers (#806).
+// Enforced by scripts/check-bundle.mjs.
 const eventTypeMap: EventMap<ScreenSpaceEventType> = {
   onClick: ScreenSpaceEventType.LEFT_CLICK,
   onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,

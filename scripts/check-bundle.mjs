@@ -1,21 +1,10 @@
-// Guards against a class of bundler bug that only shows up in consumers.
+// Fails the build if a named class expression shadows an import alias.
 //
-// When a class references itself by name from inside its own body, the bundler
-// preserves that self-reference by emitting a *named class expression*
-// (`X = class e { ... e.foo ... }`). The minifier then picks the shortest free
-// name, which can be one already bound to an import at module scope
-// (`import { createContext as e } from "react"`).
-//
-// Per spec the inner class-name binding shadows the outer import, so the bundle
-// is technically correct — and Vite consumers are fine. But Webpack's import
-// rewriting (Next.js 12) does not honour that shadowing: it rewrites the inner
-// reference to the imported module namespace, and the lookup silently yields
-// `undefined`. In issue #806 this made `<Viewer>` throw "Cannot read properties
-// of undefined (reading 'onClick')" on mount for every consumer on that
-// toolchain, across six releases.
-//
-// The unit tests run against source and so cannot see this, and the bundle is
-// unreadable by eye — hence a direct assertion on the build output.
+// A class that references itself by name compiles to `X = class e {...}`. If
+// the minifier picks a name already bound to an import, Webpack resolves the
+// self-reference to the import instead of the class — silently `undefined`.
+// That shipped in six releases as a crash on `<Viewer>` mount (#806). Source
+// tests can't see it, so assert on the build output.
 
 import { readFileSync } from "node:fs";
 
