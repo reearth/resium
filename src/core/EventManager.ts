@@ -103,27 +103,39 @@ export const eventNames: EventType[] = [
   "onMouseLeave",
 ];
 
-export class EventManager {
-  private static eventTypeMap: EventMap<ScreenSpaceEventType> = {
-    onClick: ScreenSpaceEventType.LEFT_CLICK,
-    onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
-    onMouseDown: ScreenSpaceEventType.LEFT_DOWN,
-    onMouseUp: ScreenSpaceEventType.LEFT_UP,
-    onMiddleClick: ScreenSpaceEventType.MIDDLE_CLICK,
-    onMiddleDown: ScreenSpaceEventType.MIDDLE_DOWN,
-    onMiddleUp: ScreenSpaceEventType.MIDDLE_UP,
-    onMouseMove: ScreenSpaceEventType.MOUSE_MOVE,
-    onPinchEnd: ScreenSpaceEventType.PINCH_END,
-    onPinchMove: ScreenSpaceEventType.PINCH_MOVE,
-    onPinchStart: ScreenSpaceEventType.PINCH_START,
-    onRightClick: ScreenSpaceEventType.RIGHT_CLICK,
-    onRightDown: ScreenSpaceEventType.RIGHT_DOWN,
-    onRightUp: ScreenSpaceEventType.RIGHT_UP,
-    onWheel: ScreenSpaceEventType.WHEEL,
-    onMouseEnter: ScreenSpaceEventType.MOUSE_MOVE,
-    onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
-  };
+// Deliberately a module-level constant rather than a `static` member of
+// EventManager. A `EventManager.eventTypeMap` lookup from inside the class body
+// is a self-reference, which makes the bundler emit a named class expression
+// (`X = class e { ... e.eventTypeMap ... }`). The minifier then picks a name
+// that can collide with an import alias at module scope — `createContext as e`
+// from React, as it happened. Webpack (Next.js 12) does not honour the inner
+// class-name binding when it rewrites imports, so the lookup resolved to the
+// React namespace and `<Viewer>` threw "Cannot read properties of undefined
+// (reading 'onClick')" on mount for every consumer on that toolchain. See #806.
+// A module-level constant removes the self-reference, so no inner class name is
+// emitted and the collision cannot arise. `scripts/check-bundle.mjs` enforces
+// this on the built output.
+const eventTypeMap: EventMap<ScreenSpaceEventType> = {
+  onClick: ScreenSpaceEventType.LEFT_CLICK,
+  onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
+  onMouseDown: ScreenSpaceEventType.LEFT_DOWN,
+  onMouseUp: ScreenSpaceEventType.LEFT_UP,
+  onMiddleClick: ScreenSpaceEventType.MIDDLE_CLICK,
+  onMiddleDown: ScreenSpaceEventType.MIDDLE_DOWN,
+  onMiddleUp: ScreenSpaceEventType.MIDDLE_UP,
+  onMouseMove: ScreenSpaceEventType.MOUSE_MOVE,
+  onPinchEnd: ScreenSpaceEventType.PINCH_END,
+  onPinchMove: ScreenSpaceEventType.PINCH_MOVE,
+  onPinchStart: ScreenSpaceEventType.PINCH_START,
+  onRightClick: ScreenSpaceEventType.RIGHT_CLICK,
+  onRightDown: ScreenSpaceEventType.RIGHT_DOWN,
+  onRightUp: ScreenSpaceEventType.RIGHT_UP,
+  onWheel: ScreenSpaceEventType.WHEEL,
+  onMouseEnter: ScreenSpaceEventType.MOUSE_MOVE,
+  onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
+};
 
+export class EventManager {
   private scene: Scene | undefined;
   private sshe: ScreenSpaceEventHandler;
   private events: EventMap<Map<any, Callback>> = {
@@ -218,7 +230,7 @@ export class EventManager {
         return;
       }
 
-      const cesiumEventType = EventManager.eventTypeMap[et];
+      const cesiumEventType = eventTypeMap[et];
 
       if (!destroyed) {
         if (m.size === 0) {
