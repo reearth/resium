@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.26.0 - 2026-09-03
+
+### feat
+
+- Support Cesium 1.145 — draping props for vector geometry: `heightReference` on `BufferPolygonCollection`, `BufferPolylineCollection`, `MVTDataProvider` and `GeoJsonPrimitive` drapes content onto terrain and/or 3D Tiles, and `widthUnits` on `BufferPolylineCollection` measures polyline width in world-space metres instead of screen pixels. Resium supplies the `Scene` that Cesium requires for clamping automatically, so there is no `scene` prop to thread through. Note that `GeoJsonPrimitive` draping covers polylines and polygons only — Cesium 1.145 does not clamp points. Bundled with the monthly dev-dep refresh and a docs-generator fix that surfaces 29 previously undocumented construction-only props ([#808](https://github.com/reearth/resium/pull/808)) [`116e9a`](https://github.com/reearth/resium/commit/116e9a)
+
+### fix
+
+- `<Viewer>` no longer crashes on mount under Next.js 12 + Webpack. The published bundle resolved `EventManager`'s static event-type lookup to the React import rather than the class, so mounting threw `TypeError: Cannot read properties of undefined (reading 'onClick')` even with no event handlers attached. Affected every release from 1.21.1 to 1.25.0; Vite consumers were unaffected. Reported and diagnosed by @tedckh — thank you! ([#806](https://github.com/reearth/resium/issues/806)) ([#811](https://github.com/reearth/resium/pull/811)) [`927845`](https://github.com/reearth/resium/commit/927845)
+
 ## 1.25.0 - 2026-08-07
 
 ### feat
