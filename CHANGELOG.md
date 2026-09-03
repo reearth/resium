@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.26.0 - 2026-09-03
+
+### chore
+
+- Upgrade to Cesium 1.145 + monthly dep refresh ([#808](https://github.com/reearth/resium/pull/808)) [`116e9a`](https://github.com/reearth/resium/commit/116e9a)
+
 ## 1.25.0 - 2026-08-07
 
 ### feat
