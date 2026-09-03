@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { BlendOption, BufferPolygonMaterial, Cartesian3, Color } from "cesium";
+import { BlendOption, BufferPolygonMaterial, Cartesian3, Color, HeightReference } from "cesium";
 
 import BufferPolygon from "../BufferPolygon";
 import CameraFlyTo from "../CameraFlyTo";
@@ -70,4 +70,49 @@ export const Translucent: Story = {
       </Viewer>
     );
   },
+};
+
+// The same triangle, but with its vertices lifted 40 km off the ellipsoid. Under
+// the default `heightReference` this floats in space; under a clamping value the
+// whole collection is draped onto the surface instead, which is what makes the
+// prop's effect visible without a terrain provider.
+const hp1 = Cartesian3.fromDegrees(-95.4, 39.8, 40_000);
+const hp2 = Cartesian3.fromDegrees(-94.6, 39.8, 40_000);
+const hp3 = Cartesian3.fromDegrees(-95.0, 40.2, 40_000);
+const highPositions = new Float64Array([
+  hp1.x, hp1.y, hp1.z,
+  hp2.x, hp2.y, hp2.z,
+  hp3.x, hp3.y, hp3.z,
+]);
+
+/**
+ * Draping — demonstrates the `heightReference` ctor prop (Cesium 1.145+). The
+ * polygon's vertices sit 40 km above the ellipsoid, but
+ * `HeightReference.CLAMP_TO_GROUND` drapes the collection onto the surface
+ * rather than drawing it as geometry of its own, so it renders flat on the
+ * globe instead of floating.
+ *
+ * Draping is a whole-collection decision fixed at construction time, not a
+ * per-primitive one. With a real terrain or 3D Tiles provider mounted,
+ * `CLAMP_TO_TERRAIN` / `CLAMP_TO_3D_TILE` target those surfaces specifically;
+ * `CLAMP_TO_GROUND` targets both. Compare against `Opaque` (no draping, but
+ * vertices already at height 0) to see the wrapper prop taking effect.
+ */
+export const Draped: Story = {
+  render: () => (
+    <Viewer full>
+      <CameraFlyTo destination={Cartesian3.fromDegrees(-95.0, 40.0, 400_000)} duration={0} />
+      <BufferPolygonCollection
+        primitiveCountMax={1}
+        vertexCountMax={vertexCount}
+        triangleCountMax={triangleCount}
+        heightReference={HeightReference.CLAMP_TO_GROUND}>
+        <BufferPolygon
+          positions={highPositions}
+          triangles={triangles}
+          material={new BufferPolygonMaterial({ color: Color.ORANGE })}
+        />
+      </BufferPolygonCollection>
+    </Viewer>
+  ),
 };
