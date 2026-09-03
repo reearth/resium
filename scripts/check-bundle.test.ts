@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { findCollisions, importAliases } from "./check-bundle.mjs";
+import { findCollisions, importAliases } from "./bundle-collisions.mjs";
 
 // Fixtures are the real shapes that shipped broken in #806. Without these, a
 // regression in the matching would let the guard pass silently.
