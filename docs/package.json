@@ -11,11 +11,11 @@
     "astro": "astro"
   },
   "engines": {
-    "node": ">=22.19.0"
+    "node": ">=24.21.0"
   },
   "dependencies": {
-    "@astrojs/starlight": "0.41.11",
-    "astro": "7.2.10",
+    "@astrojs/starlight": "0.42.2",
+    "astro": "7.3.3",
     "sharp": "0.35.4"
   }
 }
