@@ -31,9 +31,24 @@ jobs:
       - name: Attach HEAD to a local branch
         # `ref: <SHA>` above leaves HEAD detached; reg-keygen-git-hash-plugin errors
         # with "Can't detect branch name" when HEAD isn't on a named branch.
+        # Fork PRs get a `pr-<number>` name: reg-keygen ignores every branch whose
+        # name ends with the current one, so a fork branch called `main` would
+        # hide `origin/main` from it.
         env:
-          BRANCH: ${{ github.head_ref || github.ref_name }}
+          BRANCH: ${{ (github.event.pull_request.head.repo.fork && format('pr-{0}', github.event.pull_request.number)) || github.head_ref || github.ref_name }}
         run: git checkout -B "$BRANCH"
+      - name: Point origin at the base repo (fork PRs)
+        # The checkout above came from the fork, so `origin/*` holds the fork's
+        # branches — including its own, usually stale, `main`. reg-keygen picks
+        # the baseline from the merge-base with those branches, so swap them for
+        # the base repo's branch to compare against the real baseline.
+        if: github.event.pull_request.head.repo.fork
+        env:
+          BASE_REPO: ${{ github.repository }}
+          BASE_REF: ${{ github.base_ref }}
+        run: |
+          git for-each-ref --format='%(refname)' refs/remotes/origin | xargs -r -n1 git update-ref -d
+          git fetch --no-tags "https://github.com/$BASE_REPO.git" "+refs/heads/$BASE_REF:refs/remotes/origin/$BASE_REF"
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version-file: ".node-version"
@@ -47,6 +62,7 @@ jobs:
       - name: Capture screenshots
         run: npm run vrt:capture
       - name: Run reg-suit
+        if: ${{ !github.event.pull_request.head.repo.fork }}
         run: npm run vrt:run
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -54,6 +70,33 @@ jobs:
           # Pin snapshots published from main so the retentionCount cap never
           # evicts a baseline; PR snapshots stay ephemeral and churn within it.
           REG_PUBLISH_PROTECTED: ${{ github.ref == 'refs/heads/main' }}
+      - name: Compare against the baseline (fork PRs)
+        # Fork PRs get a read-only GITHUB_TOKEN and no repository variables, so
+        # they can neither publish a snapshot nor post the reg commit status.
+        # Download the baseline and compare locally instead, with the notifier
+        # dropped from the config (it fails to initialise without its client
+        # id), failing only on changed images; the HTML report is in the
+        # uploaded `reg-report` artifact.
+        if: github.event.pull_request.head.repo.fork
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          node -e '
+            const config = require("./regconfig.json");
+            delete config.plugins["reg-notify-github-plugin"];
+            require("fs").writeFileSync(process.argv[1], JSON.stringify(config));
+          ' "$RUNNER_TEMP/regconfig.fork.json"
+          npx reg-suit sync-expected -c "$RUNNER_TEMP/regconfig.fork.json"
+          npx reg-suit compare -c "$RUNNER_TEMP/regconfig.fork.json"
+          node -e '
+            const out = require("./.reg/out.json");
+            const n = k => (out[k] || []).length;
+            console.log(`changed: ${n("failedItems")}, new: ${n("newItems")}, deleted: ${n("deletedItems")}, passed: ${n("passedItems")}`);
+            if (n("failedItems") > 0) {
+              console.log(`::error::${n("failedItems")} screenshot(s) changed — see the reg-report artifact`);
+              process.exit(1);
+            }
+          '
       - name: Upload reg-suit report
         if: always()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
