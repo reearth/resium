@@ -30,3 +30,10 @@ it("forwards pickObject to the primitive", async () => {
   await waitFor(() => expect(ref.current?.cesiumElement).toBeDefined());
   expect(ref.current?.cesiumElement?.pickObject).toBe(pickObject);
 });
+
+// Cesium documents pickObject as an object and falls back to its default pick
+// result for falsy values, so primitives are rejected at the type level.
+export const rejectsNonObjectPickObject = () => (
+  // @ts-expect-error `false` is not an object
+  <BufferPoint pickObject={false} />
+);

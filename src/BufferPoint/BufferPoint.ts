@@ -40,7 +40,7 @@ export type BufferPointProps = {
    * click handler reads `picked.id ?? picked.primitive.id` and throws on an
    * object that has neither.
    */
-  pickObject?: any;
+  pickObject?: object;
 };
 
 const cesiumProps = ["show", "featureId"] as const;
