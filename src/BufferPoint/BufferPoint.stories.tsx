@@ -55,24 +55,29 @@ const sites = [
   { name: "Site C", position: p3, color: Color.GREEN },
   { name: "Site D", position: p4, color: Color.CYAN },
 ];
+// Wrap each record under `id`: Viewer's own click handler reads
+// `picked.id ?? picked.primitive.id`, so a pick object needs one of the two.
+const sitePickObjects = sites.map(site => ({ id: site }));
 
 /**
  * `pickObject` (Cesium 1.146+) replaces Cesium's default
  * `{ collection, index, primitive }` pick result with your own object. Click a
- * point and the Actions panel logs the picked object — here the site record
- * passed in, so app data comes straight back without an index lookup. The
- * collection needs `allowPicking`, which Cesium leaves off by default.
+ * point and the Actions panel logs the pick object, with the site record under
+ * `id`, so app data comes straight back without an index lookup. The collection
+ * needs `allowPicking`, which Cesium leaves off by default. Inside a `Viewer`,
+ * keep your data under an `id` property — Viewer's built-in click handler
+ * expects the pick object to have an `id` or a `primitive`.
  */
 export const Picking: Story = {
   render: () => (
     <Viewer full onClick={(_, target) => action("picked")(target)}>
       <BufferPointCollection primitiveCountMax={sites.length} allowPicking>
-        {sites.map(site => (
+        {sites.map((site, i) => (
           <BufferPoint
             key={site.name}
             position={site.position}
             material={new BufferPointMaterial({ color: site.color, size: 20 })}
-            pickObject={site}
+            pickObject={sitePickObjects[i]}
           />
         ))}
       </BufferPointCollection>

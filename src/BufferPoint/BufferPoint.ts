@@ -34,6 +34,11 @@ export type BufferPointProps = {
    * Cesium's default `{ collection, index, primitive }` pick object. Fixed
    * at creation time: Cesium locks it once the point has been rendered. Only
    * returned when the parent collection sets `allowPicking`.
+   *
+   * Inside a `Viewer`, give the object an `id` (or `primitive`) property and
+   * keep your data there, e.g. `{ id: myRecord }`: Cesium's built-in Viewer
+   * click handler reads `picked.id ?? picked.primitive.id` and throws on an
+   * object that has neither.
    */
   pickObject?: any;
 };
