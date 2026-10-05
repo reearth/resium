@@ -103,27 +103,31 @@ export const eventNames: EventType[] = [
   "onMouseLeave",
 ];
 
-export class EventManager {
-  private static eventTypeMap: EventMap<ScreenSpaceEventType> = {
-    onClick: ScreenSpaceEventType.LEFT_CLICK,
-    onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
-    onMouseDown: ScreenSpaceEventType.LEFT_DOWN,
-    onMouseUp: ScreenSpaceEventType.LEFT_UP,
-    onMiddleClick: ScreenSpaceEventType.MIDDLE_CLICK,
-    onMiddleDown: ScreenSpaceEventType.MIDDLE_DOWN,
-    onMiddleUp: ScreenSpaceEventType.MIDDLE_UP,
-    onMouseMove: ScreenSpaceEventType.MOUSE_MOVE,
-    onPinchEnd: ScreenSpaceEventType.PINCH_END,
-    onPinchMove: ScreenSpaceEventType.PINCH_MOVE,
-    onPinchStart: ScreenSpaceEventType.PINCH_START,
-    onRightClick: ScreenSpaceEventType.RIGHT_CLICK,
-    onRightDown: ScreenSpaceEventType.RIGHT_DOWN,
-    onRightUp: ScreenSpaceEventType.RIGHT_UP,
-    onWheel: ScreenSpaceEventType.WHEEL,
-    onMouseEnter: ScreenSpaceEventType.MOUSE_MOVE,
-    onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
-  };
+// Module-level, not a `static` member: referencing the class by name from
+// inside its own body makes the bundler emit `class e {...}`, which collided
+// with React's `createContext as e` import and broke Webpack consumers (#806).
+// Enforced by scripts/check-bundle.mjs.
+const eventTypeMap: EventMap<ScreenSpaceEventType> = {
+  onClick: ScreenSpaceEventType.LEFT_CLICK,
+  onDoubleClick: ScreenSpaceEventType.LEFT_DOUBLE_CLICK,
+  onMouseDown: ScreenSpaceEventType.LEFT_DOWN,
+  onMouseUp: ScreenSpaceEventType.LEFT_UP,
+  onMiddleClick: ScreenSpaceEventType.MIDDLE_CLICK,
+  onMiddleDown: ScreenSpaceEventType.MIDDLE_DOWN,
+  onMiddleUp: ScreenSpaceEventType.MIDDLE_UP,
+  onMouseMove: ScreenSpaceEventType.MOUSE_MOVE,
+  onPinchEnd: ScreenSpaceEventType.PINCH_END,
+  onPinchMove: ScreenSpaceEventType.PINCH_MOVE,
+  onPinchStart: ScreenSpaceEventType.PINCH_START,
+  onRightClick: ScreenSpaceEventType.RIGHT_CLICK,
+  onRightDown: ScreenSpaceEventType.RIGHT_DOWN,
+  onRightUp: ScreenSpaceEventType.RIGHT_UP,
+  onWheel: ScreenSpaceEventType.WHEEL,
+  onMouseEnter: ScreenSpaceEventType.MOUSE_MOVE,
+  onMouseLeave: ScreenSpaceEventType.MOUSE_MOVE,
+};
 
+export class EventManager {
   private scene: Scene | undefined;
   private sshe: ScreenSpaceEventHandler;
   private events: EventMap<Map<any, Callback>> = {
@@ -218,7 +222,7 @@ export class EventManager {
         return;
       }
 
-      const cesiumEventType = EventManager.eventTypeMap[et];
+      const cesiumEventType = eventTypeMap[et];
 
       if (!destroyed) {
         if (m.size === 0) {

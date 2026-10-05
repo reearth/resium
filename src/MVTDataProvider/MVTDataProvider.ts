@@ -1,4 +1,4 @@
-import type { Rectangle, Resource, Cesium3DTileset } from "cesium";
+import type { Rectangle, Resource, Cesium3DTileset, HeightReference } from "cesium";
 import { MVTDataProvider as CesiumMVTDataProvider } from "cesium";
 
 import type { PickCesiumProps } from "../core";
@@ -52,6 +52,14 @@ export type MVTDataProviderCesiumReadonlyProps = {
   extent?: Rectangle;
   /** MVT property name to use as feature ID. Fixed at creation time. */
   featureIdProperty?: string;
+  /**
+   * Drapes the decoded points, lines and polygons onto terrain and/or 3D Tiles
+   * (Cesium 1.145+). `CLAMP_TO_TERRAIN` drapes onto terrain, `CLAMP_TO_3D_TILE`
+   * onto 3D Tiles, and `CLAMP_TO_GROUND` onto both. Cesium requires a `Scene`
+   * for clamping values; resium supplies the enclosing
+   * `Viewer`/`CesiumWidget` scene automatically. Fixed at creation time.
+   */
+  heightReference?: HeightReference;
 };
 
 export type MVTDataProviderOtherProps = {
@@ -69,7 +77,13 @@ export type MVTDataProviderProps = MVTDataProviderCesiumProps &
 
 const cesiumProps = ["show"] as const;
 
-const cesiumReadonlyProps = ["minZoom", "maxZoom", "extent", "featureIdProperty"] as const;
+const cesiumReadonlyProps = [
+  "minZoom",
+  "maxZoom",
+  "extent",
+  "featureIdProperty",
+  "heightReference",
+] as const;
 
 // `url` is a user-supplied prop (not a real Cesium property), but treated as
 // read-only so changing it at runtime triggers a destroy+recreate.
@@ -82,7 +96,15 @@ const MVTDataProvider = createCesiumComponent<MVTDataProviderShape, MVTDataProvi
   async create(context, props) {
     if (!context.primitiveCollection) return;
 
-    const { url, minZoom, maxZoom, extent, featureIdProperty, onReady, onError } = props;
+    const { url, minZoom, maxZoom, extent, featureIdProperty, heightReference, onReady, onError } =
+      props;
+
+    // Cesium throws if a clamping `heightReference` is given without a scene.
+    // Only forward it when the caller actually asked for draping, so the
+    // non-clamped path keeps its existing (scene-free) behaviour.
+    const draping =
+      heightReference !== undefined ? { heightReference, scene: context.scene } : undefined;
+
     let element: MVTDataProviderShape;
     try {
       // Cesium 1.142's MVTDataProvider.fromUrl is typed `void` in the d.ts.
@@ -92,6 +114,7 @@ const MVTDataProvider = createCesiumComponent<MVTDataProviderShape, MVTDataProvi
         maxZoom,
         extent,
         featureIdProperty,
+        ...draping,
       }) as unknown as Promise<MVTDataProviderShape>);
       onReady?.(element);
     } catch (e) {

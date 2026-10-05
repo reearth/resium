@@ -34,6 +34,18 @@ export default [
       "react-hooks/preserve-manual-memoization": "off",
     },
   },
+  // Build/tooling scripts run in Node, not the browser. The .mts scripts get
+  // Node's globals via typescript-eslint + tsconfig; plain .mjs does not, so
+  // declare the few it uses rather than pulling in another dependency.
+  {
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        console: "readonly",
+        process: "readonly",
+      },
+    },
+  },
   // Override for test files - allow {} type in type tests
   {
     files: ["**/*.test.ts", "**/*.test.tsx"],
