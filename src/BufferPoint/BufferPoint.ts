@@ -29,6 +29,13 @@ export type BufferPointProps = {
   show?: boolean;
   /** A feature identifier for picking. */
   featureId?: number;
+  /**
+   * Custom object returned by `scene.pick` for this point, in place of
+   * Cesium's default `{ collection, index, primitive }` pick object. Fixed
+   * at creation time: Cesium locks it once the point has been rendered. Only
+   * returned when the parent collection sets `allowPicking`.
+   */
+  pickObject?: any;
 };
 
 const cesiumProps = ["show", "featureId"] as const;
@@ -44,6 +51,7 @@ const BufferPoint = createCesiumComponent<CesiumBufferPoint, BufferPointProps>({
         show: props.show,
         position: props.position,
         material: props.material,
+        pickObject: props.pickObject,
       },
       result,
     );
@@ -65,7 +73,7 @@ const BufferPoint = createCesiumComponent<CesiumBufferPoint, BufferPointProps>({
     }
   },
   cesiumProps,
-  otherProps: ["position", "material"],
+  otherProps: ["position", "material", "pickObject"],
 });
 
 export default BufferPoint;

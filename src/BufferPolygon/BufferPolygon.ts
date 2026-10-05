@@ -33,6 +33,13 @@ export type BufferPolygonProps = {
   show?: boolean;
   /** A feature identifier for picking. */
   featureId?: number;
+  /**
+   * Custom object returned by `scene.pick` for this polygon, in place of
+   * Cesium's default `{ collection, index, primitive }` pick object. Fixed
+   * at creation time: Cesium locks it once the polygon has been rendered. Only
+   * returned when the parent collection sets `allowPicking`.
+   */
+  pickObject?: any;
 };
 
 const cesiumProps = ["show", "featureId"] as const;
@@ -50,6 +57,7 @@ const BufferPolygon = createCesiumComponent<CesiumBufferPolygon, BufferPolygonPr
         holes: props.holes,
         triangles: props.triangles,
         material: props.material,
+        pickObject: props.pickObject,
       },
       result,
     );
@@ -77,7 +85,7 @@ const BufferPolygon = createCesiumComponent<CesiumBufferPolygon, BufferPolygonPr
     }
   },
   cesiumProps,
-  otherProps: ["positions", "holes", "triangles", "material"],
+  otherProps: ["positions", "holes", "triangles", "material", "pickObject"],
 });
 
 export default BufferPolygon;

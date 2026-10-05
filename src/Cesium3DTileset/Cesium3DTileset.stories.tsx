@@ -1,6 +1,12 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
-import { Viewer as CesiumViewer, Cesium3DTileStyle, IonResource, EdgeDisplayMode } from "cesium";
+import {
+  BlendOption,
+  Viewer as CesiumViewer,
+  Cesium3DTileStyle,
+  IonResource,
+  EdgeDisplayMode,
+} from "cesium";
 import { useMemo, useRef } from "react";
 
 import { CesiumComponentRef } from "../core";
@@ -17,6 +23,14 @@ export default {
 } as Meta;
 
 export const Basic: Story = {
+  argTypes: {
+    vectorBlendOption: {
+      control: { type: "select", labels: { [BlendOption.OPAQUE]: "OPAQUE", [BlendOption.TRANSLUCENT]: "TRANSLUCENT" } },
+      options: [undefined, BlendOption.OPAQUE, BlendOption.TRANSLUCENT],
+      description:
+        "Blending for vector primitives in the tileset (Cesium 1.146+): OPAQUE or TRANSLUCENT (the default). Only affects tilesets carrying vector glTF content, which the bundled sample tileset does not — point `url` at your own vector tileset to see it. Cesium re-applies it every frame, so it can be changed on a live tileset.",
+    },
+  },
   render: args => {
     // eslint-disable-next-line react-hooks/rules-of-hooks
     const ref = useRef<CesiumComponentRef<CesiumViewer>>(null);

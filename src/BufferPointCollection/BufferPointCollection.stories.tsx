@@ -34,14 +34,30 @@ export const Opaque: Story = {
   ),
 };
 
+// Buffer collections support only OPAQUE and TRANSLUCENT; Cesium rejects
+// OPAQUE_AND_TRANSLUCENT.
+const blendOptionLabels = {
+  [BlendOption.OPAQUE]: "OPAQUE",
+  [BlendOption.TRANSLUCENT]: "TRANSLUCENT",
+};
+
 /**
- * Translucent variant — demonstrates the new `blendOption` ctor prop (Cesium 1.142+).
+ * Translucent variant — demonstrates the `blendOption` prop. Since Cesium 1.146 it
+ * can be changed on a live collection: flip the control between OPAQUE and
+ * TRANSLUCENT and the same collection re-blends without being re-created.
  * `blendOption` alone is invisible without an alpha-aware material; the
  * `BufferPointMaterial` here sets `color.alpha < 1` and `outlineColor.alpha < 1`
  * to actually produce translucent points.
  */
 export const Translucent: Story = {
-  render: () => {
+  args: { blendOption: BlendOption.TRANSLUCENT },
+  argTypes: {
+    blendOption: {
+      control: { type: "select", labels: blendOptionLabels },
+      options: [BlendOption.OPAQUE, BlendOption.TRANSLUCENT],
+    },
+  },
+  render: ({ blendOption }) => {
     const translucentMaterial = new BufferPointMaterial({
       color: Color.RED.withAlpha(0.35),
       outlineColor: Color.YELLOW.withAlpha(0.6),
@@ -53,7 +69,7 @@ export const Translucent: Story = {
         <CameraFlyTo destination={Cartesian3.fromDegrees(-95.0, 40.0, 250_000)} duration={0} />
         <BufferPointCollection
           primitiveCountMax={positions.length}
-          blendOption={BlendOption.OPAQUE_AND_TRANSLUCENT}>
+          blendOption={blendOption}>
           {positions.map((position, i) => (
             <BufferPoint key={i} position={position} material={translucentMaterial} />
           ))}

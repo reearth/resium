@@ -1,4 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { action } from "storybook/actions";
 import { BufferPointMaterial, Cartesian3, Color } from "cesium";
 
 import BufferPointCollection from "../BufferPointCollection";
@@ -43,6 +44,37 @@ export const Basic: Story = {
           position={p4}
           material={new BufferPointMaterial({ color: Color.CYAN, size: 20 })}
         />
+      </BufferPointCollection>
+    </Viewer>
+  ),
+};
+
+const sites = [
+  { name: "Site A", position: p1, color: Color.ORANGE },
+  { name: "Site B", position: p2, color: Color.YELLOW },
+  { name: "Site C", position: p3, color: Color.GREEN },
+  { name: "Site D", position: p4, color: Color.CYAN },
+];
+
+/**
+ * `pickObject` (Cesium 1.146+) replaces Cesium's default
+ * `{ collection, index, primitive }` pick result with your own object. Click a
+ * point and the Actions panel logs the picked object — here the site record
+ * passed in, so app data comes straight back without an index lookup. The
+ * collection needs `allowPicking`, which Cesium leaves off by default.
+ */
+export const Picking: Story = {
+  render: () => (
+    <Viewer full onClick={(_, target) => action("picked")(target)}>
+      <BufferPointCollection primitiveCountMax={sites.length} allowPicking>
+        {sites.map(site => (
+          <BufferPoint
+            key={site.name}
+            position={site.position}
+            material={new BufferPointMaterial({ color: site.color, size: 20 })}
+            pickObject={site}
+          />
+        ))}
       </BufferPointCollection>
     </Viewer>
   ),
