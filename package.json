@@ -55,6 +55,12 @@
     "react-dom": "19.3.0",
     "@types/react": "19.3.0"
   },
+  "overrides": {
+    "jest": "30.4.2",
+    "jest-circus": "30.4.2",
+    "jest-runner": "30.4.2",
+    "jest-environment-node": "30.4.1"
+  },
   "devDependencies": {
     "@storybook/builder-vite": "10.6.1",
     "@storybook/react": "10.6.1",
