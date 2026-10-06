@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.145.0
+ * Version 1.146.0
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -23,4 +23,4 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-import{a as t}from"./chunk-NNVR3ORE.js";import"./chunk-FR3EIV3D.js";import"./chunk-2X5O55FT.js";import"./chunk-CAOBKNCT.js";import"./chunk-4FYX2TIB.js";import"./chunk-GME3JRJ5.js";import"./chunk-H3LK4GAX.js";import"./chunk-NQ23OHF7.js";import"./chunk-YO6NOGYA.js";import"./chunk-6ZKGZZOJ.js";import"./chunk-7VKG2T2K.js";import"./chunk-PORF43EC.js";import"./chunk-LK26B6IJ.js";import{a as c}from"./chunk-2Z5ROPWA.js";import"./chunk-KGDHXBGK.js";import{b as u}from"./chunk-SLUQ566D.js";import{f as a}from"./chunk-K7WHNMF7.js";function s(i){let e=i.radius??1,r={radii:new c(e,e,e),stackPartitions:i.stackPartitions,slicePartitions:i.slicePartitions,subdivisions:i.subdivisions};this._ellipsoidGeometry=new t(r),this._workerName="createSphereOutlineGeometry"}s.packedLength=t.packedLength;s.pack=function(i,e,o){return u.typeOf.object("value",i),t.pack(i._ellipsoidGeometry,e,o)};var l=new t,n={radius:void 0,radii:new c,stackPartitions:void 0,slicePartitions:void 0,subdivisions:void 0};s.unpack=function(i,e,o){let r=t.unpack(i,e,l);return n.stackPartitions=r._stackPartitions,n.slicePartitions=r._slicePartitions,n.subdivisions=r._subdivisions,a(o)?(c.clone(r._radii,n.radii),o._ellipsoidGeometry=new t(n),o):(n.radius=r._radii.x,new s(n))};s.createGeometry=function(i){return t.createGeometry(i._ellipsoidGeometry)};var d=s;function m(i,e){return a(e)&&(i=d.unpack(i,e)),d.createGeometry(i)}var h=m;export{h as default};
+import{g as n,xa as t}from"./chunk-GWE2HRAQ.js";function i(e,r){return n(r)&&(e=t.unpack(e,r)),t.createGeometry(e)}var a=i;export{a as default};

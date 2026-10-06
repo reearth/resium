@@ -1,7 +1,7 @@
 /**
  * @license
  * Cesium - https://github.com/CesiumGS/cesium
- * Version 1.145.0
+ * Version 1.146.0
  *
  * Copyright 2011-2022 Cesium Contributors
  *
@@ -23,4 +23,4 @@
  * See https://github.com/CesiumGS/cesium/blob/main/LICENSE.md for full licensing details.
  */
 
-import{a as x}from"./chunk-A7XN2WE4.js";import{a as w}from"./chunk-KRWMVIB7.js";import{j as c}from"./chunk-NQ23OHF7.js";import"./chunk-YO6NOGYA.js";import"./chunk-6ZKGZZOJ.js";import"./chunk-7VKG2T2K.js";import"./chunk-PORF43EC.js";import{a as l,c as p}from"./chunk-LK26B6IJ.js";import{a as h}from"./chunk-2Z5ROPWA.js";import{a as i}from"./chunk-KGDHXBGK.js";import"./chunk-SLUQ566D.js";import"./chunk-K7WHNMF7.js";var u=32767,F=new l,L=new h,b=new c,y=new p,a={min:void 0,max:void 0};function V(t){t=new Float64Array(t);let o=0;a.min=t[o++],a.max=t[o++],c.unpack(t,o,b),o+=c.packedLength,p.unpack(t,o,y)}function z(t,o){let s=new Uint16Array(t.positions);V(t.packedBuffer);let e=b,C=y,A=a.min,P=a.max,n=s.length/3,f=s.subarray(0,n),g=s.subarray(n,2*n),d=s.subarray(2*n,3*n);w.zigZagDeltaDecode(f,g,d);let m=new Float64Array(s.length);for(let r=0;r<n;++r){let k=f[r],E=g[r],H=d[r],M=i.lerp(e.west,e.east,k/u),R=i.lerp(e.south,e.north,E/u),T=i.lerp(A,P,H/u),v=l.fromRadians(M,R,T,F),D=C.cartographicToCartesian(v,L);h.pack(D,m,r*3)}return o.push(m.buffer),{positions:m.buffer}}var G=x(z);export{G as default};
+import{a as x}from"./chunk-J6FR5PFB.js";import{j as r,l,s as w,u,v as m,z as a}from"./chunk-GWE2HRAQ.js";var p=32767,F=new u,L=new l,b=new a,y=new m,i={min:void 0,max:void 0};function V(t){t=new Float64Array(t);let o=0;i.min=t[o++],i.max=t[o++],a.unpack(t,o,b),o+=a.packedLength,m.unpack(t,o,y)}function z(t,o){let e=new Uint16Array(t.positions);V(t.packedBuffer);let c=b,C=y,A=i.min,M=i.max,n=e.length/3,g=e.subarray(0,n),d=e.subarray(n,2*n),f=e.subarray(2*n,3*n);w.zigZagDeltaDecode(g,d,f);let h=new Float64Array(e.length);for(let s=0;s<n;++s){let P=g[s],k=d[s],E=f[s],H=r.lerp(c.west,c.east,P/p),R=r.lerp(c.south,c.north,k/p),T=r.lerp(A,M,E/p),v=u.fromRadians(H,R,T,F),D=C.cartographicToCartesian(v,L);l.pack(D,h,s*3)}return o.push(h.buffer),{positions:h.buffer}}var U=x(z);export{U as default};
