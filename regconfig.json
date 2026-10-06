@@ -10,7 +10,7 @@
       "repository": "reearth/resium",
       "backend": "releases",
       "tagName": "reg-snapshots",
-      "retentionDays": 30,
+      "retentionDays": 180,
       "retentionCount": 10,
       "protectedRetentionCount": 20
     },

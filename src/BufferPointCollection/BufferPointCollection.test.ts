@@ -17,9 +17,9 @@ type UnusedProps = UnusedCesiumProps<
     BufferPointCollectionProps,
     | keyof BufferPointCollectionOtherProps
     | "primitiveCountMax"
+    | "allowPicking"
     | "modelMatrix"
     | "boundingVolume"
-    | "blendOption"
   >,
   {},
   IgnoredProps

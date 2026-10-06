@@ -1,5 +1,4 @@
 import type {
-  BlendOption,
   BoundingSphere,
   ComponentDatatype,
   HeightReference,
@@ -59,12 +58,6 @@ export type BufferPolygonCollectionConstructorProps = {
    */
   boundingVolume?: BoundingSphere;
   /**
-   * Blending mode for the collection. Pair with an alpha-aware
-   * `BufferPrimitiveMaterial` to render translucent polygons. Fixed at
-   * creation time.
-   */
-  blendOption?: BlendOption;
-  /**
    * When set to a clamping value, the whole collection is draped onto terrain
    * and/or 3D Tiles (Cesium 1.145+) instead of being drawn as geometry of its
    * own. `CLAMP_TO_TERRAIN` drapes onto terrain, `CLAMP_TO_3D_TILE` onto 3D
@@ -82,7 +75,6 @@ type BufferPolygonCollectionCtorOptions = ConstructorParameters<
 >[0] & {
   modelMatrix?: Matrix4;
   boundingVolume?: BoundingSphere;
-  blendOption?: BlendOption;
 };
 
 export type BufferPolygonCollectionOtherProps = {
@@ -93,7 +85,7 @@ export type BufferPolygonCollectionProps = BufferPolygonCollectionCesiumProps &
   BufferPolygonCollectionConstructorProps &
   BufferPolygonCollectionOtherProps;
 
-const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
+const cesiumProps = ["show", "debugShowBoundingVolume", "blendOption"] as const;
 
 const cesiumReadonlyProps = [
   "primitiveCountMax",
@@ -104,7 +96,6 @@ const cesiumReadonlyProps = [
   "allowPicking",
   "modelMatrix",
   "boundingVolume",
-  "blendOption",
   "heightReference",
 ] as const;
 

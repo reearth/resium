@@ -15,9 +15,9 @@ type UnusedProps = UnusedCesiumProps<
     | keyof BufferPolylineCollectionOtherProps
     | "primitiveCountMax"
     | "vertexCountMax"
+    | "allowPicking"
     | "modelMatrix"
     | "boundingVolume"
-    | "blendOption"
     | "heightReference"
     | "widthUnits"
   >,

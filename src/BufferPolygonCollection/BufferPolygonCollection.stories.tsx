@@ -42,14 +42,30 @@ export const Opaque: Story = {
   ),
 };
 
+// Buffer collections support only OPAQUE and TRANSLUCENT; Cesium rejects
+// OPAQUE_AND_TRANSLUCENT.
+const blendOptionLabels = {
+  [BlendOption.OPAQUE]: "OPAQUE",
+  [BlendOption.TRANSLUCENT]: "TRANSLUCENT",
+};
+
 /**
- * Translucent variant — demonstrates the new `blendOption` ctor prop (Cesium 1.142+).
+ * Translucent variant — demonstrates the `blendOption` prop. Since Cesium 1.146 it
+ * can be changed on a live collection: flip the control between OPAQUE and
+ * TRANSLUCENT and the same collection re-blends without being re-created.
  * `blendOption` alone is invisible without an alpha-aware material; the
  * `BufferPolygonMaterial` here sets `color.alpha < 1` to actually produce
  * a translucent polygon.
  */
 export const Translucent: Story = {
-  render: () => {
+  args: { blendOption: BlendOption.TRANSLUCENT },
+  argTypes: {
+    blendOption: {
+      control: { type: "select", labels: blendOptionLabels },
+      options: [BlendOption.OPAQUE, BlendOption.TRANSLUCENT],
+    },
+  },
+  render: ({ blendOption }) => {
     const translucentMaterial = new BufferPolygonMaterial({
       color: Color.BLUE.withAlpha(0.3),
     });
@@ -60,7 +76,7 @@ export const Translucent: Story = {
           primitiveCountMax={1}
           vertexCountMax={vertexCount}
           triangleCountMax={triangleCount}
-          blendOption={BlendOption.OPAQUE_AND_TRANSLUCENT}>
+          blendOption={blendOption}>
           <BufferPolygon
             positions={positions}
             triangles={triangles}
