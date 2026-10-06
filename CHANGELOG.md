@@ -2,21 +2,23 @@
 
 ## 1.27.0 - 2026-10-06
 
+### feat
+
+- Support Cesium 1.146, bundled with the monthly dev-dep refresh ([#815](https://github.com/reearth/resium/pull/815)) [`e3a441`](https://github.com/reearth/resium/commit/e3a441)
+  - `blendOption` on `BufferPointCollection`, `BufferPolylineCollection` and `BufferPolygonCollection` can now be changed on a live collection instead of re-creating it.
+  - New `vectorBlendOption` on `Cesium3DTileset` sets how vector tile content blends with the scene.
+  - New `pickObject` on `BufferPoint`, `BufferPolyline` and `BufferPolygon`, so `scene.pick` returns your own object. Inside a `Viewer`, keep your data under an `id` property, e.g. `pickObject={{ id: record }}`.
+  - New `allowPicking` on `BufferPointCollection` and `BufferPolylineCollection`. Cesium turns picking off by default, so without it their children can't be picked at all.
+  - New Storybook examples: picking, batched `setPositions` animation and vector blending.
+  - No changes needed for Cesium's move of math and geometry classes into `@cesium/core`, since resium imports from `cesium`.
+
+### refactor
+
+- `BillboardCollection` and the three Buffer collections now share one `destroyPrimitiveCollectionChild` teardown helper instead of four copies of the same code; no behavior change. Community contribution — thanks @zigzagdev! ([#809](https://github.com/reearth/resium/pull/809)) [`f42556`](https://github.com/reearth/resium/commit/f42556)
+
 ### ci
 
-#### fix
-
-- Make VRT work for fork PRs ([#816](https://github.com/reearth/resium/pull/816)) [`6e0aae`](https://github.com/reearth/resium/commit/6e0aae)
-
-### 
-
-#### chore
-
-- Upgrade to Cesium 1.146 + monthly dep refresh ([#815](https://github.com/reearth/resium/pull/815)) [`e3a441`](https://github.com/reearth/resium/commit/e3a441)
-
-#### refactor
-
-- Extract shared destroy helper for primitive collections ([#809](https://github.com/reearth/resium/pull/809)) [`f42556`](https://github.com/reearth/resium/commit/f42556)
+- VRT now works on pull requests from forks. They compare against `main`'s baseline without publishing, so outside contributors get a real visual-regression result instead of a guaranteed failure ([#816](https://github.com/reearth/resium/pull/816)) [`6e0aae`](https://github.com/reearth/resium/commit/6e0aae)
 
 ## 1.26.0 - 2026-09-03
 
