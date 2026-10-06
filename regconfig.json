@@ -7,6 +7,7 @@
   "plugins": {
     "reg-keygen-git-hash-plugin": true,
     "reg-publish-github-plugin": {
+      "repository": "reearth/resium",
       "backend": "releases",
       "tagName": "reg-snapshots",
       "retentionDays": 180,
