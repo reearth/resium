@@ -29,6 +29,18 @@ export type BufferPolylineProps = {
   show?: boolean;
   /** A feature identifier for picking. */
   featureId?: number;
+  /**
+   * Custom object returned by `scene.pick` for this polyline, in place of
+   * Cesium's default `{ collection, index, primitive }` pick object. Fixed
+   * at creation time: Cesium locks it once the polyline has been rendered. Only
+   * returned when the parent collection sets `allowPicking`.
+   *
+   * Inside a `Viewer`, give the object an `id` (or `primitive`) property and
+   * keep your data there, e.g. `{ id: myRecord }`: Cesium's built-in Viewer
+   * click handler reads `picked.id ?? picked.primitive.id` and throws on an
+   * object that has neither.
+   */
+  pickObject?: object;
 };
 
 const cesiumProps = ["show", "featureId"] as const;
@@ -44,6 +56,7 @@ const BufferPolyline = createCesiumComponent<CesiumBufferPolyline, BufferPolylin
         show: props.show,
         positions: props.positions,
         material: props.material,
+        pickObject: props.pickObject,
       },
       result,
     );
@@ -65,7 +78,7 @@ const BufferPolyline = createCesiumComponent<CesiumBufferPolyline, BufferPolylin
     }
   },
   cesiumProps,
-  otherProps: ["positions", "material"],
+  otherProps: ["positions", "material", "pickObject"],
 });
 
 export default BufferPolyline;

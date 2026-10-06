@@ -47,22 +47,26 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           # Node version is pinned in .node-version (shared by all workflows).
-          # npm Trusted Publishing requires Node >=22.14 and npm >=11.5.1;
-          # the bundled npm is still 10.x, so we upgrade it via corepack below.
+          # npm Trusted Publishing requires Node >=22.14 and npm >=11.5.1.
+          # Node 24 bundles npm 11.x, so the bundled npm is used as-is.
           node-version-file: ".node-version"
           registry-url: "https://registry.npmjs.org"
           cache: "npm"
-      - name: Activate npm via corepack
-        # Trusted Publishing needs npm >=11.5.1; Node 22 ships npm 10.x.
-        # We cannot use `npm install -g npm@<version>` to upgrade because the
-        # bundled npm@10.x in some Node 22.x patch releases has a broken
-        # @npmcli/arborist tree (missing `promise-retry`) and crashes during
-        # any global install. corepack fetches a fresh npm binary directly,
-        # bypassing the broken self-upgrade path.
+      - name: Check npm supports Trusted Publishing
+        # Fail fast with a clear message if .node-version ever moves to a Node
+        # release whose bundled npm predates Trusted Publishing (Node 22 ships
+        # npm 10.x), rather than failing later at `npm publish`.
         run: |
-          corepack enable npm
-          corepack prepare npm@11.5.1 --activate
           npm --version
+          node -e '
+            const v = process.argv[1].split(".").map(n => parseInt(n, 10));
+            const min = [11, 5, 1];
+            const cmp = v[0] - min[0] || v[1] - min[1] || v[2] - min[2];
+            if (cmp < 0) {
+              console.error(`::error::npm ${process.argv[1]} is older than 11.5.1, the minimum for Trusted Publishing`);
+              process.exit(1);
+            }
+          ' "$(npm --version)"
       - name: Install dependencies
         run: npm ci
       - name: Verify tag matches package.json version

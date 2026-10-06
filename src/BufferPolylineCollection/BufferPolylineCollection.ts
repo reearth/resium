@@ -1,4 +1,4 @@
-import type { BlendOption, BoundingSphere, HeightReference, Matrix4 } from "cesium";
+import type { BoundingSphere, HeightReference, Matrix4 } from "cesium";
 import {
   BufferPolylineCollection as CesiumBufferPolylineCollection
 } from "cesium";
@@ -33,6 +33,12 @@ export type BufferPolylineCollectionConstructorProps = {
   /** The maximum number of vertices across all polylines in this collection. Fixed at creation time. */
   vertexCountMax?: number;
   /**
+   * Whether primitives in the collection can be picked with `scene.pick`.
+   * Cesium defaults this to `false` to save memory; set it to `true` for a
+   * child's `pickObject` to be returned. Fixed at creation time.
+   */
+  allowPicking?: boolean;
+  /**
    * Model-to-world transform applied to every polyline. Fixed at creation time —
    * Cesium 1.141 made the property readonly post-construction. To animate, hold
    * a ref and mutate the Matrix4 in place via `Matrix4.clone(next, current)`.
@@ -44,12 +50,6 @@ export type BufferPolylineCollectionConstructorProps = {
    * polylines. Fixed at creation time.
    */
   boundingVolume?: BoundingSphere;
-  /**
-   * Blending mode for the collection. Pair with an alpha-aware
-   * `BufferPrimitiveMaterial` to render translucent polylines. Fixed at
-   * creation time.
-   */
-  blendOption?: BlendOption;
   /**
    * When set to a clamping value, the whole collection is draped onto terrain
    * and/or 3D Tiles (Cesium 1.145+) instead of being drawn as geometry of its
@@ -75,14 +75,14 @@ export type BufferPolylineCollectionProps = BufferPolylineCollectionCesiumProps 
   BufferPolylineCollectionConstructorProps &
   BufferPolylineCollectionOtherProps;
 
-const cesiumProps = ["show", "debugShowBoundingVolume"] as const;
+const cesiumProps = ["show", "debugShowBoundingVolume", "blendOption"] as const;
 
 const cesiumReadonlyProps = [
   "primitiveCountMax",
   "vertexCountMax",
+  "allowPicking",
   "modelMatrix",
   "boundingVolume",
-  "blendOption",
   "heightReference",
   "widthUnits",
 ] as const;
@@ -97,6 +97,7 @@ const BufferPolylineCollection = createCesiumComponent<
     const element = new CesiumBufferPolylineCollection({
       primitiveCountMax: props.primitiveCountMax,
       vertexCountMax: props.vertexCountMax,
+      allowPicking: props.allowPicking,
       modelMatrix: props.modelMatrix,
       boundingVolume: props.boundingVolume,
       blendOption: props.blendOption,
