@@ -135,6 +135,7 @@ const cesiumProps = [
   "showOutline",
   "vectorClassificationOnly",
   "vectorKeepDecodedPositions",
+  "vectorBlendOption",
   "splitDirection",
   "customShader",
   "imageBasedLighting",

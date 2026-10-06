@@ -21,7 +21,6 @@ type UnusedProps = UnusedCesiumProps<
     | "allowPicking"
     | "modelMatrix"
     | "boundingVolume"
-    | "blendOption"
     | "heightReference"
   >,
   {},
