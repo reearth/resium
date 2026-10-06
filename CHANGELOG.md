@@ -1,5 +1,23 @@
 # Changelog
 
+## 1.27.0 - 2026-10-06
+
+### ci
+
+#### fix
+
+- Make VRT work for fork PRs ([#816](https://github.com/reearth/resium/pull/816)) [`6e0aae`](https://github.com/reearth/resium/commit/6e0aae)
+
+### 
+
+#### chore
+
+- Upgrade to Cesium 1.146 + monthly dep refresh ([#815](https://github.com/reearth/resium/pull/815)) [`e3a441`](https://github.com/reearth/resium/commit/e3a441)
+
+#### refactor
+
+- Extract shared destroy helper for primitive collections ([#809](https://github.com/reearth/resium/pull/809)) [`f42556`](https://github.com/reearth/resium/commit/f42556)
+
 ## 1.26.0 - 2026-09-03
 
 ### feat
