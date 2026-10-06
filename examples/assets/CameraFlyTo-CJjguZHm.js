@@ -1,0 +1,1 @@
+import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t,t as n}from"./CameraOperation-Cmpol1nQ.js";var r;function i(){return(i=e((()=>{t(),r=n(`CameraFlyTo`,(e,{onComplete:t,onCancel:n,...r})=>{e.flyTo({...r,complete:t,cancel:n})})})))()}export{i as n,r as t};

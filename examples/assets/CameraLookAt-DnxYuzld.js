@@ -1,1 +1,0 @@
-import{n as e}from"./rolldown-runtime-DkW27tQK.js";import{n as t,t as n}from"./CameraOperation-BzrzGQO6.js";var r;function i(){return(i=e((()=>{t(),r=n(`CameraLookAt`,(e,{target:t,offset:n})=>{e.lookAt(t,n)})})))()}export{i as n,r as t};
