@@ -39,6 +39,21 @@ export function isDestroyed(d: any) {
   return isDestroyable(d) && d.isDestroyed();
 }
 
+// Removes `element` from `context.primitiveCollection` and destroys it. Guards
+// both steps against the collection/element already being destroyed, since
+// teardown order between a collection and its children is not guaranteed.
+export function destroyPrimitiveCollectionChild<Element extends Destroyable>(
+  element: Element,
+  context: { primitiveCollection?: { isDestroyed(): boolean; remove(primitive?: any): boolean } },
+): void {
+  if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
+    context.primitiveCollection.remove(element);
+  }
+  if (!element.isDestroyed()) {
+    element.destroy();
+  }
+}
+
 export function isPromise<T>(maybePromise: T | Promise<T>): maybePromise is Promise<T> {
   return (
     maybePromise &&

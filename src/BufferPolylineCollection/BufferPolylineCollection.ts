@@ -5,7 +5,7 @@ import {
 import type { ReactNode } from "react";
 
 import type { PickCesiumProps } from "../core";
-import { createCesiumComponent } from "../core";
+import { createCesiumComponent, destroyPrimitiveCollectionChild } from "../core";
 
 /*
 @summary
@@ -107,14 +107,7 @@ const BufferPolylineCollection = createCesiumComponent<
     context.primitiveCollection.add(element);
     return element;
   },
-  destroy(element, context) {
-    if (context.primitiveCollection && !context.primitiveCollection.isDestroyed()) {
-      context.primitiveCollection.remove(element);
-    }
-    if (!element.isDestroyed()) {
-      element.destroy();
-    }
-  },
+  destroy: destroyPrimitiveCollectionChild,
   provide(element) {
     return {
       bufferPolylineCollection: element,
