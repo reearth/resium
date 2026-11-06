@@ -2,10 +2,19 @@
 
 ## 1.28.0 - 2026-11-06
 
+### feat
+
+- Support Cesium 1.147, bundled with the monthly dev-dep refresh ([#825](https://github.com/reearth/resium/pull/825)) [`0ee772`](https://github.com/reearth/resium/commit/0ee772)
+  - No resium API changes were needed: 1.147 adds no new options or properties to any class resium wraps.
+  - glTF models that use `KHR_materials_emissive_strength` now glow at their intended brightness in `Model`, `ModelGraphics` and 3D Tiles. A new `Model` → `EmissiveStrength` Storybook example shows four cubes at strengths 1, 2, 4 and 6.
+  - `Entity`'s `description` and `viewFrom` props now also accept a Cesium `Property`, following Cesium's widened types.
+  - Cesium fixes that resium users get with this upgrade: `Cesium3DTileset` no longer keeps loading and unloading the same tiles when they don't fit within `cacheBytes` plus `maximumCacheOverflowBytes`, `pointCloudShading.backFaceCulling` now hides back-facing points on the platforms where it previously didn't, and dynamic environment lighting works on models and tilesets near or below the ellipsoid surface.
+  - Not yet exposed: Cesium's experimental, still-unannounced 3D Tiles 2.0 loader (`Cesium3DTileset.fromGltf`). `Cesium3DTileset` keeps loading tilesets via `fromUrl`.
+
 ### chore
 
-- Upgrade to Cesium 1.147 + monthly dep refresh ([#825](https://github.com/reearth/resium/pull/825)) [`0ee772`](https://github.com/reearth/resium/commit/0ee772)
-- Bump Node to 24.22.1 for October 2026 security release ([#822](https://github.com/reearth/resium/pull/822)) [`a25ccb`](https://github.com/reearth/resium/commit/a25ccb)
+- CI and releases build on Node 24.22.1, picking up the October 21, 2026 Node.js security fixes, then 24.22.2 in [#825](https://github.com/reearth/resium/pull/825). No change for consumers: `engines.node` stays `>=20.19.0` ([#822](https://github.com/reearth/resium/pull/822)) [`a25ccb`](https://github.com/reearth/resium/commit/a25ccb)
+- Development tooling only: Storybook 10.6.5, Vite 8.3.5 and Vitest 5.1.0; the Jest 30.4 pin is removed now that Storybook's test runner works with Jest 30.5; and the visual regression tests run on Playwright 1.65 ([#825](https://github.com/reearth/resium/pull/825)) [`0ee772`](https://github.com/reearth/resium/commit/0ee772)
 
 ## 1.27.0 - 2026-10-06
 
