@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.28.0 - 2026-11-06
+
+### chore
+
+- Upgrade to Cesium 1.147 + monthly dep refresh ([#825](https://github.com/reearth/resium/pull/825)) [`0ee772`](https://github.com/reearth/resium/commit/0ee772)
+- Bump Node to 24.22.1 for October 2026 security release ([#822](https://github.com/reearth/resium/pull/822)) [`a25ccb`](https://github.com/reearth/resium/commit/a25ccb)
+
 ## 1.27.0 - 2026-10-06
 
 ### feat
