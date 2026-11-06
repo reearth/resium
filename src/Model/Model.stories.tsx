@@ -1,6 +1,6 @@
 import { action } from "storybook/actions";
 import { Meta, StoryObj } from "@storybook/react";
-import { Transforms, Cartesian3, Resource, EdgeDisplayMode } from "cesium";
+import { Transforms, Cartesian3, Resource, EdgeDisplayMode, Math as CesiumMath } from "cesium";
 
 import CameraFlyTo from "../CameraFlyTo";
 import { events } from "../core/storybook";
@@ -71,6 +71,35 @@ export const EdgeDisplay: Story = {
         minimumPixelSize={128}
         maximumScale={20000}
         edgeDisplayMode={EdgeDisplayMode.EDGES_ONLY}
+        onReady={action("onReady")}
+        {...events}
+      />
+    </Viewer>
+  ),
+};
+
+const emissiveOrigin = Cartesian3.fromDegrees(-95.0, 40.0, 0);
+const emissiveModelMatrix = Transforms.eastNorthUpToFixedFrame(emissiveOrigin);
+const emissiveCameraDest = Cartesian3.fromDegrees(-95.0, 39.9975, 140);
+
+/**
+ * Demonstrates `KHR_materials_emissive_strength` support (Cesium 1.147+).
+ * `emissive-strength.gltf` holds four cubes that share one dim emissive color,
+ * multiplied by an `emissiveStrength` of 1, 2, 4 and 6 from left to right.
+ * Cesium 1.146 and earlier ignore the extension, so all four render the same.
+ */
+export const EmissiveStrength: Story = {
+  render: args => (
+    <Viewer full>
+      <CameraFlyTo
+        destination={emissiveCameraDest}
+        orientation={{ pitch: CesiumMath.toRadians(-25) }}
+        duration={0}
+      />
+      <Model
+        {...args}
+        url="emissive-strength.gltf"
+        modelMatrix={emissiveModelMatrix}
         onReady={action("onReady")}
         {...events}
       />
